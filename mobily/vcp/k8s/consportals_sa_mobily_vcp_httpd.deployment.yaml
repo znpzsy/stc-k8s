@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consportals-sa-mobily-vcp-httpd-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-httpd
+  template:
+    metadata:
+      labels:
+        component: vcp-httpd
+    spec:
+      containers:
+        - name: vcp-httpd
+          image: mersin.telenity.com/com/telenity/consportals-sa-mobily-vcp-httpd:1.0.0.1
+          ports:
+            - containerPort: 80
+            - containerPort: 443

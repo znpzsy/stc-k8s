@@ -1,0 +1,72 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.InterconnectAgents.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.FormFields.Name.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" ng-maxlength="100" maxlength="100" ng-required="true"
+                       ng-model="interconnectSmppAgent.name" ng-if="!interconnectSmppAgent.id"
+                       list-interconnect-smpp-agents-availability-check/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.name.$error.availabilityCheck">
+                        {{ 'Products.SMSC.Operations.InterconnectAgents.Messages.InterconnectSmppAgentsAlreadyDefinedError' | translate:{name: interconnectSmppAgent.name} }}
+                    </li>
+                </ul>
+                <input name="name" type="text" class="form-control" ng-model="interconnectSmppAgent.name" ng-if="interconnectSmppAgent.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.FormFields.Description.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="description" type="text" class="form-control"
+                       ng-model="interconnectSmppAgent.description"
+                       ng-maxlength="200" maxlength="200"/>
+                <ul ng-class="{ 'parsley-error-list': form.description.$dirty && form.description.$invalid }" ng-show="form.description.$dirty && form.description.$invalid">
+                    <li class="required" ng-show="form.description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 200} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.FormFields.OutgoingPduTypePolicy.Label' | translate}}</label>
+            <div class="col-md-7">
+                <select name="outgoingPduTypePolicy" class="form-control parsley-validated" ng-model="interconnectSmppAgent.outgoingPduTypePolicy"
+                        ng-options="opt as opt.name for opt in PDU_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.FormFields.State.Label' | translate}}</label>
+            <div class="col-md-7">
+                <select name="status" class="form-control parsley-validated" ng-model="interconnectSmppAgent.status" ng-options="opt as (opt.label | translate) for opt in STATUS_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (interconnectSmppAgent.id && !AuthorizationService.canUpdate()) || isInterconnectSmppAgentNotChanged()"
+                        ng-click="save(interconnectSmppAgent);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

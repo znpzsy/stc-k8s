@@ -1,0 +1,80 @@
+<div class="portlet portlet-boxed">
+    <div class="portlet-body">
+
+        <form class="form-horizontal parsley-form" novalidate id="confirmationForm" name="confirmationForm" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        {{ 'Registration.CreateAccount.AccountInfo' | translate }}
+                    </h4>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-11 col-md-push-1">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Registration.CreateAccount.UserName' | translate }}</label>
+                        <div class="col-md-5">
+                            {{userAccount.username}}@{{userAccount.companyShortName}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Registration.CreateAccount.Password' | translate }}</label>
+                        <div class="col-md-3" ng-if="userAccount.password">
+                            ******
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        {{ 'Registration.CreateAccount.BasicInfo' | translate }}
+                    </h4>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-11 col-md-push-1">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Registration.CreateAccount.ApplicantName' | translate }}</label>
+                        <div class="col-md-6">
+                            {{userAccount.applicantName}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Registration.CreateAccount.Position' | translate }}</label>
+                        <div class="col-md-6">
+                            {{userAccount.position}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Registration.CreateAccount.Email' | translate }}</label>
+                        <div class="col-md-6">
+                            {{userAccount.email}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Registration.CreateAccount.MobilePhone' | translate }}</label>
+                        <div class="col-md-6">
+                            {{userAccount.mobilePhone}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consportals-sa-mobily-dsp-partnerportal
+  labels:
+    component: dsp-partnerportal
+spec:
+  containers:
+    - name: dsp-partnerportal
+      image: mersin.telenity.com/com/telenity/consportals-sa-mobily-dsp-partnerportal:1.0.0.1
+      ports:
+        - containerPort: 8082

@@ -1,0 +1,57 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.TrafficControls.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.TrafficControls.Subscribers.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="subscribersOptionsForm" name="subscribersOptionsForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.TrafficControls.FormFields.IncomingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{subscribersOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="subscribersOptions.incomingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!subscribersOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="subscribersOptions.incomingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="subscribersOptions.incomingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.TrafficControls.FormFields.IncomingTrafficThresholdPerMin.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="incomingTrafficThreshold" ng-model="subscribersOptions.incomingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0" max="99999"/>
+                <ul ng-class="{ 'parsley-error-list': subscribersOptionsForm.incomingTrafficThreshold.$dirty && subscribersOptionsForm.incomingTrafficThreshold.$invalid }"
+                    ng-show="subscribersOptionsForm.incomingTrafficThreshold.$dirty && subscribersOptionsForm.incomingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="subscribersOptionsForm.incomingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="subscribersOptionsForm.incomingTrafficThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}
+                    </li>
+                    <li class="required" ng-show="subscribersOptionsForm.incomingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="subscribersOptionsForm.incomingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="subscribersOptionsForm.$invalid || !AuthorizationService.canUpdate() || isUnchanged()"
+                        ng-click="save(subscribersOptions);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

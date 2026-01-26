@@ -1,0 +1,77 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.SCAModifiers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="callingGT" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.CallingGT' | translate }}</label>
+            <div class="col-md-7">
+                <input id="callingGT" name="callingGT" type="text" class="form-control"
+                       ng-model="entry.callingGT"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="(entry.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.callingGT.$dirty && form.callingGT.$invalid }" ng-show="form.callingGT.$dirty && form.callingGT.$invalid">
+                    <li class="required" ng-show="form.callingGT.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.callingGT.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mscGT" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.MSCGT' | translate }}</label>
+            <div class="col-md-7">
+                <input id="mscGT" name="mscGT" type="text" class="form-control"
+                       ng-model="entry.mscGT"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="(entry.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.mscGT.$dirty && form.mscGT.$invalid }" ng-show="form.mscGT.$dirty && form.mscGT.$invalid">
+                    <li class="required" ng-show="form.mscGT.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.mscGT.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="imsi" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.IMSI' | translate }}</label>
+            <div class="col-md-7">
+                <input id="imsi" name="imsi" type="text" class="form-control"
+                       ng-model="entry.imsi"
+                       ng-maxlength="50" maxlength="50"
+                       ng-disabled="(entry.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.imsi.$dirty && form.imsi.$invalid }" ng-show="form.imsi.$dirty && form.imsi.$invalid">
+                    <li class="required" ng-show="form.imsi.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status"  class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-7">
+                <select id="status" name="status" class="form-control"
+                        ng-model="entry.status"
+                        ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (entry.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate()) || isNotChanged()"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

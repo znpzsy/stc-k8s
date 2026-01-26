@@ -1,0 +1,138 @@
+<div class="col-md-12">
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'SubscriberInfo.SubscriberProfile.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+
+                <div class="col-sm-6 col-md-6">
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-user kv-icon kv-icon-success"></i> {{ 'SubscriberInfo.SubscriberProfile.State' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.state ? (subscriber.state.currentState | ProvisioningStatusTypeFilter | translate) : ('CommonLabels.N/A' | translate)}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-mobile kv-icon kv-icon-primary" style="font-size: 2em;margin-right: 11px;"></i> {{ 'SubscriberInfo.SubscriberProfile.Msisdn' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.msisdn}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-globe kv-icon kv-icon-tertiary"></i> {{ 'SubscriberInfo.SubscriberProfile.Imsi' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.imsi}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-credit-card kv-icon kv-icon-secondary"></i> {{ 'SubscriberInfo.SubscriberProfile.SubscriberAccountNumber' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.subscriberAccountNumber}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-flag kv-icon kv-icon-danger"></i> {{ 'SubscriberInfo.SubscriberProfile.Language' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.lang | LanguageAbbrFilter | translate }} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-money kv-icon kv-icon-success"></i> {{ 'SubscriberInfo.SubscriberProfile.PaymentType' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.paymentType | PaymentTypeFilter | translate | uppercase}} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr>
+                            <td class="kv-key col-md-5"><i class="fa fa-calendar kv-icon kv-icon-success"></i> {{ 'SubscriberInfo.SubscriberProfile.ActivationDate' | translate }}</td>
+                            <td class="kv-value col-md-7">{{subscriber.activationDate | date:'fullDate':DateTimeConstants.OFFSET}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-5"><i class="fa fa-qrcode kv-icon kv-icon-primary"></i> {{ 'SubscriberInfo.SubscriberProfile.DcbOptOut.Title' | translate }}</td>
+                            <td class="kv-value col-md-2">
+                                <div class="btn-group pull-right">
+                                    <button class="btn {{!subscriber.canUseDCB ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.canUseDCB" uib-btn-radio="false">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{subscriber.canUseDCB ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.canUseDCB" uib-btn-radio="true">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-if="subscriber.canUseDCB">
+                            <td class="kv-key col-md-5"><i class="fa fa-qrcode kv-icon kv-icon-primary"></i> {{ 'SubscriberInfo.SubscriberProfile.GenericDCB.GenericDCBEnabled' | translate }}</td>
+                            <td class="kv-value col-md-2">
+                                <div class="btn-group pull-right">
+                                    <button class="btn {{subscriber.genericDCBSettings.enabled ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.genericDCBSettings.enabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!subscriber.genericDCBSettings.enabled ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.genericDCBSettings.enabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-5"><i class="fa fa-comments kv-icon kv-icon-warning"></i> {{ 'SubscriberInfo.SubscriberProfile.BulkSMSOptOut.Title' | translate }}</td>
+                            <td class="kv-value col-md-2">
+                                <div class="btn-group pull-right">
+                                    <button class="btn {{subscriber.bulkSMSSettings.optOut ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.bulkSMSSettings.optOut" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!subscriber.bulkSMSSettings.optOut ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.bulkSMSSettings.optOut" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-5"><i class="fa fa-comments kv-icon kv-icon-warning"></i> {{ 'SubscriberInfo.SubscriberProfile.BulkMMSOptOut.Title' | translate }}</td>
+                            <td class="kv-value col-md-2">
+                                <div class="btn-group pull-right">
+                                    <button class="btn {{subscriber.bulkMMSSettings.optOut ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.bulkMMSSettings.optOut" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!subscriber.bulkMMSSettings.optOut ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.bulkMMSSettings.optOut" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-5"><i class="fa fa-bullhorn kv-icon kv-icon-danger"></i> {{ 'SubscriberInfo.SubscriberProfile.BulkIVROptOut.Title' | translate }}</td>
+                            <td class="kv-value col-md-2">
+                                <div class="btn-group pull-right">
+                                    <button class="btn {{subscriber.bulkIVRSettings.optOut ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.bulkIVRSettings.optOut" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!subscriber.bulkIVRSettings.optOut ? 'btn-primary active' : 'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                            ng-model="subscriber.bulkIVRSettings.optOut" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border: 0;">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate() || isDcbOptOutNotChanged()"
+                                            ng-click="saveDcbOptOut(subscriber);">
+                                        {{ 'CommonLabels.Save' | translate }}
+                                    </button>
+                                    <button type="reset" class="btn btn-sm btn-default" ng-click="cancel();">
+                                        {{ 'CommonLabels.Cancel' | translate }}
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

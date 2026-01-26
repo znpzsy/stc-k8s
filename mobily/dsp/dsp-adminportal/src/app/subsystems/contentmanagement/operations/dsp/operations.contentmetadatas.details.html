@@ -1,0 +1,459 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'CommonLabels.DSP' | translate }} / {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="contentMetadata.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input id="contentMetadataId" name="contentMetadataId" type="text" class="form-control"
+                       ng-value="contentMetadata.id"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="contentMetadata.name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="description" name="description" type="text" class="form-control"
+                       ng-model="contentMetadata.description"
+                       ng-maxlength="255" maxlength="255"
+                       ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.description.$dirty && form.description.$invalid }"
+                    ng-show="form.description.$dirty && form.description.$invalid">
+                    <li class="required" ng-show="form.description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="contentMetadata.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{contentMetadata.organization.name}}</span>
+                    <a ng-click="removeSelectedOrganization();" style="cursor: pointer;"
+                       ng-if="(contentMetadata.id ? AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': contentMetadata.organization.name, 'ng-invalid-required': !contentMetadata.organization.name }"
+                        ng-click="openOrganizations(contentMetadata);"
+                        ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">{{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="selectedOrganization" type="text" class="form-control"
+                           ng-model="contentMetadata.organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="contentMetadata.id ? null : contentMetadata.organization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': selectedOrganization !== undefined && selectedOrganization.name === undefined }"
+                        ng-show="selectedOrganization !== undefined && selectedOrganization.name === undefined">
+                        <li class="required" ng-show="form.selectedOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status" for="status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="status" name="status" class="form-control parsley-validated"
+                        ng-model="contentMetadata.status"
+                        ng-options="status as status for status in CMS_STATUS_TYPES"
+                        ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           ng-required="true"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.endDate.$error.date">{{ 'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentMetadata.id">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedOn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentMetadata.dateCreated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentMetadata.id">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedBy' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentMetadata.userCreated" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentMetadata.id">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentMetadata.dateUpdated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentMetadata.id">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdatedBy' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentMetadata.userUpdated" disabled/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="titleen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.TitleEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="titleen" name="titleen" type="text" class="form-control" dir="auto"
+                           ng-model="contentMetadata.contentInfo.titleen"
+                           ng-maxlength="50" maxlength="50" ng-required="true"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.titleen.$dirty && form.titleen.$invalid }"
+                        ng-show="form.titleen.$dirty && form.titleen.$invalid">
+                        <li class="required" ng-show="form.titleen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.titleen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                              ng-model="contentMetadata.contentInfo.descriptionen"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                        ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                        <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="searchkeyworden" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.SearchKeywordsEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="searchkeyworden" name="searchkeyworden" type="text" class="form-control" dir="auto"
+                           ng-model="contentMetadata.contentInfo.searchkeyworden"
+                           ng-maxlength="50" maxlength="50"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.searchkeyworden.$dirty && form.searchkeyworden.$invalid }"
+                        ng-show="form.searchkeyworden.$dirty && form.searchkeyworden.$invalid">
+                        <li class="required" ng-show="form.searchkeyworden.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="titlear" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.TitleAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="titlear" name="titlear" type="text" class="form-control" dir="auto"
+                           ng-model="contentMetadata.contentInfo.titlear"
+                           ng-maxlength="50" maxlength="50" ng-required="true"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.titlear.$dirty && form.titlear.$invalid }"
+                        ng-show="form.titlear.$dirty && form.titlear.$invalid">
+                        <li class="required" ng-show="form.titlear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.titlear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                              ng-model="contentMetadata.contentInfo.descriptionar"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                        ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                        <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="searchkeywordar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.SearchKeywordsAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="searchkeywordar" name="searchkeywordar" type="text" class="form-control" dir="auto"
+                           ng-model="contentMetadata.contentInfo.searchkeywordar"
+                           ng-maxlength="50" maxlength="50"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.searchkeywordar.$dirty && form.searchkeywordar.$invalid }"
+                        ng-show="form.searchkeywordar.$dirty && form.searchkeywordar.$invalid">
+                        <li class="required" ng-show="form.searchkeywordar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.WebIcon' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentMetadata.contentInfo.webIconFile.name">
+                            <img ngf-src="!contentMetadata.contentInfo.webIconFile.$error && contentMetadata.contentInfo.webIconFile" width="200"
+                                 ng-style="{ 'height': (contentMetadata.contentInfo.webIconFile ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentMetadata.contentInfo.webIconFile.type">
+                                <div class="pull-left">
+                                    {{ contentMetadata.contentInfo.webIconFile.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="webIconFile" type="file"
+                                    title="{{ (contentMetadata.contentInfo.webIconFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    ngf-select
+                                    ng-model="contentMetadata.contentInfo.webIconFile"
+                                    ng-init="contentMetadata.contentInfo.webIconFile.name = contentMetadata.contentInfo.webIconFile.$ngfName; originalContentMetadata.contentInfo.webIconFile.name = originalContentMetadata.contentInfo.webIconFile.$ngfName"
+                                    class="btn btn-sm btn-default"
+                                    ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                    ngf-max-size="20MB"
+                                    ngf-model-invalid="errorWebIconFile"
+                                    ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (contentMetadata.contentInfo.webIconFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <button class="btn btn-sm btn-default"
+                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                    ng-click="contentMetadata.contentInfo.webIconFile = null;"
+                                    ng-if="contentMetadata.contentInfo.webIconFile.name && (contentMetadata.id ? AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ 'FileOperationLabels.Remove' | translate }}
+                            </button>
+                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="contentMetadata.contentInfo.webIconFile.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ contentMetadata.contentInfo.webIconFile.name }}"
+                               href="{{ contentMetadata.contentInfo.webIconFile | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.webIconFile.$dirty && form.webIconFile.$invalid }"
+                        ng-show="form.webIconFile.$dirty && form.webIconFile.$invalid">
+                        <li class="required" ng-show="form.webIconFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorWebIconFile.$errorParam} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.CopyrightFile.CopyrightFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="contentMetadata.copyrightFileList.length" class="row col-md-9">
+                        <div ng-repeat="copyrightFile in contentMetadata.copyrightFileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getCopyrightFileString(copyrightFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getCopyrightFileString(copyrightFile) }}
+                            </span>&nbsp;
+                            <a style="cursor: pointer;text-decoration: none;"
+                               ng-if="copyrightFile.copyrightFile.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ copyrightFile.copyrightFile.name }}"
+                               href="{{ copyrightFile.copyrightFile | ngfDataUrl }}" target="_blank">
+                                <span class="label label-success"><i class="fa fa-download"></i></span>
+                            </a>
+                            <a ng-click="editCopyrightFile(contentMetadata, copyrightFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="(contentMetadata.id ? AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeCopyrightFile(contentMetadata, copyrightFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="(contentMetadata.id ? AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!contentMetadata.copyrightFileList || contentMetadata.copyrightFileList.length < 10"
+                            ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"
+                            ng-class="{ 'pull-right': contentMetadata.copyrightFileList.length > 0 }"
+                            ng-click="addCopyrightFile(contentMetadata)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="contentMetadata.copyrightFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="contentCategory" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.ContentCategory' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="contentCategory" name="contentCategory" class="form-control parsley-validated"
+                            ng-model="contentMetadata.contentTemplate.contentCategory"
+                            ng-required="true"
+                            ng-options="contentCategory.id as contentCategory.title for contentCategory in contentCategoryList"
+                            ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.contentCategory.$dirty && form.contentCategory.$invalid }"
+                        ng-show="form.contentCategory.$dirty && form.contentCategory.$invalid">
+                        <li class="required" ng-show="form.contentCategory.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="contentType" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.ContentType' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="contentType" name="contentType" class="form-control parsley-validated"
+                            ng-model="contentMetadata.contentTemplate.contentType"
+                            ng-required="true"
+                            ng-options="contentType.id as contentType.name for contentType in contentTypeList"
+                            ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.contentType.$dirty && form.contentType.$invalid }"
+                        ng-show="form.contentType.$dirty && form.contentType.$invalid">
+                        <li class="required" ng-show="form.contentType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="service" class="col-md-3">{{ 'CommonLabels.Service' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="service" name="service" class="form-control parsley-validated"
+                            ng-model="contentMetadata.contentTemplate.service"
+                            ng-required="true"
+                            ng-options="service.id as service.name for service in serviceList"
+                            ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.service.$dirty && form.service.$invalid }"
+                        ng-show="form.service.$dirty && form.service.$invalid">
+                        <li class="required" ng-show="form.service.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="language" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.Language' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="language" name="language" class="form-control parsley-validated"
+                            ng-model="contentMetadata.contentTemplate.language"
+                            ng-required="true"
+                            ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                            ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.language.$dirty && form.language.$invalid }"
+                        ng-show="form.language.$dirty && form.language.$invalid">
+                        <li class="required" ng-show="form.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="label" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="label" name="label" type="text" class="form-control" dir="auto"
+                           ng-model="contentMetadata.contentTemplate.label"
+                           ng-maxlength="50" maxlength="50"
+                           ng-disabled="(contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.label.$dirty && form.label.$invalid }"
+                        ng-show="form.label.$dirty && form.label.$invalid">
+                        <li class="required" ng-show="form.label.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (contentMetadata.id ? !AuthorizationService.canCmsOperationsContentMetadataUpdate(contentMetadata.status) : !AuthorizationService.canCmsOperationsContentMetadataCreate()) || isNotChanged()"
+                        ng-click="save(contentMetadata);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

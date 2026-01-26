@@ -1,0 +1,95 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.VM.Configuration.Settings.Title' | translate }} / {{ 'Services.RBT.Configuration.Settings.RingBackTone.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.RingBackTone.AllowMobilyCaller' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.allowMobilyCaller?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.allowMobilyCaller" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.allowMobilyCaller?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.allowMobilyCaller" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.RingBackTone.AllowSaudiArabianCaller' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.allowSaCaller?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.allowSaCaller" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.allowSaCaller?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.allowSaCaller" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.RingBackTone.AllowInternationalCaller' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.allowIntCaller?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.allowIntCaller" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.allowIntCaller?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.allowIntCaller" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="rbtTraditionalTone" class="col-md-3">{{ 'Services.RBT.Configuration.Settings.RingBackTone.TraditionalTone' | translate }}</label>
+            <div class="col-md-7">
+                <input id="rbtTraditionalTone" name="rbtTraditionalTone" type="text" class="form-control"
+                       ng-model="serviceProfile.rbtTraditionalTone"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.rbtTraditionalTone.$dirty && form.rbtTraditionalTone.$invalid }"
+                    ng-show="form.rbtTraditionalTone.$dirty && form.rbtTraditionalTone.$invalid">
+                    <li class="required" ng-show="form.rbtTraditionalTone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.rbtTraditionalTone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

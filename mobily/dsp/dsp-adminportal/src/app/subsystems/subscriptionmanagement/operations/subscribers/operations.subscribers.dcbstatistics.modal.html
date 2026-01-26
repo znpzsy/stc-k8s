@@ -1,0 +1,235 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.ModalTitle' | translate:{ msisdn: msisdn } }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <uib-tabset justified="false" type="tabs">
+        <uib-tab active="true">
+            <uib-tab-heading>
+                {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.UsageInformation' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="details-modal" style="height: 450px;margin-bottom: 20px;">
+                    <div class="portlet portlet-default">
+                        <div class="portlet-body">
+                            <table class="table keyvalue-table">
+                                <tbody>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ dcbStatistics.dailyCharge | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyChargeCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ dcbStatistics.dailyChargeCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ dcbStatistics.dailyRefund | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyRefundCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ dcbStatistics.dailyRefundCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ dcbStatistics.dailySpent | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ dcbStatistics.monthlyCharge | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyChargeCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ dcbStatistics.monthlyChargeCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ dcbStatistics.monthlyRefund | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyRefundCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ dcbStatistics.monthlyRefundCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ dcbStatistics.monthlySpent | number:2 }}&nbsp;</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="portlet-body" ng-if="dcbStatistics.serviceUsageList && dcbStatistics.serviceUsageList.length > 0">
+                            <table class="table keyvalue-table" ng-repeat="serviceUsage in dcbStatistics.serviceUsageList">
+                                <tbody>
+                                <tr>
+                                    <td colspan="2" style="border-bottom:none;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6 class="portlet-title" style="margin-bottom: 10px;">
+                                                    {{ 'CommonLabels.Service' | translate }}: {{ serviceMap[serviceUsage.serviceId] || 'N/A (' + serviceUsage.serviceId + ')' }}
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ serviceUsage.dailyCharge | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyChargeCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ serviceUsage.dailyChargeCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ serviceUsage.dailyRefund | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyRefundCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ serviceUsage.dailyRefundCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ serviceUsage.dailySpent | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ serviceUsage.monthlyCharge | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyChargeCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ serviceUsage.monthlyChargeCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ serviceUsage.monthlyRefund | number:2 }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyRefundCount' | translate }}&nbsp;</td>
+                                    <td class="kv-value">{{ serviceUsage.monthlyRefundCount | number }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value">{{ serviceUsage.monthlySpent | number:2 }}&nbsp;</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab>
+            <uib-tab-heading>
+                {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.Limits' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="details-modal" style="height: 450px;margin-bottom: 20px;">
+                    <div class="portlet portlet-default" ng-if="dcbStatistics.limitList && dcbStatistics.limitList.length > 0">
+                        <div class="portlet-body">
+                            <table class="table keyvalue-table" ng-repeat="limit in dcbStatistics.limitList">
+                                <tbody>
+                                <tr>
+                                    <td colspan="2" style="border-bottom:none;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5 class="portlet-title" style="margin-bottom: 10px;">
+                                                    {{ 'CommonLabels.Service' | translate }}: {{ serviceMap[limit.serviceId] || 'N/A (' + limit.serviceId + ')' }}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.DailyLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value" ng-if="limit.day !== -1">{{ limit.day | number:2 }}&nbsp;</td>
+                                    <td class="kv-value" ng-if="limit.day === -1">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MonthlyLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value" ng-if="limit.month !== -1">{{ limit.month | number:2 }}&nbsp;</td>
+                                    <td class="kv-value" ng-if="limit.month === -1">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.PurchaseLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                    <td class="kv-value" ng-if="limit.purchase !== -1">{{ limit.purchase | number:2 }}&nbsp;</td>
+                                    <td class="kv-value" ng-if="limit.purchase === -1">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="border-bottom:none;">&nbsp;</td>
+                                </tr>
+                                <tr ng-if="limit.matchingProfileList && limit.matchingProfileList.length > 0">
+                                    <td colspan="2" style="border-bottom:none;">
+                                        <table class="table keyvalue-table" ng-repeat="matchingCappingRule in limit.matchingProfileList">
+                                            <tbody>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <h6>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.MatchingCappingRules' | translate }}</h6>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.RuleName' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.type }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.ruleOrder">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.RuleOrder' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.ruleOrder }}&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.RuleType' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.ruleType }}&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.CreditSegments' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.creditSegments.join(', ') }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.creditLimitPercentage">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.CreditLimitPercentage' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.creditLimitPercentage }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.balancePercentage">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.BalancePercentage' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.balancePercentage }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.fixedCappingLimit">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.FixedCappingLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                                <td class="kv-value" ng-if="matchingCappingRule.fixedCappingLimit !== -1">{{ matchingCappingRule.fixedCappingLimit | number:2 }}&nbsp;</td>
+                                                <td class="kv-value" ng-if="matchingCappingRule.fixedCappingLimit === -1">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.tenureBased">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.TenureBased' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.tenureBased | YesNoFilter }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.tenureRangeStart">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.TenureRangeStart' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.tenureRangeStart | number }}&nbsp;</td>
+                                            </tr>
+                                            <tr ng-if="matchingCappingRule.tenureRangeEnd">
+                                                <td class="kv-key">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbStatistics.TenureRangeEnd' | translate }}&nbsp;</td>
+                                                <td class="kv-value">{{ matchingCappingRule.tenureRangeEnd | number }}&nbsp;</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="border-bottom:none;">&nbsp;</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

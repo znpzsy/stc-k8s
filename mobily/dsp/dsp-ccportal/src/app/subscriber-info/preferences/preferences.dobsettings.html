@@ -1,0 +1,93 @@
+<div class="col-md-12">
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'SubscriberInfo.Preferences.DOBSettings.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body buttons-portlet-body" ng-if="expenseResetTime">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <label class="pull-left">{{ 'SubscriberInfo.Preferences.DOBSettings.ExpenseResetTime' | translate }}:</label>
+                    <h6 class="pull-left" ng-if="isResetTimeExpired">&nbsp;&nbsp;<span class="label label-danger">{{ expenseResetTime | date:'fullDate':DateTimeConstants.OFFSET }}</span></h6>
+                    <span class="pull-left" ng-if="!isResetTimeExpired">&nbsp;{{ expenseResetTime | date:'fullDate':DateTimeConstants.OFFSET }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="portlet-body buttons-portlet-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="pull-left">
+                        <button class="btn btn-secondary btn-sm"
+                                ng-click="createDCBSettings();"
+                                ng-disabled="!AuthorizationService.canCcPreferenceUpdate()">
+                            <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <form class="mainnav-form">
+                        <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                               ng-model="filterText" ng-change="filterTable(filterText, ['name'])"
+                               placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                        <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table ng-table="dobSettingList.tableParams" class="table table-striped table-bordered"
+                               template-pagination="ngTableCustomPager.html"
+                               export-csv="csv" export-xls="xls"
+                               export-options="exportOptions">
+                            <tr ng-repeat="dcbSettings in $data" class="hidden-link-cell-row"
+                                ng-class="{ 'row-selected': dcbSettings.rowSelected, 'warning': dcbSettings.isOther }">
+                                <td align="center" data-title="'SubscriberInfo.Preferences.DOBSettings.Name' | translate" sortable="'name'">{{dcbSettings.name}}</td>
+                                <td align="center" data-title="'SubscriberInfo.Preferences.DOBSettings.ExpenseOn' | translate" sortable="'expenseOn'">{{dcbSettings.expenseOn}}</td>
+                                <td align="center" data-title="'SubscriberInfo.Preferences.DOBSettings.LimitOn' | translate" sortable="'limitOn'" ng-if="!dcbSettings.isOther">{{dcbSettings.limitOn}}</td>
+                                <td align="center" data-title="'SubscriberInfo.Preferences.DOBSettings.LimitOn' | translate" sortable="'limitOn'" ng-if="dcbSettings.isOther">
+                                    {{ useDefaultLimit ? dobChargingDefaultLimit : dcbSettings.limitOn }}
+                                </td>
+                                <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                    <button type="button" class="btn btn-xs btn-secondary"
+                                            ng-click="updateDCBSettings(dcbSettings);"
+                                            title="{{ 'CommonLabels.Update' | translate }}"
+                                            ng-if="AuthorizationService.canCcPreferenceUpdate()">
+                                        <span class="fa fa-edit"></span>
+                                    </button>
+                                    <button ng-click="removeDCBSettings(dcbSettings);" class="btn btn-xs btn-danger"
+                                            title="{{ 'CommonLabels.Remove' | translate }}"
+                                            ng-if="!dcbSettings.isOther"
+                                            ng-disabled="!AuthorizationService.canCcPreferenceUpdate()">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-danger"
+                                            title="{{ 'CommonLabels.Remove' | translate }}"
+                                            ng-if="dcbSettings.isOther"
+                                            ng-disabled="true">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr ng-if="!$data || $data.length === 0">
+                                <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

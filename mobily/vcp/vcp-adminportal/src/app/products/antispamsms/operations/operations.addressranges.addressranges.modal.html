@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.AntiSpamSMS.Operations.AddressRanges.AddressRangesModalTitle' | translate:{msisdnRangeName: msisdnRangeName} }}</h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-8 col-xs-6">
+        </div>
+
+        <div class="col-md-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['start', 'end'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <div class="table-responsive">
+                    <table ng-table="addressRangeList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <tr ng-repeat="addressRange in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.AddressRanges.TableColumns.Start' | translate" sortable="'start'">{{addressRange.start}}</td>
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.AddressRanges.TableColumns.End' | translate" sortable="'end'">{{addressRange.end}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                <button ng-click="removeAddressRange(addressRange)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hidden-link-cell-row">
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input name="start" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                                           ng-model="newAddressRange.start"
+                                           ng-required="true" required="true"
+                                           placeholder="{{ 'Products.AntiSpamSMS.Operations.AddressRanges.RangePlaceholder' | translate }}"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.start.$dirty && form.start.$invalid }" ng-show="form.start.$dirty && form.start.$invalid">
+                                        <li class="required" ng-show="form.start.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.start.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                                        <li class="required" ng-show="form.start.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input name="end" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                                           ng-model="newAddressRange.end"
+                                           ng-required="true" required="true"
+                                           placeholder="{{ 'Products.AntiSpamSMS.Operations.AddressRanges.RangePlaceholder' | translate }}"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.end.$dirty && form.end.$invalid }" ng-show="form.end.$dirty && form.end.$invalid">
+                                        <li class="required" ng-show="form.end.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.end.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                                        <li class="required" ng-show="form.end.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <button ng-click="addNewAddressRange(newAddressRange)"
+                                        ng-disabled="form.$invalid || !AuthorizationService.canUpdate()"
+                                        class="btn btn-xs btn-secondary" title="{{ 'CommonLabels.Save' | translate }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

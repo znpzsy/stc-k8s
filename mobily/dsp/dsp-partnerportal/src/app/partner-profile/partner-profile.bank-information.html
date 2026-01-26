@@ -1,0 +1,172 @@
+<div class="portlet portlet-boxed">
+
+    <div class="portlet-body">
+
+        <form class="form-horizontal parsley-form" novalidate id="bankInformationForm" name="bankInformationForm" method="post" enctype="multipart/form-data">
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <div class="col-md-10">
+                    <div class="heading-block">
+                        <h4>
+                            {{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.Title' | translate }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!-- ProviderBankAccountProfile form fields -->
+            <div>
+                <div class="form-group">
+                    <label for="BankAccountName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankAccountName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="BankAccountName" name="BankAccountName" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.BankAccountName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.BankAccountName.$dirty && bankInformationForm.BankAccountName.$invalid }"
+                            ng-show="bankInformationForm.BankAccountName.$dirty && bankInformationForm.BankAccountName.$invalid">
+                            <li class="required" ng-show="bankInformationForm.BankAccountName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.BankAccountName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="BankName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="BankName" name="BankName" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.BankName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.BankName.$dirty && bankInformationForm.BankName.$invalid }"
+                            ng-show="bankInformationForm.BankName.$dirty && bankInformationForm.BankName.$invalid">
+                            <li class="required" ng-show="bankInformationForm.BankName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.BankName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Location" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.Location' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="Location" name="Location" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.Location"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.Location.$dirty && bankInformationForm.Location.$invalid }"
+                            ng-show="bankInformationForm.Location.$dirty && bankInformationForm.Location.$invalid">
+                            <li class="required" ng-show="bankInformationForm.Location.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.Location.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceProviderBankAccountProfileCountry" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.Country' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="serviceProviderBankAccountProfileCountry" name="serviceProviderBankAccountProfileCountry" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.Country"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.serviceProviderBankAccountProfileCountry.$dirty && bankInformationForm.serviceProviderBankAccountProfileCountry.$invalid }"
+                            ng-show="bankInformationForm.serviceProviderBankAccountProfileCountry.$dirty && bankInformationForm.serviceProviderBankAccountProfileCountry.$invalid">
+                            <li class="required" ng-show="bankInformationForm.serviceProviderBankAccountProfileCountry.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.serviceProviderBankAccountProfileCountry.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="BankAccountNumber" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankAccountNumber' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="BankAccountNumber" name="BankAccountNumber" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.BankAccountNumber"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.BankAccountNumber.$dirty && bankInformationForm.BankAccountNumber.$invalid }"
+                            ng-show="bankInformationForm.BankAccountNumber.$dirty && bankInformationForm.BankAccountNumber.$invalid">
+                            <li class="required" ng-show="bankInformationForm.BankAccountNumber.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.BankAccountNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="BankAccountType" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankAccountType' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="BankAccountType" name="BankAccountType" class="form-control parsley-validated"
+                                ng-model="bankInformation.serviceProviderBankAccountProfile.BankAccountType"
+                                ng-required="true"
+                                ng-options="bankAccountType for bankAccountType in SERVICE_PROVIDER_BANK_ACCOUNT_TYPES"
+                                ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.BankAccountType.$dirty && bankInformationForm.BankAccountType.$invalid }"
+                            ng-show="bankInformationForm.BankAccountType.$dirty && bankInformationForm.BankAccountType.$invalid">
+                            <li class="required" ng-show="bankInformationForm.BankAccountType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AuthorizedPersonName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.AuthorizedPersonName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AuthorizedPersonName" name="AuthorizedPersonName" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.AuthorizedPersonName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.AuthorizedPersonName.$dirty && bankInformationForm.AuthorizedPersonName.$invalid }"
+                            ng-show="bankInformationForm.AuthorizedPersonName.$dirty && bankInformationForm.AuthorizedPersonName.$invalid">
+                            <li class="required" ng-show="bankInformationForm.AuthorizedPersonName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.AuthorizedPersonName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AuthorizedPersonMobilePhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.AuthorizedPersonMobilePhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AuthorizedPersonMobilePhone" name="AuthorizedPersonMobilePhone" type="text" class="form-control" dir="auto"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.AuthorizedPersonMobilePhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.AuthorizedPersonMobilePhone.$dirty && bankInformationForm.AuthorizedPersonMobilePhone.$invalid }" ng-show="bankInformationForm.AuthorizedPersonMobilePhone.$dirty && bankInformationForm.AuthorizedPersonMobilePhone.$invalid">
+                            <li class="required" ng-show="bankInformationForm.AuthorizedPersonMobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.AuthorizedPersonMobilePhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="bankInformationForm.AuthorizedPersonMobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SupplierID" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.SupplierID' | translate }}</label>
+                    <div class="col-md-5">
+                        <input id="SupplierID" name="SupplierID" type="number" class="form-control"
+                               ng-model="bankInformation.serviceProviderBankAccountProfile.SupplierID"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999999" ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': bankInformationForm.SupplierID.$dirty && bankInformationForm.SupplierID.$invalid }"
+                            ng-show="bankInformationForm.SupplierID.$dirty && bankInformationForm.SupplierID.$invalid">
+                            <li class="required" ng-show="bankInformationForm.SupplierID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="bankInformationForm.SupplierID.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="bankInformationForm.SupplierID.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                            <li class="required" ng-show="bankInformationForm.SupplierID.$error.number || bankInformationForm.SupplierID.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-init="$parent.$parent.$parent.bankInformationForm = bankInformationForm"></div>
+
+        </form>
+
+    </div>
+
+</div>

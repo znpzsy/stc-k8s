@@ -1,0 +1,198 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Users' | translate }} / {{ 'Subsystems.Provisioning.Teams.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="Name" class="col-md-3">{{ 'Subsystems.Provisioning.Teams.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Name" name="Name" type="text" class="form-control"
+                       ng-model="team.Name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsTeamCreate() || team.profileId"/>
+                <ul ng-class="{ 'parsley-error-list': form.Name.$dirty && form.Name.$invalid }"
+                    ng-show="form.Name.$dirty && form.Name.$invalid">
+                    <li class="required" ng-show="form.Name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="team.profileId">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Teams.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="team.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="team.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="team.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="LegacyID" class="col-md-3">{{ 'CommonLabels.LegacyID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="LegacyID" name="LegacyID" type="text" class="form-control"
+                       ng-model="team.LegacyID"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.LegacyID.$dirty && form.LegacyID.$invalid }"
+                    ng-show="form.LegacyID.$dirty && form.LegacyID.$invalid">
+                    <li class="required" ng-show="form.LegacyID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Teams.DepartmentID' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedDepartment.Name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{selectedDepartment.Name}}</span>
+                    <a ng-click="removeDepartment();" style="cursor: pointer;"
+                       ng-if="(team.profileId ? AuthorizationService.canCmpfOperationsTeamUpdate() : AuthorizationService.canCmpfOperationsTeamCreate())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': selectedDepartment.Name, 'ng-invalid-required': !selectedDepartment.Name }"
+                        ng-click="showDepartments()"
+                        ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())">{{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="selectedDepartment" type="text" class="form-control"
+                           ng-model="selectedDepartment.Name"
+                           ng-min="1" ng-required="true"
+                           ng-init="team.profileId ? null : selectedDepartment = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': selectedDepartment !== undefined && selectedDepartment.Name === undefined }"
+                        ng-show="selectedDepartment !== undefined && selectedDepartment.Name === undefined">
+                        <li class="required" ng-show="form.selectedDepartment.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Description" name="Description" type="text" class="form-control"
+                       ng-model="team.Description"
+                       ng-maxlength="255" maxlength="255"
+                       ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Status" name="Status" class="form-control parsley-validated"
+                        ng-model="team.Status"
+                        ng-options="status.value as (status.label | translate | uppercase) for status in STATUS_TYPES"
+                        ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Email" class="col-md-3">{{ 'Subsystems.Provisioning.Teams.Email' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Email" name="Email" type="email" class="form-control"
+                       ng-model="team.Email"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Email.$dirty && form.Email.$invalid }"
+                    ng-show="form.Email.$dirty && form.Email.$invalid">
+                    <li class="required" ng-show="form.Email.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                    <li class="required" ng-show="form.Email.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Manager" class="col-md-3">{{ 'Subsystems.Provisioning.Teams.Manager' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Manager" name="Manager" type="text" class="form-control"
+                       ng-model="team.Manager"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Manager.$dirty && form.Manager.$invalid }"
+                    ng-show="form.Manager.$dirty && form.Manager.$invalid">
+                    <li class="required" ng-show="form.Manager.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Manager.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Teams.UserAccounts' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedUserAccounts.length > 0" class="row col-md-9">
+                    <div ng-repeat="n in selectedUserAccounts">
+                        <span class="label label-default selected-item-label">{{n.userName}}</span>
+                        <a ng-click="removeUserAccount(n)" style="cursor: pointer;"
+                           ng-if="(team.profileId ? AuthorizationService.canCmpfOperationsTeamUpdate() : AuthorizationService.canCmpfOperationsTeamCreate())">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())"
+                        ng-class="{ 'pull-right': selectedUserAccounts.length > 0 }"
+                        ng-click="showUserAccounts()">
+                    {{ 'CommonLabels.Add' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Teams.Roles' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedRoles.length > 0" class="row col-md-9">
+                    <div ng-repeat="n in selectedRoles">
+                        <span class="label label-default selected-item-label">{{n.name}}</span>
+                        <a ng-click="removeRole(n)" style="cursor: pointer;"
+                           ng-if="(team.profileId ? AuthorizationService.canCmpfOperationsTeamUpdate() : AuthorizationService.canCmpfOperationsTeamCreate())">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-disabled="(team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())"
+                        ng-class="{ 'pull-right': selectedRoles.length > 0 }"
+                        ng-click="showRoles()">
+                    {{ 'CommonLabels.Add' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || ((team.profileId ? !AuthorizationService.canCmpfOperationsTeamUpdate() : !AuthorizationService.canCmpfOperationsTeamCreate())) || isNotChanged()"
+                        ng-click="save(team);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

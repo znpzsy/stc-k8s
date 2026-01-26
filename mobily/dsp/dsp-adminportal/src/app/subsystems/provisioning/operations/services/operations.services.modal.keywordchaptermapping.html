@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Services.KeywordChapterMappingProfile.ModalTitle' | translate:{name: service.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="ChapterKeyword" class="col-md-3">{{ 'Subsystems.Provisioning.Services.KeywordChapterMappingProfile.ChapterKeyword' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="ChapterKeyword" name="ChapterKeyword" type="text" class="form-control"
+                               ng-model="keywordChapterMappingProfile.ChapterKeyword"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.ChapterKeyword.$dirty && form.ChapterKeyword.$invalid }"
+                            ng-show="form.ChapterKeyword.$dirty && form.ChapterKeyword.$invalid">
+                            <li class="required" ng-show="form.ChapterKeyword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            <li class="required" ng-show="form.ChapterKeyword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ChapterId" class="col-md-3">{{ 'Subsystems.Provisioning.Services.KeywordChapterMappingProfile.ChapterId' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="ChapterId" name="ChapterId" type="text" class="form-control"
+                               ng-model="keywordChapterMappingProfile.ChapterId"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.ChapterId.$dirty && form.ChapterId.$invalid }"
+                            ng-show="form.ChapterId.$dirty && form.ChapterId.$invalid">
+                            <li class="required" ng-show="form.ChapterId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            <li class="required" ng-show="form.ChapterId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || (service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate()) || isNotChanged()"
+                                ng-click="save(keywordChapterMappingProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

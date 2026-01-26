@@ -1,0 +1,52 @@
+<div class="mainnav">
+
+    <div class="container">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="mainnav-toggle" data-toggle="collapse" data-target=".mainnav-collapse"
+               ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <nav class="mainnav-collapse" role="navigation">
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+
+                <ul class="nav mainnav-menu">
+                    <li ng-class="{ 'active': $state.includes('partner-info') }" ng-if="isRegistrationCompleted">
+                        <a ui-sref="partner-info.reporting-dashboards">
+                            <i class="fa fa-home"></i>&nbsp;&nbsp;{{ 'Home' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('partner-profile') || $state.includes('partner-profile-resendupdatetask') }"
+                        ng-if="isRegistrationCompleted && AuthorizationService.canPrmProfileRead()">
+                        <a ui-sref="partner-profile" data-toggle="tab">
+                            <span class="fa fa-handshake-o"></span> {{ 'PartnerProfile.Title' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('workflows') }" ng-if="isRegistrationCompleted && AuthorizationService.canBpmTaskRead()">
+                        <a ui-sref="workflows.operations.tasks({taskStatus: 'pending', taskType: 'ALL'})" data-toggle="tab">
+                            <span class="fa fa-tasks"></span> {{ 'Workflows.MenuLabel' | translate }}
+                        </a>
+                    </li>
+
+                    <li class="pull-right" ng-if="showSessionIdentifiers">
+                        <a href="javascript:;">
+                            {{ 'Header.OrganizationName' | translate }}: {{getOrganizationName()}} ({{getOrganizationState()}})
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+</div>

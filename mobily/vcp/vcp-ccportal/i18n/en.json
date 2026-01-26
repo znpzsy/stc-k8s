@@ -1,0 +1,2031 @@
+{
+  "Locale": "en",
+  "BrandName": "Customer Care Portal",
+  "ApplicationTitle": "Customer Care Portal",
+  "Welcome": "Welcome",
+  "LogoFirst": "Customer Care Portal",
+  "LogoSecond": "",
+  "Language": {
+    "SelectLanguage": "Select language",
+    "Items": {
+      "English": "English"
+    }
+  },
+  "Period": {
+    "Year": "Year",
+    "Month": "Month",
+    "Day": "Day",
+    "Hour": "Hour",
+    "Minute": "Minute",
+    "Second": "Second"
+  },
+  "Header": {
+    "Msisdn": "MSISDN",
+    "UserSettings": {
+      "MenuLabel": "Settings",
+      "PageHeader": "User Settings"
+    },
+    "Logout": "Logout"
+  },
+  "Footer": {
+    "Copyright": "Copyright &copy; 2019 Telenity, Inc. All Rights Reserved."
+  },
+  "CommonLabels": {
+    "N/A": "N/A",
+    "NotAvailable": "- Not Available -",
+    "Signin": "Sign In",
+    "Find": "Find",
+    "Query": "Query",
+    "Unsubscribe": "Unsubscribe",
+    "Subscribe": "Subscribe",
+    "SubscribeToTheService": "Subscribe to the Service",
+    "UnsubscribeFromTheService": "Unsubscribe from the Service",
+    "Cancel": "Cancel",
+    "Close": "Close",
+    "Save": "Save",
+    "Send": "Send",
+    "DeleteEntry": "Delete Entry",
+    "Confirmation": "Confirmation",
+    "ConfirmationModalTitle": "Confirmation",
+    "ConfirmationOperationMessage": "Please confirm the operation.",
+    "Yes": "Yes",
+    "No": "No",
+    "Active": "Active",
+    "Inactive": "Inactive",
+    "Activate": "Activate",
+    "Actions": "Actions",
+    "Add": "Add",
+    "AddNewEntry": "Add New Entry",
+    "Remove": "Remove",
+    "Search": "Search",
+    "Display": "Display",
+    "DaysOfWeek": {
+      "Sunday": "Sunday",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday"
+    },
+    "SelectOne": "Select One",
+    "Loading": "Loading...",
+    "OperationSuccessful": "Operation is successful",
+    "All": "ALL",
+    "ShowFilter": "Show Filter",
+    "HideFilter": "Hide Filter",
+    "ShowDateFilter": "Show Date Filter",
+    "HideDateFilter": "Hide Date Filter",
+    "Tooltip": "Tooltip",
+    "ChangeSortingOrder": "Change Sorting Order",
+    "History": "Show History",
+    "Go": "Go",
+    "GoBack": "Go Back",
+    "SearchBy": "Search by",
+    "SearchByName": "Search by name",
+    "SearchByMsisdn": "Search by subscriber number",
+    "SearchByAddress": "Search by address",
+    "SearchByEvent": "Search by event",
+    "SearchByAddressOrEvent": "Search by address or event",
+    "SearchByServiceOrOperation": "Search by service or operation",
+    "SearchByOrigAddress": "Search by Orig. address",
+    "SearchByCampaignOrSender": "Search by campaign or sender",
+    "Success": "SUCCESS",
+    "Failure": "FAILURE",
+    "Details": "Show Details",
+    "ShowDetails": "Show Details",
+    "ShowMessageContent": "Show Message Content",
+    "ShowMessageDeliveryReport": "Show Message Delivery Report",
+    "ShowEntireMessage": "Show Entire Message",
+    "HideEntireMessage": "Hide Entire Message",
+    "ShowMessageParts": "Show Message Parts",
+    "Resend": "Resend",
+    "ResendMessage": "Resend Message",
+    "CancelSending": "Cancel Send Attempt",
+    "BulkCancelSending": "Cancel all pending send attempts",
+    "SendItNow": "Send Message Now",
+    "Requested": "Requested",
+    "NotRequested": "Not Requested",
+    "Msisdn": "Subscriber Number",
+    "SubscriberMsisdnPlaceholder": "e.g., 966561234567",
+    "SubscriberMsisdnPlaceholder2": "e.g., 966567654321",
+    "Delivered": "DELIVERED",
+    "Undelivered": "UNDELIVERED",
+    "ToggleStatus": "Toggle Status",
+    "Read": "Read",
+    "Unread": "Unread",
+    "Status": "Status",
+    "Deactivate": "Deactivate",
+    "Reactivate": "Reactivate",
+    "Refund": "Refund",
+    "Explanation": "Explanation",
+    "Free": "Free",
+    "ViewAll": "View All",
+    "Minimize": "Minimize"
+  },
+  "CommonMessages": {
+    "GenericServerError": "Server error occurred!",
+    "ServerError": "Server error occurred! <strong>StatusCode:</strong> {{status}}, <strong>Message:</strong> {{message}}",
+    "SubscriberNotExists": "Subscriber does not exist!",
+    "SubscriptionServiceError": "Subscription service error occurred!",
+    "NotFound": "Not Found!",
+    "EmptyTable": "No data available in table!",
+    "NoServiceSubscription": "There is no service subscription.",
+    "NoOfferSubscription": "There is no offer subscription.",
+    "NoAvailableOffer": "There is no available offer.",
+    "NoScopeDefinition": "There is no screening manager scope definition! Please <a ui-sref=\"{{url}}\">add an item</a> to a list.",
+    "TimePickerHint": "(hour : minute)",
+    "ClickForDetails": "Click for Details",
+    "ClickForInformation": "Click for Information",
+    "DateFilterButtonTitle": "Shows or Hides the filter form.",
+    "CMPFProfileCannotRead": "There is no \"{{profile_name}}\" profile for the offer: <strong>{{offer_name}}</strong>.",
+    "SubscriberChargingConfNotFound": "Charging preferences not found for the subscriber.",
+    "ServiceNotFound": "Service not found with the name <strong>{{serviceName}}</strong>.",
+    "SubscriberIsNotActive": "Subscriber is not active.",
+    "SubscriberNotFound": "Subscriber not found with this MSISDN <strong>{{msisdn}}</strong>.",
+    "ApiError": "[{{errorCode}}] {{errorText}}",
+    "MinValueError": "Value cannot be smaller than {{min}}.",
+    "MaxValueError": "Value cannot be greater than {{max}}.",
+    "NumericFieldError": "Field should be numeric.",
+    "AlphanumericFieldError": "Field should be alphanumeric.",
+    "RequiredFieldError": "Field is required.",
+    "ListItemAvailable": "The value is already available in the list. Please check.",
+    "InvalidPhoneNumber": "Please enter a valid phone number.",
+    "MinLengthError": "Field should be minimum {{min_length}} characters long!",
+    "MaxLengthError": "Field should be maximum {{max_length}} characters long!",
+    "PasswordError": "Passwords do not match.",
+    "MaxRecordCountExceededForExport": "You are about to export first {{max}} records since exceeds the limit. Please confirm.",
+    "NotValidEmail": "Not valid email!",
+    "InvalidOperator": "Operator is invalid.",
+    "InvalidCredentials": "Credentials are invalid.",
+    "InvalidPartnerProduct": "Partner product is invalid.",
+    "BlacklistedDestination": "Blacklisted destination.",
+    "PopupBlockerDetected": "Pop-up blocker detected. Please allow pop-ups from this site.",
+    "ExceededRecordCountLimit": "Total of {{count}} records found. Displaying the first {{limit}} only.",
+    "OfferNotFound": "Offer not found."
+  },
+  "Export": {
+    "CSV": "CSV",
+    "Excel": "XLS"
+  },
+  "Login": {
+    "PageHeader": "Login",
+    "ForgotPassword": "Forgot Password",
+    "RememberMe": "Remember me",
+    "Texts": {
+      "Welcome": "Welcome to VCP Customer Care Portal.",
+      "PleaseSignin": "Please sign in to get access.",
+      "InvalidUsernamePassword": "Invalid username or password. Please try again.",
+      "UnauthorizedToLogin": "User has no permission to login!"
+    },
+    "Form": {
+      "Username": {
+        "Label": "Username",
+        "Messages": {
+          "Required": "Please enter username."
+        }
+      },
+      "Password": {
+        "Label": "Password",
+        "Messages": {
+          "Required": "Please enter password."
+        }
+      }
+    }
+  },
+  "Logout": {
+    "MenuLabel": "Logout"
+  },
+  "Dashboard": {
+    "MenuLabel": "Home",
+    "PageHeader": "Canvas<sup>®</sup> VAS Consolidation Platform",
+    "Form": {
+      "Title": "Query Subscriber Data and Transactions",
+      "Fields": {
+        "Msisdn": {
+          "Label": "Subscriber Number",
+          "Placeholder": "e.g., 966561234567",
+          "Messages": {
+            "Required": "Subscriber Number is mandatory.",
+            "Invalid": "Please enter a valid Subscriber Number.",
+            "MaxLength": "Subscriber Number should be maximum 15 digits long."
+          }
+        }
+      },
+      "Messages": {
+        "NotFound": "Subscriber not found with the Subscriber Number: <strong>{{msisdn}}</strong>."
+      }
+    }
+  },
+  "GenericTabs": {
+    "Preferences": {
+      "Header": "Preferences"
+    },
+    "Subscriber": {
+      "Header": "Subscriber"
+    },
+    "Messages": {
+      "Header": "Messages"
+    },
+    "ScreeningLists": {
+      "Header": "Screening Lists",
+      "Title": "Service Screening Lists"
+    },
+    "Troubleshooting": {
+      "Header": "Activity History",
+      "Title": "Activity History List"
+    },
+    "ActivityHistory": {
+      "Header": "Activity History",
+      "Title": "Activity History List"
+    },
+    "ScreeningManagerActivityHistory": {
+      "Header": "Screening History",
+      "Title": "Screening History List"
+    },
+    "SubscriberInfoActivityHistory": {
+      "Header": "Subscription History",
+      "Title": "Subscription History List"
+    },
+    "CurrentSubscriptions": {
+      "Header": "Subscriptions",
+      "Title": "Offer Subscriptions"
+    },
+    "Greetings": {
+      "Header": "Greetings"
+    }
+  },
+  "PaymentTypes": {
+    "0": "Prepaid",
+    "1": "Postpaid",
+    "3": "VIP",
+    "Prepaid": "Prepaid",
+    "Postpaid": "Postpaid",
+    "VIP": "VIP"
+  },
+  "RedirectionReasons": {
+    "BUSY": "Busy",
+    "NOANSWER": "Not Answered",
+    "UNCONDITIONAL": "Unconditional",
+    "UNDEFINED": "Undefined",
+    "UNREACHABLE": "Unreachable"
+  },
+  "Languages": {
+    "1": "English",
+    "2": "Arabic",
+    "EN": "English",
+    "AR": "Arabic"
+  },
+  "StatusTypes": {
+    "ACTIVE": "ACTIVE",
+    "INACTIVE": "INACTIVE",
+    "SUSPENDED": "SUSPENDED"
+  },
+  "Products": {
+    "MenuLabel": "Products",
+    "SMSC": {
+      "MenuLabel": "SMS Center",
+      "PageHeader": "Canvas<sup>®</sup> Short Message Service Center",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Incoming SMS Rate",
+          "Tile2": "FDA Success Ratio",
+          "Tile3": "Outgoing SMS Rate",
+          "Tile4": "SMS Success Ratio",
+          "Tile5": "ACC SMS Success Ratio",
+          "Tile6": "SFE Free Capacity"
+        },
+        "Charts": {
+          "Chart1": "Incoming Traffic Mix",
+          "Chart2": "Outgoing Traffic Mix",
+          "Chart3": "Delivery Failure Reasons"
+        }
+      },
+      "ScreeningLists": {
+        "Global": {
+          "MenuLabel": "SMSC",
+          "PageHeader": "SMSC"
+        }
+      },
+      "Configuration": {
+        "Settings": {
+          "MenuLabel": "Settings",
+          "PageHeader": "Settings",
+          "ApplicationGateway": {
+            "MenuLabel": "Application Gateway",
+            "PageHeader": "Application Gateway",
+            "FormFields": {
+              "SmppServerPort": {
+                "Label": "SMPP Server Port"
+              },
+              "MaxMessageLength": {
+                "Label": "Max Message Size (byte)"
+              },
+              "ExceededMessageSizePolicy": {
+                "Label": "Exceeded Message Size Policy"
+              },
+              "MaxConnections": {
+                "Label": "Max Connections"
+              },
+              "BindTimeout": {
+                "Label": "Bind Timeout (msec)"
+              },
+              "TcpWriteTimeout": {
+                "Label": "TCP Write Timeout (msec)"
+              }
+            }
+          },
+          "MessageStore": {
+            "MenuLabel": "Message Store",
+            "PageHeader": "Message Store",
+            "FormFields": {
+              "HardLimit": {
+                "Label": "Hard Limit (msg)"
+              },
+              "HardLimitMinorMajorAlarmThresholds": {
+                "Label": "Hard Limit Minor & Major Alarm Thresholds (%)"
+              },
+              "SoftLimit": {
+                "Label": "Soft Limit (msg)"
+              },
+              "SoftLimitMinorMajorAlarmThresholds": {
+                "Label": "Soft Limit Minor & Major Alarm Thresholds (%)"
+              }
+            }
+          },
+          "ScreeningSettings": {
+            "Title": "Screening Settings",
+            "FormFields": {
+              "FeatureEnabled": {
+                "Label": "Feature Enabled"
+              }
+            }
+          }
+        }
+      },
+      "Operations": {
+        "Applications": {
+          "MenuLabel": "Applications",
+          "PageHeader": "Applications",
+          "SmppApps": {
+            "MenuLabel": "SMPP",
+            "PageHeader": "SMPP",
+            "TableColumns": {
+              "Id": "Application ID",
+              "AppName": "Application Name",
+              "Organization": "Organization",
+              "ServiceCode": "Service Code",
+              "State": "State"
+            },
+            "FormFields": {
+              "AppName": {
+                "Label": "Application Name",
+                "Placeholder": "e.g., app1"
+              },
+              "AppId": {
+                "Label": "Application ID"
+              },
+              "Description": {
+                "Label": "Description"
+              },
+              "State": {
+                "Label": "State"
+              },
+              "SystemId": {
+                "Label": "System ID"
+              },
+              "Password": {
+                "Label": "Password"
+              },
+              "SystemType": {
+                "Label": "System Type"
+              },
+              "DefaultServiceType": {
+                "Label": "Service Type"
+              },
+              "Direction": {
+                "Label": "Direction"
+              },
+              "DefaultSourceAddress": {
+                "Label": "Default Source Address"
+              },
+              "DefaultSourceNpi": {
+                "Label": "Default Source NPI"
+              },
+              "DefaultSourceTon": {
+                "Label": "Default Source TON"
+              },
+              "InputWindowSize": {
+                "Label": "Input Window Size"
+              },
+              "OutputWindowSize": {
+                "Label": "Output Window Size"
+              },
+              "MaxConnections": {
+                "Label": "Max Connections"
+              },
+              "SourceAddressOverride": {
+                "Label": "Override Source Address"
+              },
+              "SourceAddressValidation": {
+                "Label": "Validate Source Address"
+              },
+              "TransactionResponseTimeout": {
+                "Label": "Transaction Response Timeout (msec)"
+              },
+              "MaxPriorityLevelForRetry": {
+                "Label": "Max Priority Level for Retry"
+              },
+              "MaxMessageLength": {
+                "Label": "Max Message Size (byte)"
+              },
+              "MaxNumberOfSegments": {
+                "Label": "Max Number of Segments"
+              },
+              "KeywordFilteringEnabled": {
+                "Label": "Keyword Screening Enabled"
+              }
+            },
+            "OrganizationsModalTitle": "Organization [Application Name = {{name}}]",
+            "AdInsertion": {
+              "Title": "Ad Insertion",
+              "FormFields": {
+                "AdInsertionEnabled": {
+                  "Label": "Ad Insertion Enabled"
+                }
+              }
+            },
+            "Quota": {
+              "Title": "Quota Control",
+              "Enabled": "Feature Enabled",
+              "FormFields": {
+                "Limit": {
+                  "Label": "Limit"
+                },
+                "Period": {
+                  "Label": "Period"
+                }
+              }
+            },
+            "Charging": {
+              "Title": "Charging",
+              "Enabled": "Feature Enabled",
+              "FormFields": {
+                "GSMCharacterUnit": {
+                  "Label": "GSM Character Unit"
+                },
+                "UCS2CharacterUnit": {
+                  "Label": "UCS2 Character Unit"
+                },
+                "BinaryBytesUnit": {
+                  "Label": "Binary Bytes Unit"
+                }
+              }
+            },
+            "LiveSmppConnections": {
+              "Title": "Live SMPP Connections",
+              "Header": "Live SMPP Connections [SMPP App = {{applicationName}}]",
+              "ConnectionEstablishmentTime": "Establishment Date and Time",
+              "LocalAddress": "Local Address",
+              "RemoteAddress": "Remote Address",
+              "Direction": "Direction",
+              "HostID": "Host ID"
+            },
+            "BlackHourRules": {
+              "Title": "Black Hour Rules [SMPP App = {{applicationName}}]",
+              "Name": "Name",
+              "StartAndEndTime": "Start & End Time",
+              "Enabled": "State"
+            },
+            "Messages": {
+              "SMPPAppAlreadyDefinedError": "SMPP Application already defined with the name {{name}}, choose another."
+            }
+          }
+        },
+        "ContentModifiers": {
+          "MenuLabel": "Content Modifiers",
+          "PageHeader": "Content Modifiers",
+          "SMSContent": {
+            "MenuLabel": "SMS Content",
+            "PageHeader": "SMS Content"
+          },
+          "TableColumns": {
+            "Start": "Address Range Start",
+            "End": "Address Range End"
+          },
+          "FormFields": {
+            "Start": {
+              "Label": "Address Range Start"
+            },
+            "End": {
+              "Label": "Address Range End"
+            }
+          },
+          "Messages": {
+            "AlreadyDefinedError": "Content modifier already defined with this range {{range}}, please change the range.",
+            "RangeOverlappedError": "Overlap detected with the following address range {{range}}, please change the range.",
+            "MOHasSubordinates": "Address range {{range}} has subordinates, please clean all filtering criteria under the range."
+          },
+          "ContentFiltering": {
+            "PageHeader": "Address Range [Start = {{start}}; End = {{end}}]",
+            "PatternList": "Content Filtering Criteria",
+            "TonNpiList": "TON/NPI Filtering Criteria",
+            "TableColumns": {
+              "Regex": "Matching Pattern (regular expression)",
+              "ReplaceWith": "Replacement String",
+              "NPI": "Matching NPI",
+              "TON": "Matching TON"
+            },
+            "Messages": {
+              "PatternAlreadyDefinedError": "Regex pattern filter already defined, please change.",
+              "TonNpiAlreadyDefinedError": "TON NPI filter already defined, please change."
+            }
+          }
+        },
+        "InterconnectAgents": {
+          "MenuLabel": "Interconnect Agents",
+          "PageHeader": "Interconnect Agents",
+          "SmppApps": {
+            "MenuLabel": "SMPP",
+            "PageHeader": "SMPP",
+            "ManageConnectionDefinitions": "Manage Connections",
+            "TableColumns": {
+              "Name": "Agent Name",
+              "Description": "Description",
+              "OutgoingPduTypePolicy": "Submit Operation Type",
+              "State": "State"
+            },
+            "FormFields": {
+              "Name": {
+                "Label": "Agent Name"
+              },
+              "Description": {
+                "Label": "Description"
+              },
+              "OutgoingPduTypePolicy": {
+                "Label": "Submit Operation Type"
+              },
+              "State": {
+                "Label": "State"
+              }
+            },
+            "ConnectionDefinitions": {
+              "PageHeader": "Connections [Agent = {{agent_name}}]",
+              "TableColumns": {
+                "Name": "Connection Name",
+                "State": "State",
+                "Direction": "Direction",
+                "SessionState": "Session State"
+              },
+              "FormFields": {
+                "Name": {
+                  "Label": "Connection Name"
+                },
+                "State": {
+                  "Label": "State"
+                },
+                "Direction": {
+                  "Label": "Direction"
+                },
+                "RemoteIpAddress": {
+                  "Label": "Remote IP Address"
+                },
+                "Port": {
+                  "Label": "Remote Port"
+                },
+                "SystemId": {
+                  "Label": "System ID"
+                },
+                "Password": {
+                  "Label": "Password"
+                },
+                "SystemType": {
+                  "Label": "System Type"
+                }
+              }
+            },
+            "Messages": {
+              "HasSubordinates": "The Interconnect Agent has subordinates. Cannot delete!"
+            }
+          },
+          "Messages": {
+            "InterconnectSmppAgentsAlreadyDefinedError": "Interconnect Smpp Agent already defined with the name {{name}}, choose another.",
+            "InterconnectSmppAgentConnectionDefinitionsAlreadyDefinedError": "Interconnect Smpp Agent Connectin Definition already defined with the name {{name}}, choose another."
+          }
+        },
+        "MessageTemplates": {
+          "MenuLabel": "Message Templates",
+          "PageHeader": "Message Templates",
+          "Global": {
+            "MenuLabel": "SMSC",
+            "PageHeader": "SMSC"
+          },
+          "GlobalDetails": {
+            "PageHeader": "SMSC [Language = {{code}}]"
+          },
+          "PerApplication": {
+            "MenuLabel": "Per Application",
+            "PageHeader": "Per Application"
+          },
+          "PerApplicationDetails": {
+            "PageHeader": "Per Application [SMPP App = {{applicationName}}, Language = {{code}}]"
+          },
+          "TableColumns": {
+            "Id": "Template ID",
+            "Template": "Template",
+            "Language": "Language",
+            "ApplicationName": "Application Name"
+          },
+          "FormFields": {
+            "ApplicationName": {
+              "Label": "Application Name"
+            },
+            "Language": {
+              "Label": "Language Code"
+            },
+            "Id": {
+              "Label": "Template ID"
+            },
+            "Template": {
+              "Label": "Template"
+            }
+          },
+          "Messages": {
+            "TemplateAlreadyDefinedError": "Message template already defined with the language code {{languageCode}} and template id {{id}}, choose another."
+          }
+        },
+        "RetryPolicies": {
+          "MenuLabel": "Retry Policies",
+          "PageHeader": "Retry Policies",
+          "TableColumns": {
+            "Preference": "Precedence",
+            "RetryCount": "Retry Count",
+            "RetryInterval": "Interval",
+            "RetryIntervalUnit": "Interval Unit",
+            "ContextName": "Context",
+            "ErrorCode": "Error Code",
+            "SubErrorCode": "Sub Error Code",
+            "PolicyName": "Policy Name",
+            "ErrorType": "Type",
+            "PolicyEnabled": "State",
+            "PriorityLevel": "Priority Level"
+          },
+          "FormFields": {
+            "ApplicationName": {
+              "Label": "Application Name"
+            },
+            "Preference": {
+              "Label": "Precedence"
+            },
+            "RetryCount": {
+              "Label": "Retry Count"
+            },
+            "RetryInterval": {
+              "Label": "Interval"
+            },
+            "RetryIntervalUnit": {
+              "Label": "Interval Unit"
+            },
+            "ContextName": {
+              "Label": "Context"
+            },
+            "ErrorCode": {
+              "Label": "Error Code"
+            },
+            "SubErrorCode": {
+              "Label": "Sub Error Code"
+            },
+            "PolicyName": {
+              "Label": "Policy Name"
+            },
+            "ErrorType": {
+              "Label": "Type"
+            },
+            "PolicyEnabled": {
+              "Label": "State"
+            },
+            "PriorityLevel": {
+              "Label": "Priority Level"
+            }
+          },
+          "Messages": {
+            "PolicyAlreadyDefinedError": "Policy already defined with the precedence {{preference}}, choose another.",
+            "PolicyErrorCodeAlreadyDefinedError": "Policy error code already defined with the error code {{error_code}} and context {{context}}, choose another.",
+            "PolicySubErrorCodeAlreadyDefinedError": "Policy sub error code already defined with the error code {{error_code}}, choose another.",
+            "ShowRetryPolicies": "Show Retry Policies",
+            "ShowSubErrors": "Show Sub Errors"
+          },
+          "Alert": {
+            "MenuLabel": "Alert",
+            "PageHeader": "Alert"
+          },
+          "DestApplications": {
+            "MenuLabel": "Dest. Applications",
+            "PageHeader": "Dest. Applications"
+          },
+          "ErrorBased": {
+            "MenuLabel": "Error Based",
+            "PageHeader": "Error Based"
+          },
+          "SubErrorBased": {
+            "PageHeader": "Sub Error Based"
+          },
+          "Global": {
+            "MenuLabel": "SMSC",
+            "PageHeader": "SMSC"
+          },
+          "GlobalSubErrors": {
+            "PageHeader": "SMSC [Error Code = {{error_code}}, Context = {{context}}]"
+          },
+          "GlobalPolicies": {
+            "PageHeader": "SMSC [Error Code = {{error_code}}, Context = {{context}}]"
+          },
+          "GlobalSubErrorsPolicies": {
+            "PageHeader": "SMSC [Error Code = {{error_code}}, Context = {{context}}, Sub Error Code = {{sub_error_code}}]"
+          },
+          "PerDestApplication": {
+            "MenuLabel": "Per Application",
+            "PageHeader": "Per Application"
+          },
+          "PerDestApplicationPolicies": {
+            "PageHeader": "Per Application [Error Code = {{error_code}}, Context = {{context}}]"
+          },
+          "PerOrigApplication": {
+            "MenuLabel": "Per Application",
+            "PageHeader": "Per Application"
+          },
+          "PerOrigApplicationSubErrors": {
+            "PageHeader": "Per Application [Error Code = {{error_code}}, Context = {{context}}]"
+          },
+          "PerOrigApplicationPolicies": {
+            "PageHeader": "Per Application [Error Code = {{error_code}}, Context = {{context}}]"
+          },
+          "PerOrigApplicationSubErrorsPolicies": {
+            "PageHeader": "Per Application [Error Code = {{error_code}}, Context = {{context}}, Sub Error Code = {{sub_error_code}}]"
+          },
+          "PriorityBased": {
+            "MenuLabel": "Priority Based",
+            "PageHeader": "Priority Based"
+          },
+          "PriorityBasedPolicies": {
+            "PageHeader": "Priority Based [Policy = {{policy_name}}]"
+          },
+          "SS7RetryPolicies": {
+            "MenuLabel": "GSM Network",
+            "PageHeader": "GSM Network"
+          }
+        },
+        "RoutingTables": {
+          "MenuLabel": "Routing Tables",
+          "PageHeader": "Routing Tables",
+          "ApplicationRouting": {
+            "MenuLabel": "Applications",
+            "PageHeader": "Applications"
+          },
+          "InterconnectSmppAgentRouting": {
+            "MenuLabel": "Interconnect Agents",
+            "PageHeader": "Interconnect Agents"
+          },
+          "SS7SubsystemRouting": {
+            "MenuLabel": "GSM Network",
+            "PageHeader": "GSM Network"
+          },
+          "TableColumns": {
+            "SMPPApplication": "Application Name",
+            "Organization": "Organization",
+            "AgentName": "Agent Name",
+            "Start": "Start Address",
+            "End": "End Address"
+          },
+          "FormFields": {
+            "SMPPApplication": {
+              "Label": "Application Name"
+            },
+            "AgentName": {
+              "Label": "Agent Name"
+            },
+            "Start": {
+              "Label": "Start Address"
+            },
+            "End": {
+              "Label": "End Address"
+            }
+          },
+          "Messages": {
+            "AlreadyDefinedError": "Routing already defined with this range {{range}}, please change the range.",
+            "RangeOverlappedError": "Overlap detected with the following address range {{range}}, please change the range."
+          }
+        },
+        "TrafficControls": {
+          "MenuLabel": "Traffic Flow Controls",
+          "PageHeader": "Traffic Flow Controls",
+          "FormFields": {
+            "IncomingTrafficControlEnabled": {
+              "Label": "Incoming Traffic Flow Control Enabled"
+            },
+            "IncomingTrafficThresholdPerSec": {
+              "Label": "Incoming Traffic Overflow Threshold (msg/sec)"
+            },
+            "IncomingTrafficThresholdPerMin": {
+              "Label": "Incoming Traffic Overflow Threshold (msg/min)"
+            }
+          },
+          "PerApplication": {
+            "MenuLabel": "Per Application",
+            "PageHeader": "Per Application",
+            "ApplicationName": "Application Name"
+          },
+          "Subscribers": {
+            "MenuLabel": "GSM Network",
+            "PageHeader": "GSM Network"
+          },
+          "Messages": {
+            "SubscriberBasedUpdatedSuccessfully": "The subscribers thresholds have been updated successfully.",
+            "ApplicationBasedUpdatedSuccessfully": "The application thresholds have been updated successfully."
+          }
+        },
+        "TranslationTables": {
+          "MenuLabel": "Translation Tables",
+          "PageHeader": "Translation Tables",
+          "ApplicationName": "Application Name",
+          "TableColumns": {
+            "Precedence": "Precedence",
+            "Name": "Identifier",
+            "MatchingPattern": "Matching Pattern",
+            "DigitsAdd": "Digits Add",
+            "DigitsToAdd": "Digits to Add",
+            "DigitsToRemove": "Digits to Remove",
+            "Prefix": "Prefix to Add",
+            "Address": "End Result"
+          },
+          "FormFields": {
+            "Precedence": {
+              "Label": "Precedence"
+            },
+            "Name": {
+              "Label": "Identifier"
+            },
+            "MatchingPatternRegularExpression": {
+              "Label": "Matching Pattern",
+              "SubLabel": "(regular expression)"
+            },
+            "AddressValidityIndicator": {
+              "Label": "End Result"
+            },
+            "DigitsRemoveFromBegin": {
+              "Label": "Digits to Remove from Beginning & End of Address"
+            },
+            "NPI": {
+              "ShortLabel": "NPI",
+              "Label": "Address NPI to Set After Translation"
+            },
+            "TON": {
+              "ShortLabel": "TON",
+              "Label": "Address TON to Set After Translation"
+            },
+            "PrefixAdditionStrategy": {
+              "Label": "Prefix Selection Method"
+            },
+            "Prefix": {
+              "Label": "Prefix to Add"
+            },
+            "DigitsToAdd": {
+              "Label": "Digits to Extract from Orig. Address for Prefix"
+            },
+            "Address": {
+              "Label": "Address"
+            },
+            "Content": {
+              "Label": "Content"
+            },
+            "OtherAddress": {
+              "Label": "Other Address"
+            },
+            "ProtocolId": {
+              "Label": "Protocol ID"
+            }
+          },
+          "DestAddress": {
+            "MenuLabel": "Dest. Address",
+            "PageHeader": "Dest. Address"
+          },
+          "OrigAddress": {
+            "MenuLabel": "Orig. Address",
+            "PageHeader": "Orig. Address"
+          },
+          "Global": {
+            "MenuLabel": "SMSC",
+            "PageHeader": "SMSC"
+          },
+          "PerApplication": {
+            "MenuLabel": "Per Application",
+            "PageHeader": "Per Application"
+          },
+          "Messages": {
+            "AlreadyDefinedError": "Address translation already defined with this identifier {{name}}, please change the name."
+          },
+          "ContentFiltering": {
+            "PageHeader": "Address Range [Identifier = {{name}}]",
+            "PatternList": "Content Filtering Criteria",
+            "OtherAddressPatternList": "Other Address Filtering Criteria",
+            "TonNpiList": "TON/NPI Filtering Criteria",
+            "TableColumns": {
+              "Regex": "Matching Pattern (regular expression)",
+              "NPI": "Matching NPI",
+              "TON": "Matching TON"
+            },
+            "Messages": {
+              "PatternAlreadyDefinedError": "Regex pattern filter already defined, please change.",
+              "TonNpiAlreadyDefinedError": "TON NPI filter already defined, please change."
+            }
+          }
+        },
+        "KeywordScreening": {
+          "Title": "Keyword Screening",
+          "Global": {
+            "Title": "Global"
+          },
+          "PerSender": {
+            "Title": "Per Sender",
+            "BlackListTitle": "Per Sender [Black List]",
+            "WhiteListTitle": "Per Sender [White List]"
+          },
+          "TableColumns": {
+            "Sender": "Sender Address",
+            "Keyword": "Keyword"
+          },
+          "Messages": {
+            "AlreadyDefinedError": "The keyword \"{{keyword}}\" has already defined, please check the list.",
+            "PerSenderAlreadyDefinedError": "The keyword \"{{keyword}}\" has already defined for the \"{{sender}}\", please check the list."
+          }
+        },
+        "ShowServiceCodeRoutings": "Show Service Codes"
+      },
+      "Troubleshooting": {
+        "ShowPersonalizedSmsHistory": "Show SMS Plus Records",
+        "PermanentRecords": "Permanent Records",
+        "TransientRecords": "Buffered Records",
+        "FilterForm": {
+          "OrigAddress": {
+            "Label": "Orig. Address"
+          },
+          "DestAddress": {
+            "Label": "Dest. Address"
+          },
+          "OrigAgent": {
+            "Label": "Orig. Agent"
+          },
+          "DestAgent": {
+            "Label": "Dest. Agent"
+          },
+          "PartRef": {
+            "Label": "Part Reference ID"
+          },
+          "DeliveryStatus": {
+            "Label": "Delivery Status"
+          }
+        },
+        "TableColumns": {
+          "SubmitDate": "Submit Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "EventDate": "Event Date and Time",
+          "HistoryEventDate": "Event Date and Time",
+          "ExpiryTime": "Expiry Date and Time",
+          "CDRType": "Event Type",
+          "HistoryCDRType": "History Event Type",
+          "OrigAddress": "Orig. Address",
+          "RawOrigAddress": "Raw Orig. Address",
+          "DestAddress": "Dest. Address",
+          "RawDestAddress": "Raw Dest. Address",
+          "Result": "Trx Result",
+          "Reason": "Error Code",
+          "ReasonContext": "Error Context",
+          "ReasonInfo": "Reason",
+          "MessageId": "Message ID",
+          "MessageLength": "Message Length",
+          "HostName": "Hostname",
+          "OrigAgentType": "Orig. Agent Type",
+          "OrigAgent": "Orig. Agent",
+          "OrigAgentName": "Orig. Agent Name",
+          "DestAgentType": "Dest. Agent Type",
+          "DestAgent": "Dest. Agent",
+          "DestAgentName": "Dest. Agent Name",
+          "OrigImsi": "Orig. IMSI",
+          "DestImsi": "Dest. IMSI",
+          "OrigMSC": "Orig. MSC",
+          "DestMSC": "Dest. MSC",
+          "OrigAddressNpiTon": "Orig. NPI/TON",
+          "RawOrigAddressNpiTon": "Raw Orig. NPI/TON",
+          "DestAddressNpiTon": "Dest. NPI/TON",
+          "RawDestAddressNpiTon": "Raw Dest. NPI/TON",
+          "SourceMnp": "Orig. MNP",
+          "DestMnp": "Dest. MNP",
+          "DCS": "DCS",
+          "ConcatInfo": "Concat Info",
+          "DeliveryReport": "Delivery Report",
+          "AttemptCount": "Retry Count",
+          "CDRKey": "CDR Key"
+        },
+        "TableColumnsTooltips": {
+          "SubmitDate": "Date and time of submission.",
+          "CompletionDate": "Date and time of occurence.",
+          "EventDate": "Date and time of the event.",
+          "HistoryEventDate": "Date and time of the history event.",
+          "CDRType": "Type of the event.",
+          "HistoryCDRType": "Type of the history event.",
+          "OrigAddress": "Sender (Originator) Address.",
+          "DestAddress": "Receiver (Destination) Address.",
+          "MessageLength": "SMS length.",
+          "HostName": "Hostname where the event occurred.",
+          "OrigMSC": "Sender (Originator) MSC.",
+          "DestMSC": "Receiver (Destination) MSC.",
+          "OrigAgent": "Sender (Originator) Agent",
+          "DestAgent": "Receiver (Destination) Agent",
+          "DCS": "Data Coding Scheme. Possible values are: <ul class=\"table-column-description-list\"><li><strong>0:</strong> SMSC Default Alphabet,</li><li><strong>1:</strong> IA5 (CCITT T.50)/ASCII (ANSI X3.4),</li><li><strong>2:</strong> Octet unspecified (8-bit binary),</li><li><strong>3:</strong> Latin 1 (ISO-8859-1),</li><li><strong>4:</strong> Octet unspecified (8-bit binary),</li><li><strong>5:</strong> JIS (X 0208-1990),</li><li><strong>6:</strong> Cyrllic (ISO-8859-5),</li><li><strong>7:</strong> Latin/Hebrew (ISO-8859-8),</li><li><strong>8:</strong> UCS2 (ISO/IEC-10646),</li><li><strong>9:</strong> Pictogram Encoding,</li><li><strong>10:</strong> ISO-2022-JP (Music Codes),</li><li><strong>11:</strong> Reserved,</li><li><strong>12:</strong> Reserved,</li><li><strong>13:</strong> Extended Kanji JIS(X 0212-1990),</li><li><strong>14:</strong> KS C 5601,</li><li><strong>15:</strong> Reserved.</li></ul>",
+          "ConcatInfo": "Part N/M [Part Reference Number].",
+          "Result": "Result of the SMS transaction.",
+          "Reason": "Error Code. 0 if Trx Result is Success and appropriate error code otherwise. Error Code shall be interpreted within specified Error Context. Same Error Code value may have different meanings in different contexts."
+        },
+        "History": {
+          "PageHeader": "SMS History [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        },
+        "MessageContent": {
+          "PageHeader": "SMS Content [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]",
+          "Content": "Message Content",
+          "ExceededRecordCountLimit": "Total of {{count}} records found. Displaying the first {{limit}} only.",
+          "PartNotFound": "Message part {{partNumber}} not found!",
+          "ResendConfirmationMessage": "You are about to resend message from <strong>{{origAddress}}</strong> to <strong>{{destAddress}}</strong>. Please confirm.",
+          "CancelSending": "You are about to cancel a pending message from <strong>{{origAddress}}</strong> to <strong>{{destAddress}}</strong>. Please confirm.",
+          "BulkCancelSending": "You are about to cancel all <strong>({{all_count}})</strong> pending send messages listed in the table. Please confirm.",
+          "SendItNow": "You are about to send a pending message from <strong>{{origAddress}}</strong> to <strong>{{destAddress}}</strong> right now. Please confirm."
+        },
+        "Details": {
+          "PageHeader": "SMS Details [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        }
+      }
+    },
+    "AntiSpamSMS": {
+      "MenuLabel": "SMS Anti-Spam",
+      "PageHeader": "Canvas<sup>®</sup> SMS Anti-Spam",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Incoming MO-FSM Rate",
+          "Tile2": "MO-FSM Reject Ratio",
+          "Tile3": "Incoming MT-FSM Rate",
+          "Tile4": "MT-FSM Reject Ratio",
+          "Tile5": "Incoming SRI-SM Rate",
+          "Tile6": "SRI-SM / MT-FSM Ratio"
+        },
+        "Charts": {
+          "Chart1": "MO-FSM Reject Reasons",
+          "Chart2": "MT-FSM Reject Reasons",
+          "Chart3": "SRI-SM Error Codes"
+        }
+      },
+      "Configuration": {
+        "Settings": {
+          "MenuLabel": "Settings",
+          "PageHeader": "Settings",
+          "CommonFormFields": {
+            "FeatureEnabled": {
+              "Label": "Feature Enabled"
+            },
+            "PolicyInEffect": {
+              "Label": "Policy in Effect"
+            },
+            "RejectionErrorCode": {
+              "Label": "Reject Error Code"
+            },
+            "ParameterCheckingEnabled": {
+              "Label": "Parameter Checking Enabled"
+            },
+            "RejectMOFSMWithoutIMSI": {
+              "Label": "Reject Messages without IMSI"
+            },
+            "VerifyWithSRIAttributes": {
+              "Label": "Validate MO Attributes using SRI-SM Queries"
+            },
+            "ComparisionSensitiviy": {
+              "Label": "Comparison Sensitivity"
+            },
+            "ReplySRIFSMwithRealMSC": {
+              "Label": "Reply SRI-SM Requests with Real MSC Address"
+            }
+          },
+          "Filtering": {
+            "MenuLabel": "Filtering",
+            "PageHeader": "Filtering",
+            "FormFields": {
+              "FilteringEnabled": {
+                "Label": "Filtering Enabled"
+              },
+              "DefaultMOFSMRejectionErrorCode": {
+                "Label": "MO Reject Error Code (default behavior)"
+              },
+              "DefaultMTFSMRejectionErrorCode": {
+                "Label": "MT Reject Error Code (default behavior)"
+              }
+            },
+            "ApplicationMTFiltering": {
+              "Header": "Application MT Filtering"
+            },
+            "InternationalToInboundRoamerFiltering": {
+              "Header": "Intl to Inbound Roamer Filtering"
+            },
+            "SRISMFiltering": {
+              "Header": "SRI-SM Filtering"
+            },
+            "LocalIncomingMOFiltering": {
+              "Header": "MO Local + MO Inbound Filtering"
+            }
+          },
+          "FraudDetection": {
+            "MenuLabel": "Fraud Detection",
+            "PageHeader": "Fraud Detection",
+            "FormFields": {
+              "FraudDetectionEnabled": {
+                "Label": "Fraud Detection Enabled"
+              }
+            },
+            "MOFSMInboundRoamerFraudDetection": {
+              "Header": "MO Inbound Roamer Grey Listing"
+            },
+            "MOFSMOutboundRoamerFraudDetection": {
+              "Header": "MO Outbound Roamer Grey Listing"
+            },
+            "MTFSMFraudDetection": {
+              "Header": "MT Grey Listing"
+            },
+            "MOAntiSpoofing": {
+              "Header": "MO Anti-Spoofing"
+            }
+          },
+          "IMSIMasking": {
+            "MenuLabel": "IMSI Masking",
+            "PageHeader": "IMSI Masking",
+            "FormFields": {
+              "IMSIMaskingEnabled": {
+                "Label": "IMSI Masking Enabled"
+              },
+              "Name": {
+                "Label": "Name"
+              },
+              "MSINLength": {
+                "Label": "MSIN Length"
+              }
+            }
+          },
+          "SMSCGTCorrection": {
+            "MenuLabel": "SMSC GT Correction",
+            "PageHeader": "SMSC GT Correction",
+            "FormFields": {
+              "SMSCGTCorrectionEnabled": {
+                "Label": "SMSC GT Correction Enabled"
+              }
+            }
+          }
+        }
+      },
+      "Operations": {
+        "AddressRanges": {
+          "MenuLabel": "Address Range Lists",
+          "PageHeader": "Address Range Lists",
+          "SetAddressRange": "Set MSISDN Range",
+          "AddressRangesModalTitle": "MSISDN Range [Address Range List Name = {{msisdnRangeName}}]",
+          "RangePlaceholder": "e.g., 966561234500",
+          "Messages": {
+            "EntryAlreadyDefinedError": "Address Range List entry already defined with the name {{name}}, choose another.",
+            "RangeAlreadyDefinedError": "Address Range already defined with the start {{start}} and end {{end}}, choose another."
+          },
+          "Msisdn": {
+            "MenuLabel": "MSISDN Range",
+            "PageHeader": "MSISDN Range"
+          },
+          "TableColumns": {
+            "Name": "Address Range List Name",
+            "Start": "MSISDN Range Start",
+            "End": "MSISDN Range End"
+          }
+        },
+        "ContentFilters": {
+          "MenuLabel": "Content Filters",
+          "PageHeader": "Content Filters",
+          "SetAddressRange": "Set Address Range List",
+          "AddressRangesModalTitle": "Address Range List [Content Filter = {{contentFiltersEntryName}}]",
+          "TableColumns": {
+            "Name": "Content Filter Name",
+            "FilterSetting": "Filter Setting",
+            "EvalType": "Eval Type",
+            "CaseSensitivity": "Case Sensitivity",
+            "RangePolicy": "Address Range Policy",
+            "BlockingDuration": "Blocking Duration (min)",
+            "MaxNumberOfMessages": "Max Number of Messages",
+            "MSISDNRangeList": "Address Range List Name",
+            "ApplicableRange": "Applicable Party"
+          },
+          "Messages": {
+            "EntryAlreadyDefinedError": "Content Filters entry already defined with the name {{name}}, choose another.",
+            "EntryTemporaryReservedError": "Specified Content Filters entry name {{name}} temporary reserved, choose another.",
+            "RangeAlreadyDefinedError": "Address Range already defined with the msisdn range name {{msisdnRangeName}}, choose another.",
+            "MaxMessageValueNotAllowed": "Max Number of Messages value should be 0 if Blocking Duration value is 0.",
+            "BlockingDurationValueNotAllowed": "Blocking Duration value can be 0 if Max Number of Messages value is 0."
+          },
+          "ContentFilter": "Content Filter",
+          "MOSMSContent": {
+            "MenuLabel": "MO",
+            "PageHeader": "MO"
+          },
+          "MTSMSContent": {
+            "MenuLabel": "MT",
+            "PageHeader": "MT"
+          }
+        },
+        "Counters": {
+          "MenuLabel": "Counters",
+          "PageHeader": "Counters",
+          "SetAddressRange": "Set Address Range List",
+          "AddressRangesModalTitle": "Address Range List [Counter = {{countersEntryName}}]",
+          "TableColumns": {
+            "Name": "Counter Name",
+            "RangePolicy": "Address Range Policy",
+            "MonitoringDuration": "Monitoring Duration (sec)",
+            "BlockingDuration": "Blocking Duration (min)",
+            "MaxNumberOfMessages": "Max Number of Messages",
+            "MaxNumberOfDistinctRecipients": "Max Number of Distinct Recipients",
+            "MSISDNRangeList": "Address Range List Name",
+            "ApplicableRange": "Applicable Party"
+          },
+          "Messages": {
+            "EntryAlreadyDefinedError": "Counters entry already defined with the name {{name}}, choose another.",
+            "EntryTemporaryReservedError": "Specified Counters entry name {{name}} temporary reserved, choose another.",
+            "RangeAlreadyDefinedError": "Address Range already defined with the msisdn range name {{msisdnRangeName}}, choose another."
+          },
+          "Simple": "Simple Counter",
+          "Distinct": "Distinct Counter",
+          "ContentSensitiveSingleRecipient": "Content Sensitive Single Recipient Counter",
+          "ContentSensitiveMultipleRecipient": "Content Sensitive Multiple Recipient Counter",
+          "MOSMSCounter": {
+            "MenuLabel": "MO",
+            "PageHeader": "MO"
+          },
+          "MTSMSCounter": {
+            "MenuLabel": "MT",
+            "PageHeader": "MT"
+          }
+        },
+        "GreyLists": {
+          "MenuLabel": "Grey Lists",
+          "PageHeader": "Grey Lists",
+          "TableColumns": {
+            "E164Prefix": "E.164 Prefix",
+            "ComparisonSensitivity": "Comparison Sensitivity"
+          },
+          "Messages": {
+            "EntryAlreadyDefinedError": "Grey List entry already defined with the prefix {{prefix}}, choose another."
+          },
+          "MOInboundRoamer": {
+            "MenuLabel": "MO Inbound Roamer",
+            "PageHeader": "MO Inbound Roamer"
+          },
+          "MOOutboundRoamer": {
+            "MenuLabel": "MO Outbound Roamer",
+            "PageHeader": "MO Outbound Roamer"
+          },
+          "MOAntiSpoofing": {
+            "MenuLabel": "MO Anti-Spoofing",
+            "PageHeader": "MO Anti-Spoofing"
+          },
+          "MT": {
+            "MenuLabel": "MT",
+            "PageHeader": "MT"
+          }
+        },
+        "Screenings": {
+          "MenuLabel": "Screening Lists",
+          "PageHeader": "Screening Lists",
+          "TableColumns": {
+            "E164Prefix": "E.164 Prefix",
+            "ParameterName": "Parameter Name",
+            "ParameterValue": "Parameter Value",
+            "NextTableName": "Next Table Name",
+            "Action": "Action",
+            "Priority": "Priority",
+            "SMSHubGT": "SMS Hub GT",
+            "Number": "E.164 Prefix",
+            "AddressRangeStart": "Address Range Start",
+            "AddressRangeEnd": "Address Range End",
+            "AddressType": "Address Type",
+            "RejectErrorCode": "Reject Error Code",
+            "RejectMethod": "Policy in Effect",
+            "TypeOfNumber": "Address Type",
+            "SMSCGT": "SMSC GT",
+            "PolicyInEffect": "Policy in Effect",
+            "MORejectionErrorCode": "MO Reject Error Code",
+            "MTRejectionErrorCode": "MT Reject Error Code",
+            "Msc": "MSC"
+          },
+          "Messages": {
+            "SMSCGTAlreadyDefinedError": "SMSC GT already defined with the value {{smscGT}}, choose another."
+          },
+          "SetSMSCSGT": "Set SMSC GT",
+          "SMSCGTPlaceholder": "e.g., 966561234567",
+          "Exclusions": {
+            "MenuLabel": "Exclusions",
+            "PageHeader": "Exclusions"
+          },
+          "Inclusions": {
+            "MenuLabel": "Inclusions",
+            "PageHeader": "Inclusions"
+          },
+          "ApplicationMT": {
+            "MenuLabel": "Application MT",
+            "PageHeader": "Application MT",
+            "AddNewEntryModalTitle": "Add New Entry - Application MT White List",
+            "UpdateEntryModalTitle": "Update Entry - Application MT White List",
+            "SMSCCGTModalTitle": "SMSC GT [Address Range = {{start}} - {{end}}]"
+          },
+          "IntlToInboundRoamer": {
+            "MenuLabel": "Intl to Inbound Roamer",
+            "PageHeader": "Intl to Inbound Roamer",
+            "AddNewEntryModalTitle": "Add New Entry - Intl to Inbound Roamer Black List",
+            "UpdateEntryModalTitle": "Update Entry - Intl to Inbound Roamer Black List"
+          },
+          "MOInboundOutboundRoamer": {
+            "MenuLabel": "MO Inbound or Outbound Roamer",
+            "PageHeader": "MO Inbound or Outbound Roamer",
+            "AddNewEntryModalTitle": "Add New Entry - MO Inbound or Outbound Roamer White List",
+            "UpdateEntryModalTitle": "Update Entry - MO Inbound or Outbound Roamer White List",
+            "SMSCCGTModalTitle": "SMSC GT [Prefix = {{prefix}}]"
+          },
+          "MTSMSHub": {
+            "MenuLabel": "MT Trusted SMSC GT",
+            "PageHeader": "MT Trusted SMSC GT",
+            "AddNewEntryModalTitle": "Add New Entry - MT Trusted SMSC GT White List",
+            "UpdateEntryModalTitle": "Update Entry - MT Trusted SMSC GT White List"
+          },
+          "LocalIncomingMO": {
+            "MenuLabel": "MO Local + MO Inbound",
+            "PageHeader": "MO Local + MO Inbound",
+            "AddNewEntryModalTitle": "Add New Entry - MO Local + MO Inbound White List"
+          },
+          "PDUParameter": {
+            "MenuLabel": "Parametric Control",
+            "PageHeader": "Parametric Control",
+            "AddNewEntryModalTitle": "Add New Entry - Parametric Control Black List",
+            "UpdateEntryModalTitle": "Update Entry - Parametric Control Black List",
+            "ScreeningParametersTooltip": "Possible parameter values are: orig.sccp.gt, dest.sccp.gt, orig.sccp.tt, dest.sccp.tt, orig.map.msisdn, dest.map.msisdn, map.op, sms.dcs, sms.mref, sms.pid",
+            "Messages": {
+              "InvalidParameterSyntaxError": "Invalid parameter value {{screeningParameters}}. Please check."
+            }
+          },
+          "SRISM": {
+            "MenuLabel": "SRI-SM",
+            "PageHeader": "SRI-SM",
+            "AddNewEntryModalTitle": "Add New Entry - SRI-SM Black List",
+            "UpdateEntryModalTitle": "Update Entry - SRI-SM Black List"
+          }
+        }
+      },
+      "Troubleshooting": {
+        "TableColumns": {
+          "Date": "Date and Time",
+          "OrigMsisdn": "Orig. Address",
+          "DestMsisdn": "Dest. Address",
+          "SmscGT": "SMSC GT",
+          "OrigTypeOfNumber": "Orig. TON",
+          "CDRType": "Event Type",
+          "TrafficType": "Traffic Type",
+          "OPResult": "Opr Result",
+          "OPErrorCode": "Error Code",
+          "SCCPCalling": "SCCP Calling Address",
+          "SCCPCalled": "SCCP Called Address",
+          "VLR": "VLR",
+          "OPRejectReason": "Reject Reason",
+          "OPRejectMethod": "Reject Method",
+          "OPScreeningName": "Screening",
+          "OPContentFilter": "Filter Name",
+          "ConcatInfo": "Concat Info",
+          "MSGContent": "Payload",
+          "MSGLength": "Message Length",
+          "CDRKey": "CDR Key",
+          "Imsi": "Imsi",
+          "FakeImsi": "Fake Imsi"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the event.",
+          "OrigMsisdn": "Sender (Originator) Address.",
+          "DestMsisdn": "Receiver (Destination) Address.",
+          "SmscGT": "SMSC GT.",
+          "CDRType": "Type of the event.",
+          "OrigTypeOfNumber": "Sender (Originator) Type of Number.<ul class=\"table-column-description-list\"><li><strong>0:</strong> Unknown</li><li><strong>1:</strong> International</li><li><strong>2:</strong> National</li><li><strong>3:</strong> Network Specific</li><li><strong>4:</strong> Subscriber Number</li><li><strong>5:</strong> Alphanumeric</li><li><strong>6:</strong> Abbreviated</li></ul>",
+          "TrafficType": "Type of the traffic. <ul class=\"table-column-description-list\"><li><strong>11:</strong> MO<li><strong>12:</strong> MO Inbound</li><li><strong>13:</strong> MO Outbound</li><li><strong>21:</strong> MT</li><li><strong>22:</strong> MT Alphanumeric</li><li><strong>23:</strong> MT Shortcode</li><li><strong>24:</strong> MT Intl to Inbound</li><li><strong>31:</strong> SRI</li></ul>",
+          "OPResult": "Result of the operation. <ul class=\"table-column-description-list\"><li><strong>0:</strong> No Error</li><li><strong>1:</strong> Error</li></ul>",
+          "OPErrorCode": "Error code of operation (MAP Error Code).",
+          "SCCPCalling": "SCCP Calling Address.",
+          "SCCPCalled": "SCCP Called Address.",
+          "VLR": "Serving MSC/VLR.",
+          "OPRejectReason": "Reject reason for the message.",
+          "OPRejectMethod": "Reject Method. <ul class=\"table-column-description-list\"><li><strong>1:</strong> Silent Discard</li><li><strong>2:</strong> Reject with Error</li></ul>",
+          "OPScreeningName": "Screening Name.",
+          "OPContentFilter": "Content Filter Name.",
+          "ConcatInfo": "Concat SMS part no, 1 <= part no <= total part count / Concat SMS total part count [Concat SMS correlator is used correlate parts of a concatenated SMS, value is same for all parts]",
+          "MSGContent": "SMS payload (MT only)."
+        },
+        "History": {
+          "PageHeader": "SMS Anti-Spam History [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        },
+        "MessageContent": {
+          "PageHeader": "SMS Content [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]",
+          "ExceededRecordCountLimit": "Total of {{count}} records found. Displaying the first {{limit}} only.",
+          "Content": "Message Content"
+        },
+        "Details": {
+          "PageHeader": "SMS Details [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        }
+      },
+      "AlarmNotifications": {
+        "Title": "Notifications",
+        "MarkAsRead": "Mark as Read",
+        "MarkAsUnread": "Mark as Unread",
+        "ViewAll": "View All Notifications",
+        "ShowAlarmSources": "Show Alarm Sources",
+        "AlarmSourcesModalTitle": "Alarm Sources [Headline = {{headline}}]",
+        "TableColumns": {
+          "Date": "Date & Time",
+          "ExpiryDate": "Expiration Date & Time",
+          "AlarmState": "State",
+          "LastAccessedUser": "Acknowledged By",
+          "Headline": "Headline",
+          "Details": "Details",
+          "NotificationMode": "Notification Mode",
+          "Notified": "Notified",
+          "OrigMscGT": "Orig. MSC GT",
+          "AlarmTriggerDate": "Alarm Trigger Date"
+        }
+      }
+    },
+    "MMSC": {
+      "MenuLabel": "MMS Center",
+      "PageHeader": "Canvas<sup>®</sup> Multimedia Message Service Center",
+      "Troubleshooting": {
+        "PermanentRecords": "Permanent Records",
+        "TransientRecords": "Buffered Records",
+        "FilterForm": {
+          "OrigAddress": {
+            "Label": "Orig. Address"
+          },
+          "DestAddress": {
+            "Label": "Dest. Address"
+          },
+          "OrigAgent": {
+            "Label": "Orig. Agent"
+          },
+          "DestAgent": {
+            "Label": "Dest. Agent"
+          }
+        },
+        "TableColumns": {
+          "SubmitDate": "Submit Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "EventDate": "Event Date and Time",
+          "HistoryEventDate": "Event Date and Time",
+          "ExpiryTime": "Expiry Date and Time",
+          "CDRType": "Event Type",
+          "HistoryCDRType": "History Event Type",
+          "OrigAddress": "Orig. Address",
+          "RawOrigAddress": "Raw Orig. Address",
+          "DestAddress": "Dest. Address",
+          "RawDestAddress": "Raw Dest. Address",
+          "Result": "Trx Result",
+          "ReasonContext": "Error Context",
+          "Reason": "Error Code",
+          "ReasonInfo": "Reason",
+          "OrigAgent": "Orig. Agent",
+          "DestAgent": "Dest. Agent",
+          "OrigImsi": "Orig. IMSI",
+          "DestImsi": "Dest. IMSI",
+          "SourceMnp": "Orig. MNP",
+          "DestMnp": "Dest. MNP",
+          "Version": "MMS Version",
+          "MessageSize": "MMS Size (byte)",
+          "MessageId": "Message ID",
+          "DeliveryReport": "Delivery Report",
+          "ContentTypes": "Content Types",
+          "CDRKey": "CDR Key"
+        },
+        "TableColumnsTooltips": {
+          "SubmitDate": "Date and time of submission.",
+          "CompletionDate": "Date and time of occurence.",
+          "EventDate": "Date and time of the event.",
+          "HistoryEventDate": "Date and time of the history event.",
+          "CDRType": "Type of the event.",
+          "HistoryCDRType": "Type of the history event.",
+          "OrigAddress": "Sender (Originator) Address.",
+          "DestAddress": "Receiver (Destination) Address.",
+          "OrigAgent": "Sender (Originator) Agent",
+          "DestAgent": "Receiver (Destination) Agent",
+          "Result": "Result of the MMS transaction.",
+          "Reason": "Error Code. 0 if Trx Result is Success and appropriate error code otherwise. Error Code shall be interpreted within specified Error Context. Same Error Code value may have different meanings in different contexts."
+        },
+        "History": {
+          "PageHeader": "MMS History [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        },
+        "MessageContent": {
+          "CancelSending": "You are about to cancel a pending message from <strong>{{origAddress}}</strong> to <strong>{{destAddress}}</strong>. Please confirm.",
+          "SendItNow": "You are about to send a pending message from <strong>{{origAddress}}</strong> to <strong>{{destAddress}}</strong> right now. Please confirm.",
+          "PageHeader": "MMS Content [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]",
+          "Content": "Message Content",
+          "Name": "Content ID",
+          "Type": "Content Type"
+        },
+        "Details": {
+          "PageHeader": "MMS Details [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        }
+      }
+    },
+    "USC": {
+      "MenuLabel": "USSD Service Center",
+      "PageHeader": "Canvas<sup>®</sup> USSD Service Center",
+      "Troubleshooting": {
+        "InputPlaceholder": "e.g., *100#, *100, 100",
+        "TableColumns": {
+          "StartDate": "Start Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "Time": "Date and Time",
+          "MobileNo": "Subscriber",
+          "EventType": "Event Type",
+          "PointType": "Operation Result",
+          "Result": "Error Code",
+          "Application": "Application",
+          "Input": "Input String",
+          "Language": "Subscriber Language",
+          "SelectedItem": "Menu Selection",
+          "ServiceInitiated": "Session",
+          "SessionId": "Session ID",
+          "SubscriptionType": "Payment Type",
+          "Content": "Content",
+          "Organization": "Organization"
+        },
+        "TableColumnsTooltips": {
+          "Time": "Date and time of the event.",
+          "MobileNo": "Subscriber MSISDN.",
+          "EventType": "Type of the event.",
+          "PointType": "Operation Result, either Success or Failure.",
+          "Result": "Operation Error Code. 0 if Operation Result is Success, appropriate error code otherwise.",
+          "Application": "USSD Application's name.",
+          "Input": "Subscriber's USSD input string received from mobile device.",
+          "Language": "Subscriber's language: EN: English, AR: Arabic.",
+          "SelectedItem": "Selected menu item's name.",
+          "ServiceInitiated": "MO (Network/Mobile-Initiated) or MT (Application-Initiated)",
+          "SessionId": "USSD Browser's unique Session ID.",
+          "SubscriptionType": "Payment Type: <strong>NONE</strong>, <strong>PREPAID</strong>, <strong>POSTPAID</strong>, <strong>VIP</strong>.",
+          "Organization": "Organization"
+        },
+        "History": {
+          "PageHeader": "USSD History [Subscriber = {{mobileno}}; Session = {{session}}; Session ID = {{sessionId}}]"
+        },
+        "Detail": {
+          "PageHeader": "USSD Content [Subscriber = {{mobileno}}; Session = {{session}}; Session ID = {{sessionId}}]",
+          "Content": "Message Content",
+          "ContentNA": "*** Content Not Available ***"
+        }
+      }
+    }
+  },
+  "Services": {
+    "MenuLabel": "Services",
+    "CC": {
+      "MenuLabel": "Collect Call",
+      "PageHeader": "Canvas<sup>®</sup> Collect Call Service",
+      "Details": {
+        "DailyRequestLimitEnabled": "Daily Request Limit Enabled",
+        "DailyRequestLimit": "Daily Request Limit"
+      },
+      "Troubleshooting": {
+        "TableColumns": {
+          "Time": "Date and Time",
+          "SessionId": "Session Id",
+          "EventInfo": "Event Type",
+          "APartyMsisdn": "Calling Party",
+          "APartyPaymentType": "Calling Party Payment Type",
+          "BPartyMsisdn": "Called Party",
+          "BPartyPaymentType": "Called Party Payment Type",
+          "ChargedCallDuration": "Duration",
+          "RequestChannel": "Request Channel"
+        },
+        "TableColumnsTooltips": {
+          "Time": "Date and time of the event.",
+          "SessionId": "Unique Id of the Collect Call request. All events of a specific Collect Call request will have the same Id for filtering out the events related to that request.",
+          "EventInfo": "Type of the event.",
+          "APartyMsisdn": "Calling Party MSISDN.",
+          "APartyPaymentType": "Calling Party Payment Type.",
+          "BPartyMsisdn": "Called Party MSISDN.",
+          "BPartyPaymentType": "Called Party Payment Type.",
+          "ChargedCallDuration": "Call duration for the connected Collect Call request."
+        }
+      }
+    },
+    "MCA": {
+      "MenuLabel": "Missed Call Notification",
+      "PageHeader": "Canvas<sup>®</sup> Missed Call Notification Service",
+      "Troubleshooting": {
+        "TableColumns": {
+          "Time": "Date and Time",
+          "EdrType": "Event Type",
+          "EdrCallingNum": "Calling Party",
+          "EdrOrigCalledNum": "Called Party",
+          "EdrRedirectionNum": "Forwarding Party",
+          "EdrServiceNumber": "Service Number",
+          "EdrOriginatingAddressPresentation": "CLIP/CLIR Status",
+          "EdrRedirectionReason": "Redirection Reason",
+          "EdrSMSTicket": "SMS Ticket",
+          "EdrSMStatus": "SMS Status"
+        },
+        "TableColumnsTooltips": {
+          "Time": "Date and time of the event.",
+          "EdrType": "Type of the event.",
+          "EdrCallingNum": "Calling Party MSISDN.",
+          "EdrOrigCalledNum": "Called Party MSISDN.",
+          "EdrRedirectionNum": "Redirecting Party MSISDN who forwarded incoming calls to the Service (Called Party is same with the Redirecting Party for normal / not forwarded calls).",
+          "EdrServiceNumber": "Short code of the service.",
+          "EdrOriginatingAddressPresentation": "Calling Line Identification Restriction (CLIR) Status. Possible values are:<ul class=\"table-column-description-list\"><li><strong>Normal:</strong> Not Restricted</li><li><strong>Private:</strong> Restricted</li></ul>",
+          "EdrRedirectionReason": "Reason for redirection to the Service. Possible reasons are:<ul class=\"table-column-description-list\"><li><strong>Unreachable:</strong> Called Party is not reachable, phone switched-off, out-of-coverage.</li><li><strong>Busy:</strong> Called Party is busy.</li><li><strong>Not Answered:</strong> Called Party did not answer the call.</li><li><strong>Unconditional:</strong> Called Party unconditionally forwarded all calls to the Service.</li><li><strong>Undefined:</strong> Reason undefined or not specified.</li></ul>",
+          "EdrSMSTicket": "Ticket received from SMSC for the submitted SMS. Used to correlate submitted MT SMS and its Delivery Report.",
+          "EdrSMStatus": "Final delivery status of the Missed Call Alert SMS. Possible delivery status values are:<ul class=\"table-column-description-list\"><li><strong>100:</strong> DELIVERED</li><li><strong>200:</strong> WILL_BE_RETRIED</li><li><strong>300:</strong> FAILED</li><li><strong>600:</strong> ENROUTE</li><li><strong>700:</strong> EXPIRED</li><li><strong>500:</strong> DELETED</li><li><strong>400:</strong> UNKNOWN</li></ul>"
+        }
+      }
+    },
+    "PokeCall": {
+      "MenuLabel": "Poke Call",
+      "PageHeader": "Canvas<sup>®</sup> Poke Call Service",
+      "Troubleshooting": {
+        "TableColumns": {
+          "Time": "Date and Time",
+          "SessionId": "Session Id",
+          "EventInfo": "Event Type",
+          "APartyMsisdn": "Calling Party",
+          "APartyPaymentType": "Calling Party Payment Type",
+          "BPartyMsisdn": "Called Party",
+          "BPartyPaymentType": "Called Party Payment Type",
+          "ChargedCallDuration": "Duration"
+        },
+        "TableColumnsTooltips": {
+          "Time": "Date and time of the event.",
+          "SessionId": "Unique Id of the Poke Call request. All events of a specific Poke Call request will have the same Id for filtering out the events related to that request.",
+          "EventInfo": "Type of the event.",
+          "APartyMsisdn": "Calling Party MSISDN.",
+          "APartyPaymentType": "Calling Party Payment Type.",
+          "BPartyMsisdn": "Called Party MSISDN.",
+          "BPartyPaymentType": "Called Party Payment Type."
+        }
+      }
+    },
+    "VM": {
+      "MenuLabel": "Voice Mail",
+      "PageHeader": "Canvas<sup>®</sup> Voice Mail Service",
+      "BasicOffer": "Voice Mail Basic",
+      "BasicOfferDescription": "This is the basic offer which is free.",
+      "Preferences": {
+        "FormFields": {
+          "CosName": "Class of Service",
+          "Language": "Language",
+          "PinCodeEnabled": "PIN Code Enabled",
+          "PinCode": "PIN Code",
+          "ConfirmPinCode": "Confirm PIN Code"
+        }
+      },
+      "InboxMessages": {
+        "PageHeader": "Messages",
+        "TableColumns": {
+          "Date": "Date and Time",
+          "SenderAddress": "Sender Address",
+          "MessageDuration": "Message Duration"
+        }
+      },
+      "Troubleshooting": {
+        "History": {
+          "PageHeader": "Voice Mail History [Calling Party = {{origparty}}; Called Party = {{destparty}}]"
+        },
+        "TableColumns": {
+          "Date": "Submit Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "HistoryEventDate": "Event Date and Time",
+          "OrigParty": "Calling Party",
+          "SubsPhone": "Original Subscriber Number",
+          "DestParty": "Called Party",
+          "OrigDestParty": "Original Callee",
+          "RedirParty": "Redirecting Party",
+          "RedirReason": "Redirection Reason",
+          "SessionId": "Session ID",
+          "CallType": "Call Type",
+          "EventCode": "Event Type"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of submission.",
+          "CompletionDate": "Date and time of occurence.",
+          "HistoryEventDate": "Date and time of the history event.",
+          "OrigParty": "Originating Party.",
+          "SubsPhone": "Subscriber Msisdn.",
+          "DestParty": "Destination Party.",
+          "OrigDestParty": "Original Called Party",
+          "CallType": "Call Type",
+          "CallTypeEventCode": "Call Type [Event Type]",
+          "EventCode": "Event Type"
+        },
+        "Details": {
+          "PageHeader": "Voice Mail Details [Calling Party = {{origparty}}; Called Party = {{destparty}}]"
+        }
+      },
+      "Messages": {
+        "SubscriptionNotExists": "Subscription does not exist!",
+        "MessageBoxNotExists": "Message box does not exist!"
+      }
+    },
+    "RBT": {
+      "MenuLabel": "Ring Back Tone",
+      "PageHeader": "Canvas<sup>®</sup> Ring Back Tone Service",
+      "Troubleshooting": {
+        "History": {
+          "PageHeader": "Ring Back Tone History [Calling Party = {{originatingParty}}; Called Party = {{destinationParty}}]"
+        },
+        "TableColumns": {
+          "Date": "Submit Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "HistoryEventDate": "Event Date and Time",
+          "OriginatingParty": "Calling Party",
+          "DestinationParty": "Called Party",
+          "ContentId": "Content ID",
+          "SessionId": "Session ID",
+          "EventCode": "Event Type",
+          "MatchCriteria": "Match Criteria"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of submission.",
+          "CompletionDate": "Date and time of occurence.",
+          "HistoryEventDate": "Date and time of the history event.",
+          "OriginatingParty": "Originating Party.",
+          "DestinationParty": "Destination Party.",
+          "ContentId": "Unique Content ID",
+          "SessionId": "Unique ID of the Ring Back Tone request. All events of a specific Ring Back Tone request will have the same ID for filtering out the events related to that request.",
+          "EventCode": "Event Type"
+        }
+      }
+    }
+  },
+  "SubscriberInfo": {
+    "Languages": {
+      "1": "English",
+      "2": "Krio",
+      "EN": "English",
+      "KRI": "Krio"
+    },
+    "List": {
+      "MenuLabel": "Subscriber",
+      "PageHeader": "Subscriber Info"
+    },
+    "SubscriberProfile": {
+      "Header": "Subscriber Profile",
+      "Title": "Attributes",
+      "Msisdn": "MSISDN",
+      "Language": "Language",
+      "PaymentType": "Payment Type",
+      "State": "State"
+    },
+    "GlobalScreeningLists": {
+      "Header": "Screening Lists",
+      "Title": "Global Screening Lists"
+    },
+    "Troubleshooting": {
+      "TableColumns": {
+        "Date": "Submit Date and Time",
+        "CompletionDate": "Completion Date and Time",
+        "HistoryEventDate": "Event Date and Time",
+        "TransactionId": "Transaction ID",
+        "Msisdn": "Subscriber Number",
+        "OfferName": "Offer",
+        "EventType": "Event Type",
+        "ErrorCode": "Error Code",
+        "ErrorDescription": "Error Description",
+        "ChannelType": "Channel",
+        "State": "Subscription State",
+        "InactivationReason": "Inactivation Reason",
+        "SubscriberNotificationType": "Notification Type"
+      },
+      "TableColumnsTooltips": {
+        "Date": "Date and time of the subscription event.",
+        "TransactionId": "Unique ID generated for each subscription related transaction. Transaction ID shall be used for problem diagnosis within product traces and logs.",
+        "Msisdn": "Subscriber Msisdn.",
+        "OfferName": "Subscribed Offer's name.",
+        "EventType": "Subscription event's type, it may be initial subscription, renewal, charging, subscriber or service notification related. Refer to SSM product documentation for a specific event type details.",
+        "ErrorCode": "Related error code in case event denotes a failure. Refer to SSM product documentation for a specific error code details.",
+        "ErrorDescription": "Error code's description.",
+        "ChannelType": "Channel that is triggering the event. Possible channels are: <ul class=\"table-column-description-list\"><li><strong>IVR</strong></li><li><strong>USSD</strong></li><li><strong>SMS</strong></li><li><strong>WEB</strong></li><li><strong>CC:</strong> Customer Care</li><li><strong>PROV:</strong> Operator Provisioning System</li><li><strong>TP:</strong> Third-Party</li><li><strong>MOA:</strong> Mobile Application</li><li><strong>OTHER</strong></li></ul>",
+        "State": "Subscription's state. Possible states are: PENDING, ACTIVE, SUSPENDED, INACTIVE.",
+        "InactivationReason": "Subscription\\'s inactivation reason. Field is only available and meaningful for inactive subscriptions. Possible inactivation reasons are: <ul class=\"table-column-description-list\"><li><strong>InactivatedBySubscriber:</strong> Inactivation requested by the Subscriber from Customer Care or a Self-Care channel.</li><li><strong>MaxFailedChargingAttemptCountExceeded:</strong> Inactivated by the System because max charging attempt count (# of free charging periods) reached.</li><li><strong>SubscriptionDurationEnded:</strong> Inactivated by the System because Subscription end date is reached.</li><li><strong>InsufficientCredit:</strong> Inactivated by the system because Subscriber didn\\'t have enough credit for renewal.</li><li><strong>RenewalNotConfirmed:</strong> Inactivated by the System because Subscriber didn\\'t confirm subscription renewal.</li><li><strong>SubscriberInBlackList:</strong> Subscriber is in black list.</li><li><strong>SubscriberNotActive:</strong> Subscriber is not in active state.</li><li><strong>SubscriberNotEligible:</strong> Subscriber is not eligible.</li></ul>",
+        "SubscriberNotificationType": "Type of the Subscriber notification. Refer to SSM product documentation for a specific subscriber notification type."
+      },
+      "Details": {
+        "PageHeader": "Subscription Details"
+      },
+      "History": {
+        "PageHeader": "Subscription History"
+      }
+    },
+    "ScreeningManagerActivityHistory": {
+      "TableColumns": {
+        "Time": "Date and Time",
+        "SubscriberId": "Service",
+        "RestResourceOperation": "Operation Type",
+        "RequestStatus": "Operation Result",
+        "ErrorCode": "Error Code",
+        "Channel": "Operation Channel",
+        "Allowed": "Subscription Allowed?"
+      },
+      "TableColumnsTooltips": {
+        "Time": "Date and time of the event.",
+        "SubscriberId": "Name of the subject Service.",
+        "RestResourceOperation": "Type of the Screening Operation. Possible values are:<ul class=\"table-column-description-list\"><li><strong>ADD_TO_WHITE_LIST:</strong> Add a new MSISDN to Whitelist.</li><li><strong>ADD_TO_BLACK_LIST:</strong> Add a new MSISDN to Blacklist.</li><li><strong>DELETE_FROM_WHITE_LIST:</strong>  Delete an existing MSISDN from Whitelist.</li><li><strong>DELETE_FROM_BLACK_LIST:</strong> Delete an existing MSISDN from Blacklist.</li><li><strong>GET_ALLOWANCE:</strong> Query the Screening status of an MSISDN within a Service Scope.</li></ul>",
+        "RequestStatus": "Screening Operation result as SUCCESS or FAIL.",
+        "ErrorCode": "Related error code in case event denotes a failure. Possible values are:<ul class=\"table-column-description-list\"><li><strong>3001:</strong> AUTHORIZATIONFAILED.</li><li><strong>3011:</strong> API NOT SUPPORTED.</li><li><strong>3021:</strong> STORAGE ERROR.</li><li><strong>3031:</strong> QUOTA ERROR.</li><li><strong>3041:</strong> WRONG REQUEST.</li><li><strong>3051:</strong> SERVICE NOT FOUND.</li><li><strong>3061:</strong> SCOPE NOT FOUND.</li></ul>",
+        "Channel": "Channel that is triggering the screening provisioning/configuration event",
+        "Allowed": "Result of the service subscription screening check,  Allowed (TRUE) vs. Screened (FALSE)."
+      }
+    },
+    "Services": {
+      "Title": "Services",
+      "Service": "Service [Service Name = {{serviceI18NTitle}}]",
+      "PopularServices": "Popular Services",
+      "ShowOffers": "Show Offers"
+    },
+    "Offers": {
+      "Title": "Offers",
+      "ChargingPeriod": "Charging period",
+      "MicroChargingPeriod": "Micro charging period",
+      "Trial": "Trial",
+      "StartDate": "Start",
+      "EndDate": "End",
+      "LastRenewalDate": "Last Renewal",
+      "NextRenewalDate": "Next Renewal",
+      "CurrentSubscriptions": {
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Suspended": "Suspended",
+        "Messages": {
+          "UnsubscribeConfirmationMessage": "Are you sure you want to unsubscribe the user from this offer subscription <strong>{{name}}</strong>?",
+          "UnsubscribedSuccessfully": "User has been unsubscribed from the <strong>{{name}}</strong> offer successfully.",
+          "SubscribeConfirmationMessage": "Are you sure you want to subscribe the user to this offer <strong>{{name}}</strong>?",
+          "SubscribedSuccessfully": "User successfully subscribed to the <strong>{{name}}</strong> offer.",
+          "ActivationConfirmationMessage": "Are you sure you want to activate <strong>{{name}}</strong> subscription again?",
+          "ChargingFailed": "Charging failed for the <strong>{{name}}</strong> offer!",
+          "InsufficientBalance": "Insufficien balance!",
+          "HlrFailed": "HLR Failed!",
+          "ThereIsNoSubscription": "There is no subsciption!",
+          "OfferDoesNotExist": "Offer does not exist <strong>{{name}}</strong>!",
+          "AlreadySubscribed": "Subscriber already subscribed to this offer.",
+          "AlreadySubscribedTrialOffer": "Subscriber already subscribed to the trial offer and not allowed to subscribe more than once.",
+          "NotEligible": "Subscriber is not eligible to subscribe to this offer."
+        }
+      }
+    },
+    "Subscriptions": {
+      "Title": "Subscriptions"
+    }
+  },
+  "ScreeningLists": {
+    "ScreeningLists": "Lists",
+    "ScreeningMode": "Controls",
+    "ScreeningRule": "Screening Rule",
+    "ScreeningRuleConfiguration": "Screening Rules",
+    "WhiteList": "White List",
+    "BlackList": "Black List",
+    "TableColumns": {
+      "PhoneNumber": "Phone Number",
+      "Description": "Description"
+    },
+    "AddForm": {
+      "Title": "Add New {{listkey | screeningListName}} Entry",
+      "ScreenableEntryId": {
+        "Label": "Phone Number",
+        "Placeholder": "e.g., 966561234567",
+        "Tooltip": "Local phone numbers can be added with only 8 digits, \"<em>OperatorCode + DirectoryNumber</em>\". International phone numbers must be added in international format only with \"<em>CountryCode + OperatorCode + DirectoryNumber</em>\", e.g. 966567654321. Prefixed phone numbers must be added in international format, e.g. 62*.",
+        "Messages": {
+          "Invalid": "Please enter a valid Phone number.",
+          "MaxLength": "Phone number should be maximum 15 digits long.",
+          "MinLength": "Phone number should be minimum 6 digits long.",
+          "PhoneNumberAvailable": "Phone number is already available in the list. Please check.",
+          "SubscribersNumber": "Current Subscriber's phone number is not allowed."
+        }
+      },
+      "ScreenableCorrelator": {
+        "Label": "Description",
+        "Messages": {
+          "MaxLength": "Description should be maximum 100 characters long."
+        }
+      }
+    },
+    "Messages": {
+      "DeleteConfirmationMessage": "Are you sure you want to delete this value <strong>{{phone_number}}</strong>?",
+      "DeletedSuccessfully": "Value has been deleted successfully <strong>{{phone_number}}</strong>.",
+      "AddedSuccessfully": "Value has been added successfully <strong>{{phone_number}}</strong>.",
+      "ScreeningModeUpdatedSuccessfully": "Screening rule has been updated successfully <strong>{{name}}</strong>.",
+      "ScreeningScopeCreatedSuccessfully": "Screening scope has been initially created successfully <strong>{{name}}</strong>.",
+      "QuotaExceeded": "New value <strong>{{msisdn}}</strong> should not be added. There should be maximum <strong>{{count}}</strong> item in the list.",
+      "SubscriberNumberInvalid": "Subscriber phone number <strong>{{msisdn}}</strong> is invalid.",
+      "ScreeningModeCouldNotBeUpdated": "Screening rule could not be updated. Please check the form fields."
+    },
+    "ModeTypes": {
+      "AcceptWhiteList": "Accept White List Only",
+      "AcceptAll": "Accept All",
+      "RejectBlackList": "Reject Black List Only",
+      "RejectAll": "Reject All"
+    },
+    "TimeConstraintTypes": {
+      "Absolute": "Absolute Time Constraint",
+      "Recurring": "Recurring Time Constraint"
+    },
+    "ScreeningModeForm": {
+      "IsActive": {
+        "Label": "Activated"
+      },
+      "HoursOfDay": {
+        "Label": "Hours of Day"
+      },
+      "TimeExcluded": {
+        "Label": "Exclude the Time Range"
+      },
+      "DaysOfWeek": {
+        "Label": "Days of Week"
+      },
+      "ModeType": {
+        "Label": "Rule Type"
+      },
+      "TimeConstraintType": {
+        "Label": "Time Constraint Type"
+      },
+      "Masks": {
+        "Label": "Masks",
+        "Messages": {
+          "Required": "Please select a mask."
+        }
+      }
+    }
+  },
+  "GenericFormFields": {
+    "StartDateAndTime": {
+      "Label": "Start Date & Time",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MaxDateExceeded": "Start Date & Time should be before the End Date & Time."
+      }
+    },
+    "StartDate": {
+      "Label": "Start Date",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MaxDateExceeded": "Start Date should be before the End Date."
+      }
+    },
+    "EndDateAndTime": {
+      "Label": "End Date & Time",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MinDateExceeded": "End Date & Time should be after the Start Date & Time."
+      }
+    },
+    "EndDate": {
+      "Label": "End Date",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MinDateExceeded": "End Date should be after the Start Date."
+      }
+    },
+    "StartTime": {
+      "Label": "Start Time",
+      "Messages": {
+        "MaxTimeExceeded": "Start Time should be before the End Time."
+      }
+    },
+    "EndTime": {
+      "Label": "End Time",
+      "Messages": {
+        "MinTimeExceeded": "End Time should be after the Start Time."
+      }
+    }
+  },
+  "PriorityLevels": {
+    "Normal": "Normal",
+    "Vip": "Vip"
+  },
+  "ActivityHistorySummarize": {
+    "Message": "{{submitted}} Submitted; {{delivered}} Delivered; {{undelivered}} Undelivered [{{buffered}} Buffered]"
+  },
+  "TableFooter": {
+    "Previous": "Previous",
+    "Next": "Next",
+    "Info": "Showing {{from}} to {{to}} of {{total}} entries"
+  },
+  "Idle": {
+    "WarningTitle": "You're Idle. Do Something!",
+    "WarningMessage": "You'll be logged out in {{countdown}} second(s)."
+  }
+}

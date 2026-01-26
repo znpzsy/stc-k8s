@@ -1,0 +1,92 @@
+<div class="col-md-3 col-sm-5">
+
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.organizations') }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Organizations' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.organizations.providers'), 'disabled': !AuthorizationService.canCmpfOperationsServiceProviderRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsServiceProviderRead() ? '' : $state.href('subsystems.provisioning.operations.organizations.providers.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.ServiceProviders.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.organizations.operators'), 'disabled': !AuthorizationService.canCmpfOperationsOperatorRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsOperatorRead() ? '' : $state.href('subsystems.provisioning.operations.organizations.operators.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Operators.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users') }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Users' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.departments'), 'disabled': !AuthorizationService.canCmpfOperationsDepartmentRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsDepartmentRead() ? '' : $state.href('subsystems.provisioning.operations.users.departments.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Departments.Title' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.teams'), 'disabled': !AuthorizationService.canCmpfOperationsTeamRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsTeamRead() ? '' : $state.href('subsystems.provisioning.operations.users.teams.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Teams.Title' | translate }}
+                    </a>
+                </li>
+
+                <li role="separator" class="divider"></li>
+
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.accounts'), 'disabled': !AuthorizationService.canCmpfOperationsUserAccountRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsUserAccountRead() ? '' : $state.href('subsystems.provisioning.operations.users.accounts.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.UserAccounts.Title' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.groups'), 'disabled': !AuthorizationService.canCmpfOperationsUserGroupRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsUserGroupRead() ? '' : $state.href('subsystems.provisioning.operations.users.groups.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.UserGroups.Title' | translate }}
+                    </a>
+                </li>
+
+                <li role="separator" class="divider"></li>
+
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.roles'), 'disabled': !AuthorizationService.canCmpfOperationsRoleRead() }">
+                    <a ng-href="{{!AuthorizationService.canCmpfOperationsRoleRead() ? '' : $state.href('subsystems.provisioning.operations.users.roles.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Roles.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.clients'), 'disabled': !AuthorizationService.canCmpfOperationsClientRead() }">
+            <a ng-href="{{!AuthorizationService.canCmpfOperationsClientRead() ? '' : $state.href('subsystems.provisioning.operations.clients.list')}}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Clients.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.services'), 'disabled': !AuthorizationService.canCmpfOperationsServiceRead() }">
+            <a ng-href="{{!AuthorizationService.canCmpfOperationsServiceRead() ? '' : $state.href('subsystems.provisioning.operations.services.list')}}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Services.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.shortcodes'), 'disabled': !AuthorizationService.canCmpfOperationsShortCodeRead() }">
+            <a ng-href="{{!AuthorizationService.canCmpfOperationsShortCodeRead() ? '' : $state.href('subsystems.provisioning.operations.shortcodes.list')}}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.ShortCodes.Title' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

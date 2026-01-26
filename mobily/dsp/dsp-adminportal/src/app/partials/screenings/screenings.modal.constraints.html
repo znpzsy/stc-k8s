@@ -1,0 +1,92 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'ScreeningLists.Screenings.ConstraintsTitle' | translate:{scopeId: (screeningScope.screeningScopeId | ScreeningScopeFilter)} }}</h4>
+</div>
+
+<div class="modal-body">
+
+  <form class="form-horizontal parsley-form" novalidate id="configurationForm" name="configurationForm" method="post" enctype="multipart/form-data">
+
+      <div class="form-group" ng-show="absoluteTimeConstraint">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.Active' | translate }}</label>
+          <div class="col-md-7">
+            <div class="btn-group">
+               <button type="button" class="btn {{absoluteTimeConstraint.activated ?'btn-primary active':'btn-default'}} btn-sm" ng-model="absoluteTimeConstraint.activated" ng-disabled="true" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+               <button type="button" class="btn {{!absoluteTimeConstraint.activated ?'btn-primary active':'btn-default'}} btn-sm" ng-model="absoluteTimeConstraint.activated" ng-disabled="true" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="absoluteTimeConstraint" >
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.TimeConstraint' | translate }}</label>
+          <div class="col-md-7">
+              <span class="form-control" ng-disabled="true">{{ 'ScreeningLists.Screenings.AbsoluteTimeConstraint' | translate }}</span>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="absoluteTimeConstraint">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.StartTime' | translate }}</label>
+          <div class="col-md-7">
+            <span class="form-control" ng-disabled="true">{{absoluteTimeConstraint.startDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="absoluteTimeConstraint">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.EndTime' | translate }}</label>
+          <div class="col-md-7">
+            <span class="form-control" ng-disabled="true">{{absoluteTimeConstraint.endDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="recurringTimeConstraint">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.Active' | translate }}</label>
+          <div class="col-md-7">
+            <div class="btn-group">
+               <button type="button" class="btn {{recurringTimeConstraint.activated ?'btn-primary active':'btn-default'}} btn-sm" ng-model="recurringTimeConstraint.activated" ng-disabled="true" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+               <button type="button" class="btn {{!recurringTimeConstraint.activated ?'btn-primary active':'btn-default'}} btn-sm" ng-model="recurringTimeConstraint.activated" ng-disabled="true" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="recurringTimeConstraint" >
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.TimeConstraint' | translate }}</label>
+          <div class="col-md-7">
+              <span class="form-control" ng-disabled="true">{{ 'ScreeningLists.Screenings.RecurringTimeConstraint' | translate }}</span>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="recurringTimeConstraint">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.StartTime' | translate }}</label>
+          <div class="col-md-7">
+            <span class="form-control" ng-disabled="true">{{recurringTimeConstraint.startTime | date:'HH:mm':DateTimeConstants.OFFSET}}</span>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="recurringTimeConstraint">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.EndTime' | translate }}</label>
+          <div class="col-md-7">
+            <span class="form-control" ng-disabled="true">{{recurringTimeConstraint.endTime | date:'HH:mm':DateTimeConstants.OFFSET}}</span>
+          </div>
+      </div>
+
+      <div class="form-group" ng-show="recurringTimeConstraint && recurringTimeConstraint.daysOfWeek">
+          <label class="col-md-3">{{ 'ScreeningLists.Screenings.DaysOfWeek' | translate }}</label>
+          <div class="col-md-7">
+            <div class="btn-group btn-group-sm">
+              <button type="button" ng-disabled="true" ng-repeat="item in days" class="btn {{item.active ?'btn-primary active':'btn-default'}}" >{{item.day.text | translate}}</button>
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group" ng-hide="(absoluteTimeConstraint || recurringTimeConstraint)" >
+          <label class="col-md-6">{{ 'ScreeningLists.Screenings.NoConstraint' | translate }}</label>
+      </div>
+      
+  </form>
+
+</div>
+
+<div class="modal-footer">
+
+    <button class="btn btn-default" ng-click="close()">{{ 'CommonLabels.Close' | translate }}</button>
+
+</div>

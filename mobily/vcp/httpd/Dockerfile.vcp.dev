@@ -1,0 +1,12 @@
+FROM httpd:alpine
+
+RUN mkdir -p /usr/local/apache2/conf.d
+COPY ./vcp/conf.d.dev /usr/local/apache2/conf.d
+COPY ./vcp/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Copy CA (Certification Authority) Public Key
+COPY ./vcp/openssl.dev/server.crt /usr/local/apache2/conf/server.crt
+COPY ./vcp/openssl.dev/server.key /usr/local/apache2/conf/server.key
+
+# docker build -t mobily-vcp/httpd -f Dockerfile.vcp.dev
+# docker run -p 9080:80 -p 9443:443 mobily-vcp/httpd

@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Registration.Confirmation.VerificationCodeModalTitle' | translate:{mobilePhone: mobilePhone} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <p>
+        {{ 'Registration.Confirmation.VerificationCodeTooltip' | translate }}
+    </p>
+
+    <form class="form-horizontal parsley-form" novalidate id="verificationCodeForm" name="verificationCodeForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="verificationCode" class="col-md-3">{{ 'Registration.Confirmation.VerificationCode' | translate }}</label>
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input id="verificationCode" name="verificationCode" type="text" class="form-control" dir="auto"
+                           ng-model="verification.code"
+                           maxlength="20" ng-maxlength="20"
+                           ng-required="true">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button"
+                                uib-popover="{{ resendVerificationCodeButtonEnable ? ('Registration.Confirmation.VerificationCodeResendTooltip' | translate) : ('Registration.Confirmation.RemainingTime' | translate:{value: resendVerificationCodeCounter}) }}" popover-placement="top-left" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-click="resendVerificationCodeButtonEnable ? resendVerificationCode(userAccount.mobilePhone) : null;">
+                            <i class="fa fa-refresh" ng-if="resendVerificationCodeButtonEnable && resendVerificationCodeCounter"></i>
+                            <span ng-if="resendVerificationCodeCounter">{{resendVerificationCodeCounter}}</span>
+                            <span ng-if="!resendVerificationCodeCounter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': verificationCodeForm.verificationCode.$dirty && verificationCodeForm.verificationCode.$invalid }"
+                    ng-show="verificationCodeForm.verificationCode.$dirty && verificationCodeForm.verificationCode.$invalid">
+                    <li class="required" ng-show="verificationCodeForm.verificationCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="verificationCodeForm.verificationCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(verification.code)" ng-disabled="verificationCodeForm.$invalid">{{'CommonLabels.OK' | translate}}</button>
+    <button class="btn btn-default" ng-click="cancel()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>

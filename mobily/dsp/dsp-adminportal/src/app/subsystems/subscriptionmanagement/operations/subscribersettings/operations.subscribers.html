@@ -1,0 +1,390 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="msisdn" class="col-md-3">{{ 'CommonLabels.Msisdn' | translate }}</label>
+            <div class="col-md-6">
+                <input id="msisdn" name="msisdn" type="text" class="form-control"
+                       ng-required="true" ng-maxlength="15"
+                       ng-pattern="$root.Validators.Msisdn"
+                       ng-model="msisdn"
+                       ng-disabled="!AuthorizationService.canSsmOperationsSubscriberRead()"
+                       placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate}}"/>
+                <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }" ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                    <li class="required" ng-show="form.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 15} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger" ng-disabled="!AuthorizationService.canSsmOperationsSubscriberRead() || form.$invalid"
+                        ng-click="search(msisdn)">
+                    {{ 'CommonLabels.Search' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <span ng-show="subscriber && AuthorizationService.canSsmOperationsSubscriberRead()">
+
+        <h5 class="portlet-title">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.SubscriberInformation' | translate }}
+        </h5>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Msisdn' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.msisdn}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Imsi' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.imsi}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Language' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.lang | LanguageAbbrFilter | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.PaymentType' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.paymentType | uppercase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.State' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.state.currentState}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Status' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.status | SubscriptionManagementProvisioningStatusFilter | translate | uppercase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.SubscriberAccountNumber' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.subscriberAccountNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.BillingAccountNumber' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.billingAccountNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CorporateAccountNumber' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.corporateAccountNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Type' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.type | SubscriptionManagementProvisioningTypeFilter | translate | uppercase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContractId' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contractId}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CustomerName' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.customerName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Gender' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.gender | SubscriptionManagementProvisioningGenderFilter | translate | uppercase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.BirthDate' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.birthDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ActivationDate' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.activationDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.FirstCallDate' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.firstCallDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Occupation' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.occupation}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Duration' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.duration}}</td>
+                    </tr>
+                    <tr ng-if="subscriber.type === 1">
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CorporatePackage' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.corporatePackage}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.MaxUploadRate' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.maxUploadRate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.MaxDownloadRate' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.maxDownloadRate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CustomerBSLId' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.customerBSLId}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CustomerCategory' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.customerCategory | SubscriptionManagementCustomerCategoryFilter | translate | uppercase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CanUseDCB' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.canUseDCB | YesNoFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CreditLimit' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.creditLimit}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CreditSegment' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.creditSegment | SubscriptionManagementCreditSegmentFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.VipCategory' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.vipCategory | SubscriptionManagementVipCategoryFilter | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.VipSubCategory' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.vipSubCategory | SubscriptionManagementVipSubCategoryFilter | translate}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.LegacyFakeID' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.legacyFakeID}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CorporateKA' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.corporateKA | YesNoFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Mix' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.mix | YesNoFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Mnpnumber' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.mnpnumber | YesNoFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.NewControl' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.newControl | YesNoFilter}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.IdentityInfo.Title' | translate }}
+        </h5>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.IdentityInfo.IdType' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.identityInfo.idType}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.IdentityInfo.IdNumber' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.identityInfo.idNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.IdentityInfo.NationalCode' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.identityInfo.nationalCode}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.Title' | translate }}
+        </h5>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.HomeAddress' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.homeAddress}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.HomePhone' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.homePhone}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.ProvinceId' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.provinceId}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.ZipCode' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.zipCode}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.OfficeAddress' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.officeAddress}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.OfficePhone' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.officePhone}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ContactInfo.Email' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.contactInfo.email}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.PackageInfo.Title' | translate }}
+        </h5>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.PackageInfo.PackageId' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.packageInfo.packageId}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.PackageInfo.Name' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.packageInfo.name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.PackageInfo.Category' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.packageInfo.category | SubscriptionManagementPackageCategoryFilter | translate | uppercase}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.PackageInfo.CreationTime' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.packageInfo.creationTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CpeInfo.Title' | translate }}
+        </h5>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CpeInfo.No' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.cpeInfo.no}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CpeInfo.SerialNo' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.cpeInfo.serialNo}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key col-md-4">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.CpeInfo.MacAddress' | translate }}</td>
+                        <td class="kv-value col-md-8">{{subscriber.cpeInfo.macAddress}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="portlet-title" ng-if="subscriber.dealInfoList.length > 0">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DealInfoList' | translate }}
+        </h5>
+
+        <div class="row" ng-if="subscriber.dealInfoList.length > 0">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr ng-repeat="dealInfo in subscriber.dealInfoList">
+                        <td class="kv-key col-md-4">{{dealInfo.id}}</td>
+                        <td class="kv-value col-md-8">{{dealInfo.name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="portlet-title" ng-if="subscriber.extensionAttributeList.length > 0">
+            {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ExtensionAttributeList' | translate }}
+        </h5>
+
+        <div class="row" ng-if="subscriber.extensionAttributeList.length > 0">
+            <div class="col-sm-12 col-md-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr ng-repeat="extensionAttribute in subscriber.extensionAttributeList">
+                        <td class="kv-key col-md-4">{{extensionAttribute.name}}</td>
+                        <td class="kv-value col-md-8">{{extensionAttribute.value}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div ng-if="offerSubscriptions.tableParams.total() > 0">
+            <h5 class="portlet-title">
+                {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.OfferSubscriptions' | translate }}
+            </h5>
+
+            <table ng-table="offerSubscriptions.tableParams" class="table table-striped table-bordered"
+                  template-pagination="ngTableCustomPager.html">
+                <tr ng-repeat="subscription in $data" class="hidden-link-cell-row">
+                    <td align="center" data-title="'Subsystems.Provisioning.OperationsTabs.Offers.Id' | translate" sortable="'offer.id'">{{subscription.offer.id }}</td>
+                    <td align="center" data-title="'Subsystems.Provisioning.OperationsTabs.Offers.Name' | translate" sortable="'offer.name'">{{subscription.offer.name }}</td>
+                    <td align="center" data-title="'Subsystems.Provisioning.OperationsTabs.Offers.SubscriptionState' | translate" sortable="'state'">{{subscription.state}}</td>
+                    <td align="center" data-title="'CommonLabels.Actions' | translate">
+                        <button ng-click="showServices (subscription.offer)" class="btn btn-xs btn-default"
+                                title="{{ 'CommonLabels.ShowServices' | translate }}">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr ng-if="$data.length === 0">
+                    <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div ng-if="serviceSubscriptions.tableParams.total() > 0" style="margin-top: 15px;">
+            <h5 class="portlet-title">
+                {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.ServiceSubscriptions' | translate }}
+            </h5>
+
+            <table ng-table="serviceSubscriptions.tableParams" class="table table-striped table-bordered"
+                   template-pagination="ngTableCustomPager.html">
+                <tr ng-repeat="subscription in $data" class="hidden-link-cell-row">
+                    <td align="center" data-title="'Subsystems.Provisioning.OperationsTabs.Services.Id' | translate" sortable="'service.id'">{{subscription.service.id }}</td>
+                    <td align="center" data-title="'Subsystems.Provisioning.OperationsTabs.Services.Name' | translate" sortable="'service.name'">{{subscription.service.name }}</td>
+                    <td align="center" data-title="'Subsystems.Provisioning.OperationsTabs.Services.SubscriptionState' | translate" sortable="'state'">{{subscription.state}}</td>
+                    <td align="center" data-title="'CommonLabels.Actions' | translate">
+                        <button ng-click="showOffers (subscription.service)" class="btn btn-xs btn-default"
+                                title="{{ 'CommonLabels.ShowOffers' | translate }}">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr ng-if="$data.length === 0">
+                    <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>

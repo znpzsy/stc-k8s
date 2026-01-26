@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ pageHeaderKey | translate:{name:itemName} }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-8 col-xs-6">
+        </div>
+
+        <div class="col-md-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control  input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['profileId', 'Name'])"
+                       uib-tooltip="{{ 'CommonLabels.SearchByIdentifierOrName' | translate }}" tooltip-placement="left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                       placeholder="{{ 'CommonLabels.SearchBy' | translate }} ...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html">
+                    <tr ng-repeat="project in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.BusinessManagement.Operations.Projects.Id' | translate" sortable="'profileId'">{{project.profileId}}</td>
+                        <td align="center" data-title="'Subsystems.BusinessManagement.Operations.Projects.Name' | translate" sortable="'Name'">{{project.Name}}</td>
+                        <td align="center" data-title="'CommonLabels.State' | translate" sortable="'Status'">{{project.Status}}</td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>

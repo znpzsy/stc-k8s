@@ -1,0 +1,71 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Services.WEBWAPSLAProfile.Title' | translate:{ name: service.name } }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.WEBWAPSLAProfile.IsMaxRecipientsSLAEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-model="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-model="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled">
+            <label for="MaxRecipients" class="col-md-3">{{ 'Subsystems.Provisioning.Services.WEBWAPSLAProfile.MaxRecipients' | translate }}</label>
+            <div class="col-md-4">
+                <input id="MaxRecipients" name="MaxRecipients" type="number" class="form-control"
+                       ng-model="service.webWAPSLAProfile.MaxRecipients"
+                       min="0" max="65535"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.MaxRecipients.$dirty && form.MaxRecipients.$invalid }"
+                    ng-show="form.MaxRecipients.$dirty && form.MaxRecipients.$invalid">
+                    <li class="required" ng-show="form.MaxRecipients.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.MaxRecipients.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 65535} }}</li>
+                    <li class="required" ng-show="form.MaxRecipients.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled">
+            <label for="MaxRecipientsSLAViolationPolicy" class="col-md-3">{{ 'Subsystems.Provisioning.Services.WEBWAPSLAProfile.MaxRecipientsSLAViolationPolicy' | translate }}</label>
+            <div class="col-md-4">
+                <select id="MaxRecipientsSLAViolationPolicy" name="MaxRecipientsSLAViolationPolicy" class="form-control"
+                        ng-model="service.webWAPSLAProfile.MaxRecipientsSLAViolationPolicy"
+                        ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                        ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) || isNotChanged()"
+                        ng-click="save(service);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default"
+                        ui-sref="{{ $state.current.data.backState }}">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

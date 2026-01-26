@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consportals-sa-mobily-dsp-httpd-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: dsp-httpd
+  template:
+    metadata:
+      labels:
+        component: dsp-httpd
+    spec:
+      containers:
+        - name: dsp-httpd
+          image: mersin.telenity.com/com/telenity/consportals-sa-mobily-dsp-httpd:1.0.0.1
+          ports:
+            - containerPort: 80
+            - containerPort: 443

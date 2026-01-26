@@ -1,0 +1,256 @@
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <span ng-include="'subsystems/reporting/reports/reporting.formfields.common.html'"></span>
+
+    <hr>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.JobStartDateTime' | translate }}</label>
+        <div class="col-md-3">
+            <p class="input-group datepicker-field">
+                <input name="startDate" type="text" class="form-control input-sm" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                       uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                       is-open="startDatePicker.opened"
+                       datepicker-options="startDateOptions" ng-required="true"
+                       ng-change="updateStartDate(dateHolder.startDate)"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"><i class="fa fa-calendar"></i></button>
+                </span>
+            <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                <li class="required" ng-show="form.startDate.$error.minDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.TodayDateExceeded' | translate }}</li>
+                <li class="required" ng-show="form.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+            </ul>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <span class="time-picker with-date-picker">
+                <div uib-timepicker ng-model="dateHolder.startTime" hour-step="hstep" minute-step="mstep"
+                     show-meridian="false" readonly-input="true" mousewheel="false" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                     ng-change="updateStartDateTime(dateHolder.startTime)"></div>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.JobEndDate' | translate }}</label>
+        <div class="col-md-5">
+            <span class="input-group">
+                <button type="button" class="btn btn-default input-sm pull-left field-enabler-checkbox" ng-model="schedule.isEndDate" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()" uib-btn-checkbox>
+                    <i class="fa fa-check-square-o"aria-hidden="true" ng-if="schedule.isEndDate"></i>
+                    <i class="fa fa-square-o" aria-hidden="true" ng-if="!schedule.isEndDate"></i>
+                </button>
+                <p class="input-group datepicker-field">
+                    <input name="endDate" type="text" class="form-control input-sm" ng-disabled="!schedule.isEndDate || !AuthorizationService.canAllReportsScheduledCreate()" style="border-radius: 0;"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="endDateOptions" ng-required="schedule.isEndDate"
+                           ng-change="updateEndDate(dateHolder.endDate)"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)" ng-disabled="!schedule.isEndDate || !AuthorizationService.canAllReportsScheduledCreate()"><i class="fa fa-calendar"></i></button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid" style="margin-left: 36px;">
+                        <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.endDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        <li class="required" ng-show="form.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDate.Messages.MinDateExceeded' | translate }}</li>
+                    </ul>
+                </p>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.ScheduleName' | translate }}</label>
+        <div class="col-md-7">
+            <input name="scheduleName" type="text" class="form-control" ng-model="schedule.scheduleName" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                   ng-required="true" ng-maxlength="512" maxlength="512"/>
+            <ul ng-class="{ 'parsley-error-list': form.scheduleName.$dirty && form.scheduleName.$invalid }" ng-show="form.scheduleName.$dirty && form.scheduleName.$invalid">
+                <li class="required" ng-show="form.scheduleName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.scheduleName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="interval.name !== 'MONTHLY_SPECIAL'">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.Recurrence' | translate }}</label>
+        <div class="col-md-3">
+            <select name="scheduleRecurrence" class="form-control parsley-validated" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                    ng-model="schedule.recurrence" ng-options="recurrence for recurrence in REPORTING_SCHEDULE_RECURRENCE">
+            </select>
+        </div>
+    </div>
+    <div class="form-group" ng-if="interval.name === 'MONTHLY_SPECIAL'">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.Recurrence' | translate }}</label>
+        <div class="col-md-3">
+            <select name="scheduleRecurrence" class="form-control parsley-validated"
+                    ng-model="schedule.recurrence"
+                    ng-init="schedule.recurrence = REPORTING_SCHEDULE_RECURRENCE[2]"
+                    ng-disabled="true">
+                <option value="{{ REPORTING_SCHEDULE_RECURRENCE[2] }}">{{ REPORTING_SCHEDULE_RECURRENCE[2] }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.RecurrencePattern' | translate }}</label>
+
+        <!-- Daily recurrence form -->
+        <div class="col-md-9" ng-if="schedule.recurrence === 'DAILY'">
+            <div class="btn-group" role="group" ng-init="schedule.recurrencePattern = 'xday'" style="margin-bottom: 5px;">
+                <div class="input-group" style="width: 250px;">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-model="schedule.recurrencePattern" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()" uib-btn-radio="'xday'" style="width: 36px;">
+                            <i class="fa fa-dot-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'xday'"></i>
+                            <i class="fa fa-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'weekday'"></i>
+                        </button>
+                    </span>
+                    <span class="input-group-addon">{{ 'Subsystems.Reporting.ScheduledReports.Every' | translate }}</span>
+                    <input name="dailyRepeatIntervalDay" type="number" class="form-control" ng-model="schedule.dailyRepeatIntervalDay"
+                           min="1" max="365" ng-required="schedule.recurrencePattern === 'xday'" ng-disabled="schedule.recurrencePattern === 'weekday' || !AuthorizationService.canAllReportsScheduledCreate()"/>
+                    <span class="input-group-addon">{{ 'Subsystems.Reporting.ScheduledReports.Days' | translate }}</span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.dailyRepeatIntervalDay.$dirty && form.dailyRepeatIntervalDay.$invalid }" ng-show="form.dailyRepeatIntervalDay.$dirty && form.dailyRepeatIntervalDay.$invalid" style="margin-left: 100px;z-index: 999;">
+                    <li class="required" ng-show="form.dailyRepeatIntervalDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.dailyRepeatIntervalDay.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.dailyRepeatIntervalDay.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 365} }}</li>
+                    <li class="required" ng-show="form.dailyRepeatIntervalDay.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-model="schedule.recurrencePattern" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()" uib-btn-radio="'weekday'" style="width: 36px;">
+                            <i class="fa fa-dot-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'weekday'"></i>
+                            <i class="fa fa-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'xday'"></i>
+                        </button>
+                    </span>
+                    <span class="input-group-addon">{{ 'Subsystems.Reporting.ScheduledReports.EveryWeekday' | translate }}</span>
+                    <input type="text" class="form-control" style="visibility: hidden; width: 1px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly recurrence form -->
+        <div class="col-md-9" ng-if="schedule.recurrence === 'WEEKLY'">
+            <div class="btn-group">
+                <label class="btn btn-sm {{($parent.schedule.dayOfWeekRecurrences === opt.id)?'btn-secondary active':'btn-default'}}" ng-model="$parent.schedule.dayOfWeekRecurrences" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                       ng-repeat="opt in DAYS_OF_WEEK" uib-btn-radio="opt.id" uib-uncheckable="uncheckable">{{ opt.text | translate }}</label>
+            </div>
+        </div>
+
+        <!-- Monthly recurrence form -->
+        <div class="col-md-7" ng-if="schedule.recurrence === 'MONTHLY'">
+            <div class="btn-group" role="group" ng-init="schedule.recurrencePattern = 'day'" style="margin-bottom: 5px;">
+                <div class="input-group" style="width: 312px;">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-model="schedule.recurrencePattern" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()" uib-btn-radio="'day'" style="width: 36px;">
+                            <i class="fa fa-dot-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'day'"></i>
+                            <i class="fa fa-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'qualifier'"></i>
+                        </button>
+                    </span>
+                    <span class="input-group-addon">{{ 'Subsystems.Reporting.ScheduledReports.Day' | translate }}</span>
+                    <input name="dayOfMonthRecurrences" type="number" class="form-control" ng-model="schedule.dayOfMonthRecurrences"
+                           min="1" max="31" ng-required="schedule.recurrencePattern === 'day'" ng-disabled="schedule.recurrencePattern === 'qualifier' || !AuthorizationService.canAllReportsScheduledCreate()"/>
+                    <span class="input-group-addon">{{ 'Subsystems.Reporting.ScheduledReports.OfEveryMonth' | translate }}</span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.dayOfMonthRecurrences.$dirty && form.dayOfMonthRecurrences.$invalid }" ng-show="form.dayOfMonthRecurrences.$dirty && form.dayOfMonthRecurrences.$invalid" style="margin-left: 100px;z-index: 999;">
+                    <li class="required" ng-show="form.dayOfMonthRecurrences.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.dayOfMonthRecurrences.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.dayOfMonthRecurrences.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 31} }}</li>
+                    <li class="required" ng-show="form.dayOfMonthRecurrences.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-model="schedule.recurrencePattern" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()" uib-btn-radio="'qualifier'" style="width: 36px;">
+                            <i class="fa fa-dot-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'qualifier'"></i>
+                            <i class="fa fa-circle-o" aria-hidden="true" ng-if="schedule.recurrencePattern === 'day'"></i>
+                        </button>
+                    </span>
+                    <div class="input-group-btn" uib-dropdown style="width: 0.0000001%">
+                        <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="schedule.recurrencePattern === 'day' || !AuthorizationService.canAllReportsScheduledCreate()" style="border-radius: 0;">
+                            {{ schedule.qualifier.label }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li ng-repeat="opt in REPORTING_QUALIFIERS"><a href="javascript:;" ng-click="selectQualifier(opt)">{{ opt.label }}</a></li>
+                        </ul>
+                    </div>
+                    <div class="input-group-btn" uib-dropdown style="width: 0.0000001%" ng-disabled="schedule.recurrencePattern === 'day' || !AuthorizationService.canAllReportsScheduledCreate()">
+                        <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="schedule.recurrencePattern === 'day' || !AuthorizationService.canAllReportsScheduledCreate()" style="border-radius: 0;">
+                            {{ schedule.dayOfWeek.text | translate }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li ng-repeat="opt in DAYS_OF_WEEK"><a href="javascript:;" ng-click="selectDayOfWeek(opt)">{{ opt.text | translate }}</a></li>
+                        </ul>
+                    </div>
+                    <span class="input-group-addon" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;">{{ 'Subsystems.Reporting.ScheduledReports.OfEveryMonth' | translate }}</span>
+                    <input type="text" class="form-control" style="visibility: hidden; width: 1px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.Format' | translate }}</label>
+        <div class="col-md-3">
+            <select name="formatPentahoSchedule" class="form-control parsley-validated"
+                    ng-model="schedule.formatPentahoSchedule" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                    ng-options="opt as opt.name for opt in (reportCategory.reportScheduleFormats || FORMATS_PENTAHO_SCHEDULE)">
+            </select>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.MailTo' | translate }}</label>
+        <div class="col-md-9">
+            <input name="mailTo" type="text" class="form-control" ng-model="schedule.mailTo" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                   ng-required="true" maxlength="1024" ng-maxlength="1024"/>
+            <ul ng-class="{ 'parsley-error-list': form.mailTo.$dirty && form.mailTo.$invalid }" ng-show="form.mailTo.$dirty && form.mailTo.$invalid">
+                <li class="required" ng-show="form.mailTo.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.mailTo.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 1024 } }}</li>
+            </ul>
+            <span class="help-block" style="margin-bottom: -5px;">{{ 'Subsystems.Reporting.ScheduledReports.MailToHelpText' | translate }}</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.MailSubject' | translate }}</label>
+        <div class="col-md-9" ng-init="schedule.mailSubject = schedule.scheduleName + ' ' + ('Subsystems.Reporting.ScheduledReports.MailSubjectDefaultPostfix' | translate)">
+            <input name="mailSubject" type="text" class="form-control" ng-model="schedule.mailSubject"
+                   ng-required="true" maxlength="1024" ng-maxlength="1024"
+                   ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"/>
+            <ul ng-class="{ 'parsley-error-list': form.mailSubject.$dirty && form.mailSubject.$invalid }" ng-show="form.mailSubject.$dirty && form.mailSubject.$invalid">
+                <li class="required" ng-show="form.mailSubject.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.mailSubject.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 1024 } }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.ScheduledReports.MailText' | translate }}</label>
+        <div class="col-md-9">
+            <textarea name="mailText" type="text" class="form-control" dir="auto"
+                      ng-model="schedule.mailText" ng-disabled="!AuthorizationService.canAllReportsScheduledCreate()"
+                      rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+            </textarea>
+            <ul ng-class="{ 'parsley-error-list': form.mailText.$dirty && form.mailText.$invalid }" ng-show="form.mailText.$dirty && form.mailText.$invalid">
+                <li class="required" ng-show="form.mailText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || !AuthorizationService.canAllReportsScheduledCreate()"
+                    ng-click="save(reportCategory, interval, schedule, dateHolder, permanentParams, additionalParams);">
+                {{ 'Subsystems.Reporting.Schedule' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

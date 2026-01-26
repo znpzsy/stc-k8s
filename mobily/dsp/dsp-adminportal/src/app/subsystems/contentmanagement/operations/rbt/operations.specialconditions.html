@@ -1,0 +1,73 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="subsystems.contentmanagement.operations.rbt.specialconditions.new"
+                        ng-disabled="!AuthorizationService.canRBTOperationsSpecialConditionCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="specialConditionList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download($state.current.data.exportFileName, specialConditionList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download($state.current.data.exportFileName, specialConditionList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['id', 'name', 'defaultDurationInMiliseconds'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="specialConditionList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': data.rowSelected }">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Id' | translate" sortable="'id'">{{data.id}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Name' | translate" sortable="'name'">{{data.name}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.DefaultDuration' | translate" sortable="'defaultDurationInMiliseconds'">{{data.defaultDurationInMiliseconds}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.contentmanagement.operations.rbt.specialconditions.update({ id : data.id })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canRBTOperationsSpecialConditionUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canRBTOperationsSpecialConditionUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canRBTOperationsSpecialConditionUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-if="AuthorizationService.canRBTOperationsSpecialConditionDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

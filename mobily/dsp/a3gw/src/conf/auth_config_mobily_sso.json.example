@@ -1,0 +1,31 @@
+{
+  // DELETE THIS COMMENT - We have to define host (or ip address) and port for the authentication service.
+  "httpHost": "127.0.0.1",
+  "httpPort": "8447"
+  // DELETE THIS COMMENT - Authentication and Authorization service attributes.
+  "accountsPath": "/cmpf-rest/useraccounts", // DELETE THIS COMMENT - Optional attribute
+  "accountsUrl": "http://10.35.36.25:9610/axis2/cmpf/useraccounts", // DELETE THIS COMMENT - Optional attribute
+  // DELETE THIS COMMENT - CMPF user and password.
+  "cmpfUsername": "admin",
+  "cmpfPassword": "admin",
+  "cmpfToken": {
+    "hash": "4c2bd66a",
+    "oid": 1,
+    "token": "95293998",
+    "uid": 1
+  },
+  "authenticationServer": {
+    // DELETE THIS COMMENT - Authentication rest service path and the database server which kept the user informations.
+    "path": "/cmpf-rest/authenticate",
+    "host": "<mongodb-address>",
+    "port": <mongodb-port>,
+    "user": "<mongodb-username>",
+    "password": "<mongodb-password>",
+    "db": "<mongodb-db-name>",
+    "collection": "<mongodb-collection-name>"
+  },
+  "allowOnlyOneSession": false, // DELETE THIS COMMENT - Mandatory attribute
+  "memcachedServers": [ // DELETE THIS COMMENT - Optional attribute
+    "<ip_address>"
+  ]
+}

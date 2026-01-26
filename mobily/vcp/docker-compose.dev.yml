@@ -1,0 +1,137 @@
+services:
+  httpd:
+    restart: always
+    build:
+      dockerfile: Dockerfile.vcp.dev
+      context: ./httpd
+    image:  mobily-vcp/httpd
+    ports:
+      - '80:80'
+      - '443:443'
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/site.json" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - vcp-network
+
+  # If you change a config file (i.e. service_proxies_config.json etc.
+  # You'll need to run
+  # docker exec -it a3gw-1 pm2 restart all
+  a3gw:
+    build:
+      dockerfile: Dockerfile.vcp.dev
+      context: ./a3gw
+    environment:
+      - NODE_ENV=development
+    image: mobily-vcp/a3gw
+    ports:
+      - '8444:8444'
+      - '8445:8445'
+    volumes:
+      - ./a3gw/src:/app/src
+      - ./a3gw/vcp/conf.dev:/app/src/conf
+      - ./a3gw/vcp/static.dev:/app/static
+      - ./a3gw/vcp/ecosystem.config.js:/app/ecosystem.config.js
+      - /app/node_modules
+    networks:
+      - vcp-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8444/adminportal" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  vcpadminportal:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./vcp-adminportal
+    environment:
+      - NODE_ENV=development
+    image: mobily-vcp/vcp-adminportal
+    ports:
+      - '8080:8080'
+    depends_on:
+      - httpd
+      - a3gw
+    command: gulp server
+    volumes:
+      - ./vcp-adminportal/src:/space/app/src
+      - ./vcp-adminportal/i18n:/space/app/i18n
+      - ./vcp-adminportal/gulpfile.js:/space/app/gulpfile.js
+      - ./vcp-adminportal/package.json:/space/app/package.json
+      - ./vcp-adminportal/bower.json:/space/app/bower.json
+      - ./vcp-adminportal/npm-shrinkwrap.original.json:/space/app/npm-shrinkwrap.original.json
+      - ./vcp-adminportal/npm-shrinkwrap.original.json:/space/app/npm-shrinkwrap.json
+      - /space/app/node_modules    # Prevent host node_modules overwrite
+      - /space/app/bower_components
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8080/adminportal" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - vcp-network
+
+  vcpccportal:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./vcp-ccportal
+    environment:
+      - NODE_ENV=development
+    image: mobily-vcp/vcp-ccportal
+    ports:
+      - '8081:8081'
+    depends_on:
+      - httpd
+      - a3gw
+    command: gulp server
+    volumes:
+      - ./vcp-ccportal/src:/space/app/src
+      - ./vcp-ccportal/i18n:/space/app/i18n
+      - ./vcp-ccportal/gulpfile.js:/space/app/gulpfile.js
+      - ./vcp-ccportal/package.json:/space/app/package.json
+      - ./vcp-ccportal/bower.json:/space/app/bower.json
+      - ./vcp-ccportal/npm-shrinkwrap.original.json:/space/app/npm-shrinkwrap.original.json
+      - ./vcp-ccportal/npm-shrinkwrap.original.json:/space/app/npm-shrinkwrap.json
+      - /space/app/node_modules
+      - /space/app/bower_components
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:8081/ccportal" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - vcp-network
+
+networks:
+  vcp-network:
+    driver: bridge
+
+
+# Note: This file is used for development purposes only.
+# HOW TO USE THIS FILE:
+# docker-compose -f docker-compose.dev.yml up --build
+# To run in detached mode:
+# docker-compose -f docker-compose.dev.yml up --build -d
+# To stop the containers:
+# docker-compose -f docker-compose.dev.yml down
+#
+# ---------------------------------------------------
+#
+# To remove all stopped containers, networks, images, and volumes:
+# docker-compose -f docker-compose.dev.yml down --rmi all --volumes --remove-orphans
+# To force recreation of containers (complete clean start):
+# docker compose -f docker-compose.dev.yml  up --build --force-recreate
+#
+# ---------------------------------------------------
+#
+# To rebuild the images without using cache:
+# docker-compose -f docker-compose.dev.yml build --no-cache
+# To view logs:
+# docker-compose -f docker-compose.dev.yml logs -f
+# To run a specific service:
+# docker-compose -f docker-compose.dev.yml up --build <service_name>

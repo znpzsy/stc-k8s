@@ -1,0 +1,259 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title" active-loading-indicator>
+                {{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.Title' | translate:{ name: service.name } }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <fieldset id="formFieldset">
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowDebit' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowDebit?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowDebit" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowDebit?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowDebit" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowReservation' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowReservation?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowReservation" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowReservation?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowReservation" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowExtendShrink' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowExtendShrink?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowExtendShrink" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowExtendShrink?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowExtendShrink" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="maxAllowedChargeAmount" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.MaxAllowedChargeAmount' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="maxAllowedChargeAmount" name="maxAllowedChargeAmount" type="number" class="form-control"
+                               ng-model="service.dcbServiceSLAProfile.maxAllowedChargeAmount"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowRefund' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowRefund?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowRefund" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowRefund?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowRefund" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="service.dcbServiceSLAProfile.allowRefund">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowSilentRefund' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceSLAProfile.allowSilentRefund?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="true"
+                                        ng-model="service.dcbServiceSLAProfile.allowSilentRefund" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceSLAProfile.allowSilentRefund?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="true"
+                                        ng-model="service.dcbServiceSLAProfile.allowSilentRefund" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxAllowedRefundPeriodDuration" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.MaxAllowedRefundPeriod' | translate }}</label>
+                        <div class="col-md-3">
+                            <input id="maxAllowedRefundPeriodDuration" name="maxAllowedRefundPeriodDuration" type="number" class="form-control"
+                                   ng-model="service.dcbServiceSLAProfile.maxAllowedRefundPeriod.duration"
+                                   ng-disabled="true"/>
+                        </div>
+                        <div class="col-md-4">
+                            <select id="maxAllowedRefundPeriodUnit" name="maxAllowedRefundPeriodUnit" class="form-control col-md-6"
+                                    ng-model="service.dcbServiceSLAProfile.maxAllowedRefundPeriod.unit"
+                                    ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                    ng-disabled="true">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxAllowedRefundAmount" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.MaxAllowedRefundAmount' | translate }}</label>
+                        <div class="col-md-4">
+                            <input id="maxAllowedRefundAmount" name="maxAllowedRefundAmount" type="number" class="form-control"
+                                   ng-model="service.dcbServiceSLAProfile.maxAllowedRefundAmount"
+                                   ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowPartialRefund' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceSLAProfile.allowPartialRefund?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="true"
+                                        ng-model="service.dcbServiceSLAProfile.allowPartialRefund" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceSLAProfile.allowPartialRefund?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="true"
+                                        ng-model="service.dcbServiceSLAProfile.allowPartialRefund" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="service.dcbServiceSLAProfile.allowPartialRefund">
+                        <div class="form-group">
+                            <label for="maxAllowedPartialRefundPeriodDuration" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.MaxAllowedPartialRefundPeriod' | translate }}</label>
+                            <div class="col-md-3">
+                                <input id="maxAllowedPartialRefundPeriodDuration" name="maxAllowedPartialRefundPeriodDuration" type="number" class="form-control"
+                                       ng-model="service.dcbServiceSLAProfile.maxAllowedPartialRefundPeriod.duration"
+                                       ng-disabled="true"/>
+                            </div>
+                            <div class="col-md-4">
+                                <select id="maxAllowedPartialRefundPeriodUnit" name="maxAllowedPartialRefundPeriodUnit" class="form-control col-md-6"
+                                        ng-model="service.dcbServiceSLAProfile.maxAllowedPartialRefundPeriod.unit"
+                                        ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                        ng-disabled="true">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowReverseCharge' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowReverseCharge?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowReverseCharge" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowReverseCharge?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowReverseCharge" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.dcbServiceSLAProfile.allowReverseCharge">
+                    <label for="maxAllowedReverseChargePeriodDuration" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.MaxAllowedReverseChargePeriod' | translate }}</label>
+                    <div class="col-md-3">
+                        <input id="maxAllowedReverseChargePeriodDuration" name="maxAllowedReverseChargePeriodDuration" type="number" class="form-control"
+                               ng-model="service.dcbServiceSLAProfile.maxAllowedReverseChargePeriod.duration"
+                               ng-disabled="true"/>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="maxAllowedReverseChargePeriodUnit" name="maxAllowedReverseChargePeriodUnit" class="form-control col-md-6"
+                                ng-model="service.dcbServiceSLAProfile.maxAllowedReverseChargePeriod.unit"
+                                ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                ng-disabled="true">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowPaymentStatusQuery' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowPaymentStatusQuery?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowPaymentStatusQuery" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowPaymentStatusQuery?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowPaymentStatusQuery" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowRefundStatusQuery' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowRefundStatusQuery?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowRefundStatusQuery" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowRefundStatusQuery?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowRefundStatusQuery" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowCustomerEligibilityCheck' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowCustomerEligibilityCheck?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowCustomerEligibilityCheck" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowCustomerEligibilityCheck?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowCustomerEligibilityCheck" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceSLAProfile.AllowCustomerProfileLookup' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.dcbServiceSLAProfile.allowCustomerProfileLookup?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowCustomerProfileLookup" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.dcbServiceSLAProfile.allowCustomerProfileLookup?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.dcbServiceSLAProfile.allowCustomerProfileLookup" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+        <div class="portlet-footer back-button-layer">
+
+            <div class="row back-button-layer" ng-if="$state.current.data.backState">
+                <div class="col-sm-8">
+                    <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+                        {{ 'CommonLabels.Back' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Operations.Campaigns.TimeConstraintTitle' | translate:{campaignName: campaign.campaignName} }}
+    </h4>
+</div>
+
+<div class="modal-body" style="padding-top: 30px;">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.StartDayTime.Label' | translate }}</label>
+            <div class="col-md-5">
+                <select id="timeConstraintStartDay" name="timeConstraintStartDay" class="form-control input-sm"
+                        ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-model="timeConstraint.startDay"
+                        ng-options="day.id as (day.text | translate) for day in DAYS_OF_WEEK">
+                </select>
+            </div>
+            <div class="col-md-4">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="timeConstraint.startTime" hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                </span>
+            </div>
+            <div class="col-md-8 col-md-push-3">
+                <ul ng-class="{ 'parsley-error-list': form.timeConstraintStartDay.$dirty && form.timeConstraintStartDay.$invalid }"
+                    ng-show="form.timeConstraintStartDay.$dirty && form.timeConstraintStartDay.$invalid"
+                    style="margin-top: -12px;margin-bottom: 8px;">
+                    <li class="required" ng-show="form.timeConstraintStartDay.$error.maxDateExceeded">{{ 'GenericFormFields.StartDayTime.Messages.MaxTimeExceeded' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.EndDayTime.Label' | translate }}</label>
+            <div class="col-md-5">
+                <select id="timeConstraintEndDay" name="timeConstraintEndDay" class="form-control input-sm"
+                        ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-model="timeConstraint.endDay"
+                        ng-options="day.id as (day.text | translate) for day in DAYS_OF_WEEK">
+                </select>
+            </div>
+            <div class="col-md-4">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="timeConstraint.endTime" hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                </span>
+            </div>
+            <div class="col-md-8 col-md-push-3">
+                <ul ng-class="{ 'parsley-error-list': form.timeConstraintEndDay.$dirty && form.timeConstraintEndDay.$invalid }"
+                    ng-show="form.timeConstraintEndDay.$dirty && form.timeConstraintEndDay.$invalid"
+                    style="margin-top: -12px;margin-bottom: 8px;">
+                    <li class="required" ng-show="form.timeConstraintEndDay.$error.minDateExceeded">{{ 'GenericFormFields.EndDayTime.Messages.MinTimeExceeded' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate() || isNotChanged()"
+                        ng-click="save(timeConstraint, dateHolder);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

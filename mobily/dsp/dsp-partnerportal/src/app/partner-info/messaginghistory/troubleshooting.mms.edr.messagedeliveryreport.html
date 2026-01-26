@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.MessagingHistory.Troubleshooting.MessageDeliveryReport.PageHeader' | translate:{ pageKey: 'MMS', origAddress: edrRecord.origAddress, destAddress: edrRecord.destAddress } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 135px;">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.MessageDeliveryReport.Date' | translate }}</td>
+                        <td class="kv-value">{{ deliveryReport.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.MessageDeliveryReport.ExpiryTime' | translate }}</td>
+                        <td class="kv-value">{{ deliveryReport.expiryTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.MessageDeliveryReport.MmStatusCode' | translate }}</td>
+                        <td class="kv-value">{{ deliveryReport.mmStatusCode }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

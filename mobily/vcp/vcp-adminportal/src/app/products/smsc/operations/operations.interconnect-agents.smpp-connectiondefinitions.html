@@ -1,0 +1,96 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.InterconnectAgents.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.PageHeader' | translate:{agent_name: agentName} }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="products.smsc.operations.interconnect-agents.smpp-connectiondefinitions-new({ agentName: agentName})"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['name', 'direction'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="interconnectSmppAgentConnectionDefinitionList.tableParams" class="table table-striped table-bordered" template-pagination="ngTableCustomPager.html">
+                    <thead>
+                    <tr>
+                        <th class="sortable" ng-class="{'sort-asc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('name', 'asc'), 'sort-desc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('name', 'desc') }"
+                            ng-click="interconnectSmppAgentConnectionDefinitionList.tableParams.sorting({'name': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.TableColumns.Name' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('direction', 'asc'), 'sort-desc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('direction', 'desc') }"
+                            ng-click="interconnectSmppAgentConnectionDefinitionList.tableParams.sorting({'direction': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('direction', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.TableColumns.Direction' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('active', 'asc'), 'sort-desc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('active', 'desc') }"
+                            ng-click="interconnectSmppAgentConnectionDefinitionList.tableParams.sorting({'active': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('active', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.TableColumns.State' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('sessionState', 'asc'), 'sort-desc': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('sessionState', 'desc') }"
+                            ng-click="interconnectSmppAgentConnectionDefinitionList.tableParams.sorting({'sessionState': interconnectSmppAgentConnectionDefinitionList.tableParams.isSortBy('sessionState', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.TableColumns.SessionState' | translate }}</div>
+                        </th>
+                        <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="interconnectSmppAgentConnectionDefinition in $data" class="hidden-link-cell-row">
+                        <td align="center">{{interconnectSmppAgentConnectionDefinition.name}}</td>
+                        <td align="center">{{interconnectSmppAgentConnectionDefinition.direction}}</td>
+                        <td align="center">{{interconnectSmppAgentConnectionDefinition.active | StatusTypeFilter}}</td>
+                        <td align="center">{{interconnectSmppAgentConnectionDefinition.sessionState}}</td>
+                        <td align="center">
+                            <button ui-sref="products.smsc.operations.interconnect-agents.smpp-connectiondefinitions-update({ agentName: agentName, connectionDefinitionName: interconnectSmppAgentConnectionDefinition.name })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ng-click="removeInterconnectSmppAgentConnectionDefinition(interconnectSmppAgentConnectionDefinition)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dt-rt">
+        <div class="col-sm-8">
+            <button type="reset" class="btn btn-primary" ui-sref="products.smsc.operations.interconnect-agents.smpp">
+                {{ 'CommonLabels.Back' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

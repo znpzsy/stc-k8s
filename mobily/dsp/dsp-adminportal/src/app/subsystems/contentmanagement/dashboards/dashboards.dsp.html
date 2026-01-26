@@ -1,0 +1,107 @@
+<div class="col-md-12">
+    <div class="portlet portlet-default">
+
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ContentManagement.Dashboards.DSP.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tiles.totalCategories | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ContentManagement.Dashboards.DSP.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tiles.totalTypes | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ContentManagement.Dashboards.DSP.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tiles.totalUploads | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ContentManagement.Dashboards.DSP.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tiles.totalContentFiles | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ContentManagement.Dashboards.DSP.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tiles.totalUpdates | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ContentManagement.Dashboards.DSP.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tiles.totalDownloads | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.ContentManagement.Dashboards.DSP.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="groupByCategoryData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.ContentManagement.Dashboards.DSP.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="groupByTypeData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.ContentManagement.Dashboards.DSP.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="groupByStatusData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

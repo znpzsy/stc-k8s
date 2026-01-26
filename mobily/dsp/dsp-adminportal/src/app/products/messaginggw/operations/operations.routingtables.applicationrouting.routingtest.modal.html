@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.MessagingGw.Operations.RoutingTables.RoutingTest.Title' | translate }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="address" class="col-md-3">{{ 'Products.MessagingGw.Operations.RoutingTables.RoutingTest.Address' | translate }}</label>
+            <div class="col-md-7">
+                <input id="address" name="address" type="text" class="form-control"
+                       ng-model="routingTest.address"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.address.$dirty && form.address.$invalid }"
+                    ng-show="form.address.$dirty && form.address.$invalid">
+                    <li class="required" ng-show="form.address.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.address.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="col-md-3">{{ 'Products.MessagingGw.Operations.RoutingTables.RoutingTest.Text' | translate}}</label>
+            <div class="col-md-7">
+                <input id="text" name="text" type="text" class="form-control"
+                       ng-model="routingTest.text"
+                       ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.text.$dirty && form.text.$invalid }"
+                    ng-show="form.text.$dirty && form.text.$invalid">
+                    <li class="required" ng-show="form.text.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="button" class="btn btn-tertiary"
+                        ng-disabled="form.$invalid"
+                        ng-click="testRouting(routingTest);">
+                    {{ 'CommonLabels.TestDrive' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="portlet portlet-default" ng-if="testResult">
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'CommonLabels.TestResult' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+            <table class="table keyvalue-table">
+                <tbody>
+                <tr>
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'CommonLabels.Matched' | translate }}</td>
+                    <td class="kv-value">{{ testResult.matched | YesNoFilter }}&nbsp;</td>
+                </tr>
+                <tr ng-if="testResult.matched">
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'Products.MessagingGw.Operations.RoutingTables.RoutingTest.ServiceId' | translate }}</td>
+                    <td class="kv-value">{{ testResult.id }}&nbsp;</td>
+                </tr>
+                <tr ng-if="testResult.matched">
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'Products.MessagingGw.Operations.RoutingTables.RoutingTest.ServiceName' | translate }}</td>
+                    <td class="kv-value">{{ testResult.name }}&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

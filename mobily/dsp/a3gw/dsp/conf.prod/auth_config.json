@@ -1,0 +1,16 @@
+{
+  "httpHost": "0.0.0.0",
+  "httpPort": "8445",
+  "accountsPath": "/cmpf-rest/useraccounts",
+  "accountsUrl": "http://10.35.36.193:9610/axis2/cmpf/useraccounts",
+  "authenticationServer": {
+    "path": "/cmpf-rest/authenticate",
+    "target": "http://10.35.36.193:9610",
+    "pathRewrite": {
+      "^/cmpf-rest/authenticate": "/axis2/cmpf/authenticate"
+    }
+  },
+  "allowOnlyOneSession": false,
+  "memcachedServers": [
+  ]
+}

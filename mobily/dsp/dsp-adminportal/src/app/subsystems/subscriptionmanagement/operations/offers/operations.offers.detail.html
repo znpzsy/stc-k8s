@@ -1,0 +1,1243 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.SubscriptionManagement.Operations.Offers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label name="name" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control" dir="auto"
+                       ng-model="offer.name"
+                       ng-maxlength="100" maxlength="100" ng-if="!offer.id"
+                       ng-required="true"
+                       ng-pattern="$root.Validators.WordsBetweenOneCharOrSpace"
+                       ng-disabled="!AuthorizationService.canSsmOperationsOfferCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid" ng-if="!offer.id">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.name.$error.pattern">{{ 'CommonMessages.InvalidName' | translate }}</li>
+                </ul>
+                <input id="name" name="name" type="text" class="form-control" ng-value="offer.name" ng-if="offer.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="offer.id">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="offer.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="offer.id">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedOn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="offer.entityAuditProfile.CreatedOn | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="offer.id">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedBy' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="offer.entityAuditProfile.CreatedBy" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="offer.id">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdatedOn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="offer.entityAuditProfile.LastUpdatedOn | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="offer.id">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdatedBy' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="offer.entityAuditProfile.LastUpdatedBy" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Description" name="Description" type="text" class="form-control"
+                       ng-model="offer.xsmOfferProfile.Description"
+                       ng-maxlength="512" maxlength="512"
+                       ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Organization' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="offer.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{ offer.organization.name }}</span>
+                    <a ng-click="offer.organization.name = undefined; offer.organizationId = undefined;" style="cursor: pointer;"
+                       ng-if="offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate()">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': offer.organization.name, 'ng-invalid-required': !offer.organization.name }"
+                        ng-click="showServiceProviders()"
+                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">{{ 'CommonLabels.Choose' | translate }}</button>
+                <div style="clear: both;">
+                    <input name="offerOrganization" type="text" class="form-control"
+                           ng-model="offer.organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="offer.id ? null : offer.organization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': offer.organization !== undefined && offer.organization.name === undefined }"
+                        ng-show="offer.organization !== undefined && offer.organization.name === undefined">
+                        <li class="required" ng-show="form.offerOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Services' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedServices.length" class="row col-md-9">
+                    <div ng-repeat="n in selectedServices">
+                        <span class="label label-default selected-item-label">{{n.name}}</span>
+                        <a ng-click="removeService(n)" style="cursor: pointer;"
+                           ng-show="(offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate())">
+                            <span class="label label-danger selected-item-label"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="showServices()"
+                        ng-disabled="!offer.organizationId || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                        ng-class="{ 'pull-right': selectedServices.length > 0, 'ng-invalid-required': !selectedServices || selectedServices.length === 0 }">
+                    {{ 'CommonLabels.Add' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="selectedServicesLength" type="number" class="form-control"
+                           ng-model="selectedServices.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="offer.id ? null : selectedServices = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': selectedServices.length === 0 }"
+                        ng-show="selectedServices.length === 0">
+                        <li class="required" ng-show="form.selectedServicesLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" for="state" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4" ng-if="isAdminUser">
+                <select id="state" name="state" class="form-control parsley-validated"
+                        ng-model="offer.state"
+                        ng-options="status as status for status in (OFFER_STATUS_TYPES | StatusTypeFilterIfNotPending:offer.state)"
+                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                </select>
+            </div>
+            <div class="col-md-4" ng-if="!isAdminUser">
+                <select id="state" name="state" class="form-control" ng-value="offer.state" ng-disabled="true">
+                    <option>{{offer.state}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.date">{{'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           ng-required="true"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <!-- English -->
+            <div class="form-group">
+                <label for="nameen" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UINameEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="nameen" name="nameen" type="text" class="form-control" dir="auto"
+                           ng-model="offer.offeri18nProfiles[0].Name"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nameen.$dirty && form.nameen.$invalid }"
+                        ng-show="form.nameen.$dirty && form.nameen.$invalid">
+                        <li class="required" ng-show="form.nameen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nameen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionen" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIDescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                              ng-model="offer.offeri18nProfiles[0].Description"
+                              rows="3" ng-maxlength="512" maxlength="512" ng-required="true"
+                              ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                        ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                        <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="searchkeywordsen" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISearchKeywordsEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="searchkeywordsen" name="searchkeywordsen" type="text" class="form-control" dir="auto"
+                           ng-model="offer.offeri18nProfiles[0].SearchKeyword"
+                           ng-maxlength="50"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    <ul ng-class="{ 'parsley-error-list': form.searchkeywordsen.$dirty && form.searchkeywordsen.$invalid }"
+                        ng-show="form.searchkeywordsen.$dirty && form.searchkeywordsen.$invalid">
+                        <li class="required" ng-show="form.searchkeywordsen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subscriptiondescriptionen" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISubscriptionDescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="subscriptiondescriptionen" name="subscriptiondescriptionen" class="form-control" dir="auto"
+                              ng-model="offer.offeri18nProfiles[0].SubscriptionDescription"
+                              rows="3" ng-maxlength="512" maxlength="512" ng-required="true"
+                              ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.subscriptiondescriptionen.$dirty && form.subscriptiondescriptionen.$invalid }"
+                        ng-show="form.subscriptiondescriptionen.$dirty && form.subscriptiondescriptionen.$invalid">
+                        <li class="required" ng-show="form.subscriptiondescriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.subscriptiondescriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="unsubscriptiondescriptionen" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIUnsubscriptionDescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="unsubscriptiondescriptionen" name="unsubscriptiondescriptionen" class="form-control" dir="auto"
+                              ng-model="offer.offeri18nProfiles[0].UnsubscriptionDescription"
+                              rows="3" ng-maxlength="512" maxlength="512" ng-required="true"
+                              ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.unsubscriptiondescriptionen.$dirty && form.unsubscriptiondescriptionen.$invalid }"
+                        ng-show="form.unsubscriptiondescriptionen.$dirty && form.unsubscriptiondescriptionen.$invalid">
+                        <li class="required" ng-show="form.unsubscriptiondescriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.unsubscriptiondescriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Arabic -->
+            <div class="form-group">
+                <label for="namear" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UINameAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="namear" name="namear" type="text" class="form-control" dir="auto"
+                           ng-model="offer.offeri18nProfiles[1].Name"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.namear.$dirty && form.namear.$invalid }"
+                        ng-show="form.namear.$dirty && form.namear.$invalid">
+                        <li class="required" ng-show="form.namear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.namear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionar" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIDescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                              ng-model="offer.offeri18nProfiles[1].Description"
+                              rows="3" ng-maxlength="512" maxlength="512" ng-required="true"
+                              ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                        ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                        <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="searchkeywordsar" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISearchKeywordsAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="searchkeywordsar" name="searchkeywordsar" type="text" class="form-control" dir="auto"
+                           ng-model="offer.offeri18nProfiles[1].SearchKeyword"
+                           ng-maxlength="50"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    <ul ng-class="{ 'parsley-error-list': form.searchkeywordsar.$dirty && form.searchkeywordsar.$invalid }"
+                        ng-show="form.searchkeywordsar.$dirty && form.searchkeywordsar.$invalid">
+                        <li class="required" ng-show="form.searchkeywordsar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subscriptiondescriptionar" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISubscriptionDescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="subscriptiondescriptionar" name="subscriptiondescriptionar" class="form-control" dir="auto"
+                              ng-model="offer.offeri18nProfiles[1].SubscriptionDescription"
+                              rows="3" ng-maxlength="512" maxlength="512" ng-required="true"
+                              ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.subscriptiondescriptionar.$dirty && form.subscriptiondescriptionar.$invalid }"
+                        ng-show="form.subscriptiondescriptionar.$dirty && form.subscriptiondescriptionar.$invalid">
+                        <li class="required" ng-show="form.subscriptiondescriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.subscriptiondescriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="unsubscriptiondescriptionar" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIUnsubscriptionDescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="unsubscriptiondescriptionar" name="unsubscriptiondescriptionar" class="form-control" dir="auto"
+                              ng-model="offer.offeri18nProfiles[1].UnsubscriptionDescription"
+                              rows="3" ng-maxlength="512" maxlength="512" ng-required="true"
+                              ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.unsubscriptiondescriptionar.$dirty && form.unsubscriptiondescriptionar.$invalid }"
+                        ng-show="form.unsubscriptiondescriptionar.$dirty && form.unsubscriptiondescriptionar.$invalid">
+                        <li class="required" ng-show="form.unsubscriptiondescriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.unsubscriptiondescriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- BundleOfferProfile -->
+            <div ng-if="selectedServices && selectedServices.length > 1">
+                <div class="form-group">
+                    <label for="BusinessTypeID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.BundleOfferProfile.BusinessTypeID' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="BusinessTypeID" name="BusinessTypeID" class="form-control parsley-validated"
+                                ng-model="offer.bundleOfferProfile.BusinessTypeID"
+                                ng-required="true"
+                                ng-options="businessType.profileId as businessType.Name for businessType in businessTypes"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.BusinessTypeID.$dirty && form.BusinessTypeID.$invalid }"
+                            ng-show="form.BusinessTypeID.$dirty && form.BusinessTypeID.$invalid">
+                            <li class="required" ng-show="form.BusinessTypeID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SettlementTypeID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.BundleOfferProfile.SettlementTypeID' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="SettlementTypeID" name="SettlementTypeID" class="form-control parsley-validated"
+                                ng-model="offer.bundleOfferProfile.SettlementTypeID"
+                                ng-required="true"
+                                ng-options="settlementType.profileId as settlementType.Name for settlementType in settlementTypes"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.SettlementTypeID.$dirty && form.SettlementTypeID.$invalid }"
+                            ng-show="form.SettlementTypeID.$dirty && form.SettlementTypeID.$invalid">
+                            <li class="required" ng-show="form.SettlementTypeID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CategoryID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.BundleOfferProfile.CategoryID' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="CategoryID" name="CategoryID" class="form-control"
+                                ng-model="offer.bundleOfferProfile.CategoryID"
+                                ng-required="true"
+                                ng-options="serviceSubCategory.profileId as serviceSubCategory.Name group by serviceSubCategory.serviceCategory.Name for serviceSubCategory in serviceSubCategories"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.CategoryID.$dirty && form.CategoryID.$invalid }"
+                            ng-show="form.CategoryID.$dirty && form.CategoryID.$invalid">
+                            <li class="required" ng-show="form.CategoryID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="offer.xsmOfferProfile && offer.xsmOfferProfile.IsRbt">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.CoverImage' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="fileinput fileinput-new">
+                            <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="offer.xsmOfferProfile.coverImage.name">
+                                <img ngf-src="!offer.xsmOfferProfile.coverImage.$error && offer.xsmOfferProfile.coverImage" width="200"
+                                     ng-style="{ 'height': (offer.xsmOfferProfile.coverImage ? '' : '200px') }"/>
+
+                                <div class="thumbnail-footer" ng-if="offer.xsmOfferProfile.coverImage.type">
+                                    <div class="pull-left">
+                                        {{ offer.xsmOfferProfile.coverImage.type }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button name="coverImage" type="file"
+                                        title="{{ (offer.xsmOfferProfile.coverImage ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                        class="btn btn-sm btn-default"
+                                        ngf-select
+                                        ng-model="offer.xsmOfferProfile.coverImage"
+                                        ng-init="offer.xsmOfferProfile.coverImage ? offer.xsmOfferProfile.coverImage.name = offer.xsmOfferProfile.coverImage.$ngfName : null"
+                                        ngf-change="form.coverImage.$setDirty()"
+                                        ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                        ngf-max-size="20MB"
+                                        ngf-model-invalid="errorImage"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                                    <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ (offer.xsmOfferProfile.coverImage.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                </button>
+                                <ul ng-class="{ 'parsley-error-list': form.coverImage.$dirty && form.coverImage.$invalid }"
+                                    ng-show="form.coverImage.$dirty && form.coverImage.$invalid">
+                                    <li class="required" ng-show="form.coverImage.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                </ul>
+                                <button class="btn btn-sm btn-default"
+                                        title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                        ng-click="offer.xsmOfferProfile.coverImage = null;"
+                                        ng-if="offer.xsmOfferProfile.coverImage.name && (offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate())">
+                                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ 'FileOperationLabels.Remove' | translate }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="offer.xsmOfferProfile.coverImage.name"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ offer.xsmOfferProfile.coverImage.name }}"
+                                   href="{{ offer.xsmOfferProfile.coverImage | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.CardImage' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="fileinput fileinput-new">
+                            <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="offer.xsmOfferProfile.cardImage.name">
+                                <img ngf-src="!offer.xsmOfferProfile.cardImage.$error && offer.xsmOfferProfile.cardImage" width="200"
+                                     ng-style="{ 'height': (offer.xsmOfferProfile.cardImage ? '' : '200px') }"/>
+
+                                <div class="thumbnail-footer" ng-if="offer.xsmOfferProfile.cardImage.type">
+                                    <div class="pull-left">
+                                        {{ offer.xsmOfferProfile.cardImage.type }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button name="cardImage" type="file"
+                                        title="{{ (offer.xsmOfferProfile.cardImage ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                        class="btn btn-sm btn-default"
+                                        ngf-select
+                                        ng-model="offer.xsmOfferProfile.cardImage"
+                                        ng-init="offer.xsmOfferProfile.cardImage ? offer.xsmOfferProfile.cardImage.name = offer.xsmOfferProfile.cardImage.$ngfName : null"
+                                        ngf-change="form.cardImage.$setDirty()"
+                                        ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                        ngf-max-size="20MB"
+                                        ngf-model-invalid="errorImage"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                                    <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ (offer.xsmOfferProfile.cardImage.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                </button>
+                                <ul ng-class="{ 'parsley-error-list': form.cardImage.$dirty && form.cardImage.$invalid }"
+                                    ng-show="form.cardImage.$dirty && form.cardImage.$invalid">
+                                    <li class="required" ng-show="form.cardImage.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                </ul>
+                                <button class="btn btn-sm btn-default"
+                                        title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                        ng-click="offer.xsmOfferProfile.cardImage = null;"
+                                        ng-if="offer.xsmOfferProfile.cardImage.name && (offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate())">
+                                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ 'FileOperationLabels.Remove' | translate }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="offer.xsmOfferProfile.cardImage.name"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ offer.xsmOfferProfile.cardImage.name }}"
+                                   href="{{ offer.xsmOfferProfile.cardImage | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.Thumbnail' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="fileinput fileinput-new">
+                            <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="offer.xsmOfferProfile.thumbnail.name">
+                                <img ngf-src="!offer.xsmOfferProfile.thumbnail.$error && offer.xsmOfferProfile.thumbnail" width="200"
+                                     ng-style="{ 'height': (offer.xsmOfferProfile.thumbnail ? '' : '200px') }"/>
+
+                                <div class="thumbnail-footer" ng-if="offer.xsmOfferProfile.thumbnail.type">
+                                    <div class="pull-left">
+                                        {{ offer.xsmOfferProfile.thumbnail.type }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button name="thumbnail" type="file"
+                                        title="{{ (offer.xsmOfferProfile.thumbnail ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                        class="btn btn-sm btn-default"
+                                        ngf-select
+                                        ng-model="offer.xsmOfferProfile.thumbnail"
+                                        ng-init="offer.xsmOfferProfile.thumbnail ? offer.xsmOfferProfile.thumbnail.name = offer.xsmOfferProfile.thumbnail.$ngfName : null"
+                                        ngf-change="form.thumbnail.$setDirty()"
+                                        ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                        ngf-max-size="20MB"
+                                        ngf-model-invalid="errorImage"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                                    <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ (offer.xsmOfferProfile.thumbnail.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                </button>
+                                <ul ng-class="{ 'parsley-error-list': form.thumbnail.$dirty && form.thumbnail.$invalid }"
+                                    ng-show="form.thumbnail.$dirty && form.thumbnail.$invalid">
+                                    <li class="required" ng-show="form.thumbnail.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                </ul>
+                                <button class="btn btn-sm btn-default"
+                                        title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                        ng-click="offer.xsmOfferProfile.thumbnail = null;"
+                                        ng-if="offer.xsmOfferProfile.thumbnail.name && (offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate())">
+                                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ 'FileOperationLabels.Remove' | translate }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="offer.xsmOfferProfile.thumbnail.name"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ offer.xsmOfferProfile.thumbnail.name }}"
+                                   href="{{ offer.xsmOfferProfile.thumbnail | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div>
+            <div class="form-group">
+                <label for="chargingPeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargingPeriod' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="chargingPeriod" name="chargingPeriod" type="number" class="form-control"
+                           ng-model="offer.xsmChargingProfile.ChargingPeriod.duration"
+                           ng-required="true" ng-min="0" ng-max="999"
+                           ng-change="validateRenewalDurations();"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.chargingPeriod.$dirty && form.chargingPeriod.$invalid }"
+                        ng-show="form.chargingPeriod.$dirty && form.chargingPeriod.$invalid">
+                        <li class="required" ng-show="form.chargingPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.chargingPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.chargingPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                        <li class="required" ng-show="form.chargingPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="chargingPeriodUnit" name="chargingPeriodUnit" class="form-control col-md-6"
+                            ng-model="offer.xsmChargingProfile.ChargingPeriod.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="MainPrice" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MainPrice' | translate }}</label>
+                <div class="col-md-4">
+                    <input id="MainPrice" name="MainPrice" type="number" class="form-control"
+                           ng-model="offer.xsmChargingProfile.MainPrice"
+                           ng-required="true"
+                           ng-min="0" ng-max="99999999"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.MainPrice.$dirty && form.MainPrice.$invalid }" ng-show="form.MainPrice.$dirty && form.MainPrice.$invalid">
+                        <li class="required" ng-show="form.MainPrice.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.MainPrice.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.MainPrice.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999999} }}</li>
+                        <li class="required" ng-show="form.MainPrice.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TODO - Temporarily hidden -->
+            <div class="form-group" ng-if="false">
+                <label for="ChargingPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargingPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="ChargingPolicy" name="ChargingPolicy" class="form-control"
+                            ng-model="offer.xsmChargingProfile.ChargingPolicy"
+                            ng-required="true"
+                            ng-options="chargingPolicy.key as (chargingPolicy.label | translate) for chargingPolicy in OFFER_CHARGING_POLICIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargingPolicy.$dirty && form.ChargingPolicy.$invalid }"
+                        ng-show="form.ChargingPolicy.$dirty && form.ChargingPolicy.$invalid">
+                        <li class="required" ng-show="form.ChargingPolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ChargeOn" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargeOn' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="ChargeOn" name="ChargeOn" class="form-control"
+                            ng-model="offer.xsmChargingProfile.ChargeOn"
+                            ng-required="true"
+                            ng-options="chargeOn as chargeOn for chargeOn in OFFER_CHARGE_ONS"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargeOn.$dirty && form.ChargeOn.$invalid }"
+                        ng-show="form.ChargeOn.$dirty && form.ChargeOn.$invalid">
+                        <li class="required" ng-show="form.ChargeOn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TODO - Temporarily hidden -->
+            <div class="form-group" ng-if="false">
+                <label name="Handler" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.Handler' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="Handler" name="Handler" class="form-control"
+                            ng-model="offer.xsmChargingProfile.Handler"
+                            ng-required="true"
+                            ng-options="handler as handler for handler in OFFER_HANDLERS"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.Handler.$dirty && form.Handler.$invalid }"
+                        ng-show="form.Handler.$dirty && form.Handler.$invalid">
+                        <li class="required" ng-show="form.Handler.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TODO - Temporarily hidden -->
+            <div class="form-group" ng-if="false">
+                <label for="InitialChargingPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.InitialChargingPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="InitialChargingPolicy" name="InitialChargingPolicy" class="form-control"
+                            ng-model="offer.xsmChargingProfile.InitialChargingPolicy"
+                            ng-required="true"
+                            ng-options="initialChargingPolicy as initialChargingPolicy for initialChargingPolicy in OFFER_INITIAL_CHARGING_POLICIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.InitialChargingPolicy.$dirty && form.InitialChargingPolicy.$invalid }"
+                        ng-show="form.InitialChargingPolicy.$dirty && form.InitialChargingPolicy.$invalid">
+                        <li class="required" ng-show="form.InitialChargingPolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TODO - Temporarily hidden -->
+            <div class="form-group" ng-if="false">
+                <label for="MaxFailedChargingAttemptCount" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MaxFailedChargingAttemptCount' | translate }}</label>
+                <div class="col-md-4">
+                    <input id="MaxFailedChargingAttemptCount" name="MaxFailedChargingAttemptCount" type="number" class="form-control"
+                           ng-model="offer.xsmChargingProfile.MaxFailedChargingAttemptCount"
+                           ng-min="0" ng-max="99999"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.MaxFailedChargingAttemptCount.$dirty && form.MaxFailedChargingAttemptCount.$invalid }"
+                        ng-show="form.MaxFailedChargingAttemptCount.$dirty && form.MaxFailedChargingAttemptCount.$invalid">
+                        <li class="required" ng-show="form.MaxFailedChargingAttemptCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.MaxFailedChargingAttemptCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                        <li class="required" ng-show="form.MaxFailedChargingAttemptCount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TODO - Temporarily hidden -->
+            <div class="form-group" ng-if="false">
+                <label for="ChargingFailurePolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargingFailurePolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="ChargingFailurePolicy" name="ChargingFailurePolicy" class="form-control"
+                            ng-model="offer.xsmChargingProfile.ChargingFailurePolicy"
+                            ng-required="true"
+                            ng-options="chargingFailurePolicy as chargingFailurePolicy for chargingFailurePolicy in OFFER_CHARGING_FAILURE_POLICIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargingFailurePolicy.$dirty && form.ChargingFailurePolicy.$invalid }"
+                        ng-show="form.ChargingFailurePolicy.$dirty && form.ChargingFailurePolicy.$invalid">
+                        <li class="required" ng-show="form.ChargingFailurePolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="retryPeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.RetryPeriod' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="retryPeriod" name="retryPeriod" type="number" class="form-control"
+                           ng-model="offer.xsmChargingProfile.RetryPeriod.duration"
+                           ng-min="0" ng-max="999"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.retryPeriod.$dirty && form.retryPeriod.$invalid }"
+                        ng-show="form.retryPeriod.$dirty && form.retryPeriod.$invalid">
+                        <li class="required" ng-show="form.retryPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.retryPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                        <li class="required" ng-show="form.retryPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="retryPeriodUnit" name="retryPeriodUnit" class="form-control col-md-6"
+                            ng-model="offer.xsmChargingProfile.RetryPeriod.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="MaxRetryCount" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MaxRetryCount' | translate }}</label>
+                <div class="col-md-4">
+                    <input id="MaxRetryCount" name="MaxRetryCount" type="number" class="form-control"
+                           ng-model="offer.xsmChargingProfile.MaxRetryCount"
+                           ng-min="0" ng-max="99999"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.MaxRetryCount.$dirty && form.MaxRetryCount.$invalid }"
+                        ng-show="form.MaxRetryCount.$dirty && form.MaxRetryCount.$invalid">
+                        <li class="required" ng-show="form.MaxRetryCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.MaxRetryCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                        <li class="required" ng-show="form.MaxRetryCount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.PartialChargingEnabled' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{offer.xsmChargingProfile.PartialChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.xsmChargingProfile.PartialChargingEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!offer.xsmChargingProfile.PartialChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.xsmChargingProfile.PartialChargingEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="!offer.xsmChargingProfile.PartialChargingEnabled">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{offer.xsmChargingProfile.MicroChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                    ng-model="offer.xsmChargingProfile.MicroChargingEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!offer.xsmChargingProfile.MicroChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                    ng-model="offer.xsmChargingProfile.MicroChargingEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="offer.xsmChargingProfile.MicroChargingEnabled">
+                    <div class="form-group">
+                        <label for="microChargingPeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingPeriod' | translate }}</label>
+                        <div class="col-md-3">
+                            <input id="microChargingPeriod" name="microChargingPeriod" type="number" class="form-control"
+                                   ng-model="offer.xsmChargingProfile.MicroChargingPeriod.duration"
+                                   ng-required="true" ng-min="0" ng-max="999"
+                                   ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.microChargingPeriod.$dirty && form.microChargingPeriod.$invalid }"
+                                ng-show="form.microChargingPeriod.$dirty && form.microChargingPeriod.$invalid">
+                                <li class="required" ng-show="form.microChargingPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.microChargingPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                                <li class="required" ng-show="form.microChargingPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                                <li class="required" ng-show="form.microChargingPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <select id="microChargingPeriodUnit" name="microChargingPeriodUnit" class="form-control col-md-6"
+                                    ng-model="offer.xsmChargingProfile.MicroChargingPeriod.unit"
+                                    ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                    ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="MicroPrice" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroPrice' | translate }}</label>
+                        <div class="col-md-4">
+                            <input id="MicroPrice" name="MicroPrice" type="number" class="form-control"
+                                   ng-model="offer.xsmChargingProfile.MicroPrice"
+                                   ng-min="0" ng-max="99999999"
+                                   ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.MicroPrice.$dirty && form.MicroPrice.$invalid }" ng-show="form.MicroPrice.$dirty && form.MicroPrice.$invalid">
+                                <li class="required" ng-show="form.MicroPrice.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                                <li class="required" ng-show="form.MicroPrice.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999999} }}</li>
+                                <li class="required" ng-show="form.MicroPrice.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabledAtInitialSubscription' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{offer.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                        ng-model="offer.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!offer.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                        ng-model="offer.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabledAtRenewals' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{offer.xsmChargingProfile.MicroChargingEnabledAtRenewals?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                        ng-model="offer.xsmChargingProfile.MicroChargingEnabledAtRenewals" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!offer.xsmChargingProfile.MicroChargingEnabledAtRenewals?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                        ng-model="offer.xsmChargingProfile.MicroChargingEnabledAtRenewals" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="offer.xsmChargingProfile.MicroChargingEnabled">
+                        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabledAtTrialEnd' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{offer.xsmChargingProfile.MicroChargingEnabledAtTrialEnd?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                        ng-model="offer.xsmChargingProfile.MicroChargingEnabledAtTrialEnd" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!offer.xsmChargingProfile.MicroChargingEnabledAtTrialEnd?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                        ng-model="offer.xsmChargingProfile.MicroChargingEnabledAtTrialEnd" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="MaxMicroChargingEventCount" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MaxMicroChargingEventCount' | translate }}</label>
+                        <div class="col-md-4">
+                            <input id="MaxMicroChargingEventCount" name="MaxMicroChargingEventCount" type="number" class="form-control"
+                                   ng-model="offer.xsmChargingProfile.MaxMicroChargingEventCount"
+                                   ng-required="true"
+                                   ng-min="0" ng-max="99999"
+                                   ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.MaxMicroChargingEventCount.$dirty && form.MaxMicroChargingEventCount.$invalid }" ng-show="form.MaxMicroChargingEventCount.$dirty && form.MaxMicroChargingEventCount.$invalid">
+                                <li class="required" ng-show="form.MaxMicroChargingEventCount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.MaxMicroChargingEventCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                                <li class="required" ng-show="form.MaxMicroChargingEventCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                                <li class="required" ng-show="form.MaxMicroChargingEventCount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.NotifySubscriberOnStateChanges' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{offer.xsmOfferProfile.NotifySubscriberOnStateChanges?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.xsmOfferProfile.NotifySubscriberOnStateChanges" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!offer.xsmOfferProfile.NotifySubscriberOnStateChanges?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.xsmOfferProfile.NotifySubscriberOnStateChanges" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TODO - Temporarily hidden -->
+            <div class="form-group" ng-if="false">
+                <label for="TerminationPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.TerminationPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="TerminationPolicy" name="TerminationPolicy" class="form-control"
+                            ng-model="offer.xsmOfferProfile.TerminationPolicy"
+                            ng-required="true"
+                            ng-options="terminationPolicy as terminationPolicy for terminationPolicy in OFFER_TERMINATION_POLICIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.TerminationPolicy.$dirty && form.TerminationPolicy.$invalid }"
+                        ng-show="form.TerminationPolicy.$dirty && form.TerminationPolicy.$invalid">
+                        <li class="required" ng-show="form.TerminationPolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.SubscriptionKeywords' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="offer.smsPortali18nProfileList.length" class="row col-md-9">
+                        <div ng-repeat="smsPortali18nProfile in offer.smsPortali18nProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getSMSPortali18nProfileString(smsPortali18nProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getSMSPortali18nProfileString(smsPortali18nProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editSMSPortali18nProfile(offer, smsPortali18nProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="(offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate())">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeSMSPortali18nProfile(offer, smsPortali18nProfile);form.smsPortali18nProfileListLength.$setDirty();" style="cursor: pointer;text-decoration: none;"
+                               ng-if="(offer.id ? AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : AuthorizationService.canSsmOperationsOfferCreate())">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                            ng-class="{ 'pull-right': offer.smsPortali18nProfileList.length > 0 }"
+                            ng-click="addSMSPortali18nProfile(offer)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label name="NotificationSenderID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.NotificationSenderID' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="NotificationSenderID" name="NotificationSenderID" type="text" class="form-control"
+                           ng-model="offer.xsmOfferProfile.NotificationSenderID"
+                           ng-maxlength="11" maxlength="11"
+                           ng-required="true"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.NotificationSenderID.$dirty && form.NotificationSenderID.$invalid }"
+                        ng-show="form.NotificationSenderID.$dirty && form.NotificationSenderID.$invalid">
+                        <li class="required" ng-show="form.NotificationSenderID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.NotificationSenderID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 11} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PackageEligibility" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferEligibilityProfile.PackageEligibility' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="PackageEligibility" name="PackageEligibility" class="form-control"
+                            ng-model="offer.offerEligibilityProfile.PackageEligibility"
+                            ng-required="true"
+                            ng-options="terminationPolicy as terminationPolicy for terminationPolicy in OFFER_PACKAGE_ELIGIBILITIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.PackageEligibility.$dirty && form.PackageEligibility.$invalid }"
+                        ng-show="form.PackageEligibility.$dirty && form.PackageEligibility.$invalid">
+                        <li class="required" ng-show="form.PackageEligibility.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="offer.offerEligibilityProfile.PackageEligibility === 'Whitelist' || offer.offerEligibilityProfile.PackageEligibility === 'Blacklist'">
+                <label for="PackageList" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferEligibilityProfile.PackageList' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="offer.offerEligibilityProfile.PackageList"
+                               close-on-select="false"
+                               on-select="form.PackageListLength.$setDirty(); form.PackageListMaxLength.$setDirty();"
+                               on-remove="form.PackageListLength.$setDirty(); form.PackageListMaxLength.$setDirty();"
+                               title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-class="{ 'ng-invalid-required': (!offer.offerEligibilityProfile.PackageList || offer.offerEligibilityProfile.PackageList.length === 0) }"
+                               ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <ui-select-match placeholder="{{ 'CommonLabels.SelectOne' | translate }}">
+                            {{ $item.value }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="packageListItem.value as packageListItem in (packageList | filter: $select.search)">
+                            {{ packageListItem.value }}
+                        </ui-select-choices>
+                    </ui-select>
+                    <input id="PackageListLength" name="PackageListLength" type="number" class="form-control"
+                           ng-model="offer.offerEligibilityProfile.PackageList.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="offer.id ? null : offer.offerEligibilityProfile.PackageList = undefined"
+                           ng-show="false"/>
+                    <input id="PackageListMaxLength" name="PackageListMaxLength" type="number" class="form-control"
+                           ng-model="offer.offerEligibilityProfile.PackageList.join(';').length"
+                           ng-max="512" ng-required="true"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PackageListLength.$dirty && form.PackageListLength.$invalid }"
+                        ng-show="form.PackageListLength.$dirty && form.PackageListLength.$invalid">
+                        <li class="required" ng-show="form.PackageListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                    <ul ng-class="{ 'parsley-error-list': form.PackageListMaxLength.$dirty && form.PackageListMaxLength.$invalid }"
+                        ng-show="form.PackageListMaxLength.$dirty && form.PackageListMaxLength.$invalid">
+                        <li class="required" ng-show="form.PackageListMaxLength.$error.max">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="RenewalPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.RenewalPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="RenewalPolicy" name="RenewalPolicy" class="form-control"
+                            ng-model="offer.xsmRenewalProfile.RenewalPolicy"
+                            ng-required="true"
+                            ng-options="renewalPolicy as renewalPolicy for renewalPolicy in OFFER_RENEWAL_POLICIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.RenewalPolicy.$dirty && form.RenewalPolicy.$invalid }"
+                        ng-show="form.RenewalPolicy.$dirty && form.RenewalPolicy.$invalid">
+                        <li class="required" ng-show="form.RenewalPolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="offer.xsmRenewalProfile.RenewalPolicy !== 'NoRenewal'">
+                <label for="RecurRenewalCount" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SubscriptionRenewalNotificationProfile.RecurRenewalCount' | translate }}</label>
+                <div class="col-md-3">
+                    <div class="btn-group">
+                        <button class="btn {{offer.subscriptionRenewalNotificationProfile.RecurRenewalCount?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.subscriptionRenewalNotificationProfile.RecurRenewalCount" uib-btn-radio="1">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!offer.subscriptionRenewalNotificationProfile.RecurRenewalCount?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.subscriptionRenewalNotificationProfile.RecurRenewalCount" uib-btn-radio="0">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="offer.xsmRenewalProfile.RenewalPolicy === 'AutoWithNotification'">
+                <label for="notificationEventDurationPeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.NotificationEventDuration' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="notificationEventDurationPeriod" name="notificationEventDurationPeriod" type="number" class="form-control"
+                           ng-model="offer.xsmOfferProfile.NotificationEventDuration.duration"
+                           ng-min="0" ng-max="999"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.notificationEventDurationPeriod.$dirty && form.notificationEventDurationPeriod.$invalid }"
+                        ng-show="form.notificationEventDurationPeriod.$dirty && form.notificationEventDurationPeriod.$invalid">
+                        <li class="required" ng-show="form.notificationEventDurationPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.notificationEventDurationPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                        <li class="required" ng-show="form.notificationEventDurationPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.notificationEventDurationPeriod.$error.chargingPeriodLimit">{{ 'CommonMessages.GreaterThanEqualPeriodError' | translate: { duration: offer.xsmChargingProfile.ChargingPeriod.duration, unit: offer.xsmChargingProfile.ChargingPeriod.unit } }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="notificationEventDurationPeriodUnit" name="notificationEventDurationPeriodUnit" class="form-control col-md-6"
+                            ng-model="offer.xsmOfferProfile.NotificationEventDuration.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="offer.xsmRenewalProfile.RenewalPolicy === 'AutoWithConfirmation'">
+                <label for="confirmationEventDurationPeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.ConfirmationDuration' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="confirmationEventDurationPeriod" name="confirmationEventDurationPeriod" type="number" class="form-control"
+                           ng-model="offer.xsmOfferProfile.ConfirmationEventDuration.duration"
+                           ng-min="0" ng-max="999"
+                           ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.confirmationEventDurationPeriod.$dirty && form.confirmationEventDurationPeriod.$invalid }"
+                        ng-show="form.confirmationEventDurationPeriod.$dirty && form.confirmationEventDurationPeriod.$invalid">
+                        <li class="required" ng-show="form.confirmationEventDurationPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.confirmationEventDurationPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                        <li class="required" ng-show="form.confirmationEventDurationPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.confirmationEventDurationPeriod.$error.chargingPeriodLimit">{{ 'CommonMessages.GreaterThanEqualPeriodError' | translate: { duration: offer.xsmChargingProfile.ChargingPeriod.duration, unit: offer.xsmChargingProfile.ChargingPeriod.unit } }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="confirmationEventDurationPeriodUnit" name="confirmationEventDurationPeriodUnit" class="form-control col-md-6"
+                            ng-model="offer.xsmOfferProfile.ConfirmationEventDuration.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BlacklistedSubscriberPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.BlacklistedSubscriberPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="BlacklistedSubscriberPolicy" name="BlacklistedSubscriberPolicy" class="form-control"
+                            ng-model="offer.xsmRenewalProfile.BlacklistedSubscriberPolicy"
+                            ng-required="true"
+                            ng-options="blacklistedSubscriberPolicy as blacklistedSubscriberPolicy for blacklistedSubscriberPolicy in OFFER_BLACK_LISTED_SUBSCRIBER_POLICIES"
+                            ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.BlacklistedSubscriberPolicy.$dirty && form.BlacklistedSubscriberPolicy.$invalid }"
+                        ng-show="form.BlacklistedSubscriberPolicy.$dirty && form.BlacklistedSubscriberPolicy.$invalid">
+                        <li class="required" ng-show="form.BlacklistedSubscriberPolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.TryAndBuyEnabled' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{offer.xsmTrialProfile.TryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.xsmTrialProfile.TryAndBuyEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!offer.xsmTrialProfile.TryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                ng-model="offer.xsmTrialProfile.TryAndBuyEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="offer.xsmTrialProfile.TryAndBuyEnabled">
+                <div class="form-group">
+                    <label for="trialPeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.TrialPeriod' | translate }}</label>
+                    <div class="col-md-3">
+                        <input id="trialPeriod" name="trialPeriod" type="number" class="form-control"
+                               ng-model="offer.xsmTrialProfile.TrialPeriod.duration"
+                               ng-required="true" ng-min="0" ng-max="999"
+                               ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.trialPeriod.$dirty && form.trialPeriod.$invalid }"
+                            ng-show="form.trialPeriod.$dirty && form.trialPeriod.$invalid">
+                            <li class="required" ng-show="form.trialPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.trialPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                            <li class="required" ng-show="form.trialPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                            <li class="required" ng-show="form.trialPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="trialPeriodUnit" name="trialPeriodUnit" class="form-control col-md-6"
+                                ng-model="offer.xsmTrialProfile.TrialPeriod.unit"
+                                ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nextAllowedTrialUsagePeriod" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.NextAllowedTrialUsagePeriod' | translate }}</label>
+                    <div class="col-md-3">
+                        <input id="nextAllowedTrialUsagePeriod" name="nextAllowedTrialUsagePeriod" type="number" class="form-control"
+                               ng-model="offer.xsmTrialProfile.NextAllowedTrialUsagePeriod.duration"
+                               ng-min="0" ng-max="999"
+                               ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.nextAllowedTrialUsagePeriod.$dirty && form.nextAllowedTrialUsagePeriod.$invalid }"
+                            ng-show="form.nextAllowedTrialUsagePeriod.$dirty && form.nextAllowedTrialUsagePeriod.$invalid">
+                            <li class="required" ng-show="form.nextAllowedTrialUsagePeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                            <li class="required" ng-show="form.nextAllowedTrialUsagePeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                            <li class="required" ng-show="form.nextAllowedTrialUsagePeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="nextAllowedTrialUsagePeriodUnit" name="nextAllowedTrialUsagePeriodUnit" class="form-control col-md-6"
+                                ng-model="offer.xsmTrialProfile.NextAllowedTrialUsagePeriod.unit"
+                                ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate()) || isNotChanged()"
+                        ng-click="save(offer);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

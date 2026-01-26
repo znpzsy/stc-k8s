@@ -1,0 +1,106 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ScreeningManager.Dashboards.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ blackListCount | number}}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ScreeningManager.Dashboards.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ whiteListCount | number}}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ScreeningManager.Dashboards.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ subscriberCount | number}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ScreeningManager.Dashboards.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ scopeCount | number}}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ScreeningManager.Dashboards.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ ruleCount | number}}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.ScreeningManager.Dashboards.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{tile6 | number}}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.ScreeningManager.Dashboards.Charts.Scopes' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="scopesData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-scopes" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.ScreeningManager.Dashboards.Charts.Rules' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="modeData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-rules" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.ScreeningManager.Dashboards.Charts.Constraints' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="constraintsData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-constraints" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

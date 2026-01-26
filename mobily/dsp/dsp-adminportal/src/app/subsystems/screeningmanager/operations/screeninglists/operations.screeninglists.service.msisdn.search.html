@@ -1,0 +1,53 @@
+<form id="form" name="form" class="form-horizontal parsley-form" novalidate  method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'CommonLabels.Organization' | translate }}</label>
+        <div class="col-md-7">
+            <select id="organizationId" name="organizationId"
+                    ng-change="filter.serviceName = null"
+                    ng-model="filter.organizationId" class="form-control"
+                    ng-change="initializeScreeningInformation();"
+                    ng-options="organization.id as organization.name for organization in organizationList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="filter.organizationId">
+        <label class="col-md-3">{{ 'CommonLabels.Service' | translate }}</label>
+        <div class="col-md-7">
+            <select id="serviceId" name="serviceId"
+                    ng-model="filter.serviceName" class="form-control"
+                    ng-change="initializeScreeningInformation();"
+                    ng-options="service.name as service.name for service in (serviceList | ServiceByOrganizationFilter:filter.organizationId)">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="filter.serviceName">
+        <label class="col-md-3">{{ 'CommonLabels.Msisdn' | translate }}</label>
+        <div class="col-md-6">
+            <input id="msisdn" name="msisdn" type="text" class="form-control"
+                   ng-model="filter.msisdn"
+                   ng-maxlength="15" maxlength="15" ng-pattern="$root.Validators.Msisdn"
+                   ng-required="true" required="true"
+                   ng-change="initializeScreeningInformation();"
+                   placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate}}" />
+            <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }"
+                ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                <li class="required" ng-show="form.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger" ng-disabled="form.$invalid" ng-click="search(filter)" >
+                {{ 'CommonLabels.Search' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,61 @@
+<div class="col-md-12 col-sm-12" ng-if="!error_message">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn {{$parent.dataType === 'ALL' ? 'btn-default active':'btn-default'}} btn-sm"
+                                    ng-model="$parent.dataType" uib-btn-radio="'ALL'">{{ 'CommonLabels.All' | translate | uppercase }}
+                            </button>
+                            <button type="button" class="btn {{$parent.dataType === 'READ_MESSAGES' ? 'btn-default active':'btn-default'}} btn-sm"
+                                    ng-model="$parent.dataType" uib-btn-radio="'READ_MESSAGES'">{{ 'CommonLabels.Read' | translate | uppercase }}
+                            </button>
+                            <button type="button" class="btn {{$parent.dataType === 'UNREAD_MESSAGES' ? 'btn-default active':'btn-default'}} btn-sm"
+                                    ng-model="$parent.dataType" uib-btn-radio="'UNREAD_MESSAGES'">{{ 'CommonLabels.Unread' | translate | uppercase }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <table ng-table="messages.tableParams" class="table table-striped table-bordered"
+                               template-pagination="ngTableCustomPager.html">
+                            <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                                <td align="center" data-title="'Services.VM.InboxMessages.TableColumns.Date' | translate" sortable="'date'">{{ item.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                                <td align="center" data-title="'Services.VM.InboxMessages.TableColumns.SenderAddress' | translate" sortable="'sender'">{{ item.sender }}</td>
+                                <td align="center" data-title="'Services.VM.InboxMessages.TableColumns.MessageDuration' | translate">{{ item.duration }}</td>
+                                <td align="center" data-title="'CommonLabels.Status' | translate" sortable="'isRead'">{{ item.isRead | ReadUndreadFilter | translate | uppercase }}</td>
+                                <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                    <button class="btn btn-xs" ng-class="{ 'btn-secondary': !item.isRead, 'btn-default': item.isRead }"
+                                            ng-click="toggleStatus(item)"
+                                            ng-disabled="!AuthorizationService.canPreferencesAllUpdate()"
+                                            title="{{ 'CommonLabels.ToggleStatus' | translate }}">
+                                        <i class="fa fa-retweet"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr ng-if="$data.length === 0">
+                                <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<span ng-include="'partials/generic-alerts.html'"></span>
+

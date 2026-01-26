@@ -1,0 +1,109 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.DSP' | translate }} / {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Title' | translate }} / {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.PageHeader' | translate:{name: contentMetadata.name} }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-4 col-xs-4">
+        </div>
+
+        <div class="col-md-8 col-xs-8">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn {{stateFilter === 'WAITING'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'WAITING'" ng-change="stateFilterChange('WAITING');">{{ 'StatusTypes.Waiting' | translate | uppercase }}
+                </button>
+            </div>
+            <div class="btn-group pull-right" style="margin-right: 10px;">
+                <button type="button" class="btn {{stateFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'ALL'" ng-change="stateFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="subsystems.contentmanagement.operations.dsp.contentmetadatas.contentfiles.new"
+                        ng-disabled="!AuthorizationService.canCmsOperationsContentFileCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="contentFileList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download($state.current.data.exportFileName, contentFileList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download($state.current.data.exportFileName, contentFileList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="contentFileList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': data.rowSelected }">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.FileId' | translate" sortable="'id'">{{data.id || 'TBD'}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.FileName' | translate" sortable="'fileName'">{{data.fileName}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.FileType' | translate" sortable="'fileType'">{{data.fileType}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ng-click="showTaskDetails(data)"
+                                    ng-if="data.taskObjectId"
+                                    ng-disabled="!AuthorizationService.canBpmOperationsTaskRead()"
+                                    class="btn btn-xs btn-default"
+                                    title="{{ 'CommonLabels.Details' | translate }}">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+
+                            <span ng-if="!data.taskObjectId">
+                                <button ui-sref="subsystems.contentmanagement.operations.dsp.contentmetadatas.contentfiles.update({ id : data.id })"
+                                        class="btn btn-xs btn-secondary"
+                                        title="{{ AuthorizationService.canCmsOperationsContentFileUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                    <i class="fa fa-edit" ng-if="AuthorizationService.canCmsOperationsContentFileUpdate()"></i>
+                                    <i class="fa fa-square-o" ng-if="!AuthorizationService.canCmsOperationsContentFileUpdate()"></i>
+                                </button>
+                                <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-if="AuthorizationService.canCmsOperationsContentFileDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-footer back-button-layer">
+
+    <div class="row back-button-layer" ng-if="$state.current.data.backState">
+        <div class="col-sm-8">
+            <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+                {{ 'CommonLabels.Back' | translate }}
+            </button>
+        </div>
+    </div>
+
+</div>

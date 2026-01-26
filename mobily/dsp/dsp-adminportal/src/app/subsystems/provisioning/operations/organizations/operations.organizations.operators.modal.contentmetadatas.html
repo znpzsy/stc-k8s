@@ -1,0 +1,57 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ (modalTitleKey ? modalTitleKey : 'Subsystems.Provisioning.Operators.ContentMetadatasModalTitle') | translate:{name:organizationName} }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-3">
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('Contents-' + organizationName, contentMetadatasOfPartner)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('Contents-' + organizationName, contentMetadatasOfPartner)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['id', 'name', 'service.name', 'status'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.ContentMetadatas.Id' | translate" sortable="'id'">{{data.id}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.ContentMetadatas.Name' | translate" sortable="'name'">{{data.name}}</td>
+                        <td align="center" data-title="'CommonLabels.Service' | translate" sortable="'service.name'">{{data.service.name}}</td>
+                        <td align="center" data-title="'CommonLabels.State' | translate" sortable="'status'">{{data.status}}</td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

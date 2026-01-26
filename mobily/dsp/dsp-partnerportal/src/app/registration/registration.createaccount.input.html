@@ -1,0 +1,170 @@
+<div class="portlet portlet-boxed">
+    <div class="portlet-body" ng-controller="RegistrationRegisterCreateAccountFormCtrl">
+
+        <form class="form-horizontal parsley-form registration-form" novalidate id="accountForm" name="accountForm" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        {{ 'Registration.CreateAccount.AccountInfo' | translate }}
+                    </h4>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-11 col-md-push-1">
+                    <div class="form-group">
+                        <label for="username" class="col-md-3">{{ 'Registration.CreateAccount.UserName' | translate }}</label>
+                        <div class="col-md-6">
+                            <div class="username-group" style="width: 100%;">
+                                <input id="username" name="username" type="text" class="form-control"
+                                       uib-popover="{{ 'Registration.CreateAccount.UserNameTooltip' | translate }}" popover-placement="top-left" popover-animation="false" popover-trigger="'focus'" popover-append-to-body="true"
+                                       ng-model="userAccount.username"
+                                       ng-maxlength="50" maxlength="50" autocomplete="off"
+                                       ng-required="true"/>
+                                <ul ng-class="{ 'parsley-error-list': accountForm.username.$dirty && accountForm.username.$invalid }"
+                                    ng-show="accountForm.username.$dirty && accountForm.username.$invalid">
+                                    <li class="required" ng-show="accountForm.username.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    <li class="required" ng-show="accountForm.username.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                </ul>
+                                <div class="username-group-addon"><div class="input-group-addon">@</div></div>
+                                <input id="companyShortName" name="companyShortName" type="text" class="form-control"
+                                       uib-popover="{{ 'Registration.CreateAccount.CompanyShortNameTooltip' | translate }}" popover-placement="top-left" popover-animation="false" popover-trigger="'focus'" popover-append-to-body="true"
+                                       ng-model="userAccount.companyShortName"
+                                       ng-pattern="$root.Validators.SpecialInput1"
+                                       ng-maxlength="50" maxlength="50"
+                                       ng-required="true"/>
+                                <ul ng-class="{ 'parsley-error-list': accountForm.companyShortName.$dirty && accountForm.companyShortName.$invalid }"
+                                    ng-show="accountForm.companyShortName.$dirty && accountForm.companyShortName.$invalid">
+                                    <li class="required" ng-show="accountForm.companyShortName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    <li class="required" ng-show="accountForm.companyShortName.$error.pattern">{{ 'CommonMessages.SpecialInput1Error' | translate }}</li>
+                                    <li class="required" ng-show="accountForm.companyShortName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="col-md-3">{{ 'Registration.CreateAccount.Password' | translate }}</label>
+                        <div class="col-md-3">
+                            <input id="password" name="password" type="password" class="form-control"
+                                   uib-popover="{{ 'CommonMessages.PasswordTooltip' | translate }}" popover-placement="top-left" popover-animation="false" popover-trigger="'focus'" popover-append-to-body="true"
+                                   ng-model="userAccount.password"
+                                   ng-pattern="accountForm.password.$dirty ? $root.Validators.UserPassword : false"
+                                   ng-change="userAccount.confirmpassword = null;"
+                                   form-name="accountForm"
+                                   ng-required="true" ng-minlength="8" maxlength="50" ng-maxlength="50"/>
+                            <ul ng-class="{ 'parsley-error-list': accountForm.password.$dirty && accountForm.password.$invalid }" ng-show="accountForm.password.$dirty && accountForm.password.$invalid">
+                                <li class="required" ng-show="!accountForm.password.$error.minlength && accountForm.password.$error.pattern">{{ 'CommonMessages.PasswordDoesNotMeetRequirements' | translate }}</li>
+                                <li class="required" ng-show="accountForm.password.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.password.$error.passwordVerify">{{ 'CommonMessages.PasswordError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.password.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 8 } }}</li>
+                                <li class="required" ng-show="accountForm.password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 50 } }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmpassword" class="col-md-3">{{ 'Registration.CreateAccount.ConfirmPassword' | translate }}</label>
+                        <div class="col-md-3">
+                            <input id="confirmpassword" name="confirmpassword" type="password" class="form-control"
+                                   ng-model="userAccount.confirmpassword"
+                                   partnerportal-password-verify="userAccount.password"
+                                   form-name="accountForm"
+                                   ng-required="true" ng-minlength="8" maxlength="50" ng-maxlength="50"/>
+                            <ul ng-class="{ 'parsley-error-list': accountForm.confirmpassword.$dirty && accountForm.confirmpassword.$invalid }"
+                                ng-show="accountForm.confirmpassword.$dirty && accountForm.confirmpassword.$invalid">
+                                <li class="required" ng-show="accountForm.confirmpassword.$error.passwordVerify">{{ 'CommonMessages.PasswordError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.confirmpassword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.confirmpassword.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 8 } }}</li>
+                                <li class="required" ng-show="accountForm.confirmpassword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 50 } }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>
+                        {{ 'Registration.CreateAccount.BasicInfo' | translate }}
+                    </h4>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-11 col-md-push-1">
+                    <div class="form-group">
+                        <label for="applicantName" class="col-md-3">{{ 'Registration.CreateAccount.ApplicantName' | translate }}</label>
+                        <div class="col-md-6">
+                            <input id="applicantName" name="applicantName" type="text" class="form-control" dir="auto"
+                                   ng-model="userAccount.applicantName"
+                                   ng-maxlength="100" maxlength="100"
+                                   ng-required="true"/>
+                            <ul ng-class="{ 'parsley-error-list': accountForm.applicantName.$dirty && accountForm.applicantName.$invalid }"
+                                ng-show="accountForm.applicantName.$dirty && accountForm.applicantName.$invalid">
+                                <li class="required" ng-show="accountForm.applicantName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.applicantName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="position" class="col-md-3">{{ 'Registration.CreateAccount.Position' | translate }}</label>
+                        <div class="col-md-6">
+                            <input id="position" name="position" type="text" class="form-control" dir="auto"
+                                   ng-model="userAccount.position"
+                                   ng-maxlength="100" maxlength="100"
+                                   ng-required="true"/>
+                            <ul ng-class="{ 'parsley-error-list': accountForm.position.$dirty && accountForm.position.$invalid }"
+                                ng-show="accountForm.position.$dirty && accountForm.position.$invalid">
+                                <li class="required" ng-show="accountForm.position.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.position.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-md-3">{{ 'Registration.CreateAccount.Email' | translate }}</label>
+                        <div class="col-md-6">
+                            <input id="email" name="email" type="email" class="form-control"
+                                   ng-model="userAccount.email"
+                                   maxlength="100" ng-maxlength="100"
+                                   ng-required="true"/>
+                            <ul ng-class="{ 'parsley-error-list': accountForm.email.$dirty && accountForm.email.$invalid }"
+                                ng-show="accountForm.email.$dirty && accountForm.email.$invalid">
+                                <li class="required" ng-show="accountForm.email.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.email.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                                <li class="required" ng-show="accountForm.email.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobilePhone" class="col-md-3">{{ 'Registration.CreateAccount.MobilePhone' | translate }}</label>
+                        <div class="col-md-6">
+                            <input id="mobilePhone" name="mobilePhone" type="text" class="form-control" dir="auto"
+                                   ng-model="userAccount.mobilePhone"
+                                   ng-minlength="12" maxlength="15" ng-maxlength="15"
+                                   ng-required="true">
+                            <ul ng-class="{ 'parsley-error-list': accountForm.mobilePhone.$dirty && accountForm.mobilePhone.$invalid }"
+                                ng-show="accountForm.mobilePhone.$dirty && accountForm.mobilePhone.$invalid">
+                                <li class="required" ng-show="accountForm.mobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="accountForm.mobilePhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 12} }}</li>
+                                <li class="required" ng-show="accountForm.mobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 15} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.Services.OnDemandi18nProfile.ModalTitle' | translate:{name: service.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="Language" class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.Language' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="Language" name="Language" class="form-control parsley-validated"
+                                ng-model="onDemandi18nProfile.Language"
+                                ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                                ng-required="true"
+                                ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.Language.$dirty && form.Language.$invalid }"
+                            ng-show="form.Language.$dirty && form.Language.$invalid">
+                            <li class="required" ng-show="form.Language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TODO - Temporarily hidden -->
+                <div class="form-group" ng-if="false">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.IsDefault' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{onDemandi18nProfile.IsDefault?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                    ng-model="onDemandi18nProfile.IsDefault" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!onDemandi18nProfile.IsDefault?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                    ng-model="onDemandi18nProfile.IsDefault" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="OnDemandShortCode" class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.OnDemandShortCode' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="OnDemandShortCode" name="OnDemandShortCode" class="form-control parsley-validated"
+                                ng-model="onDemandi18nProfile.OnDemandShortCode"
+                                ng-required="true"
+                                ng-options="shortCode.ShortCode as shortCode.ShortCode for shortCode in shortCodeList"
+                                ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.OnDemandShortCode.$dirty && form.OnDemandShortCode.$invalid }"
+                            ng-show="form.OnDemandShortCode.$dirty && form.OnDemandShortCode.$invalid">
+                            <li class="required" ng-show="form.OnDemandShortCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="!(service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'CHAPTERED')">
+                    <label for="OnDemandCommands" class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.OnDemandCommands' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="OnDemandCommands" name="OnDemandCommands" type="text" class="form-control"
+                               placeholder="{{ 'PartnerInfo.Services.OnDemandi18nProfile.OnDemandCommandsPlaceholder' | translate }}"
+                               ng-model="onDemandi18nProfile.OnDemandCommands"
+                               ng-required="IsOnDemandCommandsMandatory"
+                               ng-maxlength="255" maxlength="255"
+                               ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                        <ul ng-class="{ 'parsley-error-list': form.OnDemandCommands.$dirty && form.OnDemandCommands.$invalid }"
+                            ng-show="form.OnDemandCommands.$dirty && form.OnDemandCommands.$invalid">
+                            <li class="required" ng-show="form.OnDemandCommands.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.OnDemandCommands.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            <li class="required" ng-show="form.OnDemandCommands.$error.availabilityCheck">{{ onDemandCommandsAvailabilityMessage }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="!((service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'ON_DEMAND') ||
+                                                 (service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'CHAPTERED') ||
+                                                 (service.serviceProfile.Type === 'CUSTOMIZED_SMS_SERVICE' && service.serviceProfile.Usage === 'ON_DEMAND'))">
+                    <label for="OnDemandResponseMessage" class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.OnDemandResponseMessage' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="OnDemandResponseMessage" name="OnDemandResponseMessage" type="text" class="form-control"
+                               ng-model="onDemandi18nProfile.OnDemandResponseMessage"
+                               ng-maxlength="255" maxlength="255"
+                               ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                        <ul ng-class="{ 'parsley-error-list': form.OnDemandResponseMessage.$dirty && form.OnDemandResponseMessage.$invalid }"
+                            ng-show="form.OnDemandResponseMessage.$dirty && form.OnDemandResponseMessage.$invalid">
+                            <li class="required" ng-show="form.OnDemandResponseMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || (service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate()) || isNotChanged()"
+                                ng-click="save(onDemandi18nProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

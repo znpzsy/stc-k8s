@@ -1,0 +1,108 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.Screenings.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Operations.Screenings.Inclusions.MenuLabel' | translate }} / {{ 'Products.AntiSpamSMS.Operations.Screenings.ApplicationMT.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <uib-tabset justified="false" type="tabs">
+        <uib-tab ng-model="whiteList" active="true">
+            <uib-tab-heading>
+                <span class="fa fa-file-text-o"></span> {{ 'ScreeningLists.WhiteList' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="pull-left">
+                                <button class="btn btn-secondary btn-sm create-button"
+                                        ng-disabled="!AuthorizationService.canCreate()"
+                                        ng-click="addNewEntry();">
+                                    <i class="fa fa-plus-circle"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <div class="pull-right">
+                                <div class="btn-group" ng-show="whiteList.tableParams.total() > 0">
+                                    <button type="button" ng-click="csv.download('ApplicationMTWhiteLists', whiteList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                    <button type="button" ng-click="xls.download('ApplicationMTWhiteLists', whiteList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterWhiteList(filterText, ['senderAddressRangeStart', 'senderAddressRangeEnd', 'senderAddressType'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table ng-table="whiteList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html"
+                           export-csv="csv" export-xls="xls"
+                           export-options="exportOptions">
+                        <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.TableColumns.AddressRangeStart' | translate" sortable="'senderAddressRangeStart'">{{data.senderAddressRangeStart}}</td>
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.TableColumns.AddressRangeEnd' | translate" sortable="'senderAddressRangeEnd'">{{data.senderAddressRangeEnd}}</td>
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.TableColumns.AddressType' | translate" sortable="'senderAddressType'">{{data.senderAddressType}}</td>
+                            <td align="center" data-title="'CommonLabels.State' | translate" sortable="'status'">{{data.status | StatusTypeFilter}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                <button class="btn btn-xs btn-secondary"
+                                        ng-click="updateEntry(data)"
+                                        title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                    <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                    <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                                </button>
+                                <button ng-click="setSMSCSGT (data)" class="btn btn-xs btn-default"
+                                        title="{{ 'Products.AntiSpamSMS.Operations.Screenings.SetSMSCSGT' | translate }}"
+                                        ng-disabled="!AuthorizationService.canUpdate()">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                                <button class="btn btn-xs btn-danger"
+                                        ng-disabled="!AuthorizationService.canDelete()"
+                                        ng-click="remove(data)"
+                                        title="{{ 'CommonLabels.Remove' | translate }}">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab ng-model="screeningRuleConfiguration">
+            <uib-tab-heading>
+                <span class="fa fa-list"></span> {{ 'ScreeningLists.ScreeningRuleConfiguration' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="buttons-portlet-body">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'ScreeningLists.ScreeningRule' | translate }}</label>
+                        <div class="col-md-6">
+                            <select id="screeningRule" name="screeningRule"
+                                    ng-model="screeningRule" class="form-control"
+                                    ng-options="screeningRule.value as (screeningRule.label | translate) for screeningRule in SCREENING_MANAGER_RULES"
+                                    ng-disabled="true">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+</div>

@@ -1,0 +1,40 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.BulkMessaging.Configuration.Settings.Title' | translate }} / {{ 'Products.BulkMessaging.Configuration.Settings.Common.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Configuration.Settings.MsisdnRegex' | translate }}</label>
+            <div class="col-md-9">
+                <input id="regexPatterns" name="regexPatterns" type="text" class="form-control"
+                       ng-model="settings.regexPatterns"
+                       ng-maxlength="250" maxlength="250" ng-required="true"
+                       ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.regexPatterns.$dirty && form.regexPatterns.$invalid }" ng-show="form.regexPatterns.$dirty && form.regexPatterns.$invalid">
+                    <li class="required" ng-show="form.regexPatterns.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.regexPatterns.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canAllConfigurationUpdate() || isNotChanged()"
+                        ng-click="save(settings);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

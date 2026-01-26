@@ -1,0 +1,71 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.SignatureBoxes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="signaturebox.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SignatureBoxes.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input id="signatureId" name="signatureId" type="text" class="form-control"
+                       ng-value="signaturebox.id"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="alias" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SignatureBoxes.Alias' | translate }}</label>
+            <div class="col-md-7">
+                <input id="alias" name="alias" type="text" class="form-control"
+                       ng-model="signaturebox.alias"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(signaturebox.id ? !AuthorizationService.canRBTOperationsSignatureBoxUpdate() : !AuthorizationService.canRBTOperationsSignatureBoxCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.alias.$dirty && form.alias.$invalid }"
+                    ng-show="form.alias.$dirty && form.alias.$invalid">
+                    <li class="required" ng-show="form.alias.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.alias.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SignatureBoxes.Signatures' | translate }}</label>
+            <div class="col-md-7">
+                <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                           ng-model="signaturebox.signatureList"
+                           close-on-select="false"
+                           limit="20"
+                           title="{{ 'CommonLabels.SelectOne' | translate }}"
+                           ng-disabled="(signaturebox.id ? !AuthorizationService.canRBTOperationsSignatureBoxUpdate() : !AuthorizationService.canRBTOperationsSignatureBoxCreate())">
+                    <ui-select-match placeholder=" {{ 'CommonLabels.SelectFromTheList' | translate }}">
+                        {{ $item.alias }}
+                    </ui-select-match>
+                    <ui-select-choices repeat="signatureListItem as signatureListItem in (signatureList | filter: $select.search)">
+                        {{ signatureListItem.alias }}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (signaturebox.id ? !AuthorizationService.canRBTOperationsSignatureBoxUpdate() : !AuthorizationService.canRBTOperationsSignatureBoxCreate()) || isNotChanged()"
+                        ng-click="save(signaturebox);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

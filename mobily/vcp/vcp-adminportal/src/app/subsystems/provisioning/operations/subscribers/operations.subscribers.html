@@ -1,0 +1,69 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Subscribers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="subsystems.provisioning.operations.subscribers.new"
+                        ng-disabled="!AuthorizationService.canCreateSubscriber()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div class="pull-right">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm"
+                           ng-change="filterTableByMsisdnChange(msisdnFilterText)"
+                           ng-keyup="$event.keyCode == 13 && filterTableByMsisdn(msisdnFilterText)"
+                           ng-model="msisdnFilterText"
+                           placeholder="{{ 'CommonLabels.SearchByMsisdn' | translate }}...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary btn-sm" type="button"
+                                ng-click="filterTableByMsisdn(msisdnFilterText)"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="subscriberList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="subscriber in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.Provisioning.Subscribers.TableColumns.Msisdn' | translate">{{subscriber.subscriberProfile.MSISDN}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.Subscribers.TableColumns.Status' | translate">{{subscriber.subscriberProfile.StatusText}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.Subscribers.TableColumns.PaymentType' | translate">{{subscriber.subscriberProfile.PaymentTypeText}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.Subscribers.TableColumns.Language' | translate">{{subscriber.subscriberProfile.LanguageText}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.provisioning.operations.subscribers.update ({ id: subscriber.id })"
+                                    class="btn btn-xs btn-secondary" title="{{ AuthorizationService.canUpdateSubscriber() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}" >
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdateSubscriber()" ></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdateSubscriber()" ></i>
+                            </button>
+                            <button ng-click="remove(subscriber)" class="btn btn-xs btn-danger" title="{{ 'CommonLabels.Remove' | translate }}" ng-disabled="!AuthorizationService.canDeleteSubscriber()" >
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

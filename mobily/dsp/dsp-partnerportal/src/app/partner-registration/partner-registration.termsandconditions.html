@@ -1,0 +1,36 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-body">
+
+        <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <div class="col-md-12">
+                    <div class="heading-block">
+                        <h4>
+                            {{ 'FirstPartnerRegistration.T&C.Title' | translate }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <uib-accordion close-others="false" class="registration-accordion panel-group accordion-panel">
+                <div uib-accordion-group class="panel-default pdf-agreements" ng-repeat="agreement in selectedAgreements"
+                     is-open="agreement.isAccordionOpen"
+                     ng-init="agreement.index = $index;">
+                    <uib-accordion-heading>
+                        <h6 style="margin-bottom: 0;">
+                            <span ng-if="agreement.Type === 'COMMON'"><i class="fa fa accordion-caret"></i>{{ 'FirstPartnerRegistration.T&C.ContractAgreement' | translate }}</span>
+                            <span ng-if="agreement.Type !== 'COMMON'"><i class="fa fa accordion-caret"></i>{{ 'FirstPartnerRegistration.T&C.T&CFor' | translate:{agreementName: agreement.Name} }}</span>
+                        </h6>
+                    </uib-accordion-heading>
+
+                    <div id="embeddedAgreementDocument{{$index}}"></div>
+                </div>
+            </uib-accordion>
+
+        </form>
+
+    </div>
+
+</div>

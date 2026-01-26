@@ -1,0 +1,269 @@
+(function () {
+
+    'use strict';
+
+    /* Constants */
+    angular.module('Application.constants', []);
+
+    var ApplicationConstants = angular.module('Application.constants');
+
+    ApplicationConstants.constant('RESOURCE_NAME', 'VCP Customer Care Portal');
+
+    ApplicationConstants.constant('CURRENCY', {
+        code: 682,
+        abbr: 'SAR',
+        coin: 'halalah'
+    });
+
+    // This method finds locale datetime string by specified timezone string (e.g. 'Europe/London'). Calculates time
+    // offset between the found date value and the current utc date value. Converts that calculated offset value to
+    // a timezone offset string (as like +0300) finally.
+    var getTimezoneOffsetString = function (tz, withColon) {
+        return moment().tz(tz).format(withColon ? 'Z' : 'ZZ');
+    };
+
+    var TIMEZONE = 'Asia/Riyadh';
+
+    ApplicationConstants.constant('DateTimeConstants', {
+        TIMEZONE: TIMEZONE,
+        OFFSET: getTimezoneOffsetString(TIMEZONE),
+        OFFSET_WITH_COLON: getTimezoneOffsetString(TIMEZONE, true)
+    });
+
+    ApplicationConstants.constant('DEFAULT_REST_QUERY_LIMIT', 10000);
+    ApplicationConstants.constant('DEFAULT_WIDE_REST_QUERY_LIMIT', 50000);
+
+    ApplicationConstants.constant('TROUBLESHOOTING_RECORD_COUNT_LIMIT_FOR_NOTIFICATION', 5000);
+
+    ApplicationConstants.constant('PROVISIONING_CHANNEL_TYPES', [
+        {id: 1, label: "IVR"},
+        {id: 2, label: "USSD"},
+        {id: 3, label: "SMS"},
+        {id: 4, label: "WEB"},
+        {id: 5, label: "WAP"},
+        {id: 6, label: "SSM"},
+        {id: 7, label: "Provisioning"},
+        {id: 8, label: "Customer Care"},
+        {id: 9, label: "Third Party"},
+        {id: 10, label: "Mobile Application"},
+        {id: 11, label: "OTHER"}
+    ]);
+
+    ApplicationConstants.constant('DAYS_OF_WEEK', [
+        {id: 0, text: "CommonLabels.DaysOfWeek.Sunday", value: 1},
+        {id: 1, text: "CommonLabels.DaysOfWeek.Monday", value: 2},
+        {id: 2, text: "CommonLabels.DaysOfWeek.Tuesday", value: 3},
+        {id: 3, text: "CommonLabels.DaysOfWeek.Wednesday", value: 4},
+        {id: 4, text: "CommonLabels.DaysOfWeek.Thursday", value: 5},
+        {id: 5, text: "CommonLabels.DaysOfWeek.Friday", value: 6},
+        {id: 6, text: "CommonLabels.DaysOfWeek.Saturday", value: 7}
+    ]);
+
+    ApplicationConstants.constant('SCREENING_LISTS_MODE_TYPES', [
+        {id: 0, text: "ScreeningLists.ModeTypes.AcceptWhiteList", value: "AcceptWhitelist"},
+        {id: 1, text: "ScreeningLists.ModeTypes.AcceptAll", value: "AcceptAll"},
+        {id: 2, text: "ScreeningLists.ModeTypes.RejectBlackList", value: "RejectBlacklist"},
+        {id: 3, text: "ScreeningLists.ModeTypes.RejectAll", value: "RejectAll"}
+    ]);
+
+    ApplicationConstants.constant('POINT_TYPES', ['SUCCESS', 'FAILURE']);
+
+    ApplicationConstants.constant('PROVISIONING_PAYMENT_TYPES', [
+        {label: 'PaymentTypes.Prepaid', value: 'Prepaid', cmpf_value: 0},
+        {label: 'PaymentTypes.Postpaid', value: 'Postpaid', cmpf_value: 1},
+        {label: 'PaymentTypes.VIP', value: 'VIP', cmpf_value: 3}
+    ]);
+
+    ApplicationConstants.constant('SUBSCRIBER_LANGUAGES', [
+        {value: 'ar', label: 'SubscriberInfo.Languages.AR'},
+        {value: 'en', label: 'SubscriberInfo.Languages.EN'}
+    ]);
+
+    ApplicationConstants.constant('SUBSCRIPTION_MANAGEMENT_CHANNEL_TYPES', [
+        'IVR',
+        'USSD',
+        'SMS',
+        'WEB',
+        'CC',
+        'PROV',
+        'TP',
+        'MOA',
+        'OTHER'
+    ]);
+    ApplicationConstants.constant('SUBSCRIPTION_MANAGEMENT_ERROR_CODES', [
+        {key: 0, text: 'SUCCESS'},
+        {key: 5200000, text: 'GENERAL_ERROR'},
+        {key: 5200001, text: 'CMPF_CONFIGURATION_MISSING'},
+        {key: 5200002, text: 'XSGW_CONFIGURATION_MISSING'},
+        {key: 5201000, text: 'MANDATORY_PARAMETER_MISSING'},
+        {key: 5201001, text: 'ERR_LAST_SUBSCRIPTION_DATE_PASSED'},
+        {key: 5201002, text: 'ERR_START_DATE_INVALID'},
+        {key: 5201003, text: 'ERR_ILLEGAL_SUBSCRIBER_STATE'},
+        {key: 5201004, text: 'ERR_GIFTED_OFFER_SUBSCRIPTION_EXISTS'},
+        {key: 5201005, text: 'ERR_OFFER_SUBSCRIPTION_EXISTS'},
+        {key: 5201006, text: 'ERR_GIFTED_SERVICE_SUBSCRIPTION_EXISTS'},
+        {key: 5201007, text: 'ERR_SERVICE_SUBSCRIPTION_EXISTS'},
+        {key: 5201008, text: 'ERR_OFFER_SUBSCRIPTION_DOESNOT_EXIST'},
+        {key: 5201009, text: 'ERR_INVALID_DURATION_FORMAT'},
+        {key: 5201010, text: 'ERR_EVENT_SCHEDULING_FAILED'},
+        {key: 5201011, text: 'ERR_PROFILEDEF_NOT_EXISTS'},
+        {key: 5201012, text: 'ERR_OFFER_NOT_EXISTS'},
+        {key: 5201013, text: 'ERR_NEXT_OFFER_NOT_EXISTS'},
+        {key: 5201014, text: 'ERR_SUBSCRIBER_NOT_FOUND'},
+        {key: 5201015, text: 'ERR_SERVICE_NOT_FOUND'},
+        {key: 5201016, text: 'ERR_SERVICE_SUBSCRIPTION_NOT_FOUND'},
+        {key: 5201017, text: 'ERR_DIFFERENT_OPERATOR_SUBSCRIBER'},
+        {key: 5201018, text: 'ERR_OFFER_NOT_FOUND'},
+        {key: 5201019, text: 'ERR_INVALID_MSISDN_FORMAT'},
+        {key: 5201020, text: 'ERR_INVALID_OFFER_STATE'},
+        {key: 5201021, text: 'ERR_EVENT_REMOVAL_FAILED'},
+        {key: 5201022, text: 'ERR_SERVICE_NOTIFICATION_FAILED'},
+        {key: 5201023, text: 'ERR_SUBSCRIBER_NOTIFICATION_FAILED'},
+        {key: 5201024, text: 'ERR_CHARGING_EVENT_FAILED'},
+        {key: 5201025, text: 'ERR_INACTIVATED_BY_SUBSCRIBER'},
+        {key: 5201026, text: 'ERR_NEXT_SUBSCRIPTION_FAILED'},
+        {key: 5201027, text: 'ERR_CREATE_SUBSCRIPTION_FAILED'},
+        {key: 5201028, text: 'ERR_SETSTATE_OF_SUBSCRIPTION_FAILED'},
+        {key: 5201029, text: 'ERR_HLR_FLAG_SETTING_FAILED'},
+        {key: 5201030, text: 'ERR_SERVICE_IS_NOT_OWNED_BY_PROVIDER'},
+        {key: 5201031, text: 'ERR_INVALID_SERVICE_STATE'},
+        {key: 5201032, text: 'ERR_DELETE_SERVICE_SUBSCRIPTION'},
+        {key: 5201033, text: 'ERR_HLR_FLAG_UNSETTING_FAILED'},
+        {key: 5201034, text: 'ERR_IS_SUBSCRIBED_CHECK_FAILED'},
+        {key: 5201035, text: 'ERR_SUBSCRIBE_TO_SERVICE_FAILED'},
+        {key: 5201036, text: 'ERR_UNSUBSCRIBE_FROM_SERVICE_FAILED'},
+        {key: 5201037, text: 'ERR_TERMINATION_OF_TRIAL_SUBSCRIPTION_FAILED'},
+        {key: 5201038, text: 'ERR_INVALID_CHANNEL'},
+        {key: 5201039, text: 'ERR_TRIAL_SUBSCRIPTION_NOT_ALLOWED_MORE_THAN_ONCE'},
+        {key: 5201040, text: 'ERR_NO_REMAINING_DAYS_FOR_SUBSCRIPTION'},
+        {key: 5201041, text: 'ERR_SUBSCRIBER_NOTIFICATION_NOT_ENABLED'},
+        {key: 5201042, text: 'ERR_COULD_NOT_PROCESS_CONFIRMATION'},
+        {key: 5201043, text: 'ERR_ORGANIZATION_NOT_FOUND'},
+        {key: 5201044, text: 'ERR_USER_NOT_FOUND'},
+        {key: 5201045, text: 'MANDATORY_PROFILE_MISSING'},
+        {key: 5201046, text: 'MANDATORY_ATTRIBUTE_MISSING'},
+        {key: 5201047, text: 'SERVICE_SUBSCRIPTION_IS_IN_PENDING_STATE'},
+        {key: 5201048, text: 'ERR_SUBSCRIBER_ALREADY_CREATED'},
+        {key: 5201049, text: 'ERR_SUBSCRIBER_IS_NOT_ELIGIBLE'},
+        {key: 5201050, text: 'ERR_SCREENING_FAILED'},
+        {key: 5201051, text: 'ERR_SUBSCRIBER_IS_NOT_ACTIVE'},
+        {key: 5201100, text: 'ERR_METHOD_NOT_IMPLEMENTED'},
+        {key: 5202000, text: 'ERR_MNP_NOT_INITIALIZED'},
+        {key: 5202001, text: 'ERR_GETMNP_FAILURE'},
+        {key: 5202002, text: 'ERR_CHARGING_NOT_INITIALIZED'},
+        {key: 5202003, text: 'ERR_CHARGING_INSUFFICIENT_CREDIT'},
+        {key: 5202004, text: 'ERR_CHARGING_FAILED'},
+        {key: 5202005, text: 'ERR_REQUEST_ALREADY_IN_QUEUE'},
+        {key: 5202006, text: 'ERR_INITIAL_CHARGING_RETRY_DUE_TO_CONNECTION_ERROR_NOT_NEEDED'},
+        {key: 5202007, text: 'ERR_INITIAL_CHARGING_RETRY_DUE_TO_INSUFFICIENT_CREDIT_NOT_NEEDED'},
+        {key: 5203000, text: 'ERR_CONSENT_STATE_DENIED'},
+        {key: 5203001, text: 'ERR_CONSENT_STATE_NORESPONSE'},
+        {key: 5203002, text: 'ERR_CONSENT_STATE_WAITING'},
+        {key: 5203003, text: 'ERR_CONSENT_STATE_EXPIRED'},
+        {key: 5203004, text: 'ERR_CONSENT_EXCEPTION'},
+        {key: 5203005, text: 'ERR_NO_SUBSCRIPTION_FOR_RECEIVED_CONSENT'},
+        {key: 5203006, text: 'ERR_COULD_NOT_PROCESS_CONSENT'},
+        {key: 5204000, text: 'ERR_HLR_FLAG_ERROR'},
+        {key: 5205000, text: 'ERR_DB_CONFIGURATION_ERROR'},
+        {key: 5206000, text: 'ERR_LICENSE_EXPIRED'},
+        {key: 5206001, text: 'ERR_LICENSE_LIMIT_REACHED'},
+        {key: 5206002, text: 'GENERAL_LICENSE_ERROR'},
+        {key: 5206003, text: 'ERR_CACHED_OBJECT_NULL'}
+    ]);
+    ApplicationConstants.constant('SUBSCRIPTION_MANAGEMENT_EVENT_TYPES', [
+        {key: 1, text: 'SUBSCRIBE_TO_OFFER_ATTEMPT'},
+        {key: 2, text: 'SUBSCRIBE_TO_OFFER_SUCCESS'},
+        {key: 3, text: 'SUBSCRIBE_TO_OFFER_FAIL'},
+        {key: 4, text: 'UNSUBSCRIBE_FROM_OFFER_ATTEMPT'},
+        {key: 5, text: 'UNSUBSCRIBE_FROM_OFFER_SUCCESS'},
+        {key: 6, text: 'UNSUBSCRIBE_FROM_OFFER_FAIL'},
+        {key: 7, text: 'CHARGING_ATTEMPT'},
+        {key: 8, text: 'CHARGING_SUCCESS'},
+        {key: 9, text: 'CHARGING_FAIL'},
+        {key: 10, text: 'INITIAL_CHARGING_ATTEMPT'},
+        {key: 11, text: 'INITIAL_CHARGING_SUCCESS'},
+        {key: 12, text: 'INITIAL_CHARGING_FAIL'},
+        {key: 13, text: 'DEBT_CHARGING_ATTEMPT'},
+        {key: 14, text: 'DEBT_CHARGING_SUCCESS'},
+        {key: 15, text: 'DEBT_CHARGING_FAIL'},
+        {key: 16, text: 'CHARGING_EVENT_ATTEMPT'},
+        {key: 17, text: 'CHARGING_EVENT_SUCCESS'},
+        {key: 18, text: 'CHARGING_EVENT_FAIL'},
+        {key: 19, text: 'CHARGING_RETRY_EVENT_ATTEMPT'},
+        {key: 20, text: 'CHARGING_RETRY_EVENT_SUCCESS'},
+        {key: 21, text: 'CHARGING_RETRY_EVENT_FAIL'},
+        {key: 22, text: 'SERVICE_SUBSCRIPTION_STATE_NOTIFICATION_ATTEMPT'},
+        {key: 23, text: 'SERVICE_SUBSCRIPTION_STATE_NOTIFICATION_SUCCESS'},
+        {key: 24, text: 'SERVICE_SUBSCRIPTION_STATE_NOTIFICATION_FAIL'},
+        {key: 25, text: 'SUBSCRIBER_NOTIFICATION_ATTEMPT'},
+        {key: 26, text: 'SUBSCRIBER_NOTIFICATION_SUCCESS'},
+        {key: 27, text: 'SUBSCRIBER_NOTIFICATION_FAIL'},
+        {key: 28, text: 'SETSTATEOF_SUBSCRIPTION_ATTEMPT'},
+        {key: 29, text: 'SETSTATEOF_SUBSCRIPTION_SUCCESS'},
+        {key: 30, text: 'SETSTATEOF_SUBSCRIPTION_FAIL'},
+        {key: 31, text: 'RENEW_SUBSCRIPTION_ATTEMPT'},
+        {key: 32, text: 'RENEW_SUBSCRIPTION_SUCCESS'},
+        {key: 33, text: 'RENEW_SUBSCRIPTION_FAIL'},
+        {key: 34, text: 'NEXT_SUBSCRIPTION_ATTEMPT'},
+        {key: 35, text: 'NEXT_SUBSCRIPTION_SUCCESS'},
+        {key: 36, text: 'NEXT_SUBSCRIPTION_FAIL'},
+        {key: 37, text: 'EXTEND_SUBSCRIPTION_ATTEMPT'},
+        {key: 38, text: 'EXTEND_SUBSCRIPTION_SUCCESS'},
+        {key: 39, text: 'EXTEND_SUBSCRIPTION_FAIL'},
+        {key: 40, text: 'PROCESS_CONFIRMATION_ATTEMPT'},
+        {key: 41, text: 'PROCESS_CONFIRMATION_SUCCESS'},
+        {key: 42, text: 'PROCESS_CONFIRMATION_FAIL'},
+        {key: 43, text: 'SUBSCRIBE_TO_SERVICE_ATTEMPT'},
+        {key: 44, text: 'SUBSCRIBE_TO_SERVICE_SUCCESS'},
+        {key: 45, text: 'SUBSCRIBE_TO_SERVICE_FAIL'},
+        {key: 46, text: 'UNSUBSCRIBE_FROM_SERVICE_ATTEMPT'},
+        {key: 47, text: 'UNSUBSCRIBE_FROM_SERVICE_SUCCESS'},
+        {key: 48, text: 'UNSUBSCRIBE_FROM_SERVICE_FAIL'},
+        {key: 49, text: 'IS_SUBSCRIBED_TO_SERVICE_ATTEMPT'},
+        {key: 50, text: 'IS_SUBSCRIBED_TO_SERVICE_SUCCESS'},
+        {key: 51, text: 'IS_SUBSCRIBED_TO_SERVICE_FAIL'},
+        {key: 52, text: 'ASKED_CONSENT_FOR_SERVICE'},
+        {key: 53, text: 'RECEIVED_CONSENT_RESULT_NOTIFICATION_FOR_SERVICE'},
+        {key: 54, text: 'SETTING_HLR_FLAG_SUCCESS'},
+        {key: 55, text: 'SETTING_HLR_FLAG_FAILED'},
+        {key: 56, text: 'SUBSCRIBE_TO_OFFER_AFTER_TRIAL_PERIOD_ATTEMPT'},
+        {key: 57, text: 'SUBSCRIBE_TO_OFFER_AFTER_TRIAL_PERIOD_SUCCESS'},
+        {key: 58, text: 'SUBSCRIBE_TO_OFFER_AFTER_TRIAL_PERIOD_FAIL'},
+        {key: 59, text: 'TERMINATE_TRIAL_SUBSCRIPTION_ATTEMPT'},
+        {key: 60, text: 'TERMINATE_TRIAL_SUBSCRIPTION_SUCCESS'},
+        {key: 61, text: 'TERMINATE_TRIAL_SUBSCRIPTION_FAIL'},
+        {key: 62, text: 'INITIAL_CHARGING_RETRY_EVENT_ATTEMPT'},
+        {key: 63, text: 'INITIAL_CHARGING_RETRY_EVENT_SUCCESS'},
+        {key: 64, text: 'INITIAL_CHARGING_RETRY_EVENT_FAIL'},
+        {key: 65, text: 'INITIAL_CONNECTION_RETRY_EVENT_ATTEMPT'},
+        {key: 66, text: 'INITIAL_CONNECTION_RETRY_EVENT_SUCCESS'},
+        {key: 67, text: 'INITIAL_CONNECTION_RETRY_EVENT_FAIL'},
+        {key: 70, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_ACTIVE_TO_GRACE'},
+        {key: 71, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_ACTIVE_TO_SUSPEND'},
+        {key: 72, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_ACTIVE_TO_INACTIVE'},
+        {key: 73, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_GRACE_TO_SUSPEND'},
+        {key: 74, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_GRACE_TO_ACTIVE'},
+        {key: 75, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_GRACE_TO_INACTIVE'},
+        {key: 76, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_SUSPEND_TO_ACTIVE'},
+        {key: 77, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_SUSPEND_TO_INACTIVE'},
+        {key: 78, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_SUSPEND_TO_GRACE'},
+        {key: 79, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_INACTIVE_TO_ACTIVE'},
+        {key: 80, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_INACTIVE_TO_SUSPEND'},
+        {key: 81, text: 'OFFER_SUBSCRIPTION_STATE_CHANGE_INACTIVE_TO_GRACE'},
+        {key: 82, text: 'SUBSCRIPTION_MANAGER_RESPONSE'},
+        {key: 83, text: 'SET_NEXT_STEP_OF_SUBSCRIPTION_ATTEMPT'},
+        {key: 84, text: 'SET_NEXT_STEP_OF_SUBSCRIPTION_SUCCESS'},
+        {key: 85, text: 'SET_NEXT_STEP_OF_SUBSCRIPTION_FAIL'},
+        {key: 86, text: 'SKIPPED_CONSENT_FOR_SERVICE'},
+        {key: 87, text: 'GET_HLR_FLAG_ATTEMPT'},
+        {key: 88, text: 'GET_HLR_FLAG_SUCCESS'},
+        {key: 89, text: 'GET_HLR_FLAG_FAIL'},
+        {key: 90, text: 'SET_HLR_FLAG_ATTEMPT'},
+        {key: 91, text: 'SET_HLR_FLAG_SUCCESS'},
+        {key: 92, text: 'SET_HLR_FLAG_FAIL'},
+        {key: 93, text: 'CLEAR_HLR_FLAG_ATTEMPT'},
+        {key: 94, text: 'CLEAR_HLR_FLAG_SUCCESS'},
+        {key: 95, text: 'CLEAR_HLR_FLAG_FAIL'}
+    ]);
+
+})();

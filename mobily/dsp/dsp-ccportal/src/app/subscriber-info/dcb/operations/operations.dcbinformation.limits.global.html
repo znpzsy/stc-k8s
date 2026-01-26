@@ -1,0 +1,128 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            {{ 'SubscriberInfo.DCB.DcbStatistics.ServiceLimits' | translate }} / {{ 'SubscriberInfo.DCB.DcbStatistics.Global' | translate }}
+        </h4>
+    </div>
+
+    <div class="portlet-body" ng-if="dcbStatistics.limitList && dcbStatistics.limitList.length > 0">
+        <div class="row">
+            <div class="col-md-12">
+                <uib-accordion close-others="false" class="registration-accordion panel-group accordion-panel">
+                    <div uib-accordion-group class="panel-default" ng-repeat="limit in dcbStatistics.limitList"
+                         is-open="limit.isAccordionOpen"
+                         ng-init="limit.index = $index;">
+                        <uib-accordion-heading>
+                            <h6 style="margin-bottom: 0;">
+                                <span><i class="fa fa accordion-caret"></i>{{ 'CommonLabels.Service' | translate }}: {{ limit.serviceId }}</span>
+                            </h6>
+                        </uib-accordion-heading>
+
+                        <!-- Loading indicator spinner -->
+                        <div ng-if="!limit.showContent">
+                            <div style="height: 100%;max-height: 575px;text-align: center;">
+                                <i class="fa fa-spinner fa-spin tasks-spinner" style="margin: 0;width: 16px;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Actual content section -->
+                        <div ng-if="limit.showContent">
+                            <div class="details-modal" style="height: 100%;max-height: 575px;">
+                                <h6>{{ 'SubscriberInfo.DCB.DcbStatistics.ServiceName' | translate }}: {{ limit.service.name }}</h6>
+                                <table class="table keyvalue-table">
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="2">
+                                            <h6>{{ 'SubscriberInfo.DCB.DcbStatistics.Limits' | translate }}</h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value" ng-if="limit.day !== -1">{{ limit.day | number:2 }}&nbsp;</td>
+                                        <td class="kv-value" ng-if="limit.day === -1">{{ 'SubscriberInfo.DCB.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value" ng-if="limit.month !== -1">{{ limit.month | number:2 }}&nbsp;</td>
+                                        <td class="kv-value" ng-if="limit.month === -1">{{ 'SubscriberInfo.DCB.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.PurchaseLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value" ng-if="limit.purchase !== -1">{{ limit.purchase | number:2 }}&nbsp;</td>
+                                        <td class="kv-value" ng-if="limit.purchase === -1">{{ 'SubscriberInfo.DCB.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div ng-if="limit.matchingProfileList && limit.matchingProfileList.length > 0">
+                                    <table class="table keyvalue-table" ng-repeat="matchingCappingRule in limit.matchingProfileList">
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <h6>{{ 'SubscriberInfo.DCB.DcbStatistics.MatchingCappingRules' | translate }}</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.RuleName' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.type }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.ruleOrder">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.RuleOrder' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.ruleOrder }}&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.RuleType' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.ruleType }}&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.CreditSegments' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.creditSegments.join(', ') }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.creditLimitPercentage">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.CreditLimitPercentage' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.creditLimitPercentage }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.balancePercentage">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.BalancePercentage' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.balancePercentage }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.fixedCappingLimit">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.FixedCappingLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                            <td class="kv-value" ng-if="matchingCappingRule.fixedCappingLimit !== -1">{{ matchingCappingRule.fixedCappingLimit | number:2 }}&nbsp;</td>
+                                            <td class="kv-value" ng-if="matchingCappingRule.fixedCappingLimit === -1">{{ 'SubscriberInfo.DCB.DcbStatistics.Unlimited' | translate }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.tenureBased">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.TenureBased' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.tenureBased | YesNoFilter }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.tenureRangeStart">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.TenureRangeStart' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.tenureRangeStart | number }}&nbsp;</td>
+                                        </tr>
+                                        <tr ng-if="matchingCappingRule.tenureRangeEnd">
+                                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.TenureRangeEnd' | translate }}&nbsp;</td>
+                                            <td class="kv-value">{{ matchingCappingRule.tenureRangeEnd | number }}&nbsp;</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body" ng-if="!dcbStatistics.limitList || dcbStatistics.limitList.length === 0">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="text-center alert alert-warning">
+                    <h4 style="margin-bottom: 0;">N/A</h4>
+                </div>
+            </div>
+        </div
+    </div>
+
+</div>

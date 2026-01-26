@@ -1,0 +1,111 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.ShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.shortCodeTask.objectDetail.shortCode}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.shortCodeTask.objectDetail.shortCodeId">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.Id' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.shortCodeTask.objectDetail.shortCodeId}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.shortCodeTask.objectDetail.status}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.ProviderId' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.shortCodeTask.objectDetail.serviceProviderName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.Fee' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.shortCodeTask.objectDetail.fee}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.CommandHelpEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.shortCodeTask.objectDetail.commandHelpEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.shortCodeTask.objectDetail.commandHelpEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.shortCodeTask.objectDetail.commandHelpEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.shortCodeTask.objectDetail.commandHelpEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.shortCodeTask.objectDetail.commandHelpEnabled">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.CommandHelpMessage' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="CommandHelpMessage" name="CommandHelpMessage" class="form-control well well-sm" dir="auto"
+                          ng-value="task.shortCodeTask.objectDetail.commandHelpMessage"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.shortCodeTask.objectDetail.commandHelpEnabled">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ShortCodes.CommandHelpMessageOtherLang' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                          ng-value="task.shortCodeTask.objectDetail.commandHelpMessageOtherLang"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-success"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="rejectTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskReject()">
+                    {{ 'CommonLabels.Reject' | translate }}
+                </button>
+                <button type="submit" ui-sref="subsystems.provisioning.operations.shortcodes.update ({ id: task.shortCodeTask.objectDetail.shortCodeId })" class="btn btn-secondary"
+                        ng-if="AuthorizationService.canCmpfOperationsShortCodeRead() && AuthorizationService.canCmpfOperationsShortCodeUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.shortCodeTask.objectDetail.id">
+                    {{ 'CommonLabels.Update' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,180 @@
+<div class="mainnav">
+
+    <div class="container">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="mainnav-toggle" data-toggle="collapse" data-target=".mainnav-collapse"
+               ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <nav class="mainnav-collapse" role="navigation">
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+
+                <ul class="nav mainnav-menu">
+
+                    <li ng-class="{ 'active': $state.includes('dashboards') }">
+                        <a ui-sref="dashboards">
+                            <i class="fa fa-home"></i>&nbsp;&nbsp;{{ 'Header.Home' | translate }}
+                        </a>
+                    </li>
+
+                    <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products') }">
+
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown"
+                           data-hover="dropdown">
+                            {{ 'Products.MenuLabel' | translate }}
+                            <i class="mainnav-caret"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-class="{ 'active': $state.includes('products.smsc'), 'disabled': !AuthorizationService.canSeeSMSC() }">
+                                <a ng-href="{{!AuthorizationService.canSeeSMSC() ? '' : $state.href('products.smsc.dashboards')}}">
+                                    <i class="fa fa-th-large"></i>
+                                    &nbsp;{{ 'Products.SMSC.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('products.antispamsms'), 'disabled': !AuthorizationService.canSeeAntiSpam() }">
+                                <a ng-href="{{!AuthorizationService.canSeeAntiSpam() ? '' : $state.href('products.antispamsms.dashboards')}}">
+                                    <i class="fa fa-th-large"></i>
+                                    &nbsp;{{ 'Products.AntiSpamSMS.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('products.mmsc'), 'disabled': !AuthorizationService.canSeeMMSC() }">
+                                <a ng-href="{{!AuthorizationService.canSeeMMSC() ? '' : $state.href('products.mmsc.dashboards')}}">
+                                    <i class="fa fa-th-large"></i>
+                                    &nbsp;{{ 'Products.MMSC.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('products.usc'), 'disabled': !AuthorizationService.canSeeUSC() }">
+                                <a ng-href="{{!AuthorizationService.canSeeUSC() ? '' : $state.href('products.usc.dashboards')}}">
+                                    <i class="fa fa-th-large"></i>
+                                    &nbsp;{{ 'Products.USC.MenuLabel' | translate }}
+                                </a>
+                            </li>
+                            <li ng-class="{ 'active': $state.includes('products.ussi'), 'disabled': !AuthorizationService.canSeeUSC() }">
+                                <a ng-href="{{!AuthorizationService.canSeeUSC() ? '' : $state.href('products.ussi.dashboards')}}">
+                                    <i class="fa fa-th-large"></i>
+                                    &nbsp;{{ 'Products.USSI.MenuLabel' | translate }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services') }">
+
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown"
+                           data-hover="dropdown">
+                            {{ 'Services.MenuLabel' | translate }}
+                            <i class="mainnav-caret"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-class="{ 'active': $state.includes('services.cc'), 'disabled': !AuthorizationService.canSeeCC() }">
+                                <a ng-href="{{!AuthorizationService.canSeeCC() ? '' : $state.href('services.cc.dashboards')}}">
+                                    <i class="fa fa-bookmark"></i>
+                                    &nbsp;{{ 'Services.CC.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('services.mca'), 'disabled': !AuthorizationService.canSeeMCN() }">
+                                <a ng-href="{{!AuthorizationService.canSeeMCN() ? '' : $state.href('services.mca.dashboards')}}">
+                                    <i class="fa fa-bookmark"></i>
+                                    &nbsp;{{ 'Services.MCA.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('services.pokecall'), 'disabled': !AuthorizationService.canSeePokeCall() }">
+                                <a ng-href="{{!AuthorizationService.canSeePokeCall() ? '' : $state.href('services.pokecall.dashboards')}}">
+                                    <i class="fa fa-bookmark"></i>
+                                    &nbsp;{{ 'Services.PokeCall.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('services.vm'), 'disabled': !AuthorizationService.canSeeVM() }">
+                                <a ng-href="{{!AuthorizationService.canSeeVM() ? '' : $state.href('services.vm.dashboards')}}">
+                                    <i class="fa fa-bookmark"></i>
+                                    &nbsp;{{ 'Services.VM.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li ng-class="{ 'active': $state.includes('services.rbt'), 'disabled': !AuthorizationService.canSeeRBT() }">
+                                <a ng-href="{{!AuthorizationService.canSeeRBT() ? '' : $state.href('services.rbt.dashboards')}}">
+                                    <i class="fa fa-bookmark"></i>
+                                    &nbsp;{{ 'Services.RBT.MenuLabel' | translate }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems') }">
+
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown"
+                           data-hover="dropdown">
+                            {{ 'Subsystems.MenuLabel' | translate }}
+                            <i class="mainnav-caret"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-class="{ 'active': $state.includes('subsystems.provisioning'), 'disabled': !AuthorizationService.canSeeProvisioning() }">
+                                <a ng-href="{{!AuthorizationService.canSeeProvisioning() ? '' : $state.href('subsystems.provisioning.dashboards')}}">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    &nbsp;{{ 'Subsystems.Provisioning.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager'), 'disabled': !AuthorizationService.canSeeScreeningMgmt() }">
+                                <a ng-href="{{!AuthorizationService.canSeeScreeningMgmt() ? '' : $state.href('subsystems.screeningmanager.dashboards')}}">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    &nbsp;{{ 'Subsystems.ScreeningManager.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li ng-class="{ 'active': $state.includes('subsystems.diagnostics'), 'disabled': !AuthorizationService.canSeeDiagnostics() }">
+                                <a ng-href="{{!AuthorizationService.canSeeDiagnostics() ? '' : $state.href('subsystems.diagnostics.dashboards')}}">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    &nbsp;{{ 'Subsystems.Diagnostics.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('subsystems.licensing'), 'disabled': !AuthorizationService.canSeeLicenseMgmt() }">
+                                <a ng-href="{{!AuthorizationService.canSeeLicenseMgmt() ? '' : $state.href('subsystems.licensing.dashboards')}}">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    &nbsp;{{ 'Subsystems.Licensing.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                            <li ng-class="{ 'active': $state.includes('subsystems.reporting'), 'disabled': !AuthorizationService.canSeeReportGeneration() }">
+                                <a ng-href="{{!AuthorizationService.canSeeReportGeneration() ? '' : $state.href('subsystems.reporting.reports.dashboards')}}">
+                                    <i class="fa fa-puzzle-piece"></i>
+                                    &nbsp;{{ 'Subsystems.Reporting.MenuLabel' | translate }}
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+</div>

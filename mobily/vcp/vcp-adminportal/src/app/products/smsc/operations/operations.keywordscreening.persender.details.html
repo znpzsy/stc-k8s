@@ -1,0 +1,58 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.KeywordScreening.Title' | translate }} / {{ $state.current.data.subPageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.KeywordScreening.TableColumns.Sender' | translate }}</label>
+            <div class="col-md-7">
+                <input id="sender" name="sender" type="text" class="form-control"
+                       ng-model="keywordScreening.sender"
+                       ng-maxlength="250" maxlength="250"
+                       ng-required="true" required="true"
+                       ng-disabled="!AuthorizationService.canCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.sender.$dirty && form.sender.$invalid }" ng-show="form.sender.$dirty && form.sender.$invalid">
+                    <li class="required" ng-show="form.sender.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.sender.$error.replace">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                    <li class="required" ng-show="form.sender.$error.availabilityCheck">{{ 'Products.SMSC.Operations.KeywordScreening.Messages.PerSenderAlreadyDefinedError' | translate:{keyword: keywordScreening.keyword, sender: keywordScreening.sender} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.KeywordScreening.TableColumns.Keyword' | translate }}</label>
+            <div class="col-md-7">
+                <input id="keyword" name="keyword" type="text" class="form-control"
+                       ng-model="keywordScreening.keyword"
+                       ng-maxlength="250" maxlength="250"
+                       ng-required="true" required="true"
+                       ng-disabled="!AuthorizationService.canCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.keyword.$dirty && form.keyword.$invalid }" ng-show="form.keyword.$dirty && form.keyword.$invalid">
+                    <li class="required" ng-show="form.keyword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.keyword.$error.replace">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                    <li class="required" ng-show="form.keyword.$error.availabilityCheck">{{ 'Products.SMSC.Operations.KeywordScreening.Messages.PerSenderAlreadyDefinedError' | translate:{keyword: keywordScreening.keyword, sender: keywordScreening.sender} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate()"
+                        ng-click="save(keywordScreening);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

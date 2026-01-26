@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consportals-sa-mobily-dsp-ccportal-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: dsp-ccportal
+  template:
+    metadata:
+      labels:
+        component: dsp-ccportal
+    spec:
+      containers:
+        - name: dsp-ccportal
+          image: mersin.telenity.com/com/telenity/consportals-sa-mobily-dsp-ccportal:1.0.0.1
+          ports:
+            - containerPort: 8081

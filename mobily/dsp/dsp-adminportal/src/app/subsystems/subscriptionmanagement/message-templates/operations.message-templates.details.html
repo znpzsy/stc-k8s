@@ -1,0 +1,78 @@
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+    <fieldset id="formFieldset">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'CommonLabels.Language' | translate}}</label>
+        <div class="col-md-7">
+            <select id="selectedLanguage" name="selectedLanguage" class="form-control"
+                    ng-disabled="true">
+                <option value="{{selectedLanguage}}">{{selectedLanguage}} ({{ 'Languages.' + selectedLanguage | translate}})</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="!$state.$current.data.isGlobal">
+        <label class="col-md-3">{{ 'CommonLabels.Offer' | translate}}</label>
+        <div class="col-md-7">
+            <select id="selectedSubscriptionScenario" name="selectedSubscriptionScenario" class="form-control"
+                    ng-disabled="true">
+                <option value="{{selectedSubscriptionScenario}}">{{selectedSubscriptionScenario}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Templates.MessageTemplates.Fields.Name' | translate}}</label>
+        <div class="col-md-7" ng-if="!template.id">
+            <select id="templateName" name="templateName" class="form-control"
+                    ng-model="$parent.template.name"
+                    ng-required="true"
+                    ng-disabled="!AuthorizationService.canAllTemplatesCreate()"
+                    ng-options="templateName.name as templateName.name for templateName in availableTemplates">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+            <ul ng-class="{ 'parsley-error-list': form.templateName.$dirty && form.templateName.$invalid }"
+                ng-show="form.templateName.$dirty && form.templateName.$invalid">
+                <li class="required" ng-show="form.templateName.$error.required">{{'CommonMessages.RequiredFieldError' | translate }}</li>
+            </ul>
+        </div>
+        <div class="col-md-7" ng-if="template.id">
+            <select id="templateName" name="templateName" class="form-control"
+                    ng-disabled="true">
+                <option value="{{templateName}}">{{templateName}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Templates.MessageTemplates.Fields.Text' | translate}}</label>
+        <div class="col-md-7">
+            <textarea id="templateText" name="templateText" class="form-control" dir="auto"
+                      ng-model="template.text"
+                      ng-required="true"
+                      rows="4" ng-maxlength="1000" maxlength="1000"
+                      ng-disabled="(template.id ? !AuthorizationService.canAllTemplatesUpdate() : !AuthorizationService.canAllTemplatesCreate())">
+            </textarea>
+            <ul ng-class="{ 'parsley-error-list': form.templateText.$dirty && form.templateText.$invalid }"
+                ng-show="form.templateText.$dirty && form.templateText.$invalid">
+                <li class="required" ng-show="form.templateText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.templateText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 1000} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || (template.id ? !AuthorizationService.canAllTemplatesUpdate() : !AuthorizationService.canAllTemplatesCreate()) || isNotChanged()"
+                    ng-click="save(template);">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+    </fieldset>
+</form>

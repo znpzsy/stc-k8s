@@ -1,0 +1,130 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consportals-sa-mobily-dsp-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # Portals
+          - pathType: Prefix
+            path: "/adminportal"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8444
+          - pathType: Prefix
+            path: "/ccportal"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8444
+          - pathType: Prefix
+            path: "/partnerportal"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8444
+          # Others
+          - pathType: Prefix
+            path: "/conf"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8444
+          - pathType: Prefix
+            path: "/site.json"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8444
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consportals-sa-mobily-dsp-ingress-refresh-token
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /refresh-token
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/cmpf-auth-rest/refresh-token"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8445
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consportals-sa-mobily-dsp-ingress-cmpf-rest
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /cmpf-rest/authenticate
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/cmpf-auth-rest"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8445
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consportals-sa-mobily-dsp-ingress-captcha
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /captcha.png
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/img/captcha.png"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8445
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consportals-sa-mobily-dsp-ingress-dsp-services
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/dsp/services(/|$)(.*)"
+            backend:
+              service:
+                name: consportals-sa-mobily-dsp-a3gw-service
+                port:
+                  number: 8444

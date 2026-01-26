@@ -1,0 +1,198 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.Applications.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.Applications.MM7.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group" ng-disabled="app.serviceId">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.VasId.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="vasId" type="text" class="form-control" maxlength="20" ng-required="true" ng-model="app.vasId" ng-disabled="app.serviceId"
+                       placeholder="{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.VasId.Placeholder' | translate }}"/>
+                <ul ng-class="{ 'parsley-error-list': form.vasId.$dirty && form.vasId.$invalid }" ng-show="form.vasId.$dirty && form.vasId.$invalid">
+                    <li class="required" ng-show="form.vasId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="app.serviceId">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.ServiceId.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="app.serviceId" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{organization.name}}</span>
+                    <a ng-click="organization.name = undefined" style="cursor: pointer;" ng-if="AuthorizationService.canCreate() || (app.id && AuthorizationService.canUpdate())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': organization.name, 'ng-invalid-required': !organization.name }"
+                        ng-click="openServiceProviders()">
+                    {{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="selectedOrganization" type="text" class="form-control"
+                           ng-model="organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="app.serviceId ? null : organization = undefined;"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': organization !== undefined && organization.name === undefined }"
+                        ng-show="organization !== undefined && organization.name === undefined">
+                        <li class="required" ng-show="form.selectedOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.State.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="state" class="form-control parsley-validated" ng-model="state" ng-options="opt as opt.name for opt in STATUS_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.VaspId.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="vaspId" type="text" class="form-control" ng-model="app.vaspId" ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.vaspId.$dirty && form.vaspId.$invalid }" ng-show="form.vaspId.$dirty && form.vaspId.$invalid">
+                    <li class="required" ng-show="form.vaspId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.URL.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="vaspUrl" type="text" class="form-control" ng-model="app.vaspUrl" ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.vaspUrl.$dirty && form.vaspUrl.$invalid }" ng-show="form.vaspUrl.$dirty && form.vaspUrl.$invalid">
+                    <li class="required" ng-show="form.vaspUrl.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.SenderAddressPolicy.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="senderAddressPolicy" class="form-control parsley-validated" ng-model="senderAddressPolicy" ng-options="opt as opt for opt in senderAddressPolicies">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.ShortCode.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="shortCode" type="text" class="form-control" ng-model="app.shortCode" ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.shortCode.$dirty && form.shortCode.$invalid }" ng-show="form.shortCode.$dirty && form.shortCode.$invalid">
+                    <li class="required" ng-show="form.shortCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.DeliveryAddress.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="deliveryAddress" type="text" class="form-control" ng-model="app.deliveryAddress"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.MaxMMSize.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxMmSize" type="number" class="form-control" ng-model="app.maxMmSize" min="0" ng-required="true" />
+                <ul ng-class="{ 'parsley-error-list': form.maxMmSize.$dirty && form.maxMmSize.$invalid }" ng-show="form.maxMmSize.$dirty && form.maxMmSize.$invalid">
+                    <li class="required" ng-show="form.maxMmSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.maxMmSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxMmSize.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.MaxRecipientCount.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxRecipientCount" type="number" class="form-control" ng-model="app.maxRecipientCount" min="0" max="256" ng-required="true" />
+                <ul ng-class="{ 'parsley-error-list': form.maxRecipientCount.$dirty && form.maxRecipientCount.$invalid }" ng-show="form.maxRecipientCount.$dirty && form.maxRecipientCount.$invalid">
+                    <li class="required" ng-show="form.maxRecipientCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.maxRecipientCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 256} }}</li>
+                    <li class="required" ng-show="form.maxRecipientCount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxRecipientCount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.RecipientCountPolicy.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="policy" class="form-control parsley-validated" ng-model="policy" ng-options="opt as opt for opt in policies">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.DeliveryReportMOATPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <select name="deliveryReportMOATPolicy" class="form-control parsley-validated" ng-model="deliveryReportMOATPolicy" ng-options="opt as opt.text for opt in deliveryReportMOATPolicies">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.DeliveryReportAOMTPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <select name="deliveryReportAOMTPolicy" class="form-control parsley-validated" ng-model="deliveryReportAOMTPolicy" ng-options="opt as opt.text for opt in deliveryReportAOMTPolicies">
+                </select>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Products.MMSC.Operations.Applications.MM7.FormFields.Charging' | translate }}
+        </h5>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.ChargingStatus.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.chargingStatus?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.chargingStatus" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.chargingStatus?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.chargingStatus" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="app.chargingStatus">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Applications.MM7.FormFields.ChargeRecipient.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.chargeRecipient?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.chargeRecipient" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.chargeRecipient?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.chargeRecipient" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (app.id && !AuthorizationService.canUpdate()) || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

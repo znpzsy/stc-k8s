@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'FirstPartnerRegistration.SettlementTypeDetailsModalTitle' | translate }}</h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.Id' | translate }}</td>
+                        <td class="kv-value">{{ settlementType.profileId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.Name' | translate }}</td>
+                        <td class="kv-value">{{ settlementType.Name }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'CommonLabels.Description' | translate }}</td>
+                        <td class="kv-value">{{ settlementType.Description }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.SettlementModel' | translate }}</td>
+                        <td class="kv-value">{{ settlementType.SettlementModel }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.RevenueSource' | translate }}</td>
+                        <td class="kv-value">{{ settlementType.RevenueSource }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="settlementType.SettlementModel === 'FIXED_PERCENTAGE' || settlementType.SettlementModel === 'PERCENTAGE_FOR_RESELLER'">
+                        <td class="kv-key">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.CarrierPartnerPercentage' | translate }}</td>
+                        <td class="kv-value">{{ settlementType.CarrierPercentage }} / {{ settlementType.PartnerPercentage }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

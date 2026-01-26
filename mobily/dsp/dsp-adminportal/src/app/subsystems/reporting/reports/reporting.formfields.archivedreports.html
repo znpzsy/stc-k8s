@@ -1,0 +1,132 @@
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="reportCategory" class="col-md-3">{{ 'Subsystems.Reporting.Category' | translate }}</label>
+        <div class="col-md-9">
+            <select id="reportCategory" name="reportCategory" class="form-control parsley-validated"
+                    ng-model="reportCategory"
+                    ng-options="report as report.label group by report.group for report in REPORTS">
+            </select>
+        </div>
+    </div>
+
+    <div ng-if="reportCategory.type === 'DAILY'">
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'Subsystems.Reporting.StartDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input type="text" class="form-control input-sm" id="startDate" name="startDate"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions" ng-required="true"
+                           ng-disabled="reportCategory.isReadOnly"
+                           ng-change="updateStartDate(dateHolder.startDate)"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm"
+                                ng-click="openStartDatePicker($event)"
+                                ng-disabled="reportCategory.isReadOnly"><i class="fa fa-calendar"></i></button>
+                    </span>
+                <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                    <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'Subsystems.Reporting.EndDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input type="text" class="form-control input-sm" id="endDate" name="endDate"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="dateOptions" ng-required="true"
+                           ng-disabled="reportCategory.isReadOnly"
+                           ng-change="updateEndDate(dateHolder.endDate)"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm"
+                                ng-click="openEndDatePicker($event)"
+                                ng-disabled="reportCategory.isReadOnly"><i class="fa fa-calendar"></i></button>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="reportCategory.type === 'DAILY_SPECIAL'">
+        <label for="startDate" class="col-md-3 text-left">{{ 'Subsystems.Reporting.Date' | translate }}</label>
+        <div class="col-md-3">
+            <p class="input-group datepicker-field">
+                <input type="text" class="form-control input-sm" id="startDate" name="startDate"
+                       uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                       is-open="startDatePicker.opened"
+                       datepicker-options="dateOptions" ng-required="true"
+                       ng-disabled="reportCategory.isReadOnly"
+                       ng-change="updateStartDate(dateHolder.startDate)"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default input-sm"
+                            ng-click="openStartDatePicker($event)"
+                            ng-disabled="reportCategory.isReadOnly"><i class="fa fa-calendar"></i></button>
+                </span>
+                <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                    <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="reportCategory.type === 'MONTHLY'">
+        <label for="startDate" class="col-md-3 text-left">{{ 'Subsystems.Reporting.ReportingWindow' | translate }}</label>
+        <div class="col-md-3">
+            <p class="input-group datepicker-field">
+                <input type="text" class="form-control input-sm" id="startDate" name="startDate"
+                       uib-datepicker-popup="{{'MMMM, y'}}" ng-model="dateHolder.startDate"
+                       is-open="startDatePicker.opened"
+                       datepicker-options="{ formatYear: 'yy', startingDay: 1, showWeeks: false, minMode: 'month' }"
+                       datepicker-mode="'month'"
+                       ng-required="true"
+                       ng-disabled="reportCategory.isReadOnly"
+                       ng-change="updateStartDate(dateHolder.startDate)"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default input-sm"
+                            ng-click="openStartDatePicker($event)"
+                            ng-disabled="reportCategory.isReadOnly"><i class="fa fa-calendar"></i></button>
+                </span>
+                <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                    <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Subsystems.Reporting.Format' | translate }}</label>
+        <div class="col-md-3">
+            <select id="format" name="format" class="form-control parsley-validated"
+                    ng-model="format"
+                    ng-options="opt as opt.name for opt in ARCHIVED_FORMATS_PENTAHO">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger" ng-disabled="form.$invalid"
+                    ng-click="downloadLegacyReport(reportCategory, format, dateHolder);"
+                    report-button-indicator
+                    ng-disabled="!AuthorizationService.canAllReportsOnDemandRead()">
+                {{ (format.inline ? 'CommonLabels.View' : 'CommonLabels.Download') | translate }}
+                <i class="fa fa-spinner fa-spin" ng-if="showSpinner"></i>
+            </button>
+        </div>
+    </div>
+
+</form>

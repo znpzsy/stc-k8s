@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.AntiSpamSMS.Troubleshooting.Details.PageHeader' | translate:{ origAddress: edrRecord.origMsisdn, destAddress: edrRecord.destMsisdn } }}</h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 300px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.MSGLength' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.msgLength }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.OPRejectMethod' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.opRejectMethodText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.OPErrorCode' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.opErrorCodeText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.OPScreeningName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.opScreeningName }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.OPContentFilter' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.opContentFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.OrigTypeOfNumber' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origTypeOfNumber }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.VLR' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.vlr }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.CDRKey' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cdrKey }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.Imsi' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.imsi }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.fakeImsi && edrRecord.fakeImsi !== ''">
+                        <td class="kv-key">{{ 'Products.AntiSpamSMS.Troubleshooting.TableColumns.FakeImsi' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.fakeImsi }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

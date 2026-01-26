@@ -1,0 +1,159 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn {{resourceTypeFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'ALL'" ng-change="resourceTypeFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter === 'PARTNER'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'PARTNER'" ng-change="resourceTypeFilterChange('PARTNER');">PARTNER
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter === 'SERVICE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'SERVICE'" ng-change="resourceTypeFilterChange('SERVICE');">SERVICE
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter.startsWith('CONTENT')?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'CONTENT_METADATA'" ng-change="resourceTypeFilterChange('CONTENT_METADATA');">CONTENT
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter === 'OFFER'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'OFFER'" ng-change="resourceTypeFilterChange('OFFER');">OFFER
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter === 'SHORT_CODE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'SHORT_CODE'" ng-change="resourceTypeFilterChange('SHORT_CODE');">SHORT CODE
+                </button>
+                <button type="button" class="btn {{(resourceTypeFilter.startsWith('CAMPAIGN') || resourceTypeFilter.startsWith('INTERACTIVE'))?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'CAMPAIGN'" ng-change="resourceTypeFilterChange('CAMPAIGN');">CAMPAIGN
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter.startsWith('RBT')?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'RBT'" ng-change="resourceTypeFilterChange('RBT');">RBT
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+
+            <div class="feed-item feed-item-idea" ng-repeat="task in tasks">
+                <div ng-class="{ 'well well-sm': task.taskSelected }">
+
+                    <div class="feed-icon bg-primary {{ getBgColorByType(task.type) }}">
+                        <i class="fa {{ getIconByType(task.type) }}"></i>
+                    </div> <!-- /.feed-icon -->
+
+                    <div class="feed-subject">
+                        <h6>{{ task.name }} [{{ getLabelByType(task.type) }} = {{ task.description || task.objectDetail.campaignDescription }}{{ getDescriptionByType(task.type) }}]</h6>
+                    </div> <!-- /.feed-subject -->
+
+                    <div class="feed-content">
+                        <ul class="icons-list">
+                            <li>
+                                <i class="icon-li fa fa-quote-left"></i>
+                                {{ task.note }}
+                                <span ng-if="task.response === 'REJECT'">
+                                    <br/>{{ 'Workflows.Operations.Messages.RejectReason' | translate }}: {{ task.message ? task.message : 'N/A' }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div> <!-- /.feed-content -->
+
+                    <div class="feed-actions">
+                        <a href="javascript:;" ng-click="showDetail(task.type, task.id)" class="pull-left"
+                           ng-if="AuthorizationService.canBpmOperationsTaskRead()"
+                           title="{{ 'CommonLabels.Review' | translate }}">
+                            <i class="fa fa-check-square-o"></i> {{ 'CommonLabels.Review' | translate }}</a>
+
+                        <a href="javascript:;" ng-click="approveTask(task);" class="pull-left"
+                           ng-if="task.status === WORKFLOWS_STATUSES.PENDING && AuthorizationService.canBpmOperationsTaskApprove()"
+                           title="{{ 'CommonLabels.Approve' | translate }}">
+                            <i class="fa fa-thumbs-up"></i> {{ 'CommonLabels.Approve' | translate }}</a>
+
+                        <a href="javascript:;" ng-click="rejectTask(task);" class="pull-left"
+                           ng-if="task.status === WORKFLOWS_STATUSES.PENDING && AuthorizationService.canBpmOperationsTaskReject()"
+                           title="{{ 'CommonLabels.Reject' | translate }}">
+                            <i class="fa fa-thumbs-down"></i> {{ 'CommonLabels.Reject' | translate }}</a>
+
+                        <!-- Update buttons -->
+                        <span>
+                            <a ui-sref="subsystems.provisioning.operations.organizations.providers.providerupdate ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'PARTNER' && AuthorizationService.canCmpfOperationsServiceProviderUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.provisioning.operations.services.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'SERVICE' && AuthorizationService.canCmpfOperationsServiceUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.contentmetadatas.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'CONTENT_METADATA' && AuthorizationService.canCmsOperationsContentMetadataUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.contentmetadatas.contentfiles.update ({ contentMetadataId: task.objectDetail.contentMetadataId, id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'CONTENT_FILE' && AuthorizationService.canCmsOperationsContentFileUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.subscriptionmanagement.operations.offers.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'OFFER' && AuthorizationService.canSsmOperationsOfferUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.provisioning.operations.shortcodes.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'SHORT_CODE' && AuthorizationService.canCmpfOperationsShortCodeUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.rbt.contentcategories.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'RBT_CATEGORY' && AuthorizationService.canRBTOperationsCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.moods.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'RBT_MOOD' && AuthorizationService.canRBTOperationsMoodUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.tones.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'RBT_TONE' && AuthorizationService.canRBTOperationsToneUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.artists.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'RBT_ARTIST' && AuthorizationService.canRBTOperationsArtistUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.albums.update ({ id: task.objectDetail.id })" class="pull-left"
+                               ng-if="task.type === 'RBT_ALBUM' && AuthorizationService.canRBTOperationsAlbumUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.objectDetail.id"
+                               title="{{ 'CommonLabels.Update' | translate }}">
+                                <i class="fa fa-edit"></i> {{ 'CommonLabels.Update' | translate }}</a>
+
+                            <a href="javascript:;" ng-click="deleteTask(task)" class="pull-left"
+                               ng-if="task.status === WORKFLOWS_STATUSES.PENDING && AuthorizationService.canBpmOperationsTaskDelete()"
+                               title="{{ 'CommonLabels.Remove' | translate }}">
+                                <i class="fa fa-remove text-danger"></i> {{ 'CommonLabels.Remove' | translate }}</a>
+                        </span>
+
+                        <span class="pull-right" ng-if="!task.updateDate"><a href="javascript:;"><i class="fa fa-clock-o"></i> {{ task.createDate | DateTimeFilter:'YYYY-MM-DD HH:mm:ss' }}</a></span>
+                        <span class="pull-right" ng-if="task.updateDate"><a href="javascript:;"><i class="fa fa-clock-o"></i> {{ task.updateDate | DateTimeFilter:'YYYY-MM-DD HH:mm:ss' }}</a></span>
+                    </div> <!-- /.feed-actions -->
+
+                </div> <!-- /.feed-item -->
+            </div> <!-- /.feed-item -->
+
+            <div ng-if="tasks.length === 0">
+                <h5 class="text-center" style="margin-top: .65em;">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

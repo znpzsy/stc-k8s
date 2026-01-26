@@ -1,0 +1,866 @@
+@CHARSET "UTF-8";
+
+/* app css stylesheet */
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #FFFFFF;
+    line-height: 20px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.father-container {
+    position: relative;
+    min-height: 100%;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .translate-cloak {
+    display: none !important;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, .error-code {
+    color: #333333;
+}
+
+.footer .telenity-logo {
+    margin-top: -5px;
+}
+
+.footer a:hover {
+    color: #aaaaaa;
+}
+
+/* Hide the outline when focused any div, table or anchor */
+div:focus, table:focus, a:focus {
+    outline: 0;
+}
+
+/* Login page */
+
+/* Override the header and footer styles */
+.navbar-inverse {
+    background-color: #ffffff;
+    border: 0;
+    border-bottom: 1px solid #888888;
+}
+
+.navbar-inverse .navbar-brand:hover {
+    color: #8f8f8f;
+    background-color: #8f8f8f;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #5d5d5d;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+.navbar-inverse .navbar-nav > .open > a:focus {
+    color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus {
+    color: #8f8f8f;
+}
+
+.navbar-header img {
+    margin: 5px 0 5px 5px;
+}
+
+.navbar-nav > .navbar-profile .dropdown-toggle {
+    padding-left: 25px;
+    height: 54px;
+}
+
+.navbar .navbar-toggle {
+    height: 54px;
+}
+
+.navbar .navbar-nav > .open > a,
+.navbar .navbar-nav > .open > a:hover,
+.navbar .navbar-nav > .open > a:focus,
+.navbar .navbar-nav > .open > a:active,
+.navbar-nav > .navbar-profile .dropdown-toggle:hover,
+.navbar-nav > .navbar-profile .dropdown-toggle:focus,
+.navbar-nav > .navbar-profile .dropdown-toggle:active,
+.navbar .navbar-toggle:hover,
+.navbar .navbar-toggle:focus,
+.navbar .navbar-toggle:active {
+    background-color: #f4f4f4;
+    border-bottom-color: transparent;
+    color: #555555;
+}
+
+/* Footer style */
+.footer {
+    background-color: #ffffff;
+    border-top: 1px solid #888888;
+    color: #333333;
+}
+
+/* Overview table that showing on the main dashboard or some other key value tables */
+.overview-table a {
+    color: #444;
+    text-decoration: none;
+}
+
+.overview-table a:hover, .overview-table a:focus {
+    color: #444;
+    text-decoration: underline;
+}
+
+/* Accordion style customizations */
+.vcp-accordion .panel-heading {
+    padding-left: 0;
+}
+
+.vcp-accordion .panel-body {
+    padding: 2px;
+}
+
+.vcp-accordion .panel-title > a {
+    font-weight: normal;
+}
+
+.offer-accordion .accordion-panel .panel-heading a:hover {
+    color: #444444;
+    background-color: #eeeeee;
+}
+
+.offer-accordion .accordion-panel .panel.panel-open {
+    border-color: #dddddd;
+}
+
+.offer-accordion .accordion-panel .panel.panel-open .accordion-toggle {
+    color: #ffffff;
+    background-color: #2c3e50;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.offer-accordion .panel.panel-open .accordion-caret:before,
+.registration-accordion .panel.panel-open .accordion-caret:before {
+    content: "\f0d7";
+}
+
+.offer-accordion .accordion-caret:before,
+.registration-accordion .accordion-caret:before {
+    content: "\f0da";
+    top: 1px;
+    left: 0;
+    margin-right: 4px;
+}
+
+.accordion-expander:before {
+    content: "\f101";
+    display: inline-block;
+    position: relative;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    margin-right: 3px;
+    color: #7cb268;
+    font-size: 1.25em;
+}
+
+.accordion-expander.open:before {
+    content: "\f103";
+}
+
+.registration-accordion .panel.panel-open .panel-title > a {
+    background-color: #3498db;
+}
+
+.registration-accordion .panel-group {
+    margin-bottom: 0;
+}
+
+.registration-accordion .panel.panel-open .panel-title > a h6 {
+    color: #ffffff;
+}
+
+.registration-accordion .panel-default.pdf-agreements .panel-body {
+    padding: 0;
+}
+
+.registration-accordion .panel.panel-open .panel-title > a .accordion-caret:before {
+    color: #ffffff;
+}
+
+/* Key Value table */
+.details-modal {
+    height: 575px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.details-modal .kv-key {
+    white-space: nowrap;
+}
+
+.details-modal .keyvalue-table > tbody > tr > td {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.keyvalue-table > tbody > tr > td {
+    padding-left: 0;
+}
+
+.keyvalue-table > tbody > tr > td.disabled,
+.keyvalue-table > tbody > tr > td.disabled > a,
+.keyvalue-table > tbody > tr > td.disabled > i {
+    color: #777;
+}
+
+.keyvalue-table > tbody > tr > td.disabled > i:hover,
+.keyvalue-table > tbody > tr > td.disabled > i:focus,
+.keyvalue-table > tbody > tr > td.disabled > a:hover,
+.keyvalue-table > tbody > tr > td.disabled > a:focus {
+    color: #777;
+    text-decoration: none;
+    cursor: not-allowed;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+/* Pie Chart styles */
+.chart-holder-250 {
+
+}
+
+.chart-holder-250 .legendLabel {
+    padding-left: 3px;
+}
+
+.chart-holder-250 .legend {
+    width: 250px;
+    position: relative;
+}
+
+.chart-holder-250 .legend div, .chart-holder-250 .legend table {
+    z-index: 999;
+    background-color: transparent !important;
+}
+
+/* License Chart styles */
+.chart-legend {
+    list-style-type: none;
+    margin-top: 5px;
+    text-align: center;
+    /* NOTE: Browsers automatically add 40px of padding-left to all lists, so we should offset that, otherwise the legend is off-center */
+    -webkit-padding-start: 0;
+    /* Webkit */
+    -moz-padding-start: 0;
+    /* Mozilla */
+    padding-left: 0;
+    /* IE (handles all cases, really, but we should also include the vendor-specific properties just to be safe) */
+}
+
+.chart-legend li {
+    display: inline-block;
+    white-space: nowrap;
+    position: relative;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    padding: 2px 8px 2px 28px;
+    font-size: smaller;
+    cursor: default;
+}
+
+.chart-legend li span {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+/* Required field styles */
+input.ng-invalid-required, select.ng-invalid-required, textarea.ng-invalid-required, button.ng-invalid-required, div.ng-invalid-required {
+    box-shadow: -3px 0px 0px rgba(200, 0, 0, 0.85);
+    filter: alpha(opacity=90);
+    opacity: 0.9;
+}
+
+div.ng-invalid-required {
+    border-radius: 3px;
+}
+
+input.ng-invalid-required:focus, select.ng-invalid-required:focus, textarea.ng-invalid-required:focus, button.ng-invalid-required:focu, div.ng-invalid-required:focus {
+    border: 1px solid red;
+    outline: none;
+}
+
+input.ng-invalid-required:hover, select.ng-invalid-required:hover, textarea.ng-invalid-required:hover, button.ng-invalid-required:hover, div.ng-invalid-required:hover {
+    filter: alpha(opacity=1);
+    opacity: 1;
+}
+
+/* Search input */
+.buttons-portlet-body {
+    margin-bottom: 7px;
+}
+
+.buttons-portlet-body .row div:first-child {
+    min-height: 30px;
+}
+
+.modal-body.buttons-portlet-body {
+    margin-bottom: -22px;
+}
+
+.modal-backdrop-dark {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+}
+
+@media (min-width: 768px) {
+    .mainnav-form {
+        margin-top: 0px;
+    }
+}
+
+@media (max-width: 767px) {
+    .mainnav-form {
+        margin-top: -15px;
+        border: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .mainnav-search-query {
+        width: 170px;
+    }
+}
+
+.modal-option-selection {
+    font-size: 16px;
+}
+
+.modal-option-selection i.fa {
+    color: #ffffff;
+}
+
+.mainnav-form-btn {
+    z-index: 999;
+}
+
+/* Table styles */
+td.action-column {
+    white-space: nowrap;
+}
+
+td div.dropdown {
+    width: 22px;
+}
+
+.pagination {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Form validation */
+.parsley-form .form-group .parsley-error-list {
+    display: block !important;
+}
+
+/* Transparency defintion for the table rows */
+table tr.hidden-link-cell-row button, table tr.hidden-link-cell-row a.btn {
+    filter: alpha(opacity=30);
+    opacity: 0.3;
+}
+
+table tr:hover.hidden-link-cell-row button, table tr:focus.hidden-link-cell-row button,
+table tr:hover.hidden-link-cell-row a.btn, table tr:focus.hidden-link-cell-row a.btn {
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+.table tbody tr.row-selected td,
+.table tbody tr.row-selected th {
+    background-color: #d1d1d1 !important;
+}
+
+/* Form inputs which is on the modal windows. */
+.form-group-in-tablecell {
+    margin: 0 15px 0 15px !important;
+    text-align: left;
+    float: inherit;
+}
+
+.form-group .well {
+    min-height: 40px;
+}
+
+/* Ng Table styles */
+.ng-table-pager {
+    padding-bottom: 15px;
+}
+
+/* Selectable table styles */
+.selected-table-row {
+    cursor: pointer;
+}
+
+.selected-table-row:hover {
+    background-color: #bcbcbc !important;
+    color: #fff;
+}
+
+/* Navbar notifications styles */
+.navbar .navbar-nav > .navbar-notification > .dropdown-toggle:hover,
+.navbar .navbar-nav > .navbar-notification > .dropdown-toggle:focus {
+    color: #555555;
+    background-color: #f4f4f4;
+}
+
+.navbar .navbar-nav > .navbar-notification > .dropdown-toggle:hover .navbar-notification-icon,
+.navbar .navbar-nav > .navbar-notification > .dropdown-toggle:focus .navbar-notification-icon {
+    color: #555555;
+}
+
+.navbar .navbar-nav > .navbar-notification.open > .dropdown-toggle,
+.navbar .navbar-nav > .navbar-notification.open > .dropdown-toggle:hover,
+.navbar .navbar-nav > .navbar-notification.open > .dropdown-toggle:focus {
+    color: #555555;
+    background-color: #f4f4f4;
+}
+
+.navbar .navbar-nav > .navbar-notification.open > .dropdown-toggle .navbar-notification-icon,
+.navbar .navbar-nav > .navbar-notification.open > .dropdown-toggle:hover .navbar-notification-icon,
+.navbar .navbar-nav > .navbar-notification.open > .dropdown-toggle:focus .navbar-notification-icon {
+    color: #555555;
+}
+
+.navbar-notification-completed-tasks .notification-list {
+    min-width: 450px;
+}
+
+/* Notification bar styles */
+.notifications {
+    filter: alpha(opacity=0.95);
+    opacity: 0.95;
+    position: fixed;
+    z-index: 9999;
+}
+
+/* Positioning */
+.notifications.top-right {
+    right: 10px;
+    top: 70px;
+}
+
+.notifications.top-left {
+    left: 10px;
+    top: 70px;
+}
+
+.notifications.bottom-left {
+    left: 10px;
+    bottom: 25px;
+}
+
+.notifications.bottom-right {
+    right: 10px;
+    bottom: 25px;
+}
+
+/* Notification Element */
+.notifications > div {
+    position: relative;
+}
+
+.notifications > div > span {
+    margin-right: 15px;
+}
+
+.notifications > div > a.close {
+    margin-top: -2px;
+}
+
+/* Disabled button styles */
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    text-shadow: none;
+    border-color: #999999;
+}
+
+.uib-decrement .btn.disabled, .uib-decrement .btn[disabled], .uib-decrement fieldset[disabled] .btn,
+.uib-increment .btn.disabled, .uib-increment .btn[disabled], .uib-increment fieldset[disabled] .btn {
+    background-color: white;
+    border-color: white;
+}
+
+.btn.disabled:focus, .btn[disabled]:focus, fieldset[disabled] .btn:focus {
+    background-color: #ededed;
+}
+
+/* Date picker styles */
+.datepicker-field .btn-default, .datepicker-field .btn-group-sm > .btn-default,
+.uib-datepicker .btn-default, .uib-datepicker .btn-group-sm > .btn-default {
+    font-size: 12px;
+    padding: 3px 8px;
+}
+
+.datepicker-field .dropdown-menu,
+.uib-datepicker .dropdown-menu {
+    padding: 5px;
+    min-width: 200px;
+}
+
+.datepicker-field td, .datepicker-field th,
+.uib-datepicker td, .uib-datepicker th {
+    padding: 2px;
+}
+
+.datepicker-field td em,
+.uib-datepicker td em {
+    font-size: 11px;
+}
+
+.datepicker-field th button,
+.uib-datepicker th button {
+    border: 0;
+}
+
+/* Time picker styles */
+.time-picker {
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .time-picker.with-date-picker {
+        margin-top: -23px;
+    }
+
+    .time-picker.with-date-picker.disabled, .time-picker.with-date-picker[disabled] {
+        margin-top: -22px;
+    }
+}
+
+.time-picker input {
+    width: 50px;
+    height: 30px;
+    cursor: text;
+}
+
+.time-picker button {
+    line-height: 0;
+    margin-left: 3px;
+    height: 30px;
+}
+
+.time-picker a.btn-link {
+    padding: 0;
+}
+
+/* Styles for the filter forms on the troubleshooting tables */
+.filter-form .portlet-body {
+    padding-top: 45px;
+    padding-bottom: 10px;
+}
+
+.ts-top-message-panel {
+    margin-bottom: 7px;
+}
+
+/* Nested dropdown arrow style */
+@media (max-width: 767px) {
+    .dropdown-submenu > a:after {
+        content: "";
+        display: block;
+        float: right;
+        width: 0;
+        height: 0;
+        margin-top: 5px;
+        margin-right: -10px;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #cccccc;
+    }
+}
+
+/* Severity label styles */
+.severity {
+    font-family: "Trebuchet MS", "Open Sans", arial, sans-serif;
+}
+
+.severity-critical {
+    background-color: #853d3d;
+}
+
+.severity-major {
+    background-color: #d9534f;
+}
+
+.severity-minor {
+    background-color: #ec971f;
+}
+
+.severity-info {
+    background-color: #5bc0de;
+}
+
+/* Special days clear button (times icon) styles */
+.clear-btn {
+    pointer-events: auto;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    position: absolute;
+    top: 8px;
+    right: 36px;
+    z-index: 999;
+}
+
+/* Rule represantation styles */
+.new-rule-horizontal-btn {
+    width: 100%;
+    padding: 0;
+    height: 22px;
+}
+
+.new-rule-horizontal-btn-group {
+    margin-bottom: 3px;
+    clear: both;
+    float: left;
+}
+
+.rule-presentation {
+    float: left;
+    display: table-row;
+    margin: 0 2px 10px 0px;
+}
+
+.rule-presentation-group {
+    margin: 12px 0 0 18px;
+}
+
+.rule-presentation-group span.label {
+    font-size: 14px;
+}
+
+.rule-presentation-bracket {
+    display: table;
+    clear: both;
+}
+
+.rule-presentation-or-label {
+    margin: 5px 0 7px 10px;
+    font-size: 14px
+}
+
+.rule-presentation-bracket span.label {
+    font-size: 18px;
+    background-color: transparent;
+    color: #666;
+}
+
+/* Inline editor for groovy */
+.ace_editor {
+    height: 200px;
+    border: 1px solid #ccc;
+}
+
+/* Overriding portlet related styles */
+.portlet-boxed .portlet-title {
+    color: #333333;
+}
+
+.nested-portlet {
+    margin-bottom: 0;
+}
+
+.nested-portlet .portlet-body {
+    padding: 10px;
+}
+
+.nested-portlet .portlet-title:before {
+    background: none;
+}
+
+/* Navbar related styles */
+@media (max-width: 767px) {
+    .navbar-notification.open .dropdown-menu {
+        display: block !important;
+    }
+
+    .navbar-nav .open .dropdown-menu {
+        background-color: #fff !important;
+    }
+
+    .navbar-nav > .navbar-profile .dropdown-toggle {
+        padding-left: 15px;
+    }
+}
+
+.task-circle {
+    border-radius: 50%;
+}
+
+.task-circle .fa:before {
+    line-height: 1.8em;
+}
+
+.tasks-spinner {
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    width: 20px;
+}
+
+/* Tasks styles */
+.tasks-dashboard.portlet-boxed .portlet-body {
+    padding: 30px 15px 0px 0px;
+}
+
+.feed-actions {
+    min-width: 350px;
+}
+
+.task-review-form .well {
+    margin-bottom: 0;
+}
+
+/* Additional bootstrap label group definition */
+.label-group > .label:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 0;
+}
+
+.label-group > .label:nth-child(2) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 0;
+}
+
+/* Popover customized styles */
+.popover {
+    max-width: 500px;
+}
+
+.popover-content {
+    font-size: 11px;
+}
+
+/* Progress bar style customization for download */
+.download-progress {
+    margin-bottom: 0;
+}
+
+.download-progress-bar > .progress-bar-info {
+    padding-top: 5px;
+}
+
+/* Specify styling for tooltip contents */
+.tooltip.custom-class {
+    filter: alpha(opacity=0.99);
+    opacity: 0.99;
+}
+
+.tooltip.custom-class .tooltip-inner {
+    max-width: 500px;
+    color: #fff;
+    background-color: rgba(90, 90, 90, 1);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    text-align: left;
+    padding: 8px 12px;
+}
+
+.tooltip.custom-class .tooltip-arrow {
+    border-top-color: rgba(90, 90, 90, 1);
+}
+
+/* Spinner and loading bar style */
+#loading-bar-spinner .spinner-icon {
+    width: 16px;
+    height: 16px;
+
+    border-top-color: #3498db;
+    border-left-color: #3498db;
+}
+
+#loading-bar .bar {
+    background: #3498db;
+    height: 3px;
+}
+
+/* Registration form styles */
+.registration-form .username-group {
+    display: inline-table;
+}
+
+.registration-form .username-group ul {
+    max-width: 170px;
+}
+
+.registration-form .username-group input:first-child {
+    display: table-cell;
+    height: 34px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.registration-form .username-group input:last-child {
+    display: table-cell;
+    height: 34px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.registration-form .username-group-addon {
+    display: table-cell;
+}
+
+.registration-form .username-group-addon div {
+    height: 34px;
+    position: relative;
+    top: 1px;
+}
+
+/* Generic styles */
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.modal-xlg {
+    width: 1140px;
+}
+
+.dropdown-menu {
+    z-index: 2000;
+}
+
+.selected-item-label {
+    cursor: text;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    padding: 4px 10px 4px 10px;
+}

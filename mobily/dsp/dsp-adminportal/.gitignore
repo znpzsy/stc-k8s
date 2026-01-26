@@ -1,0 +1,16 @@
+*.iml
+*.ipr
+*.iws
+*.zip
+*.tgz
+*.tar.gz
+bower_components/
+node_modules/
+nbproject/
+target/
+.idea/
+dist/
+tmp/
+npm-debug.log
+deployConfig.json
+

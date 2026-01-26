@@ -1,0 +1,21 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consportals-sa-mobily-dsp-httpd
+  labels:
+    component: dsp-httpd
+spec:
+  containers:
+    - name: dsp-httpd
+      image: mersin.telenity.com/com/telenity/consportals-sa-mobily-dsp-httpd:1.0.0.1
+      ports:
+        - containerPort: 80
+        - containerPort: 443
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"

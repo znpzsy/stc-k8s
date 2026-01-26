@@ -1,0 +1,392 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <h3 class="page-title">
+                <span translate="{{$state.current.data.title}}" translate-compile></span>
+                <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+            </h3>
+
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+            <div class="portlet portlet-default">
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        <u>{{ 'Dashboard.Overview'| translate }}</u>
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <table class="table keyvalue-table overview-table">
+                    <tbody>
+                        <tr>
+                            <td class="kv-key"><i class="fa fa-smile-o kv-icon kv-icon-default"></i>
+                                <a ui-sref="subsystems.provisioning.operations.subscribers.list" ng-if="AuthorizationService.canReadSubscriber()">{{ 'Dashboard.Subscribers'| translate }}</a>
+                                <span ng-if="!AuthorizationService.canReadSubscriber()">{{ 'Dashboard.Subscribers'| translate }}</span>
+                            </td>
+                            <td class="kv-value">{{ subscribers | number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': (!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadServiceProvider()) }">
+                                <i class="fa fa-building-o kv-icon kv-icon-default"></i>
+                                <a ng-href="{{(!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadServiceProvider()) ? '' : $state.href('subsystems.provisioning.operations.organizations.providers.list')}}">{{ 'Dashboard.ServiceProviders' | translate }}</a>
+                            </td>
+                            <td class="kv-value">{{ serviceProviders | number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': (!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadService()) }">
+                                <i class="fa fa-bookmark kv-icon kv-icon-default"></i>
+                                <a ng-href="{{(!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadService()) ? '' : $state.href('subsystems.provisioning.operations.services.list')}}">{{ 'Dashboard.Services' | translate }}</a>
+                            </td>
+                            <td class="kv-value">{{ services | number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': (!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadUserAccount()) }">
+                                <i class="fa fa-user kv-icon kv-icon-default"></i>
+                                <a ng-href="{{(!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadUserAccount()) ? '' : $state.href('subsystems.provisioning.operations.users.accounts.list')}}">{{ 'Dashboard.UserAccounts' | translate }}</a>
+                            </td>
+                            <td class="kv-value">{{ userAccounts | number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': (!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadUserGroup()) }">
+                                <i class="fa fa-user-circle kv-icon kv-icon-default"></i>
+                                <a ng-href="{{(!AuthorizationService.canSeeProvisioning() || !AuthorizationService.canReadUserGroup()) ? '' : $state.href('subsystems.provisioning.operations.users.groups.list')}}">{{ 'Dashboard.UserGroups' | translate }}</a>
+                            </td>
+                            <td class="kv-value">{{ userGroups | number }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="portlet portlet-default">
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        <u>{{ 'Dashboard.Platform'| translate }}</u>
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <table class="table keyvalue-table overview-table">
+                        <tbody>
+                        <tr>
+                            <td class="kv-key"><i class="fa fa-sitemap kv-icon kv-icon-default"></i> {{ 'Dashboard.Clusters'| translate }}</td>
+                            <td class="kv-value">
+                                <div ng-if="clustersStatus === limits.clustersCount && clustersStatus > 0" title="{{ 'Dashboard.AllClustersUp' | translate }}"><i class="fa fa-check kv-icon kv-icon-success"></i></div>
+                                <div ng-if="clustersStatus === limits.allClustersDown" title="{{ 'Dashboard.AllClustersDown' | translate }}"> <i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                <div ng-if="(clustersStatus < limits.clustersCount && clustersStatus > limits.allClustersDown)" title="{{ 'Dashboard.SomeClustersUp' | translate }}"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                <div ng-if="clustersStatus == limits.clustersUnknown" title="{{ 'Dashboard.Unknown' | translate }}"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key"><i class="fa fa-cloud kv-icon kv-icon-default"></i> {{ 'Dashboard.Hosts'| translate }}</td>
+                            <td class="kv-value">
+                                <div ng-if="hostsStatus === limits.hostsCount && hostsStatus > 0" title="{{ 'Dashboard.AllHostsUp' | translate }}"><i class="fa fa-check kv-icon kv-icon-success"></i></div>
+                                <div ng-if="hostsStatus === limits.allHostsDown" title="{{ 'Dashboard.AllHostsDown' | translate }}"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                <div ng-if="(hostsStatus < limits.hostsCount && hostsStatus > limits.allHostsDown)" title="{{ 'Dashboard.SomeHostsUp' | translate }}"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                <div ng-if="hostsStatus == limits.hostsUnknown" title="{{ 'Dashboard.Unknown' | translate }}"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+            <div class="portlet portlet-default">
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        <u>{{ 'Dashboard.Products'| translate }}</u>
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <table class="table keyvalue-table overview-table">
+                        <tbody>
+                        <!-- Products -->
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeSMSC() }">
+                                <i class="fa fa-th-large kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeSMSC() ? '' : $state.href('products.smsc.dashboards')}}">
+                                    {{ 'Dashboard.SMSC' | translate }}
+                                </a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="smsc">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeAntiSpam() }">
+                                <i class="fa fa-th-large kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeAntiSpam() ? '' : $state.href('products.antispamsms.dashboards')}}">
+                                    {{ 'Dashboard.AntiSpam' | translate }}
+                                </a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="antispamsms">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeMMSC() }">
+                                <i class="fa fa-th-large kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeMMSC() ? '' : $state.href('products.mmsc.dashboards')}}">
+                                    {{ 'Dashboard.MMSC' | translate }}
+                                </a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="mmsc">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeUSC() }">
+                                <i class="fa fa-th-large kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeUSC() ? '' : $state.href('products.usc.dashboards')}}">
+                                    {{ 'Dashboard.USC' | translate }}
+                                </a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="usc">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeUSC() }">
+                                <i class="fa fa-th-large kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeUSC() ? '' : $state.href('products.ussi.dashboards')}}">
+                                    {{ 'Dashboard.USSI' | translate }}
+                                </a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="ussi">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height: 53px;">
+                            <td class="kv-key" style="border-bottom: 0px;">&nbsp;</td>
+                            <td class="kv-value" style="border-bottom: 0px;">&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="portlet portlet-default">
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        <u>{{ 'Dashboard.ClustersHosts.Header'| translate }}</u>
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <uib-accordion class="accordion-simple vcp-accordion" close-others="false">
+                        <div ng-repeat="cluster in clusters">
+
+                            <div uib-accordion-group>
+                                <uib-accordion-heading>
+                                    <i class="fa accordion-caret"></i>{{ cluster.name | translate }}
+                                </uib-accordion-heading>
+
+                                <table class="table table-striped dashboard-table">
+                                    <thead>
+                                    <tr>
+                                        <th>{{ 'Dashboard.ClustersHosts.TableColumns.HostName'| translate }}</th>
+                                        <th>{{ 'Dashboard.ClustersHosts.TableColumns.CPU'| translate }}</th>
+                                        <th>{{ 'Dashboard.ClustersHosts.TableColumns.RAM'| translate }}</th>
+                                        <th>{{ 'Dashboard.ClustersHosts.TableColumns.IO'| translate }}</th>
+                                    </tr>
+                                    </thead>
+
+                                    <div ng-if="cluster.virtualClusters">
+                                        <tbody ng-repeat="vcluster in cluster.virtualClusters" style="{{ $index > 0 ? 'border-top: 5px solid rgb(221, 221, 221);' : ''; }}">
+                                        <tr ng-repeat="vhost in vcluster.hosts">
+                                            <td>{{ vhost.name | uppercase }}</td>
+                                            <td class="text-center">{{ vhost.idle === undefined ? 0 : vhost.idle | number:0 }}%</td>
+                                            <td class="text-center">{{ vhost.free === undefined ? 0 : vhost.free | number:0 }}%</td>
+                                            <td class="text-center">{{ vhost.iowait === undefined ? 0 : vhost.iowait | number:0 }}%</td>
+                                        </tr>
+                                        </tbody>
+                                    </div>
+
+                                    <div ng-if="cluster.hosts">
+                                        <tbody>
+                                        <tr ng-repeat="host in cluster.hosts">
+                                            <td>{{ host.name | uppercase }}</td>
+                                            <td class="text-center">{{ host.idle === undefined ? 0 : host.idle | number:0 }}%</td>
+                                            <td class="text-center">{{ host.free === undefined ? 0 : host.free | number:0 }}%</td>
+                                            <td class="text-center">{{ host.iowait === undefined ? 0 : host.iowait | number:0 }}%</td>
+                                        </tr>
+                                        </tbody>
+                                    </div>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </uib-accordion>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+            <div class="portlet portlet-default">
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        <u>{{ 'Dashboard.Services'| translate }}</u>
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <table class="table keyvalue-table overview-table">
+                        <tbody>
+                        <!-- Services -->
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeCC() }">
+                                <i class="fa fa-bookmark kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeCC() ? '' : $state.href('services.cc.dashboards')}}">{{ 'Dashboard.CollectCall' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="collectcall">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeMCN() }">
+                                <i class="fa fa-bookmark kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeMCN() ? '' : $state.href('services.mca.dashboards')}}">{{ 'Dashboard.MCA' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="mca">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeePokeCall() }">
+                                <i class="fa fa-bookmark kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeePokeCall() ? '' : $state.href('services.pokecall.dashboards')}}">{{ 'Dashboard.PokeCall' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="pokecall">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeVM() }">
+                                <i class="fa fa-bookmark kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeVM() ? '' : $state.href('services.vm.dashboards')}}">{{ 'Dashboard.VM' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="vm">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeRBT() }">
+                                <i class="fa fa-bookmark kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeRBT() ? '' : $state.href('services.rbt.dashboards')}}">{{ 'Dashboard.RBT' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="rbt">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i></div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="portlet portlet-default">
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        <u>{{ 'Dashboard.Subsystems'| translate }}</u>
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <table class="table keyvalue-table overview-table">
+                        <tbody>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeProvisioning() }">
+                                <i class="fa fa-puzzle-piece kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeProvisioning() ? '' : $state.href('subsystems.provisioning.dashboards')}}">{{ 'Dashboard.Provisioning' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="cmpf">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i>
+                                    </div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key" ng-class="{ 'disabled': !AuthorizationService.canSeeScreeningMgmt() }">
+                                <i class="fa fa-puzzle-piece kv-icon kv-icon-default"></i>
+                                <a ng-href="{{!AuthorizationService.canSeeScreeningMgmt() ? '' : $state.href('subsystems.screeningmanager.dashboards')}}">{{ 'Dashboard.Screening' | translate }}</a>
+                            </td>
+                            <td class="kv-value">
+                                <div class="animate-switch-container" ng-switch on="screening">
+                                    <div class="animate-switch" ng-switch-when="unknown"><i class="fa fa-spinner kv-icon kv-icon-default"></i>
+                                    </div>
+                                    <div class="animate-switch" ng-switch-when="warning"><i class="fa fa-question kv-icon kv-icon-warning"></i></div>
+                                    <div class="animate-switch" ng-switch-when="success"><i class="fa fa-check kv-icon kv-icon-success" ></i></div>
+                                    <div class="animate-switch" ng-switch-when="error"><i class="fa fa-exclamation kv-icon kv-icon-danger"></i></div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

@@ -1,0 +1,94 @@
+(function () {
+    'use strict';
+
+    /* Filters */
+    angular.module('ccportal.products.antispamsms.filters', []);
+
+    var AntiSpamSMSFilters = angular.module('ccportal.products.antispamsms.filters');
+
+    AntiSpamSMSFilters.filter('AntiSpamSMSEDRTypeFilter', function (SMS_ANTISPAM_EDR_TYPE) {
+        return function (typeKey) {
+            typeKey = s.toNumber(typeKey);
+            var type;
+            if (!_.isUndefined(typeKey)) {
+                type = _.find(SMS_ANTISPAM_EDR_TYPE, function (edrType) {
+                    return (edrType.type_key === typeKey);
+                });
+            }
+
+            if (type)
+                return type.text;
+            else
+                return typeKey;
+        };
+    });
+
+    AntiSpamSMSFilters.filter('AntiSpamSMSTrafficTypeFilter', function (SMS_ANTISPAM_TRAFFIC_TYPES) {
+        return function (value) {
+            value = s.toNumber(value);
+            var type;
+            if (!_.isUndefined(value)) {
+                type = _.find(SMS_ANTISPAM_TRAFFIC_TYPES, function (edrType) {
+                    return (edrType.value === value);
+                });
+            }
+
+            if (type)
+                return type.text;
+            else
+                return value;
+        };
+    });
+
+    AntiSpamSMSFilters.filter('AntiSpamSMSOpRejectReasonFilter', function (SMS_ANTISPAM_OP_REJECT_REASONS) {
+        return function (value) {
+            value = value === null ? undefined : s.toNumber(value);
+            var type;
+            if (!_.isUndefined(value)) {
+                type = _.find(SMS_ANTISPAM_OP_REJECT_REASONS, function (edrType) {
+                    return (edrType.value === value);
+                });
+            }
+
+            if (type)
+                return type.text;
+            else
+                return value;
+        };
+    });
+
+    AntiSpamSMSFilters.filter('AntiSpamSMSOpRejectMethodFilter', function (SMS_ANTISPAM_OP_REJECT_METHODS) {
+        return function (value) {
+            value = value === null ? undefined : s.toNumber(value);
+            var type;
+            if (!_.isUndefined(value)) {
+                type = _.find(SMS_ANTISPAM_OP_REJECT_METHODS, function (edrType) {
+                    return (edrType.value === value);
+                });
+            }
+
+            if (type)
+                return type.text;
+            else
+                return value;
+        };
+    });
+
+    AntiSpamSMSFilters.filter('AntiSpamSMSOpErrorCodeFilter', function (SMS_ANTISPAM_OP_ERROR_CODES) {
+        return function (value) {
+            value = value === null ? undefined : s.toNumber(value);
+            var type;
+            if (!_.isUndefined(value)) {
+                type = _.find(SMS_ANTISPAM_OP_ERROR_CODES, function (edrType) {
+                    return (edrType.value === value);
+                });
+            }
+
+            if (type)
+                return type.text;
+            else
+                return value;
+        };
+    });
+
+})();

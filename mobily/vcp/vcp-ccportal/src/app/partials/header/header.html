@@ -1,0 +1,40 @@
+<header class="navbar navbar-inverse" role="banner">
+
+    <div class="container">
+
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                    ng-show="isSessionValid();"
+                    ng-init="navHeaderCollapsed = true" ng-click="navHeaderCollapsed = !navHeaderCollapsed">
+                <span class="sr-only">Toggle navigation</span> <i class="fa fa-cog"></i>
+            </button>
+            <span>
+                <img src="img/mobily_logo_147x60.png" alt="{{ 'BrandName' | translate }}" style="width: 110px;margin-top: 4px;">
+            </span>
+        </div>
+
+        <nav class="mainnav-collapse" role="navigation">
+            <div class="collapse navbar-collapse" ng-class="!navHeaderCollapsed && 'in'">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown navbar-profile" uib-dropdown ng-if="isSessionValid()">
+                        <a class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" href="javascript:;">
+                            <i class="fa fa-user" class="navbar-profile-avatar" alt=""></i> <span>&nbsp; {{siteInformation.name}} - {{getUsername()}}&nbsp;</span>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="javascript:;" ng-click="logout();">
+                                    <i class="fa fa-sign-out"></i>&nbsp;&nbsp;{{ 'Header.Logout' | translate }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+    </div>
+
+</header>

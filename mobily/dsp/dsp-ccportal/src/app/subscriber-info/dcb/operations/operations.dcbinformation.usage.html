@@ -1,0 +1,146 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            {{ 'SubscriberInfo.DCB.DcbStatistics.ServiceUsage' | translate }}
+        </h4>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div ng-if="dcbStatistics.serviceUsageList && dcbStatistics.serviceUsageList.length > 0">
+                    <uib-accordion close-others="false" class="registration-accordion panel-group accordion-panel">
+                        <div uib-accordion-group class="panel-default" ng-repeat="serviceUsage in dcbStatistics.serviceUsageList"
+                             is-open="serviceUsage.isAccordionOpen"
+                             ng-init="serviceUsage.index = $index;">
+                            <uib-accordion-heading>
+                                <h6 style="margin-bottom: 0;">
+                                    <span><i class="fa fa accordion-caret"></i>{{ 'CommonLabels.Service' | translate }}: {{ serviceMap[serviceUsage.serviceId].name || 'N/A (' + serviceUsage.serviceId + ')' }}</span>
+                                </h6>
+                            </uib-accordion-heading>
+
+                            <div class="details-modal" style="height: 100%;max-height: 575px;">
+                                <table class="table keyvalue-table">
+                                    <tbody>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value">{{ serviceUsage.dailyCharge | number:2 }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyChargeCount' | translate }}&nbsp;</td>
+                                        <td class="kv-value">{{ serviceUsage.dailyChargeCount | number }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value">{{ serviceUsage.dailyRefund | number:2 }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyRefundCount' | translate }}&nbsp;</td>
+                                        <td class="kv-value">{{ serviceUsage.dailyRefundCount | number }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value">{{ serviceUsage.dailySpent | number:2 }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value">{{ serviceUsage.monthlyCharge | number:2 }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyChargeCount' | translate }}&nbsp;</td>
+                                        <td class="kv-value">{{ serviceUsage.monthlyChargeCount | number }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value">{{ serviceUsage.monthlyRefund | number:2 }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyRefundCount' | translate }}&nbsp;</td>
+                                        <td class="kv-value">{{ serviceUsage.monthlyRefundCount | number }}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                                        <td class="kv-value">{{ serviceUsage.monthlySpent | number:2 }}&nbsp;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </uib-accordion>
+
+                    <br/>
+
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr>
+                            <td colspan="2" style="border-bottom:none;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="portlet-title" style="margin-bottom: 10px;">
+                                            {{ 'SubscriberInfo.DCB.DcbStatistics.Totals' | translate }}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                            <td class="kv-value">{{ dcbStatistics.dailyCharge | number:2 }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyChargeCount' | translate }}&nbsp;</td>
+                            <td class="kv-value">{{ dcbStatistics.dailyChargeCount | number }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                            <td class="kv-value">{{ dcbStatistics.dailyRefund | number:2 }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyRefundCount' | translate }}&nbsp;</td>
+                            <td class="kv-value">{{ dcbStatistics.dailyRefundCount | number }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.DailySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                            <td class="kv-value">{{ dcbStatistics.dailySpent | number:2 }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyCharge' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                            <td class="kv-value">{{ dcbStatistics.monthlyCharge | number:2 }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyChargeCount' | translate }}&nbsp;</td>
+                            <td class="kv-value">{{ dcbStatistics.monthlyChargeCount | number }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyRefund' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                            <td class="kv-value">{{ dcbStatistics.monthlyRefund | number:2 }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyRefundCount' | translate }}&nbsp;</td>
+                            <td class="kv-value">{{ dcbStatistics.monthlyRefundCount | number }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlySpent' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</td>
+                            <td class="kv-value">{{ dcbStatistics.monthlySpent | number:2 }}&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="portlet-body" ng-if="!dcbStatistics.serviceUsageList || dcbStatistics.serviceUsageList.length === 0">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="text-center alert alert-warning">
+                                <h4 style="margin-bottom: 0;">N/A</h4>
+                            </div>
+                        </div>
+                    </div
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

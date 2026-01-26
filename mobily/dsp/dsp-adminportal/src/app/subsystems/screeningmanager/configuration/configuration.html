@@ -1,0 +1,77 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager.configuration') }" ng-if="AuthorizationService.canAllConfigurationRead()">
+            <a ui-sref="subsystems.screeningmanager.configuration" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.ScreeningManager.Configuration.Settings' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <div class="portlet-header">
+                <h4 class="portlet-title">
+                    {{ 'Subsystems.ScreeningManager.Configuration.Settings' | translate }}
+                </h4>
+            </div>
+
+            <div class="portlet-body">
+
+                <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.ScreeningManager.Configuration.WhitelistSize' | translate }}</label>
+                        <div class="col-md-7">
+                            <input name="whitelistSize" id="whitelistSize" type="number" class="form-control"
+                                   ng-model="maxlistSizes.whitelistSize"
+                                   ng-min="0" ng-max="999999"
+                                   ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"/>
+                            <ul ng-class="{ 'parsley-error-list': form.whitelistSize.$dirty && form.whitelistSize.$invalid }"
+                                ng-show="form.whitelistSize.$dirty && form.whitelistSize.$invalid">
+                                <li class="required" ng-show="form.whitelistSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                                <li class="required" ng-show="form.whitelistSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                                <li class="required" ng-show="form.whitelistSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.ScreeningManager.Configuration.BlacklistSize' | translate }}</label>
+                        <div class="col-md-7">
+                            <input name="blacklistSize" id="blacklistSize" type="number" class="form-control"
+                                   ng-model="maxlistSizes.blacklistSize"
+                                   ng-min="0" ng-max="999999"
+                                   ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"/>
+                            <ul ng-class="{ 'parsley-error-list': form.blacklistSize.$dirty && form.blacklistSize.$invalid }"
+                                ng-show="form.blacklistSize.$dirty && form.blacklistSize.$invalid">
+                                <li class="required" ng-show="form.blacklistSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                                <li class="required" ng-show="form.blacklistSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                                <li class="required" ng-show="form.blacklistSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger" ng-disabled="form.$invalid || !AuthorizationService.canAllConfigurationUpdate() || isNotChanged()"
+                                    ng-click="saveConfiguration();">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="reset" class="btn btn-default" ng-click="cancel();" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"  >
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

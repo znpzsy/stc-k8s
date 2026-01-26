@@ -1,0 +1,47 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.params.taskStatus === 'pending' }">
+            <a ui-sref="workflows.operations.tasks({taskStatus: 'pending', taskType: 'ALL'})" data-toggle="tab">
+                <i class="fa fa-hourglass-start"></i>
+                &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.pending' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.params.taskStatus === 'approved' }">
+            <a ui-sref="workflows.operations.tasks({taskStatus: 'approved', taskType: 'ALL'})" data-toggle="tab">
+                <i class="fa fa-check"></i>
+                &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.approved' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.params.taskStatus === 'rejected' }">
+            <a ui-sref="workflows.operations.tasks({taskStatus: 'rejected', taskType: 'ALL'})" data-toggle="tab">
+                <i class="fa fa-times"></i>
+                &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.rejected' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.params.taskStatus === 'deleted' }">
+            <a ui-sref="workflows.operations.tasks({taskStatus: 'deleted', taskType: 'ALL'})" data-toggle="tab">
+                <i class="fa fa-calendar-times-o"></i>
+                &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.deleted' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.params.taskStatus === 'notification' }">
+            <a ui-sref="workflows.operations.tasks({taskStatus: 'notification', taskType: 'ALL'})" data-toggle="tab">
+                <i class="fa fa-bell-o"></i>
+                &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.notification' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,477 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.Applications.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.Applications.SmppApps.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <!--Application specific sectiom-->
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AppName.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" maxlength="50" ng-required="true"
+                       ng-model="app.name" ng-disabled="app.id"
+                       placeholder="{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AppName.Placeholder' | translate }}"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="app.id">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AppId.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="app.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Description.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="descriptiveText" type="text" class="form-control"
+                       ng-model="app.descriptiveText"
+                       ng-maxlength="255" maxlength="255"/>
+                <ul ng-class="{ 'parsley-error-list': form.descriptiveText.$dirty && form.descriptiveText.$invalid }" ng-show="form.descriptiveText.$dirty && form.descriptiveText.$invalid">
+                    <li class="required" ng-show="form.descriptiveText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedOrganization.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{selectedOrganization.organization.name}}</span>
+                    <a ng-click="selectedOrganization.organization.name = undefined" style="cursor: pointer;"
+                       ng-if="(app.id ? AuthorizationService.canUpdate() : AuthorizationService.canCreate())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': selectedOrganization.organization.name, 'ng-invalid-required': !selectedOrganization.organization.name }"
+                        ng-click="openOrganizations()"
+                        ng-disabled="(app.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())">{{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="selectedOrganization" type="text" class="form-control"
+                           ng-model="selectedOrganization.organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="provider.id ? null : selectedOrganization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': selectedOrganization !== undefined && selectedOrganization.organization.name === undefined }"
+                        ng-show="selectedOrganization !== undefined && selectedOrganization.organization.name === undefined">
+                        <li class="required" ng-show="form.selectedOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.State.Label' | translate }}</label>
+            <div class="col-md-5">
+                <select name="state" class="form-control parsley-validated"
+                        ng-model="app.state" ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.SystemId.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="systemId" type="text" class="form-control"
+                       ng-model="app.systemId" ng-required="true" ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.systemId.$dirty && form.systemId.$invalid }" ng-show="form.systemId.$dirty && form.systemId.$invalid">
+                    <li class="required" ng-show="form.systemId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.systemId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Password.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <input name="dummyPassword" type="password" style="display:none;width:0;height:0"/>
+                    <input name="password" id="password" type="{{showPassword ? 'text' : 'password'}}" class="form-control"
+                           ng-model="app.password"
+                           ng-maxlength="8" maxlength="8"/>
+                    <div class="input-group-btn" ng-init="showPassword = false;">
+                        <button class="btn btn-default" ng-click="showPassword = !showPassword" type="button">{{ (showPassword ? 'CommonLabels.Hide' : 'CommonLabels.Show') | translate }}</button>
+                    </div>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.password.$dirty && form.password.$invalid }"
+                    ng-show="form.password.$dirty && form.password.$invalid">
+                    <li class="required" ng-show="form.password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 8} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.SystemType.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="systemType" type="text" class="form-control"
+                       ng-model="app.systemType"
+                       ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.systemType.$dirty && form.systemType.$invalid }" ng-show="form.systemType.$dirty && form.systemType.$invalid">
+                    <li class="required" ng-show="form.systemType.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.DefaultServiceType.Label' | translate }}</label>
+            <div class="col-md-5">
+                <select name="defaultServiceType" class="form-control parsley-validated"
+                        ng-model="app.defaultServiceType" ng-required="true"
+                        ng-options="defaultServiceType for defaultServiceType in SMPP_APPS_SERVICE_TYPES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.defaultServiceType.$dirty && form.defaultServiceType.$invalid }" ng-show="form.defaultServiceType.$dirty && form.defaultServiceType.$invalid">
+                    <li class="required" ng-show="form.defaultServiceType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Direction.Label' | translate }}</label>
+            <div class="col-md-5">
+                <select name="direction" class="form-control parsley-validated"
+                        ng-model="app.direction" ng-options="opt for opt in SMPP_APPS_DIRECTIONS">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.InputWindowSize.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="inputWindowSize" type="number" class="form-control"
+                       ng-model="app.inputWindowSize"
+                       ng-required="true" min="1" max="100000"/>
+                <ul ng-class="{ 'parsley-error-list': form.inputWindowSize.$dirty && form.inputWindowSize.$invalid }" ng-show="form.inputWindowSize.$dirty && form.inputWindowSize.$invalid">
+                    <li class="required" ng-show="form.inputWindowSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.inputWindowSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100000} }}</li>
+                    <li class="required" ng-show="form.inputWindowSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.inputWindowSize.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.OutputWindowSize.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="outputWindowSize" type="number" class="form-control"
+                       ng-model="app.outputWindowSize"
+                       ng-required="true" min="1" max="100000"/>
+                <ul ng-class="{ 'parsley-error-list': form.outputWindowSize.$dirty && form.outputWindowSize.$invalid }" ng-show="form.outputWindowSize.$dirty && form.outputWindowSize.$invalid">
+                    <li class="required" ng-show="form.outputWindowSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.outputWindowSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100000} }}</li>
+                    <li class="required" ng-show="form.outputWindowSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.outputWindowSize.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.MaxConnections.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxConnections" type="number" class="form-control"
+                       ng-model="app.maxConnections" ng-required="true" min="1" max="256"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxConnections.$dirty && form.maxConnections.$invalid }" ng-show="form.maxConnections.$dirty && form.maxConnections.$invalid">
+                    <li class="required" ng-show="form.maxConnections.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.maxConnections.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 256} }}</li>
+                    <li class="required" ng-show="form.maxConnections.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxConnections.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.TransactionResponseTimeout.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="transactionResponseTimeout" type="number" class="form-control"
+                       ng-model="app.transactionResponseTimeout"
+                       ng-required="true" min="1000" max="2147483646"/>
+                <ul ng-class="{ 'parsley-error-list': form.transactionResponseTimeout.$dirty && form.transactionResponseTimeout.$invalid }" ng-show="form.transactionResponseTimeout.$dirty && form.transactionResponseTimeout.$invalid">
+                    <li class="required" ng-show="form.transactionResponseTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1000} }}</li>
+                    <li class="required" ng-show="form.transactionResponseTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 2147483646} }}</li>
+                    <li class="required" ng-show="form.transactionResponseTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.transactionResponseTimeout.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.MaxPriorityLevelForRetry.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxPriorityLevelForRetry" type="number" class="form-control"
+                       ng-model="app.maxPriorityLevelForRetry"
+                       ng-required="true" min="0" max="9999"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxPriorityLevelForRetry.$dirty && form.maxPriorityLevelForRetry.$invalid }" ng-show="form.maxPriorityLevelForRetry.$dirty && form.maxPriorityLevelForRetry.$invalid">
+                    <li class="required" ng-show="form.maxPriorityLevelForRetry.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.maxPriorityLevelForRetry.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 9999} }}</li>
+                    <li class="required" ng-show="form.maxPriorityLevelForRetry.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxPriorityLevelForRetry.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.MaxMessageLength.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxMessageLength" type="number" class="form-control"
+                       ng-model="app.maxMessageLength"
+                       ng-required="true" min="1" max="64000"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxMessageLength.$dirty && form.maxMessageLength.$invalid }" ng-show="form.maxMessageLength.$dirty && form.maxMessageLength.$invalid">
+                    <li class="required" ng-show="form.maxMessageLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.maxMessageLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 64000} }}</li>
+                    <li class="required" ng-show="form.maxMessageLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxMessageLength.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.MaxNumberOfSegments.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxNumberOfSegments" type="number" class="form-control"
+                       ng-model="app.maxNumberOfSegments"
+                       ng-required="true" min="1" max="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxNumberOfSegments.$dirty && form.maxNumberOfSegments.$invalid }" ng-show="form.maxNumberOfSegments.$dirty && form.maxNumberOfSegments.$invalid">
+                    <li class="required" ng-show="form.maxNumberOfSegments.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.maxNumberOfSegments.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.maxNumberOfSegments.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxNumberOfSegments.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.KeywordFilteringEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.enableKeywordScreening?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.enableKeywordScreening" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.enableKeywordScreening?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.enableKeywordScreening" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Tag.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedTags.length > 0" class="row col-md-9">
+                    <div ng-repeat="n in selectedTags track by $index">
+                        <span class="label label-default selected-item-label">{{n}}</span>
+                        <a ng-click="removeTag(n)" style="cursor: pointer;"
+                           ng-if="app.id ? AuthorizationService.canUpdate() : AuthorizationService.canCreate()">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-disabled="app.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate()"
+                        ng-class="{ 'pull-right': selectedTags.length > 0 }"
+                        ng-click="showTags()">
+                    {{ 'CommonLabels.Add' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AllowedSourceAddresses.Label' | translate }}</label>
+            <div class="col-md-7">
+                <textarea name="allowedSourceAddresses" name="allowedSourceAddresses" class="form-control"
+                          ng-model="app.allowedSourceAddresses"
+                          rows="4" cols="50" ng-maxlength="65535" maxlength="65535" ng-trim="true">
+                </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.messageContent.$dirty && form.allowedSourceAddresses.$invalid }"
+                    ng-show="form.allowedSourceAddresses.$dirty && form.allowedSourceAddresses.$invalid">
+                    <li class="required" ng-show="form.allowedSourceAddresses.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 65535 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AllowedPids.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input id="allowedPids" name="allowedPids" type="text" class="form-control"
+                       ng-model="app.allowedPids"
+                       ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.allowedPids.$dirty && form.allowedPids.$invalid }"
+                    ng-show="form.allowedPids.$dirty && form.allowedPids.$invalid">
+                    <li class="required" ng-show="form.allowedPids.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AllowedDcs.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input id="allowedDcs" name="allowedDcs" type="text" class="form-control"
+                       ng-model="app.allowedDcs"
+                       ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.allowedDcs.$dirty && form.allowedDcs.$invalid }"
+                    ng-show="form.allowedDcs.$dirty && form.allowedDcs.$invalid">
+                    <li class="required" ng-show="form.allowedDcs.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.AllowedSmppOperations.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input id="allowedSmppOperations" name="allowedSmppOperations" type="text" class="form-control"
+                       ng-model="app.allowedSmppOperations"
+                       ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.allowedSmppOperations.$dirty && form.allowedSmppOperations.$invalid }"
+                    ng-show="form.allowedSmppOperations.$dirty && form.allowedSmppOperations.$invalid">
+                    <li class="required" ng-show="form.allowedSmppOperations.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.EnableMsgReassembly' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.enableMsgReassembly?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.enableMsgReassembly" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.enableMsgReassembly?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.enableMsgReassembly" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.EnableIncomingMsgReassembly' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.enableIncomingMsgReassembly?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.enableIncomingMsgReassembly" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.enableIncomingMsgReassembly?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.enableIncomingMsgReassembly" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="msgReassemblyTimeout" class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.MsgReassemblyTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input id="msgReassemblyTimeout" name="msgReassemblyTimeout" type="number" class="form-control"
+                       ng-model="app.msgReassemblyTimeout"
+                       ng-required="true" min="0" max="600000"/>
+                <ul ng-class="{ 'parsley-error-list': form.msgReassemblyTimeout.$dirty && form.msgReassemblyTimeout.$invalid }" ng-show="form.msgReassemblyTimeout.$dirty && form.msgReassemblyTimeout.$invalid">
+                    <li class="required" ng-show="form.msgReassemblyTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.msgReassemblyTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 600000} }}</li>
+                    <li class="required" ng-show="form.msgReassemblyTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.msgReassemblyTimeout.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Quota specific section -->
+        <h5 class="portlet-title">
+            {{ 'Products.SMSC.Operations.Applications.SmppApps.Quota.Title' | translate }}
+        </h5>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.Quota.Enabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.smppApplicationQuota.enabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.smppApplicationQuota.enabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.smppApplicationQuota.enabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="app.smppApplicationQuota.enabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="app.smppApplicationQuota.enabled">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.Quota.FormFields.Limit.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="quotaLimit" name="quotaLimit" type="number" class="form-control"
+                           ng-model="app.smppApplicationQuota.limit"
+                           ng-required="true" min="0" max="100000000"/>
+                    <ul ng-class="{ 'parsley-error-list': form.quotaLimit.$dirty && form.quotaLimit.$invalid }" ng-show="form.quotaLimit.$dirty && form.quotaLimit.$invalid">
+                        <li class="required" ng-show="form.quotaLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.quotaLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100000000} }}</li>
+                        <li class="required" ng-show="form.quotaLimit.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.quotaLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.Quota.FormFields.Period.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <select name="quotaPeriod" name="quotaPeriod" class="form-control parsley-validated"
+                            ng-model="app.smppApplicationQuota.period" ng-required="true"
+                            ng-options="quotaPeriod.value as quotaPeriod.text for quotaPeriod in SMPP_APPS_QUOTA_PERIODS">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.quotaPeriod.$dirty && form.quotaPeriod.$invalid }" ng-show="form.quotaPeriod.$dirty && form.quotaPeriod.$invalid">
+                        <li class="required" ng-show="form.quotaPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charging specific section -->
+        <h5 class="portlet-title">
+            {{ 'Products.SMSC.Operations.Applications.SmppApps.Charging.Title' | translate }}
+        </h5>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.Charging.ChargingState' | translate }}</label>
+            <div class="col-md-5">
+                <select id="chargingState" name="chargingState" class="form-control parsley-validated"
+                        ng-model="app.chargingState"
+                        ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.Charging.IncomingChargingState' | translate }}</label>
+            <div class="col-md-5">
+                <select id="incomingChargingState" name="incomingChargingState" class="form-control parsley-validated"
+                        ng-model="app.incomingChargingState"
+                        ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="billingAddress" class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.Charging.BillingAddress' | translate }}</label>
+            <div class="col-md-7">
+                <input id="billingAddress" name="billingAddress" type="text" class="form-control"
+                       ng-model="app.billingAddress"
+                       ng-maxlength="20" maxlength="20"/>
+                <ul ng-class="{ 'parsley-error-list': form.billingAddress.$dirty && form.billingAddress.$invalid }"
+                    ng-show="form.billingAddress.$dirty && form.billingAddress.$invalid">
+                    <li class="required" ng-show="form.billingAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 20 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (app.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate()) || isNotChanged()"
+                        ng-click="save(app);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

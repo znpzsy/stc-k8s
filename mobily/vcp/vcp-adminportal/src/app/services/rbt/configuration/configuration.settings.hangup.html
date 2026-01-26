@@ -1,0 +1,169 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.VM.Configuration.Settings.Title' | translate }} / {{ 'Services.RBT.Configuration.Settings.Hangup.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.SMSNotificationEnabled' | translate }}</label>
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.smsNotificationStatus?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.smsNotificationStatus" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.smsNotificationStatus?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.smsNotificationStatus" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="serviceProfile.smsNotificationStatus">
+            <label for="smsSenderAddress" class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.SMSSenderAddress' | translate }}</label>
+            <div class="col-md-5">
+                <input id="smsSenderAddress" name="smsSenderAddress" type="text" class="form-control"
+                       ng-model="serviceProfile.smsSenderAddress"
+                       ng-maxlength="50" maxlength="50"
+                       ng-required="true" required="true"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.smsSenderAddress.$dirty && form.smsSenderAddress.$invalid }"
+                    ng-show="form.smsSenderAddress.$dirty && form.smsSenderAddress.$invalid">
+                    <li class="required" ng-show="form.smsSenderAddress.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.smsSenderAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.smsSenderAddress.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.DailyLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.dailyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.dailyLimitEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.dailyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.dailyLimitEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="serviceProfile.dailyLimitEnabled">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.DailyLimit' | translate }}</label>
+            <div class="col-md-5">
+                <input id="dailyLimit" name="dailyLimit" type="number" class="form-control"
+                       ng-model="serviceProfile.dailyLimit"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.dailyLimit.$dirty && form.dailyLimit.$invalid }"
+                    ng-show="form.dailyLimit.$dirty && form.dailyLimit.$invalid">
+                    <li class="required" ng-show="form.dailyLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.dailyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.dailyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.dailyLimit.$error.number || form.dailyLimit.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.WeeklyLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.weeklyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.weeklyLimitEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.weeklyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.weeklyLimitEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="serviceProfile.weeklyLimitEnabled">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.WeeklyLimit' | translate }}</label>
+            <div class="col-md-5">
+                <input id="weeklyLimit" name="weeklyLimit" type="number" class="form-control"
+                       ng-model="serviceProfile.weeklyLimit"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.weeklyLimit.$dirty && form.weeklyLimit.$invalid }"
+                    ng-show="form.weeklyLimit.$dirty && form.weeklyLimit.$invalid">
+                    <li class="required" ng-show="form.weeklyLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.weeklyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.weeklyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.weeklyLimit.$error.number || form.weeklyLimit.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.MonthlyLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.monthlyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.monthlyLimitEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.monthlyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.monthlyLimitEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="serviceProfile.monthlyLimitEnabled">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.Hangup.MonthlyLimit' | translate }}</label>
+            <div class="col-md-7">
+                <input id="monthlyLimit" name="monthlyLimit" type="number" class="form-control"
+                       ng-model="serviceProfile.monthlyLimit"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.monthlyLimit.$dirty && form.monthlyLimit.$invalid }"
+                    ng-show="form.monthlyLimit.$dirty && form.monthlyLimit.$invalid">
+                    <li class="required" ng-show="form.monthlyLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.monthlyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.monthlyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.monthlyLimit.$error.number || form.monthlyLimit.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,106 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.PokeCall.Dashboards.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ pokeTileInfo.dailyRequestCount | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.PokeCall.Dashboards.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ pokeTileInfo.dailySuccessCallRatio | number:2 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.PokeCall.Dashboards.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ pokeTileInfo.tile3 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.PokeCall.Dashboards.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ pokeTileInfo.tile4 }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.PokeCall.Dashboards.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ pokeTileInfo.tile5 }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.PokeCall.Dashboards.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ pokeTileInfo.tile6 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.PokeCall.Dashboards.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="failureMapEntryData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.PokeCall.Dashboards.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.PokeCall.Dashboards.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

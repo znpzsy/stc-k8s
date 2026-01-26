@@ -1,0 +1,58 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.MessageTemplates.PageHeader' | translate }} / {{ $state.current.data.detailPageHeaderKey | translate:{applicationName: smppApplication.name, code: languageCode} }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.MessageTemplates.FormFields.Id.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="id" type="number" class="form-control" min="1" max="999999" ng-required="true"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       ng-model="template.id" ng-if="!template.uniqueId"
+                       list-availability-check list="templateList" propertyname="id"
+                       ng-disabled="!AuthorizationService.canCreateTemplates()"/>
+                <ul ng-class="{ 'parsley-error-list': form.id.$dirty && form.id.$invalid }" ng-show="form.id.$dirty && form.id.$invalid">
+                    <li class="required" ng-show="form.id.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.id.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.id.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.id.$error.number || form.id.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.id.$error.availabilityCheck">{{ 'Products.SMSC.Operations.MessageTemplates.Messages.TemplateAlreadyDefinedError' | translate:{languageCode: languageCode, id: template.id} }}</li>
+                </ul>
+                <input name="id" type="number" class="form-control" ng-model="template.id" ng-if="template.uniqueId" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.MessageTemplates.FormFields.Template.Label' | translate}}</label>
+            <div class="col-md-7">
+                <textarea name="template" class="form-control" ng-model="template.template" rows="4"
+                          ng-maxlength="500" ng-required="true"
+                          ng-disabled="!AuthorizationService.canCreateTemplates() || (template.uniqueId && !AuthorizationService.canUpdateTemplates())"></textarea>
+                <ul ng-class="{ 'parsley-error-list': form.template.$dirty && form.template.$invalid }" ng-show="form.template.$dirty && form.template.$invalid">
+                    <li class="required" ng-show="form.template.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.template.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 500} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreateTemplates() || (template.uniqueId && !AuthorizationService.canUpdateTemplates()) || isTemplateNotChanged()"
+                        ng-click="save(template);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

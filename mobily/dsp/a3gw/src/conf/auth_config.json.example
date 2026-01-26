@@ -1,0 +1,19 @@
+{
+  // DELETE THIS COMMENT - We have to define host (or ip address) and port for the authentication service.
+  "httpHost": "127.0.0.1",
+  "httpPort": "8446"
+  // DELETE THIS COMMENT - Authentication and Authorization service attributes.
+  "accountsPath": "/cmpf-rest/useraccounts", // DELETE THIS COMMENT - Optional attribute
+  "accountsUrl": "http://10.35.36.25:9610/axis2/cmpf/useraccounts", // DELETE THIS COMMENT - Optional attribute
+  "authenticationServer": {
+    "path": "/cmpf-rest/authenticate",
+    "target": "http://10.35.36.25:9610",
+    "pathRewrite": {
+      "^/cmpf-rest/authenticate": "/axis2/cmpf/authenticate"
+    }
+  },
+  "allowOnlyOneSession": true, // DELETE THIS COMMENT - Mandatory attribute
+  "memcachedServers": [ // DELETE THIS COMMENT - Optional attribute
+    "<ip_address>"
+  ]
+}

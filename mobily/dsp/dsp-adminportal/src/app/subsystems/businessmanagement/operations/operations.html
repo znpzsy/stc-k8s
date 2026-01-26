@@ -1,0 +1,60 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.channels') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.channels.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.Channels.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.servicecategories') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.servicecategories.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.servicelabels') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.servicelabels.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.ServiceLabels.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.servicetypes') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.servicetypes.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.settlementtypes') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.settlementtypes.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.agreements') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.agreements.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.Agreements.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.businesstypes') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.businesstypes.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.BusinessTypes.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.businessmanagement.operations.projects') }">
+            <a ng-href="{{ $state.href('subsystems.businessmanagement.operations.projects.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.BusinessManagement.Operations.Projects.Title' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

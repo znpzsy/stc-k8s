@@ -1,0 +1,125 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.PokeCall.Configuration.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="configurationForm" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.PokeCall.Configuration.DailyPerSubscriberLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceConfiguration.dailyPerSubscriberLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceConfiguration.dailyPerSubscriberLimitEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceConfiguration.dailyPerSubscriberLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceConfiguration.dailyPerSubscriberLimitEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="serviceConfiguration.dailyPerSubscriberLimitEnabled" >
+            <label for="dailyPerSubscriberLimit" class="col-md-3">{{ 'Services.PokeCall.Configuration.DailyPerSubscriberLimit' | translate }}</label>
+            <div class="col-md-4">
+                <input id="dailyPerSubscriberLimit" name="dailyPerSubscriberLimit" type="number" class="form-control"
+                       ng-model="serviceConfiguration.dailyPerSubscriberLimit"
+                       ng-required="true" min="0" max="999999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.dailyPerSubscriberLimit.$dirty && form.dailyPerSubscriberLimit.$invalid }" ng-show="form.dailyPerSubscriberLimit.$dirty && form.dailyPerSubscriberLimit.$invalid">
+                    <li class="required" ng-show="form.dailyPerSubscriberLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.dailyPerSubscriberLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.dailyPerSubscriberLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.PokeCall.Configuration.DailyLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceConfiguration.dailyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceConfiguration.dailyLimitEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceConfiguration.dailyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceConfiguration.dailyLimitEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="serviceConfiguration.dailyLimitEnabled" >
+            <label for="dailyLimit" class="col-md-3">{{ 'Services.PokeCall.Configuration.DailyLimit' | translate }}</label>
+            <div class="col-md-4">
+                <input id="dailyLimit" name="dailyLimit" type="number" class="form-control"
+                       ng-model="serviceConfiguration.dailyLimit"
+                       ng-required="true" min="0" max="999999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.dailyLimit.$dirty && form.dailyLimit.$invalid }" ng-show="form.dailyLimit.$dirty && form.dailyLimit.$invalid">
+                    <li class="required" ng-show="form.dailyLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.dailyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.dailyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.PokeCall.Configuration.MonthlyLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceConfiguration.monthlyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceConfiguration.monthlyLimitEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceConfiguration.monthlyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceConfiguration.monthlyLimitEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="serviceConfiguration.monthlyLimitEnabled" >
+            <label for="monthlyLimit" class="col-md-3">{{ 'Services.PokeCall.Configuration.MonthlyLimit' | translate }}</label>
+            <div class="col-md-4">
+                <input id="monthlyLimit" name="monthlyLimit" type="number" class="form-control"
+                       ng-model="serviceConfiguration.monthlyLimit"
+                       ng-required="true" min="0" max="999999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.monthlyLimit.$dirty && form.monthlyLimit.$invalid }" ng-show="form.monthlyLimit.$dirty && form.monthlyLimit.$invalid">
+                    <li class="required" ng-show="form.monthlyLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.monthlyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.monthlyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isConfigurationNotChanged()"
+                        ng-click="save(serviceConfiguration);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();" ng-disabled="!AuthorizationService.canUpdateConfiguration()"  >
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

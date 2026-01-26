@@ -1,0 +1,43 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-header">
+        <h4 class="portlet-title">
+            {{ 'SubscriberInfo.DCB.DcbStatistics.ServiceLimits' | translate }} / {{ 'SubscriberInfo.DCB.DcbStatistics.SubscriberSpecific' | translate }}
+        </h4>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <ul class="nav nav-tabs">
+                    <li ng-class="{ 'active': $state.includes('subscriber-info.dcb.operations.dcbinformation.limits.subscriberspecific.allservices') }" ng-if="AuthorizationService.canCcPreferenceRead()">
+                        <a ui-sref="subscriber-info.dcb.operations.dcbinformation.limits.subscriberspecific.allservices" data-toggle="tab">
+                            {{ 'SubscriberInfo.DCB.DcbStatistics.AllServices' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('subscriber-info.dcb.operations.dcbinformation.limits.subscriberspecific.alluntrustedservices') }"
+                        ng-if="genericDCBSettings.enabled && AuthorizationService.canCcPreferenceRead()">
+                        <a ui-sref="subscriber-info.dcb.operations.dcbinformation.limits.subscriberspecific.alluntrustedservices" data-toggle="tab">
+                            {{ 'SubscriberInfo.DCB.DcbStatistics.AllUntrustedServices' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('subscriber-info.dcb.operations.dcbinformation.limits.subscriberspecific.servicespecific') }" ng-if="AuthorizationService.canCcPreferenceRead()">
+                        <a ui-sref="subscriber-info.dcb.operations.dcbinformation.limits.subscriberspecific.servicespecific.list" data-toggle="tab">
+                            {{ 'SubscriberInfo.DCB.DcbStatistics.ServiceSpecific' | translate }}
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-pane fade active in portlet portlet-default" ui-view>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="portlet portlet-default">
+
+            <div class="col-md-3 col-sm-5">
+                <ul class="nav nav-pills nav-stacked">
+                    <li ng-class="{ 'active': $state.includes('partner-info.reporting.reports.apimanager') }">
+                        <a ui-sref="partner-info.reporting.reports.apimanager.report" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Reporting.ApiManager' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('partner-info.reporting.reports.dcb') }">
+                        <a ui-sref="partner-info.reporting.reports.dcb.report" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Reporting.DCB' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('partner-info.reporting.reports.messaginggw') }">
+                        <a ui-sref="partner-info.reporting.reports.messaginggw.report" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Reporting.Messaging' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('partner-info.reporting.reports.subscription') }">
+                        <a ui-sref="partner-info.reporting.reports.subscription.report" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Reporting.Subscription' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('partner-info.reporting.reports.revenueshare') }"
+                        ng-if="AuthorizationService.canPrmFinancialReportsOnDemandRead()">
+                        <a ui-sref="partner-info.reporting.reports.revenueshare.report" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Reporting.RevenueShare' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-class="{ 'active': $state.includes('partner-info.reporting.reports.invoice') }"
+                        ng-if="AuthorizationService.canPrmFinancialReportsOnDemandRead()">
+                        <a ui-sref="partner-info.reporting.reports.invoice.report" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Reporting.Invoice' | translate }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-9 col-sm-7">
+                <div class="tab-content stacked-content">
+                    <div class="tab-pane fade active in portlet portlet-default" ui-view>
+
+                        <h4>{{ 'PartnerInfo.Reporting.DashboardDescription' | translate }}</h4>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

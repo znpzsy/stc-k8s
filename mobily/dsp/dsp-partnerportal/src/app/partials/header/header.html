@@ -1,0 +1,133 @@
+<header class="navbar navbar-inverse" role="banner">
+
+    <div class="container">
+
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                    ng-show="isSessionValid();"
+                    ng-init="navHeaderCollapsed = true" ng-click="navHeaderCollapsed = !navHeaderCollapsed">
+                <span class="sr-only">Toggle navigation</span> <i class="fa fa-cog"></i>
+            </button>
+            <span>
+                <img src="img/mobily_logo_147x60.png" alt="{{ 'BrandName' | translate }}" style="width: 110px;margin-top: 4px;">
+            </span>
+        </div>
+
+        <nav class="mainnav-collapse" role="navigation">
+            <div class="collapse navbar-collapse" ng-class="!navHeaderCollapsed && 'in'">
+
+                <ul class="nav navbar-nav navbar-right" ng-if="showSessionIdentifiers && isSessionValid()">
+                    <li class="dropdown navbar-profile" uib-dropdown>
+                        <a class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" href="javascript:;">
+                            <i class="fa fa-user" class="navbar-profile-avatar" alt=""></i> <span>&nbsp; {{siteInformation.name}} - {{getUsername()}}&nbsp;</span>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="javascript:;" ng-click="logout();">
+                                    <i class="fa fa-sign-out"></i>&nbsp;&nbsp;{{ 'Header.Logout' | translate }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" ng-if="isRegistrationCompleted && isSessionValid()">
+                    <li class="dropdown navbar-notification" uib-dropdown ng-controller="WorkflowsTaskSummaryOperationsCtrl">
+                        <a class="dropdown-toggle task-summary" uib-dropdown-toggle data-toggle="dropdown" href="javascript:;"
+                           ng-click="getTaskSummary();"
+                           title="{{ 'Workflows.ShowTaskSummary' | translate }}">
+                            <i class="fa fa-list navbar-notification-icon"></i>
+                            <span class="visible-xs-inline">&nbsp;{{ 'Workflows.ShowTaskSummary' | translate }}</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-header">&nbsp;{{ 'Workflows.TaskSummary' | translate }}</div>
+                            <div class="notification-list">
+                                <i class="fa fa-spinner fa-spin tasks-spinner" ng-show="showTaskSummarySpinner"></i>
+
+                                <div ng-show="!showTaskSummarySpinner">
+                                    <div class="list-group">
+                                        <a ui-sref="workflows.operations.tasks({taskStatus: 'pending', taskType: 'ALL'})" class="list-group-item">
+                                            <i class="fa fa-hourglass-start text-primary"></i> &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.pending' | translate }}
+
+                                            <span class="badge">{{taskCounts.pending}}</span>
+                                        </a>
+
+                                        <a ui-sref="workflows.operations.tasks({taskStatus: 'approved', taskType: 'ALL'})" class="list-group-item">
+                                            <i class="fa fa-check text-primary"></i> &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.approved' | translate }}
+
+                                            <span class="badge">{{taskCounts.approved}}</span>
+                                        </a>
+
+                                        <a ui-sref="workflows.operations.tasks({taskStatus: 'rejected', taskType: 'ALL'})" class="list-group-item">
+                                            <i class="fa fa-times text-primary"></i> &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.rejected' | translate }}
+
+                                            <span class="badge">{{taskCounts.rejected}}</span>
+                                        </a>
+
+                                        <a ui-sref="workflows.operations.tasks({taskStatus: 'deleted', taskType: 'ALL'})" class="list-group-item">
+                                            <i class="fa fa-calendar-times-o text-primary"></i> &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.deleted' | translate }}
+
+                                            <span class="badge">{{taskCounts.deleted}}</span>
+                                        </a>
+
+                                        <a ui-sref="workflows.operations.tasks({taskStatus: 'notification', taskType: 'ALL'})" class="list-group-item">
+                                            <i class="fa fa-bell-o text-primary"></i> &nbsp;&nbsp;{{ 'Workflows.Operations.TaskStatuses.notification' | translate }}
+
+                                            <span class="badge">{{taskCounts.notification}}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" ng-if="isRegistrationCompleted && isSessionValid()">
+                    <li class="dropdown navbar-notification navbar-notification-completed-tasks" uib-dropdown ng-controller="WorkflowsTaskListOperationsCtrl">
+                        <a class="dropdown-toggle completed-tasks" uib-dropdown-toggle data-toggle="dropdown" href="javascript:;"
+                           ng-click="getCompletedTasks();"
+                           title="{{ 'Workflows.ShowCompletedTasks' | translate }}">
+                            <i class="fa fa-bell navbar-notification-icon"></i>
+                            <span class="visible-xs-inline">&nbsp;{{ 'Workflows.ShowCompletedTasks' | translate }}</span>
+                            <b class="badge badge-primary">{{ getTaskCount() === 0 ? '' : getTaskCount() }}</b>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-header">&nbsp;{{ 'Workflows.CompletedTasks' | translate }} [{{tasksSummary.length}}]</div>
+                            <div class="notification-list">
+                                <i class="fa fa-spinner fa-spin tasks-spinner" ng-show="showCompletedTaskListSpinner"></i>
+                                <div ng-show="!showCompletedTaskListSpinner">
+                                    <a ui-sref="workflows.operations.tasks-detail.{{task.type.toLowerCase()}}({taskStatus: (task.response === 'APPROVE' ? 'approved' : 'rejected'), taskType: task.type, taskId: (task.id)})" class="notification"
+                                       ng-repeat="task in tasksSummary">
+                                        <span class="notification-icon">
+                                            <div class="task-circle bg-primary {{ getBgColorByType(task.type) }}">
+                                                <i class="fa {{ getIconByType(task.type) }}"></i>
+                                            </div>
+                                        </span>
+                                        <span class="notification-title">{{ task.name }} [{{ getLabelByType(task.type) }} = {{ task.description }}{{ getDescriptionByType(task.type) }}]</span>
+                                        <span class="notification-description">{{ task.note }}</span>
+                                        <span class="notification-time">{{ task.createDate | TimeAgoFilter }}</span>
+                                    </a>
+                                    <h6 ng-if="tasksSummary.length === 0" class="text-center" style="margin-top: .68em;">{{ 'CommonMessages.NoDataAvailable' | translate }}</h6>
+                                </div>
+                            </div>
+                            <a ui-sref="workflows.operations.tasks({taskStatus: 'approved', taskType: 'ALL'})" class="notification-link">{{ 'Workflows.Operations.ViewAllTasks' | translate }}</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" ng-if="!isSessionValid() && $state.includes('registration')">
+                    <li>
+                        <a ui-sref="login" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ 'CommonLabels.Signin' | translate }} &nbsp;<i class="fa fa-play-circle"></i>
+                            <span class="visible-xs-inline">&nbsp;{{ 'CommonLabels.Signin' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+    </div>
+
+</header>

@@ -1,0 +1,96 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="reportingWindow" class="col-md-3">{{ 'Subsystems.Reporting.Approvals.ReportingWindow' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="reportingWindow" name="reportingWindow" type="text" class="form-control input-sm"
+                           ng-model="reportingWindowDate"
+                           uib-datepicker-popup="{{'MMMM, y'}}"
+                           ng-disabled="true"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-disabled="true"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.Organization' | translate }}</label>
+            <div class="col-md-7">
+                <div class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{invoice.organizationName}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="paymentStatus" class="col-md-3">{{ 'Subsystems.Reporting.Approvals.InvoiceState' | translate }}</label>
+            <div class="col-md-7">
+                <select id="paymentStatus" name="paymentStatus" class="form-control parsley-validated"
+                        ng-model="invoice.paymentStatus"
+                        ng-options="status as (status | uppercase) for status in REPORTING_APPROVALS_STATUS_TYPES"
+                        ng-required="true"
+                        ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.paymentStatus.$dirty && form.paymentStatus.$invalid }"
+                    ng-show="form.paymentStatus.$dirty && form.paymentStatus.$invalid">
+                    <li class="required" ng-show="form.paymentStatus.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="penaltyAmount" class="col-md-3">{{ 'Subsystems.Reporting.Approvals.PenaltyAmount' | translate }}</label>
+            <div class="col-md-7">
+                <input id="penaltyAmount" name="penaltyAmount" type="number" class="form-control"
+                       ng-model="invoice.penaltyAmount"
+                       min="0" max="999999"
+                       ng-required="true"
+                       ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                <ul ng-class="{ 'parsley-error-list': form.penaltyAmount.$dirty && form.penaltyAmount.$invalid }"
+                    ng-show="form.penaltyAmount.$dirty && form.penaltyAmount.$invalid">
+                    <li class="required" ng-show="form.penaltyAmount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.penaltyAmount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.penaltyAmount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.penaltyAmount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="penaltyDescription" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="penaltyDescription" name="penaltyDescription" class="form-control" rows="3" dir="auto"
+                          ng-model="invoice.penaltyDescription"
+                          ng-maxlength="255" maxlength="255"
+                          ng-required="true"
+                          ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.penaltyDescription.$dirty && form.penaltyDescription.$invalid }"
+                    ng-show="form.penaltyDescription.$dirty && form.penaltyDescription.$invalid">
+                    <li class="required" ng-show="form.penaltyDescription.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.penaltyDescription.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canAllConfigurationUpdate() || isNotChanged()"
+                        ng-click="save(invoice);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

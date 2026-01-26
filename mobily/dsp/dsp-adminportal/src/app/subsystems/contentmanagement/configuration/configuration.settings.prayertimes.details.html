@@ -1,0 +1,198 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.PrayerTimes' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="morningToneId" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.Morning' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="morningToneId" name="morningToneId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="prayerTimes.morningToneId"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="prayerTimes.morningToneId = null;form.morningToneId.$setDirty();" class="btn btn-default" ng-disabled="!prayerTimes.morningToneId">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.morningToneId.$dirty && form.morningToneId.$invalid }"
+                    ng-show="form.morningToneId.$dirty && form.morningToneId.$invalid">
+                    <li class="required" ng-show="form.morningToneId.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="noonToneId" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.Noon' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="noonToneId" name="noonToneId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="prayerTimes.noonToneId"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="prayerTimes.noonToneId = null;form.noonToneId.$setDirty();" class="btn btn-default" ng-disabled="!prayerTimes.noonToneId">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.noonToneId.$dirty && form.noonToneId.$invalid }"
+                    ng-show="form.noonToneId.$dirty && form.noonToneId.$invalid">
+                    <li class="required" ng-show="form.noonToneId.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="afternoonToneId" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.Afternoon' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="afternoonToneId" name="afternoonToneId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="prayerTimes.afternoonToneId"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="prayerTimes.afternoonToneId = null;form.afternoonToneId.$setDirty();" class="btn btn-default" ng-disabled="!prayerTimes.afternoonToneId">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.afternoonToneId.$dirty && form.afternoonToneId.$invalid }"
+                    ng-show="form.afternoonToneId.$dirty && form.afternoonToneId.$invalid">
+                    <li class="required" ng-show="form.afternoonToneId.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="eveningToneId" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.Evening' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="eveningToneId" name="eveningToneId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="prayerTimes.eveningToneId"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="prayerTimes.eveningToneId = null;form.eveningToneId.$setDirty();" class="btn btn-default" ng-disabled="!prayerTimes.eveningToneId">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.eveningToneId.$dirty && form.eveningToneId.$invalid }"
+                    ng-show="form.eveningToneId.$dirty && form.eveningToneId.$invalid">
+                    <li class="required" ng-show="form.eveningToneId.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="nightToneId" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.Night' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="nightToneId" name="nightToneId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="prayerTimes.nightToneId"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="!AuthorizationService.canAllConfigurationUpdate()">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="prayerTimes.nightToneId = null;form.nightToneId.$setDirty();" class="btn btn-default" ng-disabled="!prayerTimes.nightToneId">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.nightToneId.$dirty && form.nightToneId.$invalid }"
+                    ng-show="form.nightToneId.$dirty && form.nightToneId.$invalid">
+                    <li class="required" ng-show="form.nightToneId.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canAllConfigurationUpdate() || isNotChanged()"
+                        ng-click="save(prayerTimes);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

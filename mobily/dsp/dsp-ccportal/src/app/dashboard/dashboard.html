@@ -1,0 +1,54 @@
+<div class="container">
+
+    <h3 class="page-title">
+        <span translate="{{$state.current.data.title}}" translate-compile></span>
+    </h3>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="portlet">
+                <h4 class="portlet-title">
+                    <span translate="Dashboard.Form.Title" translate-compile></span>
+                </h4>
+
+                <div class="portlet-body">
+
+                    <form id="subscriberForm" method="post" enctype="multipart/form-data" name="subscriberForm" class="form parsley-form" novalidate>
+
+                        <div class="form-group">
+                            <label for="msisdn">{{ 'Dashboard.Form.Fields.Msisdn.Label' | translate }}</label>
+                            <input id="msisdn" name="msisdn" type="text" class="form-control"
+                                   ng-model="subscriber.msisdn" ng-maxlength="15"
+                                   ng-pattern="$root.Validators.Msisdn" maxlength="15"
+                                   ng-required="true"
+                                   placeholder="{{ 'Dashboard.Form.Fields.Msisdn.Placeholder' | translate }}"/>
+                            <ul ng-class="{ 'parsley-error-list': subscriberForm.msisdn.$dirty && subscriberForm.msisdn.$invalid }"
+                                ng-show="subscriberForm.msisdn.$dirty && subscriberForm.msisdn.$invalid">
+                                <li class="required" ng-show="subscriberForm.msisdn.$error.required">{{ 'Dashboard.Form.Fields.Msisdn.Messages.Required' | translate }}
+                                </li>
+                                <li class="required" ng-show="subscriberForm.msisdn.$error.pattern">{{ 'Dashboard.Form.Fields.Msisdn.Messages.Invalid' | translate }}
+                                </li>
+                                <li class="required" ng-show="subscriberForm.msisdn.$error.maxlength">{{ 'Dashboard.Form.Fields.Msisdn.Messages.MaxLength' | translate }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-danger" ng-disabled="subscriberForm.$invalid"
+                                    ng-click="find(subscriber);">
+                                {{ 'CommonLabels.Query' | translate }}
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

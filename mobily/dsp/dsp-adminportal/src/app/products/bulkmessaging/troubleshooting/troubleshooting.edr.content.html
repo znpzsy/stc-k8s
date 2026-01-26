@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ pageHeaderKey | translate:{jobId: edrRecord.jobId} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 220px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="portlet portlet-boxed">
+                    <div class="portlet-header">
+                        <h4 class="portlet-title" dir="auto">{{ 'Products.BulkMessaging.Troubleshooting.Contents.MessageContent' | translate }}</h4>
+                    </div>
+                    <div class="portlet-body">
+                        <span dir="auto" style="overflow: auto;height: 95px;display: block;" ng-if="edrRecord.jobMessage" ng-bind-html="edrRecord.jobMessage | NewlineToHtmlNewlineFilter"></span>
+                        <span ng-if="!edrRecord.jobMessage" style="color:red">{{ 'CommonMessages.ContentNA' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

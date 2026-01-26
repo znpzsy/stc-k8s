@@ -1,0 +1,79 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-header">
+        <h4 class="portlet-title" active-loading-indicator>
+            {{ 'SubscriberInfo.RBT.SpecialConditionAssignment' | translate }}
+        </h4>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                    <fieldset id="formFieldset">
+
+                    <div class="form-group">
+                        <label for="conditionId" class="col-md-3">{{ 'SubscriberInfo.RBT.ConditionId' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <ui-select id="conditionId" name="conditionId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                                           ng-model="specialConditionAssignment.condition"
+                                           ng-required="true"
+                                           ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                           close-on-select="true">
+                                    <ui-select-match placeholder="{{ 'CommonLabels.SelectFromTheList' | translate }}">
+                                        <span ng-bind="$select.selected.name"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="specialConditionItem as specialConditionItem in (specialConditionList | filter: $select.search) track by specialConditionItem.id">
+                                        <div ng-bind-html="specialConditionItem.name | highlight: $select.search"></div>
+                                        <small>
+                                            ID: {{specialConditionItem.id}}
+                                        </small>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button type="button" ng-click="specialConditionAssignment.condition = null;" class="btn btn-default"
+                                            title="{{ 'CommonLabels.Clear' | translate }}"
+                                            ng-disabled="!specialConditionAssignment.condition">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <ul ng-class="{ 'parsley-error-list': form.conditionId.$dirty && form.conditionId.$invalid }"
+                                ng-show="form.conditionId.$dirty && form.conditionId.$invalid">
+                                <li class="required" ng-show="form.conditionId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger"
+                                    ng-disabled="form.$invalid || !AuthorizationService.canCcPreferenceUpdate() || isNotChanged()"
+                                    ng-click="save(specialConditionAssignment);">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                            &nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger"
+                                    title="{{ 'SubscriberInfo.RBT.ResetTitle' | translate }}"
+                                    ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"
+                                    ng-click="delete();">
+                                {{ 'CommonLabels.Reset' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

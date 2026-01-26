@@ -1,0 +1,99 @@
+<div class="container">
+
+    <h3 class="page-title">
+        <span translate="{{$state.current.data.title}}" translate-compile></span>
+    </h3>
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <ul class="nav nav-tabs">
+                <li ng-class="{ 'active': $state.includes('subscriber-info.subscriber-profile') }">
+                    <a ui-sref="subscriber-info.subscriber-profile" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;
+                        {{ 'SubscriberInfo.SubscriberProfile.Header' | translate }}</a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.dcb') }" ng-if="AuthorizationService.canCcPreferenceRead()">
+                    <a ui-sref="subscriber-info.dcb.operations.dcbinformation.associations" data-toggle="tab"><i class="fa fa-qrcode"></i>&nbsp;
+                        {{ 'SubscriberInfo.DCB.Title' | translate }}</a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.rbt') }" ng-if="AuthorizationService.canCcPreferenceRead()">
+                    <a ui-sref="subscriber-info.rbt.operations.activedefaulttone" data-toggle="tab"><i class="fa fa-music"></i>&nbsp;
+                        {{ 'SubscriberInfo.RBT.Title' | translate }}</a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.services') }" ng-if="AuthorizationService.canCcServiceRead()">
+                    <a ui-sref="subscriber-info.services" data-toggle="tab"><i class="fa fa-bookmark"></i>&nbsp;
+                        {{ 'SubscriberInfo.Services.Title' | translate }}</a>
+                </li>
+
+                <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subscriber-info.subscriptions') }"
+                    ng-if="AuthorizationService.canCcOfferRead() && AuthorizationService.canCcServiceRead() && AuthorizationService.canCcSubscriptionRead()">
+                    <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-shopping-cart"></span>&nbsp;
+                        {{ 'SubscriberInfo.Subscriptions.Title' | translate }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('subscriber-info.subscriptions.serviceoffers') }">
+                            <a ui-sref="subscriber-info.subscriptions.serviceoffers"><i class="fa fa-shopping-cart"></i>&nbsp;
+                                {{ 'GenericTabs.ServiceSubscriptionHistory.Header' | translate }}</a>
+                        </li>
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('subscriber-info.subscriptions.contentoffers') }">
+                            <a ui-sref="subscriber-info.subscriptions.contentoffers"><i class="fa fa-shopping-cart"></i>&nbsp;
+                                {{ 'GenericTabs.ContentSubscriptionHistory.Header' | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subscriber-info.activityhistory') }"
+                    ng-if="AuthorizationService.canCcSubscriptionRead() || AuthorizationService.canCcChargingRead() || AuthorizationService.canCcMessagingRead() || AuthorizationService.canCcScreeningRead()">
+                    <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-history"></span>&nbsp;
+                        {{ 'GenericTabs.ActivityHistory.Header' | translate }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.dcbhistory') }" ng-if="AuthorizationService.canCcChargingRead()">
+                            <a ui-sref="subscriber-info.activityhistory.dcbhistory"><i class="fa fa-history"></i>&nbsp;
+                                {{ 'GenericTabs.DCBHistory.Header' | translate }}</a>
+                        </li>
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.otphistory') }" ng-if="AuthorizationService.canCcMessagingRead()">
+                            <a ui-sref="subscriber-info.activityhistory.otphistory.sms"><i class="fa fa-history"></i>&nbsp;
+                                {{ 'GenericTabs.OTPHistory.Header' | translate }}</a>
+                        </li>
+                        <li class="divider" ng-if="(AuthorizationService.canCcChargingRead() || AuthorizationService.canCcMessagingRead()) && (AuthorizationService.canCcSubscriptionRead() || AuthorizationService.canCcScreeningRead())"></li>
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.subscriptionhistory.servicesubscription') }" ng-if="AuthorizationService.canCcSubscriptionRead()">
+                            <a ui-sref="subscriber-info.activityhistory.subscriptionhistory.servicesubscription"><i class="fa fa-history"></i>&nbsp;
+                                {{ 'GenericTabs.ServiceSubscriptionHistory.Header' | translate }}</a>
+                        </li>
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.subscriptionhistory.contentsubscription') }" ng-if="AuthorizationService.canCcSubscriptionRead()">
+                            <a ui-sref="subscriber-info.activityhistory.subscriptionhistory.contentsubscription"><i class="fa fa-history"></i>&nbsp;
+                                {{ 'GenericTabs.ContentSubscriptionHistory.Header' | translate }}</a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.charginghistory') }" ng-if="AuthorizationService.canCcChargingRead()">
+                            <a ui-sref="subscriber-info.activityhistory.charginghistory" data-toggle="tab"><span class="fa fa-history"></span>&nbsp;
+                                {{ 'GenericTabs.ChargingHistory.Header' | translate }}</a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.messaginghistory') }" ng-if="AuthorizationService.canCcMessagingRead()">
+                            <a ui-sref="subscriber-info.activityhistory.messaginghistory.sms" data-toggle="tab"><span class="fa fa-history"></span>&nbsp;
+                                {{ 'GenericTabs.MessagingHistory.Header' | translate }}</a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('subscriber-info.activityhistory.screeninghistory') }" ng-if="AuthorizationService.canCcScreeningRead()">
+                            <a ui-sref="subscriber-info.activityhistory.screeninghistory" data-toggle="tab"><i class="fa fa-history"></i>&nbsp;
+                                {{ 'GenericTabs.ScreeningHistory.Header' | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="row" ui-view>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<ccportal-common-templates></ccportal-common-templates>

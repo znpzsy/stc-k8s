@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Operations.Campaigns.AnnouncementModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.File' | translate }}</label>
+                    <div class="col-md-7" ng-if="!successfulSubscriptionFile.file.name">
+                        <button name="successfulSubscriptionFile" type="file"
+                                title="{{ 'FileOperationLabels.SelectTitle' | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="successfulSubscriptionFile.file"
+                                ng-init="successfulSubscriptionFile.file ? successfulSubscriptionFile.file.name = successfulSubscriptionFile.file.$ngfName : null"
+                                class="btn btn-sm btn-default"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="100MB"
+                                ngf-model-invalid="errorFile"
+                                ng-required="true"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                            {{ 'CommonLabels.SelectFile' | translate }}
+                        </button>
+                        <ul ng-class="{ 'parsley-error-list': form.successfulSubscriptionFile.$dirty && form.successfulSubscriptionFile.$invalid }"
+                            ng-show="form.successfulSubscriptionFile.$dirty && form.successfulSubscriptionFile.$invalid">
+                            <li class="required" ng-show="form.successfulSubscriptionFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.successfulSubscriptionFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFile.$errorParam} }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9" ng-if="successfulSubscriptionFile.file.name">
+                        <div class="fileinput-preview text-center">
+                            <audio class="audio-player" controls controlsList="nodownload" ngf-src="!successfulSubscriptionFile.file.$error && successfulSubscriptionFile.file"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{successfulSubscriptionFile.file.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ successfulSubscriptionFile.file.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="successfulSubscriptionFile.file = null;"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="successfulSubscriptionFile.file.name && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="successfulSubscriptionFile.file.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ successfulSubscriptionFile.file.name }}"
+                           href="{{ successfulSubscriptionFile.file | ngfDataUrl }}" target="_blank"
+                           ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate() || !successfulSubscriptionFile.file.name || isNotChanged()"
+                                ng-click="save(successfulSubscriptionFile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

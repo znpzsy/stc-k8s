@@ -1,0 +1,40 @@
+<div class="col-md-12">
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'SubscriberInfo.SubscriberProfile.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+
+                <div class="col-sm-9 col-md-9">
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-mobile kv-icon kv-icon-primary" style="font-size: 2em;margin-right: 11px;"></i> {{ 'SubscriberInfo.SubscriberProfile.Msisdn' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.msisdn}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-flag kv-icon kv-icon-danger"></i> {{ 'SubscriberInfo.SubscriberProfile.Language' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.languageLabel | translate }} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-money kv-icon kv-icon-success"></i> {{ 'SubscriberInfo.SubscriberProfile.PaymentType' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.paymentTypeLabel | translate | uppercase}} </td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key col-md-4"><i class="fa fa-user kv-icon kv-icon-tertiary"></i> {{ 'SubscriberInfo.SubscriberProfile.State' | translate }}</td>
+                            <td class="kv-value col-md-8">{{subscriber.state}} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

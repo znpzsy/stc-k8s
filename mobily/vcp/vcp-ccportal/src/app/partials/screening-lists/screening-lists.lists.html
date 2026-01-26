@@ -1,0 +1,133 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        <span translate="ScreeningLists.ScreeningLists" translate-compile></span>
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <uib-tabset justified="false" type="tabs">
+        <uib-tab ng-if="true">
+            <uib-tab-heading>
+                <span class="fa fa-file-text"></span> {{ 'ScreeningLists.BlackList' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="portlet-body buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="pull-left">
+                                <button class="btn btn-sm btn-secondary create-button"
+                                        ng-click="addNewBlackListItem();"
+                                        ng-if="AuthorizationService.canCreateScreeningLists()">
+                                    <i class="fa fa-plus-circle"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterBlackList(filterText, ['screenableEntryId', 'screenableCorrelator'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table ng-table="blackList.tableParams" class="table table-striped table-bordered"
+                                       template-pagination="ngTableCustomPager.html">
+                                    <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                                        <td align="center" data-title="'ScreeningLists.TableColumns.PhoneNumber' | translate" sortable="'screenableEntryId'">{{item.screenableEntryId}}</td>
+                                        <td align="center" data-title="'ScreeningLists.TableColumns.Description' | translate" sortable="'screenableCorrelator'">{{item.screenableCorrelator}}</td>
+                                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                            <button class="btn btn-xs btn-danger"
+                                                    ng-if="AuthorizationService.canDeleteScreeningLists()"
+                                                    ng-click="deleteBlackListItem(item.screenableEntryId)"
+                                                    title="{{ 'CommonLabels.DeleteEntry' | translate }}">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="$data.length === 0">
+                                        <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab ng-if="isWhiteListAvailable">
+            <uib-tab-heading>
+                <span class="fa fa-file-text-o"></span> {{ 'ScreeningLists.WhiteList' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="portlet-body buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="pull-left">
+                                <button class="btn btn-sm btn-secondary create-button"
+                                        ng-click="addNewWhiteListItem();"
+                                        ng-if="AuthorizationService.canCreateScreeningLists()">
+                                    <i class="fa fa-plus-circle"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterWhiteList(filterText, ['screenableEntryId', 'screenableCorrelator'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table ng-table="whiteList.tableParams" class="table table-striped table-bordered"
+                                       template-pagination="ngTableCustomPager.html">
+                                    <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                                        <td align="center" data-title="'ScreeningLists.TableColumns.PhoneNumber' | translate" sortable="'screenableEntryId'">{{item.screenableEntryId}}</td>
+                                        <td align="center" data-title="'ScreeningLists.TableColumns.Description' | translate" sortable="'screenableCorrelator'">{{item.screenableCorrelator}}</td>
+                                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                            <button class="btn btn-xs btn-danger"
+                                                    ng-if="AuthorizationService.canDeleteScreeningLists()"
+                                                    ng-click="deleteWhiteListItem(item.screenableEntryId)"
+                                                    title="{{ 'CommonLabels.DeleteEntry' | translate }}">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="$data.length === 0">
+                                        <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+</div>

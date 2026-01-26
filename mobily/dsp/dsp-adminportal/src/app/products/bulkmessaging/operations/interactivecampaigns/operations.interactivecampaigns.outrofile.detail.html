@@ -1,0 +1,33 @@
+<div class="form-group">
+    <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OutroFiles' | translate }}</label>
+    <div class="col-md-7">
+        <div ng-if="campaign.outroFileList.length" class="row col-md-9">
+            <div ng-repeat="outroFile in campaign.outroFileList">
+                <a ng-click="playStopAudio(outroFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                   ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                    <i class="fa {{ isPlaying(outroFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                </a>&nbsp;
+                <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                      uib-tooltip="{{ getOutroFileString(outroFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                    {{ getOutroFileString(outroFile) }}
+                </span>&nbsp;
+                <a ng-click="editOutroFile(campaign, outroFile)" style="cursor: pointer;text-decoration: none;"
+                   ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                    <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                </a>
+                <a ng-click="removeOutroFile(campaign, outroFile)" style="cursor: pointer;text-decoration: none;"
+                   ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                    <span class="label label-danger"><i class="fa fa-times"></i></span>
+                </a>
+                <audio id="{{outroFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!outroFile.file.$error && outroFile.file" style="position: absolute;visibility: hidden;"></audio>
+            </div>
+        </div>
+        <button class="btn btn-default" style="width: 120px;"
+                ng-if="!campaign.outroFileList || campaign.outroFileList.length < 10"
+                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                ng-class="{ 'pull-right': campaign.outroFileList.length > 0 }"
+                ng-click="addOutroFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+        </button>
+        <button class="btn btn-default" style="width: 120px;" ng-if="campaign.outroFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+    </div>
+</div>

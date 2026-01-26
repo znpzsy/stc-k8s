@@ -1,0 +1,55 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.smsc.dashboards') }">
+                <a ui-sref="products.smsc.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.smsc.operations') }" ng-if="AuthorizationService.canRead()">
+                <a ui-sref="products.smsc.operations.applications.smppapps" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.smsc.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="products.smsc.configuration.settings.applicationgateway" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.smsc.screening-lists') }" ng-if="AuthorizationService.canReadScreeningLists()">
+                <a ui-sref="products.smsc.screening-lists.incoming.smsc-global" data-toggle="tab">
+                    <span class="fa fa-shield"></span> {{ 'GenericTabs.ScreeningLists' | translate }}
+                </a>
+            </li>
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.troubleshooting') || $state.includes('products.smsc.troubleshootingremote') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('products.smsc.troubleshooting') }">
+                        <a ui-sref="products.smsc.troubleshooting.edr.view">{{siteInformation.name === 'Jeddah' ? 'Jeddah' : 'Riyadh'}}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('products.smsc.troubleshootingremote') }">
+                        <a ui-sref="products.smsc.troubleshootingremote.edr.view">{{siteInformation.name === 'Jeddah' ? 'Riyadh' : 'Jeddah'}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

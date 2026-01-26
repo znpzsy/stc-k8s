@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Licensing.Operations.SpecialDaysTitle' | translate:{product:license.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form id="form" name="form" method="post" enctype="multipart/form-data"  class="form-horizontal parsley-form"
+                  novalidate>
+                <div class="form-group col-md-4 col-md-4 col-md-4" ng-repeat="item in days"
+                     style="margin-left: inherit;margin-right: inherit;">
+                    <div class="input-group datepicker-field has-feedback">
+                        <span class="input-group-addon">{{$index + 1}}</span>
+                        <input name="day_{{$index}}" type="text" class="form-control input-sm"
+                               clear-input="item.day = null" clear-disable-visibility
+                               ng-model="item.day" is-open="dayPickers[$index].opened"
+                               uib-datepicker-popup="{{licenseDaysDateFormat}}" ng-change="validateDayField($index)"
+                               datepicker-options="licenseDaysDateOptions"
+                               ng-disabled="!AuthorizationService.canUpdate()"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openLicenseDaysDatePicker($event, dayPickers[$index])"
+                                    ng-disabled="!AuthorizationService.canUpdate()" >
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.day_{{$index}}.$dirty && form.day_{{$index}}.$invalid }"
+                        ng-show="form.day_{{$index}}.$dirty && form.day_{{$index}}.$invalid">
+                        <li class="required" ng-show="form.day_{{$index}}.$error.date">{{ dayPickers[$index].invalidDateErrorMessage || 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-danger" ng-disabled="form.$invalid || !AuthorizationService.canUpdate() || isNotChanged()"
+            ng-click="save(license.name, days);">{{ 'CommonLabels.Save' | translate }}</button>
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>
+

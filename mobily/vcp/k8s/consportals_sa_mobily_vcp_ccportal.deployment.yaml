@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consportals-sa-mobily-vcp-ccportal-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-ccportal
+  template:
+    metadata:
+      labels:
+        component: vcp-ccportal
+    spec:
+      containers:
+        - name: vcp-ccportal
+          image: mersin.telenity.com/com/telenity/consportals-sa-mobily-vcp-ccportal:1.0.0.1
+          ports:
+            - containerPort: 8081

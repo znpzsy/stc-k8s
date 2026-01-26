@@ -1,0 +1,84 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Configuration.Settings.MenuLabel' | translate }} / {{ 'Products.SMSC.Configuration.Settings.MessageStore.MenuLabel' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="messageStoreOptionsForm" name="messageStoreOptionsForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Configuration.Settings.MessageStore.FormFields.HardLimit.Label' | translate }}</label>
+            <div class="col-md-6">
+                <input type="number" name="hardLimit" class="form-control" ng-model="messageStoreOptions.hardLimit" disabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Configuration.Settings.MessageStore.FormFields.HardLimitMinorMajorAlarmThresholds.Label' | translate }}</label>
+            <div class="col-md-3">
+                <input type="number" class="form-control" ng-model="messageStoreOptions.hardLimitMinorThreshold" name="hardLimitMinorThreshold" id="hardLimitMinorThreshold" placeholder="" min="0" max="100"/>
+                <ul ng-class="{ 'parsley-error-list': messageStoreOptionsForm.hardLimitMinorThreshold.$dirty && messageStoreOptionsForm.hardLimitMinorThreshold.$invalid }" ng-show="messageStoreOptionsForm.hardLimitMinorThreshold.$dirty && messageStoreOptionsForm.hardLimitMinorThreshold.$invalid">
+                    <li class="required" ng-show="messageStoreOptionsForm.hardLimitMinorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: "0" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.hardLimitMinorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: "100" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.hardLimitMinorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" ng-model="messageStoreOptions.hardLimitMajorThreshold" name="hardLimitMajorThreshold" id="hardLimitMajorThreshold" placeholder="" min="0" max="100"/>
+                <ul ng-class="{ 'parsley-error-list': messageStoreOptionsForm.hardLimitMajorThreshold.$dirty && messageStoreOptionsForm.hardLimitMajorThreshold.$invalid }" ng-show="messageStoreOptionsForm.hardLimitMajorThreshold.$dirty && messageStoreOptionsForm.hardLimitMajorThreshold.$invalid">
+                    <li class="required" ng-show="messageStoreOptionsForm.hardLimitMajorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: "0" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.hardLimitMajorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: "100" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.hardLimitMajorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Configuration.Settings.MessageStore.FormFields.SoftLimit.Label' | translate }}</label>
+            <div class="col-md-6">
+                <input type="number" class="form-control" ng-model="messageStoreOptions.softLimit" name="softLimit" id="softLimit" placeholder="" min="0" max="999999999"/>
+                <ul ng-class="{ 'parsley-error-list': messageStoreOptionsForm.softLimit.$dirty && messageStoreOptionsForm.softLimit.$invalid }" ng-show="messageStoreOptionsForm.softLimit.$dirty && messageStoreOptionsForm.softLimit.$invalid">
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: "0" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: "999999999" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimit.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Configuration.Settings.MessageStore.FormFields.SoftLimitMinorMajorAlarmThresholds.Label' | translate }}</label>
+            <div class="col-md-3">
+                <input type="number" class="form-control" ng-model="messageStoreOptions.softLimitMinorThreshold" name="softLimitMinorThreshold" id="softLimitMinorThreshold" placeholder="" min="0" max="100"/>
+                <ul ng-class="{ 'parsley-error-list': messageStoreOptionsForm.softLimitMinorThreshold.$dirty && messageStoreOptionsForm.softLimitMinorThreshold.$invalid }" ng-show="messageStoreOptionsForm.softLimitMinorThreshold.$dirty && messageStoreOptionsForm.softLimitMinorThreshold.$invalid">
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimitMinorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: "0" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimitMinorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: "100" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimitMinorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" ng-model="messageStoreOptions.softLimitMajorThreshold" name="softLimitMajorThreshold" id="softLimitMajorThreshold" placeholder="" min="0" max="100"/>
+                <ul ng-class="{ 'parsley-error-list': messageStoreOptionsForm.softLimitMajorThreshold.$dirty && messageStoreOptionsForm.softLimitMajorThreshold.$invalid }" ng-show="messageStoreOptionsForm.softLimitMajorThreshold.$dirty && messageStoreOptionsForm.softLimitMajorThreshold.$invalid">
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimitMajorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: "0" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimitMajorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: "100" } }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.softLimitMajorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger" ng-disabled="messageStoreOptionsForm.$invalid || isUnchanged() || !AuthorizationService.canUpdateConfiguration()"
+                        ng-click="save(messageStoreOptions);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

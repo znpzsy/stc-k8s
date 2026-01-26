@@ -1,0 +1,106 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.SMSC.Troubleshooting.History.PageHeader' | translate:{ origAddress: edrRecord.origAddress, destAddress: edrRecord.destAddress } }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-10 col-xs-9">
+            <div class="pull-left">
+                <label>{{ 'Products.SMSC.Troubleshooting.TableColumns.SubmitDate' | translate }}:&nbsp;</label>
+                {{edrRecord.scTimestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}
+                &nbsp;&nbsp;&nbsp;
+                <label ng-if="recordType === 'permanent'">{{ 'Products.SMSC.Troubleshooting.TableColumns.CompletionDate' | translate }}:&nbsp;</label>
+                <label ng-if="recordType !== 'permanent'">{{ 'Products.SMSC.Troubleshooting.TableColumns.EventDate' | translate }}:&nbsp;</label>
+                {{edrRecord.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}
+            </div>
+        </div>
+
+        <div class="col-md-2 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group export-buttons-without-search" ng-show="smscEdrHistoryList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('SMSCTroubleshootingDetailedRecords-' + edrRecord.cdrKey, smscEdrHistoryList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('SMSCTroubleshootingDetailedRecords-' + edrRecord.cdrKey, smscEdrHistoryList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="smscEdrHistoryList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="historyExportOptions">
+                    <thead>
+                    <tr>
+                        <th class="sortable"
+                            uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.HistoryEventDate' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.dateMicroSec', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.dateMicroSec', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.dateMicroSec': smscEdrHistoryList.tableParams.isSortBy('_source.dateMicroSec', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.HistoryEventDate' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.DestMSC' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.destMsc', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.destMsc', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.destMsc': smscEdrHistoryList.tableParams.isSortBy('_source.destMsc', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.DestMSC' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.HistoryCDRType' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.cdrType': smscEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.HistoryCDRType' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.attemptCount', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.attemptCount', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.attemptCount': smscEdrHistoryList.tableParams.isSortBy('_source.attemptCount', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.AttemptCount' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.hostName', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.hostName', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.hostName': smscEdrHistoryList.tableParams.isSortBy('_source.hostName', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.HostName' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.Result' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.result', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.result', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.result': smscEdrHistoryList.tableParams.isSortBy('_source.result', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.Result' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.Reason' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': smscEdrHistoryList.tableParams.isSortBy('_source.reason', 'asc'), 'sort-desc': smscEdrHistoryList.tableParams.isSortBy('_source.reason', 'desc') }"
+                            ng-click="smscEdrHistoryList.tableParams.sorting({'_source.reason': smscEdrHistoryList.tableParams.isSortBy('_source.reason', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.ReasonInfo' | translate }}</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'text-danger': (item._source.result > 0) }">
+                        <td align="center">{{item._source.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                        <td align="center">{{item._source.destMsc}}</td>
+                        <td align="left">{{item._source.cdrTypeText}}</td>
+                        <td align="center">{{item._source.attemptCount}}</td>
+                        <td align="center">{{item._source.hostName}}</td>
+                        <td align="center">{{item._source.result | GeneralEDRResultFilter}}</td>
+                        <td align="left" ng-bind-html="item._source.reasonText | unsafe"></td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="7" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

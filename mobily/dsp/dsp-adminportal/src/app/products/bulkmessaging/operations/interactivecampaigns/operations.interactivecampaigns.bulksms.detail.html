@@ -1,0 +1,874 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="campaignForm" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignName' | translate }}</label>
+            <div class="col-md-7">
+                <input name="campaignName" type="text" class="form-control" ng-model="campaign.campaignName"
+                       ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                       ng-required="true" maxlength="512" ng-maxlength="512"/>
+                <ul ng-class="{ 'parsley-error-list': form.campaignName.$dirty && form.campaignName.$invalid }"
+                    ng-show="form.campaignName.$dirty && form.campaignName.$invalid">
+                    <li class="required" ng-show="form.campaignName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.campaignName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 512 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignStartDateTime' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input type="text" class="form-control input-sm" id="startDate" name="startDate"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                           is-open="startDatePicker.opened" close-text="Close"
+                           datepicker-options="dateOptions" ng-required="true"
+                           ng-change="updateStartDate(dateHolder.startDate)"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm"
+                                ng-click="openStartDatePicker($event)"><i
+                                class="fa fa-calendar"></i></button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }"
+                        ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-4 row">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="dateHolder.startTime" hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" readonly-input="true" mousewheel="false" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                         ng-change="updateStartDateTime(dateHolder.startTime)"></div>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="settings-expander">
+            <a id="extra-settings-expander" class="link" href="javascript:;" ng-click="showExtraSettings = !showExtraSettings;">
+                {{ (showExtraSettings ? 'CommonLabels.HideExtraSettings' : 'CommonLabels.ShowExtraSettings') | translate }}
+            </a>
+        </div>
+
+        <!-- Extra form fields -->
+        <span ng-if="showExtraSettings">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ForceExpiryDate' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{campaign.forceExpiryDate ?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-model="campaign.forceExpiryDate" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!campaign.forceExpiryDate ?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-model="campaign.forceExpiryDate" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="campaign.forceExpiryDate">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignExpiryDateTime' | translate }}</label>
+                <div class="col-md-3">
+                    <p class="input-group datepicker-field">
+                        <input type="text" class="form-control input-sm" id="endDate" name="endDate"
+                               uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                               ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                               is-open="endDatePicker.opened" close-text="Close"
+                               datepicker-options="dateOptions" ng-required="true"
+                               ng-change="updateEndDate(dateHolder.endDate)"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openEndDatePicker($event)"><i
+                                    class="fa fa-calendar"></i></button>
+                        </span>
+                        <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }"
+                            ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                            <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.endDate.$error.date">{{ 'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-md-4 row">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker ng-model="dateHolder.endTime" hour-step="hstep" minute-step="mstep"
+                             show-meridian="false" readonly-input="true" mousewheel="false" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                             ng-change="updateEndDateTime(dateHolder.endTime)"></div>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Screening Lists -->
+            <div class="form-group" ng-if="blackListEnabled">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.EnforceScreening' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkSMSPolicyProfile.isScreeningListsEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkSMSPolicyProfile.isScreeningListsEnforced" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkSMSPolicyProfile.isScreeningListsEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkSMSPolicyProfile.isScreeningListsEnforced" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="blackListEnabled && bulkSMSPolicyProfile.isScreeningListsEnforced">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.ScreeningLists' | translate}}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.campaignBlackLists.length" class="row col-md-9">
+                        <div ng-repeat="campaignBlackList in campaign.campaignBlackLists">
+                            <span class="label label-default selected-item-label">
+                                {{ campaignBlackList.name | limitTo:40 }}{{ campaignBlackList.name.length > 40 ? '...' : '' }}
+                            </span>&nbsp;
+                            <a ng-click="removeBlackList(campaign, campaignBlackList)" style="cursor: pointer;text-decoration: none;">
+                                <span class="label label-danger" ng-if="AuthorizationService.canBmsOperationsCampaignCreate()"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-class="{ 'pull-right': bulkSMSPolicyProfile.ScreeningLists.length }"
+                            ng-click="addBlackList(campaign, campaign.campaignBlackLists)"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">{{ 'CommonLabels.Add' | translate }}</button>
+                </div>
+            </div>
+
+            <!-- Time Restrictions -->
+            <div class="form-group" ng-if="!isTimeConstraintEnforced">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.EnforceTimeConstraints' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkSMSPolicyProfile.isTimeConstraintEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkSMSPolicyProfile.isTimeConstraintEnforced" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkSMSPolicyProfile.isTimeConstraintEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkSMSPolicyProfile.isTimeConstraintEnforced" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="bulkSMSPolicyProfile.isTimeConstraintEnforced">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.TimeConstraints' | translate}}</label>
+                <div class="col-md-7">
+                    <div ng-if="bulkSMSPolicyProfile.TimeConstraints.length" class="row col-md-9">
+                        <div ng-repeat="timeConstraint in bulkSMSPolicyProfile.TimeConstraints">
+                            <span class="label label-default selected-item-label">
+                                {{ timeConstraint.value | TimeConstraintViewFilter }}
+                            </span>&nbsp;
+                            <a ng-click="addUpdateTimeConstraint(campaign, bulkSMSPolicyProfile, timeConstraint)" style="cursor: pointer;text-decoration: none;">
+                                <span class="label label-secondary" ng-if="AuthorizationService.canBmsOperationsCampaignCreate()"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeTimeConstraint(bulkSMSPolicyProfile, timeConstraint)" style="cursor: pointer;text-decoration: none;">
+                                <span class="label label-danger" ng-if="AuthorizationService.canBmsOperationsCampaignCreate()"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-class="{ 'pull-right': bulkSMSPolicyProfile.TimeConstraints.length }"
+                            ng-click="addUpdateTimeConstraint(campaign, bulkSMSPolicyProfile)"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">{{ 'CommonLabels.Add' | translate }}</button>
+                </div>
+            </div>
+
+            <!-- Allow Off Net Delivery -->
+            <div class="form-group" ng-if="isOffNetDeliveryAllowed">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.AllowOffNetDelivery' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkSMSPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-model="bulkSMSPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkSMSPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-model="bulkSMSPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disable Charging -->
+            <div class="form-group" ng-if="isDisableChargingAllowed">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.DisableCharging' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkSMSPolicyProfile.isDisableChargingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkSMSPolicyProfile.isDisableChargingAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkSMSPolicyProfile.isDisableChargingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkSMSPolicyProfile.isDisableChargingAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.MaxRetryCount' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="maxRetryCount" name="maxRetryCount" type="number" class="form-control"
+                           ng-model="campaign.maxRetryCount"
+                           min="0" max="{{maxMaxRetryCount}}" ng-required="true"
+                           ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.maxRetryCount.$dirty && form.maxRetryCount.$invalid }"
+                        ng-show="form.maxRetryCount.$dirty && form.maxRetryCount.$invalid">
+                        <li class="required" ng-show="form.maxRetryCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.maxRetryCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: maxMaxRetryCount} }}</li>
+                        <li class="required" ng-show="form.maxRetryCount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.maxRetryCount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </span>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.From' | translate }}</label>
+            <div class="col-md-7" ng-if="bulkSMSPolicyProfile.isAlphanumericSenderListRestricted">
+                <select id="from" name="from" class="form-control parsley-validated" ng-model="campaign.from"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="permissibleAlphanumericSender.value as permissibleAlphanumericSender.value for permissibleAlphanumericSender in bulkSMSPolicyProfile.PermissibleAlphanumericSenders">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.from.$dirty && form.from.$invalid }" ng-show="form.from.$dirty && form.from.$invalid">
+                    <li class="required" ng-show="form.from.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-7" ng-if="!bulkSMSPolicyProfile.isAlphanumericSenderListRestricted">
+                <input name="from" type="text" class="form-control" ng-value="bulkSMSPolicyProfile.SenderMsisdn" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="bulkSMSPolicyProfile.isOffNetDeliveryAllowed && bulkSMSPolicyProfile.isOffnetSenderListRestricted">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.OffnetSenders' | translate}}</label>
+            <div class="col-md-7">
+                <div ng-show="campaign.offnetSenders.length" class="row col-md-9">
+                    <div ng-repeat="n in campaign.offnetSenders">
+                        <span class="label label-default selected-item-label">{{n.value}}</span>
+                        <a ng-click="removeSelectedOffnetSender(campaign.offnetSenders, n)" style="cursor: pointer;"
+                           ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="openOffnetSenders(bulkSMSPolicyProfile, campaign)"
+                        ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-class="{ 'pull-right': campaign.offnetSenders.length > 0 }">
+                    {{ 'CommonLabels.AddTo' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ListType' | translate }}</label>
+            <div class="col-md-7">
+                <select id="listType" name="listType" class="form-control parsley-validated" ng-model="listType"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="listType.key as (listType.textKey | translate | uppercase) for listType in BMS_DISTRIBUTION_LIST_TYPES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.listType.$dirty && form.listType.$invalid }" ng-show="form.listType.$dirty && form.listType.$invalid">
+                    <li class="required" ng-show="form.listType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.To' | translate }}</label>
+            <div class="col-md-7">
+                <select id="to" name="to" class="form-control parsley-validated" ng-model="campaign.to"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="distributionList.id as (distributionList.name + ' (' + distributionList.listSize + ')') for distributionList in (distributionListArray | DistributionListByListTypeFilter:listType)">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.to.$dirty && form.to.$invalid }" ng-show="form.to.$dirty && form.to.$invalid">
+                    <li class="required" ng-show="form.to.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="interactivityTemplate" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.InteractivityTemplate' | translate }}</label>
+            <div class="col-md-7">
+                <select id="interactivityTemplate" name="interactivityTemplate" class="form-control parsley-validated"
+                        ng-model="campaign.interactivityTemplate"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="interactivityTemplate as interactivityTemplate.label group by interactivityTemplate.group for interactivityTemplate in BMS_INTERACTIVITY_TEMPLATES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.interactivityTemplate.$dirty && form.interactivityTemplate.$invalid }"
+                    ng-show="form.interactivityTemplate.$dirty && form.interactivityTemplate.$invalid">
+                    <li class="required" ng-show="form.interactivityTemplate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Poll -->
+        <div ng-if="campaign.interactivityTemplate.value === 'Poll'">
+            <div class="form-group">
+                <label for="introText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.IntroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="introText" type="text" class="form-control" ng-model="campaign.introText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="intro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="intro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.introText.$dirty && form.introText.$invalid }"
+                        ng-show="form.introText.$dirty && form.introText.$invalid">
+                        <li class="required" ng-show="form.introText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.ChoiceTexts' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.choiceList.length" class="row col-md-9">
+                        <div ng-repeat="choice in campaign.choiceList">
+                            {{'C'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getPollChoiceTextString(choice) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getPollChoiceTextString(choice) }}
+                            </span>&nbsp;
+                            <a ng-click="editPollChoiceText(campaign, choice)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removePollChoiceText(campaign, choice)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.choiceList || campaign.choiceList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.choiceList.length > 0, 'ng-invalid-required': !campaign.choiceList.length }"
+                            ng-click="addPollChoiceText(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.choiceList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="choiceListLength" type="number" class="form-control"
+                               ng-model="campaign.choiceList.length"
+                               ng-init="campaign.choiceList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.choiceList.length === 0 }"
+                            ng-show="campaign.choiceList.length === 0">
+                            <li class="required" ng-show="form.choiceListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="outroText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OutroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="outroText" type="text" class="form-control" ng-model="campaign.outroText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="outro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="outro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.outroText.$dirty && form.outroText.$invalid }"
+                        ng-show="form.outroText.$dirty && form.outroText.$invalid">
+                        <li class="required" ng-show="form.outroText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- // Poll -->
+
+        <!-- Questionnaire -->
+        <div ng-if="campaign.interactivityTemplate.value === 'Questionnaire'">
+            <div class="form-group">
+                <label for="introText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.IntroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="introText" type="text" class="form-control" ng-model="campaign.introText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="intro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="intro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.introText.$dirty && form.introText.$invalid }"
+                        ng-show="form.introText.$dirty && form.introText.$invalid">
+                        <li class="required" ng-show="form.introText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Questions' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.questionAnswerList.length" class="row col-md-9">
+                        <div ng-repeat="questionAnswer in campaign.questionAnswerList">
+                            {{'Q'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getQuestionnaireQuestionAnswerTextString(questionAnswer) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getQuestionnaireQuestionAnswerTextString(questionAnswer) }}
+                            </span>&nbsp;
+                            <a ng-click="editQuestionnaireQuestionAnswerText(campaign, questionAnswer)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeQuestionnaireQuestionAnswerText(campaign, questionAnswer)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.questionAnswerList || campaign.questionAnswerList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.questionAnswerList.length > 0, 'ng-invalid-required': !campaign.questionAnswerList.length }"
+                            ng-click="addQuestionnaireQuestionAnswerText(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.questionAnswerList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="questionAnswerListLength" type="number" class="form-control"
+                               ng-model="campaign.questionAnswerList.length"
+                               ng-init="campaign.questionAnswerList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.questionAnswerList.length === 0 }"
+                            ng-show="campaign.questionAnswerList.length === 0">
+                            <li class="required" ng-show="form.questionAnswerListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Rules' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.ruleList.length" class="row col-md-9">
+                        <div ng-repeat="rule in campaign.ruleList">
+                            {{'R'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getRuleString(rule) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getRuleString(rule) }}
+                                </span>&nbsp;
+                            <a ng-click="editRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{rule.file.lastModified}}" controls controlsList="nodownload" ngf-src="!rule.file.$error && rule.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.ruleList || campaign.ruleList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.ruleList.length > 0 }"
+                            ng-click="addRule(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="outroText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OutroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="outroText" type="text" class="form-control" ng-model="campaign.outroText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="outro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="outro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.outroText.$dirty && form.outroText.$invalid }"
+                        ng-show="form.outroText.$dirty && form.outroText.$invalid">
+                        <li class="required" ng-show="form.outroText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- // Questionnaire -->
+
+        <!-- RBT Poll -->
+        <div ng-if="campaign.interactivityTemplate.value === 'RBT Poll'">
+            <div class="form-group">
+                <label for="introText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.IntroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="introText" name="introText" type="text" class="form-control" ng-model="campaign.introText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="intro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="intro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.introText.$dirty && form.introText.$invalid }"
+                        ng-show="form.introText.$dirty && form.introText.$invalid">
+                        <li class="required" ng-show="form.introText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.ChoiceTexts' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.choiceList.length" class="row col-md-9">
+                        <div ng-repeat="choice in campaign.choiceList">
+                            {{'C'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getPollChoiceTextString(choice) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getPollChoiceTextString(choice) }}
+                            </span>&nbsp;
+                            <a ng-click="editPollChoiceText(campaign, choice)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removePollChoiceText(campaign, choice)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.choiceList || campaign.choiceList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.choiceList.length > 0, 'ng-invalid-required': !campaign.choiceList.length }"
+                            ng-click="addPollChoiceText(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.choiceList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="choiceListLength" type="number" class="form-control"
+                               ng-model="campaign.choiceList.length"
+                               ng-init="campaign.choiceList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.choiceList.length === 0 }"
+                            ng-show="campaign.choiceList.length === 0">
+                            <li class="required" ng-show="form.choiceListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="promotionInstructionText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotionInstructions' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="promotionInstructionText" name="promotionInstructionText" type="text" class="form-control" ng-model="campaign.promotionInstructionText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="promotion-instruction-text-counter"
+                              ng-required="true"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="promotion-instruction-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.promotionInstructionText.$dirty && form.promotionInstructionText.$invalid }"
+                        ng-show="form.promotionInstructionText.$dirty && form.promotionInstructionText.$invalid">
+                        <li class="required" ng-show="form.promotionInstructionText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.promotionInstructionText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="successfulSubscriptionText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.SuccessfulSubscriptionText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="successfulSubscriptionText" name="successfulSubscriptionText" type="text" class="form-control" ng-model="campaign.successfulSubscriptionText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="successful-subscription-text-counter"
+                              ng-required="true"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="successful-subscription-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.successfulSubscriptionText.$dirty && form.successfulSubscriptionText.$invalid }"
+                        ng-show="form.successfulSubscriptionText.$dirty && form.successfulSubscriptionText.$invalid">
+                        <li class="required" ng-show="form.successfulSubscriptionText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.successfulSubscriptionText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="optOutText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptOutText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="optOutText" name="optOutText" type="text" class="form-control" ng-model="campaign.optOutText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="opt-out-text-counter"
+                              ng-required="true"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="opt-out-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.optOutText.$dirty && form.optOutText.$invalid }"
+                        ng-show="form.optOutText.$dirty && form.optOutText.$invalid">
+                        <li class="required" ng-show="form.optOutText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.optOutText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="outroText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OutroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="outroText" type="text" class="form-control" ng-model="campaign.outroText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="outro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="outro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.outroText.$dirty && form.outroText.$invalid }"
+                        ng-show="form.outroText.$dirty && form.outroText.$invalid">
+                        <li class="required" ng-show="form.outroText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- // RBT Poll -->
+
+        <!-- RBT Questionnaire -->
+        <div ng-if="campaign.interactivityTemplate.value === 'RBT Questionnaire'">
+            <div class="form-group">
+                <label for="introText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.IntroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="introText" type="text" class="form-control" ng-model="campaign.introText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="intro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="intro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.introText.$dirty && form.introText.$invalid }"
+                        ng-show="form.introText.$dirty && form.introText.$invalid">
+                        <li class="required" ng-show="form.introText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Questions' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.questionAnswerList.length" class="row col-md-9">
+                        <div ng-repeat="questionAnswer in campaign.questionAnswerList">
+                            {{'Q'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getQuestionnaireQuestionAnswerTextString(questionAnswer) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getQuestionnaireQuestionAnswerTextString(questionAnswer) }}
+                            </span>&nbsp;
+                            <a ng-click="editQuestionnaireQuestionAnswerText(campaign, questionAnswer)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeQuestionnaireQuestionAnswerText(campaign, questionAnswer)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.questionAnswerList || campaign.questionAnswerList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.questionAnswerList.length > 0, 'ng-invalid-required': !campaign.questionAnswerList.length }"
+                            ng-click="addQuestionnaireQuestionAnswerText(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.questionAnswerList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="questionAnswerListLength" type="number" class="form-control"
+                               ng-model="campaign.questionAnswerList.length"
+                               ng-init="campaign.questionAnswerList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.questionAnswerList.length === 0 }"
+                            ng-show="campaign.questionAnswerList.length === 0">
+                            <li class="required" ng-show="form.questionAnswerListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Rules' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.ruleList.length" class="row col-md-9">
+                        <div ng-repeat="rule in campaign.ruleList">
+                            {{'R'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getRuleString(rule) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getRuleString(rule) }}
+                                </span>&nbsp;
+                            <a ng-click="editRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{rule.file.lastModified}}" controls controlsList="nodownload" ngf-src="!rule.file.$error && rule.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.ruleList || campaign.ruleList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.ruleList.length > 0 }"
+                            ng-click="addRule(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="promotionInstructionText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotionInstructions' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="promotionInstructionText" name="promotionInstructionText" type="text" class="form-control" ng-model="campaign.promotionInstructionText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="promotion-instruction-text-counter"
+                              ng-required="true"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="promotion-instruction-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.promotionInstructionText.$dirty && form.promotionInstructionText.$invalid }"
+                        ng-show="form.promotionInstructionText.$dirty && form.promotionInstructionText.$invalid">
+                        <li class="required" ng-show="form.promotionInstructionText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.promotionInstructionText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="successfulSubscriptionText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.SuccessfulSubscriptionText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="successfulSubscriptionText" name="successfulSubscriptionText" type="text" class="form-control" ng-model="campaign.successfulSubscriptionText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="successful-subscription-text-counter"
+                              ng-required="true"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="successful-subscription-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.successfulSubscriptionText.$dirty && form.successfulSubscriptionText.$invalid }"
+                        ng-show="form.successfulSubscriptionText.$dirty && form.successfulSubscriptionText.$invalid">
+                        <li class="required" ng-show="form.successfulSubscriptionText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.successfulSubscriptionText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="optOutText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptOutText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="optOutText" name="optOutText" type="text" class="form-control" ng-model="campaign.optOutText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="opt-out-text-counter"
+                              ng-required="true"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="opt-out-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.optOutText.$dirty && form.optOutText.$invalid }"
+                        ng-show="form.optOutText.$dirty && form.optOutText.$invalid">
+                        <li class="required" ng-show="form.optOutText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.optOutText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="outroText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OutroText' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="outroText" type="text" class="form-control" ng-model="campaign.outroText" dir="auto"
+                              ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                              sms-counter="outro-text-counter"
+                              rows="3" cols="50" maxlength="9999" ng-maxlength="9999" ng-trim="true">
+                    </textarea>
+                    <div class="pull-right" id="outro-text-counter">
+                        {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.outroText.$dirty && form.outroText.$invalid }"
+                        ng-show="form.outroText.$dirty && form.outroText.$invalid">
+                        <li class="required" ng-show="form.outroText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- // RBT Questionnaire -->
+
+        <div ng-if="campaign.interactivityTemplate.value.indexOf('RBT') > -1">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.TryAndBuyEnabled' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{campaign.tryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="campaign.tryAndBuyEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!campaign.tryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="campaign.tryAndBuyEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="campaign.tryAndBuyEnabled">
+                <label for="trialPeriod" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.TrialPeriod' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="trialPeriod" name="trialPeriod" type="number" class="form-control"
+                           ng-model="campaign.trialPeriod.duration"
+                           ng-required="true" ng-min="0" ng-max="999"
+                           ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.trialPeriod.$dirty && form.trialPeriod.$invalid }"
+                        ng-show="form.trialPeriod.$dirty && form.trialPeriod.$invalid">
+                        <li class="required" ng-show="form.trialPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.trialPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.trialPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                        <li class="required" ng-show="form.trialPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="trialPeriodUnit" name="trialPeriodUnit" class="form-control col-md-6"
+                            ng-model="campaign.trialPeriod.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-click="start(campaign, dateHolder, bulkSMSPolicyProfile);">
+                    {{ 'CommonLabels.Submit' | translate }}
+                </button>
+                <button class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

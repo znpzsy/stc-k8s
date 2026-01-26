@@ -1,0 +1,9 @@
+<div class="modal-header">
+    <h4 class="modal-title" ng-bind-html="alertTitle" ng-if="alertTitle"></h4>
+</div>
+
+<div class="modal-body" ng-bind-html="alertMessage" ng-if="alertMessage"></div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel($event)">{{'CommonLabels.Close' | translate}}</button>
+</div>

@@ -1,0 +1,43 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('services.rbt.dashboards') }">
+                <a ui-sref="services.rbt.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.rbt.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="services.rbt.configuration.settings.rbt" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.rbt.troubleshooting') || $state.includes('services.rbt.troubleshootingremote') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.rbt.troubleshooting') }">
+                        <a ui-sref="services.rbt.troubleshooting">{{siteInformation.name === 'Jeddah' ? 'Jeddah' : 'Riyadh'}}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.rbt.troubleshootingremote') }">
+                        <a ui-sref="services.rbt.troubleshootingremote">{{siteInformation.name === 'Jeddah' ? 'Riyadh' : 'Jeddah'}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,97 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn {{commandFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="commandFilter" uib-btn-radio="'ALL'" ng-change="commandFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{commandFilter === 'SUBSCRIBE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="commandFilter" uib-btn-radio="'SUBSCRIBE'" ng-change="commandFilterChange('SUBSCRIBE');">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Sub' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{commandFilter === 'UNSUBSCRIBE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="commandFilter" uib-btn-radio="'UNSUBSCRIBE'" ng-change="commandFilterChange('UNSUBSCRIBE');">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Unsub' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{commandFilter === 'TRIAL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="commandFilter" uib-btn-radio="'TRIAL'" ng-change="commandFilterChange('TRIAL');">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Trial' | translate | uppercase }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="subsystems.subscriptionmanagement.operations.shortcodes.new"
+                        ng-disabled="!AuthorizationService.canSsmOperationsShortCodeCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+                <button type="button" ng-click="showShortCodeTestForm()" class="btn btn-sm btn-tertiary" style="margin-left: 10px;">{{ 'CommonLabels.TestDrive' | translate }}</button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="shortCodeList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('ShortCodes', shortCodeList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('ShortCodes', shortCodeList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['scenarioName', 'action', 'shortCode', 'keyword'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="shortCodeList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="shortCode in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Offer' | translate" sortable="'scenarioName'">{{shortCode.scenarioName}}</td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Action' | translate" sortable="'action'">{{shortCode.action}}</td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.ShortCode' | translate" sortable="'shortCode'">{{shortCode.shortCode}}</td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Keyword' | translate" sortable="'keyword'">{{shortCode.keyword}}</td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Language' | translate" sortable="'language'">{{shortCode.language | LanguageAbbrFilter | translate}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.subscriptionmanagement.operations.shortcodes.update({ name: shortCode.name })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canSsmOperationsShortCodeUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canSsmOperationsShortCodeUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canSsmOperationsShortCodeUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(shortCode)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canSsmOperationsShortCodeDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="!$data || $data.length === 0">
+                        <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

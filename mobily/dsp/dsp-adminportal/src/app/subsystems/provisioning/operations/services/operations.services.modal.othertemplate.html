@@ -1,0 +1,129 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OtherTemplateProfile.ModalTitle' | translate:{name: itemName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="templateAttributesForm" name="templateAttributesForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OtherTemplateProfile.IsDynamicContent' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{otherTemplateProfile.IsDynamicContent?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"
+                            ng-model="otherTemplateProfile.IsDynamicContent" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!otherTemplateProfile.IsDynamicContent?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"
+                            ng-model="otherTemplateProfile.IsDynamicContent" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="otherTemplateProfile.IsDynamicContent">
+            <label for="DynamicContentURL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OtherTemplateProfile.DynamicContentURL' | translate }}</label>
+            <div class="col-md-7">
+                <input id="DynamicContentURL" name="DynamicContentURL" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                       ng-model="otherTemplateProfile.DynamicContentURL"
+                       ng-maxlength="250" maxlength="250"
+                       ng-required="true"
+                       ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': templateAttributesForm.DynamicContentURL.$dirty && templateAttributesForm.DynamicContentURL.$invalid }"
+                    ng-show="templateAttributesForm.DynamicContentURL.$dirty && templateAttributesForm.DynamicContentURL.$invalid">
+                    <li class="required" ng-show="templateAttributesForm.DynamicContentURL.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                    <li class="required" ng-show="templateAttributesForm.DynamicContentURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                    <li class="required" ng-show="templateAttributesForm.DynamicContentURL.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OtherTemplateProfile.IsTriggerSending' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{otherTemplateProfile.IsTriggerSending?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"
+                            ng-model="otherTemplateProfile.IsTriggerSending" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!otherTemplateProfile.IsTriggerSending?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"
+                            ng-model="otherTemplateProfile.IsTriggerSending" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OtherTemplateProfile.IsChapteredContent' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{otherTemplateProfile.IsChapteredContent?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"
+                            ng-model="otherTemplateProfile.IsChapteredContent" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!otherTemplateProfile.IsChapteredContent?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"
+                            ng-model="otherTemplateProfile.IsChapteredContent" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OtherTemplateProfile.ServiceProposalFileID' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="!otherTemplateProfile.serviceProposalFile.name">
+                    <!-- Select button -->
+                    <button name="serviceProposalFile" type="file" class="btn btn-sm btn-block btn-default" style="width: 250px;"
+                            ngf-select
+                            ng-model="otherTemplateProfile.serviceProposalFile"
+                            ngf-accept="'.txt,.pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.odt,.ott'"
+                            ng-init="otherTemplateProfile.serviceProposalFile ? initServiceProposalFile(otherTemplateProfile.serviceProposalFile) : null"
+                            ngf-max-size="20MB"
+                            ng-required="true"
+                            ngf-model-invalid="errorFile"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())">
+                        {{ ((otherTemplateProfile.serviceProposalFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                    </button>
+                    <ul ng-class="{ 'parsley-error-list': templateAttributesForm.serviceProposalFile.$dirty && templateAttributesForm.serviceProposalFile.$invalid }"
+                        ng-show="templateAttributesForm.serviceProposalFile.$dirty && templateAttributesForm.serviceProposalFile.$invalid">
+                        <li class="required" ng-show="templateAttributesForm.serviceProposalFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="templateAttributesForm.serviceProposalFile.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                    </ul>
+                </div>
+
+                <!-- Remove button with the selected file name -->
+                <div class="btn-group" role="group" ng-if="otherTemplateProfile.serviceProposalFile.name">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 202px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{otherTemplateProfile.serviceProposalFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ otherTemplateProfile.serviceProposalFile.name }}
+                    </button>
+                    <button name="removeLegalFileAttachment" class="btn btn-sm btn-danger" type="button"
+                            ng-click="otherTemplateProfile.serviceProposalFile = null;"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="otherTemplateProfile.serviceProposalFile.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ otherTemplateProfile.serviceProposalFile.name }}"
+                   href="{{ otherTemplateProfile.serviceProposalFile | ngfDataUrl }}" target="_blank">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-danger"
+            ng-disabled="templateAttributesForm.$invalid || (service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate()) || isNotChanged()"
+            ng-click="save(otherTemplateProfile, templateAttributesForm);">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button type="reset" class="btn btn-default" ng-click="close();">
+        {{ 'CommonLabels.Close' | translate }}
+    </button>
+</div>

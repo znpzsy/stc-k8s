@@ -1,0 +1,32 @@
+(function () {
+
+    'use strict';
+
+    angular.module('partnerportal.partner-info', [
+        "partnerportal.partner-info.constants",
+        "partnerportal.partner-info.filters",
+        "partnerportal.partner-info.directives",
+        "partnerportal.partner-info.reporting",
+        "partnerportal.partner-info.users",
+        "partnerportal.partner-info.services",
+        "partnerportal.partner-info.offers",
+        "partnerportal.partner-info.operations",
+        "partnerportal.partner-info.shortcodes"
+    ]);
+
+    var PartnerInfoModule = angular.module('partnerportal.partner-info');
+
+    PartnerInfoModule.config(function ($stateProvider) {
+
+        $stateProvider.state('partner-info', {
+            abstract: true,
+            url: "/partner-info",
+            templateUrl: 'partner-info/partner-info.html',
+            data: {
+                headerKey: 'PartnerInfo.PageHeader'
+            }
+        });
+
+    });
+
+})();

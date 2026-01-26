@@ -1,0 +1,204 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Users' | translate }} / {{ 'Subsystems.Provisioning.UserAccounts.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data" autocomplete="off">
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.UserName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" autocomplete="off" class="form-control"
+                       ng-model="userAccount.userName"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true" ng-if="!userAccount.id"
+                       ng-disabled="!AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+                <input id="name" name="name" type="text" class="form-control" ng-value="userAccount.userName" ng-if="userAccount.id" disabled="disabled"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.AuthAgainstAD' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{userAccount.activeDirectoryAuth?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                            ng-model="userAccount.activeDirectoryAuth" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!userAccount.activeDirectoryAuth?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                            ng-model="userAccount.activeDirectoryAuth" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="!userAccount.activeDirectoryAuth">
+            <label for="password" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Password' | translate }}</label>
+            <div class="col-md-5">
+                <input id="password" name="password" type="password" autocomplete="new-password" class="form-control"
+                       ng-model="userAccount.password"
+                       uib-popover="{{ 'CommonMessages.PasswordTooltip' | translate }}" popover-placement="top-left" popover-animation="false" popover-trigger="'focus'" popover-append-to-body="true"
+                       ng-minlength="8" ng-maxlength="100"
+                       ng-pattern="form.password.$dirty ? $root.Validators.UserPassword : false"
+                       ng-required="!userAccount.activeDirectoryAuth" ng-change="resetConfirmPassword()"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.password.$dirty && form.password.$invalid }" ng-show="form.password.$dirty && form.password.$invalid">
+                    <li class="required" ng-show="!form.password.$error.minlength && form.password.$error.pattern">{{ 'CommonMessages.PasswordDoesNotMeetRequirements' | translate }}</li>
+                    <li class="required" ng-show="form.password.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.password.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 8 } }}</li>
+                    <li class="required" ng-show="form.password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="!userAccount.activeDirectoryAuth">
+            <label for="confirmpassword" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.ConfirmPassword' | translate }}</label>
+            <div class="col-md-5">
+                <input id="confirmpassword" name="confirmpassword" type="password" autocomplete="new-password" class="form-control"
+                       ng-model="userAccount.confirmpassword"
+                       ng-minlength="8" ng-maxlength="100"
+                       ng-required="!userAccount.activeDirectoryAuth" password-verify="userAccount.password"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.confirmpassword.$dirty && form.confirmpassword.$invalid }" ng-show="form.confirmpassword.$dirty && form.confirmpassword.$invalid">
+                    <li class="required" ng-show="form.confirmpassword.$error.passwordVerify">{{ 'CommonMessages.PasswordError' | translate }}</li>
+                    <li class="required" ng-show="form.confirmpassword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.confirmpassword.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 8 } }}</li>
+                    <li class="required" ng-show="form.confirmpassword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="userAccount.selectedOrganization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{userAccount.selectedOrganization.name}}</span>
+                    <a ng-click="userAccount.selectedOrganization = {};" style="cursor: pointer;" ng-if="AuthorizationService.canCreateUserAccount() || (userAccount.id && AuthorizationService.canUpdateUserAccount())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="openOrganizations(userAccount)"
+                        ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                        ng-class="{ 'pull-right': userAccount.selectedOrganization.name }">
+                    {{ 'CommonLabels.Choose' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.UserGroups' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="userAccount.userGroups.length" class="row col-md-9">
+                    <div ng-repeat="n in userAccount.userGroups">
+                        <span class="label label-default selected-item-label">{{n.name}}</span>
+                        <a ng-click="removeSelectedGroup(userAccount.userGroups, n)" style="cursor: pointer;" ng-if="AuthorizationService.canCreateUserAccount() || (userAccount.id && AuthorizationService.canUpdateUserAccount())">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="openUserGroups(userAccount)"
+                        ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                        ng-class="{ 'pull-right': userAccount.userGroups.length > 0, 'ng-invalid-required': !userAccount.userGroups || userAccount.userGroups.length === 0 }">
+                    {{ 'CommonLabels.AddTo' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="userGroupsLength" type="number" class="form-control"
+                           ng-model="userAccount.userGroups.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="userAccount.id ? null : userAccount.userGroups = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': userAccount.userGroups.length === 0 }"
+                        ng-show="userAccount.userGroups.length === 0">
+                        <li class="required" ng-show="form.userGroupsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.State' | translate }}</label>
+            <div class="col-md-7">
+                <select id="state" name="state" class="form-control parsley-validated"
+                        ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                        ng-model="userAccount.state"
+                        ng-options="state as state for state in USER_STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="userAccount.userProfile.Name"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="surname" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Surname' | translate }}</label>
+            <div class="col-md-7">
+                <input id="surname" name="surname" type="text" class="form-control"
+                       ng-model="userAccount.userProfile.Surname"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.surname.$dirty && form.surname.$invalid }" ng-show="form.surname.$dirty && form.surname.$invalid">
+                    <li class="required" ng-show="form.surname.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mobilePhoneNo" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.MobilePhoneNo' | translate }}</label>
+            <div class="col-md-7">
+                <input id="mobilePhoneNo" name="mobilePhoneNo" type="text" class="form-control"
+                       ng-model="userAccount.userProfile.MobilePhoneNo"
+                       ng-minlength="5" maxlength="20" ng-maxlength="20"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.mobilePhoneNo.$dirty && form.mobilePhoneNo.$invalid }" ng-show="form.mobilePhoneNo.$dirty && form.mobilePhoneNo.$invalid">
+                    <li class="required" ng-show="form.mobilePhoneNo.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                    <li class="required" ng-show="form.mobilePhoneNo.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.EMail' | translate }}</label>
+            <div class="col-md-7">
+                <input id="email" name="email" type="email" class="form-control"
+                       ng-model="userAccount.userProfile.EMail"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.email.$dirty && form.email.$invalid }" ng-show="form.email.$dirty && form.email.$invalid">
+                    <li class="required" ng-show="form.email.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                    <li class="required" ng-show="form.email.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()) || isNotChanged()"
+                        ng-click="save(userAccount);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

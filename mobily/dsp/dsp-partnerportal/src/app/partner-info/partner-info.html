@@ -1,0 +1,77 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <h3 class="page-title">
+                <span translate="{{$state.current.data.title}}" translate-compile></span>
+            </h3>
+
+            <ul class="nav nav-tabs">
+                <li ng-class="{ 'active': ($state.includes('partner-info.reporting') || $state.includes('partner-info.reporting-dashboards'))  }">
+                    <a ui-sref="partner-info.reporting-dashboards"><i class="fa fa-file-pdf-o"></i>&nbsp;
+                        {{ 'PartnerInfo.Reporting.MenuLabel' | translate }}</a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('partner-info.services') }" ng-if="AuthorizationService.canPrmServiceRead()">
+                    <a ui-sref="partner-info.services.list"><i class="fa fa-bookmark"></i>&nbsp;
+                        {{ 'PartnerInfo.Services.Title' | translate }}</a>
+                </li>
+
+                <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('partner-info.operations') }" ng-if="AuthorizationService.canPrmContentRead()">
+                    <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-gears"></span> {{ 'PartnerInfo.Contents.ContentMetadatas.Title' | translate }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('partner-info.operations.dsp') }">
+                            <a ui-sref="partner-info.operations.dsp.contentmetadatas.list">{{ 'CommonLabels.DSP' | translate }}</a>
+                        </li>
+                        <li role="menuitem" ng-class="{ 'active': $state.includes('partner-info.operations.rbt') }">
+                            <a ui-sref="partner-info.operations.rbt.contentcategories.list">{{ 'CommonLabels.RBT' | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('partner-info.offers') }" ng-if="AuthorizationService.canPrmOfferRead()">
+                    <a ui-sref="partner-info.offers.list"><i class="fa fa-gift"></i>&nbsp;
+                        {{ 'PartnerInfo.Offers.Title' | translate }}</a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('partner-info.shortcodes') }" ng-if="AuthorizationService.canPrmShortCodeRead()">
+                    <a ui-sref="partner-info.shortcodes.list"><i class="fa fa-commenting"></i>&nbsp;
+                        {{ 'PartnerInfo.ShortCodes.Title' | translate }}</a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('partner-info.users') }" ng-if="AuthorizationService.canPrmUserAccountRead()">
+                    <a ui-sref="partner-info.users.list"><i class="fa fa-users"></i>&nbsp;
+                        {{ 'PartnerInfo.Users.MenuLabel' | translate }}</a>
+                </li>
+
+                <!-- TODO - Temporarily hidden -->
+                <li ng-class="{ 'active': $state.includes('partner-info.charginggw') }"
+                    ng-if="false">
+                    <a ui-sref="partner-info.charginggw.troubleshooting"><i class="fa fa-history"></i>&nbsp;
+                        {{ 'PartnerInfo.ChargingHistory.MenuLabel' | translate }}</a>
+                </li>
+
+                <!-- TODO - Temporarily hidden -->
+                <li ng-class="{ 'active': $state.includes('partner-info.messaginggw') }"
+                    ng-if="false">
+                    <a ui-sref="partner-info.messaginggw.troubleshooting.sms"><i class="fa fa-history"></i>&nbsp;
+                        {{ 'PartnerInfo.MessagingHistory.MenuLabel' | translate }}</a>
+                </li>
+            </ul>
+
+            <div class="row" ui-view>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<partnerportal-common-templates></partnerportal-common-templates>
+
+<partnerportal-partner-info-templates></partnerportal-partner-info-templates>

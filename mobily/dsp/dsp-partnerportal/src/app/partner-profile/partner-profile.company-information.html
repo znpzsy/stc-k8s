@@ -1,0 +1,569 @@
+<div class="portlet portlet-boxed">
+
+    <div class="portlet-body">
+
+        <form class="form-horizontal parsley-form" novalidate id="companyInformationForm" name="companyInformationForm" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label for="EffectiveDate" class="col-md-3 text-left">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.EffectiveDate' | translate }}</label>
+                <div class="col-md-3">
+                    <p class="input-group datepicker-field">
+                        <input id="EffectiveDate" name="EffectiveDate" type="text" class="form-control input-sm"
+                               uib-datepicker-popup="{{dateFormat}}" ng-model="companyInformation.serviceProviderProfile.EffectiveDate"
+                               is-open="startDatePicker.opened"
+                               datepicker-options="dateOptions"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                    ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <ul ng-class="{ 'parsley-error-list': form.EffectiveDate.$dirty && form.EffectiveDate.$invalid }"
+                            ng-show="form.EffectiveDate.$dirty && form.EffectiveDate.$invalid">
+                            <li class="required" ng-show="form.EffectiveDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ExpiryDate" class="col-md-3 text-left">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.ExpiryDate' | translate }}</label>
+                <div class="col-md-3">
+                    <p class="input-group datepicker-field">
+                        <input id="ExpiryDate" name="ExpiryDate" type="text" class="form-control input-sm"
+                               uib-datepicker-popup="{{dateFormat}}" ng-model="companyInformation.serviceProviderProfile.ExpiryDate"
+                               ng-required="true"
+                               is-open="endDatePicker.opened"
+                               datepicker-options="dateOptions"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                    ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <ul ng-class="{ 'parsley-error-list': form.ExpiryDate.$dirty && form.ExpiryDate.$invalid }"
+                            ng-show="form.ExpiryDate.$dirty && form.ExpiryDate.$invalid">
+                            <li class="required" ng-show="form.ExpiryDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.ExpiryDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <div class="col-md-10">
+                    <div class="heading-block">
+                        <h4>
+                            {{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.Title' | translate }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!-- UI Details form fields -->
+            <div>
+                <div class="form-group">
+                    <label for="titleen" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.NameEn' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="titleen" name="titleen" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProvideri18nProfiles[0].Name"
+                               ng-required="true" ng-maxlength="50"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.titleen.$dirty && companyInformationForm.titleen.$invalid }"
+                            ng-show="companyInformationForm.titleen.$dirty && companyInformationForm.titleen.$invalid">
+                            <li class="required" ng-show="companyInformationForm.titleen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.titleen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descriptionen" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.DescriptionEn' | translate }}</label>
+                    <div class="col-md-7">
+                        <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                                  ng-model="companyInformation.serviceProvideri18nProfiles[0].Description"
+                                  rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                                  ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                        </textarea>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.descriptionen.$dirty && companyInformationForm.descriptionen.$invalid }"
+                            ng-show="companyInformationForm.descriptionen.$dirty && companyInformationForm.descriptionen.$invalid">
+                            <li class="required" ng-show="companyInformationForm.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="titlear" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.NameAr' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="titlear" name="titlear" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProvideri18nProfiles[1].Name"
+                               ng-required="true" ng-maxlength="50"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.titlear.$dirty && companyInformationForm.titlear.$invalid }"
+                            ng-show="companyInformationForm.titlear.$dirty && companyInformationForm.titlear.$invalid">
+                            <li class="required" ng-show="companyInformationForm.titlear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.titlear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descriptionar" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.DescriptionAr' | translate }}</label>
+                    <div class="col-md-7">
+                        <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                                  ng-model="companyInformation.serviceProvideri18nProfiles[1].Description"
+                                  rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                                  ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                        </textarea>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.descriptionar.$dirty && companyInformationForm.descriptionar.$invalid }"
+                            ng-show="companyInformationForm.descriptionar.$dirty && companyInformationForm.descriptionar.$invalid">
+                            <li class="required" ng-show="companyInformationForm.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.CMSCompanyLogoID' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="fileinput fileinput-new">
+                            <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="companyLogo.file.name">
+                                <img ngf-src="!companyLogo.file.$error && companyLogo.file" width="200"
+                                     ng-style="{ 'height': (companyLogo.file ? '' : '200px') }"/>
+
+                                <div class="thumbnail-footer" ng-if="companyLogo.file.type">
+                                    <div class="pull-left">
+                                        {{ companyLogo.file.type }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button name="companyLogo" type="file"
+                                        title="{{ (companyLogo.file ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                        ngf-select
+                                        ng-model="companyLogo.file"
+                                        ng-init="companyLogo.file.name = companyLogo.file.$ngfName; $parent.$parent.$parent.companyLogo = companyLogo;"
+                                        class="btn btn-sm btn-default"
+                                        ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                        ngf-max-size="20MB"
+                                        ngf-model-invalid="errorCompanyLogoFile"
+                                        ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                    <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ (companyLogo.file.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                </button>
+                                <button class="btn btn-sm btn-default"
+                                        title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                        ng-click="companyLogo.file = null;"
+                                        ng-if="companyLogo.file.name && AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    {{ 'FileOperationLabels.Remove' | translate }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="companyLogo.file.name"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ companyLogo.file.name }}"
+                                   href="{{ companyLogo.file | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.companyLogo.$dirty && companyInformationForm.companyLogo.$invalid }"
+                            ng-show="companyInformationForm.companyLogo.$dirty && companyInformationForm.companyLogo.$invalid">
+                            <li class="required" ng-show="companyInformationForm.companyLogo.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorCompanyLogoFile.$errorParam} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CRNO" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.CRNO' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="CRNO" name="CRNO" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.CRNO"
+                               ng-maxlength="20" maxlength="20"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.CRNO.$dirty && companyInformationForm.CRNO.$invalid }"
+                            ng-show="companyInformationForm.CRNO.$dirty && companyInformationForm.CRNO.$invalid">
+                            <li class="required" ng-show="companyInformationForm.CRNO.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.CRNO.$error.number || companyInformationForm.CRNO.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.CRNO.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <div class="col-md-10">
+                    <div class="heading-block">
+                        <h4>
+                            {{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.CompanyAddressTitle' | translate }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!-- CompanyAddress form fields -->
+            <div>
+                <div class="form-group">
+                    <label for="Address" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Address' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="Address" name="Address" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.Address"
+                               ng-maxlength="255" maxlength="255"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.Address.$dirty && companyInformationForm.Address.$invalid }"
+                            ng-show="companyInformationForm.Address.$dirty && companyInformationForm.Address.$invalid">
+                            <li class="required" ng-show="companyInformationForm.Address.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.Address.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="POBox" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.POBox' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="POBox" name="POBox" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.POBox"
+                               ng-maxlength="15" maxlength="15"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.POBox.$dirty && companyInformationForm.POBox.$invalid }"
+                            ng-show="companyInformationForm.POBox.$dirty && companyInformationForm.POBox.$invalid">
+                            <li class="required" ng-show="companyInformationForm.POBox.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.POBox.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Country" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Country' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="Country" name="Country" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.Country"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.Country.$dirty && companyInformationForm.Country.$invalid }"
+                            ng-show="companyInformationForm.Country.$dirty && companyInformationForm.Country.$invalid">
+                            <li class="required" ng-show="companyInformationForm.Country.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.Country.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Phone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Phone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="Phone" name="Phone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.Phone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.Phone.$dirty && companyInformationForm.Phone.$invalid }" ng-show="companyInformationForm.Phone.$dirty && companyInformationForm.Phone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.Phone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.Phone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.Phone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Fax" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Fax' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="Fax" name="Fax" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.Fax"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.Fax.$dirty && companyInformationForm.Fax.$invalid }" ng-show="companyInformationForm.Fax.$dirty && companyInformationForm.Fax.$invalid">
+                            <li class="required" ng-show="companyInformationForm.Fax.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.Fax.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="WebSite" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.WebSite' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="WebSite" name="WebSite" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderProfile.WebSite"
+                               ng-maxlength="250" maxlength="250"
+                               ng-pattern="$root.Validators.UrlSimple"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.WebSite.$dirty && companyInformationForm.WebSite.$invalid }" ng-show="companyInformationForm.WebSite.$dirty && companyInformationForm.WebSite.$invalid">
+                            <li class="required" ng-show="companyInformationForm.WebSite.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                            <li class="required" ng-show="companyInformationForm.WebSite.$error.pattern">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <div class="col-md-10">
+                    <div class="heading-block">
+                        <h4>
+                            {{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.Title' | translate }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <!-- ProviderContactsProfile form fields -->
+            <div>
+                <!-- CEO -->
+                <div class="form-group">
+                    <label for="CEOName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="CEOName" name="CEOName" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.CEOName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.CEOName.$dirty && companyInformationForm.CEOName.$invalid }"
+                            ng-show="companyInformationForm.CEOName.$dirty && companyInformationForm.CEOName.$invalid">
+                            <li class="required" ng-show="companyInformationForm.CEOName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.CEOName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CEOMobilePhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOMobilePhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="CEOMobilePhone" name="CEOMobilePhone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.CEOMobilePhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.CEOMobilePhone.$dirty && companyInformationForm.CEOMobilePhone.$invalid }" ng-show="companyInformationForm.CEOMobilePhone.$dirty && companyInformationForm.CEOMobilePhone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.CEOMobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.CEOMobilePhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.CEOMobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CEOFixedPhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOFixedPhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="CEOFixedPhone" name="CEOFixedPhone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.CEOFixedPhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.CEOFixedPhone.$dirty && companyInformationForm.CEOFixedPhone.$invalid }" ng-show="companyInformationForm.CEOFixedPhone.$dirty && companyInformationForm.CEOFixedPhone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.CEOFixedPhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.CEOFixedPhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CEOEmail" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOEmail' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="CEOEmail" name="CEOEmail" type="email" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.CEOEmail"
+                               maxlength="100" ng-maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.CEOEmail.$dirty && companyInformationForm.CEOEmail.$invalid }"
+                            ng-show="companyInformationForm.CEOEmail.$dirty && companyInformationForm.CEOEmail.$invalid">
+                            <li class="required" ng-show="companyInformationForm.CEOEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.CEOEmail.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.CEOEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <!-- Accounting -->
+                <div class="form-group">
+                    <label for="AccContactName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AccContactName" name="AccContactName" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AccContactName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AccContactName.$dirty && companyInformationForm.AccContactName.$invalid }"
+                            ng-show="companyInformationForm.AccContactName.$dirty && companyInformationForm.AccContactName.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AccContactName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AccContactName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AccContactMobilePhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactMobilePhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AccContactMobilePhone" name="AccContactMobilePhone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AccContactMobilePhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AccContactMobilePhone.$dirty && companyInformationForm.AccContactMobilePhone.$invalid }" ng-show="companyInformationForm.AccContactMobilePhone.$dirty && companyInformationForm.AccContactMobilePhone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AccContactMobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AccContactMobilePhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.AccContactMobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AccContactFixedPhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactFixedPhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AccContactFixedPhone" name="AccContactFixedPhone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AccContactFixedPhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AccContactFixedPhone.$dirty && companyInformationForm.AccContactFixedPhone.$invalid }" ng-show="companyInformationForm.AccContactFixedPhone.$dirty && companyInformationForm.AccContactFixedPhone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AccContactFixedPhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.AccContactFixedPhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AccContactEmail" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactEmail' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AccContactEmail" name="AccContactEmail" type="email" class="form-control"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AccContactEmail"
+                               maxlength="100" ng-maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AccContactEmail.$dirty && companyInformationForm.AccContactEmail.$invalid }"
+                            ng-show="companyInformationForm.AccContactEmail.$dirty && companyInformationForm.AccContactEmail.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AccContactEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AccContactEmail.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AccContactEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <!-- Technical -->
+                <div class="form-group">
+                    <label for="TechContactName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.TechContactName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="TechContactName" name="TechContactName" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.TechContactName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.TechContactName.$dirty && companyInformationForm.TechContactName.$invalid }"
+                            ng-show="companyInformationForm.TechContactName.$dirty && companyInformationForm.TechContactName.$invalid">
+                            <li class="required" ng-show="companyInformationForm.TechContactName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.TechContactName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="TechContactPhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.TechContactPhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="TechContactPhone" name="TechContactPhone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.TechContactPhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.TechContactPhone.$dirty && companyInformationForm.TechContactPhone.$invalid }" ng-show="companyInformationForm.TechContactPhone.$dirty && companyInformationForm.TechContactPhone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.TechContactPhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.TechContactPhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.TechContactPhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="TechContactEmail" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.TechContactEmail' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="TechContactEmail" name="TechContactEmail" type="email" class="form-control"
+                               ng-model="companyInformation.serviceProviderContactsProfile.TechContactEmail"
+                               maxlength="100" ng-maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.TechContactEmail.$dirty && companyInformationForm.TechContactEmail.$invalid }"
+                            ng-show="companyInformationForm.TechContactEmail.$dirty && companyInformationForm.TechContactEmail.$invalid">
+                            <li class="required" ng-show="companyInformationForm.TechContactEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.TechContactEmail.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.TechContactEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <!-- Alternative -->
+                <div class="form-group">
+                    <label for="AltContactName" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AltContactName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AltContactName" name="AltContactName" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AltContactName"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AltContactName.$dirty && companyInformationForm.AltContactName.$invalid }"
+                            ng-show="companyInformationForm.AltContactName.$dirty && companyInformationForm.AltContactName.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AltContactName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AltContactName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AltContactPhone" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AltContactPhone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AltContactPhone" name="AltContactPhone" type="text" class="form-control" dir="auto"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AltContactPhone"
+                               ng-minlength="5" maxlength="20" ng-maxlength="20"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AltContactPhone.$dirty && companyInformationForm.AltContactPhone.$invalid }" ng-show="companyInformationForm.AltContactPhone.$dirty && companyInformationForm.AltContactPhone.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AltContactPhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AltContactPhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                            <li class="required" ng-show="companyInformationForm.AltContactPhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="AltContactEmail" class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AltContactEmail' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="AltContactEmail" name="AltContactEmail" type="email" class="form-control"
+                               ng-model="companyInformation.serviceProviderContactsProfile.AltContactEmail"
+                               maxlength="100" ng-maxlength="100"
+                               ng-required="true"
+                               ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                        <ul ng-class="{ 'parsley-error-list': companyInformationForm.AltContactEmail.$dirty && companyInformationForm.AltContactEmail.$invalid }"
+                            ng-show="companyInformationForm.AltContactEmail.$dirty && companyInformationForm.AltContactEmail.$invalid">
+                            <li class="required" ng-show="companyInformationForm.AltContactEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AltContactEmail.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                            <li class="required" ng-show="companyInformationForm.AltContactEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-init="$parent.$parent.$parent.companyInformationForm = companyInformationForm"></div>
+
+        </form>
+
+    </div>
+
+</div>

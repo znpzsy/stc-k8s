@@ -1,0 +1,38 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        <span translate="ScreeningLists.ScreeningMode" translate-compile></span>
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <div ng-if="currentScope">
+
+        <form id="screeningModeForm" method="post" enctype="multipart/form-data"
+              name="screeningModeForm" class="form parsley-form" novalidate>
+
+            <div class="form-group">
+                <label for="modeType">{{ 'ScreeningLists.ScreeningModeForm.ModeType.Label' | translate }}</label>
+                <select id="modeType" name="modeType" class="form-control" ng-model="screeningMode.modeType" ng-change="updateModeType(screeningMode.modeType)"
+                        ng-disabled="!AuthorizationService.canUpdateScreeningLists()">
+                    <option value="{{modeType.value}}" ng-repeat="modeType in SCREENING_LISTS_MODE_TYPES">{{modeType.text | translate }}</option>
+                </select>
+            </div>
+
+            <div class="form-group" ng-if="AuthorizationService.canUpdateScreeningLists()">
+                <button type="submit" class="btn btn-primary" ng-disabled="screeningModeForm.$invalid || !isScreeningModeChanged()" ng-click="saveScreeningMode(screeningModeForm, screeningMode, false)">{{ 'CommonLabels.Save' | translate }}</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div ng-if="!currentScope">
+        <div class="col-sm-12 col-md-12 text-center alert alert-warning">
+            <h4 translate="CommonMessages.NoScopeDefinition"
+                translate-values="{ url: $state.current.data.statePrefix + 'screening-lists.lists' }"
+                translate-compile style="margin-bottom: 0;"></h4>
+        </div>
+    </div>
+
+</div>

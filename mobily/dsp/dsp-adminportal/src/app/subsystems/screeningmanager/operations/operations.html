@@ -1,0 +1,42 @@
+<div class="col-md-3 col-sm-5">
+
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.screeningmanager.operations.screeninglists.global') }">
+            <a href="javascript:void(0);" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.ScreeningManager.Operations.ScreeningLists.Global' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager.operations.screeninglists.global.msisdn') }">
+                    <a ui-sref="subsystems.screeningmanager.operations.screeninglists.global.msisdn" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.ScreeningManager.Operations.ScreeningLists.Msisdn' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.screeningmanager.operations.screeninglists.service') }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.ScreeningManager.Operations.ScreeningLists.Service' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager.operations.screeninglists.service.msisdn') }">
+                    <a ui-sref="subsystems.screeningmanager.operations.screeninglists.service.msisdn" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.ScreeningManager.Operations.ScreeningLists.Msisdn' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

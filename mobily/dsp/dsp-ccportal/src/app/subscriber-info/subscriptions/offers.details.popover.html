@@ -1,0 +1,82 @@
+<div style="font-size: 13px;">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <label>{{ 'CommonLabels.Name' | translate }} (En.):</label> {{ offer.enI18NName }}<br>
+            <label>{{ 'CommonLabels.Description' | translate }} (En.):</label> {{ offer.enI18NDescription }}<br>
+            <label>{{ 'CommonLabels.SubDescription' | translate }} (En.):</label> {{ offer.enI18NSubscriptionDescription }}<br>
+            <label>{{ 'CommonLabels.UnsubDescription' | translate }} (En.):</label> {{ offer.enI18NUnsubscriptionDescription }}
+            <span ng-if="offer.enI18NSubUnsubShortCode"><br>
+                <label>{{ 'CommonLabels.SubUnsubShortCode' | translate }}: (En.):</label> {{ offer.enI18NSubUnsubShortCode }}<br>
+                <label>{{ 'CommonLabels.SubCommands' | translate }}: (En.):</label> {{ offer.enI18NSubCommands }}<br>
+                <label>{{ 'CommonLabels.UnsubCommands' | translate }}: (En.):</label> {{ offer.enI18NUnsubCommands }}
+            </span>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <label>{{ 'CommonLabels.Name' | translate }} (Ar.):</label> {{ offer.arI18NName }}<br>
+            <label>{{ 'CommonLabels.Description' | translate }} (Ar.):</label> {{ offer.arI18NDescription }}<br>
+            <label>{{ 'CommonLabels.SubDescription' | translate }} (Ar.):</label> {{ offer.arI18NSubscriptionDescription }}<br>
+            <label>{{ 'CommonLabels.UnsubDescription' | translate }} (Ar.):</label> {{ offer.arI18NUnsubscriptionDescription }}
+            <span ng-if="offer.arI18NSubUnsubShortCode"><br>
+                <label>{{ 'CommonLabels.SubUnsubShortCode' | translate }}: (Ar.):</label> {{ offer.arI18NSubUnsubShortCode }}<br>
+                <label>{{ 'CommonLabels.SubCommands' | translate }}: (Ar.):</label> {{ offer.arI18NSubCommands }}<br>
+                <label>{{ 'CommonLabels.UnsubCommands' | translate }}: (Ar.):</label> {{ offer.arI18NUnsubCommands }}
+            </span>
+
+        </div>
+    </div>
+
+    <div ng-if="offer.offerEligibilityProfile && offer.offerEligibilityProfile.PackageList">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="offer.offerEligibilityProfile.PackageEligibility">
+            <div class="col-sm-12 col-md-12">
+
+                <label>{{ 'CommonLabels.PackageEligibility' | translate }}:</label> {{ offer.offerEligibilityProfile.PackageEligibility }}
+
+            </div>
+        </div>
+
+        <div class="row" ng-if="offer.offerEligibilityProfile.PackageList">
+            <div class="col-sm-12 col-md-12">
+
+                <label>{{ 'CommonLabels.EligiblePackageList' | translate }}:</label> {{ offer.offerEligibilityProfile.PackageList.replaceAll(';', ', ') }}
+
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="offer.smsPortali18nProfiles && offer.smsPortali18nProfiles.length > 0">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div ng-repeat="smsPortali18nProfile in offer.smsPortali18nProfiles">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+
+                </div>
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+</div>

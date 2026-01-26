@@ -1,0 +1,30 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.operations.dsp.contentcategories') }">
+            <a ng-href="{{ $state.href('subsystems.contentmanagement.operations.dsp.contentcategories.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.ContentManagement.Operations.ContentCategories.Title' | translate }}
+            </a>
+        </li>
+        <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.operations.dsp.contenttypes') }">
+            <a ng-href="{{ $state.href('subsystems.contentmanagement.operations.dsp.contenttypes.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.ContentManagement.Operations.ContentTypes.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.operations.dsp.contentmetadatas') }">
+            <a ng-href="{{ $state.href('subsystems.contentmanagement.operations.dsp.contentmetadatas.list') }}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Title' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+
+        </div>
+    </div>
+</div>

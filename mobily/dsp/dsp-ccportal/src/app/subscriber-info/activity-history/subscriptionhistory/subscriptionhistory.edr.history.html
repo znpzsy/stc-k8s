@@ -1,0 +1,94 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'SubscriberInfo.Troubleshooting.History.PageHeader' | translate:{ offerName: edrRecord.offerName } }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-10 col-xs-9">
+            <div class="pull-left">
+                <span ng-if="submitDate">
+                    <label>{{ 'SubscriberInfo.Troubleshooting.TableColumns.Date' | translate }}</label>:
+                    {{ submitDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}
+                </span>
+                <span ng-if="completionDate">
+                    &nbsp;&nbsp;&nbsp;
+                    <label>{{ 'SubscriberInfo.Troubleshooting.TableColumns.CompletionDate' | translate }}</label>:
+                    {{ completionDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group export-buttons-without-search" ng-show="activityHistoryDetailedHistoryList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('SubscriptionManagementHistoryRecords')" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('SubscriptionManagementHistoryRecords')" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="activityHistoryDetailedHistoryList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="historyExportOptions">
+                    <thead>
+                    <tr>
+                        <th class="sortable"
+                            uib-popover="{{ 'SubscriberInfo.Troubleshooting.TableColumnsTooltips.HistoryEventDate' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.timestamp', 'asc'), 'sort-desc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.timestamp', 'desc') }"
+                            ng-click="activityHistoryDetailedHistoryList.tableParams.sorting({'_source.timestamp': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.timestamp', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'SubscriberInfo.Troubleshooting.TableColumns.HistoryEventDate' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'SubscriberInfo.Troubleshooting.TableColumnsTooltips.EventType' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.event', 'asc'), 'sort-desc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.event', 'desc') }"
+                            ng-click="activityHistoryDetailedHistoryList.tableParams.sorting({'_source.event': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.event', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'SubscriberInfo.Troubleshooting.TableColumns.EventType' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'SubscriberInfo.Troubleshooting.TableColumnsTooltips.ErrorCode' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.errorCode', 'asc'), 'sort-desc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.errorCode', 'desc') }"
+                            ng-click="activityHistoryDetailedHistoryList.tableParams.sorting({'_source.errorCode': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.errorCode', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'SubscriberInfo.Troubleshooting.TableColumns.ErrorCode' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'SubscriberInfo.Troubleshooting.TableColumnsTooltips.ErrorDescription' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.error', 'asc'), 'sort-desc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.error', 'desc') }"
+                            ng-click="activityHistoryDetailedHistoryList.tableParams.sorting({'_source.error': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.error', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'SubscriberInfo.Troubleshooting.TableColumns.ErrorDescription' | translate }}</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'text-danger': (item._source.errorCode > 0) }">
+                        <td align="center">{{item._source.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                        <td align="center">{{item._source.event | SubscriptionManagementEventTypeFilter}}</td>
+                        <td align="center">{{item._source.errorCode | SubscriptionManagementErrorCodeFilter}}</td>
+                        <td align="left"
+                            uib-tooltip="{{ item._source.error }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ item._source.error.length > 50 ? item._source.error.substring(0,50)+'...' : item._source.error }}
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

@@ -1,0 +1,40 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.DirectCarrierBilling.Templates.Title' | translate }} / {{ 'Products.DirectCarrierBilling.Templates.DCBProfile' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="SenderID" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.SenderID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="SenderID" name="SenderID" type="text" class="form-control" dir="auto"
+                       ng-model="dcbProfile.SenderID"
+                       ng-maxlength="512"
+                       ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.SenderID.$dirty && form.SenderID.$invalid }"
+                    ng-show="form.SenderID.$dirty && form.SenderID.$invalid">
+                    <li class="required" ng-show="form.SenderID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canAllTemplatesUpdate() || isNotChanged()"
+                        ng-click="save(dcbSettingsOrganization, dcbProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

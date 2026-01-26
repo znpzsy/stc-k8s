@@ -1,0 +1,89 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.MessagingHistory.Troubleshooting.Details.PageHeader' | translate:{ pageKey: 'SMS', origAddress: edrRecord.origAddress, destAddress: edrRecord.destAddress } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 300px;">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.CspTrxId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cspTrxId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.MsgLength' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.msgLength }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.ConcatInfo' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.partCurrent ? edrRecord.concatInfo : '' }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.Dcs' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.dcs }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.DrRequested' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.drRequested | requestedFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.CdrKey' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cdrKey }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Orig -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.OrigAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.OrigAgentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAgentTypeText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.OrigAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAgentName }} [{{ edrRecord.origAgentId }}]&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dest -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.DestAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.DestAgentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAgentTypeText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.DestAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAgentName }} [{{ edrRecord.destAgentId }}]&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

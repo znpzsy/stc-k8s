@@ -1,0 +1,28 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports') }" ng-if="AuthorizationService.canReadReportOnDemand() || AuthorizationService.canReadReportSchedule()">
+                <a ui-sref="subsystems.reporting.reports.dashboards" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.reporting.schedules') }" ng-if="AuthorizationService.canReadReportSchedule()">
+                <a ui-sref="subsystems.reporting.schedules" data-toggle="tab">
+                    <span class="fa fa-tasks"></span> {{ 'Subsystems.Reporting.ScheduledReports.MenuLabel' | translate }}
+                </a>
+            </li>
+        </ul>
+
+		<div class="row" ui-view>
+		</div>
+
+    </div>
+
+</div>

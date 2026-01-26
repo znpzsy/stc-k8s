@@ -1,0 +1,120 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.RuleModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Question' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <ui-select id="question" name="question" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                       ng-model="rule.question"
+                                       search-enabled="true"
+                                       ng-required="true"
+                                       close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                       ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="questionListItem as questionListItem in (questionList | filter: $select.search)">
+                                    <div ng-bind-html="questionListItem.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="rule.question = null;form.question.$setDirty();" class="btn btn-default" ng-disabled="!rule.question">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.question.$dirty && form.question.$invalid }"
+                            ng-show="form.question.$dirty && form.question.$invalid">
+                            <li class="required" ng-show="form.question.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Answer' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <ui-select id="answer" name="answer" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                       ng-model="rule.answer"
+                                       search-enabled="true"
+                                       ng-required="true"
+                                       close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                       ng-disabled="!rule.question || !AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="answerListItem as answerListItem in (rule.question.answerList | filter: $select.search)">
+                                    <div ng-bind-html="answerListItem.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="rule.answer = null;form.answer.$setDirty();" class="btn btn-default" ng-disabled="!rule.answer">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.answer.$dirty && form.answer.$invalid }"
+                            ng-show="form.answer.$dirty && form.answer.$invalid">
+                            <li class="required" ng-show="form.answer.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'CommonLabels.Action' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <ui-select id="action" name="action" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                       ng-model="rule.action"
+                                       search-enabled="true"
+                                       ng-required="true"
+                                       close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                       ng-disabled="(!rule.question && !rule.answer) || !AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="actionListItem as actionListItem in (actionList | filter: $select.search)">
+                                    <div ng-bind-html="actionListItem.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="rule.action = null;form.action.$setDirty();" class="btn btn-default" ng-disabled="!rule.action">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.action.$dirty && form.action.$invalid }"
+                            ng-show="form.action.$dirty && form.action.$invalid">
+                            <li class="required" ng-show="form.action.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate() || isNotChanged()"
+                                ng-click="save(rule);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

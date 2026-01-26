@@ -1,0 +1,212 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.DirectCarrierBilling.Templates.Title' | translate }} / {{ 'Products.DirectCarrierBilling.Templates.ServiceMessages' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="Language" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.Language' | translate }}</label>
+            <div class="col-md-5">
+                <select id="Language" name="Language" class="form-control parsley-validated"
+                        ng-model="dummyLanguage"
+                        ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                        ng-disabled="!AuthorizationService.canAllTemplatesUpdate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="PaymentType" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.PaymentType' | translate }}</label>
+            <div class="col-md-5">
+                <select id="PaymentType" name="PaymentType" class="form-control parsley-validated"
+                        ng-model="dummyPaymentType"
+                        ng-options="paymentType.value as (paymentType.label | translate | uppercase) for paymentType in SERVICE_DCB_SERVICE_MESSAGES_PAYMENT_TYPES"
+                        ng-disabled="!AuthorizationService.canAllTemplatesUpdate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div ng-if="dcbSettingsOrganization.dcbServiceMessagei18nProfile.PaymentType && dcbSettingsOrganization.dcbServiceMessagei18nProfile.Language">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ActivationMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.ActivationMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ActivationMessage" name="ActivationMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.ActivationMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ActivationMessage.$dirty && form.ActivationMessage.$invalid }"
+                        ng-show="form.ActivationMessage.$dirty && form.ActivationMessage.$invalid">
+                        <li class="required" ng-show="form.ActivationMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SuccessfulChargeMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.SuccessfulChargeMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SuccessfulChargeMessage" name="SuccessfulChargeMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.SuccessfulChargeMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SuccessfulChargeMessage.$dirty && form.SuccessfulChargeMessage.$invalid }"
+                        ng-show="form.SuccessfulChargeMessage.$dirty && form.SuccessfulChargeMessage.$invalid">
+                        <li class="required" ng-show="form.SuccessfulChargeMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SuccessRefundMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.SuccessRefundMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SuccessRefundMessage" name="SuccessRefundMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.SuccessRefundMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SuccessRefundMessage.$dirty && form.SuccessRefundMessage.$invalid }"
+                        ng-show="form.SuccessRefundMessage.$dirty && form.SuccessRefundMessage.$invalid">
+                        <li class="required" ng-show="form.SuccessRefundMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SuccessfulPartialRefundMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.SuccessfulPartialRefundMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SuccessfulPartialRefundMessage" name="SuccessfulPartialRefundMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.SuccessfulPartialRefundMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SuccessfulPartialRefundMessage.$dirty && form.SuccessfulPartialRefundMessage.$invalid }"
+                        ng-show="form.SuccessfulPartialRefundMessage.$dirty && form.SuccessfulPartialRefundMessage.$invalid">
+                        <li class="required" ng-show="form.SuccessfulPartialRefundMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ActivationFailureMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.ActivationFailureMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ActivationFailureMessage" name="ActivationFailureMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.ActivationFailureMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ActivationFailureMessage.$dirty && form.ActivationFailureMessage.$invalid }"
+                        ng-show="form.ActivationFailureMessage.$dirty && form.ActivationFailureMessage.$invalid">
+                        <li class="required" ng-show="form.ActivationFailureMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="InsufficientCreditMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.InsufficientCreditMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="InsufficientCreditMessage" name="InsufficientCreditMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.InsufficientCreditMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.InsufficientCreditMessage.$dirty && form.InsufficientCreditMessage.$invalid }"
+                        ng-show="form.InsufficientCreditMessage.$dirty && form.InsufficientCreditMessage.$invalid">
+                        <li class="required" ng-show="form.InsufficientCreditMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="CreditLimitExceededMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.CreditLimitExceededMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="CreditLimitExceededMessage" name="CreditLimitExceededMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.CreditLimitExceededMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.CreditLimitExceededMessage.$dirty && form.CreditLimitExceededMessage.$invalid }"
+                        ng-show="form.CreditLimitExceededMessage.$dirty && form.CreditLimitExceededMessage.$invalid">
+                        <li class="required" ng-show="form.CreditLimitExceededMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ServiceUnavailableMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.ServiceUnavailableMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ServiceUnavailableMessage" name="ServiceUnavailableMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.ServiceUnavailableMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ServiceUnavailableMessage.$dirty && form.ServiceUnavailableMessage.$invalid }"
+                        ng-show="form.ServiceUnavailableMessage.$dirty && form.ServiceUnavailableMessage.$invalid">
+                        <li class="required" ng-show="form.ServiceUnavailableMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="RefundFailureMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.RefundFailureMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="RefundFailureMessage" name="RefundFailureMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.RefundFailureMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.RefundFailureMessage.$dirty && form.RefundFailureMessage.$invalid }"
+                        ng-show="form.RefundFailureMessage.$dirty && form.RefundFailureMessage.$invalid">
+                        <li class="required" ng-show="form.RefundFailureMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PartialRefundFailureMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.PartialRefundFailureMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PartialRefundFailureMessage" name="PartialRefundFailureMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.PartialRefundFailureMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PartialRefundFailureMessage.$dirty && form.PartialRefundFailureMessage.$invalid }"
+                        ng-show="form.PartialRefundFailureMessage.$dirty && form.PartialRefundFailureMessage.$invalid">
+                        <li class="required" ng-show="form.PartialRefundFailureMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="OptOutMessage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceMessagei18nProfile.OptOutMessage' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="OptOutMessage" name="OptOutMessage" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceMessagei18nProfile.OptOutMessage"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.OptOutMessage.$dirty && form.OptOutMessage.$invalid }"
+                        ng-show="form.OptOutMessage.$dirty && form.OptOutMessage.$invalid">
+                        <li class="required" ng-show="form.OptOutMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || !AuthorizationService.canAllTemplatesUpdate() || isNotChanged()"
+                            ng-click="save(dcbSettingsOrganization);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>

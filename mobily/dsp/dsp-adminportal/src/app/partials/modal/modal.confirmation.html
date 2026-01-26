@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title" ng-bind-html="confirmationModalTitle" ng-if="confirmationModalTitle"></h4>
+    <h4 class="modal-title" ng-if="!confirmationModalTitle">
+        {{'CommonLabels.ConfirmationModalTitle' | translate}}
+    </h4>
+</div>
+
+<div class="modal-body" ng-bind-html="confirmationMessage" ng-if="confirmationMessage"></div>
+<div class="modal-body" ng-if="!confirmationMessage">
+    {{ 'CommonLabels.ConfirmationRemoveMessage' | translate }}
+</div>
+
+<div class="modal-body" ng-show="requireReason">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <textarea id="reason" name="reason" class="form-control" dir="auto"
+                          ng-model="reason"
+                          rows="3" ng-maxlength="1000" maxlength="1000" ng-required="requireReason"
+                          placeholder="{{ 'Workflows.Task.RejectReason' | translate }}">
+                </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.reason.$dirty && form.reason.$invalid }" ng-show="form.reason.$dirty && form.reason.$invalid">
+                    <li class="required" ng-show="form.reason.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.reason.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 1000} }}</li>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="form.$invalid">{{'CommonLabels.Yes' | translate}}</button>
+    <button class="btn btn-default" ng-click="cancel()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>

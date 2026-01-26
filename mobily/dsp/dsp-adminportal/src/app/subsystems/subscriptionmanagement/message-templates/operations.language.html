@@ -1,0 +1,25 @@
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'CommonLabels.Language' | translate}}</label>
+        <div class="col-md-7">
+            <select id="selectedLanguage" name="selectedLanguage" ng-model="selectedLanguage" class="form-control"
+                    ng-change="changeSubscriptionScenario(selectedLanguage, selectedSubscriptionScenario)"
+                    ng-options="language.prefix as language.label for language in languageList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="!$state.$current.data.isGlobal">
+        <label class="col-md-3">{{ 'CommonLabels.Offer' | translate}}</label>
+        <div class="col-md-7">
+            <select id="selectedSubscriptionScenario" name="selectedSubscriptionScenario" ng-model="selectedSubscriptionScenario" class="form-control"
+                    ng-change="changeSubscriptionScenario(selectedLanguage, selectedSubscriptionScenario)"
+                    ng-options="subscriptionScenario.name as subscriptionScenario.name for subscriptionScenario in subscriptionScenarioList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+
+</form>

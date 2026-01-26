@@ -1,0 +1,35 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager.dashboards') }" ng-if="AuthorizationService.canAllDashboardRead()">
+                <a ui-sref="subsystems.screeningmanager.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager.operations') }" ng-if="AuthorizationService.canScrmOperationsGlobalRead()">
+                <a ui-sref="subsystems.screeningmanager.operations.screeninglists.global.msisdn" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.screeningmanager.configuration') }" ng-if="AuthorizationService.canAllConfigurationRead()">
+                <a ui-sref="subsystems.screeningmanager.configuration" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

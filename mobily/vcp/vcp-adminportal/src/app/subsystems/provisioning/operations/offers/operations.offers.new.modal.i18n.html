@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Offers.I18N.OfferTitleModalTitle' | translate:{offerName:offer.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Offers.I18N.OfferTitle' | translate }}</label>
+            <div class="col-md-7">
+                <input id="title" name="title" type="text" class="form-control" dir="auto"
+                       ng-model="entityi18nProfile.Title" ng-disabled="!AuthorizationService.canCreateOffer() || (offer.id && !AuthorizationService.canUpdateOffer())"
+                       ng-required="true" ng-maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.title.$dirty && form.title.$invalid }"
+                    ng-show="form.title.$dirty && form.title.$invalid">
+                    <li class="required" ng-show="form.title.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.title.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Offers.I18N.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input name="description" id="description" type="text" class="form-control" dir="auto"
+                       ng-model="entityi18nProfile.Description" ng-disabled="!AuthorizationService.canCreateOffer() || (offer.id && !AuthorizationService.canUpdateOffer())"
+                       ng-required="true" ng-maxlength="250"/>
+                <ul ng-class="{ 'parsley-error-list': form.description.$dirty && form.description.$invalid }"
+                    ng-show="form.description.$dirty && form.description.$invalid">
+                    <li class="required" ng-show="form.description.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Offers.I18N.Language' | translate }}</label>
+            <div class="col-md-3">
+                <select id="language" name="language" class="form-control parsley-validated"
+                        ng-model="entityi18nProfile.Language" ng-disabled="!AuthorizationService.canCreateOffer() || (offer.id && !AuthorizationService.canUpdateOffer())"
+                        ng-required="true"
+                        ng-options="language.key as (language.label | translate) for language in XSM_SMS_PROFILE_LANGUAGES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.language.$dirty && form.language.$invalid }"
+                    ng-show="form.language.$dirty && form.language.$invalid">
+                    <li class="required" ng-show="form.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Offers.I18N.IsDefault' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group" ng-init="isDefault = false">
+                    <button class="btn {{entityi18nProfile.IsDefault?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canCreateOffer() || (offer.id && !AuthorizationService.canUpdateOffer())"
+                            ng-model="entityi18nProfile.IsDefault" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!entityi18nProfile.IsDefault?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canCreateOffer() || (offer.id && !AuthorizationService.canUpdateOffer())"
+                            ng-model="entityi18nProfile.IsDefault" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreateOffer() || (offer.id && !AuthorizationService.canUpdateOffer()) || isEntityI18nNotChanged()"
+                        ng-click="save(entityi18nProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+        
+    </form>
+</div>

@@ -1,0 +1,159 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <h3 class="page-title">
+                <span translate="{{$state.current.data.title}}" translate-compile></span>
+            </h3>
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12">
+
+                    <div class="tab-content stacked-content">
+
+                        <div class="tab-pane fade active in portlet portlet-default">
+
+                            <div class="portlet-body">
+
+                                <uib-tabset justified="true" type="pills" active="currentStep">
+
+                                    <uib-tab index="0">
+                                        <uib-tab-heading>
+                                            <span class="fa-stack fa-1x"
+                                                  style="display:inline-block;{{ currentStep === 0 ? 'color: #fff;' : 'color: #3498db;' }}">
+                                                <i class="fa fa-circle-o fa-stack-2x"></i>
+                                                <strong class="fa-stack-1x">1</strong>
+                                            </span>
+                                            <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                                <label style="{{ currentStep === 0 ? 'color: #fff;' : 'color: #3498db;' }}cursor: pointer;">
+                                                    {{ 'FirstPartnerRegistration.CompanyInformation.StepTitle' | translate }}
+                                                </label>
+                                            </h6>
+                                        </uib-tab-heading>
+
+                                        <div class="bg-clean">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span ng-include="'partner-profile/partner-profile.company-information.html'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+
+                                    <uib-tab index="1">
+                                        <uib-tab-heading>
+                                            <span class="fa-stack fa-1x"
+                                                  style="display:inline-block;{{ currentStep === 1 ? 'color: #fff;cursor: pointer;' : 'color: #3498db;cursor: pointer;' }}">
+                                                <i class="fa fa-circle-o fa-stack-2x"></i>
+                                                <strong class="fa-stack-1x">2</strong>
+                                            </span>
+                                            <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                                <label style="{{ currentStep === 1 ? 'color: #fff;cursor: pointer;' : (steps[1].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                                    {{ 'FirstPartnerRegistration.BankInformation.StepTitle' | translate }}
+                                                </label>
+                                            </h6>
+                                        </uib-tab-heading>
+
+                                        <div class="bg-clean">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span ng-include="'partner-profile/partner-profile.bank-information.html'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+
+                                    <uib-tab index="2">
+                                        <uib-tab-heading>
+                                            <span class="fa-stack fa-1x"
+                                                  style="display:inline-block;{{ currentStep === 2 ? 'color: #fff;cursor: pointer;' : 'color: #3498db;cursor: pointer;' }}">
+                                                <i class="fa fa-circle-o fa-stack-2x"></i>
+                                                <strong class="fa-stack-1x">3</strong>
+                                            </span>
+                                            <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                                <label style="{{ currentStep === 2 ? 'color: #fff;cursor: pointer;' : (steps[2].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                                    {{ 'FirstPartnerRegistration.LegalDocuments.StepTitle' | translate }}
+                                                </label>
+                                            </h6>
+                                        </uib-tab-heading>
+
+                                        <div class="bg-clean">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span ng-include="'partner-profile/partner-profile.legal-documents.html'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+
+                                    <uib-tab index="3">
+                                        <uib-tab-heading>
+                                            <span class="fa-stack fa-1x"
+                                                  style="display:inline-block;{{ currentStep === 3 ? 'color: #fff;cursor: pointer;' : 'color: #3498db;cursor: pointer;' }}">
+                                                <i class="fa fa-circle-o fa-stack-2x"></i>
+                                                <strong class="fa-stack-1x">4</strong>
+                                            </span>
+                                            <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                                <label style="{{ currentStep === 3 ? 'color: #fff;cursor: pointer;' : (steps[3].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                                    {{ 'FirstPartnerRegistration.T&C.StepTitle' | translate }}
+                                                </label>
+                                            </h6>
+                                        </uib-tab-heading>
+
+                                        <div class="bg-clean">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span ng-include="'partner-profile/partner-profile.termsandconditions.html'"></span>
+
+                                                    <div class="text-left">
+                                                        <label class="checkbox-inline">
+                                                            <input id="agreement" name="agreement" type="checkbox"
+                                                                   ng-model="agreement.checked"
+                                                                   ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                                                            {{ 'FirstPartnerRegistration.T&C.AgreementCheck' | translate }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </uib-tab>
+
+                                </uib-tabset>
+
+                            </div>
+
+                            <div class="portlet-footer">
+                                <div class="pull-right">
+                                    <button class="btn btn-success" ng-if="currentStep < 3"
+                                            ng-disabled="companyInformationForm.$invalid || bankInformationForm.$invalid || businessTypeLegalFilesForm.$invalid || !AuthorizationService.canPrmProfileUpdate($root.getOrganizationState()) || !isListsProperlySelected() || isNotChanged()"
+                                            ng-click="submitForm()">
+                                        {{ 'CommonLabels.Save' | translate }}
+                                    </button>
+                                    <button class="btn btn-success" ng-if="currentStep === 3"
+                                            ng-disabled="!agreement.checked || companyInformationForm.$invalid || bankInformationForm.$invalid || businessTypeLegalFilesForm.$invalid || !AuthorizationService.canPrmProfileUpdate() || !isListsProperlySelected() || isNotChanged()"
+                                            ng-click="save(companyInformation, companyLogo, bankInformation, selectedBusinessTypes, businessTypeLegalFiles);">
+                                        {{ 'CommonLabels.Submit' | translate }}
+                                    </button>
+                                    <button class="btn btn-default"
+                                            ng-click="cancel()">
+                                        {{ 'CommonLabels.Cancel' | translate }}</i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

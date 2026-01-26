@@ -1,0 +1,56 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.ContentFilters.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.ContentFilters.ContentType.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="contentTypeFiltersForm" name="contentTypeFiltersForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.ContentFilters.ContentType.FormFields.MainContentType.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select id="mainContentType" name="mainContentType" ng-model="contentTypeFilters.mainContentType" class="form-control"
+                        ng-required="true" required="true"
+                        ng-options="mainContentType as mainContentType.name for mainContentType in MMSC_MAIN_CONTENT_TYPE_LIST">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': contentTypeFiltersForm.mainContentType.$dirty && contentTypeFiltersForm.mainContentType.$invalid }"
+                    ng-show="contentTypeFiltersForm.mainContentType.$dirty && contentTypeFiltersForm.mainContentType.$invalid">
+                    <li class="required" ng-show="contentTypeFiltersForm.mainContentType.$error.required">{{'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.ContentFilters.ContentType.FormFields.SubContentType.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input id="subContentType" name="subContentType" type="text" class="form-control"
+                       ng-model="contentTypeFilters.subContentType"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': contentTypeFiltersForm.subContentType.$dirty && contentTypeFiltersForm.subContentType.$invalid }"
+                    ng-show="contentTypeFiltersForm.subContentType.$dirty && contentTypeFiltersForm.subContentType.$invalid">
+                    <li class="required" ng-show="contentTypeFiltersForm.subContentType.$error.required">{{'Products.MMSC.Operations.ContentFilters.ContentType.FormFields.SubContentType.Messages.Required' | translate }}</li>
+                    <li class="required" ng-show="contentTypeFiltersForm.subContentType.$error.maxlength">{{'Products.MMSC.Operations.ContentFilters.ContentType.FormFields.SubContentType.Messages.MaxLength' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="contentTypeFiltersForm.$invalid || !AuthorizationService.canCreate()"
+                        ng-click="save(contentTypeFilters);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

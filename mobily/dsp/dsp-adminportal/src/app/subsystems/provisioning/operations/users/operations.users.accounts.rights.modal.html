@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.UserAccounts.UserRightsModalTitle' | translate:{userName:user.userName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPagerEmpty.html">
+                    <thead>
+                        <tr>
+                            <th>{{ 'Subsystems.Provisioning.UserGroups.Permissions.Operation' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="resource in $groups" ng-init="resource.$hideRows=true">
+                        <tr class="ng-table-group">
+                            <td colspan="{{$columns.length}}">
+                                <a href="" ng-click="resource.$hideRows = !resource.$hideRows">
+                                    <span class="fa"
+                                          ng-class="{ 'fa-chevron-right': resource.$hideRows, 'fa-chevron-down': !resource.$hideRows }"></span>
+                                    <strong>{{ resource.value }}</strong>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr ng-hide="resource.$hideRows" ng-repeat="item in resource.data">
+                            <td sortable="operationName" data-title="'OperationName'">
+                                {{item.operationName}}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="$groups.length === 0">
+                        <tr>
+                            <td colspan="1" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

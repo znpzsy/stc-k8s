@@ -1,0 +1,150 @@
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group" ng-if="!conf.id">
+        <label for="templateName" class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.TemplateName' | translate }}</label>
+        <div class="col-md-7">
+            <input id="templateName" name="templateName" type="text" class="form-control"
+                   ng-model="conf.messageTemplate.name"
+                   ng-required="true" ng-maxlength="50" maxlength="50"
+                   ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())"/>
+            <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                ng-show="form.name.$dirty && form.name.$invalid">
+                <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group" ng-if="conf.id">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.TemplateName' | translate }}</label>
+        <div class="col-md-7">
+            <input id="templateName" name="templateName" type="text" class="form-control"
+                   ng-value="conf.messageTemplate.name"
+                   ng-disabled="true"/>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="conf.messageTemplate.name !== 'Default' && !conf.id">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.Language' | translate }}</label>
+        <div class="col-md-4">
+            <select id="language" name="language" class="form-control parsley-validated"
+                    ng-model="conf.messageTemplate.language"
+                    ng-required="true"
+                    ng-options="language.value as (language.label | translate) for language in LANGUAGES"
+                    ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+            <ul ng-class="{ 'parsley-error-list': form.language.$dirty && form.language.$invalid }" ng-show="form.language.$dirty && form.language.$invalid">
+                <li class="required" ng-show="form.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group" ng-if="conf.id">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.Language' | translate }}</label>
+        <div class="col-md-4">
+            <select id="language" name="language" class="form-control parsley-validated"
+                    ng-disabled="true">
+                <option>{{ conf.messageTemplate.language | LanguageCodeFilter | translate }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.UseCallingNumberAsSmsSourceAddress' | translate }}</label>
+        <div class="col-md-7">
+            <div class="btn-group">
+                <button type="button"
+                        class="btn {{conf.messageTemplate.useCallingNumberAsSmsSourceAddress?'btn-primary active':'btn-default'}} btn-sm"
+                        ng-model="conf.messageTemplate.useCallingNumberAsSmsSourceAddress" uib-btn-radio="1"
+                        ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())">{{ 'CommonLabels.Yes' | translate }}
+                </button>
+                <button type="button"
+                        class="btn {{!conf.messageTemplate.useCallingNumberAsSmsSourceAddress?'btn-primary active':'btn-default'}} btn-sm"
+                        ng-model="conf.messageTemplate.useCallingNumberAsSmsSourceAddress" uib-btn-radio="0"
+                        ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())">{{ 'CommonLabels.No' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-hide="conf.messageTemplate.useCallingNumberAsSmsSourceAddress">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.SmsSourceAddress' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" id="smsSourceAddress" name="smsSourceAddress" class="form-control"
+                   ng-model="conf.messageTemplate.smsSourceAddress"
+                   ng-maxlength="100" maxlength="100"
+                   ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())"/>
+            <ul ng-class="{ 'parsley-error-list': form.smsSourceAddress.$dirty && form.smsSourceAddress.$invalid }"
+                ng-show="form.smsSourceAddress.$dirty && form.smsSourceAddress.$invalid">
+                <li class="required" ng-show="form.smsSourceAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="singleCallSmsTemplate" class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.SingleCallSmsTemplate' | translate }}</label>
+        <div class="col-md-7">
+            <textarea id="singleCallSmsTemplate" name="singleCallSmsTemplate" class="form-control" rows="5"
+                      placeholder="{{ 'Services.MCA.Operations.MessageFormats.SingleCallSmsTemplatePlaceholder' | translate }}"
+                      ng-model="conf.messageTemplate.singleCallSmsTemplate"
+                      ng-maxlength="1024" maxlength="1024"
+                      ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())">
+            </textarea>
+            <ul ng-class="{ 'parsley-error-list': form.singleCallSmsTemplate.$dirty && form.singleCallSmsTemplate.$invalid }" ng-show="form.singleCallSmsTemplate.$dirty && form.singleCallSmsTemplate.$invalid">
+                <li class="required" ng-show="form.singleCallSmsTemplate.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 1024} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="datetimeFormat" class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.DatetimeFormat' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" id="datetimeFormat" name="datetimeFormat" class="form-control" placeholder="i.e., dd.MM,hh:mm"
+                   ng-model="conf.messageTemplate.datetimeFormat"
+                   ng-maxlength="50" maxlength="50"
+                   ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())"/>
+            <ul ng-class="{ 'parsley-error-list': form.datetimeFormat.$dirty && form.datetimeFormat.$invalid }" ng-show="form.datetimeFormat.$dirty && form.datetimeFormat.$invalid">
+                <li class="required" ng-show="form.datetimeFormat.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.DatetimeDelimiter' | translate }}</label>
+        <div class="col-md-2">
+            <input type="text" id="datetimeDelimiter" name="datetimeDelimiter" class="form-control"
+                   ng-model="conf.messageTemplate.datetimeDelimiter"
+                   ng-maxlength="10" maxlength="10"
+                   ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())"/>
+            <ul ng-class="{ 'parsley-error-list': form.datetimeDelimiter.$dirty && form.datetimeDelimiter.$invalid }" ng-show="form.datetimeDelimiter.$dirty && form.datetimeDelimiter.$invalid">
+                <li class="required" ng-show="form.datetimeFormat.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 10} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.MessageFormats.RestrictedNumberText' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" id="restrictedNumberText" name="restrictedNumberText" class="form-control"
+                   ng-model="conf.messageTemplate.restrictedNumberText"
+                   ng-maxlength="200" maxlength="200"
+                   ng-disabled="(conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates())"/>
+            <ul ng-class="{ 'parsley-error-list': form.restrictedNumberText.$dirty && form.restrictedNumberText.$invalid }" ng-show="form.restrictedNumberText.$dirty && form.restrictedNumberText.$invalid">
+                <li class="required" ng-show="form.datetimeFormat.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 200} }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || (conf.id ? !AuthorizationService.canUpdateTemplates() : !AuthorizationService.canCreateTemplates()) || isNotChanged()"
+                    ng-click="save(conf);">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

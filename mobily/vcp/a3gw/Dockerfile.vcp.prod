@@ -1,0 +1,14 @@
+# mobily/vcp/a3gw/Dockerfile.vcp.prod
+
+FROM mersin.telenity.com/com/telenity/a3gw:1.0.9-main
+
+WORKDIR /space/a3gw
+
+COPY ./vcp/ecosystem.config.js ./ecosystem.config.js
+COPY ./vcp/conf.prod ./src/conf
+RUN mkdir -p ./static
+COPY ./vcp/static.prod ./static
+
+EXPOSE 8444
+EXPOSE 8445
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]

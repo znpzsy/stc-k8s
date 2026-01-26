@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ pageHeaderKey | translate:{ jobId: edrRecord.jobId } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 310px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr ng-if="edrRecord.jobSenderMsisdn">
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobSenderMsisdn' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jobSenderMsisdn }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.To' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.distributionListName }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.DistributionListSize' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.distributionListSize }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.ScreeningList' | translate }}</td>
+                        <td class="kv-value" ng-if="isArray(edrRecord.screeningLists)"><span ng-repeat="screeningList in edrRecord.screeningLists">{{ screeningList.name }} [{{ screeningList.id }}]<span ng-show="!$last">, </span></span>&nbsp;</td>
+                        <td class="kv-value" ng-if="!isArray(edrRecord.screeningLists)">{{ edrRecord.screeningLists }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.ChargingDisabled' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jobChargingDisabled | YesNoFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.OffNetEnabled' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jobOffNetEnabled | YesNoFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobMaxRetryCount' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jobMaxRetryCount }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobScheduleDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jobScheduleDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="isJobExpiryEnabled(edrRecord);">
+                        <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobExpiryDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jobExpiryDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

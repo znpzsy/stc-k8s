@@ -1,0 +1,57 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ (modalTitleKey ? modalTitleKey : 'Subsystems.Provisioning.Operators.ServiceProvidersModalTitle') | translate:{ name:operatorName } }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-3">
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('ServiceProviders-' + operatorName, partnersOfOrganization.partners)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('ServiceProviders-' + operatorName, partnersOfOrganization.partners)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['id', 'name', 'orgType', 'state'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="partner in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.Provisioning.ServiceProviders.Id' | translate" sortable="'id'">{{partner.id}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.ServiceProviders.Name' | translate" sortable="'name'">{{partner.name}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.ServiceProviders.Type' | translate" sortable="'orgType'">{{partner.orgType}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.ServiceProviders.State' | translate" sortable="'state'">{{partner.state}}</td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.DirectCarrierBilling.Troubleshooting.Details.PageHeader' | translate:{ msisdn: edrRecord.msisdn } }}</h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.Channel' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.channel }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.TransactionId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.transactionId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.ClientCorrelator' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.clientCorrelator }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.ProductDescription' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.productDescription }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.TaxAmount' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.taxAmount | number:2 }}&nbsp;{{ edrRecord.currency }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.AccountNumber' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.accountNumber }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.refType }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.Account' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.account }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.MerchantId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.merchantId }}&nbsp;</td>
+                    </tr>
+                    <tr ng-show="'FAILURE' === edrRecord.cdrType">
+                        <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.ErrorMessage' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.errorMessage }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

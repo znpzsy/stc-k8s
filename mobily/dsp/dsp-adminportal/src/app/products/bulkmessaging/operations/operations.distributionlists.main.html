@@ -1,0 +1,10 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ $state.current.data.pageHeaderKey | translate }} / {{ $state.current.data.subPageHeaderKey | translate:{organizationName: organizationName, userAccountName: userAccountName} }}
+    </h4>
+</div>
+
+<span ng-include="'products/bulkmessaging/operations/operations.filter.html'"
+      ng-show="$parent.showFilter"></span>
+
+<div ui-view ng-show="$parent.showTable"></div>

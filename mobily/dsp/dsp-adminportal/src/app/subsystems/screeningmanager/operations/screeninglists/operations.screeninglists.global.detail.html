@@ -1,0 +1,40 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'ScreeningLists.ScreeningInformation' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'ScreeningLists.TableColumns.BlackListed' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{screening.contains?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="screening.contains" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canScrmOperationsGlobalUpdate()">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!screening.contains?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="screening.contains" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canScrmOperationsGlobalUpdate()">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canScrmOperationsGlobalUpdate() || isGlobalScreeningNotChanged()"
+                        ng-click="saveGlobalScreening($parent.msisdn, screening);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel($parent.msisdn);">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

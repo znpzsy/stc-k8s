@@ -1,0 +1,52 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.screening-lists.incoming') }">
+            <a href="javascript:void(0);" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'ScreeningLists.Incoming.MenuLabel' | translate }}&nbsp;&nbsp;<b
+                    class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.screening-lists.incoming.smsc-global') }">
+                    <a ui-sref="products.smsc.screening-lists.incoming.smsc-global" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.ScreeningLists.Global.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.smsc.screening-lists.incoming.vas-apps') }">
+                    <a ui-sref="products.smsc.screening-lists.incoming.vas-apps" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'ScreeningLists.VASApps.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.screening-lists.outgoing') }">
+            <a href="javascript:void(0);" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'ScreeningLists.Outgoing.MenuLabel' | translate }}&nbsp;&nbsp;<b
+                    class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.screening-lists.outgoing.smsc-global') }">
+                    <a ui-sref="products.smsc.screening-lists.outgoing.smsc-global" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.ScreeningLists.Global.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.smsc.screening-lists.outgoing.vas-apps') }">
+                    <a ui-sref="products.smsc.screening-lists.outgoing.vas-apps" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'ScreeningLists.VASApps.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

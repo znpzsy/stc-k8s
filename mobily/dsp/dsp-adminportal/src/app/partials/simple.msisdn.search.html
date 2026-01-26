@@ -1,0 +1,25 @@
+<form class="form-horizontal parsley-form" novalidate id="searchForm" name="searchForm" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'CommonLabels.Msisdn' | translate }}</label>
+        <div class="col-md-6">
+            <input type="text" class="form-control" ng-model="msisdn" id="msisdn" name="msisdn"
+                   ng-maxlength="15" maxlength="15" ng-pattern="$root.Validators.Msisdn"
+                   ng-required="true" required="true"
+                   placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate}}"/>
+            <ul ng-class="{ 'parsley-error-list': searchForm.msisdn.$dirty && searchForm.msisdn.$invalid }" ng-show="searchForm.msisdn.$dirty && searchForm.msisdn.$invalid">
+                <li class="required" ng-show="searchForm.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="searchForm.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger" ng-disabled="searchForm.$invalid" ng-click="search(msisdn)" >
+                {{ 'CommonLabels.Search' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

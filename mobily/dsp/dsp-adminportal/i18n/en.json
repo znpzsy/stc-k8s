@@ -1,0 +1,3666 @@
+{
+  "BrandName": "Admin Portal",
+  "ApplicationTitle": "Admin Portal",
+  "Language": {
+    "SelectLanguage": "Select language",
+    "Items": {
+      "English": "English"
+    }
+  },
+  "Period": {
+    "Year": "Year",
+    "Month": "Month",
+    "Day": "Day",
+    "Hour": "Hour",
+    "Minute": "Minute",
+    "Second": "Second"
+  },
+  "Header": {
+    "Home": "Home",
+    "Logout": "Logout",
+    "CCPortal": "Customer Care Portal"
+  },
+  "Footer": {
+    "Copyright": "Copyright &copy; 2020 Telenity, Inc. All Rights Reserved."
+  },
+  "CommonLabels": {
+    "N/A": "N/A",
+    "Signin": "Sign In",
+    "From": "From",
+    "To": "To",
+    "Find": "Find",
+    "Unsubscribe": "Unsubscribe",
+    "Subscribe": "Subscribe",
+    "Subscriber": "Subscriber",
+    "Cancel": "Cancel",
+    "Save": "Save",
+    "Apply": "Apply",
+    "Confirm": "Confirm",
+    "Confirmation": "Confirmation",
+    "ConfirmationModalTitle": "Confirmation",
+    "ConfirmationRemoveMessage": "Please confirm to remove.",
+    "ConfirmationOperationMessage": "Please confirm the operation.",
+    "Yes": "Yes",
+    "No": "No",
+    "Actions": "Actions",
+    "Add": "Add",
+    "AddNewEntry": "Add New Entry",
+    "Update": "Update",
+    "Details": "Show Details",
+    "History": "Show History",
+    "Remove": "Delete",
+    "Delete": "Delete",
+    "Search": "Search",
+    "Back": "Back",
+    "GoBack": "Go Back",
+    "SearchBy": "Search by",
+    "SearchByName": "Search by name",
+    "SearchByTitle": "Search by title",
+    "SearchByKeywords": "Search by keywords",
+    "SearchByMsisdn": "Search by subscriber number",
+    "SearchBySAN": "Search by subscriber account number",
+    "SearchByImsi": "Search by imsi",
+    "SearchByAddress": "Search by address",
+    "SearchByAddressOrEvent": "Search by address or event",
+    "SearchByOrigAddress": "Search by address",
+    "SearchByCampaignOrSender": "Search by campaign or sender",
+    "SearchByIdentifierOrValue": "Search by ID or value",
+    "SearchByIdentifierOrName": "Search by ID or name",
+    "SearchByShortCode": "Search by short code",
+    "DaysOfWeek": {
+      "Sunday": "Sunday",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday"
+    },
+    "Days": "DAYS",
+    "Weeks": "WEEKS",
+    "Months": "MONTHS",
+    "Years": "YEARS",
+    "Hours": "HOURS",
+    "Minutes": "MINUTES",
+    "Seconds": "SECONDS",
+    "Accept": "Accept",
+    "Reject": "Reject",
+    "Assign": "Assign",
+    "Approve": "Approve",
+    "Choose": "Choose",
+    "AddTo": "Add To",
+    "Open": "Open",
+    "Close": "Close",
+    "OK": "OK",
+    "All": "ALL",
+    "SelectAll": "Select All",
+    "SaveAndApprove": "Save & Approve",
+    "ApproveNow": "Approve Now",
+    "Msisdn": "Subscriber Number",
+    "SubscriberMsisdnPlaceholder": "e.g., 966561234567",
+    "SubscriberMsisdnPlaceholder2": "e.g., 966567654321",
+    "CategoryPlaceholder": "Add a Category",
+    "OperationSuccessful": "Operation is successful",
+    "Display": "Display",
+    "Show": "Show",
+    "Hide": "Hide",
+    "Unhide": "Unhide",
+    "Download": "Download",
+    "Upload": "Upload",
+    "SelectFile": "Select File",
+    "SelectAddFile": "Select & Add File",
+    "SelectNewFile": "Select New File",
+    "RemoveFile": "Remove",
+    "View": "View",
+    "ShowFilter": "Show Filter",
+    "HideFilter": "Hide Filter",
+    "ShowDateFilter": "Show Date Filter",
+    "HideDateFilter": "Hide Date Filter",
+    "HideDetails": "Hide Details",
+    "HideExtraSettings": "Hide Extra settings...",
+    "AddNewDate": "Add New Date",
+    "SelectOne": "Select One",
+    "SelectFromTheList": "Select from the list",
+    "PleaseWrite": "Enter a term to start search...",
+    "PleaseSelectAnOrganization": "Please select an organization first.",
+    "EnterNewOne": "Type a new keyword and press Enter",
+    "Selected": "Selected",
+    "Tooltip": "Tooltip",
+    "Range": "Range",
+    "Success": "SUCCESS",
+    "Failure": "FAILURE",
+    "ShowChargingRecords": "Show Charging Records",
+    "ShowDetails": "Show Details",
+    "ShowExtraSettings": "Show Extra settings...",
+    "ShowMessageContent": "Show Message Content",
+    "ShowMessageDeliveryReport": "Show Message Delivery Report",
+    "ManageAccessRights": "Manage Access Rights",
+    "ShowEntireMessage": "Show Entire Message",
+    "HideEntireMessage": "Hide Entire Message",
+    "ShowAdvancedSettings": "Show Advanced settings...",
+    "HideAdvancedSettings": "Hide Advanced settings...",
+    "ShowExpertSettings": "Show Expert settings...",
+    "HideExpertSettings": "Hide Expert settings...",
+    "ShowMessageParts": "Show Message Parts",
+    "ShowPdu": "Show PDU Content",
+    "Resend": "Resend",
+    "ResendMessage": "Resend Message",
+    "CancelSending": "Cancel Send Attempt",
+    "BulkCancelSending": "Cancel all pending send attempts",
+    "SendItNow": "Send Message Now",
+    "ShowTariffList": "Show Tariff List",
+    "SetBlackHourRules": "Set Black Hour Rules",
+    "ShowLiveConnections": "Show Live Connections",
+    "Requested": "Requested",
+    "NotRequested": "Not Requested",
+    "Valid": "VALID",
+    "Invalid": "INVALID",
+    "Translate": "TRANSLATE",
+    "Equal": "EQUAL",
+    "NotEqual": "NOT_EQUAL",
+    "Any": "ANY",
+    "KeepOriginal": "KEEP_ORIGINAL",
+    "TestDrive": "Test Run",
+    "State": "State",
+    "Gender": "Gender",
+    "Type": "Type",
+    "LegacyID": "Legacy ID",
+    "Description": "Description",
+    "Schedule": "Schedule",
+    "Submit": "Submit",
+    "Sender": "A-MSISDN",
+    "Receiver": "B-MSISDN",
+    "AParty": "A-Party",
+    "BParty": "B-Party",
+    "Language": "Language",
+    "LanguageCode": "Language Code",
+    "Title": "Title",
+    "Offer": "Offer",
+    "UseSpecifiedValue": "USE_SPECIFIED_VALUE",
+    "Delivered": "DELIVERED",
+    "Undelivered": "UNDELIVERED",
+    "LastUpdated": "Last updated on {{date}} at {{time}}",
+    "Lock": "Lock",
+    "Unlock": "Unlock",
+    "LockDate": "Locked on {{date}} at {{time}}",
+    "UnlockDate": "Unlocked on {{date}} at {{time}}",
+    "PasswordReminder": "Password Reminder",
+    "ShowRevisionHistory": "Show Revision History",
+    "Revert": "Revert",
+    "ApplicationName": "Application Name",
+    "ServiceName": "Service Name",
+    "AdvancedSettings": "Advanced Settings",
+    "ExpertSettings": "Expert Settings",
+    "Pause": "Pause",
+    "Resume": "Resume",
+    "Warning": "Warning",
+    "Refund": "Refund",
+    "Send": "Send",
+    "UrlPlaceholder": "e.g., http://ip:port/webservice",
+    "SelectRange": "Select Range",
+    "GenerateReport": "Generate Report",
+    "Downloaded": "downloaded",
+    "White": "White",
+    "Black": "Black",
+    "TestResult": "Test Result",
+    "Matched": "Matched",
+    "Review": "Review",
+    "Parameters": "Parameters",
+    "Organization": "Organization",
+    "Service": "Service",
+    "CreatedOn": "Create Time",
+    "CreatedBy": "Created By",
+    "UpdatedOn": "Last Update Time",
+    "UpdatedBy": "Updated By",
+    "LastUpdatedOn": "Last Update Time",
+    "LastUpdatedBy": "Updated By",
+    "LastUpdateTime": "Last Update Time",
+    "Start": "Start",
+    "User": "User",
+    "FilteringCriteria": "Set Filtering Criteria",
+    "Refresh": "Refresh",
+    "Action": "Action",
+    "Append": "Append",
+    "Characters": "Characters",
+    "Suspend": "Suspend",
+    "Unsuspend": "Unsuspend",
+    "Offline": "Offline",
+    "Amount": "Amount",
+    "ShowOffers": "Show Offers",
+    "ShowServices": "Show Services",
+    "ShowSubscriptions": "Show Service Subscriptions",
+    "ShowContentSubscriptions": "Show Content Subscriptions",
+    "ShowContents": "Show Contents",
+    "DSP": "DSP",
+    "RBT": "RBT"
+  },
+  "Certificate": {
+    "Label": "Certificate",
+    "Tooltip": "Please download and install the attached Mobily Root CA certificate to access the production internal portal without certificates warning messages."
+  },
+  "CommonMessages": {
+    "SelectTableRecord": "Select a record from the table.",
+    "SearchInList": "Search in the list...",
+    "GenericServerError": "Server error occurred!",
+    "ServerError": "Server error occurred! <strong>StatusCode:</strong> {{status}}, <strong>Message:</strong> {{message}}",
+    "NoDataAvailable": "No data available!",
+    "EmptyTable": "No data available!",
+    "NoServiceSubscription": "There is no service subscriptions.",
+    "NoOfferSubscription": "There is no offer subscriptions.",
+    "NoAvailableOffer": "There is no available offers.",
+    "ThereAreServiceSubscriptions": "There are subscriptions on this service. Please unsubscribe first.",
+    "ThereAreOfferSubscriptions": "There are subscriptions on this offer. Please unsubscribe first.",
+    "ThereAreLinkedOffers": "There are linked offers. Please remove them first.",
+    "ThereAreLinkedServices": "There are linked services. Please remove them first.",
+    "ThereAreLinkedProjects": "There are linked projects. Please remove them first.",
+    "ThereAreLinkedServiceTypes": "There are linked service types. Please remove them first.",
+    "ThereAreLinkedBusinessTypes": "There are linked business types. Please remove them first.",
+    "ThereAreLinkedTeams": "There are linked teams. Please remove them first.",
+    "OfferIsNotAvailable": "Offer is not available.",
+    "ServiceIsNotAvailable": "Service is not available.",
+    "CouldNotCreateNewUser": "Could not create new user.",
+    "CouldNotCreateNewUserAlreadyDefined": "Could not create new user. Username already exists.",
+    "CouldNotUpdateUser": "Could not update user.",
+    "CouldNotFindUser": "Could find user.",
+    "CouldNotFindOrganization": "Could not find organization.",
+    "CouldNotCreateNewProviderAlreadyDefined": "Could not create new service provider. Organization Name already exists.",
+    "CouldNotCreateNewOperatorAlreadyDefined": "Could not create new operator. Organization Name already exists.",
+    "CouldNotCreateNewServiceAlreadyDefined": "Could not create new service. Service Name already exists.",
+    "CouldNotCreateNewOfferAlreadyDefined": "Could not create new offer. Offer Name already exists.",
+    "ClickForDetails": "Click for Details",
+    "ThereIsNoRecord": "There is no record or no one matched with the filter word!",
+    "DateFilterButtonTitle": "Shows or Hides the filter form.",
+    "ApiError": "[{{errorCode}}] {{errorText}}",
+    "MinValueError": "Value cannot be smaller than {{min}}.",
+    "MaxValueError": "Value cannot be greater than {{max}}.",
+    "MaxPeriodError": "Period cannot be greater than {{duration}} {{unit}}.",
+    "GreaterThanEqualPeriodError": "Period cannot be greater than or equal to {{duration}} {{unit}}.",
+    "NumericFieldError": "Field should be numeric.",
+    "IntegerFieldError": "Field should be integer.",
+    "AlphanumericFieldError": "Field should be alphanumeric.",
+    "AlphanumericWithSpaceFieldError": "Field should be alphanumeric (may be contains space characters).",
+    "RequiredFieldError": "Field is required.",
+    "ListItemAvailable": "The value is already available in the list. Please check.",
+    "InvalidPhoneNumber": "Please enter a valid phone number.",
+    "InvalidImsi": "Please enter a imsi number.",
+    "InvalidURL": "Please enter a valid URL.",
+    "InvalidEmail": "Please enter a valid Email Address.",
+    "InvalidDate": "Please enter a valid date.",
+    "InvalidTime": "Please enter a valid time.",
+    "InvalidName": "Please enter a valid name.",
+    "InvalidNameWithCommas": "Please enter a valid name without comma characters.",
+    "LengthError": "Field should {{length}} characters long!",
+    "MinLengthError": "Field should be minimum {{min_length}} characters long!",
+    "MaxLengthError": "Field should be maximum {{max_length}} characters long!",
+    "PasswordError": "Passwords do not match.",
+    "ThereIsNoCorporateDetailProfile": "There is no defined profile for selected organization!",
+    "HourlyReportIntervalError": "Please select maximum {{hours}} hours date range.",
+    "DailyReportIntervalError": "Please select maximum {{days}} days date range.",
+    "MonthlyReportIntervalError": "Please select maximum {{years}} years date range.",
+    "MaxRecordCountExceededForExport": "You are about to export the first {{max}} records since it exceeds the limit. Please confirm.",
+    "SubscriberNotFound": "Subscriber not found!",
+    "SubscriptionDoesNotExist": "Subscription does not exist!",
+    "SubscriptionExist": "Subscription exists.",
+    "FileTooLargeError": "File is too large. Maximum file size {{(file_size / 1048576) | number:1}} MB.",
+    "FileUploadSucceded": "File uploaded successfully.",
+    "PasswordDoesNotMeetRequirements": "Please choose a password that meets the specified requirements.",
+    "PopupBlockerDetected": "Pop-up blocker detected. Please allow pop-ups from this site.",
+    "FileNotFound": "File not found!",
+    "LastTagIsAvailableOrShort": "The last entry is too short or already available.",
+    "MaxAllowedTags": "Maximum allowed tag count is {{max}}",
+    "ExceededRecordCountLimit": "Total of {{count}} records found. Displaying the first {{limit}} only.",
+    "UpdateOfferConfirmationMessage": "You are about to change the state of the offer. Are you sure you want to continue?",
+    "UpdateServiceConfirmationMessage": "You are about to change the state of the service. Are you sure you want to continue?",
+    "InvalidExtensionRangeValueError": "Field should be in this format: 1-10,15-20,30-33",
+    "InvalidFaxNumber": "Please enter a valid fax number.",
+    "InvalidEmailAddress": "Please enter a valid email address. e.g., example@mobily.sa",
+    "InvalidIpAddress": "Please enter an IP Address value.",
+    "InvalidKeypadEntry": "Please enter a valid value. e.g., 0-9, *, #, +",
+    "AnswerError": "Answers do not match.",
+    "ContentNA": "*** Content Not Available ***",
+    "PasswordTooltip": "The password should contain at least an upper case letter, a lower case letter, a numeric and a special (\"@#$%^&+=.-_*') characters.",
+    "NotBulkSMSUser": "You are not a Bulk SMS user!",
+    "NotBulkMMSUser": "You are not a Bulk MMS user!",
+    "NotBulkIVRUser": "You are not a Bulk IVR user!"
+  },
+  "Notifications": {
+    "Info": "Info",
+    "Warning": "Warning",
+    "Success": "Success",
+    "Important": "Important"
+  },
+  "StatusTypes": {
+    "Waiting": "Waiting",
+    "Pending": "Pending",
+    "Active": "Active",
+    "Suspended": "Suspended",
+    "Inactive": "Inactive",
+    "Hidden": "Hidden"
+  },
+  "Export": {
+    "CSV": "CSV",
+    "Excel": "XLS"
+  },
+  "GenericFormFields": {
+    "StartDateAndTime": {
+      "Label": "Start Date & Time",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "TodayDateExceeded": "Start Date & Time should be after current date.",
+        "MaxDateExceeded": "Start Date & Time should be before the End Date & Time."
+      }
+    },
+    "StartDate": {
+      "Label": "Start Date",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MaxDateExceeded": "Start Date should be before the End Date."
+      }
+    },
+    "EndDateAndTime": {
+      "Label": "End Date & Time",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MinDateExceeded": "End Date & Time should be after the Start Date & Time."
+      }
+    },
+    "EndDate": {
+      "Label": "End Date",
+      "Messages": {
+        "Invalid": "Please enter a valid date.",
+        "MinDateExceeded": "End Date should be after the Start Date."
+      }
+    },
+    "StartTime": {
+      "Label": "Start Time",
+      "Messages": {
+        "MaxTimeExceeded": "Start Time should be before the End Time."
+      }
+    },
+    "EndTime": {
+      "Label": "End Time",
+      "Messages": {
+        "MinTimeExceeded": "End Time should be after the Start Time."
+      }
+    },
+    "StartDayTime": {
+      "Label": "Start Day & Time",
+      "Messages": {
+        "MaxTimeExceeded": "Start Day & Time should be before the End Day & Time."
+      }
+    },
+    "EndDayTime": {
+      "Label": "End Day & Time",
+      "Messages": {
+        "MinTimeExceeded": "End Day & Time should be after the Start Day & Time."
+      }
+    },
+    "Organization": {
+      "Label": "Organization",
+      "Messages": {
+      }
+    }
+  },
+  "PriorityLevels": {
+    "Normal": "Normal",
+    "Vip": "Vip"
+  },
+  "PaymentTypes": {
+    "Both": "Both",
+    "Prepaid": "Prepaid",
+    "Postpaid": "Postpaid",
+    "BOTH": "Both",
+    "PREPAID": "Prepaid",
+    "POSTPAOD": "Postpaid"
+  },
+  "Attributes": {
+    "Voice": "Voice",
+    "SMSIn": "SMS In",
+    "SMSOut": "SMS Out",
+    "Data": "Data",
+    "Roaming": "Roaming"
+  },
+  "ServiceTypes": {
+    "USSD": "USSD",
+    "VAS": "VAS"
+  },
+  "Languages": {
+    "AR": "Arabic",
+    "EN": "English"
+  },
+  "ProvisioningStatusTypes": {
+    "Normal": "Normal",
+    "FullBarring": "Full Barring",
+    "OGBarring": "OG Barring",
+    "Suspended": "Suspended",
+    "Frozen": "Frozen",
+    "GP4Blocked": "GP4 Blocked"
+  },
+  "ProvisioningGenders": {
+    "Male": "Male",
+    "Female": "Female"
+  },
+  "ProvisioningTypes": {
+    "Common": "Common",
+    "Corporate": "Corporate",
+    "Test": "Test"
+  },
+  "ProvisioningVipCategories": {
+    "SocialVip": "Social VIP",
+    "VipHighSpender": "VIP High Spender",
+    "VipByPackage": "VIP by Package"
+  },
+  "ProvisioningVipSubCategories": {
+    "Platinum": "Platinum",
+    "Gold": "Gold"
+  },
+  "ProvisioningCustomerCategories": {
+    "Consumer": "Consumer",
+    "Business": "Business"
+  },
+  "ProvisioningPackageCategories": {
+    "Connect": "Connect",
+    "GSM": "GSM",
+    "FTTH": "FTTH"
+  },
+  "ServiceStatuses": {
+    "Active": "ACTIVE",
+    "Suspended": "SUSPENDED",
+    "Inactive": "INACTIVE",
+    "Pending": "PENDING"
+  },
+  "OfferStatuses": {
+    "Active": "ACTIVE",
+    "Suspended": "SUSPENDED",
+    "Inactive": "INACTIVE",
+    "Pending": "PENDING"
+  },
+  "ScreeningManagerRules": {
+    "AcceptAll": "ACCEPT ALL",
+    "AcceptWhitelist": "ACCEPT WHITE LIST ONLY",
+    "RejectAll": "REJECT ALL",
+    "RejectBlacklist": "REJECT BLACK LIST ONLY"
+  },
+  "ScreeningManagerScopes": {
+    "msisdn": "MSISDN",
+    "san": "Subscriber Account Number",
+    "ssm": "Subscription Management",
+    "ssm_offers": "Offers",
+    "service": "Service"
+  },
+  "Login": {
+    "PageHeader": "Login",
+    "RememberMe": "Remember me",
+    "Texts": {
+      "Welcome": "Welcome to DSP Admin Portal.",
+      "PleaseSignin": "Please sign in to get access.",
+      "InvalidUsernamePassword": "Invalid username or password. Please try again.",
+      "UnauthorizedToLogin": "User has no permission to login!",
+      "InvalidCaptcha": "Invalid captcha. Please try again."
+    },
+    "Form": {
+      "Username": {
+        "Label": "Username",
+        "Messages": {
+          "Required": "Please enter username."
+        }
+      },
+      "Password": {
+        "Label": "Password",
+        "Messages": {
+          "Required": "Please enter password."
+        }
+      },
+      "Captcha": {
+        "Placeholder": "Enter the contents of image",
+        "Messages": {
+          "Required": "Please enter the captcha text."
+        }
+      }
+    },
+    "ForgotPassword": {
+      "Title": "Forgot Password",
+      "Header": "Password Reset",
+      "Description": "We'll email you instructions on how to reset your password.",
+      "ConfirmHeader": "Change Password",
+      "ConfirmDescription": "Enter your new password below.",
+      "YourUsername": "Your Username",
+      "ResetPassword": "Reset Password",
+      "BackToLogin": "Back to Login",
+      "Password": "Password",
+      "ConfirmPassword": "Confirm Password",
+      "Messages": {
+        "UsernameRequired": "Please enter your username.",
+        "Completed": "Password reset request successfully sent. Please check your inbox to confirm the activity.",
+        "PasswordResetCompleted": "Your password changed successfully. You can login with your username and new password now.",
+        "ConfirmationCodeInvalid": "The confirmation code is invalid or expired."
+      }
+    }
+  },
+  "Logout": {
+    "MenuLabel": "Logout"
+  },
+  "GenericTabs": {
+    "Dashboards": "Dashboard",
+    "Advertisements": "Advertisements",
+    "Templates": "Templates",
+    "Operations": "Operations",
+    "Configuration": "Configuration",
+    "Diagnostics": "Diagnostics",
+    "Reporting": "Reporting",
+    "Performance": "Performance",
+    "ScreeningLists": "Screening Lists",
+    "Troubleshooting": "Troubleshooting",
+    "Monitoring": "Monitoring",
+    "Campaigns": "Campaigns"
+  },
+  "Dashboard": {
+    "PageHeader": "Canvas<sup>®</sup> Digital Services Platform",
+    "Overview": {
+      "Header": "Overview",
+      "Subscribers": "Subscribers",
+      "ServiceProviders": "Partners",
+      "Services": "Services",
+      "ShortCodes": "Short Codes",
+      "Offers": "Offers",
+      "OfferSubscriptions": "Subscriptions",
+      "Projects": "Projects",
+      "Departments": "Departments",
+      "Teams": "Teams",
+      "UserAccounts": "User Accounts"
+    },
+    "Platform": {
+      "Header": "Platform",
+      "Clusters": "Clusters",
+      "Hosts": "Hosts",
+      "AllHostsUp": "All Hosts Up",
+      "AllHostsDown": "All Hosts Down",
+      "SomeHostsUp": "Some Hosts Up",
+      "AllClustersUp": "All Clusters Up",
+      "AllClustersDown": "All Clusters Down",
+      "SomeClustersUp": "Some Clusters Up",
+      "Unknown": "Unknown"
+    },
+    "ClustersHosts": {
+      "Header": "Clusters / Hosts",
+      "TableColumns": {
+        "HostName": "Host Name",
+        "CPU": "CPU Idle",
+        "RAM": "MEM Free",
+        "IO": "I/O Wait"
+      }
+    },
+    "ProductsSubsystems": {
+      "Header": "Products / Subsystems",
+      "ApiManager": "API Manager",
+      "BulkMessaging": "Campaign Management",
+      "OTPServer": "OTP Server",
+      "ChargingGateway": "Charging Gateway",
+      "MessagingGateway": "Messaging Gateway",
+      "DCB": "Direct Carrier Billing",
+      "Provisioning": "Provisioning",
+      "ScreeningManagement": "Screening Management",
+      "SubscriptionManagement": "Subscription Management",
+      "ContentManagement": "Content Management"
+    }
+  },
+  "ScreeningLists": {
+    "ScreeningInformation": "Screening Information",
+    "ScreeningRule": "Screening Rule",
+    "ScreeningRuleConfiguration": "Screening Rules",
+    "VasApplications": "Application Name",
+    "WhiteList": "White List",
+    "BlackList": "Black List",
+    "AddForm": {
+      "BlackListTitle": "Add New Black List Entry",
+      "WhiteListTitle": "Add New White List Entry",
+      "Messages": {
+        "Required": "Field is required.",
+        "Numeric": "Field should be numeric.",
+        "InvalidPhoneNumber": "Please enter a valid MSISDN value.",
+        "InvalidNumericPrefixRegex": "Please enter a valid numeric prefix.",
+        "InvalidRangeNumber": "Please enter a valid number range. Check length of the value.",
+        "ItemAvailable": "The value is already available in the list. Please check."
+      },
+      "MSISDN": {
+        "Placeholder": "e.g., 966561234567 or 966561234567-966561234568"
+      },
+      "SAN": {
+        "Placeholder": "e.g., 992011062246373249 or 992011062246373249-992011062246373250"
+      },
+      "Identifier": {
+        "Label": "Identifier"
+      },
+      "ScreenableEntryId": {
+        "Label": "Value"
+      },
+      "ScreenableCorrelator": {
+        "Label": "Description"
+      }
+    },
+    "Identifiers": {
+      "MSISDN": "MSISDN",
+      "SAN": "SAN"
+    },
+    "Messages": {
+      "ScreeningInformationNotFound": "Screening information could not be found!",
+      "NotFound": "Are you sure you want to delete this item <strong>{{value}}</strong> ({{identifier}})?",
+      "DeleteConfirmationMessage": "Are you sure you want to delete this item <strong>{{value}}</strong> ({{identifier}})?",
+      "DeletedSuccessfully": "Item has been deleted successfully <strong>{{value}}</strong> ({{identifier}}).",
+      "AddedSuccessfully": "Item has been added successfully <strong>{{value}}</strong> ({{identifier}}).",
+      "BlackListed": "The number black listed <strong>{{value}}</strong>.",
+      "NotBlackListed": "The number not black listed <strong>{{value}}</strong>.",
+      "WhiteListed": "The number white listed <strong>{{value}}</strong>.",
+      "NotWhiteListed": "The number not white listed <strong>{{value}}</strong>.",
+      "ScreeWithoutIdentifier": "Item has been added successfully <strong>{{value}}</strong>.",
+      "QuotaExceeded": "New item <strong>{{value}}</strong> should not be added. There should be maximum <strong>{{count}}</strong> item in the list.",
+      "QuotaExceededWithoutCount": "New item <strong>{{value}}</strong> should not be added. The maximum list quota is exceeded.",
+      "ValueIsInvalid": "Value <strong>{{value}}</strong> is invalid.",
+      "ScreeningRuleUpdatedSuccessfully": "Screening rules updated successfully."
+    },
+    "Global": {
+      "MenuLabel": "Global",
+      "PageHeader": "Global"
+    },
+    "Incoming": {
+      "MenuLabel": "Incoming Traffic",
+      "PageHeader": "Incoming Traffic"
+    },
+    "Outgoing": {
+      "MenuLabel": "Outgoing Traffic",
+      "PageHeader": "Outgoing Traffic"
+    },
+    "VASApps": {
+      "MenuLabel": "Per Application",
+      "PageHeader": "Per Application",
+      "Messages": {
+        "VasAppsNotFound": "No VAS application exists."
+      }
+    },
+    "TableColumns": {
+      "Identifier": "Identifier",
+      "ScreenableEntryId": "Value",
+      "ScreenableCorrelator": "Description",
+      "BlackListed": "Black Listed",
+      "WhiteListed": "White Listed"
+    },
+    "Screenings": {
+      "Title": "Screening Lists",
+      "ScreeningPreferencesTitle": "Screening Lists [Subscriber = {{subscriber}}]",
+      "Scope": "Scope",
+      "ShowConstraints": "Show Constraints",
+      "ConstraintsTitle": "Constraints [Scope = {{scopeId}}]",
+      "Label": "Correlator Information",
+      "Rule": "Rule",
+      "ShowWhitelist": "Show Whitelist",
+      "WhiteList": "White List [Scope = {{scopeId}}]",
+      "ShowBlacklist": "Show Blacklist",
+      "BlackList": "Black List [Scope = {{scopeId}}]",
+      "TimeConstraint": "Time Constraint Type",
+      "AbsoluteTimeConstraint": "Absolute Time",
+      "RecurringTimeConstraint": "Recurring Time",
+      "Active": "Time Constraint Activated",
+      "StartTime": "Start Time",
+      "EndTime": "End Time",
+      "DaysOfWeek": "Days of Week",
+      "NoConstraint": "No constraint",
+      "ScopeOrders": "Order of Execution"
+    }
+  },
+  "Products": {
+    "MenuLabel": "Products",
+    "ApiManager": {
+      "MenuLabel": "API Manager",
+      "PageHeader": "Canvas<sup>®</sup> API Manager",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "APIs",
+          "Tile2": "Daily API Calls",
+          "Tile3": "Offers",
+          "Tile4": "Subscriptions",
+          "Tile5": "Applications",
+          "Tile6": "Developers"
+        },
+        "Charts": {
+          "Chart1": "Top APIs by Usage",
+          "Chart2": "Top Offers by Usage",
+          "Chart3": "Top Applications by Usage"
+        }
+      },
+      "Operations": {
+        "Services": {
+          "Title": "Services",
+          "TableColumns": {
+            "Id": "Service ID",
+            "Name": "Service Name",
+            "Description": "Description",
+            "Password": "Password",
+            "OrganizationId": "Partner ID",
+            "Organization": "Partner",
+            "State": "State"
+          },
+          "AccessRights": {
+            "Title": "Access Rights [Service = {{serviceName}}]",
+            "Operations": "Web Services / Operations",
+            "Grant": "Grant",
+            "Deny": "Deny"
+          }
+        }
+      },
+      "Troubleshooting": {
+        "FilterForm": {
+          "Api": "API",
+          "Method": "API Method",
+          "Developer": "Developer",
+          "Application": "Application",
+          "ClientAddress": "Source IP Address",
+          "HttpUri": "Destination IP",
+          "Msisdn": "Subscriber Number",
+          "ClientTrxId": "Client Transaction ID",
+          "ServerTrxId": "Server Transaction ID"
+        },
+        "TableColumns": {
+          "Application": "Application",
+          "Date": "Date and Time",
+          "Developer": "Developer",
+          "Api": "API",
+          "Method": "API Method",
+          "EventType": "Event Type",
+          "Status": "Status",
+          "TransactionId": "Transaction ID",
+          "DeveloperId": "Developer ID",
+          "ApplicationId": "Application ID",
+          "ApiId": "API ID",
+          "Host": "Host",
+          "Organization": " Organization",
+          "ApiVersion": "Version",
+          "Endpoint": "Endpoint",
+          "Offer": "Offer",
+          "SubscriptionId": "Subscription ID",
+          "ClientAddress": "Client Address [Source IP]",
+          "DeviceType": "Device Type",
+          "ContentType": "Content Type",
+          "ContentLength": "Content Length",
+          "ReqRspContentLength": "Req/Rsp Content Length",
+          "TotalContentLength": "Total Content Length",
+          "TotalReqRspContentLength": "TOtal Req/Rsp Content Length",
+          "Duration": "Duration",
+          "EndpointTotalDuration": "Total Duration",
+          "HttpMethod": "Http Method",
+          "HttpUri": "Http Uri",
+          "HttpProtocol": "Http Protocol",
+          "SoapAction": "Soap Action",
+          "HttpStatusCode": "Http Status Code",
+          "EdrDate": "Edr Date and Time",
+          "EdrType": "Edr Type",
+          "ApiMethod": "API Method",
+          "OrganizationId": " OrganizationId",
+          "ApiNameVersion": "API Name Version",
+          "OfferId": "Offer ID",
+          "ErrorCode": "Error Code",
+          "EndpointsTotalDuration": "Endpoint's Total Duration",
+          "RequestContentLength": "Request Content Length",
+          "ResponseContentLength": "Response Content Length",
+          "EndpointsTotalRequestContentLength": "Endpoint's Total Request Content Length",
+          "EndpointsTotalResponseContentLength": "Endpoint's Total Response Content Length",
+          "EndpointsTotalContentLength": "Endpoint's Total Content Length",
+          "Https": "Https",
+          "Message": "Message",
+          "Msisdn": "Subscriber Number",
+          "ClientTrxId": "Client Transaction ID",
+          "ServerTrxId": "Server Transaction ID",
+          "StartDate": "Start Date and Time",
+          "CompletionDate": "Completion Date and Time"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the event."
+        },
+        "Details": {
+          "PageHeader": "API Details [Developer = {{devName}}; Application = {{appName}}; API = {{apiName}} - {{versionName}}]",
+          "ViewContent": "View Content",
+          "Content": {
+            "PageHeader": "Content [Developer = {{devName}}; Application = {{appName}}; API = {{apiName}} - {{versionName}}]"
+          }
+        },
+        "History": {
+          "PageHeader": "API History [Developer = {{devName}}; Application = {{appName}}; API = {{apiName}} - {{versionName}}]"
+        }
+      }
+    },
+    "BulkMessaging": {
+      "MenuLabel": "Campaign Management",
+      "PageHeader": "Canvas<sup>®</sup> Campaign Management",
+      "BulkSMS": {
+        "Title": "Bulk SMS"
+      },
+      "BulkMMS": {
+        "Title": "Bulk MMS",
+        "MMSComposer": "MMS Composer"
+      },
+      "BulkIVR": {
+        "Title": "Bulk IVR"
+      },
+      "BulkInteractiveSMS": {
+        "Title": "Bulk Int. SMS"
+      },
+      "BulkInteractiveIVR": {
+        "Title": "Bulk Int. IVR"
+      },
+      "ChargingStages": {
+        "Submit": "Submit",
+        "Delivery": "Delivery"
+      },
+      "Dashboards": {
+        "SMS": {
+          "Tiles": {
+            "Tile1": "SMS Submitted",
+            "Tile2": "SMS Accepted",
+            "Tile3": "SMS Delivered",
+            "Tile4": "SMS Failed",
+            "Tile5": "SMS Queued",
+            "Tile6": "SMS Reserved"
+          },
+          "Charts": {
+            "Chart1": "SMS Traffic by Organization",
+            "Chart2": "SMS Traffic by User",
+            "Chart3": "SMS Failure Reasons"
+          }
+        },
+        "MM1": {
+          "Tiles": {
+            "Tile1": "MSG Submitted",
+            "Tile2": "MSG Accepted",
+            "Tile3": "MSG Delivered",
+            "Tile4": "MSG Failed",
+            "Tile5": "MMS Read",
+            "Tile6": "MMS Downloaded"
+          },
+          "Charts": {
+            "Chart1": "MMS Traffic by Organization (MM1)",
+            "Chart2": "MMS Traffic by User (MM1)",
+            "Chart3": "MMS Failure Reasons (MM1)"
+          }
+        },
+        "MM7": {
+          "Tiles": {
+            "Tile1": "MMS Submitted",
+            "Tile2": "MMS Accepted",
+            "Tile3": "MMS Delivered",
+            "Tile4": "MMS Failed",
+            "Tile5": "MMS Read",
+            "Tile6": "MMS Downloaded"
+          },
+          "Charts": {
+            "Chart1": "MMS Traffic by Organization (MM7)",
+            "Chart2": "MMS Traffic by User (MM7)",
+            "Chart3": "MMS Failure Reasons (MM7)"
+          }
+        },
+        "IVR": {
+          "Tiles": {
+            "Tile1": "IVR Submitted",
+            "Tile2": "IVR Accepted",
+            "Tile3": "IVR Delivered",
+            "Tile4": "IVR Failed",
+            "Tile5": "IVR Queued",
+            "Tile6": "IVR Reserved"
+          },
+          "Charts": {
+            "Chart1": "IVR Traffic by Organization",
+            "Chart2": "IVR Traffic by User",
+            "Chart3": "IVR Failure Reasons"
+          }
+        }
+      },
+      "Campaigns": {
+        "Tiles": {
+          "Tile1": "Running",
+          "Tile2": "Completed",
+          "Tile3": "Paused",
+          "Tile4": "Cancelled",
+          "Tile5": "Scheduled",
+          "Tile6": "Reserved"
+        },
+        "Charts": {
+          "Chart1": "by Organization",
+          "Chart2": "by User",
+          "Chart3": "by Type"
+        },
+        "Running": "Running Campaigns",
+        "Scheduled": "Scheduled Campaigns",
+        "Completed": "Completed Campaigns",
+        "Cancelled": "Cancelled Campaigns"
+      },
+      "Configuration": {
+        "Settings": {
+          "Title": "Settings",
+          "Common": {
+            "Title": "Common"
+          },
+          "MsisdnRegex": "MSISDN Pattern (regular expression)",
+          "ChargingStage": "Charging Stage",
+          "MaxRetryCount": "Max Retry Count",
+          "BlackListEnabled": "Screening Enabled",
+          "ComposerChargingStatus": "MMS Composer Charging Enabled",
+          "MM7Enabled": "MM7 Interface Enabled",
+          "MM7SocketTimeout": "MM7 Socket Timeout (sec)",
+          "MM7RouteList": "MM7 Route List",
+          "TargetURL": "Reverse Proxy Target URL",
+          "TargetHost": "Reverse Proxy Target Host",
+          "TargetPort": "Reverse Proxy Target Port",
+          "PrepaidSenderAllowed": "Prepaid Sender Allowed",
+          "DailyLimitEnabled": "Daily Limit Enforced",
+          "DailyLimit": "Daily Limit (msg/day)",
+          "MessageExpiryDuration": "Message Expiry Duration (msec)",
+          "MessageExpiredSubject": "Message Expired Subject"
+        }
+      },
+      "Operations": {
+        "Campaigns": {
+          "Title": "Campaigns",
+          "AnnouncementModalTitle": "Add New Announcement",
+          "Characters": "Characters",
+          "Parts": "Parts",
+          "Fields": {
+            "From": "Sender",
+            "OffnetSenders": "Offnet Sender(s)",
+            "ScreeningListType": "Screening List Type",
+            "ScreeningListName": "Screening List Name",
+            "ListType": "Distribution List Type",
+            "To": "Distribution List Name",
+            "MessageContent": "Message Content",
+            "MaxRetryCount": "Max Retry Count",
+            "CampaignStatus": "Campaign Status",
+            "CampaignStatusBpms": "Campaign Task Status",
+            "CampaignId": "Campaign ID",
+            "CampaignName": "Campaign Name",
+            "CampaignStartDateTime": "Start Date & Time",
+            "ForceExpiryDate": "Enforce Expiration",
+            "CampaignExpiryDateTime": "Expiry Date & Time"
+          },
+          "EnforceScreening": "Enforce Screening",
+          "ScreeningLists": "Screening Lists",
+          "EnforceTimeConstraints": "Enforce Time Constraints",
+          "TimeConstraints": "Time Constraints",
+          "AllowOffNetDelivery": "Allow Off Net Delivery",
+          "PermissibleOffnetSendersTitle": "Permissible Off Net Senders [Campaign Name = {{campaignName}}]",
+          "AllowForwardTracking": "Allow Forward Tracking",
+          "DisableCharging": "Disable Charging",
+          "TimeConstraintTitle": "Time Constraint [Campaign Name = {{campaignName}}]",
+          "BlackListTitle": "Screening List [Campaign Name = {{campaignName}}]",
+          "BlackList": "Screening List",
+          "AnnouncementFiles": "Announcement",
+          "AnnouncementFilesTooltip": "Please add announcement audio files individually.",
+          "File": "File (max. 100MB)"
+        },
+        "InteractiveCampaigns": {
+          "Title": "Interactive Campaigns",
+          "ChoiceModalTitle": "Add New Choice",
+          "RuleModalTitle": "Add New Rule",
+          "QuestionAnswerModalTitle": "Add New Question",
+          "InteractivityTemplate": "Interactivity Template",
+          "IntroFiles": "Opening Announcement",
+          "PromotionInstructions": "Promotion Instructions",
+          "OutroFiles": "Closing Announcement",
+          "PromotedTone": "Promoted Tone",
+          "PromotedTones": "Promoted Tones",
+          "PromotionText": "Promotion Text",
+          "OptOutFiles": "Opt-Out Request Taken Acknowledgement",
+          "OptOutText": "Opt-Out Request Taken Acknowledgement",
+          "SuccessfulSubscriptionFiles": "Subscription Request Taken Acknowledgement",
+          "SuccessfulSubscriptionText": "Subscription Request Taken Acknowledgement",
+          "OptionFiles": "Choices",
+          "Questions": "Questions",
+          "Rules": "Rules",
+          "Question": "Question",
+          "Answer": "Answer",
+          "InvalidResponse": "Invalid Response",
+          "GoToQ": "Go to {{question}}",
+          "EndOfSurvey": "End of Survey",
+          "DTMFCodes": "DTMF Entries",
+          "DTMFCode": "DTMF Entry",
+          "File": "File (max. 100MB)",
+          "FilePrefix": "File",
+          "Files": "Announcement",
+          "IntroText": "Opening Text",
+          "OutroText": "Closing Text",
+          "ChoiceTexts": "Choices",
+          "ChoiceText": "Text",
+          "Keyword": "Keyword",
+          "Keywords": "Keywords",
+          "Identifier": "Identifier",
+          "Identifiers": "Identifiers",
+          "QuestionText": "Text",
+          "TryAndBuyEnabled": "Try & Buy Enabled",
+          "TrialPeriod": "Trial Period"
+        },
+        "DistributionLists": {
+          "Title": "Distribution Lists",
+          "ManageListContent": "Manage List Content",
+          "FieldNamesPlaceholder": "Field1,Field2,Field3...",
+          "TableColumns": {
+            "Id": "List ID",
+            "Name": "Name",
+            "Owner": "Owner ID",
+            "Size": "Size",
+            "FileAttachment": "File Attachment",
+            "FieldNames": "Other Field Names",
+            "CreationTime": "Created",
+            "UpdateTime": "Last Updated"
+          }
+        },
+        "ScreeningLists": {
+          "Title": "Screening Lists",
+          "ManageListContent": "Manage List Content",
+          "TableColumns": {
+            "Id": "List ID",
+            "Name": "Name",
+            "Owner": "Owner ID",
+            "Size": "Size",
+            "FileAttachment": "File Attachment",
+            "CreationTime": "Created",
+            "UpdateTime": "Last Updated"
+          }
+        },
+        "Policies": {
+          "MenuLabel": "Policies",
+          "PageHeader": "Policies",
+          "FlowControls": {
+            "Title": "Flow Controls"
+          },
+          "Quotas": {
+            "Title": "Quotas"
+          },
+          "TimeConstraints": {
+            "Title": "Time Constraints"
+          }
+        },
+        "Global": {
+          "Title": "Global"
+        },
+        "PerOrganization": {
+          "MenuHeader": "Per Organization",
+          "Title": "Per Organization [Organization = {{organizationName}}]"
+        },
+        "PerUser": {
+          "MenuHeader": "Per User",
+          "Title": "Per User [Organization = {{organizationName}}; User = {{userAccountName}}]"
+        },
+        "Messages": {
+          "GlobalBlackListNotFound": "There is no Global Black Lists!",
+          "GlobalWhiteListNotFound": "There is no Global White Lists!",
+          "OrganizationNotFound": "Organization not found!",
+          "UserNotFound": "User not found!",
+          "KeywordsIdentifiersDoNotMatch": "Keywords and Identifiers do not match.",
+          "DigitsIdentifiersDoNotMatch": "DTMF Entries and Identifiers do not match."
+        },
+        "Screenings": {
+          "Title": "Subscriber Screening Lists",
+          "ScreeningPreferences": "Preferences [Subscriber = {{subscriber}}]",
+          "Scope": "Scope",
+          "Rule": "Rule",
+          "Actions": "Actions",
+          "ShowConstraints": "Show Constraints",
+          "ShowWhitelist": "Show Whitelist",
+          "ShowBlacklist": "Show Blacklist",
+          "ConstraintsModalTitle": "Constraints [Scope = {{scope}}]",
+          "TimeConstraint": "Time Constraint Type",
+          "AbsoluteTimeConstraint": "Absolute Time",
+          "RecurringTimeConstraint": "Recurring Time",
+          "Active": "Time Constraint Activated",
+          "StartTime": "Start Time",
+          "EndTime": "End Time",
+          "DaysOfWeek": "Days of Week",
+          "HoursOfDay": "Hours of Day",
+          "NoConstraint": "No constraint",
+          "WhiteList": "White List [Scope = {{scope}}]",
+          "BlackList": "Black List [Scope = {{scope}}]",
+          "Label": "Correlator Information"
+        }
+      },
+      "Troubleshooting": {
+        "History": {
+          "BulkSMSPageHeader": "Bulk SMS Campaign History [Job ID = {{jobId}}]",
+          "BulkMMSPageHeader": "Bulk MMS Campaign History [Job ID = {{jobId}}]",
+          "BulkIVRPageHeader": "Bulk IVR Campaign History [Job ID = {{jobId}}]"
+        },
+        "TableColumns": {
+          "Date": "Date and Time",
+          "StartDate": "Start Date and Time",
+          "EndDate": "End Date and Time",
+          "HistoryEventDate": "Event Date and Time",
+          "Organization": "Organization",
+          "User": "User",
+          "CampaignId": "Campaign ID",
+          "Campaign": "Campaign",
+          "CampaignStatus": "Job Status",
+          "Channel": "Channel",
+          "From": "Sender",
+          "To": "Distribution List",
+          "DistributionListSize": "Distribution List Size",
+          "ScreeningList": "Screening Lists",
+          "JobDescription": "Description",
+          "JobSenderMsisdn": "Sender MSISDN",
+          "ChargingDisabled": "Charging Disabled",
+          "OffNetEnabled": "Off Net Enabled",
+          "JobMaxRetryCount": "Max Retry Count",
+          "JobScheduleDate": "Start Date",
+          "JobExpiryEnabled": "Enforce Expiration",
+          "JobExpiryDate": "Expiry Date",
+          "JobLastUpdate": "Last Status Update",
+          "JobSubject": "Subject",
+          "JobMessage": "Message",
+          "RecipientCount": "Recipient Count"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the event.",
+          "HistoryEventDate": "Date and time of the history event.",
+          "CampaignStatus": "Status of the job."
+        },
+        "Details": {
+          "BulkSMSPageHeader": "Bulk SMS Campaign Details [Job ID = {{jobId}}]",
+          "BulkMMSPageHeader": "Bulk MMS Campaign Details [Job ID = {{jobId}}]",
+          "BulkIVRPageHeader": "Bulk IVR Campaign Details [Job ID = {{jobId}}]"
+        },
+        "Contents": {
+          "MessageContent": "Message Content",
+          "BulkSMSPageHeader": "Bulk SMS Campaign Message Content [Job ID = {{jobId}}]",
+          "BulkMMSPageHeader": "Bulk MMS Campaign Message Content [Job ID = {{jobId}}]",
+          "BulkIVRPageHeader": "Bulk IVR Campaign Message Content [Job ID = {{jobId}}]"
+        }
+      },
+      "Monitoring": {
+        "CampaignDetails": "Campaign Details",
+        "CampaignStats": "Campaign Stats",
+        "Running": "Running",
+        "Retrying": "Retrying",
+        "Completed": "Completed",
+        "Paused": "Paused",
+        "Cancelled": "Cancelled",
+        "Scheduled": "Scheduled",
+        "TableColumns": {
+          "Date": "Date and Time",
+          "Organization": "Organization",
+          "User": "User"
+        },
+        "Messages": {
+          "CancelMessage": "Please confirm to cancel campaign",
+          "PauseMessage": "Please confirm to pause campaign",
+          "ResumeMessage": "Please confirm to resume campaign"
+        }
+      },
+      "Composer": {
+        "NewPage": "Add New Page",
+        "RemovePage": "Remove Page",
+        "AddImage": "Add Image",
+        "AddVideo": "Add Video",
+        "AddAudio": "Add Audio",
+        "AddText": "Add Text",
+        "TotalPageCount": "Total page count"
+      },
+      "Messages": {
+        "CampaignCreateFlowError": "Error occurred while campaign creating. Please try again.",
+        "CampaignCreateFlowStartedSuccessful": "Your campaign create request successfully submitted. Please wait for approval.",
+        "CampaignCreateFlowStartedSuccessfulForAdmin": "Your campaign create request successfully submitted.",
+        "CampaignUpdateFlowError": "Error occurred while campaign updating. Please try again.",
+        "CampaignUpdateFlowStartedSuccessful": "Your campaign update request successfully submitted. Please wait for approval.",
+        "CampaignUpdateFlowStartedSuccessfulForAdmin": "Your campaign update request successfully submitted.",
+        "CampaignCancelFlowError": "Error occurred while campaign cancelling. Please try again.",
+        "CampaignCancelFlowStartedSuccessful": "Your campaign cancel request successfully submitted. Please wait for approval.",
+        "CampaignCancelFlowStartedSuccessfulForAdmin": "Your campaign cancel request successfully submitted.",
+        "SenderNumberRequired": "Please define sender number for the user account."
+      }
+    },
+    "ChargingGw": {
+      "MenuLabel": "Charging Gateway",
+      "PageHeader": "Canvas<sup>®</sup> Charging Gateway",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Debit Rate",
+          "Tile2": "Success Ratio",
+          "Tile3": "Reserved",
+          "Tile4": "Refund Rate",
+          "Tile5": "Success Ratio",
+          "Tile6": "Reserved"
+        },
+        "Charts": {
+          "Chart1": "Debit Transactions",
+          "Chart2": "Debit Amounts",
+          "Chart3": "Debit Failure Reasons",
+          "Chart4": "Refund Transactions",
+          "Chart5": "Refund Amounts",
+          "Chart6": "Refund Failure Reasons"
+        }
+      },
+      "Troubleshooting": {
+        "FilterForm": {
+          "Msisdn": "Subscriber Number",
+          "ServiceName": "Service"
+        },
+        "TableColumns": {
+          "Date": "Date and Time",
+          "Msisdn": "Subscriber Number",
+          "TransactionId": "Transaction ID",
+          "OrganizationId": "Partner ID",
+          "OrganizationName": "Partner",
+          "ServiceId": "Service ID",
+          "ServiceName": "Service",
+          "OfferId": "Offer ID",
+          "OfferName": "Offer",
+          "ClientCorrelator": "Client Correlator",
+          "Amount": "Total Charged",
+          "Currency": "Currency",
+          "ErrorCode": "Trx Result",
+          "Event": "Event Type",
+          "Channel": "Channel",
+          "Description": "Description",
+          "Unit": "Unit"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the event.",
+          "Msisdn": "Subscriber Msisdn.",
+          "ServiceName": "Service name and ID.",
+          "OrganizationName": "Organization name and ID.",
+          "ErrorCode": "Result of the transaction."
+        },
+        "Details": {
+          "PageHeader": "Charging Details [Subscriber Number = {{msisdn}}]"
+        },
+        "Refund": {
+          "Title": "Charging Refund [Subscriber Number = {{msisdn}}]",
+          "Description": "Refunded by {{username}} at {{timestamp}}",
+          "RefundConfirmationMessage": "Are you sure you want to refund <strong>{{amount}}</strong> {{currency}} amount for the charging record with this transaction ID <strong>{{transactionId}}</strong>?",
+          "RefundedSuccessfully": "<strong>{{amount}}</strong> {{currency}} amount for the charging with this transaction ID <strong>{{transactionId}}</strong> and timestamp <strong>{{timestamp}}</strong> has been refunded successfully.",
+          "ItemIsNotRefundable": "Charging with this transaction ID <strong>{{transactionId}}</strong> is not refundable!",
+          "Fields": {
+            "Date": "Date and Time",
+            "TransactionId": "Transaction ID",
+            "Amount": "Refund Amount",
+            "Channel": "Channel",
+            "Description": "Description",
+            "ClientCorrelator": "Client Correlator",
+            "TotalAmount": "Total Charged",
+            "RemainedAmount": "Remaining Amount"
+          }
+        }
+      }
+    },
+    "DirectCarrierBilling": {
+      "MenuLabel": "Direct Carrier Billing",
+      "PageHeader": "Canvas<sup>®</sup> Direct Carrier Billing",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Charge Rate",
+          "Tile2": "Success Ratio",
+          "Tile3": "Reserved",
+          "Tile4": "Refund Rate",
+          "Tile5": "Success Ratio",
+          "Tile6": "Reserved"
+        },
+        "Charts": {
+          "Chart1": "Charge Transactions",
+          "Chart2": "Charge Amounts",
+          "Chart3": "Charge Failure Reasons",
+          "Chart4": "Refund Transactions",
+          "Chart5": "Refund Amounts",
+          "Chart6": "Refund Failure Reasons"
+        }
+      },
+      "Configuration": {
+        "Settings": {
+          "Title": "Settings",
+          "ReconciliationPolicies": "Reconciliation Policies"
+        }
+      },
+      "Templates": {
+        "Title": "DCB Templates",
+        "DCBProfile": "DCB Profile",
+        "ServiceMessages": "Service Messages",
+        "ServiceInvoiceMessages": "Service Invoice Messages"
+      },
+      "Troubleshooting": {
+        "SearchBy": "Search by key fields",
+        "FilterForm": {
+          "Msisdn": "Subscriber Number",
+          "ServiceName": "Service",
+          "CdrType": "Result",
+          "Successful": "Successful",
+          "Unsuccessful": "Unsuccessful"
+        },
+        "TableColumns": {
+          "Date": "Date and Time",
+          "Msisdn": "Subscriber Number",
+          "ServiceId": "Service ID",
+          "ServiceName": "Service",
+          "Account": "Account",
+          "AccountNumber": "Account Number",
+          "Amount": "Amount",
+          "CdrType": "Event Type",
+          "Channel": "Channel",
+          "ChargeRequestId": "Charge Request ID",
+          "ChargeAmount": "Charge Amount",
+          "ChargeClientTransactionId": "Charge Aggregator ID",
+          "ChargeCurrency": "Charge Currency",
+          "ClientCorrelator": "CHGW Client Correlator ID",
+          "ClientTransactionId": "Aggregator ID",
+          "Currency": "Currency",
+          "ErrorCode": "Error Code",
+          "ErrorMessage": "Error Message",
+          "MerchantId": "Merchant ID",
+          "RequestId": "Merchant ID",
+          "Partial": "Partial",
+          "ProductDescription": "Product Description",
+          "Reason": "Reason",
+          "RefType": "Reference Type",
+          "TaxAmount": "Tax Amount",
+          "TransactionId": "CHGW Transaction ID",
+          "UUID": "Operator ID",
+          "Silent": "Silent",
+          "Reverse": "Reverse",
+          "CarrierRefundTransactionId": "Operator Refund ID",
+          "RefundTransactionId": "CHGW Refund Transaction ID",
+          "RefundClientCorrelator": "CHGW Refund Client Correlator ID",
+          "RefundClientTransactionId": "Aggregator Refund ID",
+          "RefundChargeTransactionId": "CHGW Charge Transaction ID",
+          "RefundAmount": "Refund Amount",
+          "RefundDate": "Refund Date",
+          "RefundReason": "Refund Reason",
+          "RefundRequestId": "Merchant Refund ID"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the event",
+          "Msisdn": "Subscriber MSISDN",
+          "ServiceName": "Service name and ID"
+        },
+        "Details": {
+          "PageHeader": "Charging Details [Subscriber Number = {{msisdn}}]"
+        },
+        "RefundHistory": {
+          "Title": "Refund History",
+          "PageHeader": "Refund History [MSISDN: {{msisdn}}, Operator Charge ID = {{carrierChargeTransactionId}}]"
+        },
+        "RefundDetails": {
+          "PageHeader": "Refund Details [MSISDN: {{msisdn}}; Operator Charge ID = {{carrierChargeTransactionId}}]"
+        }
+      }
+    },
+    "OTP": {
+      "MenuLabel": "One-Time Password",
+      "PageHeader": "Canvas<sup>®</sup> One-Time Password",
+      "Troubleshooting": {
+        "OTPMessageContent": {
+          "PageHeader": "SMS Content [Orig. Address = {{origAddress}}; Orig. Agent = {{origAgent}}]",
+          "Content": "Message Content"
+        },
+        "OTPDetails": {
+          "PageHeader": "SMS Details [Orig. Address = {{origAddress}}; Orig. Agent = {{origAgent}}]"
+        },
+        "OTPMessageDeliveryReport": {
+          "PageHeader": "SMS Delivery Report [Orig. Address = {{origAddress}}; Orig. Agent = {{origAgent}}]"
+        }
+      }
+    },
+    "MessagingGw": {
+      "MenuLabel": "Messaging Gateway",
+      "PageHeader": "Canvas<sup>®</sup> Messaging Gateway",
+      "Dashboards": {
+        "SMS": {
+          "Tiles": {
+            "Tile1": "A2P SMS Rate",
+            "Tile2": "Success Ratio",
+            "Tile3": "Reserved",
+            "Tile4": "P2A SMS Rate",
+            "Tile5": "Success Ratio",
+            "Tile6": "Reserved"
+          },
+          "Charts": {
+            "Chart1": "SMS Traffic Mix [A2P]",
+            "Chart2": "SMS Traffic Mix [P2A]",
+            "Chart3": "SMS Delivery Failure Reasons"
+          }
+        },
+        "MMS": {
+          "Tiles": {
+            "Tile1": "A2P MMS Rate",
+            "Tile2": "Success Ratio",
+            "Tile3": "Reserved",
+            "Tile4": "P2A MMS Rate",
+            "Tile5": "Success Ratio",
+            "Tile6": "Reserved"
+          },
+          "Charts": {
+            "Chart1": "MMS Traffic Mix [A2P]",
+            "Chart2": "MMS Traffic Mix [P2A]",
+            "Chart3": "MMS Delivery Failure Reasons"
+          }
+        }
+      },
+      "Operations": {
+        "RoutingTables": {
+          "Title": "Routing Tables",
+          "SetRoutingPattern": "Set Routing Pattern",
+          "RoutingTest": {
+            "Title": "Routing Test",
+            "Address": "Address",
+            "Text": "Text",
+            "ServiceId": "Service ID",
+            "ServiceName": "Service Name"
+          },
+          "ApplicationRouting": {
+            "MenuLabel": "Services",
+            "PageHeader": "Services",
+            "RoutingPattern": "Routing Pattern [Service = {{service}}, Start Address = {{start}}; End Address = {{end}}]"
+          },
+          "TableColumns": {
+            "SMPPApplication": "Service Name",
+            "Organization": "Partner",
+            "AgentName": "Agent Name",
+            "Start": "Start Address",
+            "End": "End Address",
+            "Context": "Context",
+            "Method": "Method",
+            "MatchingPattern": "Match Pattern"
+          },
+          "Messages": {
+            "AlreadyDefinedError": "Routing already defined with this routing destination address range <strong>{{range}}</strong>, please change the range.",
+            "RangeOverlappedError": "Overlap detected with the following routing destination address range <strong>{{range}}</strong>, please change the range.",
+            "RoutingPatternAlreadyDefinedError": "Routing Pattern already defined <strong>{{pattern}}</strong>, please change."
+          }
+        },
+        "KeywordScreening": {
+          "Title": "Keyword Screening Lists",
+          "TableColumns": {
+            "Action": "Operation",
+            "Pattern": "Pattern",
+            "Replace": "Replacement"
+          },
+          "Messages": {
+            "AlreadyDefinedError": "Keyword already defined with this pattern <strong>{{pattern}}</strong>, please check the list."
+          }
+        }
+      },
+      "Troubleshooting": {
+        "SMS": "SMS Records",
+        "MMS": "MMS Records",
+        "FilterForm": {
+          "OrigAddress": "Orig. Address",
+          "DestAddress": "Dest. Address",
+          "OrigAgent": "Orig. Agent",
+          "DestAgent": "Dest. Agent",
+          "DeliveryStatus": "Delivery Status"
+        },
+        "TableColumns": {
+          "Date": "Date and Time",
+          "EventDate": "Event Date and Time",
+          "ChargingEventDate": "Charging Event Date and Time",
+          "OrigAddress": "Orig. Address",
+          "DestAddress": "Dest. Address",
+          "OrigAgent": "Orig. Agent",
+          "DestAgent": "Dest. Agent",
+          "OrigAgentId": "Orig. Agent ID",
+          "DestAgentId": "Dest. Agent ID",
+          "OrigAgentName": "Orig. Agent Name",
+          "DestAgentName": "Dest. Agent Name",
+          "CdrType": "Event Type",
+          "Result": "Trx Result",
+          "CspTrxId": "Transaction ID",
+          "ConcatInfo": "Concat Info",
+          "Dcs": "DCS",
+          "MsgLength": "Message Length",
+          "DrRequested": "Delivery Report",
+          "CdrKey": "CDR Key",
+          "OrigAgentType": "Orig. Agent Type",
+          "DestAgentType": "Dest. Agent Type",
+          "Prepaid": "Prepaid",
+          "DedicatedSubAccount": "Dedicated Sub Account",
+          "Free": "Free",
+          "ChargingText": "Charging Text",
+          "ChargingFailureType": "Charging Failure Type",
+          "ChargingFailure": "Charging Failure",
+          "ChargedParty": "Charged Party",
+          "ChargingEvent": "Charging Event",
+          "TariffId": "Tariff ID",
+          "Subject": "Subject",
+          "MessageSize": "Message Size (bytes)",
+          "MessageClass": "Message Class",
+          "ReasonContext": "Reason Context",
+          "StatusCode": "Status Code",
+          "StatusText": "Status Text",
+          "Cost": "Cost"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the event.",
+          "ChargingEventDate": "Date and time of the charging event.",
+          "OrigAddress": "Sender (Originator) Address.",
+          "DestAddress": "Receiver (Destination) Address.",
+          "OrigAgent": "Sender (Originator) Agent",
+          "DestAgent": "Receiver (Destination) Agent",
+          "CdrType": "Type of the event.",
+          "Result": "Result of the SMS transaction.",
+          "ConcatInfo": "Part N/M [Part Reference Number].",
+          "Dcs": "Data Coding Scheme. Possible values are: <ul class=\"table-column-description-list\"><li><strong>0:</strong> SMSC Default Alphabet,</li><li><strong>1:</strong> IA5 (CCITT T.50)/ASCII (ANSI X3.4),</li><li><strong>2:</strong> Octet unspecified (8-bit binary),</li><li><strong>3:</strong> Latin 1 (ISO-8859-1),</li><li><strong>4:</strong> Octet unspecified (8-bit binary),</li><li><strong>5:</strong> JIS (X 0208-1990),</li><li><strong>6:</strong> Cyrllic (ISO-8859-5),</li><li><strong>7:</strong> Latin/Hebrew (ISO-8859-8),</li><li><strong>8:</strong> UCS2 (ISO/IEC-10646),</li><li><strong>9:</strong> Pictogram Encoding,</li><li><strong>10:</strong> ISO-2022-JP (Music Codes),</li><li><strong>11:</strong> Reserved,</li><li><strong>12:</strong> Reserved,</li><li><strong>13:</strong> Extended Kanji JIS(X 0212-1990),</li><li><strong>14:</strong> KS C 5601,</li><li><strong>15:</strong> Reserved.</li></ul>"
+        },
+        "MessageContent": {
+          "PageHeader": "{{pageKey}} Content [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]",
+          "Content": "Message Content"
+        },
+        "Details": {
+          "PageHeader": "{{pageKey}} Details [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]"
+        },
+        "MessageDeliveryReport": {
+          "PageHeader": "{{pageKey}} Delivery Report [Orig. Address = {{origAddress}}; Dest. Address = {{destAddress}}]",
+          "Date": "Report Date and Time",
+          "MessageState": "Message State",
+          "ExpiryTime": "Expiry Time",
+          "MmStatusCode": "MM Status Code",
+          "NotFound": "Message delivery report not found!"
+        }
+      }
+    }
+  },
+  "Subsystems": {
+    "MenuLabel": "Subsystems",
+    "BusinessManagement": {
+      "MenuLabel": "Business Management",
+      "PageHeader": "Canvas<sup>®</sup> Business Management Framework",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Projects",
+          "Tile2": "Business Types",
+          "Tile3": "Service Types",
+          "Tile4": "Agreements",
+          "Tile5": "Settlement Types",
+          "Tile6": "Channels"
+        },
+        "Charts": {
+          "Chart1": "Projects by Partner Type",
+          "Chart2": "Projects by Settlement Model",
+          "Chart3": "Projects by Revenue Source"
+        }
+      },
+      "Operations": {
+        "BusinessTypes": {
+          "Title": "Business Types",
+          "Id": "Business Type ID",
+          "Name": "Business Type Name",
+          "ServiceTypesModalTitle": "Service Types [Business Type = {{businessTypeName}}]",
+          "SettlementTypesModalTitle": "Settlement Types [Business Type = {{businessTypeName}}]",
+          "PartnerTypesModalTitle": "Partner Types [Business Type = {{businessTypeName}}]",
+          "ProjectsModalTitle": "Projects [Business Type = {{name}}]",
+          "ShowProjects": "Show Projects",
+          "ApplicantScope": "Applicant Scope",
+          "PartnerType": "Partner Type",
+          "AgreementID": "Agreement",
+          "BadDebtDeducted": "Bad Debt Tax Deducted",
+          "ProjectID": "Project",
+          "ChannelID": "Channel",
+          "ServiceTypes": "Service Types",
+          "SettlementTypes": "Settlement Types",
+          "AgreementType": "Agreement Type",
+          "CompanyProfileDocReq": "Company Profile Document",
+          "CORDocReq": "COR Document",
+          "POACopyDocReq": "POA Copy Document",
+          "CITCLicenseDocReq": "CITC License Document",
+          "MOCILicenseDocReq": "MOCI License Document"
+        },
+        "Projects": {
+          "Title": "Projects",
+          "Id": "Project ID",
+          "Name": "Project Name",
+          "ShowUserAccounts": "Show User Accounts",
+          "UserAccountsModalTitle": "User Accounts [Project = {{name}}]",
+          "BusinessTypesModalTitle": "Business Types [Project = {{projectName}}]",
+          "BusinessTypes": "Business Types",
+          "AdminAccount": "Admin Account",
+          "UserAccounts": "User Accounts"
+        },
+        "Channels": {
+          "Title": "Channels",
+          "Id": "Channel ID",
+          "Name": "Channel Name",
+          "ShowServiceTypes": "Show Service Types",
+          "ShowBusinessTypes": "Show Business Types",
+          "ServiceTypesModalTitle": "Service Types [Channel = {{name}}]",
+          "BusinessTypesModalTitle": "Business Types [Channel = {{name}}]"
+        },
+        "ServiceTypes": {
+          "Title": "Service Types",
+          "Id": "Service Type ID",
+          "Name": "Service Type Name",
+          "ShowBusinessTypes": "Show Business Types",
+          "BusinessTypesModalTitle": "Business Types [Service Type = {{name}}]",
+          "ProvisionsModalTitle": "Provisions [Service Type = {{name}}]",
+          "ChannelID": "Channel",
+          "OriginalName": "Original Name",
+          "OriginalCategory": "Original Category",
+          "Provision": "Provision"
+        },
+        "SettlementTypes": {
+          "Title": "Settlement Types",
+          "Id": "Settlement Type ID",
+          "Name": "Settlement Type Name",
+          "ShowBusinessTypes": "Show Business Types",
+          "BusinessTypesModalTitle": "Business Types [Settlement Type = {{name}}]",
+          "RevenueSource": "Revenue Source",
+          "SettlementModel": "Settlement Model",
+          "CarrierPartnerPercentage": "Carrier / Partner Percentage (%)",
+          "IsPartnerSpecific": "Partner Specific",
+          "Partners": "Partners",
+          "RevenueRanges": {
+            "Title": "Revenue Range [Settlement Type = {{name}}]",
+            "RevenueRanges": "Revenue Ranges",
+            "OrderNo": "Order No",
+            "StartEndPoint": "Start / End Point"
+          }
+        },
+        "Agreements": {
+          "Title": "Agreements",
+          "Id": "Agreement ID",
+          "Name": "Agreement Name",
+          "ShowBusinessTypes": "Show Business Types",
+          "BusinessTypesModalTitle": "Business Types [Agreement Type = {{name}}]",
+          "Type": "Type",
+          "CMSContentID": "Legal Contract"
+        },
+        "ServiceCategories": {
+          "Title": "Service Categories",
+          "Id": "Category ID",
+          "Name": "Category Name",
+          "ManageSubCategories": "Manage Sub Categories",
+          "SubCategories": "Sub Categories [Category = {{serviceCategoryName}}]",
+          "SubCategoryId": "Sub Category ID",
+          "SubCategoryName": "Sub Category Name",
+          "NameIsAlreadyUsed": "The entered name is already used. Please write another one."
+        },
+        "ServiceLabels": {
+          "Title": "Service Labels",
+          "Id": "Label ID",
+          "Name": "Label Name"
+        }
+      },
+      "Configuration": {
+        "Settings": {
+          "Title": "Settings",
+          "VAT": "Value Added Tax (%)",
+          "WithholdingTax": "Withholding Tax (%)",
+          "BadDebtTax": "Bad Debt Tax (%)"
+        }
+      }
+    },
+    "Provisioning": {
+      "MenuLabel": "Provisioning",
+      "PageHeader": "Canvas<sup>®</sup> Common Management and Provisioning Framework",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Partners",
+          "Tile2": "Services",
+          "Tile3": "Short Codes",
+          "Tile4": "Departments",
+          "Tile5": "Teams",
+          "Tile6": "User Accounts"
+        },
+        "Charts": {
+          "Chart1": "Services by Organization",
+          "Chart2": "Services by Status",
+          "Chart3": "Short Codes by Status"
+        }
+      },
+      "Organizations": "Organizations",
+      "Organization": {
+        "Id": "Organization ID",
+        "Name": "Organization Name",
+        "State": "State",
+        "Type": "Type"
+      },
+      "Operators": {
+        "Title": "Operators",
+        "Id": "Organization ID",
+        "Name": "Organization Name",
+        "Description": "Description",
+        "ParentName": "Parent Organization",
+        "State": "State",
+        "Type": "Type",
+        "ServicesModalTitle": "Services [Operator = {{name}}]",
+        "OffersModalTitle": "Offers [Operator = {{name}}]",
+        "ShowServiceProviders": "Show Partners",
+        "ServiceProvidersModalTitle": "Partners [Operator = {{name}}]",
+        "ContentMetadatasModalTitle": "Contents [Operator = {{name}}]"
+      },
+      "ServiceProviders": {
+        "Title": "Partners",
+        "Id": "Organization ID",
+        "Name": "Organization Name",
+        "ParentOrganization": "Parent Organization",
+        "Description": "Description",
+        "Type": "Type",
+        "State": "State",
+        "OrganizationModalTitle": "Parent Organization [Partner = {{name}}]",
+        "ServicesModalTitle": "Services [Partner = {{name}}]",
+        "ContentMetadatasModalTitle": "Contents [Partner = {{name}}]",
+        "OffersModalTitle": "Offers [Partner = {{name}}]",
+        "BusinessTypesModalTitle": "Business Types",
+        "SettlementTypesModalTitle": "Settlement Types [Business Type = {{businessTypeName}}]",
+        "SettlementTypeDetailsModalTitle": "Settlement Type Details",
+        "ShowContentMetadatas": "Show Contents",
+        "ServiceProviderProfile": {
+          "EffectiveDate": "Start Date",
+          "ExpiryDate": "End Date",
+          "IsBlacklisted": "Black Listed",
+          "CompanyAddressTitle": "Company Address",
+          "Address": "Address",
+          "POBox": "Postal Code",
+          "Country": "Country",
+          "Phone": "Phone",
+          "Fax": "Fax",
+          "WebSite": "Website",
+          "AccountDetailsTitle": "Account Details",
+          "ProviderSuffix": "Provider Suffix",
+          "AdminUserAccount": "Login Account",
+          "CRNO": "CR Number",
+          "SiteID": "Site ID",
+          "FTPAccount": "FTP Account",
+          "FTPPath": "FTP Path",
+          "FTPName": "FTP Name",
+          "FTPPassword": "FTP Password",
+          "CMSCompanyLogoID": "Company Logo (max. 20MB)",
+          "SettlementGroupID": "Settlement Group ID",
+          "SettlementReferenceNo": "Settlement Reference Number",
+          "WithholdingTaxDeducted": "Withholding Tax Deducted"
+        },
+        "Provideri18nProfile": {
+          "Title": "Company Info",
+          "NameEn": "Name (En.)",
+          "DescriptionEn": "Description (En.)",
+          "NameAr": "Name (Ar.)",
+          "DescriptionAr": "Description (Ar.)"
+        },
+        "ProviderContactsProfile": {
+          "Title": "Contact Details",
+          "CEOName": "CEO Name",
+          "CEOMobilePhone": "CEO Mobile Phone",
+          "CEOFixedPhone": "CEO Fixed Phone",
+          "CEOEmail": "CEO Email",
+          "AccContactName": "Accounting Contact Name",
+          "AccContactMobilePhone": "Accounting Contact Mobile Phone",
+          "AccContactFixedPhone": "Accounting Contact Fixed Phone",
+          "AccContactEmail": "Accounting Contact Email",
+          "TechContactName": "Technical Contact Name",
+          "TechContactPhone": "Technical Contact Phone",
+          "TechContactEmail": "Technical Contact Email",
+          "AltContactName": "Alternative Contact Name",
+          "AltContactPhone": "Alternative Contact Phone",
+          "AltContactEmail": "Alternative Contact Email"
+        },
+        "ProviderAuthProfile": {
+          "Title": "Authentication",
+          "HTTPAuthenticationType": "HTTP Authentication Policy",
+          "HTTPUsername": "HTTP Username",
+          "HTTPPassword": "HTTP Password",
+          "HTTPSourceIP": "Allowed Source IP(s)",
+          "HTTPSourceIPPlaceHolder": "e.g., 178.*.*.*,212.74.*.*",
+          "UsernameAvailable": "The Username that you have entered is already using by another service provider. Please check."
+        },
+        "ProviderRegistrationProfile": {
+          "Title": "Registration Details",
+          "RegistrationDate": "Registration Date",
+          "ApplicantName": "Applicant Name",
+          "Position": "Position",
+          "MobilePhone": "Mobile Phone",
+          "IsMobilePhoneVerified": "Mobile Phone Verified",
+          "Email": "Email",
+          "IsEmailVerified": "Email Verified",
+          "IsLegalAgreementAccepted": "Legal Agreement Accepted"
+        },
+        "LegalDocuments": {
+          "Title": "Legal Documents",
+          "SelectBusinessTypes": "Select Business Types",
+          "AddSettlementTypes": "Add Settlement Types",
+          "SelectBusinessType": "Select Business Type",
+          "LegalFilesType": "Legal File Type",
+          "MandatoryDocuments": "Legal Document (max. 20MB)",
+          "ValidityDate": "Validity Date"
+        },
+        "ProviderBankAccountProfile": {
+          "Title": "Bank Account Info",
+          "BankAccountName": "Bank Account Name",
+          "BankName": "Bank Name",
+          "Location": "Location",
+          "Country": "Country",
+          "BankAccountNumber": "Bank Account Number",
+          "BankAccountType": "Bank Account Type",
+          "AuthorizedPersonName": "Authorized Person Name",
+          "AuthorizedPersonMobilePhone": "Authorized Person Mobile Phone",
+          "SupplierID": "CP/SP Supplier ID"
+        },
+        "SMPPConnections": {
+          "Title": "SMPP Connections [Partner = {{name}}]",
+          "ShowSMPPConnections": "Show SMPP Connections",
+          "TerminateSMPPConnection": "Terminate SMPP Connection",
+          "ConfirmationTitle": "Confirmation [Remote IP = {{remoteIp}}, Remote Port = {{remotePort}}]",
+          "CreationDate": "Creation Date",
+          "SessionId": "Session ID",
+          "ContentProviderName": "Partner",
+          "BindType": "Bind Type",
+          "HostId": "Host ID",
+          "HostName": "Host Name",
+          "RemoteIp": "Remote IP",
+          "RemotePort": "Remote Port",
+          "Messages": {
+            "SMPPConnectionTerminateConfirmationMessage": "You are about to terminate the specified SMPP connection. Are you sure you want to continue?",
+            "SMPPConnectionTerminatedSuccessfully": "SMPP connection has been terminated successfully."
+          }
+        },
+        "Messages": {
+          "SuspendConfirmationMessage": "Are you sure you want to SUSPEND this partner?",
+          "ActivateConfirmationMessage": "Are you sure you want to UNSUSPEND this partner?",
+          "InactivateConfirmationMessage": "Are you sure you want to OFFLINE this partner?",
+          "HideConfirmationMessage": "Are you sure you want to HIDE this partner?",
+          "UnhideConfirmationMessage": "Are you sure you want to UNHIDE this partner?",
+          "PartnerUpdateFlowError": "Error occurred while partner information update. Please try again.",
+          "PartnerUpdateFlowStartedSuccessful": "Your partner information update request successfully submitted. Please wait for approval.",
+          "PartnerUpdateFlowStartedSuccessfulForAdmin": "Your partner information update request successfully submitted."
+        }
+      },
+      "BulkAccountOwner": "Bulk Account Owner",
+      "BulkAccountDetails": {
+        "Title": "Campaign Management",
+        "ContactPerson": "Contact Person",
+        "Name": "First Name",
+        "Surname": "Last Name",
+        "Email": "Email Address",
+        "Phone": "Phone Number",
+        "Fax": "Fax Number",
+        "WebSite": "Website URL",
+        "Address": "Address",
+        "SecretQuestion": "Secret Question",
+        "SecretQuestionCorrectAnswer": "Correct Answer",
+        "SecretQuestionCorrectAnswerConfirm": "Confirm Correct Answer",
+        "BulkMessagingPolicies": "Bulk Messaging Policies",
+        "BulkMessagingPoliciesModalTitle": "Bulk Messaging Policies [User Account = {{userName}}]",
+        "SMS": "Bulk SMS",
+        "MMS": "Bulk MMS",
+        "IVR": "Bulk IVR",
+        "Other": "Other Settings",
+        "AccountTypes": "Account Types",
+        "BulkMessagingPolicyProfile": {
+          "SenderMsisdn": "Sender MSISDN",
+          "ChargingMsisdn": "Charging MSISDN",
+          "IsOffNetDeliveryAllowed": "Off Net Delivery Allowed",
+          "IsOffnetSenderListRestricted": "Off Net Sender List Enabled",
+          "PermissibleOffnetSenders": "Permissible Off Net Senders",
+          "OffnetSenderTitle": "Permissible Off Net Sender [User Account = {{userName}}]",
+          "PermissibleOffnetSender": "Permissible Off Net Sender",
+          "IsAlphanumericSenderListRestricted": "Alphanumeric Sender List Enabled",
+          "PermissibleAlphanumericSenders": "Permissible Alphanumeric Senders",
+          "AlphanumericSenderTitle": "Permissible Alphanumeric Sender [User Account = {{userName}}]",
+          "PermissibleAlphanumericSender": "Permissible Alphanumeric Sender",
+          "IsTimeConstraintEnforced": "Time Constraint Enforced",
+          "TimeConstraints": "Time Constraints",
+          "TimeConstraintTitle": "Time Constraint [User Account = {{userName}}]",
+          "IsQuotaLimited": "Quota Limited",
+          "AvailableQuotaAmount": "Available Quota Amount",
+          "QuotaExpiryDate": "Quota Expiry Date & Time",
+          "QuotaStartDate": "Quota Start Date & Time",
+          "IsQuotaRefundedUponDeliveryFailure": "Quota Refunded Upon Delivery Failure",
+          "IsThroughputLimited": "Throughput Limited",
+          "ThroughputLimit": "Throughput Limit (tps)",
+          "IsApiAccessAllowed": "API Access Allowed",
+          "IsApiAccessEnabled": "API Access Enabled",
+          "IsDisableChargingAllowed": "Disable Charging Allowed",
+          "IsForwardTrackingAllowed": "Forward Tracking Allowed",
+          "IsIpAddressListRestricted": "IP Address List Restricted",
+          "IsModerated": "Moderated",
+          "PermissibleIpAddresses": "Permissible IP Addresses",
+          "IpAddressTitle": "Permissible IP Address [User Account = {{userName}}]",
+          "PermissibleIpAddress": "Permissible IP Address"
+        }
+      },
+      "BulkSMSPolicySettings": {
+        "Title": "Bulk SMS Policy Settings"
+      },
+      "BulkMMSPolicySettings": {
+        "Title": "Bulk MMS Policy Settings"
+      },
+      "BulkIVRPolicySettings": {
+        "Title": "Bulk IVR Policy Settings"
+      },
+      "Users": "Users",
+      "UserAccounts": {
+        "Title": "User Accounts",
+        "UserGroups": "User Groups",
+        "UserRights": "User Rights",
+        "ShowTeams": "Show Teams",
+        "ShowUserGroups": "Show User Groups",
+        "ShowUserRights": "Show User Rights",
+        "UserRightsModalTitle": "User Rights [User Account = {{userName}}]",
+        "UserContenViewRightsModalTitle": "Content View Rights [User Account = {{userName}}]",
+        "UserGroupsModalTitle": "User Groups [User Account = {{userName}}]",
+        "TeamsModalTitle": "Teams [User Account = {{name}}]",
+        "ProjectsModalTitle": "Projects [User Account = {{name}}]",
+        "RolesModalTitle": "Roles [User Account = {{name}}]",
+        "OrganizationsModalTitle": "Organization [User Account = {{name}}]",
+        "UserAccounts": "User Accounts",
+        "ShowRoles": "Show Roles",
+        "UserName": "Username",
+        "Type": "User Type",
+        "Id": "User ID",
+        "State": "State",
+        "DetailsTitle": "User Account Details",
+        "Name": "Name",
+        "Surname": "Surname",
+        "FixedPhone": "Fixed Phone",
+        "MobilePhone": "Mobile Phone",
+        "EffectiveDate": "Start Date",
+        "ExpiryDate": "End Date",
+        "Email": "Email",
+        "SupervisorEmail": "Supervisor's Email",
+        "IsPwdResetForcedAtFirstLogin": "Reset Password at First Login",
+        "ActiveDirectoryAuthentication": "Authentication Against LDAP Directory",
+        "Password": "Password",
+        "ConfirmPassword": "Confirm Password",
+        "RightOperationName": "Operation Name",
+        "RightResourceName": "Resource Name",
+        "ShowProjects": "Show Projects",
+        "SelectProjects": "Projects",
+        "AffiliationsTitle": "Affiliations",
+        "EnforceStrongPasswords": "Enforce Strong Passwords",
+        "EnforcePasswordAging": "Enforce Password Aging",
+        "MonitorConsecutiveLoginFailures": "Monitor Consecutive Login Failures",
+        "MonitorUserInactivity": "Monitor User Inactivity",
+        "LastSuccessfulLogin": "Last Successful Login",
+        "LastFailedLoginAttempt": "Last Failed Login Attempt",
+        "LastPasswordChange": "Last Password Change",
+        "Projects": {
+          "ModalTitle": "Projects [User Account = {{userName}}]",
+          "Projects": "Projects",
+          "Id": "Project ID",
+          "Name": "Project Name",
+          "UserAccounts": "User Accounts",
+          "State": "State"
+        },
+        "Teams": {
+          "ModalTitle": "Teams [User Account = {{userName}}]",
+          "Teams": "Teams"
+        },
+        "Roles": {
+          "ModalTitle": "Roles [User Account = {{userName}}]",
+          "Roles": "Roles"
+        },
+        "Types": {
+          "Common": "Common",
+          "Default": "Default"
+        }
+      },
+      "Departments": {
+        "Title": "Departments",
+        "ShowTeams": "Show Teams",
+        "TeamsModalTitle": "Teams [Department = {{name}}]",
+        "Id": "Department ID",
+        "Name": "Department Name",
+        "Email": "Email",
+        "Teams": "Teams"
+      },
+      "Teams": {
+        "Title": "Teams",
+        "ShowUserAccounts": "Show User Accounts",
+        "ShowRoles": "Show Roles",
+        "DepartmentModalTitle": "Department [Team = {{teamName}}]",
+        "UserAccountsModalTitle": "User Accounts [Team = {{name}}]",
+        "RolesModalTitle": "Roles [Team = {{name}}]",
+        "Id": "Team ID",
+        "Name": "Team Name",
+        "DepartmentID": "Department",
+        "Email": "Email",
+        "Manager": "Manager",
+        "Roles": "Roles",
+        "UserAccounts": "User Accounts"
+      },
+      "Roles": {
+        "Title": "Roles",
+        "ShowTeams": "Show Teams",
+        "ShowUserAccounts": "Show User Accounts",
+        "ShowUserRights": "Show User Rights",
+        "PrivilegesModalTitle": "Permissions [Role = {{name}}]",
+        "TeamsModalTitle": "Teams [Role = {{name}}]",
+        "UserAccountsModalTitle": "User Accounts [Role = {{name}}]",
+        "Id": "Role ID",
+        "Name": "Role Name",
+        "Description": "Description",
+        "Teams": "Teams",
+        "UserAccounts": "User Accounts",
+        "State": "State"
+      },
+      "UserGroups": {
+        "Title": "User Groups",
+        "Id": "User Group ID",
+        "Name": "User Group Name",
+        "State": "State",
+        "UserAccounts": "User Accounts",
+        "EmailAddressList": "Email Address(es)",
+        "EnterNewEmailAddress": "Type a new email address and press Enter",
+        "Users": "Users",
+        "ShowUserRights": "Show User Rights",
+        "ShowUserAccounts": "Show User Accounts",
+        "UserAccountsModalTitle": "User Accounts [User Group = {{userGroupName}}]",
+        "Permissions": {
+          "ModalTitle": "Permissions [User Group = {{userGroupName}}]",
+          "Title": "Permissions",
+          "Operation": "Resources / Operations",
+          "Grant": "Grant",
+          "Deny": "Deny"
+        },
+        "Constraints": {
+          "Title": "Constraints",
+          "Name": "Resource Name",
+          "Operation": "Operation"
+        }
+      },
+      "Services": {
+        "Title": "Services",
+        "SLASettings": "Manage SLA Settings",
+        "Id": "Service ID",
+        "Name": "Service Name",
+        "Organization": "Organization",
+        "OrganizationsModalTitle": "Organization [Service = {{name}}]",
+        "OffersModalTitle": "Offers [Service = {{name}}]",
+        "ContentsModalTitle": "Contents [Service = {{name}}]",
+        "Type": "Type",
+        "State": "State",
+        "Servicei18nProfile": {
+          "Title": "Service Info",
+          "UINameEn": "Name (En.)",
+          "UIDescriptionEn": "Description (En.)",
+          "UISearchKeywordsEn": "Search Keywords (En.)",
+          "UINameAr": "Name (Ar.)",
+          "UIDescriptionAr": "Description (Ar.)",
+          "UISearchKeywordsAr": "Search Keywords (Ar.)"
+        },
+        "ServiceProfile": {
+          "Title": "Service Template",
+          "Type": "Type",
+          "Template": "Template",
+          "TemplateAttributes": {
+            "Title": "Template Attributes",
+            "AlertTemplateProfile": {
+              "ModalTitle": "Alert Template Attributes [Service = {{name}}]",
+              "IsDynamicContent": "Dynamic Content Enabled",
+              "DynamicContentURL": "Dynamic Content URL",
+              "IsTriggerSending": "Trigger Sending Enabled",
+              "AlertScheduling": "Alert Scheduling",
+              "CyclePeriod": "Cycle Period",
+              "AddTimesOfDay": "Times of Day",
+              "TimesOfDay": "Times of Day (Max. 10 items)",
+              "DaysOfWeek": "Days of Week",
+              "AddDaysOfMonth": "Days of Month",
+              "DaysOfMonth": "Days of Month (Max. 15 items)"
+            },
+            "OnDemandTemplateProfile": {
+              "ModalTitle": "On-Demand Template Attributes [Service = {{name}}]",
+              "IsDynamicContent": "Dynamic Content Enabled",
+              "DynamicContentURL": "Dynamic Content URL",
+              "ResponseMessageLangEN": "Auto Response SMS Text",
+              "ResponseMessageLangOther": "Auto Response SMS Text (Other)",
+              "ServiceProposalFileID": "Service Proposal File (max. 20MB)"
+            },
+            "OtherTemplateProfile": {
+              "ModalTitle": "Other Template Attributes [Service = {{name}}]",
+              "IsDynamicContent": "Dynamic Content Enabled",
+              "DynamicContentURL": "Dynamic Content URL",
+              "IsTriggerSending": "Trigger Sending Enabled",
+              "IsChapteredContent": "Chaptered Content Enabled",
+              "ServiceProposalFileID": "Service Proposal File (max. 20MB)"
+            },
+            "Messages": {
+              "RequiredAttributesError": "Please input the attributes.",
+              "RequiredTimesOfDayError": "You have to add at least one time.",
+              "RequiredDaysOfWeekError": "You have to choose at least one day.",
+              "RequiredDaysOfMonthError": "You have to add at least one day."
+            }
+          },
+          "Usage": "Usage",
+          "CategoryID": "Category",
+          "LabelID": "Label",
+          "Language": "Language",
+          "NotificationURL": "Subscription Notification URL",
+          "URLForMOSMS": "MO SMS URL",
+          "URLForMOMMS": "MO MMS URL",
+          "LegacyVsNewOutboundAPI": "Legacy vs New Outbound API",
+          "IsHidingMSISDN": "Hide MSISDN",
+          "HideMSISDNWith": "Hide MSISDN With",
+          "ServiceCapability": "Service Capabilities",
+          "Description": "Description",
+          "WebIcon": "Web Icon (max. 20MB)",
+          "WapIcon": "Wap Icon (max. 20MB)",
+          "BusinessTypeID": "Business Type",
+          "SettlementTypeID": "Settlement Type"
+        },
+        "ServiceCopyrightFileProfile": {
+          "ModalTitle": "Copyright File [Service = {{name}}]",
+          "CopyrightFiles": "Copyright File(s)",
+          "FileID": "File (max. 20MB)"
+        },
+        "MOChargingProfile": {
+          "MoServiceFee": "MO Service Fee (SAR)"
+        },
+        "MTChargingProfile": {
+          "Title": "MT Service Fees",
+          "ModalTitle": "MT Service Fees [Service = {{name}}]",
+          "MtShortCode": "MT Short Code",
+          "MtServiceFee": "MT Service Fee (SAR)"
+        },
+        "DCBSettings": {
+          "Title": "DCB Settings [Service = {{name}}]",
+          "DCBProfile": "DCB Profile",
+          "ServiceMessages": "Service Messages",
+          "ServiceInvoiceMessages": "Service Invoice Messages",
+          "DCBSettings": "DCB Settings",
+          "ManageDCBSettings": "Manage DCB Settings",
+          "DCBTemplates": "DCB Templates",
+          "ManageDCBTemplates": "Manage DCB Templates",
+          "DCBTemplatesTitle": "DCB Templates [Service = {{name}}]",
+          "DCBReconciliationSettings": "Manage DCB Reconciliation Settings",
+          "DCBReconciliationSettingsTitle": "DCB Reconciliation Settings [Service = {{name}}]",
+          "DCBServiceProfile": {
+            "AggregatorName": "Aggregator Name",
+            "SenderID": "Sender ID",
+            "OTTName": "OTT Name",
+            "CarrierId": "Aggregator’s Carrier ID",
+            "SilentSMSShortCode": "Silent SMS Short Code",
+            "Currency": "Currency",
+            "TrustStatus": "Trusted",
+            "IsCapped": "Enable Capping",
+            "AssociationAPIURL": "Association API URL",
+            "DeassociationAPIURL": "Dissociation API URL",
+            "ClientAPIUsername": "Aggregator API Carrier Username",
+            "ClientAPIPassword": "Aggregator API Carrier Password",
+            "BlockDCBEnabled": "Prepaid DCB Blocker Based on Consumption"
+          },
+          "DCBServiceMessagei18nProfile": {
+            "Language": "Language",
+            "PaymentType": "Payment Type",
+            "OTPMessage": "OTP Message",
+            "ActivationMessage": "Activation Message",
+            "DeactivationMessage": "Deactivation Message",
+            "SuccessfulChargeMessage": "Successful Charge Message",
+            "SuccessRefundMessage": "Successful Refund Message",
+            "SuccessfulPartialRefundMessage": "Successful Partial Refund Message",
+            "ActivationFailureMessage": "Activation Failure Message",
+            "InsufficientCreditMessage": "Insufficient Credit Message",
+            "CreditLimitExceededMessage": "Credit Limit Exceeded Message",
+            "ServiceUnavailableMessage": "Service Unavailable Message",
+            "RefundFailureMessage": "Refund Failure Message",
+            "PartialRefundFailureMessage": "Partial Refund Failure Message",
+            "OptOutMessage": "Opt Out Message"
+          },
+          "DCBServiceInvoicei18nProfile": {
+            "Language": "Language",
+            "BRMDealNameCharge": "BRM Deal Name Charge",
+            "BRMDealNameRefund": "BRM Deal Name Refund",
+            "BRMDealNamePartialRefund": "BRM Deal Name Partial Refund",
+            "BRMDealNameChargeBack": "BRM Deal Name Charge Back",
+            "BRMInvoiceDescriptionCharge": "BRM Invoice Description Charge",
+            "BRMInvoiceDescriptionRefund": "BRM Invoice Description Refund",
+            "BRMInvoiceDescriptionPartialRefund": "BRM Invoice Description Partial Refund",
+            "BRMInvoiceDescriptionChargeBack": "BRM Invoice Description Charge Back"
+          },
+          "DCBCappingRuleProfiles": {
+            "Title": "Capping Rules"
+          },
+          "DCBPrepaidCappingRuleProfile": {
+            "Title": "Prepaid Capping Rules",
+            "ModalTitle": "Prepaid Capping Rule",
+            "RuleType": "Rule Type",
+            "Unlimited": "Unlimited",
+            "CappingPolicy": "Capping Policy",
+            "FixedCappingLimit": "Fixed Capping Limit",
+            "BalancePercentage": "Balance Percentage"
+          },
+          "DCBPostpaidCappingRuleProfile": {
+            "Title": "Postpaid Capping Rules",
+            "ModalTitle": "Postpaid Capping Rule",
+            "RuleOrder": "Rule Order",
+            "RuleType": "Rule Type",
+            "CreditSegments": "Credit Segments",
+            "Unlimited": "Unlimited",
+            "CappingPolicy": "Capping Policy",
+            "FixedCappingLimit": "Fixed Capping Limit",
+            "CreditLimitPercentage": "Credit Limit Percentage",
+            "BalancePercentage": "Balance Percentage",
+            "TenureBased": "Tenure Based",
+            "TenureRangeStart": "Tenure Range Start",
+            "TenureRangeEnd": "Tenure Range End"
+          },
+          "DCBServiceActivationProfile": {
+            "Title": "Activation Settings",
+            "DCBServiceActivationSettings": "DCB Activation Settings",
+            "UseHeaderEnrichment": "Use Header Enrichment",
+            "UseSilentSMS": "Use Silent SMS",
+            "UseOTTOTP": "Use OTT OTP",
+            "UseOperatorOTP": "Use Operator OTP",
+            "SubscriberIDatOperator": "Subscriber ID at Operator",
+            "SubscriberIDatOTT": "Subscriber ID at OTT"
+          },
+          "DCBServiceDeactivationProfile": {
+            "Title": "Deactivation Settings",
+            "Post2Pre": "Post to Pre",
+            "Pre2Post": "Pre to Post",
+            "Post2Post": "Post to Post",
+            "Pre2Pre": "Pre to Pre",
+            "TOO": "TOO",
+            "NumberSwap": "Number Swap",
+            "SIMSwap": "SIM Swap",
+            "Barred": "Barred",
+            "Unbarred": "Unbarred",
+            "CreditSegmentUpdate": "Credit Segment Update",
+            "PackageUpdate": "Package Update"
+          },
+          "DCBServiceEligibilityProfile": {
+            "Title": "Eligibility Settings",
+            "AllowedCreditSegments": "Allowed Credit Segments",
+            "AllowBusiness": "Allow Business",
+            "AllowConsumer": "Allow Consumer",
+            "AllowPrepaid": "Allow Prepaid",
+            "AllowPostpaid": "Allow Postpaid",
+            "AllowData": "Allow Data",
+            "AllowVoice": "Allow Voice"
+          },
+          "DCBServiceSLAProfile": {
+            "Title": "DCB SLA Settings [Service = {{name}}]",
+            "AllowDebit": "Allow Debit",
+            "AllowReservation": "Allow Reservation",
+            "AllowExtendShrink": "Allow Extend Shrink",
+            "MaxAllowedChargeAmount": "Max. Allowed Charge Amount",
+            "AllowRefund": "Allow Refund",
+            "MaxAllowedRefundPeriod": "Max. Allowed Refund Period",
+            "MaxAllowedRefundAmount": "Max. Allowed Refund Amount",
+            "AllowPartialRefund": "Allow Partial Refund",
+            "MaxAllowedPartialRefundPeriod": "Max. Allowed Partial Refund Period",
+            "AllowSilentRefund": "Allow Silent Refund",
+            "MaxAllowedTrxPerDay": "Max. Allowed Transactions per Day",
+            "MaxAllowedTrxPerHour": "Max. Allowed Transactions per Hour",
+            "MaxAllowedTrxPerMinute": "Max. Allowed Transactions per Minute",
+            "AllowSubscriptionByOTT": "Allow Subscription by OTT",
+            "AllowSubscriptionByOperator": "Allow Subscription by Operator",
+            "AllowReverseCharge": "Allow Reverse Charge",
+            "MaxAllowedReverseChargePeriod": "Max. Allowed Reverse Charge Period",
+            "AllowPaymentStatusQuery": "Allow Payment Status Query",
+            "AllowRefundStatusQuery": "Allow Refund Status Query",
+            "AllowCustomerEligibilityCheck": "Allow Customer Eligibility Check",
+            "AllowCustomerProfileLookup": "Allow Customer Profile Lookup"
+          },
+          "DCBServiceDisputeRuleProfile": {
+            "Title": "Dispute Rules",
+            "ModalTitle": "Dispute Rule",
+            "TransactionType": "Transaction Type",
+            "StatusAtCarrier": "Status at Carrier",
+            "StatusAtClient": "Status at Client",
+            "ThresholdCondition": "Threshold Condition",
+            "Action": "Action"
+          },
+          "DCBServiceReconciliationPolicyProfile": {
+            "Title": "Policies",
+            "DCBTransactionsFileName": "DCB Daily Recon File Name",
+            "ClientTransactionsFileName": "Client Daily Recon File Name",
+            "GenerateSettlementFile": "Execute Daily Recon Process",
+            "GenerateExceptionsFile": "Generate Exceptions File",
+            "DCBSettlementFileName": "DCB Accepted Transactions File Name",
+            "DCBExceptionsFileName": "DCB Rejected Transactions File Name",
+            "ClientSettlementFileName": "Client Settlement File Name",
+            "ClientExceptionsFileName": "Client Exceptions File Name",
+            "DCBTransactionsFileGenPeriod": "DCB Transactions File Generation Period",
+            "DCBTransactionsFileGenTime": "DCB Daily Recon File Generation Time",
+            "DCBSettlementFileGenPeriod": "DCB Settlement File Generation Period",
+            "DCBSettlementFileGenTime": "DCB Accepted Transactions File Generation Time",
+            "ClientTransactionsFileRecPeriod": "Client Transactions File Receive Period",
+            "ClientTransactionsFileRecTime": "Client Daily Recon File Receive Time",
+            "ClientSettlementFileRecPeriod": "Client Settlement File Receive Period",
+            "ClientSettlementFileRecTime": "Client Settlement File Receive Time",
+            "DisputeThreshold": "Dispute Threshold (%)"
+          },
+          "DCBServiceReconciliationProfile": {
+            "Title": "Others",
+            "VATIncludedInAmountForPostpaid": "Amount Includes VAT for Postpaid",
+            "VATIncludedInAmountForPrepaid": "Amount Includes VAT for Prepaid",
+            "PostpaidChargingMethod": "Postpaid Charging Method",
+            "ChargeARC": "Charge ARC",
+            "RefundARC": "Refund ARC",
+            "PartialRefundARC": "Partial Refund ARC",
+            "SilentRefundARC": "Silent Refund ARC",
+            "TaxARC": "Tax ARC",
+            "ChargeGL": "Charge GL",
+            "RefundGL": "Refund GL",
+            "PartialRefundGL": "Partial Refund GL",
+            "SilentRefundGL": "Silent Refund GL",
+            "TaxGL": "Tax GL",
+            "GLPlaceholder": "e.g., 1000900"
+          },
+          "DCBServiceCDRProfile": {
+            "Title": "CDR Settings",
+            "ServiceTypeForContentPurchase": "Service Type for Content Purchase",
+            "ServiceTypeForApplicationPurchase": "Service Type for Application Purchase",
+            "ServiceTypeForOtherPurchase": "Service Type for Other Purchase"
+          }
+        },
+        "SMSSLAProfile": {
+          "Title": "SMS SLA Settings [Service = {{name}}]",
+          "IsMaxSMSLengthSLAEnabled": "Max. SMS Length SLA Enabled",
+          "MaxSMSLength": "Max. SMS Length",
+          "MaxSMSLengthSLAViolationPolicy": "Max. SMS Length SLA Violation Policy",
+          "IsMaxRecipientsSLAEnabled": "Max. Recipients SLA Enabled",
+          "MaxRecipients": "Max. Recipients",
+          "MaxRecipientsSLAViolationPolicy": "Max. Recipients SLA Violation Policy"
+        },
+        "MMSSLAProfile": {
+          "Title": "MMS SLA Settings [Service = {{name}}]",
+          "IsMaxMMSSizeSLAEnabled": "Max. MMS Size SLA Enabled",
+          "MaxMMSSize": "Max. MMS Size",
+          "MaxMMSSizeViolationPolicy": "Max. MMS Size Violation Policy",
+          "IsMaxRecipientsSLAEnabled": "Max. Recipients SLA Enabled",
+          "MaxRecipients": "Max. Recipients",
+          "MaxRecipientsViolationPolicy": "Max. Recipients SLA Violation Policy",
+          "IsContentTypesSLAEnabled": "Content Types SLA Enabled",
+          "ContentTypes": "Content Types",
+          "ContentTypesSLAViolationPolicy": "Content Types SLA Violation Policy"
+        },
+        "WEBWAPSLAProfile": {
+          "Title": "WEB/WAP SLA Settings [Service = {{name}}]",
+          "IsMaxRecipientsSLAEnabled": "Max. Recipients SLA Enabled",
+          "MaxRecipients": "Max. Recipients",
+          "MaxRecipientsSLAViolationPolicy": "Max. Recipients SLA Violation Policy"
+        },
+        "ServiceCapabilityAccessProfile": {
+          "ModalTitle": "Service Capability [Service = {{name}}]",
+          "CapabilityName": "Name",
+          "CapabilityIsAlreadyUsed": "The selected capability name is already used. Please choose another one."
+        },
+        "ProductProfile": {
+          "Title": "Product Info",
+          "Code": "Product Code",
+          "CodePlaceholder": "e.g., NGSDP1000153220",
+          "LegacyProductStatus": "Legacy Product Status",
+          "NameLangEN": "Name (En.)",
+          "DescriptionLangEN": "Description (En.)",
+          "OnDemandKeywordLangEN": "On-Demand Keywords (En.)",
+          "NameLangOther": "Name (Other)",
+          "DescriptionLangOther": "Description (Other)",
+          "OnDemandKeywordLangOther": "On-Demand Keywords (Other)",
+          "OnDemandShortCode": "On-Demand Short Code",
+          "KeywordPlaceholder": "e.g., keyword1; keyword2"
+        },
+        "SenderIdProfile": {
+          "Title": "Sender ID Profile",
+          "SenderID": "Sender IDs",
+          "SenderIDPlaceholder": "e.g., 5555,6666"
+        },
+        "KeywordChapterMappingProfile": {
+          "Title": "Template Attributes",
+          "ModalTitle": "Chaptered Template Attributes [Service = {{name}}]",
+          "ChapterKeyword": "Chapter Keyword",
+          "ChapterId": "Chapter ID"
+        },
+        "OnDemandi18nProfile": {
+          "Title": "On-Demand Info",
+          "ModalTitle": "On-Demand Requests [Service = {{name}}]",
+          "OnDemandRequests": "On-Demand Requests",
+          "Language": "Language",
+          "IsDefault": "Is Default",
+          "OnDemandShortCode": "Short Code",
+          "OnDemandCommands": "Keywords",
+          "OnDemandCommandsPlaceholder": "e.g., keyword-1;keyword-2",
+          "OnDemandResponseMessage": "Response Message",
+          "OnDemandCommandAlreadyUsed": "The entered Keyword(s) \"{{command}}\" is already used by the \"{{serviceName}}\" service. Please enter another one.",
+          "OnDemandCommandAlreadyUsedByOffer": "The entered Keyword(s) \"{{command}}\" is already used by the \"{{offerName}}\" offer. Please enter another one.",
+          "OnDemandThisCommandAlreadyUsed": "The entered Keyword(s) \"{{command}}\" is already used by this service. Please enter another one."
+        },
+        "SubscriptionNotificationProfile": {
+          "NotificationURL": "Subscription Notification URL",
+          "LegacyVsNewNotification": "Subscription Notification Protocol"
+        },
+        "ServiceVATProfile": {
+          "Title": "Value Added Tax Info",
+          "VATCategory": "VAT Category",
+          "HasSpecialVATPercentage": "Special VAT Percentage",
+          "VATPercentage": "VAT Percentage"
+        },
+        "ServiceContentBasedSettlementProfile": {
+          "Title": "Content Info",
+          "ModalTitle": "Content Type Attributes [Service = {{name}}]",
+          "Contents": "Content Type(s)",
+          "ContentTypeID": "Content Type ID",
+          "ContentTypeIDPlaceholder": "e.g., 905",
+          "ContentTypeName": "Content Type Name",
+          "SettlementTypeID": "Settlement Type",
+          "ProductCategoryID": "Product Category ID",
+          "ProductCategoryIDPlaceholder": "e.g., App"
+        },
+        "Messages": {
+          "SuspendConfirmationMessage": "Are you sure you want to SUSPEND this service?",
+          "ActivateConfirmationMessage": "Are you sure you want to UNSUSPEND this service?",
+          "InactivateConfirmationMessage": "Are you sure you want to OFFLINE this service?",
+          "HideConfirmationMessage": "Are you sure you want to HIDE this service?",
+          "UnhideConfirmationMessage": "Are you sure you want to UNHIDE this service?",
+          "ServiceUpdateFlowError": "Error occurred while service updating. Please try again.",
+          "ServiceUpdateFlowStartedSuccessful": "Your service update request successfully submitted. Please wait for approval.",
+          "ServiceUpdateFlowStartedSuccessfulForAdmin": "Your service update request successfully submitted.",
+          "ServiceCreateFlowError": "Error occurred while service creating. Please try again.",
+          "ServiceCreateFlowStartedSuccessful": "Your service create request successfully submitted. Please wait for approval.",
+          "ServiceCreateFlowStartedSuccessfulForAdmin": "Your service create request successfully submitted.",
+          "RuleTypeIsAlreadyUsed": "The selected rule type is already used. Please choose another one.",
+          "RuleOrderIsAlreadyUsed": "The entered rule order is already used. Please enter another value.",
+          "AttributesAreAlreadyUsed": "The selected attributes are already used. Please choose another options."
+        }
+      },
+      "ShortCodes": {
+        "Title": "Short Codes",
+        "OrganizationsModalTitle": "Organization [Short Code = {{name}}]",
+        "ServicesModalTitle": "Services [Short Code = {{name}}]",
+        "OffersModalTitle": "Offers [Short Code = {{name}}]",
+        "Id": "Short Code ID",
+        "ShortCode": "Short Code",
+        "Status": "State",
+        "ProviderId": "Organization",
+        "Fee": "Rental Fee (SAR)",
+        "CommandHelpEnabled": "Command Help Enabled",
+        "CommandHelpMessage": "Command Help Message (En.)",
+        "CommandHelpMessageOtherLang": "Command Help Message (Ar.)",
+        "Messages": {
+          "ReviewConfirmationMessage": "Are you sure you want to REVIEW this short code?",
+          "AcceptConfirmationMessage": "Are you sure you want to ACCEPT this short code?",
+          "RejectConfirmationMessage": "Are you sure you want to REJECT this short code?",
+          "ShortCodeUpdateFlowError": "Error occurred while short code information update. Please try again.",
+          "ShortCodeUpdateFlowStartedSuccessful": "Your short code information update request successfully submitted. Please wait for approval.",
+          "ShortCodeUpdateFlowStartedSuccessfulForAdmin": "Your short code information update request successfully submitted.",
+          "ShortCodeIsAlreadyUsed": "The entered short code is already used. Please enter another value."
+        }
+      },
+      "Permissions": {
+        "Title": "Permissions",
+        "Operation": "Resources / Operations",
+        "Grant": "Grant",
+        "Deny": "Deny"
+      },
+      "Constraints": {
+        "Title": "Constraints",
+        "Name": "Resource Name",
+        "Operation": "Operation"
+      },
+      "Clients": {
+        "Title": "Clients",
+        "OrganizationsModalTitle": "Organization [Client = {{name}}]",
+        "Id": "Client Instance ID",
+        "Name": "Client Name",
+        "ClientInfo": {
+          "Title": "Client Info",
+          "NameEn": "Name (En.)",
+          "DescriptionEn": "Description (En.)",
+          "NameAr": "Name (Ar.)",
+          "DescriptionAr": "Description (Ar.)",
+          "Type": "Type",
+          "AccessScope": "Access Scope",
+          "IsPortal": "Portal"
+        },
+        "ClientAuthentication": {
+          "Title": "Client Authentication",
+          "ClientID": "Client ID",
+          "Password": "Password"
+        }
+      }
+    },
+    "ScreeningManager": {
+      "MenuLabel": "Screening Management",
+      "PageHeader": "Canvas<sup>®</sup> Screening List Management Framework",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Black Lists",
+          "Tile2": "White Lists",
+          "Tile3": "Subscribers",
+          "Tile4": "Service Scopes",
+          "Tile5": "Screening Rules",
+          "Tile6": "Time Constraints"
+        },
+        "Charts": {
+          "Scopes": "Service Scopes",
+          "Rules": "Screening Rules",
+          "Constraints": "Time Constraints"
+        }
+      },
+      "Configuration": {
+        "Settings": "Settings",
+        "WhitelistSize": "Max. Number of Entries in a Whitelist",
+        "BlacklistSize": "Max. Number of Entries in a Blacklist"
+      },
+      "Operations": {
+        "ScreeningLists": {
+          "Global": "Global Screening Lists",
+          "Service": "Service Screening Lists",
+          "Msisdn": "MSISDN"
+        }
+      }
+    },
+    "ContentManagement": {
+      "MenuLabel": "Content Management",
+      "PageHeader": "Canvas<sup>®</sup> Content Management Framework",
+      "Dashboards": {
+        "DSP": {
+          "Tiles": {
+            "Tile1": "DSP Content Categories",
+            "Tile2": "DSP Content Types",
+            "Tile3": "DSP Content Uploads",
+            "Tile4": "DSP Content Files",
+            "Tile5": "DSP Content Updates",
+            "Tile6": "DSP Content Downloads"
+          },
+          "Charts": {
+            "Chart1": "DSP Contents by Category",
+            "Chart2": "DSP Contents by Type",
+            "Chart3": "DSP Contents by Status"
+          }
+        },
+        "RBT": {
+          "Tiles": {
+            "Tile1": "RBT Categories",
+            "Tile2": "RBT Moods",
+            "Tile3": "RBT Artists",
+            "Tile4": "RBT Albums",
+            "Tile5": "RBT Tones",
+            "Tile6": "RBT Reserved"
+          },
+          "Charts": {
+            "Chart1": "Top RBT Categories [Daily]",
+            "Chart2": "Top RBT Categories [Weekly]",
+            "Chart3": "Top RBT Categories [Monthly]",
+            "Chart4": "Top RBT Moods [Daily]",
+            "Chart5": "Top RBT Moods [Weekly]",
+            "Chart6": "Top RBT Moods [Monthly]",
+            "Chart7": "Top RBT Artists [Daily]",
+            "Chart8": "Top RBT Artists [Weekly]",
+            "Chart9": "Top RBT Artists [Monthly]",
+            "Chart10": "Top RBT Albums [Daily]",
+            "Chart11": "Top RBT Albums [Weekly]",
+            "Chart12": "Top RBT Albums [Monthly]",
+            "Chart13": "Top RBT Tones [Daily]",
+            "Chart14": "Top RBT Tones [Weekly]",
+            "Chart15": "Top RBT Tones [Monthly]"
+          }
+        }
+      },
+      "Operations": {
+        "ContentCategories": {
+          "Title": "Content Categories",
+          "Id": "Category ID",
+          "ContentCategory": "Category Title",
+          "ParentCategory": "Parent Category",
+          "Order": "Order",
+          "Messages": {
+            "OrderIsAlreadyUsed": "The entered order is already used. Please enter another value."
+          }
+        },
+        "ContentTypes": {
+          "Title": "Content Types",
+          "Id": "Type ID",
+          "ContentType": "Content Type"
+        },
+        "ContentMetadatas": {
+          "Title": "Contents",
+          "OrganizationsModalTitle": "Organization [Content = {{name}}]",
+          "DetailModalTitle": "Add New Detail [Content = {{name}}]",
+          "Id": "Content ID",
+          "Name": "Content Name",
+          "ContentInfo": {
+            "Header": "Content Info",
+            "SearchKeywords": "Search Keywords",
+            "TitleEn": "Name (En.)",
+            "DescriptionEn": "Description (En.)",
+            "SearchKeywordsEn": "Search Keywords (En.)",
+            "TitleAr": "Name (Ar.)",
+            "DescriptionAr": "Description (Ar.)",
+            "SearchKeywordsAr": "Search Keywords (Ar.)",
+            "WebIcon": "Web Icon (max. 20MB)",
+            "CopyrightFile": {
+              "ModalTitle": "Copyright File [Tone = {{name}}]",
+              "CopyrightFiles": "Copyright File(s)",
+              "FileID": "File (max. 20MB)"
+            }
+          },
+          "ContentTemplate": {
+            "Header": "Content Template",
+            "ContentCategory": "Category",
+            "Label": "Label",
+            "Language": "Language",
+            "ContentType": "Type"
+          },
+          "ManageContentFiles": {
+            "Title": "Manage Content Files",
+            "PageHeader": "Content Files [Content = {{name}}]",
+            "FileId": "File ID",
+            "File": "File (max. 50MB)",
+            "FileName": "File Name",
+            "FileType": "Type"
+          },
+          "Messages": {
+            "SuspendConfirmationMessage": "Are you sure you want to SUSPEND this content?",
+            "ActivateConfirmationMessage": "Are you sure you want to UNSUSPEND this content?",
+            "InactivateConfirmationMessage": "Are you sure you want to OFFLINE this content?",
+            "HideConfirmationMessage": "Are you sure you want to HIDE this content?",
+            "UnhideConfirmationMessage": "Are you sure you want to UNHIDE this content?",
+            "ContentDeleteFlowError": "Error occurred while content deleting. Please try again.",
+            "ContentDeleteFlowStartedSuccessful": "Your content delete request successfully submitted. Please wait for approval.",
+            "ContentDeleteFlowStartedSuccessfulForAdmin": "Your content delete request successfully submitted.",
+            "ContentCreateFlowError": "Error occurred while content creating. Please try again.",
+            "ContentCreateFlowStartedSuccessful": "Your content create request successfully submitted. Please wait for approval.",
+            "ContentCreateFlowStartedSuccessfulForAdmin": "Your content create request successfully submitted.",
+            "ContentUpdateFlowError": "Error occurred while content updating. Please try again.",
+            "ContentUpdateFlowStartedSuccessful": "Your content update request successfully submitted. Please wait for approval.",
+            "ContentUpdateFlowStartedSuccessfulForAdmin": "Your content update request successfully submitted.",
+            "ContentFileCreateFlowError": "Error occurred while content file creating. Please try again.",
+            "ContentFileCreateFlowStartedSuccessful": "Your content file create request successfully submitted. Please wait for approval.",
+            "ContentFileCreateFlowStartedSuccessfulForAdmin": "Your content file create request successfully submitted.",
+            "ContentFileUpdateFlowError": "Error occurred while content file updating. Please try again.",
+            "ContentFileUpdateFlowStartedSuccessful": "Your content file update request successfully submitted. Please wait for approval.",
+            "ContentFileUpdateFlowStartedSuccessfulForAdmin": "Your content file update request successfully submitted.",
+            "ContentFileDeleteFlowError": "Error occurred while content file deleting. Please try again.",
+            "ContentFileDeleteFlowStartedSuccessful": "Your content file delete request successfully submitted. Please wait for approval.",
+            "ContentFileDeleteFlowStartedSuccessfulForAdmin": "Your content file delete request successfully submitted."
+          }
+        },
+        "RBT": {
+          "ContentCategories": {
+            "Title": "Categories",
+            "ShowAlbums": "Show Albums",
+            "OrganizationsModalTitle": "Organization [Category = {{name}}]",
+            "AlbumsModalTitle": "Albums [Category = {{name}}]",
+            "ShowTones": "Show Tones",
+            "TonesModalTitle": "Tones [Category = {{name}}]",
+            "ShowSubscriptions": "Show Subscriptions",
+            "SubscriptionsModalTitle": "Subscriptions [Category = {{name}}]",
+            "Id": "Category ID",
+            "ContentCategory": "Category Title",
+            "ContentCategoryName": "Category Name",
+            "Artists": "Artists",
+            "Albums": "Albums",
+            "Tones": "Tones",
+            "Subscriptions": "Subscriptions",
+            "CoverImage": "Cover Image (max. 20MB)",
+            "CardImage": "Card Image (max. 20MB)",
+            "Thumbnail": "Thumbnail (max. 20MB)",
+            "DefaultTone": "Default Tone",
+            "SubscriptionEnabled": "Subscription Enabled",
+            "Promoted": "Promoted",
+            "LegacyId": "Legacy ID",
+            "AccessChannels": "Access Channels",
+            "CategoryInfo": {
+              "Header": "Category Info"
+            },
+            "Messages": {
+              "CreateFlowError": "Error occurred while content category creating. Please try again.",
+              "CreateFlowStartedSuccessful": "Your content category create request successfully submitted. Please wait for approval.",
+              "CreateFlowStartedSuccessfulForAdmin": "Your content category create request successfully submitted.",
+              "UpdateFlowError": "Error occurred while content category updating. Please try again.",
+              "UpdateFlowStartedSuccessful": "Your content category update request successfully submitted. Please wait for approval.",
+              "UpdateFlowStartedSuccessfulForAdmin": "Your content category update request successfully submitted.",
+              "DeleteFlowError": "Error occurred while content category deleting. Please try again.",
+              "DeleteFlowStartedSuccessful": "Your content category delete request successfully submitted. Please wait for approval.",
+              "DeleteFlowStartedSuccessfulForAdmin": "Your content category delete request successfully submitted."
+            }
+          },
+          "ContentMetadatas": {
+            "ShowAlbums": "Show Albums",
+            "AlbumsCount": "Albums",
+            "ShowTones": "Show Tones",
+            "ManageRevenueSettings": "Manage Revenue Settings",
+            "ShowSubscriptions": "Show Subscriptions",
+            "TonesCount": "Tones",
+            "Subscriptions": "Subscriptions",
+            "Id": "Content ID",
+            "Name": "Content Name",
+            "CoverImage": "Cover Image (max. 20MB)",
+            "CardImage": "Card Image (max. 20MB)",
+            "Thumbnail": "Thumbnail (max. 20MB)",
+            "DefaultTone": "Default Tone",
+            "CopyrightFiles": "Copyright File(s)",
+            "SubscriptionEnabled": "Subscription Enabled",
+            "Promoted": "Promoted",
+            "ContentInfo": {
+              "Header": "Content Info",
+              "SearchKeywords": "Search Keywords",
+              "TitleEn": "Name (En.)",
+              "DescriptionEn": "Description (En.)",
+              "SearchKeywordsEn": "Search Keywords (En.)",
+              "TitleAr": "Name (Ar.)",
+              "DescriptionAr": "Description (Ar.)",
+              "SearchKeywordsAr": "Search Keywords (Ar.)",
+              "WebIcon": "Web Icon (max. 20MB)",
+              "CopyrightFile": "Copyright File (max. 20MB)"
+            },
+            "ContentTemplate": {
+              "Header": "Content Template",
+              "ContentCategory": "Category",
+              "Label": "Label",
+              "Language": "Language",
+              "ContentType": "Type"
+            },
+            "CategoryTemplate": {
+              "Header": "Category Template"
+            },
+            "ManageContentFiles": {
+              "Title": "Manage Content Files",
+              "PageHeader": "Content Files [Content = {{name}}]",
+              "FileId": "File ID",
+              "File": "File (max. 50MB)",
+              "FileName": "File Name",
+              "FileType": "Type"
+            },
+            "Artists": {
+              "Title": "Artists",
+              "OrganizationsModalTitle": "Organization [Artist = {{name}}]",
+              "AlbumsModalTitle": "Albums [Artist = {{name}}]",
+              "TonesModalTitle": "Tones [Artist = {{name}}]",
+              "SubscriptionsModalTitle": "Subscriptions [Artist = {{name}}]",
+              "Id": "Artist ID",
+              "Name": "Artist Title",
+              "LegacyId": "Legacy Artist ID",
+              "AccessChannels": "Access Channels",
+              "Messages": {
+                "CreateFlowError": "Error occurred while artist creating. Please try again.",
+                "CreateFlowStartedSuccessful": "Your artist create request successfully submitted. Please wait for approval.",
+                "CreateFlowStartedSuccessfulForAdmin": "Your artist create request successfully submitted.",
+                "UpdateFlowError": "Error occurred while artist updating. Please try again.",
+                "UpdateFlowStartedSuccessful": "Your artist update request successfully submitted. Please wait for approval.",
+                "UpdateFlowStartedSuccessfulForAdmin": "Your artist update request successfully submitted.",
+                "DeleteFlowError": "Error occurred while artist deleting. Please try again.",
+                "DeleteFlowStartedSuccessful": "Your artist delete request successfully submitted. Please wait for approval.",
+                "DeleteFlowStartedSuccessfulForAdmin": "Your artist delete request successfully submitted."
+              }
+            },
+            "Albums": {
+              "Title": "Albums",
+              "OrganizationsModalTitle": "Organization [Album = {{name}}]",
+              "TonesModalTitle": "Tones [Album = {{name}}]",
+              "SubscriptionsModalTitle": "Subscriptions [Album = {{name}}]",
+              "Id": "Album ID",
+              "Name": "Album Title",
+              "LegacyId": "Legacy Album ID",
+              "Categories": "Categories",
+              "Moods": "Moods",
+              "AccessChannels": "Access Channels",
+              "Messages": {
+                "CreateFlowError": "Error occurred while album creating. Please try again.",
+                "CreateFlowStartedSuccessful": "Your album create request successfully submitted. Please wait for approval.",
+                "CreateFlowStartedSuccessfulForAdmin": "Your album create request successfully submitted.",
+                "UpdateFlowError": "Error occurred while album updating. Please try again.",
+                "UpdateFlowStartedSuccessful": "Your album update request successfully submitted. Please wait for approval.",
+                "UpdateFlowStartedSuccessfulForAdmin": "Your album update request successfully submitted.",
+                "DeleteFlowError": "Error occurred while album deleting. Please try again.",
+                "DeleteFlowStartedSuccessful": "Your album delete request successfully submitted. Please wait for approval.",
+                "DeleteFlowStartedSuccessfulForAdmin": "Your album delete request successfully submitted."
+              }
+            },
+            "Tones": {
+              "Title": "Tones",
+              "OrganizationsModalTitle": "Organization [Tone = {{name}}]",
+              "Id": "Tone ID",
+              "Name": "Tone Title",
+              "LegacyId": "Legacy Tone ID",
+              "Artists": "Artists",
+              "Albums": "Albums",
+              "Categories": "Categories",
+              "Moods": "Moods",
+              "AccessChannels": "Access Channels",
+              "FileOrder": "File Order",
+              "MimeType": "Mime Type",
+              "Codec": "Codec",
+              "AudioBitRate": "Audio Bit Rate",
+              "SamplingRate": "Sampling Rate",
+              "Duration": "Duration (sec)",
+              "CopyrightFile": {
+                "ModalTitle": "Copyright File [Tone = {{name}}]",
+                "CopyrightFiles": "Copyright File(s)",
+                "FileID": "File (max. 20MB)"
+              },
+              "ToneFile": "Tone File (max. 50MB)",
+              "Messages": {
+                "CreateFlowError": "Error occurred while tone creating. Please try again.",
+                "CreateFlowStartedSuccessful": "Your tone create request successfully submitted. Please wait for approval.",
+                "CreateFlowStartedSuccessfulForAdmin": "Your tone create request successfully submitted.",
+                "UpdateFlowError": "Error occurred while tone updating. Please try again.",
+                "UpdateFlowStartedSuccessful": "Your tone update request successfully submitted. Please wait for approval.",
+                "UpdateFlowStartedSuccessfulForAdmin": "Your tone update request successfully submitted.",
+                "DeleteFlowError": "Error occurred while tone deleting. Please try again.",
+                "DeleteFlowStartedSuccessful": "Your tone delete request successfully submitted. Please wait for approval.",
+                "DeleteFlowStartedSuccessfulForAdmin": "Your tone delete request successfully submitted."
+              }
+            },
+            "Moods": {
+              "Title": "Moods",
+              "OrganizationsModalTitle": "Organization [Mood = {{name}}]",
+              "AlbumsModalTitle": "Albums [Mood = {{name}}]",
+              "TonesModalTitle": "Tones [Mood = {{name}}]",
+              "SubscriptionsModalTitle": "Subscriptions [Mood = {{name}}]",
+              "Id": "Mood ID",
+              "Name": "Mood Title",
+              "LegacyId": "Legacy Mood ID",
+              "AccessChannels": "Access Channels",
+              "Messages": {
+                "CreateFlowError": "Error occurred while mood creating. Please try again.",
+                "CreateFlowStartedSuccessful": "Your mood create request successfully submitted. Please wait for approval.",
+                "CreateFlowStartedSuccessfulForAdmin": "Your mood create request successfully submitted.",
+                "UpdateFlowError": "Error occurred while mood updating. Please try again.",
+                "UpdateFlowStartedSuccessful": "Your mood update request successfully submitted. Please wait for approval.",
+                "UpdateFlowStartedSuccessfulForAdmin": "Your mood update request successfully submitted.",
+                "DeleteFlowError": "Error occurred while mood deleting. Please try again.",
+                "DeleteFlowStartedSuccessful": "Your mood delete request successfully submitted. Please wait for approval.",
+                "DeleteFlowStartedSuccessfulForAdmin": "Your mood delete request successfully submitted."
+              }
+            }
+          },
+          "Events": {
+            "Title": "Events",
+            "Id": "Event ID",
+            "Name": "Event Name",
+            "Tone": "Tone",
+            "Signature": "Signature"
+          },
+          "Signatures": {
+            "Title": "Signatures",
+            "Id": "Signature ID",
+            "Alias": "Signature Alias",
+            "Language": "Language",
+            "Text": "Text"
+          },
+          "SignatureBoxes": {
+            "Title": "Signature Boxes",
+            "Id": "Signature Box ID",
+            "Alias": "Signature Box Alias",
+            "Signatures": "Signatures"
+          },
+          "SpecialConditions": {
+            "Title": "Special Conditions",
+            "Id": "Condition ID",
+            "Name": "Condition Name",
+            "Icon": "Icon",
+            "ToneMale": "Tone (Male)",
+            "ToneFemale": "Tone (Female)",
+            "DefaultDuration": "Default Duration (msec)"
+          },
+          "ChargingDetails": {
+            "Header": "Charging Details",
+            "ChargingPeriod": "Charging Period",
+            "Price": "Price (SAR)",
+            "SubscriptionCode": "Subscription Code",
+            "SubscriptionCodePlaceholder": "If left blank, it will be auto-generated.",
+            "Messages": {
+              "SubscriptionCodeAvailable": "The subscription code is already used. Please use another value."
+            }
+          },
+          "RevenueShareDetails": {
+            "Header": "Revenue Share Details",
+            "BusinessType": "Business Type",
+            "SettlementType": "Settlement Type",
+            "RevSharePolicy": "Revenue Share Policy",
+            "OperatorDeductionType": "Carrier Deduction",
+            "OperatorDeductionFixed": "Carrier Amount (SAR)",
+            "OperatorDeductionPercentage": "Carrier Deduction (%)",
+            "OperatorShare": "Carrier Share (%)",
+            "RevenueSplitAcrossTones": "Revenue Share per Tone",
+            "FreeOfCharge": "Free of Charge",
+            "Percentage": "Percentage (%)",
+            "Weight": "Weight"
+          }
+        }
+      },
+      "Configuration": {
+        "Settings": "Settings",
+        "PrayerTimes": "Prayer Times",
+        "Morning": "Morning  Tone",
+        "Noon": "Noon  Tone",
+        "Afternoon": "Afternoon  Tone",
+        "Evening": "Evening  Tone",
+        "Night": "Night  Tone"
+      },
+      "Troubleshooting": {
+      }
+    },
+    "SubscriptionManagement": {
+      "MenuLabel": "Subscription Management",
+      "PageHeader": "Canvas<sup>®</sup> Subscription Management Framework",
+      "ServiceSubscription": "Service Subscription",
+      "ContentSubscription": "Content Subscription",
+      "Dashboards": {
+        "Tiles": {
+          "Tile1": "Subscribers",
+          "Tile2": "Offers",
+          "Tile3": "Subscriptions",
+          "Tile4": "Reserved",
+          "Tile5": "Reserved",
+          "Tile6": "Reserved"
+        },
+        "Charts": {
+          "Chart1": "Offers by Organization",
+          "Chart2": "Offers by Status",
+          "Chart3": "Reserved"
+        }
+      },
+      "Templates": {
+        "MessageTemplates": {
+          "Title": "Message Templates",
+          "Global": "Global",
+          "OfferSpecific": "Offer Specific",
+          "Fields": {
+            "Name": "Template ID",
+            "Text": "Text"
+          },
+          "Messages": {
+            "AlreadyDefinedError": "Message template already defined with this name \"{{name}}\", please select another name."
+          }
+        }
+      },
+      "Operations": {
+        "Offers": {
+          "Title": "Offers",
+          "ServicesModalTitle": "Services [Offer = {{name}}]",
+          "SubscriptionsModalTitle": "Service Subscriptions [Offer = {{offerName}}]",
+          "ContentSubscriptionsModalTitle": "Content Subscriptions [Offer = {{offerName}}]",
+          "Name": "Offer Name",
+          "Id": "Offer ID",
+          "ContentId": "Content ID",
+          "ContentName": "Content Name",
+          "Organization": "Organization",
+          "OrganizationModalTitle": "Organization [Offer = {{name}}]",
+          "Services": "Services",
+          "State": "State",
+          "Offeri18nProfile": {
+            "Title": "Offer Info",
+            "UINameEn": "Name (En.)",
+            "UIDescriptionEn": "Description (En.)",
+            "UISearchKeywordsEn": "Search Keywords (En.)",
+            "UISubscriptionDescriptionEn": "Sub Description (En.)",
+            "UIUnsubscriptionDescriptionEn": "Unsub Description (En.)",
+            "UINameAr": "Name (Ar.)",
+            "UIDescriptionAr": "Description (Ar.)",
+            "UISearchKeywordsAr": "Search Keywords (Ar.)",
+            "UISubscriptionDescriptionAr": "Sub Description (Ar.)",
+            "UIUnsubscriptionDescriptionAr": "Unsub Description (Ar.)"
+          },
+          "XsmChargingProfile": {
+            "Title": "Charging Details",
+            "ChargingPeriod": "Main Charging Period",
+            "MainPrice": "Main Price (SAR)",
+            "ChargingPolicy": "Charging Policy",
+            "Handler": "Handler",
+            "InitialChargingPolicy": "Initial Charging Policy",
+            "MaxFailedChargingAttemptCount": "Max Failed Charging Attempt Count",
+            "ChargingFailurePolicy": "Charging Failure Policy",
+            "RetryPeriod": "Retry Period",
+            "MaxRetryCount": "Max Retry Count",
+            "PartialChargingEnabled": "Partial Charging Enabled",
+            "MicroChargingEnabled": "Micro Charging Enabled",
+            "MicroChargingPeriod": "Micro Charging Period",
+            "MicroPrice": "Micro Charging Price (SAR)",
+            "MicroChargingEnabledAtInitialSubscription": "Micro Charging Enabled at Initial Subscription",
+            "MicroChargingEnabledAtRenewals": "Micro Charging Enabled at Renewals",
+            "MicroChargingEnabledAtTrialEnd": "Micro Charging Enabled at Trial End",
+            "MaxMicroChargingEventCount": "Max Micro Charging Event Count",
+            "ChargeOn": "Charge On",
+            "Immediate": "IMMEDIATE",
+            "Deferred": "DEFERRED"
+          },
+          "XsmOfferProfile": {
+            "Title": "Subscription Details",
+            "Description": "Description",
+            "NotifySubscriberOnStateChanges": "Notify Subscriber on State Changes",
+            "NotificationSenderID": "Notification Sender ID",
+            "TerminationPolicy": "Termination Policy",
+            "CoverImage": "Cover Image (max. 20MB)",
+            "CardImage": "Card Image (max. 20MB)",
+            "Thumbnail": "Thumbnail (max. 20MB)"
+          },
+          "XsmRenewalProfile": {
+            "Title": "Renewals",
+            "RenewalPolicy": "Renewal Policy",
+            "NotificationEventDuration": "Subscription Renewal Reminder",
+            "ConfirmationDuration": "Subscription Renewal Confirmation",
+            "BlacklistedSubscriberPolicy": "Blacklisted Subscriber Policy"
+          },
+          "XsmTrialProfile": {
+            "Title": "Try & Buy",
+            "TryAndBuyEnabled": "Try & Buy Enabled",
+            "TryAndBuyPolicy": "Try & Buy Policy",
+            "TrialPeriod": "Trial Period",
+            "NextAllowedTrialUsagePeriod": "Next Allowed Trial Usage Period",
+            "TrialByDefault": "Trial by Default",
+            "NotificationEventDuration": "Notification Event Duration",
+            "ConfirmationEventDuration": "Confirmation Event Duration",
+            "NextOfferId": "Next Offer",
+            "NextOfferSubscriptionText": "Next Offer Subscription Text"
+          },
+          "SubscriberId": "Subscriber Number",
+          "SubscriberState": "Subscriber State",
+          "SubscriptionState": "Subscription State",
+          "SAN": "Subscriber Account Number",
+          "FakeId": "Legacy Fake ID",
+          "LastSubscriptionDate": "Last Subscription Date",
+          "SMSPortali18nProfile": {
+            "SubscriptionKeywords": "Sub/Unsub ShortCode & Keywords",
+            "ModalTitle": "Add New Subscription Keyword [Offer = {{offerName}}]",
+            "Language": "Language",
+            "IsDefault": "Is Default",
+            "SubUnsubShortCode": "Sub. Unsub. Short Code",
+            "SubConfirmationMessage": "Sub. Confirmation Message",
+            "UnsubConfirmationMessage": "Unsub. Confirmation Message",
+            "SubCommands": "Sub. Commands",
+            "UnsubCommands": "Unsub. Commands",
+            "CommandsPlaceholder": "e.g., keyword-1;keyword-2",
+            "SubCommandAlreadyUsed": "The entered Sub. Command(s) \"{{command}}\" is already used by the \"{{offerName}}\" offer. Please enter another one.",
+            "SubCommandAlreadyUsedByService": "The entered Sub. Command(s) \"{{command}}\" is already used by the \"{{serviceName}}\" service. Please enter another one.",
+            "SubThisCommandAlreadyUsed": "The entered Sub. Command(s) \"{{command}}\" is already used by this offer. Please enter another one.",
+            "SubOtherCommandAlreadyUsed": "The entered Sub. Command(s) \"{{command}}\" is already used. Please enter another one.",
+            "UnsubCommandAlreadyUsed": "The entered Unsub. Command(s) \"{{command}}\" is already used by the \"{{offerName}}\" offer. Please enter another one.",
+            "UnsubCommandAlreadyUsedByService": "The entered Unsub. Command(s) \"{{command}}\" is already used by the \"{{serviceName}}\" service. Please enter another one.",
+            "UnsubThisCommandAlreadyUsed": "The entered Unsub. Command(s) \"{{command}}\" is already used by this offer. Please enter another one.",
+            "UnsubOtherCommandAlreadyUsed": "The entered Unsub. Command(s) \"{{command}}\" is already used. Please enter another one."
+          },
+          "OfferEligibilityProfile": {
+            "PackageEligibility": "Package Eligibility",
+            "PackageList": "Package List",
+            "PackageListPlaceholder": "e.g., Wajid Extra;Business 500"
+          },
+          "SubscriptionRenewalNotificationProfile": {
+            "RecurRenewalCount": "Succesful Renewal Message",
+            "RecurDayOfMonth": "Recurring Day of Month",
+            "SpecificRenewal": "Specific Renewal",
+            "NotificationTemplate": "Notification Template",
+            "NotificationScheduleType": "Notification Schedule Type"
+          },
+          "BundleOfferProfile": {
+            "BusinessTypeID": "Business Type",
+            "SettlementTypeID": "Settlement Type",
+            "CategoryID": "Category",
+            "BundleID": "Bundle ID",
+            "BundleIDPlaceholder": "e.g., DSP12345"
+          },
+          "ManageScreening": {
+            "Title": "Screening Lists [Offer = {{name}}]",
+            "ManageScreening": "Manage Screening Lists"
+          },
+          "Messages": {
+            "SuspendConfirmationMessage": "Are you sure you want to SUSPEND this offer?",
+            "ActivateConfirmationMessage": "Are you sure you want to UNSUSPEND this offer?",
+            "InactivateConfirmationMessage": "Are you sure you want to OFFLINE this offer?",
+            "HideConfirmationMessage": "Are you sure you want to HIDE this offer?",
+            "UnhideConfirmationMessage": "Are you sure you want to UNHIDE this offer?",
+            "OfferUpdateFlowError": "Error occurred while offer updating. Please try again.",
+            "OfferUpdateFlowStartedSuccessful": "Your offer update request successfully submitted. Please wait for approval.",
+            "OfferUpdateFlowStartedSuccessfulForAdmin": "Your offer update request successfully submitted.",
+            "OfferCreateFlowError": "Error occurred while offer creating. Please try again.",
+            "OfferCreateFlowStartedSuccessful": "Your offer create request successfully submitted. Please wait for approval.",
+            "OfferCreateFlowStartedSuccessfulForAdmin": "Your offer create request successfully submitted."
+          }
+        },
+        "ShortCodes": {
+          "Title": "Short Codes",
+          "Sub": "Subscribe",
+          "Unsub": "Unsubscribe",
+          "Trial": "Trial",
+          "Fields": {
+            "ShortCode": "Short Code",
+            "Text": "Text",
+            "Keyword": "Keyword",
+            "Offer": "Offer Name",
+            "Action": "Action",
+            "Scenario": "Scenario",
+            "Description": "Description",
+            "Language": "Language"
+          },
+          "Test": {
+            "Title": "Short Code Test"
+          }
+        },
+        "SubscriberSettings": {
+          "Title": "Subscriber Settings",
+          "SubscriberInformation": "Subscriber Information",
+          "Attributes": "Attributes",
+          "OfferSubscriptions": "Offer Subscriptions",
+          "Msisdn": "MSISDN",
+          "Imsi": "IMSI",
+          "Language": "Language",
+          "PaymentType": "Payment Type",
+          "State": "State",
+          "Status": "Status",
+          "SubscriberAccountNumber": "Subscriber Account Number",
+          "BillingAccountNumber": "Billing Account Number",
+          "CorporateAccountNumber": "Corporate Account Number",
+          "Type": "Type",
+          "ContractId": "Contract ID",
+          "CustomerName": "Customer Name",
+          "Gender": "Gender",
+          "BirthDate": "Birth Date",
+          "ActivationDate": "Activation Date",
+          "FirstCallDate": "First Call Date",
+          "Occupation": "Occupation",
+          "Duration": "Duration",
+          "CorporatePackage": "Corporate Package",
+          "MaxUploadRate": "Max Upload Rate",
+          "MaxDownloadRate": "Max Download Rate",
+          "CustomerBSLId": "Customer BSL ID",
+          "CustomerCategory": "Customer Category",
+          "CanUseDCB": "Can Use DCB",
+          "CreditLimit": "Credit Limit",
+          "CreditSegment": "Credit Segment",
+          "VipCategory": "VIP Category",
+          "VipSubCategory": "VIP Sub Category",
+          "LegacyFakeID": "Legacy Fake ID",
+          "CorporateKA": "Corporate KA",
+          "Mix": "Mix",
+          "Mnpnumber": "MNP Number",
+          "NewControl": "New Control",
+          "IdentityInfo": {
+            "Title": "Identity Information",
+            "IdType": "ID Type",
+            "IdNumber": "ID Number",
+            "NationalCode": "National Code"
+          },
+          "ContactInfo": {
+            "Title": "Contact Information",
+            "HomeAddress": "Home Address",
+            "HomePhone": "Home Phone",
+            "ProvinceId": "Province ID",
+            "ZipCode": "Zip Code",
+            "OfficeAddress": "Office Address",
+            "OfficePhone": "Office Phone",
+            "Email": "Email Address"
+          },
+          "PackageInfo": {
+            "Title": "Package Information",
+            "PackageId": "Package ID",
+            "Name": "Name",
+            "Category": "Category",
+            "CreationTime": "Creation Time"
+          },
+          "CpeInfo": {
+            "Title": "CPE Information",
+            "No": "No",
+            "SerialNo": "Serial No",
+            "MacAddress": "MAC Address"
+          },
+          "DealInfoList": "Deal Information",
+          "ExtensionAttributeList": "Extension Attributes"
+        },
+        "Subscribers": {
+          "Title": "Subscribers",
+          "OfferSubscriptionsModalTitle": "Service Subscriptions [Subscriber = {{subscriber}}]",
+          "ContentSubscriptionsModalTitle": "Content Subscriptions [Subscriber = {{subscriber}}]",
+          "TableColumns": {
+            "OfferId": "Offer ID",
+            "OfferName": "Offer Name",
+            "ContentId": "Content ID",
+            "ContentName": "Content Name",
+            "SubscriptionType": "Content Type",
+            "SubscriptionState": "Subscription State",
+            "LastSubscriptionDate": "Last Subscription Date",
+            "Msisdn": "Subscriber Number",
+            "LastProvUpdateDate": "Last Provisioning Update Date",
+            "Imsi": "IMSI",
+            "Language": "Language",
+            "PaymentType": "Payment Type",
+            "State": "State",
+            "Status": "Status",
+            "SubscriberAccountNumber": "Subscriber Account Number",
+            "BillingAccountNumber": "Billing Account Number",
+            "CorporateAccountNumber": "Corporate Account Number",
+            "Type": "Type",
+            "ContractId": "Contract ID",
+            "CustomerName": "Customer Name",
+            "Gender": "Gender",
+            "BirthDate": "Birth Date",
+            "ActivationDate": "Activation Date",
+            "FirstCallDate": "First Call Date",
+            "Occupation": "Occupation",
+            "Duration": "Duration",
+            "CorporatePackage": "Corporate Package",
+            "MaxUploadRate": "Max Upload Rate",
+            "MaxDownloadRate": "Max Download Rate",
+            "CustomerBSLId": "Customer BSL ID",
+            "CustomerCategory": "Customer Category",
+            "CanUseDCB": "Can Use DCB",
+            "CreditLimit": "Credit Limit",
+            "CreditSegment": "Credit Segment",
+            "VipCategory": "VIP Category",
+            "VipSubCategory": "VIP Sub Category",
+            "LegacyFakeID": "Legacy Fake ID",
+            "CorporateKA": "Corporate KA",
+            "Mix": "Mix",
+            "Mnpnumber": "MNP Number",
+            "NewControl": "New Control",
+            "IdentityInfo": {
+              "Title": "Identity Information",
+              "IdType": "ID Type",
+              "IdNumber": "ID Number",
+              "NationalCode": "National Code"
+            },
+            "ContactInfo": {
+              "Title": "Contact Information",
+              "MobilePhone": "Mobile Phone",
+              "HomeAddress": "Home Address",
+              "HomePhone": "Home Phone",
+              "Region": "Region",
+              "District": "District",
+              "ProvinceId": "Province ID",
+              "ZipCode": "Zip Code",
+              "OfficeAddress": "Office Address",
+              "OfficePhone": "Office Phone",
+              "Email": "Email Address"
+            },
+            "PackageInfo": {
+              "Title": "Package Information",
+              "PackageId": "Package ID",
+              "Name": "Name",
+              "Category": "Category",
+              "FiberBandwidth": "Fiber Bandwidth",
+              "SpeedSubDate": "Speed Subscription Date",
+              "CreationTime": "Creation Time"
+            },
+            "CpeInfo": {
+              "Title": "CPE Information",
+              "No": "No",
+              "SerialNo": "Serial No",
+              "MacAddress": "MAC Address"
+            },
+            "DealInfoList": "Deal Information",
+            "ExtensionAttributeList": "Extension Attributes"
+          },
+          "Messages": {
+            "SubscriberCreatingSucceded": "New subscriber created successfully.",
+            "SubscriberNumberDuplicate": "The subscriber number already in use. Please write another one.",
+            "SubscriberCreatingError": "Could not create new subscriber!",
+            "SubscriberUpdatingSucceded": "Subscriber updated successfully.",
+            "SubscriberUpdatingError": "Could not update subscriber!",
+            "SubscriberDeletingSucceded": "Subscriber deleted successfully.",
+            "SubscriberDeletingError": "Could not remove subscriber!"
+          },
+          "DcbSettings": {
+            "Title": "DCB Settings",
+            "OptOut": "Opt-Out"
+          },
+          "DcbStatistics": {
+            "Title": "Show DCB Information",
+            "ModalTitle": "DCB Information [MSISDN = {{msisdn}}]",
+            "DcbSettings": "DCB Settings",
+            "DcbOptOut": "Opt-Out",
+            "UsageInformation": "Usage Information",
+            "DailyCharge": "Daily Charge",
+            "DailyChargeCount": "Daily Charge Count",
+            "DailyRefund": "Daily Refund",
+            "DailyRefundCount": "Daily Refund Count",
+            "DailySpent": "Daily Spent",
+            "MonthlyCharge": "Monthly Charge",
+            "MonthlyChargeCount": "Monthly Charge Count",
+            "MonthlyRefund": "Monthly Refund",
+            "MonthlyRefundCount": "Monthly Refund Count",
+            "MonthlySpent": "Monthly Spent",
+            "ServiceUsage": "Service Usage",
+            "Limits": "Limits",
+            "DailyLimit": "Daily Limit",
+            "MonthlyLimit": "Monthly Limit",
+            "PurchaseLimit": "Purchase Limit",
+            "MatchingCappingRules": "Matching Capping Rules",
+            "RuleName": "Rule Name",
+            "RuleOrder": "Rule Order",
+            "RuleType": "Rule Type",
+            "CreditSegments": "Credit Segments",
+            "Unlimited": "Unlimited",
+            "CappingPolicy": "Capping Policy",
+            "FixedCappingLimit": "Fixed Capping Limit",
+            "CreditLimitPercentage": "Credit Limit Percentage (%)",
+            "BalancePercentage": "Balance Percentage (%)",
+            "TenureBased": "Tenure Based",
+            "TenureRangeStart": "Tenure Range Start",
+            "TenureRangeEnd": "Tenure Range End",
+            "Messages": {
+              "NotFound": "There is no DCB information for the subscriber."
+            }
+          }
+        }
+      },
+      "Troubleshooting": {
+        "TableColumns": {
+          "Date": "Submit Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "HistoryEventDate": "Event Date and Time",
+          "TransactionId": "Transaction ID",
+          "Msisdn": "Subscriber Number",
+          "ContentType": "Content Type",
+          "OfferName": "Offer",
+          "EventType": "Event Type",
+          "ErrorCode": "Error Code",
+          "ErrorDescription": "Error Description",
+          "ChannelType": "Channel",
+          "State": "Subscription State",
+          "InactivationReason": "Inactivation Reason",
+          "SubscriberNotificationType": "Notification Type"
+        },
+        "TableColumnsTooltips": {
+          "Date": "Date and time of the subscription event.",
+          "TransactionId": "Unique ID generated for each subscription related transaction. Transaction ID shall be used for problem diagnosis within product traces and logs.",
+          "Msisdn": "Subscriber Msisdn.",
+          "OfferName": "Subscribed Offer's name.",
+          "EventType": "Subscription event's type, it may be initial subscription, renewal, charging, subscriber or service notification related. Refer to SSM product documentation for a specific event type details.",
+          "ErrorCode": "Related error code in case event denotes a failure. Refer to SSM product documentation for a specific error code details.",
+          "ErrorDescription": "Error code's description.",
+          "ChannelType": "Channel that is triggering the event. Possible channels are: <ul class=\"table-column-description-list\"><li><strong>IVR</strong></li><li><strong>USSD</strong></li><li><strong>SMS</strong></li><li><strong>WEB</strong></li><li><strong>SSM</strong></li><li><strong>DCB</strong></li><li><strong>CC:</strong> Customer Care</li><li><strong>PROV:</strong> Operator Provisioning System</li><li><strong>TP:</strong> Third-Party</li><li><strong>MOA:</strong> Mobile Application</li><li><strong>OTHER</strong></li></ul>",
+          "State": "Subscription's state. Possible states are: PENDING, ACTIVE, SUSPENDED, INACTIVE.",
+          "InactivationReason": "Subscription\\'s inactivation reason. Field is only available and meaningful for inactive subscriptions. Possible inactivation reasons are: <ul class=\"table-column-description-list\"><li><strong>InactivatedBySubscriber:</strong> Inactivation requested by the Subscriber from Customer Care or a Self-Care channel.</li><li><strong>MaxFailedChargingAttemptCountExceeded:</strong> Inactivated by the System because max charging attempt count (# of free charging periods) reached.</li><li><strong>SubscriptionDurationEnded:</strong> Inactivated by the System because Subscription end date is reached.</li><li><strong>InsufficientCredit:</strong> Inactivated by the system because Subscriber didn\\'t have enough credit for renewal.</li><li><strong>RenewalNotConfirmed:</strong> Inactivated by the System because Subscriber didn\\'t confirm subscription renewal.</li><li><strong>SubscriberInBlackList:</strong> Subscriber is in black list.</li><li><strong>SubscriberNotActive:</strong> Subscriber is not in active state.</li><li><strong>SubscriberNotEligible:</strong> Subscriber is not eligible.</li></ul>",
+          "SubscriberNotificationType": "Type of the Subscriber notification. Refer to SSM product documentation for a specific subscriber notification type."
+        },
+        "Details": {
+          "PageHeader": "Subscription Details [Subscriber = {{msisdn}}, Offer = {{offerName}}]"
+        },
+        "History": {
+          "PageHeader": "Subscription History [Subscriber = {{msisdn}}, Offer = {{offerName}}]"
+        }
+      }
+    },
+    "Diagnostics": {
+      "MenuLabel": "Diagnostics",
+      "PageHeader": "Canvas<sup>®</sup> Diagnostics Framework",
+      "CriticalAlarms": "Critical Alarms",
+      "MajorAlarms": "Major Alarms",
+      "MinorAlarms": "Minor Alarms",
+      "InfoAlarms": "Info Alarms",
+      "PendingSetAlarms": "Pending Set Alarms",
+      "PendingSetAlarmsVarieties": "Critical | Major | Minor | Info",
+      "LicenseViolations": "License Violations",
+      "AlarmsBySeverity": "Alarms by Severity",
+      "AlarmsByCluster": "Alarms by Cluster",
+      "AlarmsByHost": "Alarms by Host",
+      "AlarmsByModule": "Alarms by Module",
+      "AlarmLogs": {
+        "Header": "Alarm Logs",
+        "TableColumns": {
+          "Time": "Date and Time",
+          "Severity": "Severity",
+          "Type": "Type",
+          "Cluster": "Cluster",
+          "Host": "Host",
+          "Message": "Message"
+        },
+        "Buttons": {
+          "SetUnset": "Set / Unset",
+          "Event": "Event",
+          "Critical": "Critical",
+          "Major": "Major",
+          "Minor": "Minor",
+          "Info": "Info"
+        }
+      },
+      "AuditLogs": {
+        "Header": "Audit Logs",
+        "ShowHistory": "Show History",
+        "ShowPayload": "Show Payload",
+        "RequestPayload": "HTTP {{method}} Request",
+        "ResponsePayload": "HTTP {{method}} Response",
+        "DetailsModalHeader": "Audit Log Details [Transaction ID = {{transactionId}}]",
+        "PayloadModalHeader": "Transaction Payload [Transaction ID = {{transactionId}}]",
+        "TableColumns": {
+          "Date": "Date and Time",
+          "CompletionDate": "Completion Date and Time",
+          "SubscriberNumber": "Subscriber Number",
+          "Username": "Username",
+          "IPAddress": "Source IP Address",
+          "Service": "Service",
+          "URL": "URL",
+          "Method": "HTTP Method",
+          "Status": "Status",
+          "ResourceName": "Resource Name",
+          "JTI": "JWT ID",
+          "TransactionId": "Transaction ID",
+          "Duration": "Duration",
+          "UserAgent": "User Agent"
+        },
+        "History": {
+          "PageHeader": "Audit Log History [Transaction ID = {{transactionId}}]"
+        },
+        "Buttons": {
+          "AdminPortal": "Admin Portal",
+          "CCPortal": "Customer Care Portal",
+          "PartnerPortal": "Partner Portal"
+        }
+      }
+    },
+    "Reporting": {
+      "MenuLabel": "Report Generation",
+      "PageHeader": "Canvas<sup>®</sup> Report Generation Framework",
+      "DashboardDescription": "Select a report category from the menu.",
+      "OnDemand": "On-Demand",
+      "Schedule": "Schedule",
+      "Scheduled": "Scheduled",
+      "Approvals": {
+        "Title": "Approvals",
+        "OrganizationId": "Organization ID",
+        "OrganizationName": "Organization Name",
+        "ReportingWindow": "Reporting Window",
+        "InvoiceState": "Invoice State",
+        "PenaltyAmount": "Penalty Amount (SAR)",
+        "PartnerShare": "Partner Share",
+        "TotalRevenue": "Total Revenue"
+      },
+      "Channel": "Channel",
+      "CampaignType": "Campaign Type",
+      "Category": "Category",
+      "Type": "Period",
+      "Format": "Format",
+      "ProductReports": {
+        "Title": "Product Reports",
+        "ApiManager": "API Manager",
+        "BulkMessaging": "Campaign Management",
+        "DCB": "Direct Carrier Billing",
+        "LocationGw": "Location Gateway",
+        "MessagingGw": "Messaging Gateway",
+        "ChargingGw": "Charging Gateway"
+      },
+      "SubsystemReports": {
+        "Title": "Subsystem Reports",
+        "SubscriptionManagement": "Subscription Management",
+        "ContentManagement": "Content Management"
+      },
+      "RevenueReports": {
+        "Title": "Usage & Revenue Reports"
+      },
+      "InvoiceReports": {
+        "Title": "Invoice Reports"
+      },
+      "WorkflowsReports": {
+        "Title": "Audit Reports"
+      },
+      "Date": "Date",
+      "StartDate": "Start Date",
+      "EndDate": "End Date",
+      "StartDateTime": "Start Date & Time",
+      "EndDateTime": "End Date & Time",
+      "ReportingWindow": "Reporting Window",
+      "AdditionalParams": {
+        "Organization": "Organization",
+        "Service": "Service",
+        "Offer": "Offer",
+        "Operation": "Operation",
+        "Operator": "Operator Name",
+        "Vas": "Application Name",
+        "AppName": "Application Name",
+        "User": "User",
+        "CampaignId": "Campaign ID",
+        "Destination": "Destination",
+        "Developer": "Developer",
+        "Application": "Application",
+        "API": "API",
+        "Method": "API Method",
+        "Endpoint": "Endpoint",
+        "ContentType": "Content Type",
+        "Content": "Content",
+        "Channel": "Channel",
+        "BusinessType": "Business Type",
+        "TopN": "Top N (Default: ALL)",
+        "TopNPlaceholder": "Enter number of ranks (e.g., 100) to display."
+      },
+      "ScheduledReports": {
+        "Title": "Schedules",
+        "Recurrence": "Recurrence",
+        "RecurrencePattern": "Recurrence Pattern",
+        "Every": "Every",
+        "Day": "Day",
+        "Days": "day(s)",
+        "OfEveryMonth": "of every month",
+        "EveryWeekday": "Every weekday",
+        "JobStartDateTime": "Job Start Date & Time",
+        "JobEndDate": "Job End Date",
+        "Mail": "Send Mail",
+        "MailTo": "Mail To",
+        "MailToHelpText": "Use semi-colon or comma to separate multiple email addresses.",
+        "MailSubject": "Mail Subject",
+        "MailText": "Mail Text (Optional)",
+        "MailSubjectDefaultPostfix": "schedule has successfully run.",
+        "ScheduleName": "Schedule Name",
+        "Repeats": "Repeats",
+        "EndTime": "End Time",
+        "LastRun": "Last Run",
+        "NextRun": "Next Run",
+        "Status": "Status"
+      },
+      "ArchivedLegacyReports": {
+        "Title": "Archived Legacy Reports",
+        "AuditRA": "Audit & RA",
+        "CPSP": "CP & SP",
+        "RBT": "RBT"
+      },
+      "ReportTemplate": {
+        "Title": "Report Template",
+        "ModalTitle": "Add New Report Template",
+        "TemplateName": "Template Name",
+        "SaveAsTemplate": "Save as New Report Template",
+        "SaveAsTemplateTooltip": "Save the form as a new report template.",
+        "TemplateNameIsAlreadyUsed": "The entered template name is already used. Please enter another value."
+      }
+    }
+  },
+  "TroubleshootingSummarize": {
+    "Message": "{{submitted}} Submitted; {{delivered}} Delivered; {{undelivered}} Undelivered [{{buffered}} Buffered]"
+  },
+  "TableFooter": {
+    "Previous": "Previous",
+    "Next": "Next",
+    "Info": "Showing {{from}} to {{to}} of {{total}} entries"
+  },
+  "Idle": {
+    "WarningTitle": "You are Idle. Do Something!",
+    "WarningMessage": "You will be logged out in {{countdown}} second(s)."
+  },
+  "Workflows": {
+    "MenuLabel": "Tasks",
+    "PageHeader": "Task Management",
+    "ShowTaskSummary": "Show Task Summary",
+    "TaskSummary": "Task Summary",
+    "ShowPendingTasks": "Show Pending Tasks",
+    "PendingTasks": "Pending Tasks",
+    "Task": {
+      "Action": "Action",
+      "CreateDate": "Create Date",
+      "UpdateDate": "Update Date",
+      "TaskDescription": "Task Description",
+      "RejectReason": "Reject Reason"
+    },
+    "Operations": {
+      "ViewAllTasks": "View All Tasks",
+      "TaskStatuses": {
+        "pending": "Pending Tasks",
+        "approved": "Approved Tasks",
+        "rejected": "Rejected Tasks",
+        "completed": "Completed Tasks",
+        "deleted": "Deleted Tasks"
+      },
+      "Messages": {
+        "PendingNote": "Initiated by User [{{user}}] of Organization [{{serviceProvider}}].",
+        "ApprovedNote": "Approved by User [{{user}}] of Group [{{group}}].",
+        "RejectedNote": "Rejected by User [{{user}}] of Group [{{group}}].",
+        "DeletedNote": "Deleted by User [{{user}}] of Group [{{group}}].",
+        "CompletedNote": "Completed by User [{{user}}] of Group [{{group}}].",
+        "RejectReason": "Reject Reason",
+        "ApproveConfirmationMessage": "Are you sure you want to APPROVE this task?",
+        "RejectConfirmationMessage": "Are you sure you want to REJECT this task?",
+        "TaskCannotBeCompleted": "The task cannot be completed!"
+      }
+    },
+    "Dashboards": {
+      "Tiles": {
+        "Tile1": "Initiated",
+        "Tile2": "Pending",
+        "Tile3": "Processed",
+        "Tile4": "Approved",
+        "Tile5": "Rejected",
+        "Tile6": "Cancelled"
+      },
+      "Charts": {
+        "Chart1": "Tasks by Organization",
+        "Chart2": "Tasks by User",
+        "Chart3": "Tasks by Type"
+      }
+    },
+    "Troubleshooting": {
+      "TableColumns": {
+        "Date": "Date and Time",
+        "Username": "Username",
+        "ClientIp": "Client IP Address",
+        "ResourceId": "Resource ID",
+        "ResourceType": "Resource Type",
+        "OperationType": "Operation Type",
+        "ProcessStatus": "Status",
+        "MobilePhone": "Mobile Phone",
+        "ApplicantName": "Applicant Name",
+        "Position": "Position",
+        "FlowId": "Flow ID",
+        "Email": "Email Address",
+        "From": "From",
+        "To": "To",
+        "PartnerName": "Partner Name",
+        "PartnerId": "Partner ID",
+        "ServiceName": "Service Name",
+        "ServiceId": "Service ID",
+        "OfferName": "Offer Name",
+        "OfferId": "Offer ID",
+        "ContentMetadataName": "Content Name",
+        "ContentMetadataId": "Content ID",
+        "ContentFileName": "File Name",
+        "ContentFileId": "File ID",
+        "ShortCode": "Short Code",
+        "ShortCodeId": "Short Code ID",
+        "CampaignName": "Campaign Name",
+        "CampaignId": "Campaign ID",
+        "StartDate": "Start Date",
+        "EndDate": "End Date"
+      },
+      "TableColumnsTooltips": {
+        "Date": "Date and time of the event"
+      },
+      "Details": {
+        "PageHeader": "Task Details [Flow ID = {{flowId}}]"
+      },
+      "History": {
+        "PageHeader": "Task History [Flow ID = {{flowId}}]"
+      },
+      "Payload": {
+        "ShowPayload": "Show Payload",
+        "PageHeader": "Task Payload [Flow ID = {{flowId}}]"
+      }
+    }
+  },
+  "FileOperationLabels": {
+    "Browse": "Browse",
+    "SelectTitle": "Select File",
+    "SelectAddTitle": "Select & Add File",
+    "Change": "Change",
+    "ChangeTitle": "Change File Selection",
+    "Remove": "Remove",
+    "RemoveTitle": "Remove Selected Image",
+    "FileTooLargeError": "File is too large. Maximum file size is {{maxFileSize}}.",
+    "FileTypeWawError": "Please select a \"wav\" file.",
+    "AudioFileULawEncodedExplanation": "WAV file format: u-law, 8000 Hz, mono, 64 kbps",
+    "AudioFileInvalid": "The format of the audio file is invalid."
+  }
+}

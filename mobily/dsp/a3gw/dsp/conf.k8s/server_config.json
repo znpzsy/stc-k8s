@@ -1,0 +1,102 @@
+{
+  "servicesBase": "/dsp/services",
+  "logLevel": "error",
+  "proxy": {
+    "servicesHttpHost": "0.0.0.0",
+    "servicesHttpPort": "8444"
+  },
+  "auth": {
+    "authorizationHeaderKey": "Bearer",
+    "tokenName": "token",
+    "refreshTokenName": "refreshToken"
+  },
+  "rateLimit": {
+    "enabled": true,
+    "expiration": 900,
+    "max": 1000
+  },
+  "applications": [
+    {
+      "resourceName": "DSP Admin Portal",
+      "path": "/adminportal",
+      "targetHost": "http://consportals-sa-mobily-dsp-adminportal-service:8080",
+      "pathRewrite": {
+        "^/adminportal": "/adminportal"
+      }
+    },
+    {
+      "resourceName": "DSP Customer Care Portal",
+      "path": "/ccportal",
+      "targetHost": "http://consportals-sa-mobily-dsp-ccportal-service:8081",
+      "pathRewrite": {
+        "^/ccportal": "/ccportal"
+      }
+    },
+    {
+      "resourceName": "DSP Partner Portal",
+      "path": "/partnerportal",
+      "targetHost": "http://consportals-sa-mobily-dsp-partnerportal-service:8082",
+      "pathRewrite": {
+        "^/partnerportal": "/partnerportal"
+      },
+      "captchaEnabled": true
+    },
+    {
+      "path": "/conf",
+      "targetHost": "http://127.0.0.1:8085",
+      "pathRewrite": {
+        "^/conf": "/"
+      }
+    },
+    {
+      "path": "/site.json",
+      "targetHost": "http://127.0.0.1:8086",
+      "pathRewrite": {
+        "^/site.json": "/site.json"
+      }
+    }
+  ],
+  "filter": {
+    "allowedOrigins": [
+      "127.0.0.1"
+    ],
+    "allowedExts": [
+      "css",
+      "js",
+      "map",
+      "ttf",
+      "woff",
+      "woff2",
+      "svg",
+      "eot",
+      [
+        "jpg",
+        "jpeg",
+        "bmp",
+        "gif",
+        "png",
+        "ico"
+      ]
+    ],
+    "allowedFiles": [
+      "app.html",
+      "index.html",
+      "site.json"
+    ],
+    "allowedDirectories": [
+      "/public",
+      "/login",
+      "/registration",
+      "/partials",
+      "/i18n"
+    ],
+    "allowedPathes": [
+      "/pentaho/getImage"
+    ],
+    "allowedRestServices": [
+      "/workflows-otp-rest",
+      "/workflows-partner-registration-rest",
+      "/workflows-rest/partner/password/reset"
+    ]
+  }
+}

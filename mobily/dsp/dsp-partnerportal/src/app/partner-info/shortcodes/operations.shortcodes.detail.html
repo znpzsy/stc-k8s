@@ -1,0 +1,118 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title" active-loading-indicator>
+                {{ 'PartnerInfo.ShortCodes.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <fieldset id="formFieldset">
+
+                <div class="form-group">
+                    <label for="ShortCode" class="col-md-3">{{ 'PartnerInfo.ShortCodes.ShortCode' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="ShortCode" name="ShortCode" type="text" class="form-control"
+                               ng-value="shortCode.ShortCode"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.ShortCodes.Id' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control"
+                               ng-value="shortCode.profileId"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="shortCode.Status !== 'FREE'">
+                    <label for="Fee" class="col-md-3">{{ 'PartnerInfo.ShortCodes.Fee' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="Fee" name="Fee" type="number" class="form-control"
+                               ng-model="shortCode.Fee"
+                               ng-required="true"
+                               min="0" max="999999"
+                               ng-disabled="(shortCode.profileId ? !AuthorizationService.canPrmShortCodeUpdate(shortCode.Status) : !AuthorizationService.canPrmShortCodeCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.Fee.$dirty && form.Fee.$invalid }"
+                            ng-show="form.Fee.$dirty && form.Fee.$invalid">
+                            <li class="required" ng-show="form.Fee.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.Fee.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                            <li class="required" ng-show="form.Fee.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                            <li class="required" ng-show="form.Fee.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div ng-if="shortCode.profileId">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.ShortCodes.CommandHelpEnabled' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{shortCode.CommandHelpEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(shortCode.profileId ? !AuthorizationService.canPrmShortCodeUpdate(shortCode.Status) : !AuthorizationService.canPrmShortCodeCreate()) || (shortCode.Status !== 'USED')"
+                                        ng-model="shortCode.CommandHelpEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!shortCode.CommandHelpEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(shortCode.profileId ? !AuthorizationService.canPrmShortCodeUpdate(shortCode.Status) : !AuthorizationService.canPrmShortCodeCreate()) || (shortCode.Status !== 'USED')"
+                                        ng-model="shortCode.CommandHelpEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="shortCode.CommandHelpEnabled">
+                        <label for="CommandHelpMessage" class="col-md-3">{{ 'PartnerInfo.ShortCodes.CommandHelpMessage' | translate }}</label>
+                        <div class="col-md-7">
+                            <textarea id="CommandHelpMessage" name="CommandHelpMessage" class="form-control" dir="auto"
+                                      ng-model="shortCode.CommandHelpMessage"
+                                      rows="3" ng-maxlength="255" maxlength="255"
+                                      ng-disabled="(shortCode.profileId ? !AuthorizationService.canPrmShortCodeUpdate(shortCode.Status) : !AuthorizationService.canPrmShortCodeCreate()) || (shortCode.Status !== 'USED')">
+                            </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form.CommandHelpMessage.$dirty && form.CommandHelpMessage.$invalid }"
+                                ng-show="form.CommandHelpMessage.$dirty && form.CommandHelpMessage.$invalid">
+                                <li class="required" ng-show="form.CommandHelpMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="shortCode.CommandHelpEnabled">
+                        <label for="CommandHelpMessageOtherLang" class="col-md-3">{{ 'PartnerInfo.ShortCodes.CommandHelpMessageOtherLang' | translate }}</label>
+                        <div class="col-md-7">
+                            <textarea id="CommandHelpMessageOtherLang" name="CommandHelpMessageOtherLang" class="form-control" dir="auto"
+                                      ng-model="shortCode.CommandHelpMessageOtherLang"
+                                      rows="3" ng-maxlength="255" maxlength="255"
+                                      ng-disabled="(shortCode.profileId ? !AuthorizationService.canPrmShortCodeUpdate(shortCode.Status) : !AuthorizationService.canPrmShortCodeCreate()) || (shortCode.Status !== 'USED')">
+                            </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form.CommandHelpMessageOtherLang.$dirty && form.CommandHelpMessageOtherLang.$invalid }"
+                                ng-show="form.CommandHelpMessageOtherLang.$dirty && form.CommandHelpMessageOtherLang.$invalid">
+                                <li class="required" ng-show="form.CommandHelpMessageOtherLang.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-7 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || ((shortCode.profileId ? !AuthorizationService.canPrmShortCodeUpdate(shortCode.Status) : !AuthorizationService.canPrmShortCodeCreate())) || isNotChanged()"
+                                ng-click="save(shortCode);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

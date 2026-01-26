@@ -1,0 +1,33 @@
+{
+  "setup1": [
+    {
+      "sshConfig": {
+        "host": "host_ip",
+        "username": "username",
+        "password": "password"
+      },
+      "tmpDirectory": "/tmp",
+      "deploymentDirectory": "/var/www/html/dir/to/path"
+    },
+    {
+      "sshConfig": {
+        "host": "host_ip",
+        "username": "username",
+        "password": "password"
+      },
+      "tmpDirectory": "/tmp",
+      "deploymentDirectory": "/var/www/html/dir/to/path"
+    }
+  ],
+  "setup2": [
+    {
+      "sshConfig": {
+        "host": "host_ip",
+        "username": "username",
+        "password": "password"
+      },
+      "tmpDirectory": "/tmp",
+      "deploymentDirectory": "/var/www/html/dir/to/path"
+    }
+  ]
+}

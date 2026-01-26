@@ -1,0 +1,23 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.otp.troubleshooting') }" ng-if="AuthorizationService.canAllTroubleshootingRead()">
+                <a ui-sref="products.otp.troubleshooting.sms" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

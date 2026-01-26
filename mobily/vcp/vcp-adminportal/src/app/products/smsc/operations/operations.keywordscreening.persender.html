@@ -1,0 +1,24 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.KeywordScreening.Title' | translate }} / {{ 'Products.SMSC.Operations.KeywordScreening.PerSender.Title' | translate }}
+    </h4>
+</div>
+
+<ul class="nav nav-tabs">
+    <li ng-class="{ 'active': $state.includes('products.smsc.operations.keywordscreening.persender.blacklist') }">
+        <a ui-sref="products.smsc.operations.keywordscreening.persender.blacklist" data-toggle="tab">
+            <span class="fa fa-file-text"></span> {{ 'ScreeningLists.BlackList' | translate }}
+        </a>
+    </li>
+
+    <li ng-class="{ 'active': $state.includes('products.smsc.operations.keywordscreening.persender.whitelist') }">
+        <a ui-sref="products.smsc.operations.keywordscreening.persender.whitelist" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'ScreeningLists.WhiteList' | translate }}
+        </a>
+    </li>
+</ul>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="row" ui-view>
+    </div>
+</div>

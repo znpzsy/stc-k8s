@@ -1,0 +1,204 @@
+<div class="container">
+
+   <div class="row">
+
+      <div class="col-md-12">
+
+         <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+         </h3>
+
+         <div class="row">
+
+            <div class="col-md-12 col-sm-12">
+
+               <div class="tab-content stacked-content">
+
+                  <div class="tab-pane fade active in portlet portlet-boxed">
+
+                     <div class="portlet-header">
+                        <h4 class="portlet-title">
+                           {{ 'FirstPartnerRegistration.PageHeader' | translate }}<br/>
+                        </h4>
+                     </div>
+
+                     <div class="portlet-body">
+                        <h5 ng-if="lastRejectedTask && lastRejectedTask.message">
+                           {{ 'Workflows.Operations.Messages.RejectReason' | translate }}: {{ lastRejectedTask.message }}
+                        </h5>
+
+                        <uib-tabset justified="true" type="pills" active="currentStep">
+
+                           <uib-tab index="0">
+                              <uib-tab-heading>
+                                 <span class="fa-stack fa-1x" style="display:inline-block;{{ currentStep === 0 ? 'color: #fff;' : 'color: #3498db;' }}">
+                                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                                    <strong class="fa-stack-1x">1</strong>
+                                 </span>
+                                 <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                    <label style="{{ currentStep === 0 ? 'color: #fff;' : 'color: #3498db;' }}cursor: pointer;">
+                                       {{ 'FirstPartnerRegistration.CompanyInformation.StepTitle' | translate }}
+                                    </label>
+                                 </h6>
+                              </uib-tab-heading>
+
+                              <div class="bg-clean">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <span ng-include="'partner-registration/partner-registration.company-information.html'"></span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </uib-tab>
+
+                           <uib-tab index="1" disable="steps[1].disabled">
+                              <uib-tab-heading>
+                                 <span class="fa-stack fa-1x" style="display:inline-block;{{ currentStep === 1 ? 'color: #fff;cursor: pointer;' : (steps[1].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                                    <strong class="fa-stack-1x">2</strong>
+                                 </span>
+                                 <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                    <label style="{{ currentStep === 1 ? 'color: #fff;cursor: pointer;' : (steps[1].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                       {{ 'FirstPartnerRegistration.BankInformation.StepTitle' | translate }}
+                                    </label>
+                                 </h6>
+                              </uib-tab-heading>
+
+                              <div class="bg-clean">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <span ng-include="'partner-registration/partner-registration.bank-information.html'"></span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </uib-tab>
+
+                           <uib-tab index="2" disable="steps[2].disabled">
+                              <uib-tab-heading>
+                                 <span class="fa-stack fa-1x" style="display:inline-block;{{ currentStep === 2 ? 'color: #fff;cursor: pointer;' : (steps[2].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                                    <strong class="fa-stack-1x">3</strong>
+                                 </span>
+                                 <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                    <label style="{{ currentStep === 2 ? 'color: #fff;cursor: pointer;' : (steps[2].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                       {{ 'FirstPartnerRegistration.LegalDocuments.StepTitle' | translate }}
+                                    </label>
+                                 </h6>
+                              </uib-tab-heading>
+
+                              <div class="bg-clean">
+                                 <div class="row">
+                                    <div class="col-md-12" ng-if="!steps[2].disabled">
+                                       <span ng-include="'partner-registration/partner-registration.legal-documents.html'"></span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </uib-tab>
+
+                           <uib-tab index="3" disable="steps[3].disabled">
+                              <uib-tab-heading>
+                                 <span class="fa-stack fa-1x" style="display:inline-block;{{ currentStep === 3 ? 'color: #fff;cursor: pointer;' : (steps[3].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                                    <strong class="fa-stack-1x">4</strong>
+                                 </span>
+                                 <h6 style="margin-bottom: 0;display:inline-block;vertical-align: bottom;">
+                                    <label style="{{ currentStep === 3 ? 'color: #fff;cursor: pointer;' : (steps[3].disabled ? 'color: #bbb;cursor: not-allowed;': 'color: #3498db;cursor: pointer;') }}">
+                                       {{ 'FirstPartnerRegistration.T&C.StepTitle' | translate }}
+                                    </label>
+                                 </h6>
+                              </uib-tab-heading>
+
+                              <div class="bg-clean">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <span ng-include="'partner-registration/partner-registration.termsandconditions.html'"></span>
+
+                                       <div class="text-left">
+                                          <label class="checkbox-inline">
+                                             <input id="agreement" name="agreement" type="checkbox"
+                                                    ng-model="agreement.checked"/>
+                                             {{ 'FirstPartnerRegistration.T&C.AgreementCheck' | translate }}
+                                          </label>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </uib-tab>
+
+                        </uib-tabset>
+
+                        <div class="pull-left">
+                           <!-- Step 1 buttons //-->
+                           <div class="form-group" ng-if="currentStep === 0">
+                              <button class="btn btn-primary"
+                                      ng-disabled="($parent.companyInformationForm.$name === undefined) || $parent.companyInformationForm.$invalid"
+                                      ng-click="nextAndEnterBankInformation();">
+                                 {{ 'CommonLabels.Next' | translate }} &nbsp;<i class="fa fa-chevron-right"></i>
+                              </button>
+                           </div>
+
+                           <!-- Step 2 buttons //-->
+                           <div class="form-group" ng-if="currentStep === 1">
+                              <button class="btn btn-primary"
+                                      ng-click="$parent.currentStep = 0">
+                                 <i class="fa fa-chevron-left"></i>&nbsp {{ 'CommonLabels.Previous' | translate }}
+                              </button>&nbsp;&nbsp;&nbsp;
+                              <button class="btn btn-primary"
+                                      ng-disabled="($parent.bankInformationForm.$name === undefined) || $parent.bankInformationForm.$invalid"
+                                      ng-click="nextAndEnterLegalDocuments();">
+                                 {{ 'CommonLabels.Next' | translate }} &nbsp;<i class="fa fa-chevron-right"></i>
+                              </button>
+                           </div>
+
+                           <!-- Step 3 buttons //-->
+                           <div class="form-group" ng-if="currentStep === 2">
+                              <button class="btn btn-primary"
+                                      ng-click="$parent.currentStep = 1">
+                                 <i class="fa fa-chevron-left"></i>&nbsp {{ 'CommonLabels.Previous' | translate }}
+                              </button>&nbsp;&nbsp;&nbsp;
+                              <button class="btn btn-primary"
+                                      ng-disabled="($parent.businessTypeLegalFilesForm.$name === undefined) || $parent.businessTypeLegalFilesForm.$invalid || !$parent.isListsProperlySelected()"
+                                      ng-click="nextAndEnterAgreeTermsAndConditions();">
+                                 {{ 'CommonLabels.Next' | translate }} &nbsp;<i class="fa fa-chevron-right"></i>
+                              </button>
+                           </div>
+
+                           <!-- Step 4 buttons //-->
+                           <div class="form-group" ng-if="currentStep === 3">
+                              <button class="btn btn-primary"
+                                      ng-click="$parent.currentStep = 2"
+                                      ng-disabled="isPartnerRegistrationFlowStarted">
+                                 <i class="fa fa-chevron-left"></i>&nbsp {{ 'CommonLabels.Previous' | translate }}
+                              </button>&nbsp;&nbsp;&nbsp;
+                              <button class="btn btn-success"
+                                      ng-disabled="!$parent.agreement.checked || isPartnerRegistrationFlowStarted"
+                                      ng-click="save(companyInformation, companyLogo, bankInformation, selectedBusinessTypes, businessTypeLegalFiles);">
+                                 {{ 'CommonLabels.Save' | translate }}
+                              </button>
+                           </div>
+                        </div>
+
+                        <div class="pull-right">
+                           <div class="form-group">
+                              <button class="btn btn-default pull-right"
+                                      ng-click="cancel()"
+                                      ng-disabled="isPartnerRegistrationFlowStarted">
+                                 {{ 'CommonLabels.Cancel' | translate }}</i>
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+
+                  </div>
+
+               </div>
+
+            </div>
+
+         </div>
+
+      </div>
+
+   </div>
+
+</div>

@@ -1,0 +1,24 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('services.cc.operations.cosprofiles.collectcall') || $state.includes('services.cc.operations.cosprofiles.collectcalledit') }">
+            <a ui-sref="services.cc.operations.cosprofiles.collectcall" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.CC.Operations.CoSProfiles.MenuLabel' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('services.cc.operations.screenings') }">
+            <a ui-sref="services.cc.operations.screenings" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.CC.Operations.Screenings.Title' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

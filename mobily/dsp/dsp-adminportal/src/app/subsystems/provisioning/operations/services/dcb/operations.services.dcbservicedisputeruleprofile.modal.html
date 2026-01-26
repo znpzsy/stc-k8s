@@ -1,0 +1,119 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.ModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="TransactionType" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.TransactionType' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="TransactionType" name="TransactionType" class="form-control parsley-validated"
+                                ng-model="dcbServiceDisputeRuleProfile.TransactionType"
+                                ng-required="true"
+                                ng-options="transactionType as transactionType for transactionType in SERVICE_DCB_SERVICE_DISPUTE_RULE_TRANSACTION_TYPES"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.TransactionType.$dirty && form.TransactionType.$invalid }"
+                            ng-show="form.TransactionType.$dirty && form.TransactionType.$invalid">
+                            <li class="required" ng-show="form.TransactionType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.TransactionType.$error.availabilityCheck">{{ 'Subsystems.Provisioning.Services.Messages.AttributesAreAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="StatusAtCarrier" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.StatusAtCarrier' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="StatusAtCarrier" name="StatusAtCarrier" class="form-control parsley-validated"
+                                ng-model="dcbServiceDisputeRuleProfile.StatusAtCarrier"
+                                ng-required="true"
+                                ng-options="status as status for status in SERVICE_DCB_SERVICE_DISPUTE_RULE_STATUSES"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.StatusAtCarrier.$dirty && form.StatusAtCarrier.$invalid }"
+                            ng-show="form.StatusAtCarrier.$dirty && form.StatusAtCarrier.$invalid">
+                            <li class="required" ng-show="form.StatusAtCarrier.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.StatusAtCarrier.$error.availabilityCheck">{{ 'Subsystems.Provisioning.Services.Messages.AttributesAreAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="StatusAtClient" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.StatusAtClient' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="StatusAtClient" name="StatusAtClient" class="form-control parsley-validated"
+                                ng-model="dcbServiceDisputeRuleProfile.StatusAtClient"
+                                ng-required="true"
+                                ng-options="status as status for status in SERVICE_DCB_SERVICE_DISPUTE_RULE_STATUSES"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.StatusAtClient.$dirty && form.StatusAtClient.$invalid }"
+                            ng-show="form.StatusAtClient.$dirty && form.StatusAtClient.$invalid">
+                            <li class="required" ng-show="form.StatusAtClient.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.StatusAtClient.$error.availabilityCheck">{{ 'Subsystems.Provisioning.Services.Messages.AttributesAreAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ThresholdCondition" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.ThresholdCondition' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="ThresholdCondition" name="ThresholdCondition" class="form-control parsley-validated"
+                                ng-model="dcbServiceDisputeRuleProfile.ThresholdCondition"
+                                ng-required="true"
+                                ng-options="thresholdCondition as thresholdCondition for thresholdCondition in SERVICE_DCB_SERVICE_DISPUTE_RULE_THRESHOLD_CONDITIONS"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.ThresholdCondition.$dirty && form.ThresholdCondition.$invalid }"
+                            ng-show="form.ThresholdCondition.$dirty && form.ThresholdCondition.$invalid">
+                            <li class="required" ng-show="form.ThresholdCondition.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.ThresholdCondition.$error.availabilityCheck">{{ 'Subsystems.Provisioning.Services.Messages.AttributesAreAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Action" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.Action' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="Action" name="Action" class="form-control parsley-validated"
+                                ng-model="dcbServiceDisputeRuleProfile.Action"
+                                ng-required="true"
+                                ng-options="action as action for action in SERVICE_DCB_SERVICE_DISPUTE_RULE_ACTIONS"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.Action.$dirty && form.Action.$invalid }"
+                            ng-show="form.Action.$dirty && form.Action.$invalid">
+                            <li class="required" ng-show="form.Action.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) || isNotChanged()"
+                                ng-click="save(dcbServiceDisputeRuleProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

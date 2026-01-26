@@ -1,0 +1,81 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Users' | translate }} / {{ 'Subsystems.Provisioning.Roles.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="subsystems.provisioning.operations.users.roles.new"
+                        ng-disabled="!AuthorizationService.canCmpfOperationsRoleCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('Roles', roles)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('Roles', roles)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['id', 'name'])"
+                       placeholder="{{ 'CommonLabels.SearchByIdentifierOrName' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="role in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': role.rowSelected }">
+                        <td align="center" data-title="'Subsystems.Provisioning.Roles.Id' | translate" sortable="'id'">{{role.id}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.Roles.Name' | translate" sortable="'name'">{{role.name}}</td>
+                        <td align="center" data-title="'Subsystems.Provisioning.Roles.State' | translate" sortable="'state'">{{role.state}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.provisioning.operations.users.roles.update ({ id: role.id })"
+                                    class="btn btn-xs btn-secondary" title="{{ AuthorizationService.canCmpfOperationsRoleUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}" >
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canCmpfOperationsRoleUpdate()" ></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canCmpfOperationsRoleUpdate()" ></i>
+                            </button>
+                            <button ng-click="viewTeams(role)" class="btn btn-xs btn-default"
+                                    title="{{ 'Subsystems.Provisioning.Roles.ShowTeams' | translate }}">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button ng-click="viewUserAccounts(role)" class="btn btn-xs btn-primary"
+                                    title="{{ 'Subsystems.Provisioning.Roles.ShowUserAccounts' | translate }}">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button ng-click="remove(role)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-if="AuthorizationService.canCmpfOperationsRoleDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="Language" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.Language' | translate }}</label>
+            <div class="col-md-5">
+                <select id="Language" name="Language" class="form-control parsley-validated"
+                        ng-model="service.dummyLanguage"
+                        ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                        ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div ng-if="service.dcbServiceInvoicei18nProfile.Language">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMDealNameCharge" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMDealNameCharge' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMDealNameCharge" name="BRMDealNameCharge" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMDealNameCharge"
+                           ng-required="true" ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMDealNameCharge.$dirty && form.BRMDealNameCharge.$invalid }"
+                        ng-show="form.BRMDealNameCharge.$dirty && form.BRMDealNameCharge.$invalid">
+                        <li class="required" ng-show="form.BRMDealNameCharge.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.BRMDealNameCharge.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMDealNameRefund" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMDealNameRefund' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMDealNameRefund" name="BRMDealNameRefund" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMDealNameRefund"
+                           ng-required="true" ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMDealNameRefund.$dirty && form.BRMDealNameRefund.$invalid }"
+                        ng-show="form.BRMDealNameRefund.$dirty && form.BRMDealNameRefund.$invalid">
+                        <li class="required" ng-show="form.BRMDealNameRefund.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.BRMDealNameRefund.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMDealNamePartialRefund" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMDealNamePartialRefund' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMDealNamePartialRefund" name="BRMDealNamePartialRefund" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMDealNamePartialRefund"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMDealNamePartialRefund.$dirty && form.BRMDealNamePartialRefund.$invalid }"
+                        ng-show="form.BRMDealNamePartialRefund.$dirty && form.BRMDealNamePartialRefund.$invalid">
+                        <li class="required" ng-show="form.BRMDealNamePartialRefund.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMDealNameChargeBack" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMDealNameChargeBack' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMDealNameChargeBack" name="BRMDealNameChargeBack" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMDealNameChargeBack"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMDealNameChargeBack.$dirty && form.BRMDealNameChargeBack.$invalid }"
+                        ng-show="form.BRMDealNameChargeBack.$dirty && form.BRMDealNameChargeBack.$invalid">
+                        <li class="required" ng-show="form.BRMDealNameChargeBack.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMInvoiceDescriptionCharge" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMInvoiceDescriptionCharge' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMInvoiceDescriptionCharge" name="BRMInvoiceDescriptionCharge" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMInvoiceDescriptionCharge"
+                           ng-required="true" ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMInvoiceDescriptionCharge.$dirty && form.BRMInvoiceDescriptionCharge.$invalid }"
+                        ng-show="form.BRMInvoiceDescriptionCharge.$dirty && form.BRMInvoiceDescriptionCharge.$invalid">
+                        <li class="required" ng-show="form.BRMInvoiceDescriptionCharge.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.BRMInvoiceDescriptionCharge.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMInvoiceDescriptionRefund" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMInvoiceDescriptionRefund' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMInvoiceDescriptionRefund" name="BRMInvoiceDescriptionRefund" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMInvoiceDescriptionRefund"
+                           ng-required="true" ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMInvoiceDescriptionRefund.$dirty && form.BRMInvoiceDescriptionRefund.$invalid }"
+                        ng-show="form.BRMInvoiceDescriptionRefund.$dirty && form.BRMInvoiceDescriptionRefund.$invalid">
+                        <li class="required" ng-show="form.BRMInvoiceDescriptionRefund.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.BRMInvoiceDescriptionRefund.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMInvoiceDescriptionPartialRefund" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMInvoiceDescriptionPartialRefund' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMInvoiceDescriptionPartialRefund" name="BRMInvoiceDescriptionPartialRefund" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMInvoiceDescriptionPartialRefund"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMInvoiceDescriptionPartialRefund.$dirty && form.BRMInvoiceDescriptionPartialRefund.$invalid }"
+                        ng-show="form.BRMInvoiceDescriptionPartialRefund.$dirty && form.BRMInvoiceDescriptionPartialRefund.$invalid">
+                        <li class="required" ng-show="form.BRMInvoiceDescriptionPartialRefund.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BRMInvoiceDescriptionChargeBack" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceInvoicei18nProfile.BRMInvoiceDescriptionChargeBack' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="BRMInvoiceDescriptionChargeBack" name="BRMInvoiceDescriptionChargeBack" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceInvoicei18nProfile.BRMInvoiceDescriptionChargeBack"
+                           ng-maxlength="512"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.BRMInvoiceDescriptionChargeBack.$dirty && form.BRMInvoiceDescriptionChargeBack.$invalid }"
+                        ng-show="form.BRMInvoiceDescriptionChargeBack.$dirty && form.BRMInvoiceDescriptionChargeBack.$invalid">
+                        <li class="required" ng-show="form.BRMInvoiceDescriptionChargeBack.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || (!AuthorizationService.canCmpfOperationsServiceUpdate(service.state) && !AuthorizationService.canAllTemplatesUpdate()) || isNotChanged()"
+                            ng-click="save(service);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default"
+                            ui-sref="{{ $state.current.data.backState }}">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

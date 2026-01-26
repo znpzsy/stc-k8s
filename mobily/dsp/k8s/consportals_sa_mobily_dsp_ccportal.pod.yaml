@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consportals-sa-mobily-dsp-ccportal
+  labels:
+    component: dsp-ccportal
+spec:
+  containers:
+    - name: dsp-ccportal
+      image: mersin.telenity.com/com/telenity/consportals-sa-mobily-dsp-ccportal:1.0.0.1
+      ports:
+        - containerPort: 8081

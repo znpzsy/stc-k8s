@@ -1,0 +1,120 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.Events.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="event.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Events.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input id="eventId" name="eventId" type="text" class="form-control"
+                       ng-value="event.id"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Events.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="event.name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="toneId" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Events.Tone' | translate }}</label>
+            <div class="col-md-4">
+                <select id="toneId" name="toneId" class="form-control parsley-validated"
+                        ng-model="event.toneId"
+                        ng-options="tone.id as tone.name for tone in toneList"
+                        ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="signatureId" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Events.Signature' | translate }}</label>
+            <div class="col-md-4">
+                <select id="signatureId" name="signatureId" class="form-control parsley-validated"
+                        ng-model="event.signatureId"
+                        ng-options="signature.id as signature.alias for signature in signatureList"
+                        ng-disabled="(event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (event.id ? !AuthorizationService.canRBTOperationsEventUpdate() : !AuthorizationService.canRBTOperationsEventCreate()) || isNotChanged()"
+                        ng-click="save(event);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

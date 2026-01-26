@@ -1,0 +1,188 @@
+<div class="col-md-12 col-xs-12">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" style="margin-bottom: 0;">
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        {{ 'Subsystems.Licensing.Dashboard.QueryString1' | translate }}
+                        <span class="dropdown" uib-dropdown>
+                            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle>
+                                {{licenseName}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu>
+                                <li ng-repeat="choice in allLicenses">
+                                    <a ng-click="chooseLicense(choice)" style="cursor: pointer;">{{choice.name}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                        &nbsp;{{ 'Subsystems.Licensing.Dashboard.QueryString2' | translate }}
+                        <span class="dropdown" uib-dropdown>
+                            <a href class="dropdown-toggle" uib-dropdown-toggle>
+                                {{specifiedInterval.label}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu>
+                                <li ng-repeat="type in INTERVALS">
+                                    <a ng-click="chooseInterval(type)" style="cursor: pointer;">{{type.label}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                        &nbsp;
+                        <span>
+                            <button type="submit" class="btn btn-danger" ng-disabled="newEntryForm.$invalid || !specifiedLicense" ng-click="search();">
+                                {{ 'CommonLabels.Show' | translate }}
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-header" ng-show="showChart">
+                <h4 class="portlet-title">
+                    {{licenseName}}
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showCurrentStats">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.CurrentStats' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="progress-stat">
+                    <div class="progress-stat-label">
+                        % {{ 'Subsystems.Licensing.Dashboard.HardLimit' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ hardLimitConsumption | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div class="progress-bar progress-bar-secondary" role="progressbar"
+                             aria-valuenow="{{ hardLimitConsumption}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{hardLimitConsumption}}%">
+                            <span class="sr-only">{{ hardLimitConsumption | number:2 }}% {{ 'Subsystems.Licensing.Dashboard.HardLimit' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-stat">
+                    <div class="progress-stat-label">
+                        % {{ 'Subsystems.Licensing.Dashboard.SoftLimit' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ softLimitConsumption | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="{{softLimitConsumption}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{softLimitConsumption}}%">
+                            <span class="sr-only">{{ softLimitConsumption | number:2 }}% {{ 'Subsystems.Licensing.Dashboard.SoftLimit' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-stat" ng-show="userLimit">
+                    <div class="progress-stat-label">
+                        % {{ 'Subsystems.Licensing.Dashboard.UserLimit' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ userLimitConsumption | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div class="progress-bar progress-bar-tertiary" role="progressbar"
+                             aria-valuenow="{{userLimitConsumption}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{userLimitConsumption}}%">
+                            <span class="sr-only">{{ userLimitConsumption | number:2 }}% {{ 'Subsystems.Licensing.Dashboard.UserLimit' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showChart">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.HistoricalStats' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4 col-sm-5 col-xs-5">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn {{!viewOption.isYAxisNormalized?'btn-default active':'btn-default'}} btn-sm"
+                                    ng-change="changeViewOption(viewOption.isYAxisNormalized)"
+                                    ng-model="viewOption.isYAxisNormalized" uib-btn-radio="false">{{ 'Subsystems.Licensing.Dashboard.ViewOption.Raw' | translate }}
+                            </button>
+                            <button type="button" class="btn {{viewOption.isYAxisNormalized?'btn-default active':'btn-default'}} btn-sm"
+                                    ng-change="changeViewOption(viewOption.isYAxisNormalized)"
+                                    ng-model="viewOption.isYAxisNormalized" uib-btn-radio="true">{{ 'Subsystems.Licensing.Dashboard.ViewOption.Normalized' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="pull-right">
+                            <div class="btn-group" ng-show="licenseConsumptionExportList.length > 0">
+                                <button type="button" ng-click="csv.download(licenseName, licenseConsumptionExportList, exportOptions)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                <button type="button" ng-click="xls.download(licenseName, licenseConsumptionExportList, exportOptions)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                            </div>
+                        </div>
+                        <div export-csv="csv" export-xls="xls" export-options="exportOptions" ng-if="showChart">
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-4 col-xs-4">
+                        <div class="btn-group pull-right" ng-if="allProductLicenseValues.length > 0">
+                            <button type="button" class="btn {{isProductSelected(productLicenseName) ? 'btn-secondary active' : 'btn-default'}} btn-sm"
+                                    ng-model="dummySelectedProductLicenseValues" uib-btn-checkbox ng-repeat="productLicenseName in allProductLicenseValues"
+                                    ng-change="toggleProduct(productLicenseName)">
+                                {{ productLicenseName | uppercase }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas class="chart chart-line" chart-data="chartData"
+                                chart-labels="chartLabels" chart-series="chartSeries"
+                                chart-colors="chartColors" chart-options="chartOptions">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showChart && (specifiedLicense.type === 'shared')">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.HistoricalRejections' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas class="chart chart-bar" chart-data="rejectionsChartData"
+                                chart-labels="rejectionsChartLabels" chart-series="rejectionsSeries"
+                                chart-colors="rejectionsChartColors" chart-options="rejectionsChartOptions">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

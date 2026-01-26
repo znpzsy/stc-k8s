@@ -1,0 +1,38 @@
+# mobily/vcp/a3gw/Dockerfile.vcp.dev
+
+# ----------------------------------------------------------------------
+# Local test environment runs on node 10.15.0 with PM2 3.1.3
+# For Alpine-based Node 10 builds — alpine's musl libc has some issues with UID/GID resolution.
+# Went with Node 10.24.1 to avoid issues with npm v6 or older failing silently or fatally (PM2 3.1.3 gets snarky with 10.15.0).
+# ----------------------------------------------------------------------
+
+# Base image with Node.js and PM2
+FROM node:10.24.1-alpine
+
+# Create app directory
+WORKDIR /space/a3gw
+
+# Copy and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Install the matching version of PM2 - Mobily VCP local test
+RUN npm install -g pm2@3.1.3
+
+# Copy the application
+COPY ./src ./src
+
+# Copy the required configuration for PM2 & A3GW
+COPY ./vcp/ecosystem.config.js ./ecosystem.config.js
+COPY ./vcp/conf.dev ./src/conf
+
+# Create static directory and copy static files
+RUN mkdir -p ./static
+COPY ./vcp/static.dev ./static
+
+# Expose application ports
+EXPOSE 8444
+EXPOSE 8445
+
+# Run app via PM2
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]

@@ -1,0 +1,118 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.MMSC.Troubleshooting.Details.PageHeader' | translate:{ origAddress: edrRecord.sender.address, destAddress: edrRecord.recipient.address } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 435px;">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.MessageId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.messageID }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.Version' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.mmsProperties.version }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.MessageSize' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.mmsProperties.media.totalSize }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.DeliveryReport' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.mmsProperties.requested.deliverReport.toString() | uppercase }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.ContentTypes' | translate }}</td>
+                        <td class="kv-value">[{{ edrRecord.contentTypes.toString() }}]&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.SubmitDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.submitTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key" ng-if="isPermanent">{{ 'Products.MMSC.Troubleshooting.TableColumns.CompletionDate' | translate }}</td>
+                        <td class="kv-key" ng-if="!isPermanent">{{ 'Products.MMSC.Troubleshooting.TableColumns.EventDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.eventTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.ExpiryTime' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.mmsProperties.expiryTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.CDRKey' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.messageID }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Orig -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.OrigAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sender.address }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.RawOrigAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sender.o_address_short }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.OrigImsi' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sender.imsi }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.SourceMnp' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sender.mnp }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.OrigAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sender.relayServer }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dest -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.DestAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.recipient.address }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.RawDestAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.recipient.o_address_short }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.DestImsi' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.recipient.imsi }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.DestMnp' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.recipient.mnp }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MMSC.Troubleshooting.TableColumns.DestAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.recipient.relayServer }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

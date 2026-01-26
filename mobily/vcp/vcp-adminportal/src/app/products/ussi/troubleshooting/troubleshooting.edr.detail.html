@@ -1,0 +1,100 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.USSI.Troubleshooting.Detail.PageHeader' | translate:{ sipCallId: edrRecord.sipCallId} }}
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="details-modal">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.SequenceNum' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sequenceNum }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.CDRType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cdrType | UssiEDRTypeFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.Timestamp' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.SipMsisdn' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sipMsisdn }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.Dcs' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.dcs }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.Result' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.result | GeneralEDRResultFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.ReasonContext' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.reasonContext | UssiEDRReasonContextFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.Reason' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.reason | UssiEDRReasonFilter }}&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.SipCallId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sipCallId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.OrigCscfAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origCscfAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.Ticket' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ticket }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssdLanguage' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussdLanguage}}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssdMessageString' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussdMessageString }}&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssdAlertingPattern' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussdAlertingPattern }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssdSipErrorCode' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussdSipErrorCode }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssdMessageType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussdMessageType }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.TransactionType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.transactionType }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussType }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.USSI.Troubleshooting.TableColumns.UssdMapOp' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.ussdMapOp }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

@@ -1,0 +1,239 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-body buttons-portlet-body" style="border: 0;padding: 0;"
+         ng-init="$parent.$parent.$parent.selectedBusinessTypes = selectedBusinessTypes">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="pull-left">
+                    <button class="btn btn-secondary btn-sm ng-dirty"
+                            ng-class="{ 'ng-invalid-required': !selectedBusinessTypes.length }"
+                            ng-click="showBusinessTypes()"
+                            ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                        <i class="fa fa-plus"></i> {{ 'FirstPartnerRegistration.LegalDocuments.SelectBusinessTypes' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-6">
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body buttons-portlet-body" style="border: 0;padding: 0;" ng-show="selectedBusinessTypes.length > 0">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs">
+                    <li ng-repeat="selectedBusinessType in selectedBusinessTypes" ng-class="{'active': selectedBusinessTypes[$index].active}">
+                        <a href="javascript:;" data-toggle="tab" ng-click="selectBusinessTypeTab($index);">
+                            {{selectedBusinessType.Name}}
+                            <span ng-click="removeSelectedBusinessType(selectedBusinessType);" style="cursor: pointer;padding: 0px 3px 0px 3px;font-size: 14px;color: #d9534f;"
+                                  ng-if="AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                <i class="fa fa-times-rectangle"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div ng-repeat="selectedBusinessType in selectedBusinessTypes">
+                    <div ng-show="selectedBusinessType.active">
+                        <div class="portlet portlet-default" style="margin-bottom: 0;">
+
+                            <div class="portlet-body buttons-portlet-body" style="border: 0;padding: 0;">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="pull-right">
+                                            <button class="btn btn-secondary btn-sm ng-dirty"
+                                                    ng-class="{ 'ng-invalid-required': !selectedBusinessType.selectedSettlementTypes.length }"
+                                                    ng-click="showSettlementTypesByBusinessType(selectedBusinessType)"
+                                                    ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                                <i class="fa fa-plus"></i> {{ 'FirstPartnerRegistration.LegalDocuments.AddSettlementTypes' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="portlet-body" style="border: 0;padding: 0;">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table ng-table="selectedBusinessType.selectedSettlementTypesTableParams" class="table table-striped table-bordered"
+                                                   template-pagination="ngTableCustomPager.html"
+                                                   export-csv="csv" export-xls="xls"
+                                                   export-options="exportOptions">
+                                                <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                                                    ng-class="{ 'row-selected': data.rowSelected }">
+                                                    <td align="center" data-title="'PartnerInfo.BusinessManagement.Operations.SettlementTypes.Id' | translate" sortable="'profileId'">{{data.profileId}}</td>
+                                                    <td align="center" data-title="'PartnerInfo.BusinessManagement.Operations.SettlementTypes.Name' | translate" sortable="'Name'">{{data.Name}}</td>
+                                                    <td align="center" data-title="'PartnerInfo.BusinessManagement.Operations.SettlementTypes.SettlementModel' | translate" sortable="'SettlementModel'">{{data.SettlementModel}}</td>
+                                                    <td align="center" data-title="'PartnerInfo.BusinessManagement.Operations.SettlementTypes.RevenueSource' | translate" sortable="'RevenueSource'">{{data.RevenueSource}}</td>
+                                                    <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                                        <button ng-click="showSettlementTypeDetails(data, $event)"
+                                                                class="btn btn-xs btn-default"
+                                                                title="{{ 'CommonLabels.Details' | translate }}">
+                                                            <i class="fa fa-bars"></i>
+                                                        </button>
+                                                        <button ng-click="removeSettlementType(selectedBusinessType, data)" class="btn btn-xs btn-danger"
+                                                                title="{{ 'CommonLabels.Remove' | translate }}"
+                                                                ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="$data.length === 0">
+                                                    <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" style="min-height: 1px;">
+                                    <div class="divider" style="min-height: 1px;"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body" style="border: 0;padding: 0;" ng-show="selectedBusinessTypes.length > 0">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <form class="form-horizontal parsley-form" novalidate id="businessTypeLegalFilesForm" name="businessTypeLegalFilesForm" method="post" enctype="multipart/form-data">
+                        <table ng-table="businessTypeLegalFiles.tableParams" class="table table-striped table-bordered"
+                               template-pagination="ngTableCustomPager.html"
+                               export-csv="csv" export-xls="xls"
+                               export-options="exportOptions">
+                            <tr ng-repeat="data in $data">
+                                <!-- File type column -->
+                                <td align="center" data-title="'FirstPartnerRegistration.LegalDocuments.LegalFilesType' | translate" sortable="'name'" style="width: 200px;">
+                                    <div style="cursor: text;text-overflow: ellipsis;width: 175px;overflow: hidden;white-space: nowrap;display: block;">
+                                        <span ng-if="data.required" class="text-danger">*</span>&nbsp;{{ 'PartnerInfo.BusinessManagement.Operations.BusinessTypes.' + data.name | translate }}
+                                    </div>
+                                </td>
+                                <!-- Attachment column -->
+                                <td align="center" data-title="'FirstPartnerRegistration.LegalDocuments.MandatoryDocuments' | translate" style="width: 300px;">
+                                    <div class="form-group" style="margin: 0;">
+                                        <div ng-show="!data.legalFileAttachment.name">
+                                            <!-- Select button -->
+                                            <button name="legalFileAttachment_{{data.id}}" type="file" class="btn btn-sm btn-block btn-default"
+                                                    ngf-select
+                                                    ng-model="data.legalFileAttachment"
+                                                    ngf-accept="'.pdf'"
+                                                    ngf-max-size="20MB"
+                                                    ng-required="data.required"
+                                                    ngf-model-invalid="errorFile"
+                                                    ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                                {{ ((data.previousLegalFileAttachment) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                                            </button>
+                                            <ul ng-class="{ 'parsley-error-list': businessTypeLegalFilesForm.legalFileAttachment_{{data.id}}.$dirty && businessTypeLegalFilesForm.legalFileAttachment_{{data.id}}.$invalid }"
+                                                ng-show="businessTypeLegalFilesForm.legalFileAttachment_{{data.id}}.$dirty && businessTypeLegalFilesForm.legalFileAttachment_{{data.id}}.$invalid">
+                                                <li class="required" ng-show="businessTypeLegalFilesForm.legalFileAttachment_{{data.id}}.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                <li class="required" ng-show="businessTypeLegalFilesForm.legalFileAttachment_{{data.id}}.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Remove button with the selected file name -->
+                                        <div class="btn-group" role="group" ng-if="data.legalFileAttachment.name">
+                                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 202px;overflow: hidden;white-space: nowrap;display: block;"
+                                                    uib-tooltip="{{data.legalFileAttachment.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                                {{ data.legalFileAttachment.name }}
+                                            </button>
+                                            <button name="removeLegalFileAttachment" class="btn btn-sm btn-danger" type="button"
+                                                    ng-click="data.legalFileAttachment = null;"
+                                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                                    ng-if="AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            &nbsp;&nbsp;
+                                        </div>
+                                        <a class="btn btn-sm btn-success"
+                                           ng-if="data.legalFileAttachment.name"
+                                           title="{{ 'CommonLabels.Download' | translate }}"
+                                           download="{{ data.legalFileAttachment.name }}"
+                                           href="{{ data.legalFileAttachment | ngfDataUrl }}" target="_blank">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <!-- ValidityDate column //-->
+                                <td align="center" data-title="'FirstPartnerRegistration.LegalDocuments.ValidityDate' | translate">
+                                    <div style="display: inline-table;">
+                                        <div class="form-group" style="display: table-cell;">
+                                            <label for="startDate_{{data.id}}" class="col-md-3 text-right">{{ 'CommonLabels.From' | translate }}</label>
+                                            <div class="col-md-9">
+                                                <p class="input-group datepicker-field" style="margin: 0;">
+                                                    <input id="startDate_{{data.id}}" name="startDate_{{data.id}}" type="text" class="form-control input-sm"
+                                                           ng-model="data.startDate"
+                                                           uib-datepicker-popup="{{dateFormat}}"
+                                                           is-open="data.startDatePicker.opened"
+                                                           datepicker-options="dateOptions" ng-required="data.required"
+                                                           datepicker-append-to-body="true"
+                                                           ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default input-sm" ng-click="openFromDatePicker($event, data)"
+                                                                ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </p>
+                                                <ul ng-class="{ 'parsley-error-list': businessTypeLegalFilesForm.startDate_{{data.id}}.$dirty && businessTypeLegalFilesForm.startDate_{{data.id}}.$invalid }"
+                                                    ng-show="businessTypeLegalFilesForm.startDate_{{data.id}}.$dirty && businessTypeLegalFilesForm.startDate_{{data.id}}.$invalid">
+                                                    <li class="required" ng-show="businessTypeLegalFilesForm.startDate_{{data.id}}.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                    <li class="required" ng-show="businessTypeLegalFilesForm.startDate_{{data.id}}.$error.date">{{'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                                                    <li class="required" ng-show="businessTypeLegalFilesForm.startDate_{{data.id}}.$error.maxDateExceeded">{{'GenericFormFields.StartDate.Messages.MaxDateExceeded' | translate }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="display: table-cell;">
+                                            <label for="endDate_{{data.id}}" class="col-md-3 text-right">{{ 'CommonLabels.To' | translate }}</label>
+                                            <div class="col-md-9">
+                                                <p class="input-group datepicker-field" style="margin: 0;">
+                                                    <input id="endDate_{{data.id}}" name="endDate_{{data.id}}" type="text" class="form-control input-sm"
+                                                           ng-model="data.endDate"
+                                                           uib-datepicker-popup="{{dateFormat}}"
+                                                           is-open="data.endDatePicker.opened"
+                                                           datepicker-options="dateOptions" ng-required="data.required"
+                                                           datepicker-append-to-body="true"
+                                                           ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())"/>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default input-sm" ng-click="openToDatePicker($event, data)"
+                                                                ng-disabled="!AuthorizationService.canPrmProfileUpdate($root.getOrganizationState())">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </p>
+                                                <ul ng-class="{ 'parsley-error-list': businessTypeLegalFilesForm.endDate_{{data.id}}.$dirty && businessTypeLegalFilesForm.endDate_{{data.id}}.$invalid }"
+                                                    ng-show="businessTypeLegalFilesForm.endDate_{{data.id}}.$dirty && businessTypeLegalFilesForm.endDate_{{data.id}}.$invalid">
+                                                    <li class="required" ng-show="businessTypeLegalFilesForm.endDate_{{data.id}}.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                    <li class="required" ng-show="businessTypeLegalFilesForm.endDate_{{data.id}}.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                                                    <li class="required" ng-show="businessTypeLegalFilesForm.endDate_{{data.id}}.$error.minDateExceeded">{{'GenericFormFields.EndDate.Messages.MinDateExceeded' | translate }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-if="$data.length === 0">
+                                <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                            </tr>
+                        </table>
+
+                        <div ng-init="$parent.$parent.$parent.businessTypeLegalFilesForm = businessTypeLegalFilesForm"></div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

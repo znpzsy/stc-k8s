@@ -1,0 +1,130 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'PartnerInfo.ShortCodes.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body buttons-portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn {{stateFilter === 'WAITING'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'WAITING'" ng-change="stateFilterChange('WAITING');">{{ 'StatusTypes.Waiting' | translate | uppercase }}
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right" style="margin-right: 10px;">
+                        <button type="button" class="btn {{stateFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'ALL'" ng-change="stateFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                        </button>
+                        <button type="button" class="btn {{stateFilter === 'PENDING'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'PENDING'" ng-change="stateFilterChange('PENDING');">PENDING
+                        </button>
+                        <button type="button" class="btn {{stateFilter === 'FREE'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'FREE'" ng-change="stateFilterChange('FREE');">FREE
+                        </button>
+                        <button type="button" class="btn {{stateFilter === 'APPLIED'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'APPLIED'" ng-change="stateFilterChange('APPLIED');">APPLIED
+                        </button>
+                        <button type="button" class="btn {{stateFilter === 'IN_REVIEW'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'IN_REVIEW'" ng-change="stateFilterChange('IN_REVIEW');">IN_REVIEW
+                        </button>
+                        <button type="button" class="btn {{stateFilter === 'USED'?'btn-default active':'btn-default'}} btn-sm"
+                                ng-model="stateFilter" uib-btn-radio="'USED'" ng-change="stateFilterChange('USED');">USED
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portlet-body buttons-portlet-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="pull-right">
+                        <div class="btn-group" ng-show="shortCodeList.tableParams.total() > 0">
+                            <button type="button" ng-click="exportAllData('ShortCode', csv);" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                            <button type="button" ng-click="exportAllData('ShortCode', xls);" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <form class="mainnav-form">
+                        <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                               ng-model="filterText" ng-change="filterTable(filterText, ['profileId', 'ShortCode', 'Status'])"
+                               placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                        <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table ng-table="shortCodeList.tableParams" class="table table-striped table-bordered"
+                               template-pagination="ngTableCustomPager.html"
+                               export-csv="csv" export-xls="xls"
+                               export-options="exportOptions">
+                            <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                                ng-class="{ 'row-selected': data.rowSelected }">
+                                <td align="center" data-title="'PartnerInfo.ShortCodes.Id' | translate" sortable="'profileId'">{{data.profileId}}</td>
+                                <td align="center" data-title="'PartnerInfo.ShortCodes.ShortCode' | translate" sortable="'ShortCode'">{{data.ShortCode}}</td>
+                                <td align="center" data-title="'CommonLabels.State' | translate" sortable="'Status'">{{data.Status}}</td>
+                                <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                    <button ng-click="showTaskDetails(data)"
+                                            ng-if="data.taskObjectId"
+                                            ng-disabled="!AuthorizationService.canBpmTaskRead()"
+                                            class="btn btn-xs btn-default"
+                                            title="{{ 'CommonLabels.Details' | translate }}">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+
+                                    <span ng-if="!data.taskObjectId">
+                                        <button ui-sref="partner-info.shortcodes.update({ id : data.profileId })"
+                                                class="btn btn-xs btn-secondary"
+                                                title="{{ AuthorizationService.canPrmShortCodeUpdate(data.Status) ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                            <i class="fa fa-edit" ng-if="AuthorizationService.canPrmShortCodeUpdate(data.Status) && data.Status === 'USED'" ></i>
+                                            <i class="fa fa-square-o" ng-if="!AuthorizationService.canPrmShortCodeUpdate(data.Status) || data.Status !== 'USED'" ></i>
+                                        </button>
+                                        <button ng-click="startShortCodeStateFlow(data, 'APPLIED');"
+                                                class="btn btn-xs btn-success"
+                                                title="{{ 'CommonLabels.Apply' | translate }}"
+                                                ng-if="data.Status === 'FREE' && (data.Status !== 'PENDING' && AuthorizationService.canBpmTaskCreate())"
+                                                ng-disabled="!AuthorizationService.canPrmShortCodeUpdate(data.Status)">
+                                            <i class="fa fa-sign-in"></i>
+                                        </button>
+                                        <button ng-click="startShortCodeStateFlow(data, 'FREE');"
+                                                class="btn btn-xs btn-danger"
+                                                title="{{ 'CommonLabels.Free' | translate }}"
+                                                ng-if="data.Status !== 'FREE' && (data.Status !== 'PENDING' && AuthorizationService.canBpmTaskCreate())"
+                                                ng-disabled="!AuthorizationService.canPrmShortCodeUpdate(data.Status)">
+                                            <i class="fa fa-sign-out"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-default"
+                                                ng-if="(data.Status === 'PENDING' || !AuthorizationService.canBpmTaskCreate())"
+                                                ng-disabled="true">
+                                            <i class="fa fa-ellipsis-h"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr ng-if="$data.length === 0">
+                                <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

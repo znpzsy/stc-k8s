@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consportals-sa-mobily-dsp-adminportal
+  labels:
+    component: dsp-adminportal
+spec:
+  containers:
+    - name: dsp-adminportal
+      image: mersin.telenity.com/com/telenity/consportals-sa-mobily-dsp-adminportal:1.0.0.1
+      ports:
+        - containerPort: 8080

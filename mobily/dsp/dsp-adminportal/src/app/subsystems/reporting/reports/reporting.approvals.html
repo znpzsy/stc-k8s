@@ -1,0 +1,79 @@
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="row">
+                <label for="reportingWindow" class="col-md-5 text-left">{{ 'Subsystems.Reporting.Approvals.ReportingWindow' | translate }}</label>
+                <div class="col-md-7">
+                    <p class="input-group datepicker-field">
+                        <input type="text" class="form-control input-sm" id="reportingWindow" name="reportingWindow"
+                               uib-datepicker-popup="{{'MMMM, y'}}" ng-model="reportingWindowDate"
+                               is-open="reportingWindowPicker.opened"
+                               datepicker-options="{ formatYear: 'yy', startingDay: 1, showWeeks: false, minMode: 'month' }"
+                               datepicker-mode="'month'"
+                               ng-required="true"
+                               ng-change="updateReportingWindow(reportingWindowDate)"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openReportingWindowPicker($event)"><i
+                                    class="fa fa-calendar"></i></button>
+                        </span>
+                        <ul ng-class="{ 'parsley-error-list': form.reportingWindow.$dirty && form.reportingWindow.$invalid }" ng-show="form.reportingWindow.$dirty && form.reportingWindow.$invalid">
+                            <li class="required" ng-show="form.reportingWindow.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.reportingWindow.$error.date">{{ 'Subsystems.Reporting.Approvals.ReportingWindow.Messages.Invalid' | translate }}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="approvalList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('Approvals', approvalList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('Approvals', approvalList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['organizationId', 'organizationName', 'paymentStatus'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }} ...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="approvalList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="invoice in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': invoice.rowSelected }">
+                        <td align="center" data-title="'Subsystems.Reporting.Approvals.OrganizationId' | translate" sortable="'organizationId'">{{invoice.organizationId}}</td>
+                        <td align="center" data-title="'Subsystems.Reporting.Approvals.OrganizationName' | translate" sortable="'organizationName'">{{invoice.organizationName}}</td>
+                        <td align="center" data-title="'Subsystems.Reporting.Approvals.InvoiceState' | translate" sortable="'paymentStatus'">{{invoice.paymentStatus | uppercase}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.reporting.reports.invoicereports.invoice.approvals.update ({ id: invoice.organizationId })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canAllConfigurationUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}"
+                                    ng-disabled="!invoice.organizationId">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canAllConfigurationUpdate()" ></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canAllConfigurationUpdate()" ></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

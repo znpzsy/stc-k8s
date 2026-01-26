@@ -1,0 +1,89 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group" ng-if="dcbServiceList">
+            <label for="serviceId" class="col-md-3">
+                {{ 'CommonLabels.Service' | translate }}
+            </label>
+            <div class="col-md-8">
+                <select id="serviceId" name="serviceId" class="form-control"
+                        ng-model="$parent.limits.service"
+                        ng-required="true"
+                        ng-if="!$parent.limits.id"
+                        ng-change="changeService(limits.service);"
+                        ng-options="dcbService as dcbService.name group by dcbService.dcbServiceProfile.TrustStatusLabel for dcbService in dcbServiceList"
+                        ng-disabled="!AuthorizationService.canCcPreferenceUpdate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <select id="serviceId" name="serviceId" class="form-control" ng-if="$parent.limits.id" ng-disabled="true">
+                    <option value="">{{ $parent.limits.service.name }}</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': listItemForm.serviceId.$dirty && listItemForm.serviceId.$invalid }"
+                    ng-show="listItemForm.serviceId.$dirty && listItemForm.serviceId.$invalid">
+                    <li class="required" ng-show="listItemForm.serviceId.$error.required">{{ 'ScreeningLists.AddForm.Messages.Required' | translate }}</li>
+                    <li class="required" ng-show="listItemForm.serviceId.$error.availabilityCheck">{{ 'ScreeningLists.AddForm.Messages.ItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-if="((dcbServiceList && limits.service.id) || !dcbServiceList)">
+            <div class="form-group">
+                <label for="dailyLimit" class="col-md-3">{{ 'SubscriberInfo.DCB.DcbStatistics.DailyLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</label>
+                <div class="col-md-4">
+                    <input id="dailyLimit" name="dailyLimit" type="number" class="form-control"
+                           ng-model="limits.dailyLimit"
+                           min="0" max="999999999"
+                           ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.dailyLimit.$dirty && form.dailyLimit.$invalid }" ng-show="form.dailyLimit.$dirty && form.dailyLimit.$invalid">
+                        <li class="required" ng-show="form.dailyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.dailyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label for="monthlyLimit" class="col-md-3">{{ 'SubscriberInfo.DCB.DcbStatistics.MonthlyLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</label>
+                <div class="col-md-4">
+                    <input id="monthlyLimit" name="monthlyLimit" type="number" class="form-control"
+                           ng-model="limits.monthlyLimit"
+                           min="0" max="999999999"
+                           ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.monthlyLimit.$dirty && form.monthlyLimit.$invalid }" ng-show="form.monthlyLimit.$dirty && form.monthlyLimit.$invalid">
+                        <li class="required" ng-show="form.monthlyLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.monthlyLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label for="purchaseLimit" class="col-md-3">{{ 'SubscriberInfo.DCB.DcbStatistics.PurchaseLimit' | translate }} ({{ dcbSettingsOrganization.dcbProfile.Currency }})</label>
+                <div class="col-md-4">
+                    <input id="purchaseLimit" name="purchaseLimit" type="number" class="form-control"
+                           ng-model="limits.purchaseLimit"
+                           min="0" max="999999999"
+                           ng-disabled="!AuthorizationService.canCcPreferenceUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.purchaseLimit.$dirty && form.purchaseLimit.$invalid }" ng-show="form.purchaseLimit.$dirty && form.purchaseLimit.$invalid">
+                        <li class="required" ng-show="form.purchaseLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.purchaseLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || !AuthorizationService.canCcPreferenceUpdate() || isNotChanged()"
+                            ng-click="save(limits);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-sm btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>

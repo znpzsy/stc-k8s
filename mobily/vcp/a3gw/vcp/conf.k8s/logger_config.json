@@ -1,0 +1,5 @@
+{
+  "timezone": "Asia/Riyadh",
+  "maxSize": 10000000,
+  "maxFiles": 15
+}

@@ -1,0 +1,46 @@
+<div class="mainnav">
+
+    <div class="container">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="mainnav-toggle" data-toggle="collapse" data-target=".mainnav-collapse"
+               ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <nav class="mainnav-collapse" role="navigation">
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+
+                <ul class="nav mainnav-menu">
+                    <li ng-class="{ 'active': $state.includes('dashboards') }"
+                        ng-if="!isSSOApplication">
+                        <a ui-sref="dashboards">
+                            <i class="fa fa-home"></i>&nbsp;&nbsp;{{ 'Dashboard.MenuLabel' | translate }}
+                        </a>
+                    </li>
+
+                    <li ng-show="isSubscriberFound();" ng-class="{ 'active': $state.includes('subscriber-info') }">
+                        <a ui-sref="subscriber-info.subscriber-profile">
+                            {{ 'GenericTabs.Subscriber.Header' | translate }}
+                        </a>
+                    </li>
+
+                    <li class="pull-right" ng-if="getMsisdn()" style="margin-right: 0;">
+                        <a href="javascript:;">
+                            {{ 'Header.Msisdn' | translate }}: {{getMsisdn()}}<span ng-if="!isSubscriberActive()"> - {{getSubscriberState() | ProvisioningStatusTypeFilter | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+</div>

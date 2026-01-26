@@ -1,0 +1,6 @@
+{
+  "algorithm": "HS256",
+  "secret": "9ed48dd1be4521593db25bb1aa775408efe1c6261729664e104a947bbca1eae1",
+  "tokenExpireTime": 3600000,
+  "refreshTokenNotBeforeTime": 3000000
+}

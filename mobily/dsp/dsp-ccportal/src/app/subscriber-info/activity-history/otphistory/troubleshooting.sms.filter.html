@@ -1,0 +1,90 @@
+<form id="filterForm" name="filterForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+    <div class="portlet portlet-boxed">
+        <div class="portlet-body">
+
+            <div class="form-group">
+                <label for="startDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.StartDateAndTime.Label' | translate }}</label>
+                <div class="col-md-3 col-sm-4">
+                    <div id="startDate" class="input-group date datepicker-field">
+                        <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                               ng-model="dateFilter.startDate" uib-datepicker-popup="{{dateFormat}}"
+                               ng-change="updateStartDate(dateFilter.startDate)"
+                               ng-focus="openStartDatePicker($event)"
+                               min-max-check is-open="startDatePicker.opened"
+                               max-date="dateFilter.endDate" datepicker-options="dateOptions"
+                               ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openStartDatePicker($event)"><i
+                                    class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                        <li class="required" ng-show="filterForm.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="filterForm.startDate.$error.date">{{ 'GenericFormFields.StartDateAndTime.Messages.Invalid' | translate }}</li>
+                        <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-sm-4">
+                    <div uib-timepicker ng-model="dateFilter.startTime" class="time-picker with-date-picker"
+                         hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" readonly-input="true" mousewheel="false"
+                         ng-change="updateStartDateTime(dateFilter.startTime)"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.EndDateAndTime.Label' | translate }}</label>
+                <div class="col-md-3 col-sm-4">
+                    <div id="endDate" class="input-group date datepicker-field">
+                        <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                               ng-model="dateFilter.endDate" uib-datepicker-popup="{{dateFormat}}"
+                               ng-change="updateEndDate(dateFilter.endDate)"
+                               ng-focus="openEndDatePicker($event)"
+                               min-max-check is-open="endDatePicker.opened"
+                               min-date="dateFilter.startDate" datepicker-options="dateOptions"
+                               ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openEndDatePicker($event)"><i
+                                    class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': filterForm.endDate.$dirty && filterForm.endDate.$invalid }" ng-show="filterForm.endDate.$dirty && filterForm.endDate.$invalid">
+                        <li class="required" ng-show="filterForm.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="filterForm.endDate.$error.date">{{ 'GenericFormFields.EndDateAndTime.Messages.Invalid' | translate }}</li>
+                        <li class="required" ng-show="filterForm.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDateAndTime.Messages.MinDateExceeded' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-sm-4">
+                    <div uib-timepicker ng-model="dateFilter.endTime" class="time-picker with-date-picker"
+                         hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" readonly-input="true" mousewheel="false"
+                         ng-change="updateEndDateTime(dateFilter.endTime)"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="result" class="col-md-2 col-sm-3 control-label text-right">{{ 'Products.MessagingGw.Troubleshooting.FilterForm.DeliveryStatus' | translate }}</label>
+                <div class="col-md-3 col-sm-4">
+                    <select id="result" name="result" ng-model="dateFilter.result" class="form-control">
+                        <option value="">{{ 'CommonLabels.All' | translate }}</option>
+                        <option value="0">{{ 'CommonLabels.Delivered' | translate }}</option>
+                        <option value="1">{{ 'CommonLabels.Undelivered' | translate }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 col-sm-3">&nbsp;</label>
+                <div class="col-md-3 col-sm-4">
+                    <button class="btn btn-sm btn-secondary" ng-disabled="filterForm.$invalid"
+                            ng-click="throttledReloadTable();"><i class="fa fa-search"></i>
+                        {{'CommonLabels.Search' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

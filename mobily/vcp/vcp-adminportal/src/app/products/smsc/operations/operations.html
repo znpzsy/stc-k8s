@@ -1,0 +1,250 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.applications') }">
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.Applications.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.applications.smppapps') }">
+                    <a ui-sref="products.smsc.operations.applications.smppapps" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.Applications.SmppApps.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.contentmodifiers') }">
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.ContentModifiers.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.contentmodifiers.smscontent') }">
+                    <a ui-sref="products.smsc.operations.contentmodifiers.smscontent.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.ContentModifiers.SMSContent.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.interconnect-agents') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.InterconnectAgents.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.interconnect-agents.smpp') }">
+                    <a ui-sref="products.smsc.operations.interconnect-agents.smpp" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.keywordscreening') }">
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.KeywordScreening.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.keywordscreening.global') }">
+                    <a ui-sref="products.smsc.operations.keywordscreening.global.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.KeywordScreening.Global.Title' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.keywordscreening.persender') }">
+                    <a ui-sref="products.smsc.operations.keywordscreening.persender.blacklist" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.KeywordScreening.PerSender.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.alert-global') || $state.includes('products.smsc.operations.retrypolicies.alert-per-application') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.Alert.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.alert-global') }">
+                            <a ui-sref="products.smsc.operations.retrypolicies.alert-global.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.Global.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.alert-per-application') }">
+                            <a ui-sref="products.smsc.operations.retrypolicies.alert-per-application.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.PerOrigApplication.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.dest-applications-global') || $state.includes('products.smsc.operations.retrypolicies.dest-applications-per-application') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.DestApplications.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.dest-applications-global') }">
+                            <a ui-sref="products.smsc.operations.retrypolicies.dest-applications-global.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.Global.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.dest-applications-per-application') }">
+                            <a ui-sref="products.smsc.operations.retrypolicies.dest-applications-per-application.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.PerDestApplication.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.errorbased-global') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.errorbased-global-policies') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.errorbased-per-application') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.errorbased-per-application-policies') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.suberrorbased-global') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.suberrorbased-global-policies') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.suberrorbased-per-application') ||
+                                                                   $state.includes('products.smsc.operations.retrypolicies.suberrorbased-per-application-policies') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.ErrorBased.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.errorbased-global') ||
+                                                  $state.includes('products.smsc.operations.retrypolicies.errorbased-global-policies') ||
+                                                  $state.includes('products.smsc.operations.retrypolicies.suberrorbased-global') ||
+                                                  $state.includes('products.smsc.operations.retrypolicies.suberrorbased-global-policies') }">
+                            <a ui-sref="products.smsc.operations.retrypolicies.errorbased-global.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.Global.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.errorbased-per-application') ||
+                                                  $state.includes('products.smsc.operations.retrypolicies.errorbased-per-application-policies') ||
+                                                  $state.includes('products.smsc.operations.retrypolicies.suberrorbased-per-application') ||
+                                                  $state.includes('products.smsc.operations.retrypolicies.suberrorbased-per-application-policies') }">
+                            <a ui-sref="products.smsc.operations.retrypolicies.errorbased-per-application.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.PerOrigApplication.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="divider"></li>
+
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.ss7') }">
+                    <a ui-sref="products.smsc.operations.retrypolicies.ss7.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.SS7RetryPolicies.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.retrypolicies.prioritybased') ||
+                                          $state.includes('products.smsc.operations.retrypolicies.prioritybased-policies') }">
+                    <a ui-sref="products.smsc.operations.retrypolicies.prioritybased.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RetryPolicies.PriorityBased.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.routingtables') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RoutingTables.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.routingtables.applicationrouting') }">
+                    <a ui-sref="products.smsc.operations.routingtables.applicationrouting" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RoutingTables.ApplicationRouting.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.routingtables.ss7subsystemrouting') }">
+                    <a ui-sref="products.smsc.operations.routingtables.ss7subsystemrouting" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RoutingTables.SS7SubsystemRouting.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.routingtables.interconnectagentrouting') }">
+                    <a ui-sref="products.smsc.operations.routingtables.interconnectagentrouting" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.RoutingTables.InterconnectSmppAgentRouting.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.trafficcontrols') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TrafficControls.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.trafficcontrols.subscribers') }">
+                    <a ui-sref="products.smsc.operations.trafficcontrols.subscribers" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TrafficControls.Subscribers.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.smsc.operations.trafficcontrols.applications') }">
+                    <a ui-sref="products.smsc.operations.trafficcontrols.applications.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TrafficControls.PerApplication.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables.destaddress') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.DestAddress.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables.destaddress.global') }">
+                            <a ui-sref="products.smsc.operations.translationtables.destaddress.global.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.Global.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables.destaddress.perapplication') }">
+                            <a ui-sref="products.smsc.operations.translationtables.destaddress.perapplication.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.PerApplication.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables.origaddress') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.OrigAddress.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables.origaddress.global') }">
+                            <a ui-sref="products.smsc.operations.translationtables.origaddress.global.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.Global.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.smsc.operations.translationtables.origaddress.perapplication') }">
+                            <a ui-sref="products.smsc.operations.translationtables.origaddress.perapplication.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Operations.TranslationTables.PerApplication.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

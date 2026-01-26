@@ -1,0 +1,41 @@
+<div style="font-size: 13px;">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <label>{{ 'CommonLabels.Name' | translate }} (En.):</label> {{ offer.enI18NName }}<br>
+            <label>{{ 'CommonLabels.Description' | translate }} (En.):</label> {{ offer.enI18NDescription }}<br>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <label>{{ 'CommonLabels.Name' | translate }} (Ar.):</label> {{ offer.arI18NName }}<br>
+            <label>{{ 'CommonLabels.Description' | translate }} (Ar.):</label> {{ offer.arI18NDescription }}<br>
+
+        </div>
+    </div>
+
+    <div class="row" ng-if="offer.subscriptionCode !== '000000'">
+        <div class="col-sm-12 col-md-12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="offer.subscriptionCode !== '000000'">
+        <div class="col-sm-12 col-md-12">
+
+            <label>{{ 'CommonLabels.SubscriptionCode' | translate }}:</label> {{ offer.subscriptionCode ? offer.subscriptionCode : 'N/A' }}<br>
+
+        </div>
+    </div>
+
+</div>

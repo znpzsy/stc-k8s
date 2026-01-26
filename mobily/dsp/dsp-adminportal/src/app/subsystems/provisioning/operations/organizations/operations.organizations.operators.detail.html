@@ -1,0 +1,192 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Organizations' | translate }} / {{ 'Subsystems.Provisioning.Operators.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post"
+          enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Operators.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="name" id="name" class="form-control" ng-model="operator.name"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsOperatorCreate() || operator.id"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="operator.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Operators.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="operatorId" value="" class="form-control" ng-model="operator.id"
+                       disabled="disabled"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Operators.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="description" value="" class="form-control" ng-model="operator.description"
+                       ng-maxlength="250" maxlength="250"
+                       ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Operators.State' | translate }}</label>
+            <div class="col-md-4" ng-if="isAdminUser">
+                <select id="state" name="state" class="form-control parsley-validated"
+                        ng-model="operator.state"
+                        ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"
+                        ng-options="status.value as (status.label | translate | uppercase) for status in STATUS_TYPES">
+                </select>
+            </div>
+            <div class="col-md-4" ng-if="!isAdminUser">
+                <select id="state" name="state" class="form-control" ng-value="operator.state" ng-disabled="true">
+                    <option>{{operator.state}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.BulkAccountDetails.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountOwner' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{operator.bulkMessagingOrganization?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"
+                            ng-model="operator.bulkMessagingOrganization" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!operator.bulkMessagingOrganization?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"
+                            ng-model="operator.bulkMessagingOrganization" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <span ng-if="operator.bulkMessagingOrganization">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.ContactPerson' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" name="bulkOrganizationProfileContactPerson" id="bulkOrganizationProfileContactPerson" class="form-control"
+                           ng-model="operator.bulkOrganizationProfile.ContactPerson"
+                           ng-maxlength="75" maxlength="75"
+                           ng-required="true"
+                           ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.bulkOrganizationProfileContactPerson.$dirty && form.bulkOrganizationProfileContactPerson.$invalid }" ng-show="form.bulkOrganizationProfileContactPerson.$dirty && form.bulkOrganizationProfileContactPerson.$invalid">
+                        <li class="required" ng-show="form.bulkOrganizationProfileContactPerson.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfileContactPerson.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 75 } }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Email' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" name="bulkOrganizationProfileEmail" id="bulkOrganizationProfileEmail" class="form-control"
+                           ng-model="operator.bulkOrganizationProfile.Email"
+                           ng-maxlength="250" maxlength="250"
+                           ng-required="true"
+                           ng-pattern="$root.Validators.EmailAddress"
+                           ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.bulkOrganizationProfileEmail.$dirty && form.bulkOrganizationProfileEmail.$invalid }" ng-show="form.bulkOrganizationProfileEmail.$dirty && form.bulkOrganizationProfileEmail.$invalid">
+                        <li class="required" ng-show="form.bulkOrganizationProfileEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfileEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfileEmail.$error.pattern">{{ 'CommonMessages.InvalidEmailAddress' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Phone' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" name="bulkOrganizationProfilePhone" id="bulkOrganizationProfilePhone" class="form-control"
+                           ng-model="operator.bulkOrganizationProfile.Phone"
+                           ng-maxlength="15" maxlength="15"
+                           ng-pattern="$root.Validators.InternationalPhoneNumber"
+                           ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.bulkOrganizationProfilePhone.$dirty && form.bulkOrganizationProfilePhone.$invalid }" ng-show="form.bulkOrganizationProfilePhone.$dirty && form.bulkOrganizationProfilePhone.$invalid">
+                        <li class="required" ng-show="form.bulkOrganizationProfilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfilePhone.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Fax' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" name="bulkOrganizationProfileFax" id="bulkOrganizationProfileFax" class="form-control"
+                           ng-model="operator.bulkOrganizationProfile.Fax"
+                           ng-maxlength="15" maxlength="15"
+                           ng-pattern="$root.Validators.InternationalPhoneNumber"
+                           ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.bulkOrganizationProfileFax.$dirty && form.bulkOrganizationProfileFax.$invalid }" ng-show="form.bulkOrganizationProfileFax.$dirty && form.bulkOrganizationProfileFax.$invalid">
+                        <li class="required" ng-show="form.bulkOrganizationProfileFax.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfileFax.$error.pattern">{{ 'CommonMessages.InvalidFaxNumber' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.WebSite' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" name="bulkOrganizationProfileWebSite" id="bulkOrganizationProfileWebSite" class="form-control"
+                           ng-model="operator.bulkOrganizationProfile.WebSite"
+                           ng-maxlength="250" maxlength="250"
+                           ng-required="true"
+                           ng-pattern="$root.Validators.UrlSimple"
+                           ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.bulkOrganizationProfileWebSite.$dirty && form.bulkOrganizationProfileWebSite.$invalid }" ng-show="form.bulkOrganizationProfileWebSite.$dirty && form.bulkOrganizationProfileWebSite.$invalid">
+                        <li class="required" ng-show="form.bulkOrganizationProfileWebSite.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfileWebSite.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        <li class="required" ng-show="form.bulkOrganizationProfileWebSite.$error.pattern">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Address' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea name="bulkOrganizationProfileAddress" id="bulkOrganizationProfileAddress" class="form-control"
+                              ng-model="operator.bulkOrganizationProfile.Address"
+                              ng-maxlength="250" maxlength="250"
+                              ng-pattern="$root.Validators.Address"
+                              ng-disabled="(operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.bulkOrganizationProfileAddress.$dirty && form.bulkOrganizationProfileAddress.$invalid }" ng-show="form.bulkOrganizationProfileAddress.$dirty && form.bulkOrganizationProfileAddress.$invalid">
+                        <li class="required" ng-show="form.bulkOrganizationProfileAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                    </ul>
+                </div>
+            </div>
+        </span>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (operator.id ? !AuthorizationService.canCmpfOperationsOperatorUpdate() : !AuthorizationService.canCmpfOperationsOperatorCreate()) || isNotChanged()"
+                        ng-click="save(operator);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

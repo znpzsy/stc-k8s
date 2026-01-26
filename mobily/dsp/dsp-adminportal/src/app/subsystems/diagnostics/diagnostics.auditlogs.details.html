@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Diagnostics.AuditLogs.DetailsModalHeader' | translate:{ transactionId: edrRecord.transactionId } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 200px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table sm-details-modal">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.Diagnostics.AuditLogs.TableColumns.ResourceName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.resourceName }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.Diagnostics.AuditLogs.TableColumns.UserAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.userAgent }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.Diagnostics.AuditLogs.TableColumns.JTI' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.jti }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.duration">
+                        <td class="kv-key">{{ 'Subsystems.Diagnostics.AuditLogs.TableColumns.Duration' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.duration }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

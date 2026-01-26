@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consportals-sa-mobily-vcp-a3gw-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-a3gw
+  template:
+    metadata:
+      labels:
+        component: vcp-a3gw
+    spec:
+      containers:
+        - name: vcp-a3gw
+          image: mersin.telenity.com/com/telenity/consportals-sa-mobily-vcp-a3gw:1.0.0.1
+          ports:
+            - containerPort: 8444
+            - containerPort: 8445

@@ -1,0 +1,4 @@
+{
+  "idleTimeout": 5, // DELETE THIS COMMENT - Mandatory property. Keeps the idle timeout value for web portals.
+  "keepaliveInterval": 10  // DELETE THIS COMMENT - Mandatory property. Keeps the keep alive request interval value for web portals.
+}

@@ -1,0 +1,49 @@
+<div class="portlet-header">
+  <h4 class="portlet-title">
+    {{ 'Products.AntiSpamSMS.Operations.AntispamLists.PageHeader' | translate }} / {{ pageHeaderKey | translate }}
+  </h4>
+</div>
+
+<div class="portlet-body">
+
+  <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.AntispamLists.TableColumns.List' | translate }}</label>
+      <div class="col-md-5">
+        <input name="list" type="text" class="form-control" ng-model="newItem"
+               placeholder="{{ 'Products.AntiSpamSMS.Operations.AntispamLists.Placeholders.ListItem' | translate }}..."
+               ng-required="true" ng-maxlength="50" maxlength="50"/>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-default ng-dirty"
+                ng-disabled="!AuthorizationService.canUpdate()"
+                ng-class="{ 'pull-right': selectedTags.length > 0 }"
+                ng-click="addItem(newItem)">
+          {{ 'CommonLabels.Add' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="portlet portlet-boxed">
+      <label class="modal-option-selection" ng-repeat="item in entry track by $index">
+        <span class="label label-secondary selected-item-label">{{item.listItem}}</span>
+        <span class="label label-danger selected-item-label" style="margin-right: 18px;" title="{{ 'CommonLabels.Remove' | translate }}">
+          <a href="javascript:;" ng-click="removeItem(item.listItem);">
+            <i class="fa fa-times-circle"></i>
+          </a>
+        </span>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-7 col-md-push-3">
+        <button type="reset" class="btn btn-default" ng-click="cancel();">
+          {{ 'CommonLabels.Cancel' | translate }}
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+</div>

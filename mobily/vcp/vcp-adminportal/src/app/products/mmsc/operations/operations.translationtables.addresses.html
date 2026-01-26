@@ -1,0 +1,102 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.TranslationTables.PageHeader' | translate }} / {{ $state.current.data.pageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm" ui-sref="{{newState}}"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+                <button type="button" ng-click="showAddressTranslationTestForm()" class="btn btn-sm btn-tertiary" style="margin-left: 10px;">{{ 'CommonLabels.TestDrive' | translate }}</button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="addressTranslationList.tableParams.total() > 0">
+                    <button type="button" ng-click="exportRecords('csv', key)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="exportRecords('xls', key)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['addressRangeStart', 'addressRangeEnd', 'translateBySourceAddress.digitsToAdd', 'digitsRemove', 'digitsRemoveFromEnd', 'translateByPrefix.prefix'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="addressTranslationList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html">
+                    <thead>
+                    <tr>
+                        <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('addressRangeStart', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('addressRangeStart', 'desc') }"
+                            ng-click="addressTranslationList.tableParams.sorting({'addressRangeStart': addressTranslationList.tableParams.isSortBy('addressRangeStart', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.MMSC.Operations.TranslationTables.TableColumns.Start' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('addressRangeEnd', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('addressRangeEnd', 'desc') }"
+                            ng-click="addressTranslationList.tableParams.sorting({'addressRangeEnd': addressTranslationList.tableParams.isSortBy('addressRangeEnd', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.MMSC.Operations.TranslationTables.TableColumns.End' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('translateBySourceAddress.digitsToAdd', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('translateBySourceAddress.digitsToAdd', 'desc') }"
+                            ng-click="addressTranslationList.tableParams.sorting({'translateBySourceAddress.digitsToAdd': addressTranslationList.tableParams.isSortBy('translateBySourceAddress.digitsToAdd', 'asc') ? 'desc' : 'asc'})"
+                            ng-if="key === 'destination'">
+                            <div>{{ 'Products.MMSC.Operations.TranslationTables.TableColumns.DigitsToAdd' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('digitsRemove', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('digitsRemove', 'desc') }"
+                            ng-click="addressTranslationList.tableParams.sorting({'digitsRemove': addressTranslationList.tableParams.isSortBy('digitsRemove', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.MMSC.Operations.TranslationTables.TableColumns.DigitsToRemove' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('translateByPrefix.prefix', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('translateByPrefix.prefix', 'desc') }"
+                            ng-click="addressTranslationList.tableParams.sorting({'translateByPrefix.prefix': addressTranslationList.tableParams.isSortBy('translateByPrefix.prefix', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.MMSC.Operations.TranslationTables.TableColumns.Prefix' | translate }}</div>
+                        </th>
+                        <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center">{{data.addressRangeStart}}</td>
+                        <td align="center">{{data.addressRangeEnd}}</td>
+                        <td align="center" ng-if="key === 'destination'">{{data.translateBySourceAddress.digitsToAdd | NotAvailableFilter}}</td>
+                        <td align="center">{{data.digitsRemove}} | {{data.digitsRemoveFromEnd}}</td>
+                        <td align="center">{{data.translateByPrefix.prefix | NotAvailableFilter}}</td>
+                        <td align="center">
+                            <button ui-sref="{{updateState}}({ addressRangeStart: data.addressRangeStart, addressRangeEnd: data.addressRangeEnd })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="{{key === 'destination' ? 6 : 5}}" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

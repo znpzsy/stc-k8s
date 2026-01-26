@@ -1,0 +1,371 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBReconciliationSettingsTitle' | translate:{ name: service.name } }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="DCBTransactionsFileName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.DCBTransactionsFileName' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="DCBTransactionsFileName" name="DCBTransactionsFileName" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationPolicyProfile.DCBTransactionsFileName"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.DCBTransactionsFileName.$dirty && form.DCBTransactionsFileName.$invalid }"
+                        ng-show="form.DCBTransactionsFileName.$dirty && form.DCBTransactionsFileName.$invalid">
+                        <li class="required" ng-show="form.DCBTransactionsFileName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="DCBTransactionsFileGenTime" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.DCBTransactionsFileGenTime' | translate }}</label>
+                <div class="col-md-7">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker id="DCBTransactionsFileGenTime" name="DCBTransactionsFileGenTime"
+                             ng-model="service.dcbServiceReconciliationPolicyProfile.DCBTransactionsFileGenTime"
+                             hour-step="1" minute-step="1" second-step="1"
+                             show-seconds="true" show-meridian="false"></div>
+                        <ul ng-class="{ 'parsley-error-list': form.DCBTransactionsFileGenTime.$dirty && form.DCBTransactionsFileGenTime.$invalid }"
+                            ng-show="form.DCBTransactionsFileGenTime.$dirty && form.DCBTransactionsFileGenTime.$invalid">
+                            <li class="required" ng-show="form.DCBTransactionsFileGenTime.$error.time">{{ 'CommonMessages.InvalidTime' | translate }}</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ClientTransactionsFileName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.ClientTransactionsFileName' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ClientTransactionsFileName" name="ClientTransactionsFileName" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationPolicyProfile.ClientTransactionsFileName"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ClientTransactionsFileName.$dirty && form.ClientTransactionsFileName.$invalid }"
+                        ng-show="form.ClientTransactionsFileName.$dirty && form.ClientTransactionsFileName.$invalid">
+                        <li class="required" ng-show="form.ClientTransactionsFileName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ClientTransactionsFileRecTime" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.ClientTransactionsFileRecTime' | translate }}</label>
+                <div class="col-md-7">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker id="ClientTransactionsFileRecTime" name="ClientTransactionsFileRecTime"
+                             ng-model="service.dcbServiceReconciliationPolicyProfile.ClientTransactionsFileRecTime"
+                             hour-step="1" minute-step="1" second-step="1"
+                             show-seconds="true" show-meridian="false"></div>
+                        <ul ng-class="{ 'parsley-error-list': form.ClientTransactionsFileRecTime.$dirty && form.ClientTransactionsFileRecTime.$invalid }"
+                            ng-show="form.ClientTransactionsFileRecTime.$dirty && form.ClientTransactionsFileRecTime.$invalid">
+                            <li class="required" ng-show="form.ClientTransactionsFileRecTime.$error.time">{{ 'CommonMessages.InvalidTime' | translate }}</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.GenerateSettlementFile' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceReconciliationPolicyProfile.GenerateSettlementFile?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceReconciliationPolicyProfile.GenerateSettlementFile" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceReconciliationPolicyProfile.GenerateSettlementFile?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceReconciliationPolicyProfile.GenerateSettlementFile" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="service.dcbServiceReconciliationPolicyProfile.GenerateSettlementFile">
+                <div class="form-group">
+                    <label for="DCBSettlementFileName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.DCBSettlementFileName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="DCBSettlementFileName" name="DCBSettlementFileName" type="text" class="form-control" dir="auto"
+                               ng-model="service.dcbServiceReconciliationPolicyProfile.DCBSettlementFileName"
+                               ng-maxlength="255"
+                               ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                        <ul ng-class="{ 'parsley-error-list': form.DCBSettlementFileName.$dirty && form.DCBSettlementFileName.$invalid }"
+                            ng-show="form.DCBSettlementFileName.$dirty && form.DCBSettlementFileName.$invalid">
+                            <li class="required" ng-show="form.DCBSettlementFileName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DCBSettlementFileGenTime" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.DCBSettlementFileGenTime' | translate }}</label>
+                    <div class="col-md-7">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker id="DCBSettlementFileGenTime" name="DCBSettlementFileGenTime"
+                             ng-model="service.dcbServiceReconciliationPolicyProfile.DCBSettlementFileGenTime"
+                             hour-step="1" minute-step="1" second-step="1"
+                             show-seconds="true" show-meridian="false"></div>
+                        <ul ng-class="{ 'parsley-error-list': form.DCBSettlementFileGenTime.$dirty && form.DCBSettlementFileGenTime.$invalid }"
+                            ng-show="form.DCBSettlementFileGenTime.$dirty && form.DCBSettlementFileGenTime.$invalid">
+                            <li class="required" ng-show="form.DCBSettlementFileGenTime.$error.time">{{ 'CommonMessages.InvalidTime' | translate }}</li>
+                        </ul>
+                    </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="DCBExceptionsFileName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.DCBExceptionsFileName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="DCBExceptionsFileName" name="DCBExceptionsFileName" type="text" class="form-control" dir="auto"
+                               ng-model="service.dcbServiceReconciliationPolicyProfile.DCBExceptionsFileName"
+                               ng-maxlength="255"
+                               ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                        <ul ng-class="{ 'parsley-error-list': form.DCBExceptionsFileName.$dirty && form.DCBExceptionsFileName.$invalid }"
+                            ng-show="form.DCBExceptionsFileName.$dirty && form.DCBExceptionsFileName.$invalid">
+                            <li class="required" ng-show="form.DCBExceptionsFileName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ClientSettlementFileName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.ClientSettlementFileName' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ClientSettlementFileName" name="ClientSettlementFileName" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationPolicyProfile.ClientSettlementFileName"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ClientSettlementFileName.$dirty && form.ClientSettlementFileName.$invalid }"
+                        ng-show="form.ClientSettlementFileName.$dirty && form.ClientSettlementFileName.$invalid">
+                        <li class="required" ng-show="form.ClientSettlementFileName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ClientSettlementFileRecTime" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.ClientSettlementFileRecTime' | translate }}</label>
+                <div class="col-md-7">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker id="ClientSettlementFileRecTime" name="ClientSettlementFileRecTime"
+                             ng-model="service.dcbServiceReconciliationPolicyProfile.ClientSettlementFileRecTime"
+                             hour-step="1" minute-step="1" second-step="1"
+                             show-seconds="true" show-meridian="false"></div>
+                        <ul ng-class="{ 'parsley-error-list': form.ClientSettlementFileRecTime.$dirty && form.ClientSettlementFileRecTime.$invalid }"
+                            ng-show="form.ClientSettlementFileRecTime.$dirty && form.ClientSettlementFileRecTime.$invalid">
+                            <li class="required" ng-show="form.ClientSettlementFileRecTime.$error.time">{{ 'CommonMessages.InvalidTime' | translate }}</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="DisputeThreshold" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationPolicyProfile.DisputeThreshold' | translate }}</label>
+                <div class="col-md-4">
+                    <input id="DisputeThreshold" name="DisputeThreshold" type="number" class="form-control"
+                           ng-model="service.dcbServiceReconciliationPolicyProfile.DisputeThreshold"
+                           ng-pattern="$root.Validators.DecimalNumber"
+                           min="0" max="100"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.DisputeThreshold.$dirty && form.DisputeThreshold.$invalid }"
+                        ng-show="form.DisputeThreshold.$dirty && form.DisputeThreshold.$invalid">
+                        <li class="required" ng-show="form.DisputeThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.DisputeThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                        <li class="required" ng-show="form.DisputeThreshold.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.DisputeThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="PostpaidChargingMethod" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.PostpaidChargingMethod' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="PostpaidChargingMethod" name="PostpaidChargingMethod" class="form-control"
+                            ng-model="service.dcbServiceReconciliationProfile.PostpaidChargingMethod"
+                            ng-options="chargingMethod as chargingMethod for chargingMethod in SERVICE_DCB_SERVICE_RECONCILIATION_CHARGING_METHODS"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ChargeARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.ChargeARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ChargeARC" name="ChargeARC" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationProfile.ChargeARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargeARC.$dirty && form.ChargeARC.$invalid }"
+                        ng-show="form.ChargeARC.$dirty && form.ChargeARC.$invalid">
+                        <li class="required" ng-show="form.ChargeARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="RefundARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.RefundARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="RefundARC" name="RefundARC" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationProfile.RefundARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.RefundARC.$dirty && form.RefundARC.$invalid }"
+                        ng-show="form.RefundARC.$dirty && form.RefundARC.$invalid">
+                        <li class="required" ng-show="form.RefundARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PartialRefundARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.PartialRefundARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PartialRefundARC" name="PartialRefundARC" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationProfile.PartialRefundARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PartialRefundARC.$dirty && form.PartialRefundARC.$invalid }"
+                        ng-show="form.PartialRefundARC.$dirty && form.PartialRefundARC.$invalid">
+                        <li class="required" ng-show="form.PartialRefundARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SilentRefundARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.SilentRefundARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SilentRefundARC" name="SilentRefundARC" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationProfile.SilentRefundARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SilentRefundARC.$dirty && form.SilentRefundARC.$invalid }"
+                        ng-show="form.SilentRefundARC.$dirty && form.SilentRefundARC.$invalid">
+                        <li class="required" ng-show="form.SilentRefundARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TaxARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.TaxARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="TaxARC" name="TaxARC" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationProfile.TaxARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.TaxARC.$dirty && form.TaxARC.$invalid }"
+                        ng-show="form.TaxARC.$dirty && form.TaxARC.$invalid">
+                        <li class="required" ng-show="form.TaxARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ChargeGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.ChargeGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ChargeGL" name="ChargeGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="service.dcbServiceReconciliationProfile.ChargeGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargeGL.$dirty && form.ChargeGL.$invalid }"
+                        ng-show="form.ChargeGL.$dirty && form.ChargeGL.$invalid">
+                        <li class="required" ng-show="form.ChargeGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="RefundGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.RefundGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="RefundGL" name="RefundGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="service.dcbServiceReconciliationProfile.RefundGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.RefundGL.$dirty && form.RefundGL.$invalid }"
+                        ng-show="form.RefundGL.$dirty && form.RefundGL.$invalid">
+                        <li class="required" ng-show="form.RefundGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PartialRefundGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.PartialRefundGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PartialRefundGL" name="PartialRefundGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="service.dcbServiceReconciliationProfile.PartialRefundGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PartialRefundGL.$dirty && form.PartialRefundGL.$invalid }"
+                        ng-show="form.PartialRefundGL.$dirty && form.PartialRefundGL.$invalid">
+                        <li class="required" ng-show="form.PartialRefundGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SilentRefundGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.SilentRefundGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SilentRefundGL" name="SilentRefundGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="service.dcbServiceReconciliationProfile.SilentRefundGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SilentRefundGL.$dirty && form.SilentRefundGL.$invalid }"
+                        ng-show="form.SilentRefundGL.$dirty && form.SilentRefundGL.$invalid">
+                        <li class="required" ng-show="form.SilentRefundGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TaxGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.TaxGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="TaxGL" name="TaxGL" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceReconciliationProfile.TaxGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.TaxGL.$dirty && form.TaxGL.$invalid }"
+                        ng-show="form.TaxGL.$dirty && form.TaxGL.$invalid">
+                        <li class="required" ng-show="form.TaxGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) || isNotChanged()"
+                        ng-click="save(service);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default"
+                        ui-sref="{{ $state.current.data.backState }}">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

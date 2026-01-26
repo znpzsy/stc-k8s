@@ -1,0 +1,93 @@
+<div class="portlet portlet-boxed">
+
+    <div class="portlet-header">
+        <h3 class="portlet-title">{{ 'Registration.Activation.Title' | translate }}</h3>
+    </div>
+
+    <div class="portlet-body">
+
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div ng-if="activationState === 'INITIAL'">
+                    <style>
+                        @keyframes ajaxLoaderHorizontal {
+                            0%, 40%, 100% {
+                                background-color: #2f4354;
+                                box-shadow: 0 5px 6px rgba(10, 10, 10, 0.1);
+                                transform: scaleY(0.7);
+                            }
+                            20% {
+                                background-color: #FEFEFE;
+                                box-shadow: 0 5px 6px rgba(10, 10, 10, 0.9);
+                                transform: scaleY(1);
+                            }
+                        }
+
+                        div#ajaxLoaderHorizontal {
+                            width: %100;
+                            text-align: center;
+                        }
+
+                        div#ajaxLoaderHorizontal div.ajaxInner {
+                            height: 25px;
+                            width: 0;
+                            display: inline-block;
+                            padding: 5px;
+                            margin: 0 2px;
+                        }
+
+                        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(1) {
+                            animation: ajaxLoaderHorizontal 2s ease-in-out infinite;
+                        }
+
+                        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(2) {
+                            animation: ajaxLoaderHorizontal 2s ease-in-out -1.6s infinite;
+                        }
+
+                        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(3) {
+                            animation: ajaxLoaderHorizontal 2s ease-in-out -1.2s infinite;
+                        }
+
+                        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(4) {
+                            animation: ajaxLoaderHorizontal 2s ease-in-out -0.8s infinite;
+                        }
+
+                        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(5) {
+                            animation: ajaxLoaderHorizontal 2s ease-in-out -0.4s infinite;
+                        }
+                    </style>
+
+                    <div id="ajaxLoaderHorizontal">
+                        <div class="ajaxInner"></div>
+                        <div class="ajaxInner"></div>
+                        <div class="ajaxInner"></div>
+                        <div class="ajaxInner"></div>
+                        <div class="ajaxInner"></div>
+                    </div>
+                </div>
+
+                <div ng-if="activationState === 'COMPLETED'" class="text-center">
+                    <i class="fa fa-check-circle-o fa-5x text-success" aria-hidden="true"></i>
+                    <br><br>
+                    <h4 class="text text-success" style="margin-bottom: 0;">{{ 'Registration.Activation.Completed' | translate }}</h4>
+                    <br>
+                    <h4 class="text text-success" style="margin-bottom: 0;">
+                        <a ui-sref="login">{{ 'CommonLabels.Signin' | translate }} &nbsp;<i class="fa fa-play-circle"></i></a>
+                    </h4>
+                </div>
+
+                <div ng-if="activationState === 'INVALID'" class="text-center">
+                    <i class="fa fa-times-circle-o fa-5x text-danger" aria-hidden="true"></i>
+                    <br><br>
+                    <h4 class="text text-default" style="margin-bottom: 0;">{{ 'Registration.Activation.ActivationCodeInvalid' | translate }}</h4>
+                    <br>
+                    <h4 class="text text-default" style="margin-bottom: 0;">
+                        <small><a ui-sref="registration.howtobeapartner">{{ 'Login.Texts.PartnerRegistration' | translate }}</a></small>
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

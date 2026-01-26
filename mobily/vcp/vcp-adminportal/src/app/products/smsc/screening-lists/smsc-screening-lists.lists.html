@@ -1,0 +1,233 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ $state.current.data.pageHeaderKey | translate }} / {{ $state.current.data.subPageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" ng-if="vasApplicationList">
+        <div class="form-group">
+            <label for="vasApplication" class="col-sm-3 control-label" style="text-align: left;">{{ 'ScreeningLists.VasApplications' | translate}}</label>
+            <div class="col-sm-9">
+                <select id="vasApplication" name="vasApplication" ng-model="smscScopesList.vasApplication" class="form-control"
+                        ng-change="changeVasApplication(smscScopesList.vasApplication)"
+                        ng-options="vasApplication as vasApplication.label for vasApplication in vasApplicationList">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <uib-tabset justified="false" type="tabs" ng-if="!vasApplicationList || smscScopesList.vasApplication">
+        <uib-tab ng-model="blackList">
+            <uib-tab-heading>
+                <span class="fa fa-file-text"></span> {{ 'ScreeningLists.BlackList' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-8 col-xs-6">
+                            <button class="btn btn-secondary btn-sm create-button"
+                                    ng-disabled="!AuthorizationService.canCreateScreeningLists()"
+                                    ng-click="addNewListItem(blackList, smscScopesList.direction);">
+                                <i class="fa fa-plus-circle"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 col-xs-6">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterBlackList(filterText, ['{translate}identifier.label', 'screenableEntryId', 'screenableCorrelator'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table ng-table="blackList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{'sort-asc': blackList.tableParams.isSortBy('identifier.value', 'asc'), 'sort-desc': blackList.tableParams.isSortBy('identifier.value', 'desc') }"
+                                ng-click="blackList.tableParams.sorting({'identifier.value': blackList.tableParams.isSortBy('identifier.value', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'ScreeningLists.TableColumns.Identifier' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': blackList.tableParams.isSortBy('screenableEntryId', 'asc'), 'sort-desc': blackList.tableParams.isSortBy('screenableEntryId', 'desc') }"
+                                ng-click="blackList.tableParams.sorting({'screenableEntryId': blackList.tableParams.isSortBy('screenableEntryId', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'ScreeningLists.TableColumns.ScreenableEntryId' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': blackList.tableParams.isSortBy('screenableCorrelator', 'asc'), 'sort-desc': blackList.tableParams.isSortBy('screenableCorrelator', 'desc') }"
+                                ng-click="blackList.tableParams.sorting({'screenableCorrelator': blackList.tableParams.isSortBy('screenableCorrelator', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'ScreeningLists.TableColumns.ScreenableCorrelator' | translate }}</div>
+                            </th>
+                            <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                            <td align="center">{{ item.identifier.label | translate }}</td>
+                            <td align="center">{{ item.screenableEntryId }}</td>
+                            <td>{{ item.screenableCorrelator }}</td>
+                            <td width="150" class="text-center">
+                                <button class="btn btn-xs btn-danger"
+                                        ng-disabled="!AuthorizationService.canDeleteScreeningLists()"
+                                        ng-click="deleteBlackListItem(item)"
+                                        title="{{ 'CommonLabels.Remove' | translate }}">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab ng-model="whiteList">
+            <uib-tab-heading>
+                <span class="fa fa-file-text-o"></span> {{ 'ScreeningLists.WhiteList' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-8 col-xs-6">
+                            <button class="btn btn-secondary btn-sm create-button"
+                                    ng-disabled="!AuthorizationService.canCreateScreeningLists()"
+                                    ng-click="addNewListItem(whiteList, smscScopesList.direction);">
+                                <i class="fa fa-plus-circle"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                            </button>
+                        </div>
+
+                        <div class="col-md-4 col-xs-6">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterWhiteList(filterText, ['{translate}identifier.label', 'screenableEntryId', 'screenableCorrelator'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table ng-table="whiteList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{'sort-asc': blackList.tableParams.isSortBy('identifier.value', 'asc'), 'sort-desc': blackList.tableParams.isSortBy('identifier.value', 'desc') }"
+                                ng-click="blackList.tableParams.sorting({'identifier.value': blackList.tableParams.isSortBy('identifier.value', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'ScreeningLists.TableColumns.Identifier' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': whiteList.tableParams.isSortBy('screenableEntryId', 'asc'), 'sort-desc': whiteList.tableParams.isSortBy('screenableEntryId', 'desc') }"
+                                ng-click="whiteList.tableParams.sorting({'screenableEntryId': whiteList.tableParams.isSortBy('screenableEntryId', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'ScreeningLists.TableColumns.ScreenableEntryId' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': whiteList.tableParams.isSortBy('screenableCorrelator', 'asc'), 'sort-desc': whiteList.tableParams.isSortBy('screenableCorrelator', 'desc') }"
+                                ng-click="whiteList.tableParams.sorting({'screenableCorrelator': whiteList.tableParams.isSortBy('screenableCorrelator', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'ScreeningLists.TableColumns.ScreenableCorrelator' | translate }}</div>
+                            </th>
+                            <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                            <td align="center">{{ item.identifier.label | translate }}</td>
+                            <td align="center">{{ item.screenableEntryId }}</td>
+                            <td>{{ item.screenableCorrelator }}</td>
+                            <td width="150" class="text-center">
+                                <button class="btn btn-xs btn-danger"
+                                        ng-disabled="!AuthorizationService.canDeleteScreeningLists()"
+                                        ng-click="deleteWhiteListItem(item)"
+                                        title="{{ 'ScreeningLists.DeleteButtonTitle' | translate }}">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab ng-model="screeningRuleConfiguration">
+            <uib-tab-heading>
+                <span class="fa fa-list"></span> {{ 'ScreeningLists.ScreeningRuleConfiguration' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <form id="screeningRuleConfigurationForm" name="screeningRuleConfigurationForm"
+                      method="post" enctype="multipart/form-data" class="form-horizontal parsley-form"
+                      novalidate>
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'ScreeningLists.ScreeningRule' | translate }} ({{ 'ScreeningLists.Identifiers.MSISDN' | translate }})</label>
+                        <div class="col-md-6">
+                            <select id="screeningRuleMsisdn" name="screeningRuleMsisdn"
+                                    ng-model="smscScopesList.screeningRules.MSISDN" class="form-control"
+                                    ng-options="screeningRule as (screeningRule.label | translate) for screeningRule in SCREENING_MANAGER_RULES"
+                                    ng-disabled="!AuthorizationService.canUpdateScreeningLists()">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'ScreeningLists.ScreeningRule' | translate }} ({{ 'ScreeningLists.Identifiers.IMSI' | translate }})</label>
+                        <div class="col-md-6">
+                            <select id="screeningRuleImsi" name="screeningRuleImsi"
+                                    ng-model="smscScopesList.screeningRules.IMSI" class="form-control"
+                                    ng-options="screeningRule as (screeningRule.label | translate) for screeningRule in SCREENING_MANAGER_RULES"
+                                    ng-disabled="!AuthorizationService.canUpdateScreeningLists()">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'ScreeningLists.ScreeningRule' | translate }} ({{ 'ScreeningLists.Identifiers.MSC' | translate }})</label>
+                        <div class="col-md-6">
+                            <select id="screeningRuleMsc" name="screeningRuleMsc"
+                                    ng-model="smscScopesList.screeningRules.MSC" class="form-control"
+                                    ng-options="screeningRule as (screeningRule.label | translate) for screeningRule in SCREENING_MANAGER_RULES"
+                                    ng-disabled="!AuthorizationService.canUpdateScreeningLists()">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="smscScopesList.direction === 'outgoing'">
+                        <label class="col-md-3">{{ 'ScreeningLists.ScreeningRule' | translate }} ({{ 'ScreeningLists.Identifiers.HLR' | translate }})</label>
+                        <div class="col-md-6">
+                            <select id="screeningRuleHlr" name="screeningRuleHlr"
+                                    ng-model="smscScopesList.screeningRules.HLR" class="form-control"
+                                    ng-options="screeningRule as (screeningRule.label | translate) for screeningRule in SCREENING_MANAGER_RULES"
+                                    ng-disabled="!AuthorizationService.canUpdateScreeningLists()">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger"
+                                    ng-disabled="configurationForm.$invalid || !AuthorizationService.canUpdateConfiguration() || isScreeningRuleConfigurationNotChanged()"
+                                    ng-click="updateScreeningRule(smscScopesList.screeningRules, smscScopesList.direction);">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="reset" class="btn btn-default" ng-click="cancelScreeningRuleUpdate();">
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+</div>

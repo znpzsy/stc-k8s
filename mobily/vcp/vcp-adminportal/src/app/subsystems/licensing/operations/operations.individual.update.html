@@ -1,0 +1,188 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Licensing.Operations.IndividualTitle' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.Description' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" value="{{license.name}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.Product' | translate }}</label>
+            <div class="col-md-6">
+                <div>
+                    <span>
+                        <span class="label label-default">{{license.productLicenses.entry[0].key | uppercase }}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.State' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" value="{{license.status}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control input-md" id="startDate" name="startDate"
+                       value="{{license.startDate | date:'yyyy-MM-dd':DateTimeConstants.OFFSET}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control input-md" id="endDate" name="endDate"
+                       value="{{license.endDate | date:'yyyy-MM-dd':DateTimeConstants.OFFSET}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.HardLimit' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" value="{{license.hardLimit}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.HardLimitThresholds' | translate }}</label>
+            <div class="col-md-3">
+                <input name="hardLimitMinorThreshold" type="number" class="form-control"
+                       ng-model="license.hardLimitMinorThreshold"
+                       ng-min="0" ng-max="license.hardLimitMajorThreshold" ng-required="true"
+                       license-percent-check ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.hardLimitMinorThreshold.$dirty && form.hardLimitMinorThreshold.$invalid }"
+                    ng-show="form.hardLimitMinorThreshold.$dirty && form.hardLimitMinorThreshold.$invalid">
+                    <li class="required" ng-show="form.hardLimitMinorThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.hardLimitMinorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.hardLimitMinorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: (license.hardLimitMajorThreshold * 100) } }}</li>
+                    <li class="required" ng-show="form.hardLimitMinorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input name="hardLimitMajorThreshold" type="number" class="form-control"
+                       ng-model="license.hardLimitMajorThreshold"
+                       ng-min="license.hardLimitMinorThreshold" ng-max="1" ng-required="true"
+                       license-percent-check ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.hardLimitMajorThreshold.$dirty && form.hardLimitMajorThreshold.$invalid }"
+                    ng-show="form.hardLimitMajorThreshold.$dirty && form.hardLimitMajorThreshold.$invalid">
+                    <li class="required" ng-show="form.hardLimitMajorThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.hardLimitMajorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: (license.hardLimitMinorThreshold * 100) } }}</li>
+                    <li class="required" ng-show="form.hardLimitMajorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 100 } }}</li>
+                    <li class="required" ng-show="form.hardLimitMajorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.UserLimit' | translate }}</label>
+            <div class="col-md-6">
+                <input name="userLimit" type="number" class="form-control"
+                       ng-model="license.productLicenses.entry[0].value.userLimit"
+                       ng-min="0" min-max-license-check max-value="license.hardLimit" ng-required="true"
+                       ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.userLimit.$dirty && form.userLimit.$invalid }"
+                    ng-show="form.userLimit.$dirty && form.userLimit.$invalid">
+                    <li class="required" ng-show="form.userLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.userLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.userLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: license.hardLimit + ' (hard limit)' } }}</li>
+                    <li class="required" ng-show="form.userLimit.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.UserLimitThresholds' | translate }}</label>
+            <div class="col-md-3">
+                <input name="userLimitMinorThreshold" type="number" class="form-control"
+                       ng-model="license.productLicenses.entry[0].value.userLimitMinorThreshold"
+                       ng-min="0" ng-max="license.productLicenses.entry[0].value.userLimitMajorThreshold" ng-required="true"
+                       license-percent-check ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.userLimitMinorThreshold.$dirty && form.userLimitMinorThreshold.$invalid }"
+                    ng-show="form.userLimitMinorThreshold.$dirty && form.userLimitMinorThreshold.$invalid">
+                    <li class="required" ng-show="form.userLimitMinorThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.userLimitMinorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.userLimitMinorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: (license.productLicenses.entry[0].value.userLimitMajorThreshold * 100) } }}</li>
+                    <li class="required" ng-show="form.userLimitMinorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input name="userLimitMajorThreshold" type="number" class="form-control"
+                       ng-model="license.productLicenses.entry[0].value.userLimitMajorThreshold"
+                       ng-min="license.productLicenses.entry[0].value.userLimitMinorThreshold" ng-max="1" ng-required="true"
+                       license-percent-check ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.userLimitMajorThreshold.$dirty && form.userLimitMajorThreshold.$invalid }"
+                    ng-show="form.userLimitMajorThreshold.$dirty && form.userLimitMajorThreshold.$invalid">
+                    <li class="required" ng-show="form.userLimitMajorThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.userLimitMajorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: (license.productLicenses.entry[0].value.userLimitMinorThreshold * 100) } }}</li>
+                    <li class="required" ng-show="form.userLimitMajorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 100 } }}</li>
+                    <li class="required" ng-show="form.userLimitMajorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.SoftLimit' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" value="{{license.softLimit}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Licensing.Operations.SoftLimitThresholds' | translate }}</label>
+            <div class="col-md-3">
+                <input name="softLimitMinorThreshold" type="number" class="form-control"
+                       ng-model="license.softLimitMinorThreshold"
+                       ng-min="0" ng-max="license.softLimitMajorThreshold" ng-required="true"
+                       license-percent-check ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.softLimitMinorThreshold.$dirty && form.softLimitMinorThreshold.$invalid }"
+                    ng-show="form.softLimitMinorThreshold.$dirty && form.softLimitMinorThreshold.$invalid">
+                    <li class="required" ng-show="form.softLimitMinorThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.softLimitMinorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.softLimitMinorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: (license.softLimitMajorThreshold * 100) } }}</li>
+                    <li class="required" ng-show="form.softLimitMinorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input name="softLimitMajorThreshold" type="number" class="form-control"
+                       ng-model="license.softLimitMajorThreshold"
+                       ng-min="license.softLimitMinorThreshold" ng-max="1" ng-required="true"
+                       license-percent-check ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.softLimitMajorThreshold.$dirty && form.softLimitMajorThreshold.$invalid }"
+                    ng-show="form.softLimitMajorThreshold.$dirty && form.softLimitMajorThreshold.$invalid">
+                    <li class="required" ng-show="form.softLimitMajorThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.softLimitMajorThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: (license.softLimitMinorThreshold * 100) } }}</li>
+                    <li class="required" ng-show="form.softLimitMajorThreshold.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 100 } }}</li>
+                    <li class="required" ng-show="form.softLimitMajorThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdate() || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

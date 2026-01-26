@@ -1,0 +1,174 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.SMSC.Troubleshooting.Details.PageHeader' | translate:{ origAddress: edrRecord.origAddress, destAddress: edrRecord.destAddress } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.MessageId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.messageId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.MessageLength' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.messageLength || edrRecord.msgLength }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.HostName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.hostName }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.ConcatInfo' | translate }}</td>
+                        <td class="kv-value" ng-if="edrRecord.partCurrent">{{ edrRecord.partCurrent ? edrRecord.concatInfo : '' }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DCS' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.dcs }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DeliveryReport' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.drRequested | requestedFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.SubmitDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.scTimestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key" ng-if="recordType === 'permanent'">{{ 'Products.SMSC.Troubleshooting.TableColumns.CompletionDate' | translate }}</td>
+                        <td class="kv-key" ng-if="recordType !== 'permanent'">{{ 'Products.SMSC.Troubleshooting.TableColumns.EventDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.ExpiryTime' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.expiryTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.AttemptCount' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.attemptCount }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.CDRKey' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cdrKey }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Orig. -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.RawOrigAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.o_origAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigAddressNpiTon' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAddressNpiTon }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.RawOrigAddressNpiTon' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.o_origAddressNpiTon }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigImsi' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origImsi }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.SourceMnp' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.sourceMnp }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigAgentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAgentType | SmscAgentTypeFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAgent }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigMSC' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origMsc }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigIMEI' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAddressImei }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigCellID' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAddressCellId }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dest. -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.RawDestAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.o_destAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestAddressNpiTon' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAddressNpiTon }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.RawDestAddressNpiTon' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.o_destAddressNpiTon }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestImsi' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destImsi }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestMnp' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destMnp }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestAgentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAgentType | SmscAgentTypeFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAgent }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestMSC' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destMsc }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestIMEI' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAddressImei }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.SMSC.Troubleshooting.TableColumns.DestCellID' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAddressCellId }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

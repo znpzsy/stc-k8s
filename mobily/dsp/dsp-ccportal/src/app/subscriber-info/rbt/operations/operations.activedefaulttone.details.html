@@ -1,0 +1,70 @@
+<div class="portlet portlet-default">
+
+    <div class="portlet-header">
+        <h4 class="portlet-title" active-loading-indicator>
+            {{ 'SubscriberInfo.RBT.ActiveDefaultTone' | translate }}
+        </h4>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                    <fieldset id="formFieldset">
+
+                    <div class="form-group">
+                        <label for="toneId" class="col-md-3">{{ 'SubscriberInfo.RBT.ToneId' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <ui-select id="toneId" name="toneId" theme="bootstrap" allow-clear="true" append-to-body="true"
+                                           ng-model="activeDefaultTone.tone.id"
+                                           ng-required="true"
+                                           close-on-select="true"
+                                           ng-disabled="!AuthorizationService.canCcPreferenceUpdate()">
+                                    <ui-select-match placeholder="{{ 'CommonLabels.SelectFromTheList' | translate }}">
+                                        <span ng-bind="$select.selected.contentName"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="toneItem.contentId as toneItem in (toneList | filter: $select.search) track by toneItem.contentId">
+                                        <div ng-bind-html="toneItem.contentName | highlight: $select.search"></div>
+                                        <small>
+                                            ID: {{toneItem.contentId}}
+                                        </small>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button type="button" ng-click="activeDefaultTone.tone = null;" class="btn btn-default" ng-disabled="!activeDefaultTone.tone">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <ul ng-class="{ 'parsley-error-list': form.toneId.$dirty && form.toneId.$invalid }"
+                                ng-show="form.toneId.$dirty && form.toneId.$invalid">
+                                <li class="required" ng-show="form.toneId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger"
+                                    ng-disabled="form.$invalid || !AuthorizationService.canCcPreferenceUpdate() || isNotChanged()"
+                                    ng-click="save(activeDefaultTone);">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

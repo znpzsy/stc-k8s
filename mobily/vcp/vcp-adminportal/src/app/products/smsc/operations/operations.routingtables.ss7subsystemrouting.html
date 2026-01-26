@@ -1,0 +1,79 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.RoutingTables.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.RoutingTables.SS7SubsystemRouting.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="products.smsc.operations.routingtables.ss7subsystemrouting-new"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="ss7SubsystemRoutingList.tableParams.total() > 0">
+                    <button type="button" ng-click="exportRecords('csv')" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="exportRecords('xls')" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['addressRangeStart', 'addressRangeEnd'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="ss7SubsystemRoutingList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html">
+                    <thead>
+                    <tr>
+                        <th class="sortable" ng-class="{'sort-asc': ss7SubsystemRoutingList.tableParams.isSortBy('addressRangeStart', 'asc'), 'sort-desc': ss7SubsystemRoutingList.tableParams.isSortBy('addressRangeStart', 'desc') }"
+                            ng-click="ss7SubsystemRoutingList.tableParams.sorting({'addressRangeStart': ss7SubsystemRoutingList.tableParams.isSortBy('addressRangeStart', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Operations.RoutingTables.TableColumns.Start' | translate }}</div>
+                        </th>
+                        <th class="sortable" ng-class="{'sort-asc': ss7SubsystemRoutingList.tableParams.isSortBy('addressRangeEnd', 'asc'), 'sort-desc': ss7SubsystemRoutingList.tableParams.isSortBy('addressRangeEnd', 'desc') }"
+                            ng-click="ss7SubsystemRoutingList.tableParams.sorting({'addressRangeEnd': ss7SubsystemRoutingList.tableParams.isSortBy('addressRangeEnd', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.SMSC.Operations.RoutingTables.TableColumns.End' | translate }}</div>
+                        </th>
+                        <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="ss7SubsystemRouting in $data" class="hidden-link-cell-row">
+                        <td align="center">{{ss7SubsystemRouting.addressRangeStart}}</td>
+                        <td align="center">{{ss7SubsystemRouting.addressRangeEnd}}</td>
+                        <td align="center">
+                            <button ng-click="remove(ss7SubsystemRouting)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

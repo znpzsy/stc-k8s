@@ -1,0 +1,44 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Configuration.Settings.MenuLabel' | translate }} / {{ 'Products.MMSC.Configuration.Settings.RelayServer.MenuLabel' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="messageStoreOptionsForm" name="messageStoreOptionsForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Configuration.Settings.NetworkEntities.Applications.FormFields.RelayServerId' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" name="relayServerId" class="form-control" ng-model="relayServerConf.mm7Agent.relayServerId" enabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Configuration.Settings.RelayServer.FormFields.ExpiryHours.Label' | translate }}</label>
+            <div class="col-md-6">
+                <input type="number" name="expiry" class="form-control" ng-model="relayServerConf.relayserver.maxMessageExpiryHours" min="1" max="96"/>
+                <ul ng-class="{ 'parsley-error-list': messageStoreOptionsForm.expiry.$dirty && messageStoreOptionsForm.expiry.$invalid }" ng-show="messageStoreOptionsForm.expiry.$dirty && messageStoreOptionsForm.expiry.$invalid">
+                    <li class="required" ng-show="messageStoreOptionsForm.expiry.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="messageStoreOptionsForm.expiry.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 96} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="messageStoreOptionsForm.$invalid || !AuthorizationService.canUpdateConfiguration() || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,85 @@
+{
+  "servicesBase": "/vcp/services", // DELETE THIS COMMENT - Root context of the all proxied services.
+  "logLevel": "error", // DELETE THIS COMMENT - Log level of the node proxy module.
+  "proxy": {
+    // DELETE THIS COMMENT - Host and port definitions for the proxy service
+    "servicesHttpHost": "127.0.0.1",
+    "servicesHttpPort": "8444"
+  },
+  // DELETE THIS COMMENT - Authentication and Authorization service attributes.
+  "auth": {
+    "authorizationHeaderKey": "Bearer",
+    "tokenName": "token",
+    "refreshTokenName": "refreshToken"
+  },
+  // DELETE THIS COMMENT - Request rate limiter attributes.
+  "rateLimit": {
+    "enabled": true,
+    "expiration": 900,
+    "max": 1000
+  },
+  // DELETE THIS COMMENT - Define available web applications' proxies.
+  "applications": [
+    {
+      "path": "/vcp/adminportal",
+      "targetHost": "http://localhost:8080",
+      "pathRewrite": {
+        "^/vcp/adminportal": "/adminportal"
+      },
+      "captchaEnabled": true // DELETE THIS COMMENT - If you want to use captcha validation for the application.
+    },
+    {
+      "path": "/vcp/ccportal",
+      "targetHost": "http://localhost:8081",
+      "pathRewrite": {
+        "^/vcp/ccportal": "/ccportal"
+      }
+    },
+    {
+      "path": "/usc/partnerportal",
+      "targetHost": "http://localhost:8082",
+      "pathRewrite": {
+        "^/usc/partnerportal": "/partnerportal"
+      }
+    }
+  ],
+  // DELETE THIS COMMENT - Generic filter keywords to filtering requests.
+  "filter": {
+    "allowedOrigins": [
+      "localhost"
+    ],
+    "allowedExts": [
+      "css",
+      "js",
+      "map",
+      "woff",
+      "woff2",
+      [
+        "jpg",
+        "jpeg",
+        "bmp",
+        "gif",
+        "png",
+        "ico"
+      ]
+    ],
+    "allowedFiles": [
+      "app.html",
+      "index.html"
+    ],
+    "allowedDirectories": [
+      "/login",
+      "/partials",
+      "/i18n"
+    ],
+    "allowedPathes": [
+      "/pentaho/getImage",
+      "/csp-pentaho/getImage",
+      "/apimanager-pentaho/getImage"
+    ],
+    // DELETE THIS COMMENT - You can allow a rest service starts with below statements.
+    "allowedRestServices": [
+      "/otp-rest"
+    ]
+  }
+}

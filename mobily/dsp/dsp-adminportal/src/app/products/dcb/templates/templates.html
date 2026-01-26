@@ -1,0 +1,42 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="templates" class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.dcb.templates') }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.DirectCarrierBilling.Templates.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+
+                <li ng-class="{ 'active': $state.includes('products.dcb.templates.dcbprofile') }">
+                    <a ui-sref="products.dcb.templates.dcbprofile" data-toggle="tab"
+                       ng-if="AuthorizationService.canAllTemplatesRead()">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.DirectCarrierBilling.Templates.DCBProfile' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.dcb.templates.servicemessages') }">
+                    <a ui-sref="products.dcb.templates.servicemessages" data-toggle="tab"
+                       ng-if="AuthorizationService.canAllTemplatesRead()">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.DirectCarrierBilling.Templates.ServiceMessages' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.dcb.templates.serviceinvoicemessages') }">
+                    <a ui-sref="products.dcb.templates.serviceinvoicemessages" data-toggle="tab"
+                       ng-if="AuthorizationService.canAllTemplatesRead()">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.DirectCarrierBilling.Templates.ServiceInvoiceMessages' | translate }}
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

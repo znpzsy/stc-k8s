@@ -1,0 +1,174 @@
+<div ng-if="!refundEdr">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{ pageHeaderKey | translate:{ msisdn: edrRecord.msisdn, carrierChargeTransactionId: edrRecord.uuid } }}
+        </h4>
+    </div>
+
+    <div class="modal-body buttons-portlet-body">
+        <div class="row">
+            <div class="col-md-10 col-xs-9">
+            </div>
+
+            <div class="col-md-2 col-xs-3">
+                <div class="pull-right">
+                    <div class="btn-group export-buttons-without-search" ng-show="refundHistoryDetailedHistoryList.tableParams.total() > 0">
+                        <button type="button" ng-click="csv.download('DirectCarrierBillingRefundActivityHistoryRecords', refundHistoryDetailedHistoryList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                        <button type="button" ng-click="xls.download('DirectCarrierBillingRefundActivityHistoryRecords', refundHistoryDetailedHistoryList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table ng-table="refundHistoryDetailedHistoryList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html"
+                           export-csv="csv" export-xls="xls"
+                           export-options="refundHistoryExportOptions">
+                        <thead>
+                        <tr>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumnsTooltips.RefundDate' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.refundDate', 'asc'), 'sort-desc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.refundDate', 'desc') }"
+                                ng-click="refundHistoryDetailedHistoryList.tableParams.sorting({'_source.refundDate': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.refundDate', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundDate' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                ng-class="{'sort-asc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.channel', 'asc'), 'sort-desc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.channel', 'desc') }"
+                                ng-click="refundHistoryDetailedHistoryList.tableParams.sorting({'_source.channel': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.channel', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.Channel' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                ng-class="{'sort-asc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.requestId', 'asc'), 'sort-desc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.requestId', 'desc') }"
+                                ng-click="refundHistoryDetailedHistoryList.tableParams.sorting({'_source.requestId': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.requestId', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundRequestId' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                ng-class="{'sort-asc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.clientTransactionId', 'asc'), 'sort-desc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.clientTransactionId', 'desc') }"
+                                ng-click="refundHistoryDetailedHistoryList.tableParams.sorting({'_source.clientTransactionId': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.clientTransactionId', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundClientTransactionId' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                ng-class="{'sort-asc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.uuid', 'asc'), 'sort-desc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.uuid', 'desc') }"
+                                ng-click="refundHistoryDetailedHistoryList.tableParams.sorting({'_source.uuid': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.uuid', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.CarrierRefundTransactionId' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                ng-class="{'sort-asc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.partial', 'asc'), 'sort-desc': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.partial', 'desc') }"
+                                ng-click="refundHistoryDetailedHistoryList.tableParams.sorting({'_source.partial': refundHistoryDetailedHistoryList.tableParams.isSortBy('_source.partial', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.Partial' | translate }}</div>
+                            </th>
+                            <th>
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundAmount' | translate }}</div>
+                            </th>
+                            <th>
+                                <div>{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.ErrorCode' | translate }}</div>
+                            </th>
+                            <th>
+                                <div>{{ 'CommonLabels.Actions' | translate }}</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in $data" class="hidden-link-cell-row" ng-class="{ 'row-selected': item._source.rowSelected, 'text-danger': ('FAILURE' === item._source.cdrType) }">
+                            <td align="center">{{item._source.refundDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                            <td align="center">{{item._source.channel}}</td>
+                            <td align="center">{{item._source.requestId}}</td>
+                            <td align="center">{{item._source.clientTransactionId}}</td>
+                            <td align="center">{{item._source.uuid}}</td>
+                            <td align="center">{{("true" === item._source.partial ? 'CommonLabels.Yes' : 'CommonLabels.No') | translate }}</td>
+                            <td align="center">{{item._source.amount | number:2}}&nbsp;{{ item._source.currency }}</td>
+                            <td uib-popover="{{ item._source.errorMessage }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true" popover-enable="{{item._source.errorCode}}"
+                                align="center">{{item._source.errorCode}}</td>
+                            <td align="center">
+                                <div class="btn-group dropdown" uib-dropdown dropdown-append-to-body="true" is-open="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">
+                                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <li role="menuitem" ng-if="AuthorizationService.canAllTroubleshootingRead()">
+                                            <a href="javascript:;" ng-click="showRefundDetails(item._source)">
+                                                <i class="fa fa-bars"></i>&nbsp;&nbsp;{{ 'CommonLabels.Details' | translate }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="9" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="refundEdr">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{ 'Products.DirectCarrierBilling.Troubleshooting.RefundDetails.PageHeader' | translate:{ msisdn: edrRecord.msisdn, carrierChargeTransactionId: edrRecord.uuid } }}
+        </h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundTransactionId' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.transactionId }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundClientCorrelator' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.clientCorrelator }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundChargeTransactionId' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.chargeTransactionId }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.ProductDescription' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.productDescription }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.RefundReason' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.reason }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.MerchantId' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.merchantId }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.Silent' | translate }}</td>
+                            <td class="kv-value">{{ ("true" === refundEdr.silent ? 'CommonLabels.Yes' : 'CommonLabels.No') | translate }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.Reverse' | translate }}</td>
+                            <td class="kv-value">{{ ("true" === refundEdr.reverse ? 'CommonLabels.Yes' : 'CommonLabels.No') | translate }}&nbsp;</td>
+                        </tr>
+                        <tr ng-show="'FAILURE' === details.cdrType">
+                            <td class="kv-key">{{ 'Products.DirectCarrierBilling.Troubleshooting.TableColumns.ErrorMessage' | translate }}</td>
+                            <td class="kv-value">{{ refundEdr.errorMessage }}&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button ng-if="refundEdr" class="btn btn-primary" ng-click="hideRefundDetails()">{{'CommonLabels.Back' | translate}}</button>
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

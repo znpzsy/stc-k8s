@@ -1,0 +1,352 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.DirectCarrierBilling.Configuration.Settings.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="Currency" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.Currency' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Currency" name="Currency" class="form-control"
+                        ng-model="dcbSettingsOrganization.dcbProfile.Currency"
+                        ng-required="true"
+                        ng-options="serviceCurrency as serviceCurrency for serviceCurrency in SERVICE_CURRENCIES"
+                        ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.Currency.$dirty && form.Currency.$invalid }"
+                    ng-show="form.Currency.$dirty && form.Currency.$invalid">
+                    <li class="required" ng-show="form.Currency.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.IsCapped' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{dcbSettingsOrganization.dcbProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"
+                            ng-model="dcbSettingsOrganization.dcbProfile.IsCapped" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!dcbSettingsOrganization.dcbProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"
+                            ng-model="dcbSettingsOrganization.dcbProfile.IsCapped" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="dcbSettingsOrganization.dcbProfile.IsCapped">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBCappingRuleProfiles.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div ng-if="dcbSettingsOrganization.dcbProfile.IsCapped">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPrepaidCappingRuleProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList.length" class="row col-md-9">
+                        <div ng-repeat="dcbPrepaidCappingRuleProfile in dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getDcbPrepaidCappingRuleProfileString(dcbPrepaidCappingRuleProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getDcbPrepaidCappingRuleProfileString(dcbPrepaidCappingRuleProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editDCBPrepaidCappingRuleProfile(dcbSettingsOrganization, dcbPrepaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canAllConfigurationUpdate() && AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeDCBPrepaidCappingRuleProfile(dcbSettingsOrganization, dcbPrepaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canAllConfigurationUpdate() && AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"
+                            ng-class="{ 'pull-right': dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList.length > 0, 'ng-invalid-required': !dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList || dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList.length === 0 }"
+                            ng-click="addDCBPrepaidCappingRuleProfile(dcbSettingsOrganization)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <div style="clear: both;">
+                        <input name="dcbPrepaidCappingRuleProfileListLength" type="number" class="form-control"
+                               ng-model="dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList.length === 0 }"
+                            ng-show="dcbSettingsOrganization.dcbPrepaidCappingRuleProfileList.length === 0">
+                            <li class="required" ng-show="form.dcbPrepaidCappingRuleProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList.length" class="row col-md-9">
+                        <div ng-repeat="dcbPostpaidCappingRuleProfile in dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getDcbPostpaidCappingRuleProfileString(dcbPostpaidCappingRuleProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getDcbPostpaidCappingRuleProfileString(dcbPostpaidCappingRuleProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editDCBPostpaidCappingRuleProfile(dcbSettingsOrganization, dcbPostpaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canAllConfigurationUpdate() && AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeDCBPostpaidCappingRuleProfile(dcbSettingsOrganization, dcbPostpaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canAllConfigurationUpdate() && AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"
+                            ng-class="{ 'pull-right': dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList.length > 0, 'ng-invalid-required': !dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList || dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList.length === 0 }"
+                            ng-click="addDCBPostpaidCappingRuleProfile(dcbSettingsOrganization)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <div style="clear: both;">
+                        <input name="dcbPostpaidCappingRuleProfileListLength" type="number" class="form-control"
+                               ng-model="dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList.length === 0 }"
+                            ng-show="dcbSettingsOrganization.dcbPostpaidCappingRuleProfileList.length === 0">
+                            <li class="required" ng-show="form.dcbPostpaidCappingRuleProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="dcbSettingsOrganization.dcbServiceDisputeRuleProfileList.length" class="row col-md-9">
+                        <div ng-repeat="dcbServiceDisputeRuleProfile in dcbSettingsOrganization.dcbServiceDisputeRuleProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getDcbServiceDisputeRuleProfileString(dcbServiceDisputeRuleProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getDcbServiceDisputeRuleProfileString(dcbServiceDisputeRuleProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editDCBServiceDisputeRuleProfile(dcbSettingsOrganization, dcbServiceDisputeRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canAllConfigurationUpdate() && AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeDCBServiceDisputeRuleProfile(dcbSettingsOrganization, dcbServiceDisputeRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canAllConfigurationUpdate() && AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"
+                            ng-class="{ 'pull-right': dcbSettingsOrganization.dcbServiceDisputeRuleProfileList.length > 0, 'ng-invalid-required': !dcbSettingsOrganization.dcbServiceDisputeRuleProfileList || dcbSettingsOrganization.dcbServiceDisputeRuleProfileList.length === 0 }"
+                            ng-click="addDCBServiceDisputeRuleProfile(dcbSettingsOrganization)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <div style="clear: both;">
+                        <input name="dcbServiceDisputeRuleProfileListLength" type="number" class="form-control"
+                               ng-model="dcbSettingsOrganization.dcbServiceDisputeRuleProfileList.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': dcbSettingsOrganization.dcbServiceDisputeRuleProfileList.length === 0 }"
+                            ng-show="dcbSettingsOrganization.dcbServiceDisputeRuleProfileList.length === 0">
+                            <li class="required" ng-show="form.dcbServiceDisputeRuleProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Products.DirectCarrierBilling.Configuration.Settings.ReconciliationPolicies' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="PostpaidChargingMethod" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.PostpaidChargingMethod' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="PostpaidChargingMethod" name="PostpaidChargingMethod" class="form-control"
+                            ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.PostpaidChargingMethod"
+                            ng-options="chargingMethod as chargingMethod for chargingMethod in SERVICE_DCB_SERVICE_RECONCILIATION_CHARGING_METHODS"
+                            ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ChargeARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.ChargeARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ChargeARC" name="ChargeARC" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.ChargeARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargeARC.$dirty && form.ChargeARC.$invalid }"
+                        ng-show="form.ChargeARC.$dirty && form.ChargeARC.$invalid">
+                        <li class="required" ng-show="form.ChargeARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="RefundARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.RefundARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="RefundARC" name="RefundARC" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.RefundARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.RefundARC.$dirty && form.RefundARC.$invalid }"
+                        ng-show="form.RefundARC.$dirty && form.RefundARC.$invalid">
+                        <li class="required" ng-show="form.RefundARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PartialRefundARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.PartialRefundARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PartialRefundARC" name="PartialRefundARC" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.PartialRefundARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PartialRefundARC.$dirty && form.PartialRefundARC.$invalid }"
+                        ng-show="form.PartialRefundARC.$dirty && form.PartialRefundARC.$invalid">
+                        <li class="required" ng-show="form.PartialRefundARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SilentRefundARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.SilentRefundARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SilentRefundARC" name="SilentRefundARC" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.SilentRefundARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SilentRefundARC.$dirty && form.SilentRefundARC.$invalid }"
+                        ng-show="form.SilentRefundARC.$dirty && form.SilentRefundARC.$invalid">
+                        <li class="required" ng-show="form.SilentRefundARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TaxARC" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.TaxARC' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="TaxARC" name="TaxARC" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.TaxARC"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.TaxARC.$dirty && form.TaxARC.$invalid }"
+                        ng-show="form.TaxARC.$dirty && form.TaxARC.$invalid">
+                        <li class="required" ng-show="form.TaxARC.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ChargeGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.ChargeGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="ChargeGL" name="ChargeGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.ChargeGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ChargeGL.$dirty && form.ChargeGL.$invalid }"
+                        ng-show="form.ChargeGL.$dirty && form.ChargeGL.$invalid">
+                        <li class="required" ng-show="form.ChargeGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="RefundGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.RefundGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="RefundGL" name="RefundGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.RefundGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.RefundGL.$dirty && form.RefundGL.$invalid }"
+                        ng-show="form.RefundGL.$dirty && form.RefundGL.$invalid">
+                        <li class="required" ng-show="form.RefundGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PartialRefundGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.PartialRefundGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PartialRefundGL" name="PartialRefundGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.PartialRefundGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PartialRefundGL.$dirty && form.PartialRefundGL.$invalid }"
+                        ng-show="form.PartialRefundGL.$dirty && form.PartialRefundGL.$invalid">
+                        <li class="required" ng-show="form.PartialRefundGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SilentRefundGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.SilentRefundGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SilentRefundGL" name="SilentRefundGL" type="text" class="form-control" dir="auto"
+                           placeholder="{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.GLPlaceholder' | translate }}"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.SilentRefundGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SilentRefundGL.$dirty && form.SilentRefundGL.$invalid }"
+                        ng-show="form.SilentRefundGL.$dirty && form.SilentRefundGL.$invalid">
+                        <li class="required" ng-show="form.SilentRefundGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TaxGL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceReconciliationProfile.TaxGL' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="TaxGL" name="TaxGL" type="text" class="form-control" dir="auto"
+                           ng-model="dcbSettingsOrganization.dcbServiceReconciliationProfile.TaxGL"
+                           ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.TaxGL.$dirty && form.TaxGL.$invalid }"
+                        ng-show="form.TaxGL.$dirty && form.TaxGL.$invalid">
+                        <li class="required" ng-show="form.TaxGL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canAllConfigurationUpdate() || !AuthorizationService.canCmpfOperationsOperatorUpdate() || isNotChanged()"
+                        ng-click="save(dcbSettingsOrganization);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

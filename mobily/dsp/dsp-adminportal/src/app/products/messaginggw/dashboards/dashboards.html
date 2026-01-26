@@ -1,0 +1,213 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.SMS.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ sms.tileInfo.mtSmsRate | number:2 }} tps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.SMS.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ sms.tileInfo.mtSmsSuccessRatio | number:0 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.SMS.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.SMS.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ sms.tileInfo.moSmsRate | number:2 }} tps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.SMS.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ sms.tileInfo.moSmsSuccessRatio | number:0 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.SMS.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.MessagingGw.Dashboards.SMS.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="mtSmsCountByApplicationData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.MessagingGw.Dashboards.SMS.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="moSmsCountByApplicationData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.MessagingGw.Dashboards.SMS.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="smsDeliveryFailureByErrorData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.MMS.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mms.tileInfo.mtMmsRate | number:2 }} tps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.MMS.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mms.tileInfo.mtMmsSuccessRatio | number:0 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.MMS.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.MMS.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mms.tileInfo.moMmsRate | number:2 }} tps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.MMS.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mms.tileInfo.moMmsSuccessRatio | number:0 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.MessagingGw.Dashboards.MMS.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.MessagingGw.Dashboards.MMS.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="mtMmsCountByApplicationData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-chart4" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.MessagingGw.Dashboards.MMS.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="moMmsCountByApplicationData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-chart5" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.MessagingGw.Dashboards.MMS.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="mmsDeliveryFailureByErrorData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-chart6" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

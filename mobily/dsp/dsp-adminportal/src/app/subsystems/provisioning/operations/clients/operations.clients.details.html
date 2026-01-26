@@ -1,0 +1,328 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Clients.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="client.profileId">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Clients.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="client.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="client.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedOn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="client.CreatedOn | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="client.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedBy' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="client.CreatedBy" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="client.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdatedOn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="client.LastUpdatedOn | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="client.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdatedBy' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="client.LastUpdatedBy" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!client.profileId">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="client.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{client.organization.name}}</span>
+                    <a ng-click="removeSelectedOrganization();" style="cursor: pointer;"
+                       ng-if="(client.profileId ? AuthorizationService.canCmpfOperationsClientUpdate() : AuthorizationService.canCmpfOperationsClientCreate())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': client.organization.name, 'ng-invalid-required': !client.organization.name }"
+                        ng-click="openOrganizations(client);"
+                        ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())">{{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="selectedOrganization" type="text" class="form-control"
+                           ng-model="client.organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="client.profileId ? null : client.organization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': client.organization !== undefined && client.organization.name === undefined }"
+                        ng-show="client.organization !== undefined && client.organization.name === undefined">
+                        <li class="required" ng-show="form.selectedOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="client.profileId">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="client.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{client.organization.name}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Status" name="Status" class="form-control parsley-validated"
+                        ng-model="client.Status"
+                        ng-required="true"
+                        ng-options="statusType as statusType for statusType in CLIENTS_STATUSES"
+                        ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.Status.$dirty && form.Status.$invalid }"
+                    ng-show="form.Status.$dirty && form.Status.$invalid">
+                    <li class="required" ng-show="form.Status.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Clients.ClientInfo.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="NameEN" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.NameEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="NameEN" name="NameEN" type="text" class="form-control" dir="auto"
+                           ng-model="client.NameEN"
+                           ng-maxlength="50" maxlength="50" ng-required="true"
+                           ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.NameEN.$dirty && form.NameEN.$invalid }"
+                        ng-show="form.NameEN.$dirty && form.NameEN.$invalid">
+                        <li class="required" ng-show="form.NameEN.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.NameEN.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="DescriptionEN" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="DescriptionEN" name="DescriptionEN" class="form-control" dir="auto"
+                              ng-model="client.DescriptionEN"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.DescriptionEN.$dirty && form.DescriptionEN.$invalid }"
+                        ng-show="form.DescriptionEN.$dirty && form.DescriptionEN.$invalid">
+                        <li class="required" ng-show="form.DescriptionEN.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.DescriptionEN.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="NameLangOther" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.NameAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="NameLangOther" name="NameLangOther" type="text" class="form-control" dir="auto"
+                           ng-model="client.NameLangOther"
+                           ng-maxlength="50" maxlength="50" ng-required="true"
+                           ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.NameLangOther.$dirty && form.NameLangOther.$invalid }"
+                        ng-show="form.NameLangOther.$dirty && form.NameLangOther.$invalid">
+                        <li class="required" ng-show="form.NameLangOther.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.NameLangOther.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="DescriptionLangOther" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="DescriptionLangOther" name="DescriptionLangOther" class="form-control" dir="auto"
+                              ng-model="client.DescriptionLangOther"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate(contentMetadata.status) : !AuthorizationService.canCmpfOperationsClientCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.DescriptionLangOther.$dirty && form.DescriptionLangOther.$invalid }"
+                        ng-show="form.DescriptionLangOther.$dirty && form.DescriptionLangOther.$invalid">
+                        <li class="required" ng-show="form.DescriptionLangOther.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.DescriptionLangOther.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Type" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.Type' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="Type" name="Type" class="form-control parsley-validated"
+                            ng-model="client.Type"
+                            ng-required="true"
+                            ng-options="type as type for type in CLIENTS_TYPES"
+                            ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.Type.$dirty && form.Type.$invalid }"
+                        ng-show="form.Type.$dirty && form.Type.$invalid">
+                        <li class="required" ng-show="form.Type.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="AccessScope" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.AccessScope' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="AccessScope" name="AccessScope" class="form-control parsley-validated"
+                            ng-model="client.AccessScope"
+                            ng-required="true"
+                            ng-options="scope as scope for scope in CLIENTS_SCOPES"
+                            ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.AccessScope.$dirty && form.AccessScope.$invalid }"
+                        ng-show="form.AccessScope.$dirty && form.AccessScope.$invalid">
+                        <li class="required" ng-show="form.AccessScope.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientInfo.IsPortal' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{client.IsPortal?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())"
+                                ng-model="client.IsPortal" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!client.IsPortal?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())"
+                                ng-model="client.IsPortal" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Clients.ClientAuthentication.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="ClientID" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientAuthentication.ClientID' | translate }}</label>
+                <div class="col-md-5">
+                    <input id="ClientID" name="ClientID" type="text" class="form-control"
+                           ng-model="client.ClientID"
+                           ng-required="true"
+                           ng-maxlength="100" maxlength="100"
+                           ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ClientID.$dirty && form.ClientID.$invalid }"
+                        ng-show="form.ClientID.$dirty && form.ClientID.$invalid">
+                        <li class="required" ng-show="form.ClientID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        <li class="required" ng-show="form.ClientID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Password" class="col-md-3">{{ 'Subsystems.Provisioning.Clients.ClientAuthentication.Password' | translate }}</label>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input id="dummyPassword" name="dummyPassword" type="password" style="display:none;width:0;height:0"/>
+                        <input id="Password" name="Password" type="{{showPassword ? 'text' : 'password'}}" class="form-control"
+                               ng-model="client.Password"
+                               ng-required="true"
+                               ng-maxlength="50" maxlength="50"
+                               ng-disabled="(client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate())"/>
+                        <div class="input-group-btn" ng-init="showPassword = false;">
+                            <button class="btn btn-default" ng-click="showPassword = !showPassword" type="button">{{ (showPassword ? 'CommonLabels.Hide' : 'CommonLabels.Show') | translate }}</button>
+                        </div>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.Password.$dirty && form.Password.$invalid }"
+                        ng-show="form.Password.$dirty && form.Password.$invalid">
+                        <li class="required" ng-show="form.Password.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.Password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (client.profileId ? !AuthorizationService.canCmpfOperationsClientUpdate() : !AuthorizationService.canCmpfOperationsClientCreate()) || isNotChanged()"
+                        ng-click="save(client);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

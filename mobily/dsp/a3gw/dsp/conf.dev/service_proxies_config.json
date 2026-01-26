@@ -1,0 +1,814 @@
+[
+  {
+    "name": "cmpf",
+    "target": "http://10.35.36.193:9610",
+    "contextList": [
+      {
+        "path": "/cmpf-rest",
+        "rewrite": "/axis2/cmpf"
+      }
+    ],
+    "proxyType": "cmpf"
+  },
+  {
+    "name": "apimanager",
+    "target": "http://10.35.36.195:5080",
+    "contextList": [
+      {
+        "path": "/apimanager-rest",
+        "rewrite": "/rest-api"
+      },
+      {
+        "path": "/apimanager-prov-rest",
+        "rewrite": "/rest-api/orgs/mobily"
+      }
+    ]
+  },
+  {
+    "name": "apimanager-apigw-manageblacklist",
+    "target": "http://10.35.36.195:8081",
+    "contextList": [
+      {
+        "path": "/apimanager-apigw-manageblacklist-rest",
+        "rewrite": "/apigw/Mobily/ManageBlackList",
+        "headers": {
+          "Authorization": "Basic dmNwc21zOmYzNTIxY2M4OWE0MGExNDZiNDIyYzQxZDQ5NWU5Mjg0OWE3NjIyY2M="
+        }
+      }
+    ]
+  },
+  {
+    "name": "interactive-campaign-manager",
+    "target": "http://10.35.36.109:9080",
+    "contextList": [
+      {
+        "path": "/icm-rest",
+        "rewrite": "/api"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-dashboard",
+    "target": "http://10.35.36.194:9080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-dashboard-rest",
+        "rewrite": "/bms_icm/dashboard"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-campaigns-dashboard",
+    "target": "http://10.35.36.194:9080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-campaigns-dashboard-rest/status",
+        "rewrite": "/bms_icm/operations/v1/campaigns/dashboard"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-operations-campaigns",
+    "target": "http://10.35.36.194:9080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-operations-campaigns-rest",
+        "rewrite": "/bms_icm/operations"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-gr",
+    "target": "http://10.35.36.194:9080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-config-gr-rest",
+        "rewrite": "/bms_icm/configuration"
+      },
+      {
+        "path": "/bms-bulkmsg-operations-gr-rest",
+        "rewrite": "/bms_icm/operations"
+      }
+    ]
+  },
+  {
+    "name": "ssm-subscribers-services",
+    "target": "http://10.35.36.195:9001",
+    "contextList": [
+      {
+        "path": "/ssm-subscribers-rest",
+        "rewrite": "/ssm/subscribers",
+        "headers": {
+          "Authorization": "Basic YWRtaW46cGFzc3dvcmQ="
+        }
+      },
+      {
+        "path": "/ssm-mobily-subscribers-rest",
+        "rewrite": "/ssm/mobily/subscribers",
+        "headers": {
+          "Authorization": "Basic YWRtaW46cGFzc3dvcmQ="
+        }
+      },
+      {
+        "path": "/ssm-query-subscribers-rest",
+        "rewrite": "/ssm/query",
+        "headers": {
+          "Authorization": "Basic YWRtaW46cGFzc3dvcmQ="
+        }
+      },
+      {
+        "path": "/ssm-mobily-query-subscribers-rest",
+        "rewrite": "/ssm/mobily/query",
+        "headers": {
+          "Authorization": "Basic YWRtaW46cGFzc3dvcmQ="
+        }
+      },
+      {
+        "path": "/cssm-mobily-rest",
+        "rewrite": "/cssm/mobily",
+        "headers": {
+          "Authorization": "Basic YWRtaW46cGFzc3dvcmQ="
+        }
+      }
+    ]
+  },
+  {
+    "name": "ssm-subscriptions-services",
+    "target": "http://10.35.36.195:9092",
+    "contextList": [
+      {
+        "path": "/ssm-subscriptions-rest",
+        "rewrite": "/ssm/subscribers",
+        "headers": {
+          "Authorization": "Basic YWRtaW46cGFzc3dvcmQ="
+        }
+      }
+    ]
+  },
+  {
+    "name": "cssm-subscriptions-services",
+    "target": "http://10.35.36.189:9123",
+    "contextList": [
+      {
+        "path": "/cssm-subscriptions-rest",
+        "rewrite": "/cssm/subscriptions"
+      }
+    ]
+  },
+  {
+    "name": "screening-manager",
+    "target": "http://10.35.36.194:8099",
+    "contextList": [
+      {
+        "path": "/screening-manager-rest",
+        "rewrite": "/scrmngr",
+        "headers": {
+          "Authorization": "Basic YWRtaW46YWRtaW4="
+        }
+      },
+      {
+        "path": "/screening-manager-stats-rest",
+        "rewrite": "/stats",
+        "headers": {
+          "Authorization": "Basic YWRtaW46YWRtaW4="
+        }
+      }
+    ]
+  },
+  {
+    "name": "msggw",
+    "target": "http://10.35.36.196:8011",
+    "contextList": [
+      {
+        "path": "/msggw-rest",
+        "rewrite": "/msggw/portal"
+      }
+    ]
+  },
+  {
+    "name": "chggw",
+    "target": "http://10.35.36.193:8015",
+    "contextList": [
+      {
+        "path": "/chggw-rest",
+        "rewrite": "/proxy"
+      }
+    ]
+  },
+  {
+    "name": "dcb",
+    "target": "http://10.35.36.194:9077",
+    "contextList": [
+      {
+        "path": "/dcb-rest",
+        "rewrite": "/api"
+      }
+    ]
+  },
+  {
+    "name": "otp",
+    "target": "http://10.35.36.224:8989",
+    "contextList": [
+      {
+        "path": "/otp-rest",
+        "rewrite": "/otp"
+      }
+    ]
+  },
+  {
+    "name": "workflows-otp",
+    "target": "http://10.35.36.192:8083",
+    "contextList": [
+      {
+        "path": "/workflows-rest",
+        "rewrite": "",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      },
+      {
+        "path": "/workflows-otp-rest",
+        "rewrite": "/otp",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      },
+      {
+        "path": "/workflows-partner-registration-rest",
+        "rewrite": "/partner",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      }
+    ]
+  },
+  {
+    "name": "content-management",
+    "target": "http://10.35.36.194:8082",
+    "contextList": [
+      {
+        "path": "/content-management-rest",
+        "rewrite": "",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      }
+    ]
+  },
+  {
+    "name": "altosis-content-management",
+    "target": "https://10.73.206.34",
+    "secure": false,
+    "contextList": [
+      {
+        "path": "/altosis-content-management-rest",
+        "rewrite": "/API",
+        "headers": {
+          "Authorization": "Basic dGxudHlEU1AzNHRlc3Q6dG5ldURTUDM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "scgateway",
+    "target": "http://10.14.45.101:9002",
+    "contextList": [
+      {
+        "path": "/scgateway-rest",
+        "rewrite": "/scgateway",
+        "headers": {
+          "Authorization": "Basic c2NnYXRld2F5OnNjZ2F0ZXdheQ=="
+        }
+      }
+    ]
+  },
+  {
+    "name": "elasticsearch",
+    "target": "http://10.35.36.192:9200",
+    "contextList": [
+      {
+        "path": "/es-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "apimanager-elasticsearch",
+    "target": "http://10.35.36.192:9200",
+    "contextList": [
+      {
+        "path": "/apimanager-es-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "diagnostics",
+    "target": "http://10.35.36.191:9200",
+    "contextList": [
+      {
+        "path": "/diagnostics-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "license-manager",
+    "target": "http://10.35.36.192:8080",
+    "contextList": [
+      {
+        "path": "/license-manager-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "pentaho",
+    "target": "http://10.35.36.192:9080",
+    "contextList": [
+      {
+        "path": "/pentaho",
+        "rewrite": "/pentaho",
+        "headers": {
+          "Authorization": "Basic Y3NwOmNzcA=="
+        }
+      }
+    ],
+    "proxyType": "pentaho"
+  },
+  {
+    "name": "reports",
+    "target": "http://10.35.36.192:9080",
+    "contextList": [
+      {
+        "path": "/reports",
+        "rewrite": "/reports"
+      }
+    ]
+  },
+  {
+    "name": "archived-reports",
+    "target": "http://10.35.36.192",
+    "contextList": [
+      {
+        "path": "/archived-reports",
+        "rewrite": "/archived_reports"
+      }
+    ]
+  },
+  {
+    "name": "subscription-request-engine",
+    "target": "http://10.35.36.192:9095",
+    "contextList": [
+      {
+        "path": "/sre-rest",
+        "rewrite": "/sre"
+      }
+    ]
+  },
+  {
+    "name": "smsportal",
+    "target": "http://10.35.36.194:8002",
+    "contextList": [
+      {
+        "path": "/smsportal-rest",
+        "rewrite": "/smsportal/portal"
+      }
+    ]
+  },
+  {
+    "name": "VCP RELATED CONTEXTS ----------------------------------------------------------------------------------",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/vcp",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "smsc-gr",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-gr-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "smsc-operation-local",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-operation-local-rest",
+        "rewrite": "/messaging/operation"
+      }
+    ]
+  },
+  {
+    "name": "smsc-operation-remote",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-operation-remote-rest",
+        "rewrite": "/messaging/operation"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sender-application-local",
+    "target": "http://10.35.36.235:11000",
+    "contextList": [
+      {
+        "path": "/smsc-sender-application-local-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sender-application-remote",
+    "target": "http://10.35.36.235:11000",
+    "contextList": [
+      {
+        "path": "/smsc-sender-application-remote-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sfe-dashboard-local",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-sfe-dashboard-local-rest",
+        "rewrite": "/messaging/dashboard/sfe"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sfe-reporting-local",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-sfe-reporting-local-rest",
+        "rewrite": "/messaging/reporting/sfe"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sfe-reporting-remote",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-sfe-reporting-remote-rest",
+        "rewrite": "/messaging/reporting/sfe"
+      }
+    ]
+  },
+  {
+    "name": "smsc-elasticsearch-adapter-local",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-es-adapter-local-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "smsc-elasticsearch-adapter-remote",
+    "target": "http://10.35.36.235:9999",
+    "contextList": [
+      {
+        "path": "/smsc-es-adapter-remote-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "smsc-edr-reporting-service",
+    "target": "http://10.35.36.235:8080",
+    "contextList": [
+      {
+        "path": "/smsc-edr-reporting-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "mmsc-gr",
+    "target": "http://10.35.36.236:8089",
+    "contextList": [
+      {
+        "path": "/mmsc-config-gr-rest",
+        "rewrite": "/mmsc/configuration",
+        "headers": {
+          "Authorization": "Basic YWRtaW46YWRtaW4="
+        }
+      },
+      {
+        "path": "/mmsc-operation-gr-rest",
+        "rewrite": "/mmsc/operation",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "mmsc-local",
+    "target": "http://10.35.36.236:8089",
+    "contextList": [
+      {
+        "path": "/mmsc-dashboard-local-rest",
+        "rewrite": "/mmsc/dashboard",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      },
+      {
+        "path": "/mmsc-troubleshooting-local-rest",
+        "rewrite": "/mmsc/operatorcare",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "mmsc-troubleshooting-remote",
+    "target": "http://10.35.36.236:8089",
+    "contextList": [
+      {
+        "path": "/mmsc-troubleshooting-remote-rest",
+        "rewrite": "/mmsc/operatorcare",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ussd-gateway-gr",
+    "target": "http://10.35.36.232:9999",
+    "contextList": [
+      {
+        "path": "/ussd-gw-gr-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "ussd-gateway-local",
+    "target": "http://10.35.36.232:9999",
+    "contextList": [
+      {
+        "path": "/ussd-gw-local-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "ussd-browser-gr",
+    "target": "http://10.35.36.232:7722",
+    "contextList": [
+      {
+        "path": "/ussd-browser-gr-rest",
+        "rewrite": "/ussd/configuration",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ussd-browser-stats-local",
+    "target": "http://10.35.36.232:7722",
+    "contextList": [
+      {
+        "path": "/ussd-browser-stats-local-rest",
+        "rewrite": "/ussd/dashboard",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ussi-gateway-config",
+    "target": "http://10.35.36.232:8880",
+    "contextList": [
+      {
+        "path": "/ussi-gw-core-config",
+        "rewrite": "/portal/config/core/local/master",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      },
+      {
+        "path": "/ussi-gw-dashboard",
+        "rewrite": "/portal/dashboard",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "smsf-services",
+    "target": "http://10.35.38.133:8888",
+    "contextList": [
+      {
+        "path": "/smsf-core-config",
+        "rewrite": "/portal/config/momt/local/master",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      },
+      {
+        "path": "/smsf-dashboard",
+        "rewrite": "/portal/dashboard",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-core-gr",
+    "target": "http://10.35.36.235:8095",
+    "contextList": [
+      {
+        "path": "/smsantispam-core-gr-rest",
+        "rewrite": "/antispam"
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-config-gr",
+    "target": "http://10.35.36.235:8082",
+    "contextList": [
+      {
+        "path": "/smsantispam-config-gr-rest",
+        "rewrite": "/smsantispam/configuration"
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-elasticsearch-adapter-local",
+    "target": "http://10.35.36.235:8082",
+    "contextList": [
+      {
+        "path": "/smsantispam-es-adapter-local-rest",
+        "rewrite": "/smsantispam/configuration"
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-elasticsearch-adapter-remote",
+    "target": "http://10.35.36.235:8082",
+    "contextList": [
+      {
+        "path": "/smsantispam-es-adapter-remote-rest",
+        "rewrite": "/smsantispam/configuration"
+      }
+    ]
+  },
+  {
+    "name": "missed-call-notification-and-notify-me-dashboard",
+    "target": "http://10.35.36.233:9090",
+    "contextList": [
+      {
+        "path": "/mcn-dashboard-local-rest",
+        "rewrite": "/sa/dashboard",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "missed-call-notification-gr",
+    "target": "http://10.35.36.233:9090",
+    "contextList": [
+      {
+        "path": "/mcn-provisioning-gr-rest",
+        "rewrite": "/sa/provisioning",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      },
+      {
+        "path": "/mcn-configuration-gr-rest",
+        "rewrite": "/sa/configuration",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "pay-for-me",
+    "target": "http://10.35.36.233:9090",
+    "contextList": [
+      {
+        "path": "/p4m-rest",
+        "rewrite": "/payforme/configuration",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "voice-mail",
+    "target": "http://10.35.36.233:9090",
+    "contextList": [
+      {
+        "path": "/voicemail-rest",
+        "rewrite": "/voicemail"
+      }
+    ]
+  },
+  {
+    "name": "voice-sms",
+    "target": "http://10.35.36.233:9090",
+    "contextList": [
+      {
+        "path": "/voicesms-rest",
+        "rewrite": "/voicemail"
+      }
+    ]
+  },
+  {
+    "name": "ring-back-tone",
+    "target": "http://10.35.36.190:9090",
+    "contextList": [
+      {
+        "path": "/rbt-rest",
+        "rewrite": "/rbt"
+      }
+    ]
+  },
+  {
+    "name": "smsc-elasticsearch-local",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/smsc-es-local-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "smsc-elasticsearch-remote",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/smsc-es-remote-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-elasticsearch-local",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/smsantispam-es-local-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-elasticsearch-remote",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/smsantispam-es-remote-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "rbt-elasticsearch-local",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/rbt-es-local-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "rbt-elasticsearch-remote",
+    "target": "http://10.35.36.231:9200",
+    "contextList": [
+      {
+        "path": "/rbt-es-remote-rest",
+        "rewrite": ""
+      }
+    ]
+  }
+]

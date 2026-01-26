@@ -1,0 +1,70 @@
+{
+  "template":"a3gw-*",
+  "settings":{
+    "refresh_interval":"60s"
+  },
+  "mappings" : {
+    "properties" : {
+      "body" : {
+        "type" : "nested",
+        "properties" : {
+          "data" : {
+            "type" : "text",
+            "index" : false
+          },
+          "message" : {
+            "type" : "keyword",
+            "index" : false,
+            "doc_values" : false
+          }
+        }
+      },
+      "duration" : {
+        "type" : "keyword",
+        "index" : false,
+        "doc_values" : false
+      },
+      "ipAddresses" : {
+        "type" : "keyword"
+      },
+      "jti" : {
+        "type" : "keyword",
+        "index" : false,
+        "doc_values" : false
+      },
+      "method" : {
+        "type" : "keyword"
+      },
+      "resourceName" : {
+        "type" : "keyword"
+      },
+      "service" : {
+        "type" : "keyword"
+      },
+      "status" : {
+        "type" : "keyword"
+      },
+      "subscriberNumber" : {
+        "type" : "keyword"
+      },
+      "timestamp" : {
+        "type" : "date",
+        "format" : "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+      },
+      "transactionId" : {
+        "type" : "keyword"
+      },
+      "url" : {
+        "type" : "keyword",
+        "index" : false
+      },
+      "userAgent" : {
+        "type" : "keyword",
+        "index" : false
+      },
+      "username" : {
+        "type" : "keyword"
+      }
+    }
+  }
+}

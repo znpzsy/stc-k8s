@@ -1,0 +1,32 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.operations.offers') }">
+            <a ui-sref="subsystems.subscriptionmanagement.operations.offers.list" tabindex="-1" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Title' | translate }}
+            </a>
+        </li>
+
+        <!-- TODO - Temporarily hidden -->
+        <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.operations.shortcodes') }"
+            ng-if="false">
+            <a ui-sref="subsystems.subscriptionmanagement.operations.shortcodes.list" tabindex="-1" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.operations.subscribers') || $state.includes('subsystems.subscriptionmanagement.operations.subscriberdobsettings') }">
+            <a ui-sref="subsystems.subscriptionmanagement.operations.subscribers.list" tabindex="-1" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Title' | translate }}
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+
+        </div>
+    </div>
+</div>

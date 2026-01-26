@@ -1,0 +1,77 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.BulkMessaging.Configuration.Settings.Title' | translate }} / {{ 'Products.BulkMessaging.BulkIVR.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Configuration.Settings.BlackListEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{settings.blackListEnabled?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"
+                            ng-model="settings.blackListEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!settings.blackListEnabled?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"
+                            ng-model="settings.blackListEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Configuration.Settings.PrepaidSenderAllowed' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{settings.disablePrepaidSender?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"
+                            ng-model="settings.disablePrepaidSender" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!settings.disablePrepaidSender?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"
+                            ng-model="settings.disablePrepaidSender" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Configuration.Settings.DailyLimitEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{settings.dailyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"
+                            ng-model="settings.dailyLimitEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!settings.dailyLimitEnabled?'btn-primary active':'btn-default'}} btn-sm" ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"
+                            ng-model="settings.dailyLimitEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="settings.dailyLimitEnabled">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Configuration.Settings.DailyLimit' | translate }}</label>
+            <div class="col-md-7">
+                <input name="dailyLimitValue" type="number" class="form-control" ng-model="settings.dailyLimitValue"
+                       min="1" max="9999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canAllConfigurationUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.dailyLimitValue.$dirty && form.dailyLimitValue.$invalid }" ng-show="form.dailyLimitValue.$dirty && form.dailyLimitValue.$invalid">
+                    <li class="required" ng-show="form.dailyLimitValue.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.dailyLimitValue.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 9999} }}</li>
+                    <li class="required" ng-show="form.dailyLimitValue.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.dailyLimitValue.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canAllConfigurationUpdate() || isNotChanged()"
+                        ng-click="save(settings);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

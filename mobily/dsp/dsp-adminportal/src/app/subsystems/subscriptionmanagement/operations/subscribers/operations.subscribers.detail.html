@@ -1,0 +1,990 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="msisdn" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Msisdn' | translate }}</label>
+            <div class="col-md-7">
+                <input id="msisdn" name="msisdn" type="text" class="form-control"
+                       ng-model="subscriber.msisdn"
+                       ng-minlength="5" maxlength="20" ng-maxlength="20"
+                       ng-required="true" ng-if="!subscriber.id"
+                       ng-disabled="!AuthorizationService.canSsmOperationsSubscriberCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }" ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                    <li class="required" ng-show="form.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 5 } }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+                <input id="msisdn" name="msisdn" type="text" class="form-control" ng-value="subscriber.msisdn" ng-disabled="true" ng-if="subscriber.id"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="subscriber.id">
+            <label for="lastProvUpdateDate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.LastProvUpdateDate' | translate }}</label>
+            <div class="col-md-7">
+                <input id="lastProvUpdateDate" name="lastProvUpdateDate" type="text" class="form-control"
+                       ng-value="subscriber.lastProvUpdateDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="paymentType" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PaymentType' | translate }}</label>
+            <div class="col-md-7">
+                <select id="paymentType" name="paymentType" class="form-control parsley-validated"
+                        ng-model="subscriber.paymentType"
+                        ng-options="paymentType.value as (paymentType.label | translate | uppercase) for paymentType in PROVISIONING_PAYMENT_TYPES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="language" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Language' | translate }}</label>
+            <div class="col-md-7">
+                <select id="language" name="language" class="form-control parsley-validated"
+                        ng-model="subscriber.lang"
+                        ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Permanently hidden due to there is an another status attribute and these two attributes cause confusion. -->
+        <div class="form-group" ng-if="false">
+            <label for="currentState" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.State' | translate }}</label>
+            <div class="col-md-7">
+                <select id="currentState" name="currentState" class="form-control parsley-validated"
+                        ng-model="subscriber.state.currentState"
+                        ng-options="state.value as (state.label | translate | uppercase) for state in PROVISIONING_STATES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Status' | translate }}</label>
+            <div class="col-md-7">
+                <select id="status" name="status" class="form-control parsley-validated"
+                        ng-model="subscriber.status"
+                        ng-options="status.value as (status.label | translate | uppercase) for status in PROVISIONING_STATUSES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="imsi" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Imsi' | translate }}</label>
+            <div class="col-md-7">
+                <input id="imsi" name="imsi" type="text" class="form-control"
+                       ng-model="subscriber.imsi"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.imsi.$dirty && form.imsi.$invalid }" ng-show="form.imsi.$dirty && form.imsi.$invalid">
+                    <li class="required" ng-show="form.imsi.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="subscriberAccountNumber" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.SubscriberAccountNumber' | translate }}</label>
+            <div class="col-md-7">
+                <input id="subscriberAccountNumber" name="subscriberAccountNumber" type="text" class="form-control"
+                       ng-model="subscriber.subscriberAccountNumber"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.subscriberAccountNumber.$dirty && form.subscriberAccountNumber.$invalid }" ng-show="form.subscriberAccountNumber.$dirty && form.subscriberAccountNumber.$invalid">
+                    <li class="required" ng-show="form.subscriberAccountNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="billingAccountNumber" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.BillingAccountNumber' | translate }}</label>
+            <div class="col-md-7">
+                <input id="billingAccountNumber" name="billingAccountNumber" type="text" class="form-control"
+                       ng-model="subscriber.billingAccountNumber"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.billingAccountNumber.$dirty && form.billingAccountNumber.$invalid }" ng-show="form.billingAccountNumber.$dirty && form.billingAccountNumber.$invalid">
+                    <li class="required" ng-show="form.billingAccountNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="corporateAccountNumber" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CorporateAccountNumber' | translate }}</label>
+            <div class="col-md-7">
+                <input id="corporateAccountNumber" name="corporateAccountNumber" type="text" class="form-control"
+                       ng-model="subscriber.corporateAccountNumber"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.corporateAccountNumber.$dirty && form.corporateAccountNumber.$invalid }" ng-show="form.corporateAccountNumber.$dirty && form.corporateAccountNumber.$invalid">
+                    <li class="required" ng-show="form.corporateAccountNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="type" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Type' | translate }}</label>
+            <div class="col-md-7">
+                <select id="type" name="type" class="form-control parsley-validated"
+                        ng-model="subscriber.type"
+                        ng-options="type.value as (type.label | translate | uppercase) for type in PROVISIONING_TYPES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="contractId" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContractId' | translate }}</label>
+            <div class="col-md-7">
+                <input id="contractId" name="contractId" type="text" class="form-control"
+                       ng-model="subscriber.contractId"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.contractId.$dirty && form.contractId.$invalid }" ng-show="form.contractId.$dirty && form.contractId.$invalid">
+                    <li class="required" ng-show="form.contractId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="customerName" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CustomerName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="customerName" name="customerName" type="text" class="form-control"
+                       ng-model="subscriber.customerName"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.customerName.$dirty && form.customerName.$invalid }" ng-show="form.customerName.$dirty && form.customerName.$invalid">
+                    <li class="required" ng-show="form.customerName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="gender" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Gender' | translate }}</label>
+            <div class="col-md-7">
+                <select id="gender" name="gender" class="form-control parsley-validated"
+                        ng-model="subscriber.gender"
+                        ng-options="gender.value as (gender.label | translate | uppercase) for gender in PROVISIONING_GENDERS"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.BirthDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="birthDate" name="birthDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}"
+                           ng-model="subscriber.birthDate"
+                           is-open="birthDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openDatePicker(birthDatePicker, $event)"
+                                ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.birthDate.$dirty && form.birthDate.$invalid }" ng-show="form.birthDate.$dirty && form.birthDate.$invalid">
+                        <li class="required" ng-show="form.birthDate.$error.date">{{'CommonMessages.InvalidDate' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="activationDate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ActivationDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="activationDate" name="activationDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}"
+                           ng-model="subscriber.activationDate"
+                           is-open="activationDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openDatePicker(activationDatePicker, $event)"
+                                ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.activationDate.$dirty && form.activationDate.$invalid }" ng-show="form.activationDate.$dirty && form.activationDate.$invalid">
+                        <li class="required" ng-show="form.activationDate.$error.date">{{'CommonMessages.InvalidDate' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-4 row">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="subscriber.activationDate"
+                         hour-step="1" minute-step="1"
+                         show-meridian="false" readonly-input="false" mousewheel="true"></div>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="firstCallDate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.FirstCallDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="firstCallDate" name="firstCallDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}"
+                           ng-model="subscriber.firstCallDate"
+                           is-open="firstCallDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openDatePicker(firstCallDatePicker, $event)"
+                                ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.firstCallDate.$dirty && form.firstCallDate.$invalid }" ng-show="form.firstCallDate.$dirty && form.firstCallDate.$invalid">
+                        <li class="required" ng-show="form.firstCallDate.$error.date">{{'CommonMessages.InvalidDate' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-4 row">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="subscriber.firstCallDate"
+                         hour-step="1" minute-step="1"
+                         show-meridian="false" readonly-input="false" mousewheel="true"></div>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="occupation" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Occupation' | translate }}</label>
+            <div class="col-md-7">
+                <input id="occupation" name="occupation" type="text" class="form-control"
+                       ng-model="subscriber.occupation"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.occupation.$dirty && form.occupation.$invalid }" ng-show="form.occupation.$dirty && form.occupation.$invalid">
+                    <li class="required" ng-show="form.occupation.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="duration" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Duration' | translate }}</label>
+            <div class="col-md-7">
+                <input id="duration" name="duration" type="text" class="form-control"
+                       ng-model="subscriber.duration"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.duration.$dirty && form.duration.$invalid }" ng-show="form.duration.$dirty && form.duration.$invalid">
+                    <li class="required" ng-show="form.duration.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="corporatePackage" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CorporatePackage' | translate }}</label>
+            <div class="col-md-7">
+                <input id="corporatePackage" name="corporatePackage" type="text" class="form-control"
+                       ng-model="subscriber.corporatePackage"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.corporatePackage.$dirty && form.corporatePackage.$invalid }" ng-show="form.corporatePackage.$dirty && form.corporatePackage.$invalid">
+                    <li class="required" ng-show="form.corporatePackage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="maxUploadRate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.MaxUploadRate' | translate }}</label>
+            <div class="col-md-7">
+                <input id="maxUploadRate" name="maxUploadRate" type="text" class="form-control"
+                       ng-model="subscriber.maxUploadRate"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxUploadRate.$dirty && form.maxUploadRate.$invalid }" ng-show="form.maxUploadRate.$dirty && form.maxUploadRate.$invalid">
+                    <li class="required" ng-show="form.maxUploadRate.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="maxDownloadRate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.MaxDownloadRate' | translate }}</label>
+            <div class="col-md-7">
+                <input id="maxDownloadRate" name="maxDownloadRate" type="text" class="form-control"
+                       ng-model="subscriber.maxDownloadRate"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxDownloadRate.$dirty && form.maxDownloadRate.$invalid }" ng-show="form.maxDownloadRate.$dirty && form.maxDownloadRate.$invalid">
+                    <li class="required" ng-show="form.maxDownloadRate.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="customerBSLId" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CustomerBSLId' | translate }}</label>
+            <div class="col-md-7">
+                <input id="customerBSLId" name="customerBSLId" type="text" class="form-control"
+                       ng-model="subscriber.customerBSLId"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.customerBSLId.$dirty && form.customerBSLId.$invalid }" ng-show="form.customerBSLId.$dirty && form.customerBSLId.$invalid">
+                    <li class="required" ng-show="form.customerBSLId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="customerCategory" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CustomerCategory' | translate }}</label>
+            <div class="col-md-7">
+                <select id="customerCategory" name="customerCategory" class="form-control parsley-validated"
+                        ng-model="subscriber.customerCategory"
+                        ng-options="customerCategory.value as (customerCategory.label | translate | uppercase) for customerCategory in PROVISIONING_CUSTOMER_CATEGORIES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="creditLimit" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CreditLimit' | translate }}</label>
+            <div class="col-md-7">
+                <input id="creditLimit" name="creditLimit" type="text" class="form-control"
+                       ng-model="subscriber.creditLimit"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.creditLimit.$dirty && form.creditLimit.$invalid }" ng-show="form.creditLimit.$dirty && form.creditLimit.$invalid">
+                    <li class="required" ng-show="form.creditLimit.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="creditSegment" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CreditSegment' | translate }}</label>
+            <div class="col-md-7">
+                <select id="creditSegment" name="creditSegment" class="form-control parsley-validated"
+                        ng-model="subscriber.creditSegment"
+                        ng-options="creditSegment.value as creditSegment.text for creditSegment in PROVISIONING_CREDIT_SEGMENTS"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="vipCategory" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.VipCategory' | translate }}</label>
+            <div class="col-md-7">
+                <select id="vipCategory" name="vipCategory" class="form-control parsley-validated"
+                        ng-model="subscriber.vipCategory"
+                        ng-options="vipCategory.value as (vipCategory.label | translate | uppercase) for vipCategory in PROVISIONING_CUSTOMER_CATEGORIES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="vipSubCategory" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.VipSubCategory' | translate }}</label>
+            <div class="col-md-7">
+                <select id="vipSubCategory" name="vipSubCategory" class="form-control parsley-validated"
+                        ng-model="subscriber.vipSubCategory"
+                        ng-options="vipSubCategory.value as (vipSubCategory.label | translate | uppercase) for vipSubCategory in PROVISIONING_CUSTOMER_CATEGORIES"
+                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="legacyFakeID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.LegacyFakeID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="legacyFakeID" name="legacyFakeID" type="text" class="form-control"
+                       ng-model="subscriber.legacyFakeID"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.legacyFakeID.$dirty && form.legacyFakeID.$invalid }" ng-show="form.legacyFakeID.$dirty && form.legacyFakeID.$invalid">
+                    <li class="required" ng-show="form.legacyFakeID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CorporateKA' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{subscriber.corporateKA?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.corporateKA" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!subscriber.corporateKA?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.corporateKA" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Mix' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{subscriber.mix?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.mix" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!subscriber.mix?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.mix" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Mnpnumber' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{subscriber.mnpnumber?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.mnpnumber" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!subscriber.mnpnumber?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.mnpnumber" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.NewControl' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{subscriber.newControl?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.newControl" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!subscriber.newControl?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                            ng-model="subscriber.newControl" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbSettings.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.DcbSettings.OptOut' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{!subscriber.canUseDCB?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                                ng-model="subscriber.canUseDCB" uib-btn-radio="false">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{subscriber.canUseDCB?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"
+                                ng-model="subscriber.canUseDCB" uib-btn-radio="true">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.IdentityInfo.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="idType" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.IdentityInfo.IdType' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="idType" name="idType" type="text" class="form-control"
+                           ng-model="subscriber.identityInfo.idType"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.idType.$dirty && form.idType.$invalid }" ng-show="form.idType.$dirty && form.idType.$invalid">
+                        <li class="required" ng-show="form.idType.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="idNumber" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.IdentityInfo.IdNumber' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="idNumber" name="idNumber" type="text" class="form-control"
+                           ng-model="subscriber.identityInfo.idNumber"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.idNumber.$dirty && form.idNumber.$invalid }" ng-show="form.idNumber.$dirty && form.idNumber.$invalid">
+                        <li class="required" ng-show="form.idNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nationalCode" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.IdentityInfo.NationalCode' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="nationalCode" name="nationalCode" type="text" class="form-control"
+                           ng-model="subscriber.identityInfo.nationalCode"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nationalCode.$dirty && form.nationalCode.$invalid }" ng-show="form.nationalCode.$dirty && form.nationalCode.$invalid">
+                        <li class="required" ng-show="form.nationalCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="homeAddress" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.HomeAddress' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="homeAddress" name="homeAddress" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.homeAddress"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.homeAddress.$dirty && form.homeAddress.$invalid }" ng-show="form.homeAddress.$dirty && form.homeAddress.$invalid">
+                        <li class="required" ng-show="form.homeAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="mobilePhone" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.MobilePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="mobilePhone" name="mobilePhone" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.mobilePhone"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.mobilePhone.$dirty && form.mobilePhone.$invalid }" ng-show="form.mobilePhone.$dirty && form.mobilePhone.$invalid">
+                        <li class="required" ng-show="form.mobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="homePhone" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.HomePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="homePhone" name="homePhone" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.homePhone"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.homePhone.$dirty && form.homePhone.$invalid }" ng-show="form.homePhone.$dirty && form.homePhone.$invalid">
+                        <li class="required" ng-show="form.homePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="region" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.Region' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="region" name="region" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.region"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.region.$dirty && form.region.$invalid }" ng-show="form.region.$dirty && form.region.$invalid">
+                        <li class="required" ng-show="form.region.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="district" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.District' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="district" name="district" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.district"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.district.$dirty && form.district.$invalid }" ng-show="form.district.$dirty && form.district.$invalid">
+                        <li class="required" ng-show="form.district.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="provinceId" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.ProvinceId' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="provinceId" name="provinceId" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.provinceId"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.provinceId.$dirty && form.provinceId.$invalid }" ng-show="form.provinceId.$dirty && form.provinceId.$invalid">
+                        <li class="required" ng-show="form.provinceId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="zipCode" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.ZipCode' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="zipCode" name="zipCode" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.zipCode"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.zipCode.$dirty && form.zipCode.$invalid }" ng-show="form.zipCode.$dirty && form.zipCode.$invalid">
+                        <li class="required" ng-show="form.zipCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="officeAddress" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.OfficeAddress' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="officeAddress" name="officeAddress" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.officeAddress"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.officeAddress.$dirty && form.officeAddress.$invalid }" ng-show="form.officeAddress.$dirty && form.officeAddress.$invalid">
+                        <li class="required" ng-show="form.officeAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="officePhone" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.OfficePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="officePhone" name="officePhone" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.officePhone"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.officePhone.$dirty && form.officePhone.$invalid }" ng-show="form.officePhone.$dirty && form.officePhone.$invalid">
+                        <li class="required" ng-show="form.officePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ContactInfo.Email' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="email" name="email" type="text" class="form-control"
+                           ng-model="subscriber.contactInfo.email"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.email.$dirty && form.email.$invalid }" ng-show="form.email.$dirty && form.email.$invalid">
+                        <li class="required" ng-show="form.email.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="packageId" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.PackageId' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="packageId" name="packageId" type="text" class="form-control"
+                           ng-model="subscriber.packageInfo.packageId"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.packageId.$dirty && form.packageId.$invalid }" ng-show="form.packageId.$dirty && form.packageId.$invalid">
+                        <li class="required" ng-show="form.packageId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.Name' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="name" name="name" type="text" class="form-control"
+                           ng-model="subscriber.packageInfo.name"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                        <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="category" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.Category' | translate }}</label>
+                <div class="col-md-7">
+                    <select id="category" name="category" class="form-control parsley-validated"
+                            ng-model="subscriber.packageInfo.category"
+                            ng-options="category.value as (category.label | translate | uppercase) for category in PROVISIONING_PACKAGE_CATEGORIES"
+                            ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div ng-if="subscriber.packageInfo.category === 3">
+                <div class="form-group">
+                    <label for="fiberBandwidth" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.FiberBandwidth' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="fiberBandwidth" name="fiberBandwidth" type="text" class="form-control"
+                               ng-model="subscriber.packageInfo.fiberBandwidth"
+                               maxlength="100" ng-maxlength="100"
+                               ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.fiberBandwidth.$dirty && form.fiberBandwidth.$invalid }" ng-show="form.fiberBandwidth.$dirty && form.fiberBandwidth.$invalid">
+                            <li class="required" ng-show="form.fiberBandwidth.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="speedSubDate" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.SpeedSubDate' | translate }}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="speedSubDate" name="speedSubDate" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}"
+                                   ng-model="subscriber.packageInfo.speedSubDate"
+                                   is-open="speedSubDatePicker.opened"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openDatePicker(speedSubDatePicker, $event)"
+                                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <ul ng-class="{ 'parsley-error-list': form.speedSubDate.$dirty && form.speedSubDate.$invalid }" ng-show="form.speedSubDate.$dirty && form.speedSubDate.$invalid">
+                                <li class="required" ng-show="form.speedSubDate.$error.date">{{'CommonMessages.InvalidDate' | translate }}</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker ng-model="subscriber.packageInfo.speedSubDate"
+                             hour-step="1" minute-step="1"
+                             show-meridian="false" readonly-input="false" mousewheel="true"></div>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="creationTime" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.PackageInfo.CreationTime' | translate }}</label>
+                <div class="col-md-3">
+                    <p class="input-group datepicker-field">
+                        <input id="creationTime" name="creationTime" type="text" class="form-control input-sm"
+                               uib-datepicker-popup="{{dateFormat}}"
+                               ng-model="subscriber.packageInfo.creationTime"
+                               is-open="creationTimePicker.opened"
+                               datepicker-options="dateOptions"
+                               ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm" ng-click="openDatePicker(creationTimePicker, $event)"
+                                    ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                        <ul ng-class="{ 'parsley-error-list': form.creationTime.$dirty && form.creationTime.$invalid }" ng-show="form.creationTime.$dirty && form.creationTime.$invalid">
+                            <li class="required" ng-show="form.creationTime.$error.date">{{'CommonMessages.InvalidDate' | translate }}</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-md-4 row">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker ng-model="subscriber.packageInfo.creationTime"
+                             hour-step="1" minute-step="1"
+                             show-meridian="false" readonly-input="false" mousewheel="true"></div>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CpeInfo.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="cpeInfoNo" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CpeInfo.No' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="cpeInfoNo" name="cpeInfoNo" type="text" class="form-control"
+                           ng-model="subscriber.cpeInfo.no"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.cpeInfoNo.$dirty && form.cpeInfoNo.$invalid }" ng-show="form.cpeInfoNo.$dirty && form.cpeInfoNo.$invalid">
+                        <li class="required" ng-show="form.cpeInfoNo.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="serialNo" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CpeInfo.SerialNo' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="serialNo" name="serialNo" type="text" class="form-control"
+                           ng-model="subscriber.cpeInfo.serialNo"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.serialNo.$dirty && form.serialNo.$invalid }" ng-show="form.serialNo.$dirty && form.serialNo.$invalid">
+                        <li class="required" ng-show="form.serialNo.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="macAddress" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.CpeInfo.MacAddress' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="macAddress" name="macAddress" type="text" class="form-control"
+                           ng-model="subscriber.cpeInfo.macAddress"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.macAddress.$dirty && form.macAddress.$invalid }" ng-show="form.macAddress.$dirty && form.macAddress.$invalid">
+                        <li class="required" ng-show="form.macAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.DealInfoList' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr ng-repeat="dealInfo in subscriber.dealInfoList">
+                            <td class="kv-key col-md-1">
+                                {{$index+1}}
+                            </td>
+                            <td class="kv-key col-md-3">
+                                <input id="dealInfoId_{{$index}}" name="dealInfoId_{{$index}}" type="text" class="form-control"
+                                       ng-model="dealInfo.id"
+                                       maxlength="50" ng-maxlength="50"
+                                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                                <ul ng-class="{ 'parsley-error-list': form.dealInfoId_{{$index}}.$dirty && form.dealInfoId_{{$index}}.$invalid }" ng-show="form.dealInfoId_{{$index}}.$dirty && form.dealInfoId_{{$index}}.$invalid">
+                                    <li class="required" ng-show="form.dealInfoId_{{$index}}.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                </ul>
+                            </td>
+                            <td class="kv-value col-md-7">
+                                <input id="dealInfoName_{{$index}}" name="dealInfoId{{$index}}" type="text" class="form-control"
+                                       ng-model="dealInfo.name"
+                                       maxlength="100" ng-maxlength="100"
+                                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                                <ul ng-class="{ 'parsley-error-list': form.dealInfoName_{{$index}}.$dirty && form.dealInfoName_{{$index}}.$invalid }" ng-show="form.dealInfoName_{{$index}}.$dirty && form.dealInfoName_{{$index}}.$invalid">
+                                    <li class="required" ng-show="form.dealInfoName_{{$index}}.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                                </ul>
+                            </td>
+                            <td class="kv-value col-md-1">
+                                <button class="btn btn-danger btn-sm"
+                                        ng-click="removeDealInfo($index)"
+                                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn btn-primary btn-sm"
+                                        ng-click="addNewDealInfo()"
+                                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.ExtensionAttributeList' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <table class="table keyvalue-table">
+                        <tbody>
+                        <tr ng-repeat="extensionAttribute in subscriber.extensionAttributeList">
+                            <td class="kv-key col-md-1">
+                                {{$index+1}}
+                            </td>
+                            <td class="kv-key col-md-3">
+                                <input id="extensionAttributeName_{{$index}}" name="extensionAttributeName_{{$index}}" type="text" class="form-control"
+                                       ng-model="extensionAttribute.name"
+                                       maxlength="50" ng-maxlength="50"
+                                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                                <ul ng-class="{ 'parsley-error-list': form.extensionAttributeName_{{$index}}.$dirty && form.extensionAttributeName_{{$index}}.$invalid }" ng-show="form.extensionAttributeName_{{$index}}.$dirty && form.extensionAttributeName_{{$index}}.$invalid">
+                                    <li class="required" ng-show="form.extensionAttributeName_{{$index}}.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                </ul>
+                            </td>
+                            <td class="kv-value col-md-7">
+                                <input id="extensionAttributeValue_{{$index}}" name="extensionAttributeName{{$index}}" type="text" class="form-control"
+                                       ng-model="extensionAttribute.value"
+                                       maxlength="100" ng-maxlength="100"
+                                       ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())"/>
+                                <ul ng-class="{ 'parsley-error-list': form.extensionAttributeValue_{{$index}}.$dirty && form.extensionAttributeValue_{{$index}}.$invalid }" ng-show="form.extensionAttributeValue_{{$index}}.$dirty && form.extensionAttributeValue_{{$index}}.$invalid">
+                                    <li class="required" ng-show="form.extensionAttributeValue_{{$index}}.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                                </ul>
+                            </td>
+                            <td class="kv-value col-md-1">
+                                <button class="btn btn-danger btn-sm"
+                                        ng-click="removeExtensionAttribute($index)"
+                                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn btn-primary btn-sm"
+                                        ng-click="addNewExtensionAttribute()"
+                                        ng-disabled="(subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate())">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (subscriber.id ? !AuthorizationService.canSsmOperationsSubscriberUpdate() : !AuthorizationService.canSsmOperationsSubscriberCreate()) || isNotChanged()"
+                        ng-click="save(subscriber);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

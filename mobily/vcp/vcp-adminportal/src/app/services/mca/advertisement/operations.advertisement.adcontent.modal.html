@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Services.MCA.Operations.Advertisement.AdContentsModalTitle' | translate:{adName: adName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="enText" class="col-md-3">EN ({{ 'Languages.EN' | translate }} {{ 'CommonLabels.Language' | translate }})</label>
+            <div class="col-md-7">
+                <textarea id="enText" name="enText" type="text" class="form-control" dir="auto"
+                          ng-model="adContent.EN" rows="5" ng-disabled="!AuthorizationService.canUpdateAdvertisements()"
+                          ng-maxlength="5000" maxlength="5000"></textarea>
+                <ul ng-class="{ 'parsley-error-list': form.enText.$dirty && form.enText.$invalid }" ng-show="form.enText.$dirty && form.enText.$invalid">
+                    <li class="required" ng-show="form.enText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 5000} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="arText" class="col-md-3">AR ({{ 'Languages.AR' | translate }} {{ 'CommonLabels.Language' | translate }})</label>
+            <div class="col-md-7">
+                <textarea id="arText" name="arText" type="text" class="form-control" dir="auto"
+                          ng-model="adContent.AR" rows="5" ng-disabled="!AuthorizationService.canUpdateAdvertisements()"
+                          ng-maxlength="5000" maxlength="5000"></textarea>
+                <ul ng-class="{ 'parsley-error-list': form.arText.$dirty && form.arText.$invalid }" ng-show="form.arText.$dirty && form.arText.$invalid">
+                    <li class="required" ng-show="form.arText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 5000} }}</li>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || !AuthorizationService.canUpdateAdvertisements() || isNotChanged()"
+            ng-click="save(adContent)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

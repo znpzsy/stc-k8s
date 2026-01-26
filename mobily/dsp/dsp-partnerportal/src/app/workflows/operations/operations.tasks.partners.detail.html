@@ -1,0 +1,491 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.partnerTask.objectDetail.id">
+            <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Id' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.id}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.EffectiveDate' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.EffectiveDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.ExpiryDate' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.ExpiryDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <!-- UI Details form fields -->
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.NameEn' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProvideri18nProfiles[0].Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                              ng-value="task.partnerTask.objectDetail.serviceProvideri18nProfiles[0].Description"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.NameAr' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProvideri18nProfiles[1].Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.Provideri18nProfile.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control well well-sm" dir="auto"
+                              ng-value="task.partnerTask.objectDetail.serviceProvideri18nProfiles[1].Description"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.CMSCompanyLogoID' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.partnerTask.objectDetail.serviceProviderProfile.CMSCompanyLogoBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.partnerTask.objectDetail.serviceProviderProfile.CMSCompanyLogoName }}"
+                       href="{{ task.partnerTask.objectDetail.serviceProviderProfile.CMSCompanyLogoBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.partnerTask.objectDetail.serviceProviderProfile.CMSCompanyLogoBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.partnerTask.objectDetail.serviceProviderProfile.CMSCompanyLogoBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.CRNO' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.CRNO}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.CompanyAddressTitle' | translate }}
+                </h5>
+            </div>
+        </div>
+        <!-- CompanyAddress form fields -->
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Address' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.Address}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.POBox' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.POBox}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Country' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.Country}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Phone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.Phone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.Fax' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.Fax}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.WebSite' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.WebSite}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <!-- ProviderContactsProfile form fields -->
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.CEOName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOMobilePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.CEOMobilePhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOFixedPhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.CEOFixedPhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.CEOEmail' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.CEOEmail}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <!-- Accounting -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AccContactName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactMobilePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AccContactMobilePhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactFixedPhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AccContactFixedPhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AccContactEmail' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AccContactEmail}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <!-- Technical -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.TechContactName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.TechContactName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.TechContactPhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.TechContactPhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.TechContactEmail' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.TechContactEmail}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <!-- Alternative -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AltContactName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AltContactName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AltContactPhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AltContactPhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderContactsProfile.AltContactEmail' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerContactsProfile.AltContactEmail}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <!-- ProviderBankAccountProfile form fields -->
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankAccountName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.BankAccountName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.BankName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.Location' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.Location}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.Country' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.Country}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankAccountNumber' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.BankAccountNumber}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.BankAccountType' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.BankAccountType}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.AuthorizedPersonName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.AuthorizedPersonName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.AuthorizedPersonMobilePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.AuthorizedPersonMobilePhone}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ProviderBankAccountProfile.SupplierID' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.providerBankAccountProfile.SupplierID}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'FirstPartnerRegistration.LegalDocuments.StepTitle' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group" ng-repeat="providerBusinessTypeProfile in task.partnerTask.objectDetail.providerBusinessTypeProfiles track by $index">
+                <div class="col-md-10">
+                    <div class="portlet portlet-boxed nested-portlet">
+                        <div class="portlet-header">
+                            <h4 class="portlet-title">
+                                {{ providerBusinessTypeProfile.Name }}
+                            </h4>
+                        </div>
+
+                        <div class="portlet-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.Id' | translate }}</th>
+                                    <th class="text-center">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.Name' | translate }}</th>
+                                    <th class="text-center">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.SettlementModel' | translate }}</th>
+                                    <th class="text-center">{{ 'PartnerInfo.BusinessManagement.Operations.SettlementTypes.RevenueSource' | translate }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="selectedSettlementType in providerBusinessTypeProfile.selectedSettlementTypes track by $index">
+                                    <td class="text-center">{{ selectedSettlementType.profileId }}</td>
+                                    <td class="text-center">{{ selectedSettlementType.Name }}</td>
+                                    <td class="text-center">{{ selectedSettlementType.SettlementModel }}</td>
+                                    <td class="text-center">{{ selectedSettlementType.RevenueSource }}</td>
+                                </tr>
+                                <tr ng-if="providerBusinessTypeProfile.selectedSettlementTypes.length === 0">
+                                    <td class="text-center" colspan="4">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">{{ 'FirstPartnerRegistration.LegalDocuments.LegalFilesType' | translate }}</th>
+                            <th class="text-center">{{ 'FirstPartnerRegistration.LegalDocuments.MandatoryDocuments' | translate }}</th>
+                            <th class="text-center">{{ 'CommonLabels.From' | translate }}</th>
+                            <th class="text-center">{{ 'CommonLabels.To' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="providerLegalDocsProfile in task.partnerTask.objectDetail.providerLegalDocsProfiles track by $index">
+                            <td class="text-center">{{ 'PartnerInfo.BusinessManagement.Operations.BusinessTypes.' + providerLegalDocsProfile.name | translate }}</td>
+                            <td class="text-center">
+                                <span ng-if="!providerLegalDocsProfile.fileName">{{ 'CommonLabels.N/A' | translate }}</span>
+                                <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 175px;overflow: hidden;white-space: nowrap;display: inline-block;"
+                                        ng-if="providerLegalDocsProfile.fileName"
+                                        uib-tooltip="{{providerLegalDocsProfile.fileName}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ providerLegalDocsProfile.fileName }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="providerLegalDocsProfile.fileName"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ providerLegalDocsProfile.fileName }}"
+                                   href="{{ providerLegalDocsProfile.file | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">{{ providerLegalDocsProfile.fromDate | date:'MMMM d, y':DateTimeConstants.OFFSET }}</td>
+                            <td class="text-center">{{ providerLegalDocsProfile.toDate | date:'MMMM d, y':DateTimeConstants.OFFSET }}</td>
+                        </tr>
+                        <tr ng-if="task.partnerTask.objectDetail.providerLegalDocsProfiles.length === 0">
+                            <td class="text-center" colspan="4">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.ServiceProviders.ProviderRegistrationProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <!-- ProviderRegistrationProfile form fields -->
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.ProviderSuffix' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.ProviderSuffix}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.ServiceProviders.ServiceProviderProfile.AdminUserAccount' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.partnerTask.objectDetail.serviceProviderProfile.AdminUserAccount}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <span>
+                    <!-- Partner update -->
+                    <button type="submit" class="btn btn-danger"
+                            ui-sref="partner-profile-resendupdatetask ({ id: task.partnerId })"
+                            ng-if="task.type === 'PARTNER' && AuthorizationService.canPrmProfileUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                            title="{{ 'CommonLabels.Resend' | translate }}">
+                        {{ 'CommonLabels.Resend' | translate }}
+                    </button>
+                </span>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

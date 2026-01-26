@@ -1,0 +1,14 @@
+# mobily/dsp/httpd/Dockerfile.dsp.dev
+
+FROM httpd:alpine
+
+RUN mkdir -p /usr/local/apache2/conf.d
+COPY ./dsp/conf.d.dev /usr/local/apache2/conf.d
+COPY ./dsp/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Copy CA (Certification Authority) Public Key
+COPY ./dsp/openssl.dev/server.crt /usr/local/apache2/conf/server.crt
+COPY ./dsp/openssl.dev/server.key /usr/local/apache2/conf/server.key
+
+# docker build -t mobily-dsp/httpd -f Dockerfile.dsp.dev
+# docker run -p 9080:80 -p 9443:443 mobily-dsp/httpd

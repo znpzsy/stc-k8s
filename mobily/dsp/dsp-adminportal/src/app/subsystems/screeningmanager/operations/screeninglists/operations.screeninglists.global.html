@@ -1,0 +1,12 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.ScreeningManager.Operations.ScreeningLists.Global' | translate }} / {{ 'Subsystems.ScreeningManager.Operations.ScreeningLists.Msisdn' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <div ui-view="searchForm"></div>
+    <div ui-view="screeningInformation" ng-show="showInformation"></div>
+
+</div>

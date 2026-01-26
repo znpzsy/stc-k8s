@@ -1,0 +1,162 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.BusinessManagement.Operations.Projects.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="project.profileId">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.Projects.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="project.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="project.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="project.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Name" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.Projects.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Name" name="Name" type="text" class="form-control"
+                       ng-model="project.Name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Name.$dirty && form.Name.$invalid }"
+                    ng-show="form.Name.$dirty && form.Name.$invalid">
+                    <li class="required" ng-show="form.Name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="LegacyID" class="col-md-3">{{ 'CommonLabels.LegacyID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="LegacyID" name="LegacyID" type="text" class="form-control"
+                       ng-model="project.LegacyID"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.LegacyID.$dirty && form.LegacyID.$invalid }"
+                    ng-show="form.LegacyID.$dirty && form.LegacyID.$invalid">
+                    <li class="required" ng-show="form.LegacyID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Description" name="Description" type="text" class="form-control"
+                       ng-model="project.Description"
+                       ng-maxlength="255" maxlength="255"
+                       ng-disabled="(project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Status" name="Status" class="form-control parsley-validated"
+                        ng-model="project.Status"
+                        ng-required="true"
+                        ng-options="statusType as statusType for statusType in BUSINESS_MANAGEMENT_STATUS_TYPES"
+                        ng-disabled="(project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.Status.$dirty && form.Status.$invalid }"
+                    ng-show="form.Status.$dirty && form.Status.$invalid">
+                    <li class="required" ng-show="form.Status.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.Projects.BusinessTypes' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedBusinessTypes.length > 0" class="row col-md-9">
+                    <div ng-repeat="n in selectedBusinessTypes">
+                        <span class="label label-default selected-item-label">{{n.Name}}</span>
+                        <a ng-click="removeBusinessType(n)" style="cursor: pointer;"
+                           ng-if="businessType.profileId ? AuthorizationService.canBizOperationsProjectUpdate() : AuthorizationService.canBizOperationsProjectCreate()">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-disabled="businessType.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate()"
+                        ng-class="{ 'pull-right': selectedBusinessTypes.length > 0 }"
+                        ng-click="showBusinessTypes()">
+                    {{ 'CommonLabels.AddTo' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="AdminAccount" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.Projects.AdminAccount' | translate }}</label>
+            <div class="col-md-4">
+                <select id="AdminAccount" name="AdminAccount" class="form-control parsley-validated"
+                        ng-model="project.AdminAccount"
+                        ng-required="true"
+                        ng-options="userAccount.id as userAccount.userName for userAccount in userAccounts"
+                        ng-disabled="(project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.AdminAccount.$dirty && form.AdminAccount.$invalid }"
+                    ng-show="form.AdminAccount.$dirty && form.AdminAccount.$invalid">
+                    <li class="required" ng-show="form.AdminAccount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.Projects.UserAccounts' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedUserAccounts.length > 0" class="row col-md-9">
+                    <div ng-repeat="n in selectedUserAccounts">
+                        <span class="label label-default selected-item-label">{{n.userName}}</span>
+                        <a ng-click="removeUserAccount(n)" style="cursor: pointer;"
+                           ng-if="project.profileId ? AuthorizationService.canBizOperationsProjectUpdate() : AuthorizationService.canBizOperationsProjectCreate()">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-disabled="project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate()"
+                        ng-class="{ 'pull-right': selectedUserAccounts.length > 0 }"
+                        ng-click="showUserAccounts()">
+                    {{ 'CommonLabels.Add' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (project.profileId ? !AuthorizationService.canBizOperationsProjectUpdate() : !AuthorizationService.canBizOperationsProjectCreate()) || isNotChanged()"
+                        ng-click="save(project);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

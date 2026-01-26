@@ -1,0 +1,41 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.dcb.dashboards') }" ng-if="AuthorizationService.canAllDashboardRead()">
+                <a ui-sref="products.dcb.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.dcb.templates') }" ng-if="AuthorizationService.canAllTemplatesRead()">
+                <a ui-sref="products.dcb.templates.dcbprofile">
+                    <span class="fa fa-language"></span> {{ 'GenericTabs.Templates' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.dcb.configuration') }" ng-if="AuthorizationService.canAllConfigurationRead()">
+                <a ui-sref="products.dcb.configuration.settings">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.dcb.troubleshooting') }" ng-if="AuthorizationService.canAllTroubleshootingRead()">
+                <a ui-sref="products.dcb.troubleshooting" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,23 @@
+# mobily/dsp/dsp-ccportal/Dockerfile.dev
+
+FROM node:alpine
+WORKDIR "/space/app"
+
+COPY ./package.json ./
+COPY ./bower.json ./
+COPY ./npm-shrinkwrap.original.json ./npm-shrinkwrap.json
+RUN npm shrinkwrap
+RUN npm install
+RUN npm install -g gulp@3.9.1
+RUN npm install -g bower
+RUN apk add --no-cache git
+RUN bower --allow-root install
+COPY ./i18n ./i18n
+COPY ./src ./src
+COPY ./gulpfile.js ./
+
+EXPOSE 8080
+CMD ["gulp", "server"]
+
+# docker build -t mobily-dsp/dsp-ccportal -f Dockerfile.dev .
+# docker run -p 8080:8080 -it mobily-dsp/dsp-ccportal

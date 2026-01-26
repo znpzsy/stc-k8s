@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.MMSC.Operations.Applications.MM7.TariffList.Header' | translate:{vasId: app.vasId} }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-6 col-xs-4">
+        </div>
+
+        <div class="col-md-2 col-xs-4">
+        </div>
+
+        <div class="col-md-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['tariffId'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="allowedTariffIdList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html">
+                    <tr ng-repeat="tariffIdItem in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Products.MMSC.Operations.Applications.MM7.TariffList.TariffId' | translate" sortable="'tariffId'">{{tariffIdItem.tariffId}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ng-click="removeTariffId(tariffIdItem)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hidden-link-cell-row">
+                        <td align="center">
+                            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input name="newTariffIdValue" type="text" ng-model="newTariffIdValue" class="form-control"
+                                           ng-pattern="$root.Validators.Alphanumeric"
+                                           list-availability-check list="allowedTariffIdList.list" propertyname="tariffId"
+                                           ng-required="true" ng-maxlength="20" maxlength="20"
+                                           placeholder="{{ 'Products.MMSC.Operations.Applications.MM7.TariffList.TariffIdPlaceholder' | translate }}"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.newTariffIdValue.$dirty && form.newTariffIdValue.$invalid && !form.newTariffIdValue.$error.required }"
+                                        ng-show="form.newTariffIdValue.$dirty && form.newTariffIdValue.$invalid && !form.newTariffIdValue.$error.required">
+                                        <li class="required" ng-show="form.newTariffIdValue.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                                        <li class="required" ng-show="form.newTariffIdValue.$error.pattern">{{ 'CommonMessages.AlphanumericFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.newTariffIdValue.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </td>
+                        <td align="center" class="action-column">
+                            <button ng-click="addNewTariffId(newTariffIdValue)"
+                                    ng-disabled="form.$invalid || !AuthorizationService.canUpdate()"
+                                    class="btn btn-xs btn-secondary" title="{{ 'CommonLabels.Save' | translate }}">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

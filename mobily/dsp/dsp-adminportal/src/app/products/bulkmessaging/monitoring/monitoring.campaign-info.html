@@ -1,0 +1,38 @@
+<div class="campaign-details">
+    <table class="table keyvalue-table">
+        <tbody>
+        <tr>
+            <td class="kv-key" style="width: 200px;">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.From' | translate }}</td>
+            <td class="kv-value" style="width: 450px;">{{ campaign.campaignFrom }}&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.ChargingDisabled' | translate }}</td>
+            <td class="kv-value">{{ campaign.campaignChargingDisabled | YesNoFilter }}&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.OffNetEnabled' | translate }}</td>
+            <td class="kv-value">{{ campaign.campaignOffnetEnabled | YesNoFilter }}&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobMaxRetryCount' | translate }}</td>
+            <td class="kv-value">{{ campaign.campaignMaxRetryCount }}&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobScheduleDate' | translate }}</td>
+            <td class="kv-value">{{ campaign.campaignStartTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}&nbsp;</td>
+        </tr>
+        <tr ng-if="isCampaignExpiryEnabled(campaign);">
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobExpiryDate' | translate }}</td>
+            <td class="kv-value">{{ 'TBD' }}&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.JobLastUpdate' | translate }}</td>
+            <td class="kv-value">{{ campaign.campaignUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="kv-key">{{ 'Products.BulkMessaging.Troubleshooting.TableColumns.CampaignStatus' | translate }}</td>
+            <td class="kv-value">{{ campaign.campaignStatus }}&nbsp;</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

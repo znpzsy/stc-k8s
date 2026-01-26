@@ -1,0 +1,114 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Offer' | translate }}</label>
+            <div class="col-md-7" ng-if="shortCode.name">
+                <select class="form-control parsley-validated" ng-disabled="true">
+                    <option value="">{{ shortCode.scenarioName }}</option>
+                </select>
+            </div>
+            <div class="col-md-7" ng-if="!shortCode.name">
+                <select id="offerId" name="offerId" class="form-control parsley-validated"
+                        ng-model="shortCode.offerId"
+                        ng-required="true"
+                        ng-options="offer.id as offer.name for offer in offerList"
+                        ng-disabled="(shortCode.id && !AuthorizationService.canSsmOperationsShortCodeUpdate() : !AuthorizationService.canSsmOperationsShortCodeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.offerId.$dirty && form.offerId.$invalid }"
+                    ng-show="form.offerId.$dirty && form.offerId.$invalid">
+                    <li class="required" ng-show="form.offerId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Action' | translate }}</label>
+            <div class="col-md-7">
+                <select id="action" name="action" class="form-control parsley-validated"
+                        ng-model="shortCode.action"
+                        ng-required="true"
+                        ng-options="action as action for action in OFFER_SHORT_CODE_AND_KEYWORD_SCENARIOS"
+                        ng-disabled="(shortCode.id && !AuthorizationService.canSsmOperationsShortCodeUpdate() : !AuthorizationService.canSsmOperationsShortCodeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.action.$dirty && form.action.$invalid }"
+                    ng-show="form.action.$dirty && form.action.$invalid">
+                    <li class="required" ng-show="form.action.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.ShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <input id="shortCode" name="shortCode" type="text" class="form-control"
+                       ng-model="shortCode.shortCode"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="(shortCode.id && !AuthorizationService.canSsmOperationsShortCodeUpdate() : !AuthorizationService.canSsmOperationsShortCodeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.shortCode.$dirty && form.shortCode.$invalid }"
+                    ng-show="form.shortCode.$dirty && form.shortCode.$invalid">
+                    <li class="required" ng-show="form.shortCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.shortCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Keyword' | translate }}</label>
+            <div class="col-md-7">
+                <input id="keyword" name="keyword" type="text" class="form-control" dir="auto"
+                       ng-model="shortCode.keyword"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(shortCode.id && !AuthorizationService.canSsmOperationsShortCodeUpdate() : !AuthorizationService.canSsmOperationsShortCodeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.keyword.$dirty && form.keyword.$invalid }"
+                    ng-show="form.keyword.$dirty && form.keyword.$invalid">
+                    <li class="required" ng-show="form.keyword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.keyword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Language' | translate }}</label>
+            <div class="col-md-4">
+                <select id="language" name="language" class="form-control parsley-validated"
+                        ng-model="shortCode.language"
+                        ng-required="true"
+                        ng-options="language.value as (language.label | translate) for language in OFFER_XSM_SMS_PROFILE_LANGUAGES"
+                        ng-disabled="(shortCode.id && !AuthorizationService.canSsmOperationsShortCodeUpdate() : !AuthorizationService.canSsmOperationsShortCodeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.language.$dirty && form.language.$invalid }"
+                    ng-show="form.language.$dirty && form.language.$invalid">
+                    <li class="required" ng-show="form.language.$error.required">{{'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (shortCode.id && !AuthorizationService.canSsmOperationsShortCodeUpdate() : !AuthorizationService.canSsmOperationsShortCodeCreate()) || isNotChanged()"
+                        ng-click="save(shortCode);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

@@ -1,0 +1,58 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'ScreeningLists.ScreeningInformation' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'ScreeningLists.TableColumns.BlackListed' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{blackListScreening.contains?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="blackListScreening.contains" uib-btn-radio="true"
+                            ng-change="whiteListScreening.contains = (blackListScreening.contains ? false : whiteListScreening.contains)"
+                            ng-disabled="!AuthorizationService.canScrmOperationsPerServiceUpdate()">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!blackListScreening.contains?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="blackListScreening.contains" uib-btn-radio="false"
+                            ng-change="whiteListScreening.contains = (blackListScreening.contains ? false : whiteListScreening.contains)"
+                            ng-disabled="!AuthorizationService.canScrmOperationsPerServiceUpdate()">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'ScreeningLists.TableColumns.WhiteListed' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{whiteListScreening.contains?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="whiteListScreening.contains" uib-btn-radio="true"
+                            ng-change="blackListScreening.contains = (whiteListScreening.contains ? false : blackListScreening.contains)"
+                            ng-disabled="!AuthorizationService.canScrmOperationsPerServiceUpdate()">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!whiteListScreening.contains?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="whiteListScreening.contains" uib-btn-radio="false"
+                            ng-change="blackListScreening.contains = (whiteListScreening.contains ? false : blackListScreening.contains)"
+                            ng-disabled="!AuthorizationService.canScrmOperationsPerServiceUpdate()">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canScrmOperationsPerServiceUpdate() || isNotChanged()"
+                        ng-click="save(filter, blackListScreening, whiteListScreening);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel(filter);">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,192 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="specialCondition.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input id="specialConditionId" name="specialConditionId" type="text" class="form-control"
+                       ng-value="specialCondition.id"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="specialCondition.name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(specialCondition.id ? !AuthorizationService.canRBTOperationsSpecialConditionUpdate() : !AuthorizationService.canRBTOperationsSpecialConditionCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.Icon' | translate }}</label>
+            <div class="col-md-7">
+                <div class="fileinput fileinput-new">
+                    <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="specialCondition.icon.name">
+                        <img ngf-src="!specialCondition.icon.$error && specialCondition.icon" width="200"
+                             ng-style="{ 'height': (specialCondition.icon ? '' : '200px') }"/>
+
+                        <div class="thumbnail-footer" ng-if="specialCondition.icon.type">
+                            <div class="pull-left">
+                                {{ specialCondition.icon.type }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button name="icon" type="file"
+                                title="{{ (specialCondition.icon ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                ngf-select
+                                ng-model="specialCondition.icon"
+                                ng-init="specialCondition.icon ? specialCondition.icon.name = specialCondition.icon.$ngfName : null"
+                                ngf-change="form.icon.$setDirty()"
+                                class="btn btn-sm btn-default"
+                                ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                ngf-max-size="20MB"
+                                ngf-model-invalid="errorIcon"
+                                ng-required="true"
+                                ng-disabled="(specialCondition.id ? !AuthorizationService.canRBTOperationsSpecialConditionUpdate() : !AuthorizationService.canRBTOperationsSpecialConditionCreate())">
+                            <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                            {{ (specialCondition.icon.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                        </button>
+                        <ul ng-class="{ 'parsley-error-list': form.icon.$dirty && form.icon.$invalid }"
+                            ng-show="form.icon.$dirty && form.icon.$invalid">
+                            <li class="required" ng-show="form.icon.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.icon.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorIcon.$errorParam} }}</li>
+                        </ul>
+                        <button class="btn btn-sm btn-default"
+                                title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                ng-click="specialCondition.icon = null;"
+                                ng-if="specialCondition.icon.name && (specialCondition.id ? AuthorizationService.canRBTOperationsSpecialConditionUpdate() : AuthorizationService.canRBTOperationsSpecialConditionCreate())">
+                            <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                            {{ 'FileOperationLabels.Remove' | translate }}
+                        </button>
+                        &nbsp;&nbsp;
+                        <a class="btn btn-sm btn-success"
+                           ng-if="specialCondition.icon.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ specialCondition.icon.name }}"
+                           href="{{ specialCondition.icon | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="toneMale" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.ToneMale' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="toneMale" name="toneMale" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="specialCondition.toneMale"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="(specialCondition.id ? !AuthorizationService.canRBTOperationsSpecialConditionUpdate() : !AuthorizationService.canRBTOperationsSpecialConditionCreate())">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="specialCondition.toneMale = null;form.toneMale.$setDirty();" class="btn btn-default" ng-disabled="!specialCondition.toneMale">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.toneMale.$dirty && form.toneMale.$invalid }"
+                    ng-show="form.toneMale.$dirty && form.toneMale.$invalid">
+                    <li class="required" ng-show="form.toneMale.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="toneFemale" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.ToneFemale' | translate }}</label>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <ui-select id="toneFemale" name="toneFemale" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="specialCondition.toneFemale"
+                               ng-required="true"
+                               search-enabled="true"
+                               close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="(specialCondition.id ? !AuthorizationService.canRBTOperationsSpecialConditionUpdate() : !AuthorizationService.canRBTOperationsSpecialConditionCreate())">
+                        <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                            <span ng-bind="$select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem.id as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="specialCondition.toneFemale = null;form.toneFemale.$setDirty();" class="btn btn-default" ng-disabled="!specialCondition.toneFemale">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.toneFemale.$dirty && form.toneFemale.$invalid }"
+                    ng-show="form.toneFemale.$dirty && form.toneFemale.$invalid">
+                    <li class="required" ng-show="form.toneFemale.$error.required">{{
+                        'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="defaultDurationInMiliseconds" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.SpecialConditions.DefaultDuration' | translate }}</label>
+            <div class="col-md-4">
+                <input id="defaultDurationInMiliseconds" name="defaultDurationInMiliseconds" type="number" class="form-control"
+                       ng-model="specialCondition.defaultDurationInMiliseconds"
+                       min="0" max="999999"
+                       ng-disabled="(specialCondition.id ? !AuthorizationService.canRBTOperationsSpecialConditionUpdate() : !AuthorizationService.canRBTOperationsSpecialConditionCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.defaultDurationInMiliseconds.$dirty && form.defaultDurationInMiliseconds.$invalid }"
+                    ng-show="form.defaultDurationInMiliseconds.$dirty && form.defaultDurationInMiliseconds.$invalid">
+                    <li class="required" ng-show="form.defaultDurationInMiliseconds.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.defaultDurationInMiliseconds.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.defaultDurationInMiliseconds.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (specialCondition.id ? !AuthorizationService.canRBTOperationsSpecialConditionUpdate() : !AuthorizationService.canRBTOperationsSpecialConditionCreate()) || isNotChanged()"
+                        ng-click="save(specialCondition);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

@@ -1,0 +1,49 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.dashboards') }" ng-if="AuthorizationService.canAllDashboardRead()">
+                <a ui-sref="subsystems.subscriptionmanagement.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.templates') }" ng-if="AuthorizationService.canAllTemplatesRead()">
+                <a ui-sref="subsystems.subscriptionmanagement.templates.message-templates.global.list" data-toggle="tab">
+                    <span class="fa fa-language"></span> {{ 'GenericTabs.Templates' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.operations') }" ng-if="AuthorizationService.canSsmOperationsOfferRead()">
+                <a ui-sref="subsystems.subscriptionmanagement.operations.offers.list" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.troubleshooting') }" ng-if="AuthorizationService.canAllTroubleshootingRead()">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Troubleshooting' | translate }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.troubleshooting.servicesubscription') }">
+                        <a ui-sref="subsystems.subscriptionmanagement.troubleshooting.servicesubscription">{{ 'Subsystems.SubscriptionManagement.ServiceSubscription' | translate }}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.troubleshooting.contentsubscription') }">
+                        <a ui-sref="subsystems.subscriptionmanagement.troubleshooting.contentsubscription">{{ 'Subsystems.SubscriptionManagement.ContentSubscription' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

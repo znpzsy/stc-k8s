@@ -1,0 +1,58 @@
+{
+   "clusters":[
+      {
+         "name":"API Manager",
+         "hosts":[
+            "sstl017"
+         ]
+      },
+      {
+         "name":"Bulk Messaging, OTP Servers",
+         "hosts":[
+            "sstl017"
+         ]
+      },
+      {
+         "name":"Charging, Messaging Gateways",
+         "hosts":[
+            "sstl017"
+         ]
+      },
+      {
+         "name":"Provisioning, Subscription Management Frameworks",
+         "hosts":[
+            "sstl016"
+         ]
+      },
+      {
+         "name":"Screening, Diagnostics, Reporting, Portal Frameworks",
+         "hosts":[
+            "sstl016"
+         ]
+      },
+      {
+         "name":"Content Management Framework",
+         "hosts":[
+            "sstl017"
+         ]
+      },
+      {
+         "name":"Task Management Framework",
+         "hosts":[
+            "sstl017"
+         ]
+      },
+      {
+         "name":"Analytics Framework",
+         "hosts":[
+            "sstl020"
+         ]
+      },
+      {
+         "name":"Database Servers",
+         "hosts":[
+            "sstl021"
+         ]
+      }
+   ]
+}

@@ -1,0 +1,106 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.USSI.Dashboards.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ throughput | number:2 }} tps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.USSI.Dashboards.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ sipSuccessRate | number:2 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.USSI.Dashboards.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mapSuccessRate | number:2 }}%</h3>
+                    </div>
+                </div>
+            </div>
+
+   <!--         <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.USSI.Dashboards.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ avgSessionDuration | number:2 }} sec</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.USSI.Dashboards.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ throughput | number:2 }} tps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.USSI.Dashboards.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+
+    <!--<div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.USSI.Dashboards.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="appChartData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-applications" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.USSI.Dashboards.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="sessionsByApp.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-sessionsByApp" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.USSI.Dashboards.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h4 ng-if="sessionsByOrig.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                            <div id="pie-chart-sessionsByOrig" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>-->
+</div>

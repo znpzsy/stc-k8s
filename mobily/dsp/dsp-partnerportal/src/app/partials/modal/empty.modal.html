@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h4 class="modal-title" ng-bind-html="modalTitle" ng-if="modalTitle"></h4>
+</div>
+
+<div class="modal-body">
+    <div class="portlet-default">
+        <div ng-include="templateUrl"></div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

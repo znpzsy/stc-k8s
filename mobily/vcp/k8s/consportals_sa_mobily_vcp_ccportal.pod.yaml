@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consportals-sa-mobily-vcp-ccportal
+  labels:
+    component: vcp-ccportal
+spec:
+  containers:
+    - name: vcp-ccportal
+      image: mersin.telenity.com/com/telenity/consportals-sa-mobily-vcp-ccportal:1.0.0.1
+      ports:
+        - containerPort: 8081

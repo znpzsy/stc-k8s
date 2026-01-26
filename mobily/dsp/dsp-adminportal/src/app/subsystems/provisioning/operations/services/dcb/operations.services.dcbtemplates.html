@@ -1,0 +1,36 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBTemplatesTitle' | translate:{ name: service.name } }}
+    </h4>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.services.dcbtemplates.dcbprofile') }" ng-if="AuthorizationService.canAllTemplatesRead()">
+                <a ui-sref="subsystems.provisioning.operations.services.dcbtemplates.dcbprofile" data-toggle="tab">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBProfile' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.services.dcbtemplates.servicemessages') }" ng-if="AuthorizationService.canAllTemplatesRead()">
+                <a ui-sref="subsystems.provisioning.operations.services.dcbtemplates.servicemessages" data-toggle="tab">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.ServiceMessages' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.services.dcbtemplates.serviceinvoicemessages') }" ng-if="AuthorizationService.canAllTemplatesRead()">
+                <a ui-sref="subsystems.provisioning.operations.services.dcbtemplates.serviceinvoicemessages" data-toggle="tab">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.ServiceInvoiceMessages' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+
+    </div>
+
+</div>

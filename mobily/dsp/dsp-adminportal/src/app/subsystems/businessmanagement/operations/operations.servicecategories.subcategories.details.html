@@ -1,0 +1,72 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.Title' | translate }} / {{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.SubCategories' | translate:{serviceCategoryName: serviceCategory.Name} }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="serviceSubCategory.profileId">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.SubCategoryId' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="serviceSubCategory.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="serviceSubCategory.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="serviceSubCategory.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Name" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.SubCategoryName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Name" name="Name" type="text" class="form-control"
+                       ng-model="serviceSubCategory.Name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(serviceSubCategory.profileId ? !AuthorizationService.canBizOperationsServiceCategoryUpdate() : !AuthorizationService.canBizOperationsServiceCategoryCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Name.$dirty && form.Name.$invalid }"
+                    ng-show="form.Name.$dirty && form.Name.$invalid">
+                    <li class="required" ng-show="form.Name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.Name.$error.availabilityCheck">{{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.NameIsAlreadyUsed' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Description" name="Description" type="text" class="form-control"
+                       ng-model="serviceSubCategory.Description"
+                       ng-maxlength="255" maxlength="255"
+                       ng-disabled="(serviceSubCategory.profileId ? !AuthorizationService.canBizOperationsServiceCategoryUpdate() : !AuthorizationService.canBizOperationsServiceCategoryCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (serviceSubCategory.profileId ? !AuthorizationService.canBizOperationsServiceCategoryUpdate() : !AuthorizationService.canBizOperationsServiceCategoryCreate()) || isNotChanged()"
+                        ng-click="save(serviceSubCategory);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

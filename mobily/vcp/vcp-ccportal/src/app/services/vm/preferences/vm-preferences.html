@@ -1,0 +1,30 @@
+<div class="col-md-12" ng-if="!error_message">
+    <div class="portlet portlet-default">
+
+        <div class="portlet-body">
+            <div class="row">
+
+                <div class="col-md-3 col-sm-3">
+                    <ul id="myTab" class="nav nav-pills nav-stacked">
+                        <li ng-class="{ 'active': $state.includes('services.vm.preferences.details') }">
+                            <a ui-sref="services.vm.preferences.details" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'GenericTabs.Preferences.Header' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-9 col-sm-9">
+                    <div class="tab-content stacked-content">
+                        <div class="tab-pane fade active in" ui-view>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<span ng-include="'partials/generic-alerts.html'"></span>

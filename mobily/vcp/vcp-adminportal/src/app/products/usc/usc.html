@@ -1,0 +1,49 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.usc.dashboards') }">
+                <a ui-sref="products.usc.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.usc.operations') }" ng-if="AuthorizationService.canRead()">
+                <a ui-sref="products.usc.operations.applications.smppapps" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.usc.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="products.usc.configuration.menubrowser" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.usc.troubleshooting') || $state.includes('products.usc.troubleshootingremote') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('products.usc.troubleshooting') }">
+                        <a ui-sref="products.usc.troubleshooting">{{siteInformation.name === 'Jeddah' ? 'Jeddah' : 'Riyadh'}}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('products.usc.troubleshootingremote') }">
+                        <a ui-sref="products.usc.troubleshootingremote">{{siteInformation.name === 'Jeddah' ? 'Riyadh' : 'Jeddah'}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

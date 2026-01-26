@@ -1,0 +1,111 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Organizations' | translate }} / {{ 'Subsystems.Provisioning.ServiceProviders.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="name" id="name" class="form-control" ng-model="provider.name"
+                       ng-disabled="!AuthorizationService.canCreateServiceProvider() || provider.id"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="providerId" value="" class="form-control" ng-model="provider.id"
+                       disabled="disabled"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="description" value="" class="form-control" ng-model="provider.description"
+                       ng-maxlength="250" maxlength="250"
+                       ng-disabled="!AuthorizationService.canCreateServiceProvider() || (provider.id && !AuthorizationService.canUpdateServiceProvider())"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Type' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="orgType" value="" class="form-control" ng-model="provider.orgType"
+                       disabled="disabled"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ParentOrganization' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="provider.parentName" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{provider.parentName}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-if="!provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ParentOrganization' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="$parent.selectedOrganization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{ $parent.selectedOrganization.name }}</span>
+                    <a ng-click="$parent.selectedOrganization.name = undefined" style="cursor: pointer;" ng-if="AuthorizationService.canCreateServiceProvider() || (provider.id && AuthorizationService.canUpdateServiceProvider())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': $parent.selectedOrganization.name, 'ng-invalid-required': !$parent.selectedOrganization.name }"
+                        ng-click="openOrganizations(provider)"
+                        ng-disabled="!AuthorizationService.canCreateServiceProvider() || (provider.id && !AuthorizationService.canUpdateServiceProvider())">{{ 'CommonLabels.Choose' | translate }}</button>
+                <div style="clear: both;">
+                    <input name="serviceOrganization" type="text" class="form-control"
+                           ng-model="$parent.selectedOrganization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="provider.id ? null : $parent.selectedOrganization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': $parent.selectedOrganization !== undefined && $parent.selectedOrganization.name === undefined }"
+                        ng-show="$parent.selectedOrganization !== undefined && $parent.selectedOrganization.name === undefined">
+                        <li class="required" ng-show="form.serviceOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.State' | translate }}</label>
+            <div class="col-md-7">
+                <select id="state" name="state" class="form-control parsley-validated"
+                        ng-disabled="!AuthorizationService.canCreateServiceProvider() || (provider.id && !AuthorizationService.canUpdateServiceProvider())"
+                        ng-model="provider.state" ng-options="state.name as state.name for state in STATUS_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreateServiceProvider() || (provider.id && !AuthorizationService.canUpdateServiceProvider()) || isPropertiesNotChanged()"
+                        ng-click="save(provider);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

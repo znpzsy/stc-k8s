@@ -1,0 +1,236 @@
+<div class="col-md-12 col-sm-12">
+
+    <div class="tab-content stacked-content">
+
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <div class="portlet">
+
+                <div class="portlet-body buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-3 col-xs-3">
+                            <div class="pull-left">
+                                <div class="btn btn-secondary btn-sm pull-left"
+                                     title="{{ 'CommonMessages.DateFilterButtonTitle' | translate }}"
+                                     ng-model="filterFormLayer.isFilterFormOpen"
+                                     ng-init="filterFormLayer.isFilterFormOpen = false"
+                                     ng-click="filterFormLayer.isFilterFormOpen = !filterFormLayer.isFilterFormOpen">
+                                    <span ng-if="!filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.ShowFilter' | translate }} <i class="fa fa-chevron-circle-right"></i></span>
+                                    <span ng-if="filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.HideFilter' | translate }} <i class="fa fa-chevron-circle-down"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-xs-5">
+                            <div class="pull-right">
+                                <div class="btn-group pull-right" style="white-space: nowrap;">
+                                    <button type="button" class="btn {{campaignStatus === BMS_CAMPAIGN_STATUSES.RUNNING?'btn-default active':'btn-default'}} btn-sm"
+                                            ng-model="campaignStatus" uib-btn-radio="BMS_CAMPAIGN_STATUSES.RUNNING">{{ 'Products.BulkMessaging.Monitoring.Running' | translate }}
+                                    </button>
+                                    <button type="button" class="btn {{campaignStatus === BMS_CAMPAIGN_STATUSES.RETRYING?'btn-default active':'btn-default'}} btn-sm"
+                                            ng-model="campaignStatus" uib-btn-radio="BMS_CAMPAIGN_STATUSES.RETRYING">{{ 'Products.BulkMessaging.Monitoring.Retrying' | translate }}
+                                    </button>
+                                    <button type="button" class="btn {{campaignStatus === BMS_CAMPAIGN_STATUSES.COMPLETED?'btn-default active':'btn-default'}} btn-sm"
+                                            ng-model="campaignStatus" uib-btn-radio="BMS_CAMPAIGN_STATUSES.COMPLETED">{{ 'Products.BulkMessaging.Monitoring.Completed' | translate }}
+                                    </button>
+                                    <button type="button" class="btn {{campaignStatus === BMS_CAMPAIGN_STATUSES.PAUSED?'btn-default active':'btn-default'}} btn-sm"
+                                            ng-model="campaignStatus" uib-btn-radio="BMS_CAMPAIGN_STATUSES.PAUSED">{{ 'Products.BulkMessaging.Monitoring.Paused' | translate }}
+                                    </button>
+                                    <button type="button" class="btn {{campaignStatus === BMS_CAMPAIGN_STATUSES.CANCELLED?'btn-default active':'btn-default'}} btn-sm"
+                                            ng-model="campaignStatus" uib-btn-radio="BMS_CAMPAIGN_STATUSES.CANCELLED">{{ 'Products.BulkMessaging.Monitoring.Cancelled' | translate }}
+                                    </button>
+                                    <button type="button" class="btn {{campaignStatus === BMS_CAMPAIGN_STATUSES.SCHEDULED?'btn-default active':'btn-default'}} btn-sm"
+                                            ng-model="campaignStatus" uib-btn-radio="BMS_CAMPAIGN_STATUSES.SCHEDULED">{{ 'Products.BulkMessaging.Monitoring.Scheduled' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xs-4">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn {{$stateParams.campaignType === 'bulk-sms'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-model="campaignType" uib-btn-radio="'bulk-sms'">{{ 'Products.BulkMessaging.BulkSMS.Title' | translate }}
+                                </button>
+                                <button type="button" class="btn {{$stateParams.campaignType === 'bulk-mms'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-model="campaignType" uib-btn-radio="'bulk-mms'">{{ 'Products.BulkMessaging.BulkMMS.Title' | translate }}
+                                </button>
+                                <button type="button" class="btn {{$stateParams.campaignType === 'bulk-ivr'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-model="campaignType" uib-btn-radio="'bulk-ivr'">{{ 'Products.BulkMessaging.BulkIVR.Title' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portlet-body" >
+                    <div class="row">
+                        <div hidden-filter-form ng-model="filterFormLayer" class="col-sm-12 filter-form" style="display: none;">
+
+                            <form id="filterForm" name="filterForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+
+                                <div class="portlet portlet-boxed">
+
+                                    <div class="portlet-body">
+
+                                        <div class="form-group">
+                                            <label for="startDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.StartDateAndTime.Label' | translate }}</label>
+                                            <div class="col-md-3 col-sm-4">
+                                                <div id="startDate" class="input-group date datepicker-field">
+                                                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                                           ng-model="dateFilter.startDate" uib-datepicker-popup="{{dateFormat}}"
+                                                           ng-change="updateStartDate(dateFilter.startDate)"
+                                                           ng-focus="openStartDatePicker($event)"
+                                                           is-open="startDatePicker.opened"
+                                                           datepicker-options="dateOptions"
+                                                           ng-required="true"/>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default input-sm"
+                                                                ng-click="openStartDatePicker($event)"><i
+                                                                class="fa fa-calendar"></i></button>
+                                                    </span>
+                                                </div>
+                                                <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                                                    <li class="required" ng-show="filterForm.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                    <li class="required" ng-show="filterForm.startDate.$error.date">{{ 'GenericFormFields.StartDateAndTime.Messages.Invalid' | translate }}</li>
+                                                    <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6 col-sm-4">
+                                                <div uib-timepicker ng-model="dateFilter.startTime" class="time-picker with-date-picker"
+                                                     hour-step="hstep" minute-step="mstep"
+                                                     show-meridian="false" readonly-input="true" mousewheel="false"
+                                                     ng-change="updateStartDateTime(dateFilter.startTime)"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-if="isBMSAdminUser">
+                                            <label for="orgId" class="col-md-2 col-sm-3 control-label text-right">{{ 'Products.BulkMessaging.Monitoring.TableColumns.Organization' | translate }}</label>
+                                            <div class="col-md-3 col-sm-4">
+                                                <select id="orgId" name="orgId" class="form-control"
+                                                        ng-model="dateFilter.orgId"
+                                                        ng-change="changeOrganization(dateFilter.orgId);"
+                                                        ng-options="organization.id as organization.name for organization in organizationList">
+                                                    <option value="">{{ 'CommonLabels.All' | translate }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" ng-if="isBMSAdminUser">
+                                            <label for="userId" class="col-md-2 col-sm-3 control-label text-right">{{ 'Products.BulkMessaging.Monitoring.TableColumns.User' | translate }}</label>
+                                            <div class="col-md-3 col-sm-4">
+                                                <select id="userId" name="userId" class="form-control"
+                                                        ng-model="dateFilter.userId"
+                                                        ng-options="userAccount.id as userAccount.userName for userAccount in (userAccountList | UserByOrganizationFilter:dateFilter.orgId)"
+                                                        ng-disabled="!userAccountList || userAccountList.length === 0">
+                                                    <option value="">{{ 'CommonLabels.All' | translate }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 col-sm-3">&nbsp;</label>
+                                            <div class="col-md-3 col-sm-4">
+                                                <button class="btn btn-sm btn-secondary" ng-disabled="filterForm.$invalid"
+                                                        ng-click="throttledReloadTable();"><i class="fa fa-search"></i>
+                                                    {{'CommonLabels.Search' | translate }}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="showRecords">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+
+                            <div class="portlet">
+                                <hr ng-if="campaignList.length === 0">
+                                <div ng-if="campaignList.length === 0" class="text-center">
+                                    <h4>{{ 'CommonMessages.NoDataAvailable' | translate }}</h4>
+                                </div>
+
+                                <hr>
+                                <div ng-repeat="campaign in campaignList">
+
+                                    <div class="portlet-body">
+
+                                        <div class="progress-stat" ng-class="{ 'row-selected': campaign.rowSelected }">
+
+                                            <div class="progress-stat-label" style="width: %75">
+                                                <a href="javascript:;"
+                                                   title="{{ 'Products.BulkMessaging.Monitoring.CampaignDetails' | translate }}"
+                                                   uib-popover-template="'products/bulkmessaging/monitoring/monitoring.campaign-info.html'"
+                                                   popover-animation="false"
+                                                   popover-title="{{ campaign.campaignDescription }} [Job ID = {{campaign.campaignId}}]"
+                                                   popover-placement="right" popover-append-to-body="true" popover-trigger="'outsideClick'"
+                                                   class="monitoring-button">
+                                                    <i class="fa fa-info-circle text-info"></i>
+                                                </a>
+                                                <a href="javascript:;"
+                                                   title="{{ 'Products.BulkMessaging.Monitoring.CampaignStats' | translate }}"
+                                                   uib-popover-template="'products/bulkmessaging/monitoring/monitoring.campaign-progress-info.html'"
+                                                   popover-is-open="campaign.isDetailPopoverOpen"
+                                                   popover-animation="false"
+                                                   popover-title="{{ campaign.campaignDescription }} [Job ID = {{campaign.campaignId}}]"
+                                                   popover-placement="right" popover-append-to-body="true" popover-trigger="'outsideClick'"
+                                                   class="monitoring-button">
+                                                    <i class="fa fa-question-circle text-tertiary"></i>
+                                                </a>
+                                                &nbsp;
+                                                {{ campaign.campaignDescription | limitTo: 50 }}{{ campaign.campaignDescription.length > 50 ? '...' : '' }} [{{ 'Org = ' + campaign.campaignOrganizationName + '; User = ' + campaign.campaignUserName }}]
+                                            </div>
+
+                                            <div class="progress-stat-value" style="width: %25">
+                                                {{ campaign.progressPercentage }}%
+                                                &nbsp;
+                                                <a href="javascript:;" title="{{ 'CommonLabels.Pause' | translate }}"
+                                                   ng-if="campaign.campaignStatus === BMS_CAMPAIGN_STATUSES.RUNNING"
+                                                   class="monitoring-button" ng-click="changeStateOfCampaign(campaign, 'PAUSED')"
+                                                   ng-disabled="!AuthorizationService.canBmsMonitoringUpdate()">
+                                                    <i class="fa fa-pause-circle text-secondary"></i>
+                                                </a>
+                                                <a href="javascript:;" title="{{ 'CommonLabels.Resume' | translate }}"
+                                                   ng-if="campaign.campaignStatus === BMS_CAMPAIGN_STATUSES.PAUSED"
+                                                   class="monitoring-button" ng-click="changeStateOfCampaign(campaign, 'RUNNING')"
+                                                   ng-disabled="!AuthorizationService.canBmsMonitoringUpdate()">
+                                                    <i class="fa fa-play-circle text-secondary"></i>
+                                                </a>
+                                                <a href="javascript:;" title="{{ 'CommonLabels.Cancel' | translate }}"
+                                                   ng-if="campaign.campaignStatus === BMS_CAMPAIGN_STATUSES.RUNNING || campaign.campaignStatus === BMS_CAMPAIGN_STATUSES.PAUSED || campaign.campaignStatus === BMS_CAMPAIGN_STATUSES.SCHEDULED"
+                                                   class="monitoring-button" ng-click="cancelCampaign(campaign)"
+                                                   ng-disabled="!AuthorizationService.canBmsMonitoringUpdate()">
+                                                    <i class="fa fa-times-circle text-danger"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="progress progress-sm active">
+                                                <div class="progress-bar {{getProgressBarClass(campaign.campaignStatus)}}" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: {{ campaign.progressPercentage }}%">
+                                                    <span class="sr-only">{{ campaign.progressPercentage }}%</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

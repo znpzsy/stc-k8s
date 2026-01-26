@@ -1,0 +1,180 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="serviceType.profileId">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="serviceType.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="serviceType.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="serviceType.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Name" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Name" name="Name" type="text" class="form-control"
+                       ng-model="serviceType.Name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Name.$dirty && form.Name.$invalid }"
+                    ng-show="form.Name.$dirty && form.Name.$invalid">
+                    <li class="required" ng-show="form.Name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="LegacyID" class="col-md-3">{{ 'CommonLabels.LegacyID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="LegacyID" name="LegacyID" type="text" class="form-control"
+                       ng-model="serviceType.LegacyID"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.LegacyID.$dirty && form.LegacyID.$invalid }"
+                    ng-show="form.LegacyID.$dirty && form.LegacyID.$invalid">
+                    <li class="required" ng-show="form.LegacyID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Description" name="Description" type="text" class="form-control"
+                       ng-model="serviceType.Description"
+                       ng-maxlength="255" maxlength="255"
+                       ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Status" name="Status" class="form-control parsley-validated"
+                        ng-model="serviceType.Status"
+                        ng-required="true"
+                        ng-options="statusType as statusType for statusType in BUSINESS_MANAGEMENT_STATUS_TYPES"
+                        ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.Status.$dirty && form.Status.$invalid }"
+                    ng-show="form.Status.$dirty && form.Status.$invalid">
+                    <li class="required" ng-show="form.Status.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="OriginalName" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.OriginalName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="OriginalName" name="OriginalName" type="text" class="form-control"
+                       ng-model="serviceType.OriginalName"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.OriginalName.$dirty && form.OriginalName.$invalid }"
+                    ng-show="form.OriginalName.$dirty && form.OriginalName.$invalid">
+                    <li class="required" ng-show="form.OriginalName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="OriginalCategory" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.OriginalCategory' | translate }}</label>
+            <div class="col-md-7">
+                <input id="OriginalCategory" name="OriginalCategory" type="text" class="form-control"
+                       ng-model="serviceType.OriginalCategory"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.OriginalCategory.$dirty && form.OriginalCategory.$invalid }"
+                    ng-show="form.OriginalCategory.$dirty && form.OriginalCategory.$invalid">
+                    <li class="required" ng-show="form.OriginalCategory.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ChannelID" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.ChannelID' | translate }}</label>
+            <div class="col-md-4">
+                <select id="ChannelID" name="ChannelID" class="form-control parsley-validated"
+                        ng-model="serviceType.ChannelID"
+                        ng-required="true"
+                        ng-options="channel.profileId as channel.Name for channel in channels"
+                        ng-disabled="(serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.ChannelID.$dirty && form.ChannelID.$invalid }"
+                    ng-show="form.ChannelID.$dirty && form.ChannelID.$invalid">
+                    <li class="required" ng-show="form.ChannelID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.ServiceTypes.Provision' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="selectedProvisions.length > 0" class="row col-md-9">
+                    <div ng-repeat="n in selectedProvisions">
+                        <span class="label label-default selected-item-label">{{n}}</span>
+                        <a ng-click="removeProvision(n)" style="cursor: pointer;"
+                           ng-if="serviceType.profileId ? AuthorizationService.canBizOperationsServiceTypeUpdate() : AuthorizationService.canBizOperationsServiceTypeCreate()">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-disabled="serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate()"
+                        ng-class="{ 'pull-right': selectedProvisions.length > 0, 'ng-invalid-required': !selectedProvisions || selectedProvisions.length === 0 }"
+                        ng-click="showProvisions()">
+                    {{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="provisionsLength" type="number" class="form-control"
+                           ng-model="selectedProvisions.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="serviceType.profileId ? null : selectedProvisions = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': selectedProvisions.length === 0 }"
+                        ng-show="selectedProvisions.length === 0">
+                        <li class="required" ng-show="form.provisionsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (serviceType.profileId ? !AuthorizationService.canBizOperationsServiceTypeUpdate() : !AuthorizationService.canBizOperationsServiceTypeCreate()) || isNotChanged()"
+                        ng-click="save(serviceType);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

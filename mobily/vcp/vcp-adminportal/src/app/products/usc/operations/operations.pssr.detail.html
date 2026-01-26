@@ -1,0 +1,73 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.USC.Operations.StringReplacements.PssrTitle' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.StringReplacements.Identifier' | translate }}</label>
+            <div class="col-md-7">
+                <input name="name" id="name" type="text" class="form-control" ng-model="text.name"
+                       ng-required="true" maxlength="100" ng-maxlength="100"
+                       ng-disabled="text.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.StringReplacements.Precedence' | translate }}</label>
+            <div class="col-md-7">
+                <input name="precedence" type="number" class="form-control"
+                       min="1" max="200" ng-required="true" ng-model="text.precedence"/>
+                <ul ng-class="{ 'parsley-error-list': form.precedence.$dirty && form.precedence.$invalid }" ng-show="form.precedence.$dirty && form.precedence.$invalid">
+                    <li class="required" ng-show="form.precedence.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.precedence.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.precedence.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 200} }}</li>
+                    <li class="required" ng-show="form.precedence.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.StringReplacements.MatchingPattern' | translate }}<br/>{{ 'Products.USC.Operations.StringReplacements.MatchingPatternRegularExpression' | translate }}</label>
+            <div class="col-md-7">
+                <input name="regex" type="text" class="form-control" ng-model="text.regex" maxlength="500" ng-maxlength="500"/>
+                <ul ng-class="{ 'parsley-error-list': form.regex.$dirty && form.regex.$invalid }" ng-show="form.regex.$dirty && form.regex.$invalid">
+                    <li class="required" ng-show="form.regex.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 500 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.StringReplacements.ReplaceWith' | translate }}</label>
+            <div class="col-md-7">
+                <input name="replaceWith" type="text" class="form-control" ng-model="text.replaceWith" maxlength="500" ng-maxlength="500"/>
+                <ul ng-class="{ 'parsley-error-list': form.replaceWith.$dirty && form.replaceWith.$invalid }" ng-show="form.replaceWith.$dirty && form.replaceWith.$invalid">
+                    <li class="required" ng-show="form.replaceWith.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 500 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (text.id && !AuthorizationService.canUpdate()) || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

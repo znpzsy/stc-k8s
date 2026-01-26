@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.ChargingGw.Troubleshooting.Details.PageHeader' | translate:{ msisdn: edrRecord.msisdn } }}</h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ChargingGw.Troubleshooting.TableColumns.TransactionId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.transactionId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ChargingGw.Troubleshooting.TableColumns.ClientCorrelator' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.clientCorrelator }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ChargingGw.Troubleshooting.TableColumns.Channel' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.channel }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ChargingGw.Troubleshooting.TableColumns.OfferName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.offerName }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ChargingGw.Troubleshooting.TableColumns.Unit' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.unit | ChargingGwUnitFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ChargingGw.Troubleshooting.TableColumns.Description' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.description }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

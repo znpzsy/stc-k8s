@@ -1,0 +1,86 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.CC.Operations.CoSProfiles.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.CC.Operations.CosName' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="cosProfile.cosName" disabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.CC.Operations.CdrEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{cosProfile.cdrEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="cosProfile.cdrEnabled" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdate()" >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!cosProfile.cdrEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="cosProfile.cdrEnabled" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdate()" >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.CC.Operations.CreditLimitForBPartyEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{cosProfile.creditLimitForBPartyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="cosProfile.creditLimitForBPartyEnabled" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdate()" >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!cosProfile.creditLimitForBPartyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="cosProfile.creditLimitForBPartyEnabled" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdate()" >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="cosProfile.creditLimitForBPartyEnabled">
+            <label class="col-md-3">{{ 'Services.CC.Operations.CreditLimitForBParty' | translate }}</label>
+            <div class="col-md-4">
+                <input id="creditLimitForBParty" name="creditLimitForBParty" type="number" class="form-control"
+                       ng-model="cosProfile.creditLimitForBParty"
+                       ng-required="true" ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.creditLimitForBParty.$dirty && form.creditLimitForBParty.$invalid }"
+                    ng-show="form.creditLimitForBParty.$dirty && form.creditLimitForBParty.$invalid">
+                    <li class="required" ng-show="form.creditLimitForBParty.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.creditLimitForBParty.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.creditLimitForBParty.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.creditLimitForBParty.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.CC.Operations.DurationChargingEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{cosProfile.durationChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="cosProfile.durationChargingEnabled" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdate()" >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!cosProfile.durationChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="cosProfile.durationChargingEnabled" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdate()" >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdate() || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ui-sref="services.cc.operations.cosprofiles.collectcall()" >
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

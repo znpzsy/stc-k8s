@@ -1,0 +1,120 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Subscribers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Subscribers.TableColumns.Msisdn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" id="msisdn" name="msisdn" class="form-control"
+                       ng-model="subscriber.subscriberProfile.MSISDN"
+                       ng-pattern="$root.Validators.ValidPhoneNumber"
+                       ng-minlength="12" ng-maxlength="12" maxlength="12"
+                       ng-required="true"
+                       ng-disabled="!AuthorizationService.canCreateSubscriber() || subscriber.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }" ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                    <li class="required" ng-show="form.msisdn.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 12 } }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 12 } }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidCountryCode' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.Organization' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="subscriber.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{ subscriber.organization.name }}</span>
+                    <a ng-click="subscriber.organization.name = undefined" style="cursor: pointer;" ng-if="AuthorizationService.canCreateSubscriber() || (subscriber.id && AuthorizationService.canUpdateSubscriber())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': subscriber.organization.name, 'ng-invalid-required': !subscriber.organization.name }"
+                        ng-click="showOperators(subscriber)"
+                        ng-disabled="!AuthorizationService.canCreateSubscriber() || (subscriber.id && !AuthorizationService.canUpdateSubscriber())">{{ 'CommonLabels.Choose' | translate }}</button>
+                <div style="clear: both;">
+                    <input name="serviceOrganization" type="text" class="form-control"
+                           ng-model="subscriber.organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="subscriber.id ? null : subscriber.organization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': subscriber.organization !== undefined && subscriber.organization.name === undefined }"
+                        ng-show="subscriber.organization !== undefined && subscriber.organization.name === undefined">
+                        <li class="required" ng-show="form.serviceOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Subscribers.TableColumns.Status' | translate }}</label>
+            <div class="col-md-5">
+                <select id="status" name="status" class="form-control parsley-validated"
+                        ng-model="subscriber.subscriberProfile.Status"
+                        ng-options="status.value as (status.label | translate) for status in PROVISIONING_STATUSES"
+                        ng-required="true"
+                        ng-disabled="!AuthorizationService.canCreateSubscriber() || (subscriber.id && !AuthorizationService.canUpdateSubscriber())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.status.$dirty && form.status.$invalid }" ng-show="form.status.$dirty && form.status.$invalid">
+                    <li class="required" ng-show="form.status.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Subscribers.TableColumns.PaymentType' | translate }}</label>
+            <div class="col-md-5">
+                <select id="paymentType" name="paymentType" class="form-control parsley-validated"
+                        ng-model="subscriber.subscriberProfile.PaymentType"
+                        ng-options="paymentType.cmpf_value as (paymentType.label | translate) for paymentType in PROVISIONING_PAYMENT_TYPES"
+                        ng-required="true"
+                        ng-disabled="!AuthorizationService.canCreateSubscriber() || (subscriber.id && !AuthorizationService.canUpdateSubscriber())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.paymentType.$dirty && form.paymentType.$invalid }" ng-show="form.paymentType.$dirty && form.paymentType.$invalid">
+                    <li class="required" ng-show="form.paymentType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Subscribers.TableColumns.Language' | translate }}</label>
+            <div class="col-md-5">
+                <select id="language" name="language" class="form-control parsley-validated"
+                        ng-model="subscriber.subscriberProfile.Language"
+                        ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                        ng-required="true"
+                        ng-disabled="!AuthorizationService.canCreateSubscriber() || (subscriber.id && !AuthorizationService.canUpdateSubscriber())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.language.$dirty && form.language.$invalid }" ng-show="form.language.$dirty && form.language.$invalid">
+                    <li class="required" ng-show="form.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreateSubscriber() || (subscriber.id && !AuthorizationService.canUpdateSubscriber()) || isNotChanged()"
+                        ng-click="save(subscriber);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

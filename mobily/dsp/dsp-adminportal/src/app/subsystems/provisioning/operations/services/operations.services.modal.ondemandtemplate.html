@@ -1,0 +1,99 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ModalTitle' | translate:{name: itemName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="templateAttributesForm" name="templateAttributesForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="ResponseMessageLangEN" class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ResponseMessageLangEN' | translate }}</label>
+            <div class="col-md-7">
+                <input id="ResponseMessageLangEN" name="ResponseMessageLangEN" type="text" class="form-control" dir="auto"
+                       ng-model="onDemandTemplateProfile.ResponseMessageLangEN"
+                       ng-required="true" ng-maxlength="255"
+                       ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': templateAttributesForm.ResponseMessageLangEN.$dirty && templateAttributesForm.ResponseMessageLangEN.$invalid }"
+                    ng-show="templateAttributesForm.ResponseMessageLangEN.$dirty && templateAttributesForm.ResponseMessageLangEN.$invalid">
+                    <li class="required" ng-show="templateAttributesForm.ResponseMessageLangEN.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="templateAttributesForm.ResponseMessageLangEN.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="ResponseMessageLangOther" class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ResponseMessageLangOther' | translate }}</label>
+            <div class="col-md-7">
+                <input id="ResponseMessageLangOther" name="ResponseMessageLangOther" type="text" class="form-control" dir="auto"
+                       ng-model="onDemandTemplateProfile.ResponseMessageLangOther"
+                       ng-required="true" ng-maxlength="255"
+                       ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': templateAttributesForm.ResponseMessageLangOther.$dirty && templateAttributesForm.ResponseMessageLangOther.$invalid }"
+                    ng-show="templateAttributesForm.ResponseMessageLangOther.$dirty && templateAttributesForm.ResponseMessageLangOther.$invalid">
+                    <li class="required" ng-show="templateAttributesForm.ResponseMessageLangOther.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="templateAttributesForm.ResponseMessageLangOther.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ServiceProposalFileID' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="!onDemandTemplateProfile.serviceProposalFile.name">
+                    <!-- Select button -->
+                    <button name="serviceProposalFile" type="file" class="btn btn-sm btn-block btn-default" style="width: 250px;"
+                            ngf-select
+                            ng-model="onDemandTemplateProfile.serviceProposalFile"
+                            ngf-accept="'.txt,.pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.odt,.ott'"
+                            ng-init="initServiceProposalFile(onDemandTemplateProfile.serviceProposalFile);"
+                            ngf-max-size="20MB"
+                            ngf-model-invalid="errorFile"
+                            ng-disabled="(service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate())">
+                        {{ ((onDemandTemplateProfile.serviceProposalFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                    </button>
+                    <ul ng-class="{ 'parsley-error-list': templateAttributesForm.serviceProposalFile.$dirty && templateAttributesForm.serviceProposalFile.$invalid }"
+                        ng-show="templateAttributesForm.serviceProposalFile.$dirty && templateAttributesForm.serviceProposalFile.$invalid">
+                        <li class="required" ng-show="templateAttributesForm.serviceProposalFile.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                    </ul>
+                </div>
+
+                <!-- Remove button with the selected file name -->
+                <div class="btn-group" role="group" ng-if="onDemandTemplateProfile.serviceProposalFile.name">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 202px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{onDemandTemplateProfile.serviceProposalFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ onDemandTemplateProfile.serviceProposalFile.name }}
+                    </button>
+                    <button name="removeLegalFileAttachment" class="btn btn-sm btn-danger" type="button"
+                            ng-click="onDemandTemplateProfile.serviceProposalFile = null; templateAttributesForm.serviceProposalFile.$setDirty();"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="onDemandTemplateProfile.serviceProposalFile.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ onDemandTemplateProfile.serviceProposalFile.name }}"
+                   href="{{ onDemandTemplateProfile.serviceProposalFile | ngfDataUrl }}" target="_blank">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-danger"
+            ng-disabled="templateAttributesForm.$invalid || (service.id ? !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) : !AuthorizationService.canCmpfOperationsServiceCreate()) || isNotChanged()"
+            ng-click="save(onDemandTemplateProfile, templateAttributesForm);">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button type="reset" class="btn btn-default" ng-click="close();">
+        {{ 'CommonLabels.Close' | translate }}
+    </button>
+</div>

@@ -1,0 +1,79 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'ScreeningLists.Screenings.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.Msisdn' | translate }}</label>
+
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="msisdn" id="msisdn" name="msisdn" ng-maxlength="15"
+                       maxlength="15" ng-pattern="$root.Validators.Msisdn"
+                       placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate}}"/>
+                <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }"
+                    ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                    <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger" ng-disabled="form.$invalid" ng-click="search (msisdn)">
+                    {{ 'CommonLabels.Search' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <div ng-show="subscriberNumber">
+        <h5 class="portlet-title">{{ 'ScreeningLists.Screenings.ScreeningPreferencesTitle' | translate:{subscriber:subscriberNumber} }}</h5>
+
+        <table ng-table="tableParams" class="table table-striped table-bordered"
+               template-pagination="ngTableCustomPagerEmpty.html">
+            <thead>
+            <tr>
+                <th>{{ 'ScreeningLists.Screenings.Scope' | translate }}</th>
+                <th>{{ 'ScreeningLists.Screenings.Rule' | translate }}</th>
+                <th>{{ 'CommonLabels.Actions' | translate }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="entry in $data" class="hidden-link-cell-row">
+                <td align="center">{{entry.screeningScopeId | ScreeningScopeFilter}}</td>
+                <td align="center">{{entry.selectedScreeningModeType}}</td>
+                <td align="center">
+                    <button class="btn btn-xs btn-success"
+                            title="{{ 'ScreeningLists.Screenings.ShowConstraints' | translate }}"
+                            ng-click="showConstraints(entry)">
+                        <i class="fa fa-book"></i>
+                    </button>
+                    <button class="btn btn-xs btn-default"
+                            title="{{ 'ScreeningLists.Screenings.ShowWhitelist' | translate }}"
+                            ng-click="showWhitelists(entry)">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <button class="btn btn-xs btn-secondary"
+                            title="{{ 'ScreeningLists.Screenings.ShowBlacklist' | translate }}"
+                            ng-click="showBlacklists(entry)">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr ng-if="$data.length === 0">
+                <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

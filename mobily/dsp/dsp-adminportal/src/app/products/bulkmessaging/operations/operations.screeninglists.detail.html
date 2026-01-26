@@ -1,0 +1,121 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Products.BulkMessaging.Operations.ScreeningLists.TableColumns.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" ng-model="screeningList.name"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="!AuthorizationService.canBmsOperationsBlackListCreate($state.current.data.listType) || screeningList.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.ScreeningLists.TableColumns.FileAttachment' | translate }}</label>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="btn-group col-md-12" ng-if="!screeningList.file">
+                        <!-- Single button -->
+                        <div class="btn-group" uib-dropdown dropdown-append-to-body="true" is-open="actionButton.isOpen" ng-if="screeningList.creationTime">
+                            <button type="button" class="btn btn-sm btn-default"
+                                    ng-disabled="(screeningList.id ? !AuthorizationService.canBmsOperationsBlackListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsBlackListCreate($state.current.data.listType))"
+                                    uib-dropdown-toggle>
+                                {{ ('CommonLabels.' + $parent.$parent.action) | translate }} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Append' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Append';">{{ 'CommonLabels.Append' | translate }}</a></li>
+                                <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Remove' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Remove';">{{ 'CommonLabels.Remove' | translate }}</a></li>
+                            </ul>
+                        </div>
+                        <button name="fileAttachment" type="file"
+                                ngf-select
+                                ng-model="screeningList.file"
+                                class="btn btn-sm btn-default col-md-5"
+                                ngf-accept="'.txt,.csv,.xls,.xlsx'"
+                                ngf-max-size="20MB"
+                                ngf-model-invalid="errorFile"
+                                ng-disabled="(screeningList.id ? !AuthorizationService.canBmsOperationsBlackListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsBlackListCreate($state.current.data.listType))">
+                            {{ ((screeningList.previousFile) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-offset-3 col-md-9" ng-if="!screeningList.file">
+                        <ul ng-class="{ 'parsley-error-list': form.fileAttachment.$dirty && form.fileAttachment.$invalid }"
+                            ng-show="form.fileAttachment.$dirty && form.fileAttachment.$invalid">
+                            <li class="required" ng-show="form.fileAttachment.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                        </ul>
+                    </div>
+                    <div class="input-group input-group-sm col-md-12" ng-if="screeningList.file">
+                        <div class="col-md-12">
+                            <!-- Single button -->
+                            <div class="input-group-btn" uib-dropdown dropdown-append-to-body="true" is-open="actionButton.isOpen" ng-if="screeningList.creationTime">
+                                <button type="button" class="btn btn-sm btn-default"
+                                        ng-disabled="(screeningList.id ? !AuthorizationService.canBmsOperationsBlackListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsBlackListCreate($state.current.data.listType))"
+                                        uib-dropdown-toggle>
+                                    {{ ('CommonLabels.' + $parent.$parent.action) | translate }} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Append' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Append';">{{ 'CommonLabels.Append' | translate }}</a></li>
+                                    <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Remove' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Remove';">{{ 'CommonLabels.Remove' | translate }}</a></li>
+                                </ul>
+                            </div>
+                            <span class="input-group-addon"
+                                  uib-tooltip="{{screeningList.file.name.length >= 50 ? screeningList.file.name : '' }}" tooltip-class="custom-class" tooltip-append-to-body="true">
+                                {{ screeningList.file.name | limitTo:50}}{{screeningList.file.name.length > 50 ? '...' : '' }}
+                            </span>
+                            <span class="input-group-btn" style="width: auto;">
+                                <button name="removeFileAttachment" class="btn btn-sm btn-danger"
+                                        ng-click="removeFileAttachment();"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="(screeningList.id ? !AuthorizationService.canBmsOperationsBlackListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsBlackListCreate($state.current.data.listType))">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="screeningList.listSize !== undefined">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.ScreeningLists.TableColumns.Size' | translate }}</label>
+            <div class="col-md-7">
+                <span class="form-control" ng-disabled="true">{{screeningList.listSize}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="screeningList.creationTime">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.ScreeningLists.TableColumns.CreationTime' | translate }}</label>
+            <div class="col-md-7">
+                <span class="form-control" ng-disabled="true">{{screeningList.creationTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="screeningList.updateTime">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.ScreeningLists.TableColumns.UpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <span class="form-control" ng-disabled="true">{{screeningList.updateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (screeningList.id ? !AuthorizationService.canBmsOperationsBlackListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsBlackListCreate($state.current.data.listType)) || isNotChanged()"
+                        ng-click="save(action, screeningList, screeningList.file);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

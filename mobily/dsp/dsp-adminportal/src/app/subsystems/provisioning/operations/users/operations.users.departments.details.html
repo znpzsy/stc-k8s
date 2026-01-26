@@ -1,0 +1,112 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Users' | translate }} / {{ 'Subsystems.Provisioning.Departments.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="Name" class="col-md-3">{{ 'Subsystems.Provisioning.Departments.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Name" name="Name" type="text" class="form-control"
+                       ng-model="department.Name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsDepartmentCreate() || department.profileId"/>
+                <ul ng-class="{ 'parsley-error-list': form.Name.$dirty && form.Name.$invalid }"
+                    ng-show="form.Name.$dirty && form.Name.$invalid">
+                    <li class="required" ng-show="form.Name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="department.profileId">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Departments.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="department.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="department.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="department.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="LegacyID" class="col-md-3">{{ 'CommonLabels.LegacyID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="LegacyID" name="LegacyID" type="text" class="form-control"
+                       ng-model="department.LegacyID"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(department.profileId ? !AuthorizationService.canCmpfOperationsDepartmentUpdate() : !AuthorizationService.canCmpfOperationsDepartmentCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.LegacyID.$dirty && form.LegacyID.$invalid }"
+                    ng-show="form.LegacyID.$dirty && form.LegacyID.$invalid">
+                    <li class="required" ng-show="form.LegacyID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Description" name="Description" type="text" class="form-control"
+                       ng-model="department.Description"
+                       ng-maxlength="255" maxlength="255"
+                       ng-disabled="(department.profileId ? !AuthorizationService.canCmpfOperationsDepartmentUpdate() : !AuthorizationService.canCmpfOperationsDepartmentCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Status" name="Status" class="form-control parsley-validated"
+                        ng-model="department.Status"
+                        ng-options="status.value as (status.label | translate | uppercase) for status in STATUS_TYPES"
+                        ng-disabled="(department.profileId ? !AuthorizationService.canCmpfOperationsDepartmentUpdate() : !AuthorizationService.canCmpfOperationsDepartmentCreate())">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Email" class="col-md-3">{{ 'Subsystems.Provisioning.Departments.Email' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Email" name="Email" type="email" class="form-control"
+                       ng-model="department.Email"
+                       maxlength="100" ng-maxlength="100"
+                       ng-disabled="(department.profileId ? !AuthorizationService.canCmpfOperationsDepartmentUpdate() : !AuthorizationService.canCmpfOperationsDepartmentCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Email.$dirty && form.Email.$invalid }"
+                    ng-show="form.Email.$dirty && form.Email.$invalid">
+                    <li class="required" ng-show="form.Email.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                    <li class="required" ng-show="form.Email.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (department.profileId ? !AuthorizationService.canCmpfOperationsDepartmentUpdate() : !AuthorizationService.canCmpfOperationsDepartmentCreate()) || isNotChanged()"
+                        ng-click="save(department);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

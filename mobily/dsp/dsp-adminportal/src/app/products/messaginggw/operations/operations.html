@@ -1,0 +1,24 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('products.messaginggw.operations.routingtables.applicationrouting') || $state.includes('products.messaginggw.operations.routingtables.applicationrouting-new') }">
+            <a ui-sref="products.messaginggw.operations.routingtables.applicationrouting" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MessagingGw.Operations.RoutingTables.Title' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('products.messaginggw.operations.keywordscreening') }">
+            <a ui-sref="products.messaginggw.operations.keywordscreening.list" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MessagingGw.Operations.KeywordScreening.Title' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'CommonLabels.DSP' | translate }} / {{ 'PartnerInfo.Contents.ContentMetadatas.Title' | translate }} / {{ 'PartnerInfo.Contents.ContentMetadatas.ManageContentFiles.PageHeader' | translate:{name: contentMetadata.name} }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="contentFile.id">
+            <label class="col-md-3">{{ 'PartnerInfo.Contents.ContentMetadatas.ManageContentFiles.FileId' | translate }}</label>
+            <div class="col-md-7">
+                <input id="contentFileId" name="contentFileId" type="text" class="form-control"
+                       ng-value="contentFile.id"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Contents.ContentMetadatas.ManageContentFiles.File' | translate }}</label>
+            <div class="col-md-4" ng-if="!contentFile.file.name">
+                <button id="contentFile" name="contentFile" type="file" class="btn btn-sm btn-block btn-default"
+                        ngf-select
+                        ng-model="contentFile.file"
+                        ng-init="contentFile.file ? contentFile.file.name = contentFile.file.$ngfName : null"
+                        ngf-max-size="50MB"
+                        ng-required="true"
+                        ngf-model-invalid="errorFile"
+                        ng-disabled="(contentFile.id ? true : !AuthorizationService.canPrmContentCreate())">
+                    {{ ((contentFile.file.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                </button>
+                <ul ng-class="{ 'parsley-error-list': form.contentFile.$dirty && form.contentFile.$invalid }"
+                    ng-show="form.contentFile.$dirty && form.contentFile.$invalid">
+                    <li class="required" ng-show="form.contentFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.contentFile.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                </ul>
+            </div>
+            <div class="col-md-7" ng-if="contentFile.file.name">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{contentFile.file.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ contentFile.file.name }}
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="contentFile.file = null;"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                            ng-if="(contentFile.id ? false : AuthorizationService.canPrmContentCreate())">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="contentFile.file.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ contentFile.file.name }}"
+                   href="{{ contentFile.file | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canPrmContentRead()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentFile.file">
+            <label for="fileType" class="col-md-3">{{ 'PartnerInfo.Contents.ContentMetadatas.ManageContentFiles.FileType' | translate }}</label>
+            <div class="col-md-7">
+                <input id="fileType" name="fileType" type="text" class="form-control"
+                       ng-value="contentFile.file.type || 'text'"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (contentFile.id ? true : !AuthorizationService.canPrmContentCreate()) || isNotChanged()"
+                        ng-click="save(contentFile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

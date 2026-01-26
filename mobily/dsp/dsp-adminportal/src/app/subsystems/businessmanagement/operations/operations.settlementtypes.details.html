@@ -1,0 +1,244 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="settlementType.profileId">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="settlementType.profileId" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="settlementType.profileId">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="settlementType.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Name" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="Name" name="Name" type="text" class="form-control"
+                       ng-model="settlementType.Name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.Name.$dirty && form.Name.$invalid }"
+                    ng-show="form.Name.$dirty && form.Name.$invalid">
+                    <li class="required" ng-show="form.Name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.Name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="LegacyID" class="col-md-3">{{ 'CommonLabels.LegacyID' | translate }}</label>
+            <div class="col-md-7">
+                <input id="LegacyID" name="LegacyID" type="text" class="form-control"
+                       ng-model="settlementType.LegacyID"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.LegacyID.$dirty && form.LegacyID.$invalid }"
+                    ng-show="form.LegacyID.$dirty && form.LegacyID.$invalid">
+                    <li class="required" ng-show="form.LegacyID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="Description" name="Description" class="form-control" rows="3" dir="auto"
+                          ng-model="settlementType.Description"
+                          ng-maxlength="255" maxlength="255"
+                          ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())">
+                </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                    ng-show="form.Description.$dirty && form.Description.$invalid">
+                    <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Status" name="Status" class="form-control parsley-validated"
+                        ng-model="settlementType.Status"
+                        ng-required="true"
+                        ng-options="statusType as statusType for statusType in BUSINESS_MANAGEMENT_STATUS_TYPES"
+                        ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.Status.$dirty && form.Status.$invalid }"
+                    ng-show="form.Status.$dirty && form.Status.$invalid">
+                    <li class="required" ng-show="form.Status.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="RevenueSource" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.RevenueSource' | translate }}</label>
+            <div class="col-md-4">
+                <select id="RevenueSource" name="RevenueSource" class="form-control parsley-validated"
+                        ng-model="settlementType.RevenueSource"
+                        ng-required="true"
+                        ng-options="revenueSource as revenueSource for revenueSource in BUSINESS_MANAGEMENT_REVENUE_SOURCES"
+                        ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.RevenueSource.$dirty && form.RevenueSource.$invalid }"
+                    ng-show="form.RevenueSource.$dirty && form.RevenueSource.$invalid">
+                    <li class="required" ng-show="form.RevenueSource.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="SettlementModel" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.SettlementModel' | translate }}</label>
+            <div class="col-md-4">
+                <select id="SettlementModel" name="SettlementModel" class="form-control parsley-validated"
+                        ng-model="settlementType.SettlementModel"
+                        ng-required="true"
+                        ng-options="settlementModel as settlementModel for settlementModel in BUSINESS_MANAGEMENT_SETTLEMENT_MODELS"
+                        ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.SettlementModel.$dirty && form.SettlementModel.$invalid }"
+                    ng-show="form.SettlementModel.$dirty && form.SettlementModel.$invalid">
+                    <li class="required" ng-show="form.SettlementModel.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="settlementType.SettlementModel === 'FIXED_PERCENTAGE' || settlementType.SettlementModel === 'PERCENTAGE_FOR_RESELLER'">
+            <label for="CarrierPercentage" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.CarrierPartnerPercentage' | translate }}</label>
+            <div class="col-md-2">
+                <input id="CarrierPercentage" name="CarrierPercentage" type="number" class="form-control"
+                       ng-model="settlementType.CarrierPercentage"
+                       ng-required="true"
+                       min="0" max="100"
+                       ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.CarrierPercentage.$dirty && form.CarrierPercentage.$invalid }"
+                    ng-show="form.CarrierPercentage.$dirty && form.CarrierPercentage.$invalid" style="z-index: 9999;">
+                    <li class="required" ng-show="form.CarrierPercentage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.CarrierPercentage.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                    <li class="required" ng-show="form.CarrierPercentage.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 100} }}</li>
+                    <li class="required" ng-show="form.CarrierPercentage.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-2" ng-if="settlementType.SettlementModel === 'PERCENTAGE_FOR_RESELLER'">
+                <input id="PartnerPercentage" name="PartnerPercentage" type="number" class="form-control"
+                       ng-model="settlementType.PartnerPercentage"
+                       ng-required="true"
+                       min="0" max="100"
+                       ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.PartnerPercentage.$dirty && form.PartnerPercentage.$invalid }"
+                    ng-show="form.PartnerPercentage.$dirty && form.PartnerPercentage.$invalid" style="z-index: 9999;">
+                    <li class="required" ng-show="form.PartnerPercentage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.PartnerPercentage.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                    <li class="required" ng-show="form.PartnerPercentage.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 100} }}</li>
+                    <li class="required" ng-show="form.PartnerPercentage.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-2" ng-if="settlementType.SettlementModel === 'FIXED_PERCENTAGE'">
+                <input id="PartnerPercentage" name="PartnerPercentage" type="number" class="form-control"
+                       ng-model="settlementType.PartnerPercentage"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="settlementType.SettlementModel === 'PERCENTAGE_FOR_GRADED'">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.RevenueRanges.RevenueRanges' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="$parent.revenueRanges.length" class="row col-md-9">
+                    <div ng-repeat="revenueRange in revenueRanges">
+                        <div class="label label-default selected-item-label">
+                            [{{ revenueRange.StartPoint }} - {{ revenueRange.EndPoint ? revenueRange.EndPoint : 'N/A' }}] @ {{ revenueRange.CarrierPercentage }}% / {{ revenueRange.PartnerPercentage }}%
+                        </div>&nbsp;
+                        <a ng-click="addUpdateRevenueRange(revenueRange)" style="cursor: pointer;"><span
+                                class="label label-secondary"
+                                ng-if="(settlementType.profileId ? AuthorizationService.canBizOperationsSettlementTypeUpdate() : AuthorizationService.canBizOperationsSettlementTypeCreate())"><i
+                                class="fa fa-edit"></i></span></a>
+                        <a ng-click="removeRevenueRange(revenueRange)" style="cursor: pointer;"><span
+                                class="label label-danger"
+                                ng-if="(settlementType.profileId ? AuthorizationService.canBizOperationsSettlementTypeUpdate() : AuthorizationService.canBizOperationsSettlementTypeCreate())"><i
+                                class="fa fa-times"></i></span></a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3"
+                        ng-click="addUpdateRevenueRange()"
+                        ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"
+                        ng-class="{ 'pull-right': $parent.revenueRanges.length, 'ng-invalid-required': !$parent.revenueRanges || $parent.revenueRanges.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                <div style="clear: both;">
+                    <input name="revenueRangesLength" type="number" class="form-control"
+                           ng-model="$parent.revenueRanges.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="settlementType.profileId ? ($parent.revenueRanges.length === 0 ? $parent.revenueRanges = null : null) : $parent.revenueRanges = null"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': $parent.revenueRanges.length === 0 }"
+                        ng-show="$parent.revenueRanges.length === 0">
+                        <li class="required" ng-show="form.revenueRangesLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.IsPartnerSpecific' | translate }}</label>
+            <div class="col-md-2">
+                <div class="btn-group">
+                    <button class="btn {{settlementType.IsPartnerSpecific?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"
+                            ng-model="settlementType.IsPartnerSpecific" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!settlementType.IsPartnerSpecific?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"
+                            ng-model="settlementType.IsPartnerSpecific" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="settlementType.IsPartnerSpecific">
+            <label class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.Partners' | translate }}</label>
+            <div class="col-md-7">
+                <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                           ng-model="settlementType.partnerIds"
+                           close-on-select="false"
+                           limit="20"
+                           title="{{ 'CommonLabels.SelectOne' | translate }}"
+                           ng-disabled="(settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())">
+                    <ui-select-match placeholder=" {{ 'CommonLabels.SelectFromTheList' | translate }}">
+                        {{ $item.name }}
+                    </ui-select-match>
+                    <ui-select-choices repeat="organizationItem.id as organizationItem in (organizations | filter: $select.search)">
+                        {{ organizationItem.name }}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (settlementType.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate()) || isNotChanged()"
+                        ng-click="save(settlementType);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

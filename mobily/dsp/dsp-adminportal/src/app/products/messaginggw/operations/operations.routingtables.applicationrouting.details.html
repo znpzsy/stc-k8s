@@ -1,0 +1,71 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MessagingGw.Operations.RoutingTables.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MessagingGw.Operations.RoutingTables.TableColumns.SMPPApplication' | translate }}</label>
+            <div class="col-md-7">
+                <select name="smppApplication" class="form-control parsley-validated"
+                        ng-model="smppApplicationRouting.smppApplication"
+                        ng-required="true" required="true"
+                        ng-options="service as service.name for service in services"
+                        ng-disabled="!AuthorizationService.canMsgwOperationsRoutingTableCreate()">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.smppApplication.$dirty && form.smppApplication.$invalid }" ng-show="form.smppApplication.$dirty && form.smppApplication.$invalid">
+                    <li class="required" ng-show="form.smppApplication.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MessagingGw.Operations.RoutingTables.TableColumns.Start' | translate }}</label>
+            <div class="col-md-7">
+                <input name="rangeStart" type="text" class="form-control"
+                       ng-model="smppApplicationRouting.rangeStart"
+                       ng-maxlength="20" maxlength="20"
+                       ng-required="true" required="true"
+                       ng-disabled="!AuthorizationService.canMsgwOperationsRoutingTableCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.rangeStart.$dirty && form.rangeStart.$invalid }" ng-show="form.rangeStart.$dirty && form.rangeStart.$invalid">
+                    <li class="required" ng-show="form.rangeStart.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.rangeStart.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MessagingGw.Operations.RoutingTables.TableColumns.End' | translate }}</label>
+            <div class="col-md-7">
+                <input name="rangeEnd" type="text" class="form-control"
+                       ng-model="smppApplicationRouting.rangeEnd"
+                       ng-maxlength="20" maxlength="20"
+                       ng-required="true" required="true"
+                       ng-disabled="!AuthorizationService.canMsgwOperationsRoutingTableCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.rangeEnd.$dirty && form.rangeEnd.$invalid }" ng-show="form.rangeEnd.$dirty && form.rangeEnd.$invalid">
+                    <li class="required" ng-show="form.rangeEnd.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.rangeEnd.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canMsgwOperationsRoutingTableCreate()" ng-click="save(smppApplicationRouting);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

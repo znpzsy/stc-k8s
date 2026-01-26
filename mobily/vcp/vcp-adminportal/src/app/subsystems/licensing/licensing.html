@@ -1,0 +1,29 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('subsystems.licensing.dashboards') }">
+                <a ui-sref="subsystems.licensing.dashboards">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.licensing.operations') }" ng-if="AuthorizationService.canRead()">
+                <a ui-sref="subsystems.licensing.operations.individual">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

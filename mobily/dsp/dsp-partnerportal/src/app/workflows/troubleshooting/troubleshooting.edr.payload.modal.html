@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Workflows.Troubleshooting.Payload.PageHeader' | translate:{ flowId: edrRecord.flowId } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <h5 class="portlet-title">
+                {{ payload.header }}
+            </h5>
+        </div>
+    </div>
+
+    <div class="details-modal" style="max-height: 500px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div hljs hljs-source="payload.body"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

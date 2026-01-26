@@ -1,0 +1,760 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.Provisioning.Services.DCBSettings.Title' | translate:{ name: service.name } }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="AggregatorName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.AggregatorName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="AggregatorName" name="AggregatorName" type="text" class="form-control" dir="auto"
+                       ng-model="service.dcbServiceProfile.AggregatorName"
+                       ng-maxlength="50"
+                       ng-required="true"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.AggregatorName.$dirty && form.AggregatorName.$invalid }"
+                    ng-show="form.AggregatorName.$dirty && form.AggregatorName.$invalid">
+                    <li class="required" ng-show="form.AggregatorName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.AggregatorName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="OTTName" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.OTTName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="OTTName" name="OTTName" type="text" class="form-control" dir="auto"
+                       ng-model="service.dcbServiceProfile.OTTName"
+                       ng-maxlength="50"
+                       ng-required="true"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.OTTName.$dirty && form.OTTName.$invalid }"
+                    ng-show="form.OTTName.$dirty && form.OTTName.$invalid">
+                    <li class="required" ng-show="form.OTTName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.OTTName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="CarrierId" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.CarrierId' | translate }}</label>
+            <div class="col-md-7">
+                <input id="CarrierId" name="CarrierId" type="text" class="form-control" dir="auto"
+                       ng-model="service.dcbServiceProfile.CarrierId"
+                       ng-maxlength="50"
+                       ng-required="true"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.CarrierId.$dirty && form.CarrierId.$invalid }"
+                    ng-show="form.CarrierId.$dirty && form.CarrierId.$invalid">
+                    <li class="required" ng-show="form.CarrierId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.CarrierId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="SilentSMSShortCode" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.SilentSMSShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <input id="SilentSMSShortCode" name="SilentSMSShortCode" type="text" class="form-control" dir="auto"
+                       ng-model="service.dcbServiceProfile.SilentSMSShortCode"
+                       ng-maxlength="50"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.SilentSMSShortCode.$dirty && form.SilentSMSShortCode.$invalid }"
+                    ng-show="form.SilentSMSShortCode.$dirty && form.SilentSMSShortCode.$invalid">
+                    <li class="required" ng-show="form.SilentSMSShortCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Currency" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.Currency' | translate }}</label>
+            <div class="col-md-4">
+                <select id="Currency" name="Currency" class="form-control"
+                        ng-model="service.dcbServiceProfile.Currency"
+                        ng-required="true"
+                        ng-options="serviceCurrency as serviceCurrency for serviceCurrency in SERVICE_CURRENCIES"
+                        ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.Currency.$dirty && form.Currency.$invalid }"
+                    ng-show="form.Currency.$dirty && form.Currency.$invalid">
+                    <li class="required" ng-show="form.Currency.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="AssociationAPIURL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.AssociationAPIURL' | translate }}</label>
+            <div class="col-md-7">
+                <input id="AssociationAPIURL" name="AssociationAPIURL" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                       ng-model="service.dcbServiceProfile.AssociationAPIURL"
+                       ng-maxlength="250" maxlength="250"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.AssociationAPIURL.$dirty && form.AssociationAPIURL.$invalid }"
+                    ng-show="form.AssociationAPIURL.$dirty && form.AssociationAPIURL.$invalid">
+                    <li class="required" ng-show="form.AssociationAPIURL.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                    <li class="required" ng-show="form.AssociationAPIURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="DeassociationAPIURL" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.DeassociationAPIURL' | translate }}</label>
+            <div class="col-md-7">
+                <input id="DeassociationAPIURL" name="DeassociationAPIURL" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                       ng-model="service.dcbServiceProfile.DeassociationAPIURL"
+                       ng-maxlength="250" maxlength="250"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.DeassociationAPIURL.$dirty && form.DeassociationAPIURL.$invalid }"
+                    ng-show="form.DeassociationAPIURL.$dirty && form.DeassociationAPIURL.$invalid">
+                    <li class="required" ng-show="form.DeassociationAPIURL.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                    <li class="required" ng-show="form.DeassociationAPIURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ClientAPIUsername" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.ClientAPIUsername' | translate }}</label>
+            <div class="col-md-5">
+                <input id="ClientAPIUsername"name="ClientAPIUsername" type="text" class="form-control"
+                       ng-model="service.dcbServiceProfile.ClientAPIUsername"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                <ul ng-class="{ 'parsley-error-list': form.ClientAPIUsername.$dirty && form.ClientAPIUsername.$invalid }"
+                    ng-show="form.ClientAPIUsername.$dirty && form.ClientAPIUsername.$invalid">
+                    <li class="required" ng-show="form.ClientAPIUsername.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ClientAPIPassword" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.ClientAPIPassword' | translate }}</label>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <input id="dummyClientAPIPassword" name="dummyClientAPIPassword" type="password" style="display:none;width:0;height:0"/>
+                    <input id="ClientAPIPassword" name="ClientAPIPassword" type="{{showClientAPIPassword ? 'text' : 'password'}}" class="form-control"
+                           ng-model="service.dcbServiceProfile.ClientAPIPassword"
+                           ng-maxlength="50" maxlength="50"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <div class="input-group-btn" ng-init="showClientAPIPassword = false;">
+                        <button class="btn btn-default" ng-click="showClientAPIPassword = !showClientAPIPassword" type="button">{{ (showClientAPIPassword ? 'CommonLabels.Hide' : 'CommonLabels.Show') | translate }}</button>
+                    </div>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.ClientAPIPassword.$dirty && form.ClientAPIPassword.$invalid }"
+                    ng-show="form.ClientAPIPassword.$dirty && form.ClientAPIPassword.$invalid">
+                    <li class="required" ng-show="form.ClientAPIPassword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.BlockDCBEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{service.dcbServiceProfile.BlockDCBEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-model="service.dcbServiceProfile.BlockDCBEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!service.dcbServiceProfile.BlockDCBEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-model="service.dcbServiceProfile.BlockDCBEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceProfile.IsCapped' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{service.dcbServiceProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-model="service.dcbServiceProfile.IsCapped" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!service.dcbServiceProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-model="service.dcbServiceProfile.IsCapped" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="service.dcbServiceProfile.IsCapped">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBCappingRuleProfiles.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div ng-if="service.dcbServiceProfile.IsCapped">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPrepaidCappingRuleProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="service.dcbPrepaidCappingRuleProfileList.length" class="row col-md-9">
+                        <div ng-repeat="dcbPrepaidCappingRuleProfile in service.dcbPrepaidCappingRuleProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getDcbPrepaidCappingRuleProfileString(dcbPrepaidCappingRuleProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getDcbPrepaidCappingRuleProfileString(dcbPrepaidCappingRuleProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editDCBPrepaidCappingRuleProfile(service, dcbPrepaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeDCBPrepaidCappingRuleProfile(service, dcbPrepaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-class="{ 'pull-right': service.dcbPrepaidCappingRuleProfileList.length > 0, 'ng-invalid-required': !service.dcbPrepaidCappingRuleProfileList || service.dcbPrepaidCappingRuleProfileList.length === 0 }"
+                            ng-click="addDCBPrepaidCappingRuleProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <div style="clear: both;">
+                        <input name="dcbPrepaidCappingRuleProfileListLength" type="number" class="form-control"
+                               ng-model="service.dcbPrepaidCappingRuleProfileList.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': service.dcbPrepaidCappingRuleProfileList.length === 0 }"
+                            ng-show="service.dcbPrepaidCappingRuleProfileList.length === 0">
+                            <li class="required" ng-show="form.dcbPrepaidCappingRuleProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="service.dcbPostpaidCappingRuleProfileList.length" class="row col-md-9">
+                        <div ng-repeat="dcbPostpaidCappingRuleProfile in service.dcbPostpaidCappingRuleProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getDcbPostpaidCappingRuleProfileString(dcbPostpaidCappingRuleProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getDcbPostpaidCappingRuleProfileString(dcbPostpaidCappingRuleProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editDCBPostpaidCappingRuleProfile(service, dcbPostpaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeDCBPostpaidCappingRuleProfile(service, dcbPostpaidCappingRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-class="{ 'pull-right': service.dcbPostpaidCappingRuleProfileList.length > 0, 'ng-invalid-required': !service.dcbPostpaidCappingRuleProfileList || service.dcbPostpaidCappingRuleProfileList.length === 0 }"
+                            ng-click="addDCBPostpaidCappingRuleProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <div style="clear: both;">
+                        <input name="dcbPostpaidCappingRuleProfileListLength" type="number" class="form-control"
+                               ng-model="service.dcbPostpaidCappingRuleProfileList.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': service.dcbPostpaidCappingRuleProfileList.length === 0 }"
+                            ng-show="service.dcbPostpaidCappingRuleProfileList.length === 0">
+                            <li class="required" ng-show="form.dcbPostpaidCappingRuleProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDisputeRuleProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="service.dcbServiceDisputeRuleProfileList.length" class="row col-md-9">
+                        <div ng-repeat="dcbServiceDisputeRuleProfile in service.dcbServiceDisputeRuleProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getDcbServiceDisputeRuleProfileString(dcbServiceDisputeRuleProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getDcbServiceDisputeRuleProfileString(dcbServiceDisputeRuleProfile) }}
+                            </span>&nbsp;
+                            <a ng-click="editDCBServiceDisputeRuleProfile(service, dcbServiceDisputeRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeDCBServiceDisputeRuleProfile(service, dcbServiceDisputeRuleProfile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                            ng-class="{ 'pull-right': service.dcbServiceDisputeRuleProfileList.length > 0, 'ng-invalid-required': !service.dcbServiceDisputeRuleProfileList || service.dcbServiceDisputeRuleProfileList.length === 0 }"
+                            ng-click="addDCBServiceDisputeRuleProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <div style="clear: both;">
+                        <input name="dcbServiceDisputeRuleProfileListLength" type="number" class="form-control"
+                               ng-model="service.dcbServiceDisputeRuleProfileList.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': service.dcbServiceDisputeRuleProfileList.length === 0 }"
+                            ng-show="service.dcbServiceDisputeRuleProfileList.length === 0">
+                            <li class="required" ng-show="form.dcbServiceDisputeRuleProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.UseHeaderEnrichment' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceActivationProfile.UseHeaderEnrichment?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseHeaderEnrichment" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceActivationProfile.UseHeaderEnrichment?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseHeaderEnrichment" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.UseSilentSMS' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceActivationProfile.UseSilentSMS?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseSilentSMS" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceActivationProfile.UseSilentSMS?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseSilentSMS" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.UseOTTOTP' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceActivationProfile.UseOTTOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseOTTOTP" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceActivationProfile.UseOTTOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseOTTOTP" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.UseOperatorOTP' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceActivationProfile.UseOperatorOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseOperatorOTP" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceActivationProfile.UseOperatorOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceActivationProfile.UseOperatorOTP" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SubscriberIDatOperator" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.SubscriberIDatOperator' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="SubscriberIDatOperator" name="SubscriberIDatOperator" class="form-control"
+                            ng-model="service.dcbServiceActivationProfile.SubscriberIDatOperator"
+                            ng-options="serviceSubscriberIDatOperator as serviceSubscriberIDatOperator for serviceSubscriberIDatOperator in SERVICE_DCB_SUBSCRIBER_IDS_AT_OPERATOR"
+                            ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="SubscriberIDatOTT" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceActivationProfile.SubscriberIDatOTT' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="SubscriberIDatOTT" name="SubscriberIDatOTT" type="text" class="form-control" dir="auto"
+                           ng-model="service.dcbServiceActivationProfile.SubscriberIDatOTT"
+                           ng-required="true" ng-maxlength="255"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.SubscriberIDatOTT.$dirty && form.SubscriberIDatOTT.$invalid }"
+                        ng-show="form.SubscriberIDatOTT.$dirty && form.SubscriberIDatOTT.$invalid">
+                        <li class="required" ng-show="form.SubscriberIDatOTT.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Post2Pre' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.Post2Pre?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Post2Pre" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.Post2Pre?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Post2Pre" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Pre2Post' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.Pre2Post?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Pre2Post" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.Pre2Post?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Pre2Post" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Post2Post' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.Post2Post?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Post2Post" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.Post2Post?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Post2Post" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Pre2Pre' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.Pre2Pre?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Pre2Pre" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.Pre2Pre?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Pre2Pre" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.TOO' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.TOO?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.TOO" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.TOO?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.TOO" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.NumberSwap' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.NumberSwap?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.NumberSwap" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.NumberSwap?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.NumberSwap" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.SIMSwap' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.SIMSwap?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.SIMSwap" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.SIMSwap?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.SIMSwap" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Barred' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.Barred?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Barred" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.Barred?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Barred" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.Unbarred' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.Unbarred?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Unbarred" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.Unbarred?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.Unbarred" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.CreditSegmentUpdate' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.CreditSegmentUpdate?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.CreditSegmentUpdate" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.CreditSegmentUpdate?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.CreditSegmentUpdate" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceDeactivationProfile.PackageUpdate' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceDeactivationProfile.PackageUpdate?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.PackageUpdate" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceDeactivationProfile.PackageUpdate?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceDeactivationProfile.PackageUpdate" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowedCreditSegments' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn btn-sm ng-dirty {{dummyAllowedCreditSegments[$index] ? 'btn-primary active' : 'btn-default'}}"
+                                ng-class="{ 'ng-invalid-required': ($index === 0 && (!service.dcbServiceEligibilityProfile.allowedCreditSegments || service.dcbServiceEligibilityProfile.allowedCreditSegments.length === 0)) }"
+                                ng-repeat="creditSegment in SERVICE_DCB_POSTPAID_CREDIT_SEGMENTS"
+                                ng-model="dummyAllowedCreditSegments[$index]"
+                                ng-click="toggleAllowedCreditSegment(creditSegment, dummyAllowedCreditSegments[$index])"
+                                ng-change="form.allowedCreditSegmentsLength.$setDirty()"
+                                uib-btn-checkbox
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">{{ creditSegment }}</button>
+                    </div>
+                    <div style="clear: both;">
+                        <input name="allowedCreditSegmentsLength" type="number" class="form-control"
+                               ng-value="dummyAllowedCreditSegmentLength"
+                               ng-model="service.dcbServiceEligibilityProfile.allowedCreditSegments.length"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': form.allowedCreditSegmentsLength.$dirty && service.dcbServiceEligibilityProfile.allowedCreditSegments.length === 0 }"
+                            ng-show="form.allowedCreditSegmentsLength.$dirty && service.dcbServiceEligibilityProfile.allowedCreditSegments.length === 0">
+                            <li class="required" ng-show="form.allowedCreditSegmentsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowBusiness' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceEligibilityProfile.allowBusiness?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowBusiness" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceEligibilityProfile.allowBusiness?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowBusiness" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowConsumer' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceEligibilityProfile.allowConsumer?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowConsumer" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceEligibilityProfile.allowConsumer?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowConsumer" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowPrepaid' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceEligibilityProfile.allowPrepaid?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowPrepaid" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceEligibilityProfile.allowPrepaid?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowPrepaid" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowPostpaid' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceEligibilityProfile.allowPostpaid?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowPostpaid" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceEligibilityProfile.allowPostpaid?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowPostpaid" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowData' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceEligibilityProfile.allowData?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowData" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceEligibilityProfile.allowData?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowData" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceEligibilityProfile.AllowVoice' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{service.dcbServiceEligibilityProfile.allowVoice?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowVoice" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!service.dcbServiceEligibilityProfile.allowVoice?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                ng-model="service.dcbServiceEligibilityProfile.allowVoice" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceCDRProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="ServiceTypeForContentPurchase" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceCDRProfile.ServiceTypeForContentPurchase' | translate }}</label>
+                <div class="col-md-4">
+                    <input name="ServiceTypeForContentPurchase" id="ServiceTypeForContentPurchase" type="number" class="form-control"
+                           ng-model="service.dcbServiceCDRProfile.ServiceTypeForContentPurchase"
+                           ng-min="0" ng-max="999999"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ServiceTypeForContentPurchase.$dirty && form.ServiceTypeForContentPurchase.$invalid }"
+                        ng-show="form.ServiceTypeForContentPurchase.$dirty && form.ServiceTypeForContentPurchase.$invalid">
+                        <li class="required" ng-show="form.ServiceTypeForContentPurchase.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.ServiceTypeForContentPurchase.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                        <li class="required" ng-show="form.ServiceTypeForContentPurchase.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ServiceTypeForApplicationPurchase" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceCDRProfile.ServiceTypeForApplicationPurchase' | translate }}</label>
+                <div class="col-md-4">
+                    <input name="ServiceTypeForApplicationPurchase" id="ServiceTypeForApplicationPurchase" type="number" class="form-control"
+                           ng-model="service.dcbServiceCDRProfile.ServiceTypeForApplicationPurchase"
+                           ng-min="0" ng-max="999999"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ServiceTypeForApplicationPurchase.$dirty && form.ServiceTypeForApplicationPurchase.$invalid }"
+                        ng-show="form.ServiceTypeForApplicationPurchase.$dirty && form.ServiceTypeForApplicationPurchase.$invalid">
+                        <li class="required" ng-show="form.ServiceTypeForApplicationPurchase.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.ServiceTypeForApplicationPurchase.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                        <li class="required" ng-show="form.ServiceTypeForApplicationPurchase.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ServiceTypeForOtherPurchase" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBServiceCDRProfile.ServiceTypeForOtherPurchase' | translate }}</label>
+                <div class="col-md-4">
+                    <input name="ServiceTypeForOtherPurchase" id="ServiceTypeForOtherPurchase" type="number" class="form-control"
+                           ng-model="service.dcbServiceCDRProfile.ServiceTypeForOtherPurchase"
+                           ng-min="0" ng-max="999999"
+                           ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                    <ul ng-class="{ 'parsley-error-list': form.ServiceTypeForOtherPurchase.$dirty && form.ServiceTypeForOtherPurchase.$invalid }"
+                        ng-show="form.ServiceTypeForOtherPurchase.$dirty && form.ServiceTypeForOtherPurchase.$invalid">
+                        <li class="required" ng-show="form.ServiceTypeForOtherPurchase.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.ServiceTypeForOtherPurchase.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                        <li class="required" ng-show="form.ServiceTypeForOtherPurchase.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) || isNotChanged()"
+                        ng-click="save(service);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default"
+                        ui-sref="{{ $state.current.data.backState }}">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

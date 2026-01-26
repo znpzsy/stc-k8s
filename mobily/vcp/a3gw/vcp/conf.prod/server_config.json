@@ -1,0 +1,89 @@
+{
+  "servicesBase": "/vcp/services",
+  "logLevel": "error",
+  "proxy": {
+    "servicesHttpHost": "0.0.0.0",
+    "servicesHttpPort": "8444"
+  },
+  "auth": {
+    "authorizationHeaderKey": "Bearer",
+    "tokenName": "token",
+    "refreshTokenName": "refreshToken"
+  },
+  "rateLimit": {
+    "enabled": true,
+    "expiration": 900,
+    "max": 1000
+  },
+  "applications": [
+    {
+      "resourceName": "VCP Admin Portal",
+      "path": "/adminportal",
+      "targetHost": "http://vcpadminportal:8080",
+      "pathRewrite": {
+        "^/adminportal": "/adminportal"
+      }
+    },
+    {
+      "resourceName": "VCP Customer Care Portal",
+      "path": "/ccportal",
+      "targetHost": "http://vcpccportal:8081",
+      "pathRewrite": {
+        "^/ccportal": "/ccportal"
+      }
+    },
+    {
+      "path": "/conf",
+      "targetHost": "http://127.0.0.1:8085",
+      "pathRewrite": {
+        "^/conf": "/"
+      }
+    },
+    {
+      "path": "/site.json",
+      "targetHost": "http://127.0.0.1:8086",
+      "pathRewrite": {
+        "^/site.json": "/site.json"
+      }
+    }
+  ],
+  "filter": {
+    "allowedOrigins": [
+      "127.0.0.1"
+    ],
+    "allowedExts": [
+      "css",
+      "js",
+      "map",
+      "ttf",
+      "woff",
+      "woff2",
+      "svg",
+      "eot",
+      [
+        "jpg",
+        "jpeg",
+        "bmp",
+        "gif",
+        "png",
+        "ico"
+      ]
+    ],
+    "allowedFiles": [
+      "app.html",
+      "index.html",
+      "site.json"
+    ],
+    "allowedDirectories": [
+      "/public",
+      "/login",
+      "/partials",
+      "/i18n"
+    ],
+    "allowedPathes": [
+      "/pentaho/getImage"
+    ],
+    "allowedRestServices": [
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Test.Title' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="shortCode" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.ShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <input id="shortCode" name="shortCode" type="text" class="form-control"
+                       ng-model="shortCodeTest.shortCode"
+                       ng-required="true" ng-maxlength="50" maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.shortCode.$dirty && form.shortCode.$invalid }"
+                    ng-show="form.shortCode.$dirty && form.shortCode.$invalid">
+                    <li class="required" ng-show="form.shortCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.shortCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="keyword" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Keyword' | translate}}</label>
+            <div class="col-md-7">
+                <input id="keyword" name="keyword" type="text" class="form-control"
+                       ng-model="shortCodeTest.keyword"
+                       ng-required="true" ng-maxlength="100" maxlength="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.keyword.$dirty && form.keyword.$invalid }"
+                    ng-show="form.keyword.$dirty && form.keyword.$invalid">
+                    <li class="required" ng-show="form.keyword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.keyword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="button" class="btn btn-tertiary"
+                        ng-disabled="form.$invalid"
+                        ng-click="runTest(shortCodeTest);">
+                    {{ 'CommonLabels.TestDrive' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="portlet portlet-default" ng-if="testResult">
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'CommonLabels.TestResult' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+            <table class="table keyvalue-table">
+                <tbody>
+                <tr>
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'CommonLabels.Matched' | translate }}</td>
+                    <td class="kv-value">{{ testResult.matched | YesNoFilter }}&nbsp;</td>
+                </tr>
+                <tr ng-if="testResult.matched && testResult.subscriptionScenario">
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Offer' | translate }}</td>
+                    <td class="kv-value">{{ testResult.subscriptionScenario.name }}&nbsp;</td>
+                </tr>
+                <tr ng-if="testResult.matched && testResult.customScenario">
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Scenario' | translate }}</td>
+                    <td class="kv-value">{{ testResult.customScenario.name }}&nbsp;</td>
+                </tr>
+                <tr ng-if="testResult.matched && testResult.customScenario">
+                    <td class="kv-key"><i class="fa fa-angle-right kv-icon kv-icon-default"></i> {{ 'Subsystems.SubscriptionManagement.Operations.ShortCodes.Fields.Description' | translate }}</td>
+                    <td class="kv-value">{{ testResult.customScenario.description }}&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

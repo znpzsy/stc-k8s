@@ -1,0 +1,144 @@
+<div class="portlet-body buttons-portlet-body" ng-show="activityHistory.showTable">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-5">
+            <div class="pull-left">
+                <div class="btn-group">
+                    <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 10}"
+                            ng-click="activityHistory.tableParams.count(10)" class="btn btn-sm btn-default">10
+                    </button>
+                    <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 25}"
+                            ng-click="activityHistory.tableParams.count(25)" class="btn btn-sm btn-default">25
+                    </button>
+                    <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 50}"
+                            ng-click="activityHistory.tableParams.count(50)" class="btn btn-sm btn-default">50
+                    </button>
+                    <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 100}"
+                            ng-click="activityHistory.tableParams.count(100)" class="btn btn-sm btn-default">100
+                    </button>
+                    <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 250}"
+                            ng-click="activityHistory.tableParams.count(250)" class="btn btn-sm btn-default">250
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="activityHistory.tableParams.total() > 0">
+                    <button type="button" ng-click="exportRecords('csv')" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="exportRecords('xls')" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['origAddress', 'destAddress'])"
+                       uib-tooltip="{{ 'CommonLabels.SearchByMsisdn' | translate }}" tooltip-placement="left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                       placeholder="{{ 'CommonLabels.SearchBy' | translate }} ...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body" ng-show="activityHistory.showTable">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="activityHistory.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <thead>
+                    <tr>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.Date' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('date', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('date', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'date': activityHistory.tableParams.isSortBy('date', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.Date' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.OrigAddress' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('origAddress', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('origAddress', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'origAddress': activityHistory.tableParams.isSortBy('origAddress', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.OrigAddress' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.DestAddress' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('destAddress', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('destAddress', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'destAddress': activityHistory.tableParams.isSortBy('destAddress', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.DestAddress' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.OrigAgent' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('origAgentName', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('origAgentName', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'origAgentName': activityHistory.tableParams.isSortBy('origAgentName', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.OrigAgent' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.DestAgent' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('destAgentName', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('destAgentName', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'destAgentName': activityHistory.tableParams.isSortBy('destAgentName', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.DestAgent' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.CdrType' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('cdrType', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('cdrType', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'cdrType': activityHistory.tableParams.isSortBy('cdrType', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.CdrType' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumnsTooltips.Result' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('result', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('result', 'desc') }"
+                            ng-click="activityHistory.tableParams.sorting({'result': activityHistory.tableParams.isSortBy('result', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'PartnerInfo.MessagingHistory.Troubleshooting.TableColumns.Result' | translate }}</div>
+                        </th>
+                        <th>
+                            <div>{{ 'CommonLabels.Actions' | translate }}</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': item._source.rowSelected, 'text-danger': (item._source.result > 0) }">
+                        <td align="center">{{item._source.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                        <td align="center">{{item._source.origAddress}}</td>
+                        <td align="center">{{item._source.destAddress}}</td>
+                        <td align="center">{{item._source.origAgentName}} [{{item._source.origAgentId}}]</td>
+                        <td align="center">{{item._source.destAgentName}} [{{item._source.destAgentId}}]</td>
+                        <td align="left">{{item._source.cdrTypeText}}</td>
+                        <td align="center"
+                            uib-popover-html="'{{ item._source.reasonText }}'" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            {{item._source.result | GeneralEDRResultFilter}}
+                        </td>
+                        <td align="center">
+                            <div class="btn-group dropdown" uib-dropdown dropdown-append-to-body="true" is-open="status.isopen">
+                                <button id="single-button" type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">
+                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="showDetails(item._source)">
+                                            <i class="fa fa-bars"></i>&nbsp;&nbsp;{{ 'CommonLabels.Details' | translate }}
+                                        </a>
+                                    </li>
+                                    <li role="menuitem" ng-if="item._source.drRequested">
+                                        <a href="javascript:;" ng-click="showMessageDeliveryReport(item._source)">
+                                            <i class="fa fa-envelope-o"></i>&nbsp;&nbsp;{{ 'CommonLabels.ShowMessageDeliveryReport' | translate }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="8" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

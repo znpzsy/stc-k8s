@@ -1,0 +1,234 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.ModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="RuleOrder" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.RuleOrder' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="RuleOrder" name="RuleOrder" type="number" class="form-control"
+                               ng-model="dcbPostpaidCappingRuleProfile.RuleOrder"
+                               ng-required="true"
+                               min="1" max="9999"
+                               ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                        <ul ng-class="{ 'parsley-error-list': form.RuleOrder.$dirty && form.RuleOrder.$invalid }" ng-show="form.RuleOrder.$dirty && form.RuleOrder.$invalid">
+                            <li class="required" ng-show="form.RuleOrder.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                            <li class="required" ng-show="form.RuleOrder.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 9999} }}</li>
+                            <li class="required" ng-show="form.RuleOrder.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.RuleOrder.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.RuleOrder.$error.availabilityCheck">{{ 'Subsystems.Provisioning.Services.Messages.RuleOrderIsAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="RuleType" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.RuleType' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="RuleType" name="RuleType" class="form-control parsley-validated"
+                                ng-model="dcbPostpaidCappingRuleProfile.RuleType"
+                                ng-required="true"
+                                ng-options="serviceRuleType as serviceRuleType for serviceRuleType in SERVICE_DCB_POSTPAID_CAPPING_RULE_TYPES"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.RuleType.$dirty && form.RuleType.$invalid }"
+                            ng-show="form.RuleType.$dirty && form.RuleType.$invalid">
+                            <li class="required" ng-show="form.RuleType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.CreditSegments' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn btn-sm ng-dirty {{dummyCreditSegments[$index] ? 'btn-primary active' : 'btn-default'}}"
+                                    ng-class="{ 'ng-invalid-required': ($index === 0 && (!dcbPostpaidCappingRuleProfile.CreditSegments || dcbPostpaidCappingRuleProfile.CreditSegments.length === 0)) }"
+                                    ng-repeat="creditSegment in SERVICE_DCB_POSTPAID_CREDIT_SEGMENTS"
+                                    ng-model="dummyCreditSegments[$index]"
+                                    ng-click="toggleCreditSegment(creditSegment, dummyCreditSegments[$index])"
+                                    ng-change="form.CreditSegmentsLength.$setDirty()"
+                                    uib-btn-checkbox
+                                    ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">{{ creditSegment }}</button>
+                        </div>
+                        <div style="clear: both;">
+                            <input name="CreditSegmentsLength" type="number" class="form-control"
+                                   ng-value="dummyAllowedCreditSegmentLength"
+                                   ng-model="dcbPostpaidCappingRuleProfile.CreditSegments.length"
+                                   ng-min="1" ng-required="true"
+                                   ng-show="false"/>
+                            <ul ng-class="{ 'parsley-error-list': form.CreditSegmentsLength.$dirty && dcbPostpaidCappingRuleProfile.CreditSegments.length === 0 }"
+                                ng-show="form.CreditSegmentsLength.$dirty && dcbPostpaidCappingRuleProfile.CreditSegments.length === 0">
+                                <li class="required" ng-show="form.CreditSegmentsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="CappingPolicy" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.CappingPolicy' | translate }}</label>
+                    <div class="col-md-7">
+                        <select id="CappingPolicy" name="CappingPolicy" class="form-control parsley-validated"
+                                ng-model="dcbPostpaidCappingRuleProfile.CappingPolicy"
+                                ng-required="true"
+                                ng-options="serviceCappingPolicy as serviceCappingPolicy for serviceCappingPolicy in SERVICE_DCB_POSTPAID_CAPPING_POLICIES"
+                                ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.CappingPolicy.$dirty && form.CappingPolicy.$invalid }"
+                            ng-show="form.CappingPolicy.$dirty && form.CappingPolicy.$invalid">
+                            <li class="required" ng-show="form.CappingPolicy.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="dcbPostpaidCappingRuleProfile.CappingPolicy === 'FIXED_AMOUNT'">
+                    <label for="FixedCappingLimit" class="col-md-3">
+                        {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.FixedCappingLimit' | translate }}&nbsp;
+                        {{ service.dcbServiceProfile.Currency ? '(' + service.dcbServiceProfile.Currency + ')' : '' }}
+                    </label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        uib-btn-checkbox
+                                        ng-model="dcbPostpaidCappingRuleProfile.isUnlimited"
+                                        ng-change="dcbPostpaidCappingRuleProfile.FixedCappingLimit = null"
+                                        ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                                    <i class="fa fa-check-square-o"aria-hidden="true" ng-if="dcbPostpaidCappingRuleProfile.isUnlimited" style="width: 12px;"></i>
+                                    <i class="fa fa-square-o" aria-hidden="true" ng-if="!dcbPostpaidCappingRuleProfile.isUnlimited" style="width: 12px;"></i>
+                                    {{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.Unlimited' | translate }}
+                                </button>
+                            </span>
+                            <input id="FixedCappingLimit" name="FixedCappingLimit" type="number" class="form-control" style="z-index: 4;"
+                                   ng-if="!dcbPostpaidCappingRuleProfile.isUnlimited"
+                                   ng-model="dcbPostpaidCappingRuleProfile.FixedCappingLimit"
+                                   ng-pattern="$root.Validators.DecimalNumber"
+                                   ng-required="true"
+                                   min="0" max="9999999"
+                                   ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                            <input id="FixedCappingLimit" name="FixedCappingLimit" type="number" class="form-control"
+                                   ng-if="dcbPostpaidCappingRuleProfile.isUnlimited"
+                                   ng-required="true" ng-disabled="true"/>
+                        </div>
+                        <ul ng-if="!dcbPostpaidCappingRuleProfile.isUnlimited"
+                            ng-class="{ 'parsley-error-list': form.FixedCappingLimit.$dirty && form.FixedCappingLimit.$invalid }"
+                            ng-show="form.FixedCappingLimit.$dirty && form.FixedCappingLimit.$invalid">
+                            <li class="required" ng-show="form.FixedCappingLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.FixedCappingLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 9999999} }}</li>
+                            <li class="required" ng-show="form.FixedCappingLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.FixedCappingLimit.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.FixedCappingLimit.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="dcbPostpaidCappingRuleProfile.CappingPolicy === 'PERCENTAGE_OF_CREDIT_LIMIT'">
+                    <label for="CreditLimitPercentage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.CreditLimitPercentage' | translate }} (%)</label>
+                    <div class="col-md-7">
+                        <input id="CreditLimitPercentage" name="CreditLimitPercentage" type="number" class="form-control"
+                               ng-model="dcbPostpaidCappingRuleProfile.CreditLimitPercentage"
+                               ng-required="true"
+                               min="0" max="100"
+                               ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                        <ul ng-class="{ 'parsley-error-list': form.CreditLimitPercentage.$dirty && form.CreditLimitPercentage.$invalid }"
+                            ng-show="form.CreditLimitPercentage.$dirty && form.CreditLimitPercentage.$invalid" style="z-index: 9999;">
+                            <li class="required" ng-show="form.CreditLimitPercentage.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                            <li class="required" ng-show="form.CreditLimitPercentage.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 100} }}</li>
+                            <li class="required" ng-show="form.CreditLimitPercentage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.CreditLimitPercentage.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="dcbPostpaidCappingRuleProfile.CappingPolicy === 'PERCENTAGE_OF_BALANCE'">
+                    <label for="BalancePercentage" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.BalancePercentage' | translate }} (%)</label>
+                    <div class="col-md-7">
+                        <input id="BalancePercentage" name="BalancePercentage" type="number" class="form-control"
+                               ng-model="dcbPostpaidCappingRuleProfile.BalancePercentage"
+                               ng-required="true"
+                               min="0" max="100"
+                               ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)">
+                        <ul ng-class="{ 'parsley-error-list': form.BalancePercentage.$dirty && form.BalancePercentage.$invalid }"
+                            ng-show="form.BalancePercentage.$dirty && form.BalancePercentage.$invalid" style="z-index: 9999;">
+                            <li class="required" ng-show="form.BalancePercentage.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                            <li class="required" ng-show="form.BalancePercentage.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 100} }}</li>
+                            <li class="required" ng-show="form.BalancePercentage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.BalancePercentage.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.TenureBased' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{dcbPostpaidCappingRuleProfile.TenureBased?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                    ng-model="dcbPostpaidCappingRuleProfile.TenureBased" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!dcbPostpaidCappingRuleProfile.TenureBased?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"
+                                    ng-model="dcbPostpaidCappingRuleProfile.TenureBased" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="dcbPostpaidCappingRuleProfile.TenureBased">
+                    <div class="form-group">
+                        <label for="TenureRangeStart" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.TenureRangeStart' | translate }}</label>
+                        <div class="col-md-4">
+                            <input id="TenureRangeStart" name="TenureRangeStart" type="number" class="form-control"
+                                   ng-model="dcbPostpaidCappingRuleProfile.TenureRangeStart"
+                                   min="0" max="{{dcbPostpaidCappingRuleProfile.TenureRangeEnd}}"
+                                   ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                            <ul ng-class="{ 'parsley-error-list': form.TenureRangeStart.$dirty && form.TenureRangeStart.$invalid }"
+                                ng-show="form.TenureRangeStart.$dirty && form.TenureRangeStart.$invalid">
+                                <li class="required" ng-show="form.TenureRangeStart.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                                <li class="required" ng-show="form.TenureRangeStart.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: dcbPostpaidCappingRuleProfile.TenureRangeEnd} }}</li>
+                                <li class="required" ng-show="form.TenureRangeStart.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TenureRangeEnd" class="col-md-3">{{ 'Subsystems.Provisioning.Services.DCBSettings.DCBPostpaidCappingRuleProfile.TenureRangeEnd' | translate }}</label>
+                        <div class="col-md-4">
+                            <input id="TenureRangeEnd" name="TenureRangeEnd" type="number" class="form-control"
+                                   ng-model="dcbPostpaidCappingRuleProfile.TenureRangeEnd"
+                                   min="{{dcbPostpaidCappingRuleProfile.TenureRangeStart}}" max="9999"
+                                   ng-disabled="!AuthorizationService.canCmpfOperationsServiceUpdate(service.state)"/>
+                            <ul ng-class="{ 'parsley-error-list': form.TenureRangeEnd.$dirty && form.TenureRangeEnd.$invalid }"
+                                ng-show="form.TenureRangeEnd.$dirty && form.TenureRangeEnd.$invalid">
+                                <li class="required" ng-show="form.TenureRangeEnd.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: dcbPostpaidCappingRuleProfile.TenureRangeStart} }}</li>
+                                <li class="required" ng-show="form.TenureRangeEnd.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 9999} }}</li>
+                                <li class="required" ng-show="form.TenureRangeEnd.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canCmpfOperationsServiceUpdate(service.state) || isNotChanged()"
+                                ng-click="save(dcbPostpaidCappingRuleProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

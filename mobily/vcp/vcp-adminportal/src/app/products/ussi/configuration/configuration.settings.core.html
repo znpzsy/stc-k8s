@@ -1,0 +1,122 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.USSI.Configuration.Core.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USSI.Configuration.Core.MapTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input id="mapTimeout" name="mapTimeout" type="number" class="form-control"
+                       ng-model="ussiCoreConfig.mapTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.mapTimeout.$dirty && form.mapTimeout.$invalid }"
+                    ng-show="form.mapTimeout.$dirty && form.mapTimeout.$invalid">
+                    <li class="required" ng-show="form.mapTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.mapTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.mapTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USSI.Configuration.Core.SipTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input id="sipTimeout" name="sipTimeout" type="number" class="form-control"
+                       ng-model="ussiCoreConfig.sipTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.ussdTimeout.$dirty && form.ussdTimeout.$invalid }"
+                    ng-show="form.sipTimeout.$dirty && form.sipTimeout.$invalid">
+                    <li class="required" ng-show="form.sipTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.sipTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.sipTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USSI.Configuration.Core.ThrottlerAttemptTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input id="throttlerAttemptTimeout" name="throttlerAttemptTimeout" type="number" class="form-control"
+                       ng-model="ussiCoreConfig.throttlerAttemptTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.throttlerAttemptTimeout.$dirty && form.throttlerAttemptTimeout.$invalid }"
+                    ng-show="form.throttlerAttemptTimeout.$dirty && form.throttlerAttemptTimeout.$invalid">
+                    <li class="required" ng-show="form.throttlerAttemptTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.throttlerAttemptTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.throttlerAttemptTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USSI.Configuration.Core.ThrottlerQueueSize' | translate }}</label>
+            <div class="col-md-7">
+                <input id="throttlerQueueSize" name="throttlerQueueSize" type="number" class="form-control"
+                       ng-model="ussiCoreConfig.throttlerQueueSize"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.throttlerQueueSize.$dirty && form.throttlerQueueSize.$invalid }"
+                    ng-show="form.throttlerQueueSize.$dirty && form.throttlerQueueSize.$invalid">
+                    <li class="required" ng-show="form.throttlerQueueSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.throttlerQueueSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.throttlerQueueSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USSI.Configuration.Core.MaxMobileTransactions' | translate }}</label>
+            <div class="col-md-7">
+                <input id="maxMobileInitTransactions" name="maxMobileInitTransactions" type="number" class="form-control"
+                       ng-model="ussiCoreConfig.maxMobileInitTransactions"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxMobileInitTransactions.$dirty && form.maxMobileInitTransactions.$invalid }"
+                    ng-show="form.maxMobileInitTransactions.$dirty && form.maxMobileInitTransactions.$invalid">
+                    <li class="required" ng-show="form.maxMobileInitTransactions.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.maxMobileInitTransactions.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.maxMobileInitTransactions.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USSI.Configuration.Core.MaxNetworkTransactions' | translate }}</label>
+            <div class="col-md-7">
+                <input id="maxNetworkInitTransactions" name="maxNetworkInitTransactions" type="number" class="form-control"
+                       ng-model="ussiCoreConfig.maxNetworkInitTransactions"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxNetworkInitTransactions.$dirty && form.maxNetworkInitTransactions.$invalid }"
+                    ng-show="form.maxNetworkInitTransactions.$dirty && form.maxNetworkInitTransactions.$invalid">
+                    <li class="required" ng-show="form.maxNetworkInitTransactions.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.maxNetworkInitTransactions.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.maxNetworkInitTransactions.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

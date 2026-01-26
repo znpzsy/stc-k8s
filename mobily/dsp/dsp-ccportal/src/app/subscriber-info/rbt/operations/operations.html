@@ -1,0 +1,32 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-3 col-sm-3">
+            <ul class="nav nav-pills nav-stacked">
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.rbt.operations.activedefaulttone') }">
+                    <a ui-sref="subscriber-info.rbt.operations.activedefaulttone" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'SubscriberInfo.RBT.ActiveDefaultTone' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.rbt.operations.specialconditionassignment') }">
+                    <a ui-sref="subscriber-info.rbt.operations.specialconditionassignment" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'SubscriberInfo.RBT.SpecialConditionAssignment' | translate }}
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="col-md-9 col-sm-9">
+            <div class="tab-content stacked-content">
+                <div class="tab-pane fade active in" ui-view>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

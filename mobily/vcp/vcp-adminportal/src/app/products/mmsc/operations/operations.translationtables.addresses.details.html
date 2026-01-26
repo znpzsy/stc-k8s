@@ -1,0 +1,114 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.TranslationTables.PageHeader' | translate }} / {{ $state.current.data.pageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TranslationTables.FormFields.AdressRangeStart.Label' | translate}}</label>
+            <div class="col-md-6">
+                <input name="addressRangeStart" type="text" class="form-control" ng-maxlength="100" maxlength="100" ng-required="true"
+                       ng-model="addressTranslation.addressRangeStart" ng-if="!addressTranslation.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.addressRangeStart.$dirty && form.addressRangeStart.$invalid }" ng-show="form.addressRangeStart.$dirty && form.addressRangeStart.$invalid">
+                    <li class="required" ng-show="form.addressRangeStart.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeStart.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+                <input name="addressRangeStart" type="text" class="form-control" ng-model="addressTranslation.addressRangeStart" ng-if="addressTranslation.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TranslationTables.FormFields.AdressRangeEnd.Label' | translate}}</label>
+            <div class="col-md-6">
+                <input name="addressRangeEnd" type="text" class="form-control" ng-maxlength="100" maxlength="100" ng-required="true"
+                       ng-model="addressTranslation.addressRangeEnd" ng-if="!addressTranslation.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.addressRangeEnd.$dirty && form.addressRangeEnd.$invalid }" ng-show="form.addressRangeEnd.$dirty && form.addressRangeEnd.$invalid">
+                    <li class="required" ng-show="form.addressRangeEnd.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeEnd.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+                <input name="addressRangeEnd" type="text" class="form-control" ng-model="addressTranslation.addressRangeEnd" ng-if="addressTranslation.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TranslationTables.FormFields.DigitsRemoveFromBegin.Label' | translate}}</label>
+            <div class="col-md-3">
+                <input name="digitsRemove" type="number" class="form-control" min="0" max="100" ng-required="true"
+                       ng-model="addressTranslation.digitsRemove"/>
+                <ul ng-class="{ 'parsley-error-list': form.digitsRemove.$dirty && form.digitsRemove.$invalid }" ng-show="form.digitsRemove.$dirty && form.digitsRemove.$invalid">
+                    <li class="required" ng-show="form.digitsRemove.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.digitsRemove.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.digitsRemove.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.digitsRemove.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input name="digitsRemoveFromEnd" type="number" class="form-control" min="0" max="100" ng-required="true"
+                       ng-model="addressTranslation.digitsRemoveFromEnd"/>
+                <ul ng-class="{ 'parsley-error-list': form.digitsRemoveFromEnd.$dirty && form.digitsRemoveFromEnd.$invalid }" ng-show="form.digitsRemoveFromEnd.$dirty && form.digitsRemoveFromEnd.$invalid">
+                    <li class="required" ng-show="form.digitsRemoveFromEnd.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.digitsRemoveFromEnd.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.digitsRemoveFromEnd.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.digitsRemoveFromEnd.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TranslationTables.FormFields.PrefixAdditionStrategy.Label' | translate}}</label>
+            <div class="col-md-6">
+                <select name="prefixAdditionStrategy" class="form-control parsley-validated" ng-model="addressTranslation.prefixAdditionStrategy"
+                        ng-options="prefixAdditionStrategy as prefixAdditionStrategy.key for prefixAdditionStrategy in TRANSLATION_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="addressTranslation.prefixAdditionStrategy.id === 'TRANSLATE_BY_PREFIX' && addressTranslation.prefixAdditionStrategy.id !== 'NO_PREFIX'">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TranslationTables.FormFields.Prefix.Label' | translate}}</label>
+            <div class="col-md-6">
+                <input name="prefix" type="text" class="form-control" ng-maxlength="15" maxlength="15"
+                       ng-model="addressTranslation.translateByPrefix.prefix"
+                       ng-pattern="$root.Validators.Alphanumeric" ng-required="true" required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.prefix.$dirty && form.prefix.$invalid }" ng-show="form.prefix.$dirty && form.prefix.$invalid">
+                    <li class="required" ng-show="form.prefix.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.prefix.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 15} }}</li>
+                    <li class="required" ng-show="form.prefix.$error.pattern">{{ 'CommonMessages.AlphanumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="addressTranslation.prefixAdditionStrategy.id === 'TRANSLATE_BY_SOURCE_ADDRESS' && addressTranslation.prefixAdditionStrategy.id !== 'NO_PREFIX'">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TranslationTables.FormFields.DigitsToAdd.Label' | translate}}</label>
+            <div class="col-md-6">
+                <input name="digitsToAdd" type="number" class="form-control" min="0" ng-maxlength="15"
+                       ng-model="addressTranslation.translateBySourceAddress.digitsToAdd"
+                       ng-required="true" required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.digitsToAdd.$dirty && form.digitsToAdd.$invalid }" ng-show="form.digitsToAdd.$dirty && form.digitsToAdd.$invalid">
+                    <li class="required" ng-show="form.digitsToAdd.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.digitsToAdd.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.digitsToAdd.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 15} }}</li>
+                    <li class="required" ng-show="form.digitsToAdd.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (addressTranslation.id && !AuthorizationService.canUpdate()) || addressTranslationNotChanged()"
+                        ng-click="save(addressTranslation);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

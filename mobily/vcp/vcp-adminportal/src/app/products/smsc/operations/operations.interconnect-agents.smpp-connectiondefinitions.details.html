@@ -1,0 +1,122 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.InterconnectAgents.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.PageHeader' | translate:{agent_name: agentName} }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.Name.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" ng-maxlength="100" maxlength="100" ng-required="true"
+                       ng-model="interconnectSmppAgentConnectionDefinition.name" ng-if="!interconnectSmppAgentConnectionDefinition.id"
+                       list-interconnect-smpp-agents-connection-definition-availability-check/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.name.$error.availabilityCheck">
+                        {{ 'Products.SMSC.Operations.InterconnectAgents.Messages.InterconnectSmppAgentConnectionDefinitionsAlreadyDefinedError' | translate:{name: interconnectSmppAgentConnectionDefinition.name} }}
+                    </li>
+                </ul>
+                <input name="name" type="text" class="form-control" ng-model="interconnectSmppAgentConnectionDefinition.name" ng-if="interconnectSmppAgentConnectionDefinition.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.Direction.Label' | translate}}</label>
+            <div class="col-md-7">
+                <select name="direction" class="form-control parsley-validated" ng-model="interconnectSmppAgentConnectionDefinition.direction"
+                        ng-options="opt for opt in SMPP_APPS_DIRECTIONS">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.State.Label' | translate}}</label>
+            <div class="col-md-7">
+                <select name="status" class="form-control parsley-validated" ng-model="interconnectSmppAgentConnectionDefinition.status" ng-options="opt as (opt.label | translate) for opt in STATUS_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.RemoteIpAddress.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="remoteIpAddress" type="text" class="form-control" ng-maxlength="300" maxlength="300" ng-required="true"
+                       ng-model="interconnectSmppAgentConnectionDefinition.remoteIpAddress"/>
+                <ul ng-class="{ 'parsley-error-list': form.remoteIpAddress.$dirty && form.remoteIpAddress.$invalid }" ng-show="form.remoteIpAddress.$dirty && form.remoteIpAddress.$invalid">
+                    <li class="required" ng-show="form.remoteIpAddress.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.remoteIpAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 300} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.Port.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="port" type="number" class="form-control" min="1" max="65000" ng-required="true"
+                       ng-model="interconnectSmppAgentConnectionDefinition.port"/>
+                <ul ng-class="{ 'parsley-error-list': form.port.$dirty && form.port.$invalid }" ng-show="form.port.$dirty && form.port.$invalid">
+                    <li class="required" ng-show="form.port.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.port.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.port.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 65000} }}</li>
+                    <li class="required" ng-show="form.port.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.SystemId.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="systemId" type="text" class="form-control" ng-maxlength="100" maxlength="100" ng-required="true"
+                       ng-model="interconnectSmppAgentConnectionDefinition.systemId"/>
+                <ul ng-class="{ 'parsley-error-list': form.systemId.$dirty && form.systemId.$invalid }" ng-show="form.systemId.$dirty && form.systemId.$invalid">
+                    <li class="required" ng-show="form.systemId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.systemId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.Password.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="dummyPassword" type="password" style="display:none;width:0;height:0"></input>
+                <input name="password" type="password" class="form-control" ng-maxlength="100" maxlength="100" ng-required="true"
+                       ng-model="interconnectSmppAgentConnectionDefinition.password"/>
+                <ul ng-class="{ 'parsley-error-list': form.password.$dirty && form.password.$invalid }" ng-show="form.password.$dirty && form.password.$invalid">
+                    <li class="required" ng-show="form.password.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.InterconnectAgents.SmppApps.ConnectionDefinitions.FormFields.SystemType.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="systemType" type="text" class="form-control" ng-maxlength="100" maxlength="100"
+                       ng-model="interconnectSmppAgentConnectionDefinition.systemType"/>
+                <ul ng-class="{ 'parsley-error-list': form.systemType.$dirty && form.systemType.$invalid }" ng-show="form.systemType.$dirty && form.systemType.$invalid">
+                    <li class="required" ng-show="form.systemType.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (interconnectSmppAgentConnectionDefinition.id && !AuthorizationService.canUpdate()) || isInterconnectSmppAgentConnectionDefinitionNotChanged()"
+                        ng-click="save(interconnectSmppAgentConnectionDefinition);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,111 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.Diagnostics.CriticalAlarms' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ criticalAlarmCount | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.Diagnostics.MajorAlarms' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ majorAlarmCount | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.Diagnostics.MinorAlarms' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ minorAlarmCount | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.Diagnostics.InfoAlarms' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ infoAlarmCount | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.Diagnostics.PendingSetAlarms' | translate }}</p>
+
+                        <h3 class="row-stat-value"
+                            uib-popover="{{ 'Subsystems.Diagnostics.PendingSetAlarmsVarieties' | translate }}"
+                            popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">
+                            {{ pendingSetAlarmCount['CRITICAL'] | number }} | {{pendingSetAlarmCount['MAJOR'] | number }} | {{ pendingSetAlarmCount['MINOR'] | number }} | {{pendingSetAlarmCount['INFO'] | number }}
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Subsystems.Diagnostics.LicenseViolations' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ licenseViolationsCount | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.Diagnostics.AlarmsByCluster' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="byclusters.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart-cluster" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.Diagnostics.AlarmsByHost' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="byhosts.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart-host" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Subsystems.Diagnostics.AlarmsByModule' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="bymodules.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart-module" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

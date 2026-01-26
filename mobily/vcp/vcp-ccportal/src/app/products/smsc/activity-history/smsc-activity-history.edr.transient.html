@@ -1,0 +1,228 @@
+<div ng-show="smscTransientEdrList.showTable && recordType === 'transient'">
+
+    <div class="portlet-body buttons-portlet-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-5">
+                <div class="pull-left">
+                    <div class="btn-group">
+                        <button type="button" ng-class="{'active': smscTransientEdrList.tableParams.count() == 10}"
+                                ng-click="smscTransientEdrList.tableParams.count(10)" class="btn btn-sm btn-default">10
+                        </button>
+                        <button type="button" ng-class="{'active': smscTransientEdrList.tableParams.count() == 25}"
+                                ng-click="smscTransientEdrList.tableParams.count(25)" class="btn btn-sm btn-default">25
+                        </button>
+                        <button type="button" ng-class="{'active': smscTransientEdrList.tableParams.count() == 50}"
+                                ng-click="smscTransientEdrList.tableParams.count(50)" class="btn btn-sm btn-default">50
+                        </button>
+                        <button type="button" ng-class="{'active': smscTransientEdrList.tableParams.count() == 100}"
+                                ng-click="smscTransientEdrList.tableParams.count(100)" class="btn btn-sm btn-default">100
+                        </button>
+                        <button type="button" ng-class="{'active': smscTransientEdrList.tableParams.count() == 250}"
+                                ng-click="smscTransientEdrList.tableParams.count(250)" class="btn btn-sm btn-default">250
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div class="pull-right">
+                    <div class="btn-group" ng-show="smscTransientEdrList.tableParams.total() > 0">
+                        <button type="button" ng-click="exportTransientEdrs('csv')" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                        <button type="button" ng-click="exportTransientEdrs('xls')" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-4">
+                <form class="mainnav-form">
+                    <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                           ng-model="filterText" ng-change="filterTemporaryTable(filterText)"
+                           placeholder="{{ 'CommonLabels.SearchByAddress' | translate }}...">
+                    <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row ts-top-message-panel">
+            <div class="col-md-6 pull-left">
+                <smsc-activity-history-summarize ng-if="smscTransientEdrList.showTable">
+                </smsc-activity-history-summarize>
+            </div>
+            <div class="col-md-6 pull-right">
+                <a href="javascript:;" class="pull-right text-danger" style="text-decoration: underline;"
+                   ng-if="(smscTransientEdrList.tableParams.total() > 0) && AuthorizationService.canDeleteTroubleshooting()"
+                   ng-click="cancelAllFilteredMessages();">
+                    {{ 'CommonLabels.BulkCancelSending' | translate }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table ng-table="smscTransientEdrList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <thead>
+                        <tr>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.SubmitDate' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('scTimestamp', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('scTimestamp', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'scTimestamp': smscTransientEdrList.tableParams.isSortBy('scTimestamp', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.SubmitDate' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.EventDate' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('date', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('date', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'date': smscTransientEdrList.tableParams.isSortBy('date', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.EventDate' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.OrigAddress' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('origAddress', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('origAddress', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'origAddress': smscTransientEdrList.tableParams.isSortBy('origAddress', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigAddress' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.DestAddress' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('destAddress', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('destAddress', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'destAddress': smscTransientEdrList.tableParams.isSortBy('destAddress', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.DestAddress' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.OrigAgent' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('origAgent', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('origAgent', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'origAgent': smscTransientEdrList.tableParams.isSortBy('origAgent', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigAgent' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.DestAgent' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('destAgent', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('destAgent', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'destAgent': smscTransientEdrList.tableParams.isSortBy('destAgent', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.DestAgent' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.OrigMSC' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('origMsc', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('origMsc', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'origMsc': smscTransientEdrList.tableParams.isSortBy('origMsc', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.OrigMSC' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.DestMSC' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('destMsc', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('destMsc', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'destMsc': smscTransientEdrList.tableParams.isSortBy('destMsc', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.DestMSC' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.CDRType' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('cdrType', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('cdrType', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'cdrType': smscTransientEdrList.tableParams.isSortBy('cdrType', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.CDRType' | translate }}</div>
+                            </th>
+                            <th class="sortable"
+                                uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.Result' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                ng-class="{'sort-asc': smscTransientEdrList.tableParams.isSortBy('result', 'asc'), 'sort-desc': smscTransientEdrList.tableParams.isSortBy('result', 'desc') }"
+                                ng-click="smscTransientEdrList.tableParams.sorting({'result': smscTransientEdrList.tableParams.isSortBy('result', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.Result' | translate }}</div>
+                            </th>
+                            <th uib-popover="{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.ConcatInfo' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.ConcatInfo' | translate }}</div>
+                            </th>
+                            <th uib-popover-html="'{{ 'Products.SMSC.Troubleshooting.TableColumnsTooltips.DCS' | translate }}'" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                <div>{{ 'Products.SMSC.Troubleshooting.TableColumns.DCS' | translate }}</div>
+                            </th>
+                            <th>
+                                <div>{{ 'CommonLabels.Actions' | translate }}</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in $data" class="hidden-link-cell-row"
+                            ng-class="{ 'row-selected': item.rowSelected, 'text-danger': (item.result > 0) }">
+                            <td align="center">{{item.scTimestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                            <td align="center">{{item.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                            <td align="center">{{item.origAddress}}</td>
+                            <td align="center">{{item.destAddress}}</td>
+                            <td align="center">{{item.origAgent}}</td>
+                            <td align="center">{{item.destAgent}}</td>
+                            <td align="center">{{item.origMsc}}</td>
+                            <td align="center">{{item.destMsc}}</td>
+                            <td align="left">{{item.cdrType | SmscEDRTypeFilter}} [{{item.cdrType}}]</td>
+                            <td align="center"
+                                uib-popover-html="'{{ (item.result > 0 ? item.reasonText : '') }}'"
+                                popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                {{item.result | GeneralEDRResultFilter}}
+                            </td>
+                            <td align="center">
+                                {{ item.concatInfo }}
+                                <button ng-click="filterMessageParts(item)"
+                                        ng-disabled="!AuthorizationService.canReadTroubleshooting()"
+                                        ng-if="(item.partTotal > 1) && (!dateFilter.partRef)"
+                                        class="btn btn-xs btn-default"
+                                        title="{{ ('CommonLabels.ShowMessageParts' | translate) }}">
+                                    <i class="fa fa-search-plus"></i>
+                                </button>
+                                <button ng-click="backFromFilterMessageParts()"
+                                        ng-disabled="!AuthorizationService.canReadTroubleshooting()"
+                                        ng-if="(item.partTotal > 1) && (dateFilter.partRef)"
+                                        class="btn btn-xs btn-default"
+                                        title="{{ ('CommonLabels.GoBack' | translate) }}">
+                                    <i class="fa fa-search-minus"></i>
+                                </button>
+                            </td>
+                            <td align="center">{{item.dcs}}</td>
+                            <td align="center">
+                                <div class="btn-group dropdown" uib-dropdown dropdown-append-to-body="true" is-open="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">
+                                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <li role="menuitem">
+                                            <a href="javascript:;" ng-click="showDetails(item)"
+                                               ng-if="AuthorizationService.canReadTroubleshooting()">
+                                                <i class="fa fa-bars"></i>&nbsp;&nbsp;{{ 'CommonLabels.Details' | translate }}
+                                            </a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a href="javascript:;" ng-click="showSmscHistory(item)"
+                                               ng-if="AuthorizationService.canReadTroubleshooting()">
+                                                <i class="fa fa-history"></i>&nbsp;&nbsp;{{ 'CommonLabels.History' | translate }}
+                                            </a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a href="javascript:;" ng-click="showMessageContent(item)"
+                                               ng-if="AuthorizationService.canPeekSMSCTroubleshooting(item.origAgentType, item.destAgentType)">
+                                                <i class="fa fa-file-text-o"></i>&nbsp;&nbsp;{{ 'CommonLabels.ShowMessageContent' | translate }}
+                                            </a>
+                                        </li>
+                                        <li role="separator" class="divider" ng-if="(AuthorizationService.canUpdateTroubleshooting() || AuthorizationService.canDeleteTroubleshooting()) && !item.inProgress"></li>
+                                        <li role="menuitem">
+                                            <a href="javascript:;" ng-click="sendItNow(item)"
+                                               ng-if="AuthorizationService.canUpdateTroubleshooting() && !item.inProgress">
+                                                <i class="fa fa-send-o"></i>&nbsp;&nbsp;{{ 'CommonLabels.SendItNow' | translate }}
+                                            </a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a href="javascript:;" ng-click="cancelSending(item)"
+                                               ng-if="AuthorizationService.canDeleteTroubleshooting() && !item.inProgress">
+                                                <i class="fa fa-times"></i>&nbsp;&nbsp;{{ 'CommonLabels.CancelSending' | translate }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="13" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

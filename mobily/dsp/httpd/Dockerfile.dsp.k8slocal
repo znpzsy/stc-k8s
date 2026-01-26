@@ -1,0 +1,10 @@
+# mobily/dsp/httpd/Dockerfile.dsp.k8slocal
+FROM httpd:alpine
+
+RUN mkdir -p /usr/local/apache2/conf.d
+COPY ./dsp/conf.d.k8s /usr/local/apache2/conf.d
+COPY ./dsp/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Copy CA (Certification Authority) Public Key
+COPY ./dsp/openssl.prod/server.crt /usr/local/apache2/conf/server.crt
+COPY ./dsp/openssl.prod/server.key /usr/local/apache2/conf/server.key
