@@ -7,7 +7,7 @@ This repository contains a Docker and Kubernetes-based sandbox for local develop
 
 You can quickly set up the sandbox environment using Docker Compose (Makefile) or Kubernetes. The following sections provide instructions for both methods.
 
-### [Using the Makefile](README-Make.md)
+### [Using the Makefile (Docker)](README-Make.md)
 
 Make sure you have Docker and Docker Compose installed. Then, navigate to the directory containing the `Makefile`:
 
