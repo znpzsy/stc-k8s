@@ -1,0 +1,95 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.Counters.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm" ui-sref="products.antispamsms.operations.counters.contentcounters.new"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="contentCountersList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('ContentCounters', contentCountersList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('ContentCounters', contentCountersList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['name', 'parentName', 'contentFilter'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="contentCountersList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                        uib-popover-template="'products/antispamsms/operations/operations.counters.contentcounters.popover.html'"
+                        popover-placement="auto" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                        popover-title="[Counter Name = {{data.name}}]" popover-tmpl-tone="data">
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.Name' | translate" sortable="'name'">{{data.name}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.ParentName' | translate" sortable="'parentName'">{{data.parentName}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.ContentFilter' | translate" sortable="'contentFilter'">{{data.contentFilter}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.ContentFilterType' | translate" sortable="'contentFilterType'">{{data.contentFilterType | AntiSpamSMSContentFilterTypeFilter}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.State' | translate" sortable="'state'">{{data.state}}</td>
+<!--                        <td align="center">{{ item._source.edrRedirectionReason | RedirectionReasonsFilter | translate }}</td>-->
+                        <td align="center" class="action-column" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="products.antispamsms.operations.counters.contentcounters.update ({ parentName:data.parentName, name:data.name })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ng-click="setAddressRange (data)" class="btn btn-xs btn-default"
+                                    title="{{ 'Products.AntiSpamSMS.Operations.AddressRanges.SetAddressRange' | translate }}"
+                                    ng-disabled="!AuthorizationService.canUpdate()">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Popover. Please use "data" for binding. -->
+<script type="text/ng-template" id="products/antispamsms/operations/operations.counters.contentcounters.popover.html">
+    <div>
+        <div>
+            <strong>{{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.ParentName' | translate }}:</strong> {{data.parentName}} <br />
+            <strong>{{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.ContentFilter' | translate }}:</strong> {{data.contentFilter}} <br />
+            <strong>{{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.ContentFilterType' | translate }}:</strong> {{data.contentFilterType | AntiSpamSMSContentFilterTypeFilter}}<br />
+            <strong>{{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.TableColumns.State' | translate }}:</strong> {{data.state}}<br />
+        </div>
+    </div>
+</script>

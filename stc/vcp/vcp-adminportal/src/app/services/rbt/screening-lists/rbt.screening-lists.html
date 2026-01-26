@@ -1,0 +1,50 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.rbt.screening-lists.type') }">
+            <a href="javascript:void(0);" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Services.RBT.ScreeningLists.Type.MenuLabel' | translate}}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('services.rbt.screening-lists.type.outgoing') }">
+                    <a ui-sref="services.rbt.screening-lists.type.outgoing" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.ScreeningLists.Type.Outgoing' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('services.rbt.screening-lists.type.incoming') }">
+                    <a ui-sref="services.rbt.screening-lists.type.incoming" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.ScreeningLists.Type.Incoming' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.rbt.screening-lists.vip') }" ng-if="AuthorizationService.canRBTServiceVipScreeningListRead()">
+            <a href="javascript:void(0);" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Services.RBT.ScreeningLists.VIP.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('services.rbt.screening-lists.vip.outgoing') }">
+                    <a ui-sref="services.rbt.screening-lists.vip.outgoing" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.ScreeningLists.VIP.Outgoing' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('services.rbt.screening-lists.vip.incoming') }">
+                    <a ui-sref="services.rbt.screening-lists.vip.incoming" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.ScreeningLists.VIP.Incoming' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

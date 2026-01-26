@@ -1,0 +1,157 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.RBT.Operations.HotCodes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="hotCode" class="col-md-3">{{ 'Services.RBT.Operations.HotCodes.TableColumns.HotCode' | translate }}</label>
+            <div class="col-md-7">
+                <input name="hotCode" id="hotCode" type="text" class="form-control" ng-model="entry.hotCode"
+                       ng-disabled="entry.id ? true: !AuthorizationService.canRBTOperationsHotCodeCreate()"
+                       ng-required="true" ng-maxlength="30" maxlength="30"  />
+                <ul ng-class="{ 'parsley-error-list': form.hotCode.$dirty && form.hotCode.$invalid }"
+                    ng-show="form.hotCode.$dirty && form.hotCode.$invalid">
+                    <li class="required" ng-show="form.hotCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.hotCode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 30} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Operations.HotCodes.TableColumns.Reserved' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{entry.reserved?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="entry.reserved" uib-btn-radio="true"
+                            ng-disabled="entry.id ?!AuthorizationService.canRBTOperationsHotCodeUpdate(): !AuthorizationService.canRBTOperationsHotCodeCreate()">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!entry.reserved?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="entry.reserved" uib-btn-radio="false"
+                            ng-disabled="entry.id ?!AuthorizationService.canRBTOperationsHotCodeUpdate(): !AuthorizationService.canRBTOperationsHotCodeCreate()">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!entry.reserved" >
+            <label class="col-md-3">{{ 'Services.RBT.Operations.HotCodes.TableColumns.ContentAlias' | translate }}</label>
+            <div>
+                <div class="col-md-4">
+                    <input id="contentAlias" name="contentAlias" type="text" class="form-control"
+                           ng-model="selectedContent.alias"
+                           ng-required="true"
+                           ng-disabled="true ? true: !AuthorizationService.canRBTOperationsHotCodeCreate()" />
+                    <ul ng-class="{ 'parsley-error-list': form.contentAlias.$dirty && form.contentAlias.$invalid }"
+                        ng-show="form.contentAlias.$dirty && form.contentAlias.$invalid">
+                        <li class="required" ng-show="form.alias.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <button class="btn btn-default col-md-2 ng-dirty"
+                        ng-click="showContents(entry)"
+                        ng-disabled="entry.id ?!AuthorizationService.canRBTOperationsHotCodeUpdate(): !AuthorizationService.canRBTOperationsHotCodeCreate()">{{ 'CommonLabels.Choose' | translate }}</button>
+
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!entry.reserved">
+            <label for="status" class="col-md-3">{{ 'Services.RBT.Operations.HotCodes.TableColumns.Status' | translate }}</label>
+            <div class="col-md-4" ng-if="isAdminUser">
+                <select id="status" name="status" class="form-control parsley-validated"
+                        ng-model="entry.status"
+                        ng-disabled="entry.id ?!AuthorizationService.canRBTOperationsHotCodeUpdate(): !AuthorizationService.canRBTOperationsHotCodeCreate()"
+                        ng-options="state.name as state.name for state in STATUS_TYPES">
+                </select>
+            </div>
+            <div class="col-md-4" ng-if="!isAdminUser">
+                <select id="status" name="status" class="form-control" ng-model="entry.status" ng-disabled="true">
+                    <option>{{entry.status}}</option>
+                </select>
+            </div>
+
+
+        </div>
+
+        <div class="form-group" ng-if="!entry.reserved">
+            <label for="startDate" class="col-md-3 text-left">{{  'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="startDateOptions"
+                           ng-disabled=" entry.id ? !( AuthorizationService.canRBTOperationsHotCodeUpdate() && isUpdateDate(dateHolder.startDate))  :  !AuthorizationService.canRBTOperationsHotCodeCreate()  "/>
+
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="startDate.disabled()">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                    <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDate.Messages.MaxDateExceeded' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.minDateExceeded">{{ 'GenericFormFields.StartDate.Messages.TodayDateExceeded' | translate }}</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!entry.reserved">
+            <label for="endDate" class="col-md-3 text-left">{{  'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="endDateOptions"
+                           ng-disabled="entry.id ? !( AuthorizationService.canRBTOperationsHotCodeUpdate() && isUpdateDate(dateHolder.endDate)) : !AuthorizationService.canRBTOperationsHotCodeCreate()"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="endDate.disabled()">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                    <li class="required" ng-show="form.endDate.s.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    <li class="required" ng-show="form.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDate.Messages.MinDateExceeded' | translate }}</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="entry.id" >
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdatedBy' | translate }}</label>
+            <div class="col-md-4">
+                <input id="lastUpdatedUser" name="lastUpdatedUser" type="text" class="form-control"
+                       ng-value="entry.lastUpdatedUser"
+                       ng-disabled="true" />
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="entry.id" >
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-4">
+                <input id="lastUpdatedTime" name="lastUpdatedTime" type="text" class="form-control"
+                       ng-value="entry.lastUpdatedTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || !AuthorizationService.canRBTOperationsHotCodeCreate() || (entry.id && !AuthorizationService.canRBTOperationsHotCodeUpdate()) || isNotChanged()"
+                    ng-click="save(entry);">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>
+</div>

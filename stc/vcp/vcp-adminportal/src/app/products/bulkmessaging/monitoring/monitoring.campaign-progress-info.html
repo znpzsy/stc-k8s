@@ -1,0 +1,4 @@
+<div class="campaign-progress">
+    <h5 ng-if="campaign.noDataAvailable" class="text-center" style="margin-top: 10px;">{{ 'CommonLabels.N/A' | translate }}</h5>
+    <div id="campaign-progress-donut-chart" class="chart-holder-250" ng-if="!campaign.noDataAvailable"></div>
+</div>

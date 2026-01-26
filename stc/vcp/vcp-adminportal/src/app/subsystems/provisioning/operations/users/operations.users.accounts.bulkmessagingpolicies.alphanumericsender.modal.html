@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.AlphanumericSenderTitle' | translate:{userName:userAccount.userName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleAlphanumericSender' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="permissibleAlphanumericSender" id="permissibleAlphanumericSender" class="form-control"
+                       ng-model="permissibleAlphanumericSender.value"
+                       ng-maxlength="11" maxlength="11" ng-required="true"
+                       ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                <ul ng-class="{ 'parsley-error-list': form.permissibleAlphanumericSender.$dirty && form.permissibleAlphanumericSender.$invalid }" ng-show="form.permissibleAlphanumericSender.$dirty && form.permissibleAlphanumericSender.$invalid">
+                    <li class="required" ng-show="form.permissibleAlphanumericSender.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.permissibleAlphanumericSender.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 11 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()) || isNotChanged()"
+                        ng-click="save(permissibleAlphanumericSender);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

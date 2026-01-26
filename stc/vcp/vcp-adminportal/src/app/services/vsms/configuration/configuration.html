@@ -1,0 +1,20 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="configuration" class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('services.vsms.configuration.settings') }">
+            <a ui-sref="services.vsms.configuration.settings" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.VSMS.Configuration.Settings.Title' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div ui-view class="tab-pane fade active in portlet portlet-default">
+
+        </div>
+    </div>
+</div>
+

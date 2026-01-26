@@ -1,0 +1,141 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ $state.current.data.subPageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3" for="msisdn">{{ 'Services.RBT.ScreeningLists.Search' | translate }}</label>
+            <div class="col-md-6">
+                <input id="msisdn" name="msisdn" type="text" class="form-control"
+                       ng-model="msisdn" ng-maxlength="15"
+                       ng-pattern="$root.Validators.ValidSubscriberMsisdn" maxlength="15"
+                       ng-required="true"
+                       placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate }}"/>
+                <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }"
+                    ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                    <li class="required" ng-show="form.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 15} }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger" ng-disabled="form.$invalid"
+                        ng-click="search (msisdn);">
+                    {{ 'CommonLabels.Search' | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="portlet-body">
+
+    <uib-tabset justified="false" type="tabs">
+        <uib-tab ng-model="blackList">
+            <uib-tab-heading>
+                <span class="fa fa-file-text"></span> {{ 'Services.RBT.ScreeningLists.Blacklist' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="portlet-body buttons-portlet-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="pull-left">
+                                <button class="btn btn-secondary btn-sm"
+                                        ng-click="addListEntry()"
+                                        ng-disabled="!AuthorizationService.canCreateScreeningLists()">
+                                    <i class="fa fa-plus"></i>
+                                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <div class="pull-right">
+                                <div class="btn-group" ng-show="blacklistTblList.tableParams.total() > 0">
+                                    <button type="button" ng-click="csv.download('RBTScreeningBlackLists' + screeningScopeId, blacklistTblList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                    <button type="button" ng-click="xls.download('RBTScreeningBlackLists' + screeningScopeId, blacklistTblList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterTable(filterText, ['screenableEntryId'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive text-nowrap">
+                    <table ng-table="blacklistTblList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html"
+                           export-csv="csv" export-xls="xls"
+                           export-options="exportOptions">
+                        <tr ng-repeat="data in $data track by $index" class="hidden-link-cell-row">
+                            <td align="center" data-title="'ScreeningLists.Identifiers.MSISDN' | translate" sortable="'screenableEntryId'">{{data.screenableEntryId}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate" style="width:35%">
+                                <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canDeleteScreeningLists()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="2" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab ng-model="screeningRuleConfiguration">
+            <uib-tab-heading>
+                <span class="fa fa-list"></span> {{ 'ScreeningLists.ScreeningRuleConfiguration' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <form id="screeningRuleConfigurationForm" name="screeningRuleConfigurationForm"
+                      method="post" enctype="multipart/form-data" class="form-horizontal parsley-form"
+                      novalidate>
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'ScreeningLists.ScreeningRule' | translate }} ({{ 'ScreeningLists.Identifiers.MSISDN' | translate }})</label>
+                        <div class="col-md-6">
+                            <select id="screeningRule" name="screeningRule" class="form-control" ng-disabled="true">
+                                <option value="{{screeningScope.selectedScreeningModeType}}">{{ ('ScreeningManagerRules.' + screeningScope.selectedScreeningModeType) | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button class="btn btn-danger" ng-disabled="true">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button class="btn btn-default" ng-disabled="true">
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+
+</div>

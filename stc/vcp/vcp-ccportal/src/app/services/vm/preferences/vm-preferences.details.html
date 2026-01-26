@@ -1,0 +1,107 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'GenericTabs.Preferences.Header' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Preferences.FormFields.CosName' | translate }}</label>
+            <div class="col-md-7">
+                <select id="cosName" name="cosName" class="form-control parsley-validated"
+                        ng-model="subscriptionPreferences.cosName"
+                        ng-required="true"
+                        ng-options="classOfService.cosName as classOfService.cosName for classOfService in classOfServiceProfiles">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.cosName.$dirty && form.cosName.$invalid }"
+                    ng-show="form.cosName.$dirty && form.cosName.$invalid">
+                    <li class="required" ng-show="form.cosName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Preferences.FormFields.Language' | translate }}</label>
+            <div class="col-md-7">
+                <select id="language" name="language" class="form-control parsley-validated"
+                        ng-model="subscriptionPreferences.language"
+                        ng-required="true"
+                        ng-options="language.value as (language.label | translate) for language in subscriberLanguages">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.language.$dirty && form.language.$invalid }"
+                    ng-show="form.language.$dirty && form.language.$invalid">
+                    <li class="required" ng-show="form.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Preferences.FormFields.PinCodeEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{subscriptionPreferences.pincodeEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="subscriptionPreferences.pincodeEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button" class="btn {{!subscriptionPreferences.pincodeEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="subscriptionPreferences.pincodeEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="subscriptionPreferences.pincodeEnabled">
+            <label class="col-md-3">{{ 'Services.VM.Preferences.FormFields.PinCode' | translate }}</label>
+            <div class="col-md-7">
+                <input name="dummyPincode" type="password" style="display:none;width:0;height:0"></input>
+                <input name="pincode" type="password" class="form-control"
+                       ng-model="subscriptionPreferences.pincode"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       ng-required="true" ng-change="subscriptionPreferences.confirmpincode = undefined;" maxlength="8" ng-maxlength="8" minlength="4" ng-minlength="4"/>
+                <ul ng-class="{ 'parsley-error-list': form.pincode.$dirty && form.pincode.$invalid }" ng-show="form.pincode.$dirty && form.pincode.$invalid">
+                    <li class="required" ng-show="form.pincode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 8} }}</li>
+                    <li class="required" ng-show="form.pincode.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 4} }}</li>
+                    <li class="required" ng-show="form.pincode.$error.passwordVerify">{{ 'CommonMessages.PasswordError' | translate }}</li>
+                    <li class="required" ng-show="form.pincode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.pincode.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="subscriptionPreferences.pincodeEnabled">
+            <label class="col-md-3">{{ 'Services.VM.Preferences.FormFields.ConfirmPinCode' | translate }}</label>
+            <div class="col-md-7">
+                <input name="confirmpincode" type="password" class="form-control"
+                       ng-model="subscriptionPreferences.confirmpincode"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       ng-required="true" password-verify="subscriptionPreferences.pincode" maxlength="8" ng-maxlength="8" minlength="4" ng-minlength="4"/>
+                <ul ng-class="{ 'parsley-error-list': form.confirmpincode.$dirty && form.confirmpincode.$invalid }" ng-show="form.confirmpincode.$dirty && form.confirmpincode.$invalid">
+                    <li class="required" ng-show="form.confirmpincode.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 8} }}</li>
+                    <li class="required" ng-show="form.confirmpincode.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 4} }}</li>
+                    <li class="required" ng-show="form.confirmpincode.$error.passwordVerify">{{ 'CommonMessages.PasswordError' | translate }}</li>
+                    <li class="required" ng-show="form.confirmpincode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.confirmpincode.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canPreferencesAllUpdate() || isNotChanged()"
+                        ng-click="save(subscriptionPreferences);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

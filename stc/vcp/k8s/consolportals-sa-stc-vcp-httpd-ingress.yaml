@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-ingress
+  annotations:
+    # If you need to handle large file uploads
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    # Timeout settings for longer requests
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # Main entry point - route everything to HTTPD
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-httpd-service
+                port:
+                  number: 80
+
+---
+
+# For local development with localhost
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-ingress-local
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-httpd-service
+                port:
+                  number: 80

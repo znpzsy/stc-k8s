@@ -1,0 +1,148 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.ApiManager.Troubleshooting.Details.PageHeader' | translate:{ devName: edrRecord._source.devName, appName: edrRecord._source.appName, apiName: edrRecord._source.apiName, versionName: edrRecord._source.apiVersion } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.TransactionId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.transactionId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ClientTrxId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.clientTrxId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ServerTrxId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.serverTrxId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.Host' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.host }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.Organization' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.organizationName }} [{{edrRecord._source.organizationId}}]&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.DeveloperId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.devId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ApplicationId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.appId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ApiId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.apiId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.Endpoint' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.endpoint }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.Offer' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.offerName }} [{{edrRecord._source.offerId}}]&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.SubscriptionId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.subscriptionId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.Msisdn' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.msisdn }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ClientAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.clientAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.DeviceType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.deviceType }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ContentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.contentType }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ContentLength' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.contentLength }} bytes&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.ReqRspContentLength' | translate }}</td>
+                        <td ng-if="edrRecord._source.responseContentLength != 0" class="kv-value">{{ edrRecord._source.requestContentLength/edrRecord._source.responseContentLength | number:3 }} bytes&nbsp;</td>
+                        <td ng-if="edrRecord._source.responseContentLength == 0" class="kv-value">{{ 'CommonLabels.N/A' | translate }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.TotalContentLength' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.totalContentLength }} bytes&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.TotalReqRspContentLength' | translate }}</td>
+                        <td ng-if="edrRecord._source.endpointsTotalResponseContentLength != 0" class="kv-value">{{ edrRecord._source.endpointsTotalRequestContentLength/edrRecord._source.endpointsTotalResponseContentLength | number:3 }} bytes&nbsp;</td>
+                        <td ng-if="edrRecord._source.endpointsTotalResponseContentLength == 0" class="kv-value">{{ 'CommonLabels.N/A' | translate }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.Duration' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.duration }} msec&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.EndpointTotalDuration' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.endpointsTotalDuration }} msec&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.HttpMethod' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.httpMethod }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.HttpUri' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.httpUri }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.HttpProtocol' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.httpProtocol }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.SoapAction' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.soapAction }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.ApiManager.Troubleshooting.TableColumns.HttpStatusCode' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord._source.httpStatusCode }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

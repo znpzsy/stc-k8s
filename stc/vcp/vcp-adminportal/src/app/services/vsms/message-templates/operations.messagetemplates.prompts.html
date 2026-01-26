@@ -1,0 +1,23 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="languageCode" class="col-sm-3 control-label" style="text-align: left;">{{'CommonLabels.LanguageCode' | translate}}</label>
+        <div class="col-md-7">
+            <select id="languageCode" name="languageCode" ng-model="languageCode" class="form-control"
+                    ng-change="changeLanguage(languageCode)"
+                    ng-options="language.languageCode as (language.languageCode | uppercase) for language in languageList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.VSMS.Operations.MessageTemplates.Prompt' | translate }}</label>
+        <div class="col-md-7">
+            <select id="contentKey" name="contentKey" ng-model="contentKey" class="form-control"
+                    ng-change="changeContentKey(contentKey)"
+                    ng-options="prompt for prompt in promptList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+</form>

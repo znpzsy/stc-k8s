@@ -1,0 +1,86 @@
+[
+  // DELETE THIS COMMENT - Simple proxy definition
+  {
+    "name": "simple-proxy",
+    "target": "http://<ip-address>:<port>",
+    "secure": true/false,
+    "contextList": [
+      {
+        "path": "/<proxy-context-path>",
+        "rewrite": "/<real-service-context-path>"
+      }
+    ]
+  },
+  // DELETE THIS COMMENT - Multi context proxy definition
+  {
+    "name": "multi-context-proxy",
+    "target": "http://<ip-address>:<port>",
+    "contextList": [
+      {
+        "path": "/<proxy-context-path-1>",
+        "rewrite": "/<real-service-context-path-1>"
+      },
+      {
+        "path": "/<proxy-context-path-2>",
+        "rewrite": "/<real-service-context-path-2>"
+      }
+    ]
+  },
+  // DELETE THIS COMMENT - Proxy definition with headers.
+  {
+    "name": "proxy-with-headers",
+    "target": "http://<ip-address>:<port>",
+    "contextList": [
+      {
+        "path": "/<proxy-context-path>",
+        "rewrite": "/<real-service-context-path>"
+        "headers": {
+          "Authorization": "Basic abcd12324", // DELETE THIS COMMENT - You can define Authorization header if the service required.
+          "SomeOtherHeader": "Some other value", // DELETE THIS COMMENT - Add some other headers that you want to send to the service.
+        }
+      }
+    ]
+  },
+  // DELETE THIS COMMENT - Proxy definition with query parameters.
+  {
+    "name": "proxy-with-query-parameters",
+    "target": "http://<ip-address>:<port>",
+    "contextList": [
+      {
+        "path": "/<proxy-context-path>",
+        "rewrite": "/<real-service-context-path>"
+        "queryParams": {
+          "stringParam1": "value1", // DELETE THIS COMMENT - Add some parameters that you want to send to the service as a query parameters.
+          "integerParam1": "123"
+        }
+      }
+    ]
+  },
+  // DELETE THIS COMMENT - CMPF proxy definition
+  {
+    "name": "cmpf", // DELETE THIS COMMENT - Only for easy finding and specifying which service is this block.
+    "target": "http://tev983:9610", // DELETE THIS COMMENT - Write the base URI of the rest server (without context path).
+    "contextList": [ // DELETE THIS COMMENT - You can define many context items in this array.
+      {
+        "path": "/cmpf-rest", // DELETE THIS COMMENT - The path value used by the web applications for proxying.
+        "rewrite": "/axis2/cmpf" // DELETE THIS COMMENT - Real path value.
+      }
+    ],
+    "proxyType": "cmpf" // DELETE THIS COMMENT - Specify this is a CMPF proxy definition
+  },
+  // DELETE THIS COMMENT - Pentaho proxy definition.
+  {
+    "name": "pentaho",
+    "target": "http://tev980:8080",
+    "contextList": [
+      {
+        "path": "/pentaho",
+        "rewrite": "/pentaho",
+        "headers": {
+          "Authorization": "Basic abcd12324" // DELETE THIS COMMENT - If you want to send some header value to the service, define here.
+        }
+      }
+    ],
+    "proxyType": "pentaho" // DELETE THIS COMMENT - Specify this is a Pentaho proxy definition.
+  }
+]

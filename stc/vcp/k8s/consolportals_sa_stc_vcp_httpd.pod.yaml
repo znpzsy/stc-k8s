@@ -1,0 +1,21 @@
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consolportals-sa-stc-vcp-httpd
+  labels:
+    component: vcp-httpd
+spec:
+  containers:
+    - name: vcp-httpd
+      image: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd:1.0.0.1
+      ports:
+        - containerPort: 80
+        - containerPort: 443
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"

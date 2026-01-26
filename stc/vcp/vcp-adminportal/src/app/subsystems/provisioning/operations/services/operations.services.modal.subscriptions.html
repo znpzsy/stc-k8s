@@ -1,0 +1,77 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.Services.SubscriptionsModalTitle' | translate:{serviceName:service.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <div class="row search-panel">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8" ng-show="isDataFetchingInProgress">
+                    <uib-progressbar max="100" value="dataFetchingPercent" type="info" class="download-progress-bar">
+                        <span style="color:#fff;white-space:nowrap;">{{dataFetchingPercent}}% {{ 'CommonLabels.Downloaded' | translate }}</span>
+                    </uib-progressbar>
+                </div>
+                <div class="col-md-8" ng-show="!isDataFetchingInProgress">
+                    <div class="btn-group" uib-dropdown dropdown-append-to-body="true" is-open="status.isopen" style="display: inline-block;margin-right: 10px;">
+                        <button id="single-button" type="button" class="btn btn-sm btn-default" uib-dropdown-toggle
+                                style="border-bottom-right-radius: 0;border-top-right-radius: 0;">
+                            {{ selectedOffset ? selectedOffset.label : ('CommonLabels.SelectRange' | translate) }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button" style="overflow: auto;max-height: 250px;">
+                            <li role="menuitem">
+                                <a href="javascript:;" ng-click="selectedOffset = undefined; isDataFetched = false;">-- {{ 'CommonLabels.SelectRange' | translate }} --</a>
+                            </li>
+                            <li role="menuitem" ng-repeat="dataRange in dataRangeArray"
+                                ng-class="{ 'active': $parent.selectedOffset.value === dataRange.value }">
+                                <a href="javascript:;" ng-click="$parent.selectedOffset = dataRange; $parent.isDataFetched = false;">{{dataRange.label}}</a>
+                            </li>
+                        </ul>
+                        <button type="button" ng-click="fetchServiceSubscriptionsData(selectedOffset.value)" class="btn btn-sm btn-default" ng-disabled="!selectedOffset">
+                            {{ 'CommonLabels.GenerateReport' | translate }}
+                        </button>
+                    </div>
+                    <div ng-if="tableParams.total() > 0 && isDataFetched" style="display: inline-block;">
+                        <button type="button"
+                                ng-click="xls.download('ServiceSubscriptions-(' + $parent.selectedOffset.label + ')', serviceSubscriptionsDataAccumulator)"
+                                class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}
+                        </button>
+                        <button type="button"
+                                ng-click="csv.download('ServiceSubscriptions-(' + $parent.selectedOffset.label + ')', serviceSubscriptionsDataAccumulator)"
+                                class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 search-input-layer">
+                    <span class="fa fa-search"></span>
+                    <input type="text" ng-model="filterText" ng-change="filterTable(filterText, ['msisdn'])"
+                           placeholder="{{ 'CommonLabels.SearchByMsisdn' | translate }}..."
+                           ng-disabled="isDataFetchingInProgress"
+                           class="form-control input-sm pull-right"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <table ng-table="tableParams" class="table table-striped table-bordered"
+               template-pagination="ngTableCustomPager.html"
+               export-csv="csv" export-xls="xls"
+               export-options="exportOptions">
+            <tr ng-repeat="subscription in $data" class="hidden-link-cell-row">
+                <td align="center" data-title="'Subsystems.Provisioning.Services.SubscriberId' | translate">{{ subscription.ms }}</td>
+                <td align="center" data-title="'Subsystems.Provisioning.Services.SubscriptionState' | translate">{{ subscription.snst }}</td>
+            </tr>
+            <tr ng-if="$data.length === 0">
+                <td colspan="2" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

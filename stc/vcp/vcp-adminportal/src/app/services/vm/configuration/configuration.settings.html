@@ -1,0 +1,78 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.VM.Configuration.Settings.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Configuration.Settings.DepositServiceIdentifier' | translate }}</label>
+            <div class="col-md-7">
+                <input name="depositServiceNumber" type="text" class="form-control" ng-model="serviceProfile.depositServiceNumber"
+                       ng-required="true" ng-maxlength="50" maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.depositServiceNumber.$dirty && form.depositServiceNumber.$invalid }"
+                    ng-show="form.depositServiceNumber.$dirty && form.depositServiceNumber.$invalid">
+                    <li class="required" ng-show="form.depositServiceNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.depositServiceNumber.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Configuration.Settings.RetrievalServiceIdentifier' | translate }}</label>
+            <div class="col-md-7">
+                <input name="retrievalServiceNumber" type="text" class="form-control" ng-model="serviceProfile.retrievalServiceNumber"
+                       ng-required="true" ng-maxlength="50" maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.retrievalServiceNumber.$dirty && form.retrievalServiceNumber.$invalid }"
+                    ng-show="form.retrievalServiceNumber.$dirty && form.retrievalServiceNumber.$invalid">
+                    <li class="required" ng-show="form.retrievalServiceNumber.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.retrievalServiceNumber.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Configuration.Settings.DefaultClassOfServiceID' | translate }}</label>
+            <div class="col-md-7">
+                <select id="defaultCoSId" name="defaultCoSId" class="form-control parsley-validated" ng-model="serviceProfile.defaultCoSId" ng-required="true"
+                        ng-options="classOfService.cosId as (classOfService.cosName | uppercase) for classOfService in classOfServiceProfiles">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.defaultCoSId.$dirty && form.defaultCoSId.$invalid }" ng-show="form.defaultCoSId.$dirty && form.defaultCoSId.$invalid">
+                    <li class="required" ng-show="form.defaultCoSId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.VM.Configuration.Settings.DefaultLanguageCode' | translate }}</label>
+            <div class="col-md-7">
+                <select id="defaultLanguageCode" name="defaultLanguageCode" class="form-control parsley-validated" ng-model="serviceProfile.defaultLanguageCode" ng-required="true"
+                        ng-options="language.value as (language.label | translate) for language in subscriberLanguages">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.defaultLanguageCode.$dirty && form.defaultLanguageCode.$invalid }" ng-show="form.defaultLanguageCode.$dirty && form.defaultLanguageCode.$invalid">
+                    <li class="required" ng-show="form.defaultLanguageCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdate() || isNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

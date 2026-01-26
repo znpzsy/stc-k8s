@@ -1,0 +1,58 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Configuration.Settings.MenuLabel' | translate }} / {{ 'Products.MMSC.Configuration.Settings.NetworkEntities.Operators.MenuLabel' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="configurationForm" name="configurationForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Configuration.Settings.NetworkEntities.Operators.FormFields.MaxMmSize' | translate }}</label>
+            <div class="col-md-6">
+                <input type="number" name="maxMmSize" class="form-control" ng-model="mm4Agent.maxMmSize" enabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Configuration.Settings.NetworkEntities.Operators.FormFields.MaxRecipientCount' | translate }}</label>
+            <div class="col-md-6">
+                <input type="number" name="maxRecipientCount" class="form-control" ng-model="mm4Agent.maxRecipientCount" enabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Configuration.Settings.NetworkEntities.Operators.FormFields.Policy' | translate }}</label>
+            <div class="col-md-6">
+                <select name="policy" class="form-control parsley-validated" ng-model="policy" ng-options="opt as opt for opt in policies">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Configuration.Settings.NetworkEntities.Operators.FormFields.MmReception' | translate }}</label>
+            <div class="col-md-6">
+                <div class="btn-group">
+                    <button type="button" class="btn {{mm4Agent.mmReception?'btn-primary active':'btn-default'}} btn-sm" ng-model="mm4Agent.mmReception" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!mm4Agent.mmReception?'btn-primary active':'btn-default'}} btn-sm" ng-model="mm4Agent.mmReception" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="configurationForm.$invalid || !AuthorizationService.canUpdateConfiguration() || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

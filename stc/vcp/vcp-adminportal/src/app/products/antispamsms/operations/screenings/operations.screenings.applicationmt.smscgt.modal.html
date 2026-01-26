@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.AntiSpamSMS.Operations.Screenings.ApplicationMT.SMSCCGTModalTitle' | translate:{start: entry.senderAddressRangeStart, end: entry.senderAddressRangeEnd} }}</h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-3">
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="smscGTList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('ApplicationMTWhiteListSmscGTList', smscGTList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('ApplicationMTWhiteListSmscGTList', smscGTList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['smscGT'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <div class="table-responsive">
+                    <table ng-table="smscGTList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html"
+                           export-csv="csv" export-xls="xls"
+                           export-options="exportOptions">
+                        <tr ng-repeat="smscGT in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.TableColumns.SMSCGT' | translate" sortable="'smscGT'">{{smscGT.smscGT}}</td>
+                            <td align="center" data-title="'CommonLabels.State' | translate" sortable="'status'">{{smscGT.status | StatusTypeFilter}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                <button ng-click="removeSMSCGT(smscGT)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canAntispamScreeningListsDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hidden-link-cell-row">
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input name="smscGT" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                                           ng-model="newSMSCGT.smscGT"
+                                           ng-pattern="$root.Validators.IntegerNumber" ng-required="true" required="true"
+                                           placeholder="{{ 'Products.AntiSpamSMS.Operations.Screenings.SMSCGTPlaceholder' | translate }}"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.smscGT.$dirty && form.smscGT.$invalid }" ng-show="form.smscGT.$dirty && form.smscGT.$invalid">
+                                        <li class="required" ng-show="form.smscGT.$error.number || form.smscGT.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.smscGT.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.smscGT.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                                        <li class="required" ng-show="form.smscGT.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <select name="status" class="form-control parsley-validated" ng-model="newSMSCGT.status" ng-options="opt for opt in STATES">
+                                    </select>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <button ng-click="addNewSMSCGT(newSMSCGT)"
+                                        ng-disabled="form.$invalid || !AuthorizationService.canAntispamScreeningListsUpdate()"
+                                        class="btn btn-xs btn-secondary" title="{{ 'CommonLabels.Save' | translate }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

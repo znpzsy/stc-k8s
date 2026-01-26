@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal
+  labels:
+    component: vcp-adminportal
+spec:
+  containers:
+    - name: vcp-adminportal
+      image: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.1
+      ports:
+        - containerPort: 8080

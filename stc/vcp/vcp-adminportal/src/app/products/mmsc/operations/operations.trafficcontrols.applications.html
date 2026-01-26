@@ -1,0 +1,98 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.TrafficControls.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.TrafficControls.PerApplication.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form">
+        <div class="form-group">
+            <label for="selectedVasApplication" class="col-sm-3 control-label" style="text-align: left;">{{ 'Products.MMSC.Operations.TrafficControls.PerApplication.ApplicationName' | translate }}</label>
+            <div class="col-sm-7">
+                <select id="selectedVasApplication" name="selectedVasApplication" ng-model="selectedVasApplication" class="form-control"
+                        ng-change="changeVasApplication(selectedVasApplication)"
+                        ng-options="vasApplication as vasApplication.label for vasApplication in vasApplicationList">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal parsley-form" novalidate id="vasApplicationOptionsForm" name="vasApplicationOptionsForm" method="post" enctype="multipart/form-data"
+          ng-if="selectedVasApplication.vasId">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.IncomingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{vasApplicationOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="vasApplicationOptions.incomingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!vasApplicationOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="vasApplicationOptions.incomingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="vasApplicationOptions.incomingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.IncomingTrafficThreshold.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="incomingTrafficThreshold" ng-model="vasApplicationOptions.incomingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': vasApplicationOptionsForm.incomingTrafficThreshold.$dirty && vasApplicationOptionsForm.incomingTrafficThreshold.$invalid }"
+                    ng-show="vasApplicationOptionsForm.incomingTrafficThreshold.$dirty && vasApplicationOptionsForm.incomingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="vasApplicationOptionsForm.incomingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="vasApplicationOptionsForm.incomingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="vasApplicationOptionsForm.incomingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.OutgoingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{vasApplicationOptions.outgoingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="vasApplicationOptions.outgoingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!vasApplicationOptions.outgoingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="vasApplicationOptions.outgoingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="vasApplicationOptions.outgoingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.OutgoingTrafficThreshold.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="outgoingTrafficThreshold" ng-model="vasApplicationOptions.outgoingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': vasApplicationOptionsForm.outgoingTrafficThreshold.$dirty && vasApplicationOptionsForm.outgoingTrafficThreshold.$invalid }"
+                    ng-show="vasApplicationOptionsForm.outgoingTrafficThreshold.$dirty && vasApplicationOptionsForm.outgoingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="vasApplicationOptionsForm.outgoingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="vasApplicationOptionsForm.outgoingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="vasApplicationOptionsForm.outgoingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="vasApplicationOptionsForm.$invalid || !AuthorizationService.canUpdate() || isConfigurationNotChanged()"
+                        ng-click="save(vasApplicationOptions);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

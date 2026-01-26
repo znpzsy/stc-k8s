@@ -1,0 +1,84 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.TrafficControls.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.TrafficControls.UserAgents.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="userAgentsOptionsForm" name="userAgentsOptionsForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.IncomingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{userAgentsOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="userAgentsOptions.incomingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!userAgentsOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="userAgentsOptions.incomingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="userAgentsOptions.incomingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.IncomingTrafficThreshold.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="incomingTrafficThreshold" ng-model="userAgentsOptions.incomingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': userAgentsOptionsForm.incomingTrafficThreshold.$dirty && userAgentsOptionsForm.incomingTrafficThreshold.$invalid }"
+                    ng-show="userAgentsOptionsForm.incomingTrafficThreshold.$dirty && userAgentsOptionsForm.incomingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="userAgentsOptionsForm.incomingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="userAgentsOptionsForm.incomingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="userAgentsOptionsForm.incomingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.OutgoingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{userAgentsOptions.outgoingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="userAgentsOptions.outgoingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!userAgentsOptions.outgoingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="userAgentsOptions.outgoingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="userAgentsOptions.outgoingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.OutgoingTrafficThreshold.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="outgoingTrafficThreshold" ng-model="userAgentsOptions.outgoingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': userAgentsOptionsForm.outgoingTrafficThreshold.$dirty && userAgentsOptionsForm.outgoingTrafficThreshold.$invalid }"
+                    ng-show="userAgentsOptionsForm.outgoingTrafficThreshold.$dirty && userAgentsOptionsForm.outgoingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="userAgentsOptionsForm.outgoingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="userAgentsOptionsForm.outgoingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="userAgentsOptionsForm.outgoingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="userAgentsOptionsForm.$invalid || !AuthorizationService.canUpdate() || isConfigurationNotChanged()"
+                        ng-click="save(userAgentsOptions);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

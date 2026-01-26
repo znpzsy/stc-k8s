@@ -1,0 +1,53 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('services.rbt.dashboards') }">
+                <a ui-sref="services.rbt.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.rbt.operations') }" ng-if="AuthorizationService.canRead()">
+                <a ui-sref="services.rbt.operations.messagetemplates.hangup.view" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.rbt.campaigns') }" ng-if="AuthorizationService.canRBTCampaignsRead()">
+                <a ui-sref="services.rbt.campaigns.happyhour.list">
+                    <span class="fa fa-tasks"></span> {{ 'GenericTabs.Campaigns' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.rbt.configuration') }" ng-if="AuthorizationService.canRBTServiceConfigurationRead()">
+                <a ui-sref="services.rbt.configuration.settings.rbt" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.rbt.screening-lists') }" ng-if="AuthorizationService.canReadScreeningLists()">
+                <a ui-sref="services.rbt.screening-lists.type.outgoing" data-toggle="tab">
+                    <span class="fa fa-shield"></span> {{ 'GenericTabs.ScreeningLists' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.rbt.troubleshooting') }" ng-if="AuthorizationService.canRBTServiceTroubleshootingRead()">
+                <a ui-sref="services.rbt.troubleshooting" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

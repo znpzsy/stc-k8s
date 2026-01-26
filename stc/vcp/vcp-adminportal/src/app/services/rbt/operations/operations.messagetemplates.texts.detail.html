@@ -1,0 +1,34 @@
+<br />
+
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.RBT.Operations.MessageTemplates.HangupText' | translate }}</label>
+        <div class="col-md-7">
+            <textarea ng-model="conf.messageText" class="form-control" rows="5" ng-required="true"
+                      ng-maxlength="2048" maxlength="2048"
+                      placeholder="{{ 'Services.RBT.Operations.MessageTemplates.HangupTextPlaceholder' | translate }}"
+                      ng-disabled="!AuthorizationService.canUpdateTemplates()">
+            </textarea>
+            <ul ng-class="{ 'parsley-error-list': form.messageText.$dirty && form.messageText.$invalid }"
+                ng-show="form.messageText.$dirty && form.messageText.$invalid">
+                <li class="required" ng-show="form.messageText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 2048} }}</li>
+                <li class="required" ng-show="form.messageText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || !AuthorizationService.canUpdateTemplates() || isNotChanged()"
+                    ng-click="save(conf);">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

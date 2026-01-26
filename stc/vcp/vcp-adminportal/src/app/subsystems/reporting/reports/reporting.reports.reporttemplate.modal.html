@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Reporting.ReportTemplate.ModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="reportCategory" class="col-md-3">{{ 'Subsystems.Reporting.Category' | translate }}</label>
+                    <div class="col-md-9">
+                        <input id="reportCategory" name="reportCategory" type="text" class="form-control" dir="auto"
+                               ng-value="reportCategory.label"
+                               ng-disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="TemplateName" class="col-md-3">{{ 'Subsystems.Reporting.ReportTemplate.TemplateName' | translate }}</label>
+                    <div class="col-md-9">
+                        <input id="TemplateName" name="TemplateName" type="text" class="form-control" dir="auto"
+                               ng-model="reportTemplate.TemplateName"
+                               ng-required="true"
+                               ng-maxlength="100" maxlength="100"
+                               ng-disabled="!AuthorizationService.canReportOnDemand()">
+                        <ul ng-class="{ 'parsley-error-list': form.TemplateName.$dirty && form.TemplateName.$invalid }"
+                            ng-show="form.TemplateName.$dirty && form.TemplateName.$invalid">
+                            <li class="required" ng-show="form.TemplateName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.TemplateName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            <li class="required" ng-show="form.TemplateName.$error.availabilityCheck">{{ 'Subsystems.Reporting.ReportTemplate.TemplateNameIsAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canReportOnDemand() || isNotChanged()"
+                                ng-click="save(reportTemplate);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

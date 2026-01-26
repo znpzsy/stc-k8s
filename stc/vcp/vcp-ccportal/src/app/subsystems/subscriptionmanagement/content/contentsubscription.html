@@ -1,0 +1,243 @@
+<div class="col-md-12">
+    <div class="portlet portlet-default">
+
+        <!-- <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'GenericTabs.ContentSubscriptionHistory.Header' | translate }}
+            </h4>
+        </div> -->
+
+        <div ng-repeat="contentType in CMS_RBT_CONTENT_TYPES">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Subscriptions.' + contentType | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-5">
+                        <div class="pull-left">
+                            <div class="btn-group" uib-dropdown keyboard-nav>
+                                <button id="simple-btn-keyboard-nav" type="button" class="btn btn-sm btn-default" uib-dropdown-toggle>
+                                    {{ (offerSubscriptionFilter[contentType] === 'SUBSCRIBED' ? 'Subsystems.SubscriptionManagement.Offers.CurrentSubscriptions.Subscribed' : 'Subsystems.SubscriptionManagement.Offers.CurrentSubscriptions.Available') | translate }} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                                    <li role="menuitem" ng-class="{ 'active': offerSubscriptionFilter[contentType] === 'SUBSCRIBED' }">
+                                        <a href="javascript:;" ng-click="offerSubscriptionFilterChange(contentType, 'SUBSCRIBED')">{{ 'Subsystems.SubscriptionManagement.Offers.CurrentSubscriptions.Subscribed' | translate }}</a>
+                                    </li>
+                                    <li role="menuitem" ng-class="{ 'active': offerSubscriptionFilter[contentType] === 'AVAILABLE' }">
+                                        <a href="javascript:;" ng-click="offerSubscriptionFilterChange(contentType, 'AVAILABLE')">{{ 'Subsystems.SubscriptionManagement.Offers.CurrentSubscriptions.Available' | translate }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <form class="mainnav-form" ng-if="offerSubscriptionFilter[contentType] === 'SUBSCRIBED'">
+                            <input type="text" class="form-control input-sm pull-right mainnav-search-query" dir="auto"
+                                   ng-model="$parent.filterText[contentType]" ng-change="filterSubscriptions(contentType, $parent.filterText[contentType], ['contentName'])"
+                                   uib-tooltip="{{ 'CommonLabels.SearchByName' | translate }}" tooltip-placement="left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                                   placeholder="{{ 'CommonLabels.SearchBy' | translate }} ...">
+                            <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                        </form>
+                        <form class="mainnav-form" ng-if="offerSubscriptionFilter[contentType] === 'AVAILABLE'">
+                            <input type="text" class="form-control input-sm pull-right mainnav-search-query" dir="auto"
+                                   ng-model="$parent.filterText[contentType]" ng-change="filterOffers(contentType, $parent.filterText[contentType])"
+                                   uib-tooltip="{{ 'CommonLabels.SearchByName' | translate }}" tooltip-placement="left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                                   placeholder="{{ 'CommonLabels.SearchBy' | translate }} ...">
+                            <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="offers[contentType].length > 0">
+
+                        <uib-accordion class="offer-accordion" close-others="true" template-url="partials/offer-accordion.html">
+                            <div uib-accordion-group class="panel-default" is-open="offer.isAccordionOpen" ng-repeat="offer in offers[contentType] track by offer.id">
+                                <uib-accordion-heading>
+                                    <i class="fa accordion-caret"></i>
+                                    {{ offer.contentName }}
+                                    <span ng-class="{ 'text-success': offer.subscription && offer.subscription.state.currentState === 'ACTIVE', 'text-danger': offer.subscription && offer.subscription.state.currentState === 'INACTIVE', 'text-warning': offer.subscription && offer.subscription.state.currentState === 'SUSPENDED'  }">
+                                        {{offer.subscription ? '(' + offer.subscription.state.currentState + ')' : ''}}
+                                    </span>
+                                </uib-accordion-heading>
+
+                                <!-- Loading indicator spinner -->
+                                <div ng-if="!offer.showContent">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <i class="fa fa-spinner fa-spin tasks-spinner"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="offer.showContent">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <h4>
+                                                {{ offer.contentName }}
+                                                <a href="javascript:;" title="{{ 'Subsystems.SubscriptionManagement.Offers.ShowOfferDetails' | translate }}"
+                                                   style="position: absolute;margin-top: -10px;margin-left: 5px;"
+                                                   uib-popover-template="'subscriber-info/subscriptions/contentoffers.details.popover.html'"
+                                                   popover-animation="false" popover-placement="right" popover-append-to-body="true" popover-trigger="'outsideClick'">
+                                                    <i class="fa fa-info-circle text-info text-lg"></i>
+                                                </a>
+                                            </h4>
+
+                                            <h5>
+                                                <span class="pricing-plan-amount">{{offer.price}} {{CURRENCY.abbr}}</span>
+                                            </h5>
+
+                                            <table class="table" ng-if="offer.subscriptionCode !== '000000'">
+                                                <tbody>
+                                                <tr>
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.ChargingPeriod' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.chargingPeriodDetailText}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- General subscription related rows -->
+                                                <tr ng-if="offer.subscription && offer.subscription.chargingPeriod.nextChargingDate">
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.StartDate' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.subscription.startDate | date:'yyyy-MM-dd HH:mm':DateTimeConstants.OFFSET}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="offer.subscription && offer.subscription.chargingPeriod.nextChargingDate">
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.LastRenewalDate' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.subscription.chargingPeriod.lastRenewalDate | date:'yyyy-MM-dd HH:mm':DateTimeConstants.OFFSET}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="offer.subscription && offer.subscription.chargingPeriod.nextChargingDate && offer.subscription.state.currentState !== 'SUSPENDED' && offer.subscription.state.currentState !== 'INACTIVE'">
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.NextRenewalDate' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.subscription.chargingPeriod.nextChargingDate | date:'yyyy-MM-dd HH:mm':DateTimeConstants.OFFSET}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="offer.subscription && offer.subscription.chargingPeriod.nextChargingDate && offer.subscription.state.currentState === 'SUSPENDED'">
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.NextRetryDate' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.subscription.chargingRetryPeriod.nextRetryDate | date:'yyyy-MM-dd HH:mm':DateTimeConstants.OFFSET}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+
+                                                <!-- Trial related rows -->
+                                                <tr ng-if="offer.subscription && offer.subscription.isInTryPeriod && offer.subscription.tryPeriod">
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.Trial' | translate }} {{ 'Subsystems.SubscriptionManagement.Offers.StartDate' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.subscription.tryPeriod.tryStartDate | date:'yyyy-MM-dd HH:mm':DateTimeConstants.OFFSET}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-if="offer.subscription && offer.subscription.isInTryPeriod && offer.subscription.tryPeriod">
+                                                    <th>{{ 'Subsystems.SubscriptionManagement.Offers.Trial' | translate }} {{ 'Subsystems.SubscriptionManagement.Offers.EndDate' | translate }}</th>
+                                                    <td>
+                                                        <h6>
+                                                            <span class="pull-left text-muted">{{offer.subscription.tryPeriod.tryEndDate | date:'yyyy-MM-dd HH:mm':DateTimeConstants.OFFSET}}</span>
+                                                        </h6>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <div ng-if="offer.subscriptionCode !== '000000'">
+                                                <button class="pull-right btn btn-lg btn-success" type="button" style="width: 100%;"
+                                                        ng-click="subscribeContentOfferSubscription(offer)"
+                                                        ng-if="!offer.subscription && AuthorizationService.canCcSubscriptionCreate()">
+                                                    <i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;{{ 'CommonLabels.Subscribe' | translate }}
+                                                </button>
+                                                <button class="pull-right btn btn-lg btn-danger" type="button" style="width: 100%;"
+                                                        ng-click="unsubscribeContentOfferSubscription(offer)"
+                                                        ng-if="offer.subscription && (offer.subscription.state.currentState === 'ACTIVE' || offer.subscription.state.currentState === 'SUSPENDED') && AuthorizationService.canCcSubscriptionDelete()">
+                                                    {{ 'CommonLabels.Unsubscribe' | translate }}
+                                                </button>
+                                                <button class="pull-right btn btn-lg btn-secondary" type="button" style="width: 100%;"
+                                                        ng-click="activateContentOfferSubscription(offer)"
+                                                        ng-if="offer.subscription && offer.subscription.state.currentState !== 'ACTIVE' && offer.subscription.state.currentState !== 'SUSPENDED' && AuthorizationService.canCcSubscriptionUpdate()">
+                                                    {{ 'CommonLabels.Activate' | translate }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-accordion>
+                    </div>
+
+                    <div ng-if="offerSubscriptionFilter[contentType] === 'SUBSCRIBED'">
+                        <div class="col-md-12 col-sm-12 col-xs-12" ng-if="filteredOffers[contentType].length > pageCount[contentType]">
+                            <div class="pull-left pager">
+                                {{ getNavigatorDescriptionText(contentType, currentPage[contentType], pageCount[contentType], offers[contentType].length, filteredOffers[contentType].length); }}
+                            </div>
+                            <nav class="pull-right">
+                                <ul class="pager">
+                                    <li class="previous" ng-class="{ 'disabled': isFirst[contentType] }"><a href="javascript:;" ng-click="isFirst[contentType] ? null : previousSubscription(contentType)">
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i> {{ 'TableFooter.Previous' | translate }}</a></li>
+                                    &nbsp;
+                                    <li class="next" ng-class="{ 'disabled': isLast[contentType] }"><a href="javascript:;" ng-click="isLast[contentType] ? null : nextSubscription(contentType)">
+                                        {{ 'TableFooter.Next' | translate }} <i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div ng-if="offerSubscriptionFilter[contentType] === 'AVAILABLE'">
+                        <div class="col-md-12 col-sm-12 col-xs-12" ng-if="metaData[contentType].totalCount > pageCount[contentType]">
+                            <div class="pull-left pager">
+                                {{ getNavigatorDescriptionText(contentType, currentPage[contentType], pageCount[contentType], offers[contentType].length, metaData[contentType].totalCount); }}
+                            </div>
+                            <nav class="pull-right">
+                                <ul class="pager">
+                                    <li class="previous" ng-class="{ 'disabled': isFirst[contentType] }"><a href="javascript:;" ng-click="isFirst[contentType] ? null : previousOffer(contentType)">
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i> {{ 'TableFooter.Previous' | translate }}</a></li>
+                                    &nbsp;
+                                    <li class="next" ng-class="{ 'disabled': isLast[contentType] }"><a href="javascript:;" ng-click="isLast[contentType] ? null : nextOffer(contentType)">
+                                        {{ 'TableFooter.Next' | translate }} <i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="offers[contentType] && offers[contentType].length === 0 && originalOffers[contentType].length > 0">
+                        <div class="text-center alert alert-warning">
+                            <h4 style="margin-bottom: 0;">
+                                {{ 'CommonMessages.NotFound' | translate }}
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-if="originalOffers[contentType] && originalOffers[contentType].length === 0">
+                        <div class="text-center alert alert-warning">
+                            <h4 style="margin-bottom: 0;">
+                                {{ (offerSubscriptionFilter[contentType] === 'SUBSCRIBED' ? 'CommonMessages.NoOfferSubscription' : 'CommonMessages.NoAvailableOffer') | translate }}
+                            </h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

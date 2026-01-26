@@ -1,0 +1,611 @@
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get clusterrole ingress-nginx -o yaml | head -n 40
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRole","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"ingress-nginx","app.kubernetes.io/name":"ingress-nginx","app.kubernetes.io/part-of":"ingress-nginx","app.kubernetes.io/version":"1.8.1"},"name":"ingress-nginx"},"rules":[{"apiGroups":[""],"resources":["configmaps","endpoints","nodes","pods","secrets","namespaces"],"verbs":["list","watch"]},{"apiGroups":["coordination.k8s.io"],"resources":["leases"],"verbs":["list","watch"]},{"apiGroups":[""],"resources":["nodes"],"verbs":["get"]},{"apiGroups":[""],"resources":["services"],"verbs":["get","list","watch"]},{"apiGroups":["networking.k8s.io"],"resources":["ingresses"],"verbs":["get","list","watch"]},{"apiGroups":[""],"resources":["events"],"verbs":["create","patch"]},{"apiGroups":["networking.k8s.io"],"resources":["ingresses/status"],"verbs":["update"]},{"apiGroups":["networking.k8s.io"],"resources":["ingressclasses"],"verbs":["get","list","watch"]},{"apiGroups":["discovery.k8s.io"],"resources":["endpointslices"],"verbs":["list","watch","get"]}]}
+  creationTimestamp: "2026-01-14T22:56:37Z"
+  labels:
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.8.1
+  name: ingress-nginx
+  resourceVersion: "366823"
+  uid: 9497c71e-86fe-4898-a083-3ffad95cf4b3
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - nodes
+  - pods
+  - secrets
+  - namespaces
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get clusterrolebinding ingress-nginx -o yaml | head -n 40
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"ClusterRoleBinding","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"ingress-nginx","app.kubernetes.io/name":"ingress-nginx","app.kubernetes.io/part-of":"ingress-nginx","app.kubernetes.io/version":"1.8.1"},"name":"ingress-nginx"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"ingress-nginx"},"subjects":[{"kind":"ServiceAccount","name":"ingress-nginx","namespace":"ingress-nginx"}]}
+  creationTimestamp: "2026-01-14T22:56:37Z"
+  labels:
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.8.1
+  name: ingress-nginx
+  resourceVersion: "366827"
+  uid: 38a243e8-18cc-4222-9cdf-ab551546971b
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ingress-nginx
+subjects:
+- kind: ServiceAccount
+  name: ingress-nginx
+  namespace: ingress-nginx
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get clusterrole | grep -i ingress-nginx
+ingress-nginx                                                          2026-01-14T22:56:37Z
+ingress-nginx-admission                                                2026-01-14T22:56:37Z
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get clusterrolebinding | grep -i ingress-nginx
+ingress-nginx                                                   ClusterRole/ingress-nginx                                                          5d6h
+ingress-nginx-admission                                         ClusterRole/ingress-nginx-admission                                                5d6h
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl delete clusterrolebinding ingress-nginx ingress-nginx-admission
+clusterrolebinding.rbac.authorization.k8s.io "ingress-nginx" deleted
+clusterrolebinding.rbac.authorization.k8s.io "ingress-nginx-admission" deleted
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl delete clusterrole ingress-nginx ingress-nginx-admission
+clusterrole.rbac.authorization.k8s.io "ingress-nginx" deleted
+clusterrole.rbac.authorization.k8s.io "ingress-nginx-admission" deleted
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
+
+Error: INSTALLATION FAILED: unable to continue with install: IngressClass "nginx" in namespace "" exists and cannot be imported into the current release: invalid ownership metadata; label validation error: missing key "app.kubernetes.io/managed-by": must be set to "Helm"; annotation validation error: missing key "meta.helm.sh/release-name": must be set to "ingress-nginx"; annotation validation error: missing key "meta.helm.sh/release-namespace": must be set to "ingress-nginx"
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl delete clusterrolebinding ingress-nginx ingress-nginx-admission
+kubectl delete clusterrole ingress-nginx ingress-nginx-admission
+
+Error from server (NotFound): clusterrolebindings.rbac.authorization.k8s.io "ingress-nginx" not found
+Error from server (NotFound): clusterrolebindings.rbac.authorization.k8s.io "ingress-nginx-admission" not found
+Error from server (NotFound): clusterroles.rbac.authorization.k8s.io "ingress-nginx" not found
+Error from server (NotFound): clusterroles.rbac.authorization.k8s.io "ingress-nginx-admission" not found
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
+
+Error: INSTALLATION FAILED: unable to continue with install: IngressClass "nginx" in namespace "" exists and cannot be imported into the current release: invalid ownership metadata; label validation error: missing key "app.kubernetes.io/managed-by": must be set to "Helm"; annotation validation error: missing key "meta.helm.sh/release-name": must be set to "ingress-nginx"; annotation validation error: missing key "meta.helm.sh/release-namespace": must be set to "ingress-nginx"
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingressclass
+
+NAME    CONTROLLER             PARAMETERS   AGE
+nginx   k8s.io/ingress-nginx   <none>       5d6h
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingressclass nginx -o yaml | head -n 40
+
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"IngressClass","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"controller","app.kubernetes.io/instance":"ingress-nginx","app.kubernetes.io/name":"ingress-nginx","app.kubernetes.io/part-of":"ingress-nginx","app.kubernetes.io/version":"1.8.1"},"name":"nginx"},"spec":{"controller":"k8s.io/ingress-nginx"}}
+  creationTimestamp: "2026-01-14T22:56:37Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.8.1
+  name: nginx
+  resourceVersion: "366856"
+  uid: 7b58be3f-7263-47cb-8ed7-3b2529728656
+spec:
+  controller: k8s.io/ingress-nginx
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl delete ingressclass nginx
+
+ingressclass.networking.k8s.io "nginx" deleted
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n ingress-nginx get pods
+kubectl get ingressclass
+
+No resources found in ingress-nginx namespace.
+No resources found
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
+
+NAME: ingress-nginx
+LAST DEPLOYED: Tue Jan 20 08:39:56 2026
+NAMESPACE: ingress-nginx
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+The ingress-nginx controller has been installed.
+It may take a few minutes for the load balancer IP to be available.
+You can watch the status by running 'kubectl get service --namespace ingress-nginx ingress-nginx-controller --output wide --watch'
+
+An example Ingress that makes use of the controller:
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: example
+    namespace: foo
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: exampleService
+                  port:
+                    number: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+      - hosts:
+        - www.example.com
+        secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n ingress-nginx get pods -w
+
+NAME                                        READY   STATUS    RESTARTS   AGE
+ingress-nginx-controller-6ff8676445-xbg42   1/1     Running   0          42s
+^C%                                                                                                                                                                            zeynepozsoy@TELENITYs-MacBook-Pro helm %
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl delete ns stc-vcp
+helm install test . -n stc-vcp --create-namespace
+
+namespace "stc-vcp" deleted
+NAME: test
+LAST DEPLOYED: Tue Jan 20 08:41:52 2026
+NAMESPACE: stc-vcp
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingress -n stc-vcp -o yaml
+
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: test
+      meta.helm.sh/release-namespace: stc-vcp
+    creationTimestamp: "2026-01-20T05:41:52Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: consolportals-sa-stc-vcp-ingress
+    namespace: stc-vcp
+    resourceVersion: "1033004"
+    uid: 4aea39b7-c594-428c-8df1-d511379faa3e
+  spec:
+    ingressClassName: nginx
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /adminportal
+          pathType: Prefix
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /ccportal
+          pathType: Prefix
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /partnerportal
+          pathType: Prefix
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /conf
+          pathType: Prefix
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /site.json
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: localhost
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: test
+      meta.helm.sh/release-namespace: stc-vcp
+    creationTimestamp: "2026-01-20T05:41:52Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: consolportals-sa-stc-vcp-ingress-captcha
+    namespace: stc-vcp
+    resourceVersion: "1033006"
+    uid: e8c51906-406e-40fd-947f-b59a455617f1
+  spec:
+    ingressClassName: nginx
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /captcha
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: localhost
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: test
+      meta.helm.sh/release-namespace: stc-vcp
+    creationTimestamp: "2026-01-20T05:41:52Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: consolportals-sa-stc-vcp-ingress-cmpf-rest
+    namespace: stc-vcp
+    resourceVersion: "1033007"
+    uid: 7bf70136-85f6-4ab8-b467-ba0b083aaf18
+  spec:
+    ingressClassName: nginx
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /cmpf-rest
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: localhost
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: test
+      meta.helm.sh/release-namespace: stc-vcp
+    creationTimestamp: "2026-01-20T05:41:52Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: consolportals-sa-stc-vcp-ingress-refresh-token
+    namespace: stc-vcp
+    resourceVersion: "1033005"
+    uid: 54ff18eb-06d0-4f5c-ad12-d1aa9c31b997
+  spec:
+    ingressClassName: nginx
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /auth
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: localhost
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: test
+      meta.helm.sh/release-namespace: stc-vcp
+    creationTimestamp: "2026-01-20T05:41:52Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: consolportals-sa-stc-vcp-ingress-vcp-services
+    namespace: stc-vcp
+    resourceVersion: "1033003"
+    uid: 7d0e85b8-0051-4c24-b502-5c9cb6efea8c
+  spec:
+    ingressClassName: nginx
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-a3gw-service
+              port:
+                number: 8444
+          path: /vcp-services
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: localhost
+kind: List
+metadata:
+  resourceVersion: ""
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n stc-vcp exec -it \
+  deploy/consolportals-sa-stc-vcp-httpd-deployment -- sh
+
+/usr/local/apache2 # # Show how Apache was started
+/usr/local/apache2 # ps aux | grep httpd
+    1 root      0:00 httpd -DFOREGROUND
+    7 www-data  0:00 httpd -DFOREGROUND
+    8 www-data  0:00 httpd -DFOREGROUND
+    9 www-data  0:00 httpd -DFOREGROUND
+   98 root      0:00 grep httpd
+/usr/local/apache2 # # Print the active config tree
+/usr/local/apache2 # httpd -V
+Server version: Apache/2.4.66 (Unix)
+Server built:   Dec 18 2025 00:29:22
+Server's Module Magic Number: 20120211:141
+Server loaded:  APR 1.7.6, APR-UTIL 1.6.3, PCRE 8.45 2021-06-15
+Compiled using: APR 1.7.6, APR-UTIL 1.6.3, PCRE 8.45 2021-06-15
+Architecture:   64-bit
+Server MPM:     event
+  threaded:     yes (fixed thread count)
+    forked:     yes (variable process count)
+Server compiled with....
+ -D APR_HAS_SENDFILE
+ -D APR_HAS_MMAP
+ -D APR_HAVE_IPV6 (IPv4-mapped addresses enabled)
+ -D APR_USE_PROC_PTHREAD_SERIALIZE
+ -D APR_USE_PTHREAD_SERIALIZE
+ -D SINGLE_LISTEN_UNSERIALIZED_ACCEPT
+ -D APR_HAS_OTHER_CHILD
+ -D AP_HAVE_RELIABLE_PIPED_LOGS
+ -D DYNAMIC_MODULE_LIMIT=256
+ -D HTTPD_ROOT="/usr/local/apache2"
+ -D SUEXEC_BIN="/usr/local/apache2/bin/suexec"
+ -D DEFAULT_PIDLOG="logs/httpd.pid"
+ -D DEFAULT_SCOREBOARD="logs/apache_runtime_status"
+ -D DEFAULT_ERRORLOG="logs/error_log"
+ -D AP_TYPES_CONFIG_FILE="conf/mime.types"
+ -D SERVER_CONFIG_FILE="conf/httpd.conf"
+/usr/local/apache2 # more conf/httpd.conf
+#
+# This is the main Apache HTTP server configuration file.  It contains the
+# configuration directives that give the server its instructions.
+# See <URL:http://httpd.apache.org/docs/2.4/> for detailed information.
+# In particular, see
+# <URL:http://httpd.apache.org/docs/2.4/mod/directives.html>
+# for a discussion of each configuration directive.
+#
+# Do NOT simply read the instructions in here without understanding
+# what they do.  They're here only as hints or reminders.  If you are unsure
+# consult the online docs. You have been warned.
+#
+# Configuration and logfile names: If the filenames you specify for many
+# of the server's control files begin with "/" (or "drive:/" for Win32), the
+# server will use that explicit path.  If the filenames do *not* begin
+/usr/local/apache2 # httpd -V
+Server version: Apache/2.4.66 (Unix)
+Server built:   Dec 18 2025 00:29:22
+Server's Module Magic Number: 20120211:141
+Server loaded:  APR 1.7.6, APR-UTIL 1.6.3, PCRE 8.45 2021-06-15
+Compiled using: APR 1.7.6, APR-UTIL 1.6.3, PCRE 8.45 2021-06-15
+Architecture:   64-bit
+Server MPM:     event
+  threaded:     yes (fixed thread count)
+    forked:     yes (variable process count)
+Server compiled with....
+ -D APR_HAS_SENDFILE
+ -D APR_HAS_MMAP
+ -D APR_HAVE_IPV6 (IPv4-mapped addresses enabled)
+ -D APR_USE_PROC_PTHREAD_SERIALIZE
+ -D APR_USE_PTHREAD_SERIALIZE
+ -D SINGLE_LISTEN_UNSERIALIZED_ACCEPT
+ -D APR_HAS_OTHER_CHILD
+ -D AP_HAVE_RELIABLE_PIPED_LOGS
+ -D DYNAMIC_MODULE_LIMIT=256
+ -D HTTPD_ROOT="/usr/local/apache2"
+ -D SUEXEC_BIN="/usr/local/apache2/bin/suexec"
+ -D DEFAULT_PIDLOG="logs/httpd.pid"
+ -D DEFAULT_SCOREBOARD="logs/apache_runtime_status"
+ -D DEFAULT_ERRORLOG="logs/error_log"
+ -D AP_TYPES_CONFIG_FILE="conf/mime.types"
+ -D SERVER_CONFIG_FILE="conf/httpd.conf"
+/usr/local/apache2 # vim conf.d/proxy.conf
+sh: vim: not found
+/usr/local/apache2 # more conf.d/proxy.conf
+# CMPF Auth
+ProxyPass        /cmpf-auth-rest/refresh-token http://consolportals-sa-stc-vcp-a3gw-service:8445/refresh-token
+ProxyPassReverse /cmpf-auth-rest/refresh-token http://consolportals-sa-stc-vcp-a3gw-service:8445/refresh-token
+ProxyPass        /cmpf-auth-rest http://consolportals-sa-stc-vcp-a3gw-service:8445/cmpf-rest
+ProxyPassReverse /cmpf-auth-rest http://consolportals-sa-stc-vcp-a3gw-service:8445/cmpf-rest
+
+# Portals
+# VCP
+ProxyPass        /adminportal http://consolportals-sa-stc-vcp-a3gw-service:8444/adminportal
+ProxyPassReverse /adminportal http://consolportals-sa-stc-vcp-a3gw-service:8444/adminportal
+ProxyPass        /ccportal http://consolportals-sa-stc-vcp-a3gw-service:8444/ccportal
+ProxyPassReverse /ccportal http://consolportals-sa-stc-vcp-a3gw-service:8444/ccportal
+ProxyPass        /partnerportal http://consolportals-sa-stc-vcp-a3gw-service:8444/partnerportal
+ProxyPassReverse /partnerportal http://consolportals-sa-stc-vcp-a3gw-service:8444/partnerportal
+
+# Other services
+ProxyPass        /vcp/services http://consolportals-sa-stc-vcp-a3gw-service:8444
+ProxyPassReverse /vcp/services http://consolportals-sa-stc-vcp-a3gw-service:8444
+ProxyPass        /conf http://consolportals-sa-stc-vcp-a3gw-service:8444/conf
+ProxyPassReverse /conf http://consolportals-sa-stc-vcp-a3gw-service:8444/conf
+ProxyPass        /site.json http://consolportals-sa-stc-vcp-a3gw-service:8444/site.json
+ProxyPassReverse /site.json http://consolportals-sa-stc-vcp-a3gw-service:8444/site.json
+ProxyPass        /img/captcha.png http://consolportals-sa-stc-vcp-a3gw-service:8445/captcha.png
+ProxyPassReverse /img/captcha.png http://consolportals-sa-stc-vcp-a3gw-service:8445/captcha.png
+/usr/local/apache2 #
+/usr/local/apache2 #
+/usr/local/apache2 # ^C
+
+/usr/local/apache2 # ^C
+
+/usr/local/apache2 # exit
+command terminated with exit code 130
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingress -n stc-vcp consolportals-sa-stc-vcp-ingress-vcp-services -o yaml | grep -n "path:"
+
+25:        path: /vcp-services
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n stc-vcp port-forward svc/consolportals-sa-stc-vcp-httpd-service 9080:80
+
+Forwarding from 127.0.0.1:9080 -> 80
+Forwarding from [::1]:9080 -> 80
+^C%                                                                                                                                                                                                                         zeynepozsoy@TELENITYs-MacBook-Pro helm %
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n stc-vcp delete ingress \
+  consolportals-sa-stc-vcp-ingress \
+  consolportals-sa-stc-vcp-ingress-captcha \
+  consolportals-sa-stc-vcp-ingress-cmpf-rest \
+  consolportals-sa-stc-vcp-ingress-refresh-token \
+  consolportals-sa-stc-vcp-ingress-vcp-services
+
+ingress.networking.k8s.io "consolportals-sa-stc-vcp-ingress" deleted from stc-vcp namespace
+ingress.networking.k8s.io "consolportals-sa-stc-vcp-ingress-captcha" deleted from stc-vcp namespace
+ingress.networking.k8s.io "consolportals-sa-stc-vcp-ingress-cmpf-rest" deleted from stc-vcp namespace
+ingress.networking.k8s.io "consolportals-sa-stc-vcp-ingress-refresh-token" deleted from stc-vcp namespace
+ingress.networking.k8s.io "consolportals-sa-stc-vcp-ingress-vcp-services" deleted from stc-vcp namespace
+zeynepozsoy@TELENITYs-MacBook-Pro helm % >....
+  name: httpd-catchall
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: consolportals-sa-stc-vcp-httpd-service
+            port:
+              number: 80
+EOF
+
+ingress.networking.k8s.io/httpd-catchall created
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n stc-vcp logs deploy/consolportals-sa-stc-vcp-httpd-deployment --tail=50
+
+Found 2 pods, using pod/consolportals-sa-stc-vcp-httpd-deployment-77f6d45498-jpx4d
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 10.1.4.197. Set the 'ServerName' directive globally to suppress this message
+[Tue Jan 20 05:41:54.154917 2026] [ssl:warn] [pid 1:tid 1] AH01906: www.example.com:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 20 05:41:54.155029 2026] [ssl:warn] [pid 1:tid 1] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 10.1.4.197. Set the 'ServerName' directive globally to suppress this message
+[Tue Jan 20 05:41:54.158063 2026] [ssl:warn] [pid 1:tid 1] AH01906: www.example.com:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 20 05:41:54.158158 2026] [ssl:warn] [pid 1:tid 1] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Jan 20 05:41:54.216250 2026] [mpm_event:notice] [pid 1:tid 1] AH00489: Apache/2.4.66 (Unix) OpenSSL/3.5.4 configured -- resuming normal operations
+[Tue Jan 20 05:41:54.216276 2026] [core:notice] [pid 1:tid 1] AH00094: Command line: 'httpd -D FOREGROUND'
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/main-3e4af2143e.js HTTP/1.1" 200 2669705
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/styles/main-3e40667587.css HTTP/1.1" 200 271886
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/partials/footer/footer.html HTTP/1.1" 200 356
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/partials/header/header.html HTTP/1.1" 200 5299
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/i18n/en.json HTTP/1.1" 200 225239
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/login/login.html HTTP/1.1" 200 2699
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /site.json?1768889480863 HTTP/1.1" 200 92
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.1" 200 77160
+10.1.4.186 - - [20/Jan/2026:06:11:20 +0000] "GET /adminportal/img/stc_logo_400x400.png HTTP/1.1" 200 32017
+10.1.4.186 - - [20/Jan/2026:06:11:21 +0000] "POST /cmpf-auth-rest/authenticate HTTP/1.1" 200 936
+10.1.4.186 - - [20/Jan/2026:06:11:22 +0000] "GET /vcp/services/cmpf-rest/useraccounts/1?withchildren=true&withprofiles=true HTTP/1.1" 200 2017
+10.1.4.186 - - [20/Jan/2026:06:11:22 +0000] "GET /adminportal/fonts/mem5YaGs126MiZpBA-UNirkOUuhv.woff HTTP/1.1" 200 18696
+10.1.4.186 - - [20/Jan/2026:06:11:22 +0000] "GET /vcp/services/cmpf-rest/organizations?offset=0&limit=10000&name=%25STC%25 HTTP/1.1" 200 808
+10.1.4.186 - - [20/Jan/2026:06:11:22 +0000] "GET /vcp/services/cmpf-rest/organizations?withprofiles=true&offset=0&limit=10000&name=Operator HTTP/1.1" 200 409
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /conf/server.json?1768889483330 HTTP/1.1" 200 12817
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/cmpf-rest/offers?offset=0&limit=0&withchildren=false&withorganization=false&withprofiles=false HTTP/1.1" 200 62
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/cmpf-rest/services?withchildren=false&withprofiles=false&offset=0&limit=0 HTTP/1.1" 200 65
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/cmpf-rest/partners?offset=0&limit=0&withprofiles=true HTTP/1.1" 200 66
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/content-management-rest/system/health HTTP/1.1" 200 47
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "POST /vcp/services/diagnostics-rest/hoststats/_search?size=200&pretty=true HTTP/1.1" 200 6579
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/smsantispam-core-gr-rest/micro/services/heartbeat HTTP/1.1" 200 -
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/bms-bulkmsg-dashboard-rest/v1/status HTTP/1.1" 200 48
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "POST /vcp/services/otp-rest/v1/client HTTP/1.1" 200 421
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/chggw-rest/rest/v1/dashboard/ping HTTP/1.1" 504 31
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/oivr-dashboard-rest/v1/statistics/getDashboardRates HTTP/1.1" 200 398
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/voicemail-rest/configuration/v1/cos-profiles HTTP/1.1" 200 1180
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/cmpf-rest/partners?offset=0&limit=0 HTTP/1.1" 200 66
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "POST /vcp/services/diagnostics-rest/hoststats/_search?size=200&pretty=true HTTP/1.1" 200 6581
+10.1.4.186 - - [20/Jan/2026:06:11:24 +0000] "GET /vcp/services/ussd-browser-gr-rest/v1/ussd-browser-configuration HTTP/1.1" 200 382
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/screening-manager-stats-rest/v1/scopes HTTP/1.1" 200 386
+[Tue Jan 20 06:12:23.550652 2026] [proxy_http:error] [pid 8:tid 83] (70007)The timeout specified has expired: [client 10.1.4.186:59078] AH01102: error reading status line from remote server consolportals-sa-stc-vcp-a3gw-service:8444, referer: http://localhost/adminportal/app.html
+[Tue Jan 20 06:12:23.550843 2026] [proxy:error] [pid 8:tid 83] [client 10.1.4.186:59078] AH00898: Error reading from remote server returned by /vcp/services/ssm-query-subscribers-rest/v1/subscriptions/counts, referer: http://localhost/adminportal/app.html
+10.1.4.186 - - [20/Jan/2026:06:11:23 +0000] "GET /vcp/services/ssm-query-subscribers-rest/v1/subscriptions/counts HTTP/1.1" 502 381
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl -n stc-vcp exec -it deploy/consolportals-sa-stc-vcp-httpd-deployment -- sh -c \
+  'wget -qSO- http://consolportals-sa-stc-vcp-a3gw-service:8444/ 2>&1 | head'
+
+  HTTP/1.1 403 Forbidden
+wget: server returned error: HTTP/1.1 403 Forbidden
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm uninstall test -n stc-vcp || true
+release "test" uninstalled
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl delete ns stc-vcp --wait || true
+namespace "stc-vcp" deleted
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm install test . -n stc-vcp --create-namespace
+
+NAME: test
+LAST DEPLOYED: Tue Jan 20 10:01:49 2026
+NAMESPACE: stc-vcp
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingress -n stc-vcp -o wide
+NAME                               CLASS   HOSTS   ADDRESS   PORTS   AGE
+consolportals-sa-stc-vcp-ingress   nginx   *                 80      13s
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl describe ingress -n stc-vcp consolportals-sa-stc-vcp-ingress
+Name:             consolportals-sa-stc-vcp-ingress
+Labels:           app.kubernetes.io/managed-by=Helm
+Namespace:        stc-vcp
+Address:
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /   consolportals-sa-stc-vcp-httpd-service:80 (10.1.4.200:80,10.1.4.204:80)
+Annotations:  meta.helm.sh/release-name: test
+              meta.helm.sh/release-namespace: stc-vcp
+Events:
+  Type    Reason  Age   From                      Message
+  ----    ------  ----  ----                      -------
+  Normal  Sync    22s   nginx-ingress-controller  Scheduled for sync
+zeynepozsoy@TELENITYs-MacBook-Pro helm %

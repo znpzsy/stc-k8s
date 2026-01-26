@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.ProviderAllowedCategoryProfile.Title' | translate }}
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="table-responsive">
+                <table ng-table="subcategoriesList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'PartnerInfo.Contents.RBT.ContentMetadatas.ContentInfo.ContentCategory' | translate" sortable="'category.name'">{{data.category.name}}</td>
+                        <td align="center" data-title="'PartnerInfo.Contents.RBT.ContentMetadatas.ContentInfo.ContentSubcategory' | translate" sortable="'name'">{{data.name}}</td>
+                        <td align="center" data-title="'PartnerInfo.Contents.RBT.ContentMetadatas.Id' | translate" sortable="'id'">{{data.id}}</td>
+
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

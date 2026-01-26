@@ -1,0 +1,24 @@
+{{- if .Values.httpd.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  replicas: {{ .Values.httpd.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-httpd
+  template:
+    metadata:
+      labels:
+        component: vcp-httpd
+    spec:
+      containers:
+        - name: vcp-httpd
+          image: "{{ .Values.httpd.image.repository }}:{{ .Values.httpd.image.tag }}"
+          imagePullPolicy: {{ .Values.httpd.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+{{- end }}

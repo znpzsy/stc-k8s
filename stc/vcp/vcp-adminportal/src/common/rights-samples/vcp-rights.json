@@ -1,0 +1,590 @@
+[
+    {
+        "operationName": "ManageIdentityOperations",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:Subscriber:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:SMSC:P2A:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ManageServiceOperations",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:Operator:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Subscriber:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Operator:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Subscriber:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:USC:A2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Services:VM",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:All:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:MMSC:P2A:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:All:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Services:PC",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ManageRule",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "ManageProfileDefinition",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "Products:USSI",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Subscription:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ScreeningLists:All:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Templates:All:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:All:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Services:CC",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Templates:All:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserAccount:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ManageUser",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Preferences:All:Read",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ManageGroup",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Operations:All:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetSubscriber",
+        "resourceName": "Subscription Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:Offer:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:USC",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Reports:OnDemand:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserAccount:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Subsystems:ReportGeneration",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Charging:All:Refund",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "GetPrice",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:Operator:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:MMSC:A2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ListOrganizations",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "ScreeningLists:All:Read",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Subscription:All:Unsubscribe",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:AntiSpam:P2A:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Products:SMSC",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:SMSF",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:MMSC:P2A:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:AntiSpam:A2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ManageOrganization",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Troubleshooting:SMSC:A2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ManageSecurityOperations",
+        "resourceName": "Security Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserGroup:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetProfileDefinition",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "ManagePricing",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Reports:Scheduled:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetUser",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "ManagePolicy",
+        "resourceName": "Security Management"
+    },
+    {
+        "operationName": "Configuration:All:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetRule",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "Products:AntiSpam",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ViewOrganizationToCreateUser",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Troubleshooting:SMSC:P2A:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Reports:Scheduled:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:SMSC:A2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Services:VM",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:ServiceProvider:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetProfile",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "GetGroup",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "GetProfileBinding",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "ScreeningLists:All:Create",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:ServiceProvider:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserAccount:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:All:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:All:Update",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ManageService",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:Service:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Services:CC",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:MMSC:P2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:AntiSpam:P2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Services:NM",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "GetOrganization",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Templates:All:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Subsystems:Provisioning",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:USC:P2A:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Subscriber:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:AntiSpam",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Subsystems:ScreeningMgmt",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ScreeningLists:All:Delete",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ScreeningLists:All:Update",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserAccount:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ManageProfileOperations",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "Subscription:All:Subscribe",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:MMSC:A2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Offer:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserGroup:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Reports:Scheduled:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetService",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Products:USC",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Subsystems:LicenseMgmt",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetOffer",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Troubleshooting:All:Delete",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Services:PC",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:All:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Service:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Reports:Scheduled:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "AdminPageOperation",
+        "resourceName": "AdminPageResource"
+    },
+    {
+        "operationName": "ManageOffer",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "Services:RBT",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ManageProfile",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "Troubleshooting:All:Read",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Services:NM",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Offer:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Preferences:All:Update",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Subsystems:Diagnostics",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:MMSC:P2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "ManageSubscriber",
+        "resourceName": "Subscription Management"
+    },
+    {
+        "operationName": "Products:MMSC",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Charging:All:Refund",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:USC:A2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserGroup:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ScreeningLists:All:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:USSI",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "GetPolicy",
+        "resourceName": "Security Management"
+    },
+    {
+        "operationName": "Troubleshooting:USC:P2A:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:AntiSpam:P2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "CreateOrganization",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "Operations:Provisioning:Service:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Service:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Services:MCN",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:UserGroup:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:SMSF",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:AntiSpam:P2A:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:SMSC",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:ServiceProvider:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ScreeningLists:All:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:ServiceProvider:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Operator:Create",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Operations:Provisioning:Offer:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ScreeningLists:All:Delete",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:SMSC:P2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Services:RBT",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Configuration:All:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Products:MMSC",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:AntiSpam:A2P:Peek",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Services:MCN",
+        "resourceName": "VCP Customer Care Portal"
+    },
+    {
+        "operationName": "Troubleshooting:All:Update",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Troubleshooting:SMSC:P2P:Peek",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "Templates:All:Read",
+        "resourceName": "VCP Admin Portal"
+    },
+    {
+        "operationName": "ManageProfileBinding",
+        "resourceName": "Profile Management"
+    }
+]

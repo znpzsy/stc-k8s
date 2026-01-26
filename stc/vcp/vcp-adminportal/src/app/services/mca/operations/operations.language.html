@@ -1,0 +1,12 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="languageCode" class="col-sm-3 control-label" style="text-align: left;">{{'CommonLabels.LanguageCode' | translate}}</label>
+        <div class="col-sm-9">
+            <select id="languageCode" name="languageCode" ng-model="languageCode" class="form-control"
+                    ng-change="changeLanguage(languageCode)"
+                    ng-options="language.languageCode as language.languageCode for language in languageList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+</form>

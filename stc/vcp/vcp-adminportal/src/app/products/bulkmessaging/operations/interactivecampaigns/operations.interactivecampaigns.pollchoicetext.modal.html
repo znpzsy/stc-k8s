@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.ChoiceModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="choiceText" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.ChoiceText' | translate }}</label>
+                    <div class="col-md-7">
+                        <textarea id="choiceText" name="choiceText" type="text" class="form-control" dir="auto"
+                                  ng-model="choice.text"
+                                  sms-counter="choice-text-counter"
+                                  rows="3" cols="50"
+                                  ng-required="true"
+                                  maxlength="9999" ng-maxlength="9999" ng-trim="true"
+                                  ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                        </textarea>
+                        <div class="pull-right" id="choice-text-counter">
+                            {{ 'Products.BulkMessaging.Operations.Campaigns.Characters' | translate }}: <label><span class="remaining"></span>/<span class="per_message strong"></span></label>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Parts' | translate }}: <label><span class="messages"></span></label>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.choiceText.$dirty && form.choiceText.$invalid }"
+                            ng-show="form.choiceText.$dirty && form.choiceText.$invalid">
+                            <li class="required" ng-show="form.choiceText.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.choiceText.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 9999 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Keyword' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="keyword" name="keyword" type="text" class="form-control"
+                               ng-model="choice.keyword"
+                               ng-required="true" maxlength="50" ng-maxlength="50"
+                               ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"/>
+                        <ul ng-class="{ 'parsley-error-list': form.keyword.$dirty && form.keyword.$invalid }"
+                            ng-show="form.keyword.$dirty && form.keyword.$invalid">
+                            <li class="required" ng-show="form.keyword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.keyword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 512 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="identifier" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Identifier' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="identifier" name="identifier" type="text" class="form-control"
+                               ng-model="choice.identifier"
+                               ng-required="true" maxlength="50" ng-maxlength="50"
+                               ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"/>
+                        <ul ng-class="{ 'parsley-error-list': form.identifier.$dirty && form.identifier.$invalid }"
+                            ng-show="form.identifier.$dirty && form.identifier.$invalid">
+                            <li class="required" ng-show="form.identifier.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.identifier.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 512 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="campaign.interactivityTemplate.value === 'RBT Poll'">
+                    <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotedTone' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <ui-select id="promotedTone" name="promotedTone" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                       ng-model="choice.promotedTone"
+                                       ng-required="true"
+                                       search-enabled="true"
+                                       close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                       ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="toneListItem as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                                   refresh="searchPromotedTones($select.search)"
+                                                   refresh-delay="0">
+                                    <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="choice.promotedTone = null;form.promotedTone.$setDirty();" class="btn btn-default" ng-disabled="!choice.promotedTone">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.promotedTone.$dirty && form.promotedTone.$invalid }"
+                            ng-show="form.promotedTone.$dirty && form.promotedTone.$invalid">
+                            <li class="required" ng-show="form.promotedTone.$error.required">{{
+                                'CommonMessages.RequiredFieldError' | translate }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate() || isNotChanged()"
+                                ng-click="save(choice);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

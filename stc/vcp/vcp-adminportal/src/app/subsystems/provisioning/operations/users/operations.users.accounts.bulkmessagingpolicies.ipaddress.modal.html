@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IpAddressTitle' | translate:{userName:userAccount.userName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleIpAddress' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="permissibleIpAddress" id="permissibleIpAddress" class="form-control"
+                       ng-model="permissibleIpAddress.value"
+                       ng-maxlength="15" maxlength="15" ng-required="true"
+                       ng-pattern="$root.Validators.IpAddress"
+                       placeholder="192.168.1.2"
+                       ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                <ul ng-class="{ 'parsley-error-list': form.permissibleIpAddress.$dirty && form.permissibleIpAddress.$invalid }" ng-show="form.permissibleIpAddress.$dirty && form.permissibleIpAddress.$invalid">
+                    <li class="required" ng-show="form.permissibleIpAddress.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.permissibleIpAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                    <li class="required" ng-show="form.permissibleIpAddress.$error.pattern">{{ 'CommonMessages.InvalidIpAddress' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()) || isNotChanged()"
+                        ng-click="save(permissibleIpAddress);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

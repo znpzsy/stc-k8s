@@ -1,0 +1,244 @@
+// TODO: These are originally MSGGW Constants / Understand the business logic and modify these definitions
+(function () {
+    'use strict';
+
+    /* Constants */
+    angular.module('adminportal.products.otp.constants', []);
+
+    var MessagingGwConstants = angular.module('adminportal.products.otp.constants');
+
+    MessagingGwConstants.constant('MSGGW_SUBSCRIBER_CHECK_POLICIES', ['CHECK_SUBSCRIBER', 'DO_NOT_CHECK']);
+
+    MessagingGwConstants.constant('MSGGW_INACTIVE_SUBSCRIBER_POLICIES', ['REJECT_INACTIVE_SUBSCRIBER', 'ACCEPT_INACTIVE_SUBSCRIBER']);
+
+    MessagingGwConstants.constant('MSGGW_OTHER_OPERATOR_RECIPIENT_POLICIES', ['REJECT', 'ACCEPT_AND_NOTIFY_PREPAID_SYSTEM']);
+
+    MessagingGwConstants.constant('MSGGW_OMOMT_CORRELATION_POLICIES', ['MOMT_CORRELATION_NOT_REQUIRED', 'MOMT_CORRELATION_REQUIRED']);
+
+    MessagingGwConstants.constant('MSGGW_STATUS_REPORT_POLICIES', ['AS_APPLICATION_SPECIFIED', 'NEVER_REQUEST_STATUS_REPORT', 'ALWAYS_REQUEST_STATUS_REPORT']);
+
+    MessagingGwConstants.constant('MSGGW_APPS_DIRECTIONS', ['TRANSCEIVER', 'TRANSMITTER', 'RECEIVER']);
+
+    MessagingGwConstants.constant('MSGGW_DEFAULT_TRANSACTION_MODES', ['FORWARD_AND_STORE', 'DATAGRAM', 'TRANSACTION', 'STORE_AND_FORWARD']);
+
+    MessagingGwConstants.constant('MSGGW_CONNECTION_SHARING_POLICIES', ['OWN_CONNECTION', 'SHARES_CONNECTION']);
+
+    MessagingGwConstants.constant('MSGGW_EDR_RESULT_REASONS', [
+        {reason_context: 0, reason_code: 5014001, text: 'MSG_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014002, text: 'UNKNOWN_DEST_AGENT_TYPE'},
+        {reason_context: 0, reason_code: 5014003, text: 'PREPAID_SYSTEM_PROBLEM'},
+        {reason_context: 0, reason_code: 5014004, text: 'CHARGING_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014005, text: 'MSG_SEND_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014006, text: 'MSG_SEND_FAILED'},
+        {reason_context: 0, reason_code: 5014007, text: 'MSG_CANCEL_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014008, text: 'MSG_REPLACE_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014009, text: 'MSG_QUERY_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014010, text: 'MSG_QUERY_FAILED'},
+        {reason_context: 0, reason_code: 5014011, text: 'DEST_ADDRESS_GLOBAL_BLOCKED'},
+        {reason_context: 0, reason_code: 5014012, text: 'DEST_ADDRESS_LOCAL_BLOCKED'},
+        {reason_context: 0, reason_code: 5014013, text: 'ORIG_ADDRESS_GLOBAL_BLOCKED'},
+        {reason_context: 0, reason_code: 5014014, text: 'ORIG_ADDRESS_LOCAL_BLOCKED'},
+        {reason_context: 0, reason_code: 5014015, text: 'NO_ROUTE_TO_DESTINATION_ADDRESS'},
+        {reason_context: 0, reason_code: 5014016, text: 'NO_ACTIVE_SESSION_FOR_CLIENT'},
+        {reason_context: 0, reason_code: 5014017, text: 'UNKNOWN_TRX_MESSAGE_GROUP'},
+        {reason_context: 0, reason_code: 5014018, text: 'MSG_INSERT_FAILED'},
+        {reason_context: 0, reason_code: 5014019, text: 'MSG_DB_INSERTION_FAILED'},
+        {reason_context: 0, reason_code: 5014026, text: 'INSUFFICIENT_CREDIT_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014027, text: 'LICENSE_LIMIT_EXCEEDED'},
+        {reason_context: 0, reason_code: 5014028, text: 'QUOTA_LIMIT_EXCEEDED'},
+        {reason_context: 0, reason_code: 5014029, text: 'MO_CORRELATION_ID_SET_FAILED'},
+        {reason_context: 0, reason_code: 5014030, text: 'INVALID_TARIFF_INFO'},
+        {reason_context: 0, reason_code: 5014031, text: 'CHARGING_ENGINE_IS_NULL'},
+        {reason_context: 0, reason_code: 5014032, text: 'SERVER_ERROR'},
+        {reason_context: 0, reason_code: 5014033, text: 'SERVER_TICKET_NOT_FOUND'},
+        {reason_context: 0, reason_code: 5014034, text: 'APPLICATION_NOT_ACTIVE'},
+        {reason_context: 0, reason_code: 5014035, text: 'APPLICATION_NOT_TRANSMITTER'},
+        {reason_context: 0, reason_code: 5014036, text: 'APPLICATION_NOT_RECEIVER'},
+        {reason_context: 0, reason_code: 5014040, text: 'SUBSCRIBER_DATA_IS_NULL'},
+        {reason_context: 0, reason_code: 5014041, text: 'PROVISIONING_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014050, text: 'NO_BINARY_SMS_PRIVILEGE'},
+        {reason_context: 0, reason_code: 5014051, text: 'NO_CONCAT_SMS_PRIVILEGE'},
+        {reason_context: 0, reason_code: 5014052, text: 'SM_LENGTH_NOT_ALLOWED'},
+        {reason_context: 0, reason_code: 5014053, text: 'SERVICE_TO_OTHER_OPERATOR_SUBSCRIBER_REJECTED'},
+        {reason_context: 0, reason_code: 5014054, text: 'SERVICE_TO_INACTIVE_RECIPIENT_SUBSCRIBER_REJECTED'},
+        {reason_context: 0, reason_code: 5014055, text: 'SERVICE_TO_INACTIVE_SENDER_SUBSCRIBER_REJECTED'},
+        {reason_context: 0, reason_code: 5014056, text: 'APPLICATION_SHORT_CODE_NOT_ACCEPTED'},
+        {reason_context: 0, reason_code: 5014057, text: 'ALPHANUMERIC_ADDRESS_NOT_ALLOWED'},
+        {reason_context: 0, reason_code: 5014058, text: 'SMSC_TIMEOUT_EXCEPTION'},
+        {reason_context: 0, reason_code: 5014059, text: 'MULTIPLE_RECIPIENT_NOT_SUPPORTED'},
+        {reason_context: 0, reason_code: 5014060, text: 'CONSENT_DENIED'},
+        {reason_context: 0, reason_code: 5014061, text: 'CONSENT_EXPIRED'},
+        {reason_context: 0, reason_code: 5014062, text: 'CONSENT_NORESPONSE'},
+        {reason_context: 0, reason_code: 5014063, text: 'CONSENT_UNKNOWN'},
+        {reason_context: 0, reason_code: 5014064, text: 'BLACKHOUR_INTERVAL'},
+        {reason_context: 0, reason_code: 5014065, text: 'DUPLICATE_MESSAGE'},
+        {reason_context: 0, reason_code: 5014066, text: 'THROTTLER_EXCEEDED'},
+        {reason_context: 0, reason_code: 5014067, text: 'INPUT_RATE_EXCEEDED'},
+        {reason_context: 0, reason_code: 5014068, text: 'KEYWORD_SCREENING'},
+        {reason_context: 0, reason_code: 196609, text: 'CLIENT_NOT_FOUND'},
+        {reason_context: 0, reason_code: 196610, text: 'PROCESSOR_NOT_FOUND'},
+        {reason_context: 0, reason_code: 196611, text: 'MSG_INSERT_FAILED'},
+        {reason_context: 0, reason_code: 196612, text: 'MSG_EXCEPTION'},
+        {reason_context: 0, reason_code: 196613, text: 'UNKNOWN_TRX'},
+        {reason_context: 0, reason_code: 196614, text: 'UNBOUND_CLIENT_IMPL'},
+        {reason_context: 0, reason_code: 196615, text: 'INPUT_WINDOW_SIZE_EXCEEDED'},
+        {reason_context: 0, reason_code: 196616, text: 'OUTPUT_WINDOW_SIZE_EXCEEDED'},
+        {reason_context: 0, reason_code: 196617, text: 'TEMPORARY_SYSTEM_ERROR'},
+        {reason_context: 0, reason_code: 196618, text: 'TCP_SENT_FAILURE'},
+        {reason_context: 0, reason_code: 196619, text: 'EXCEPTION_OCCURRED'},
+        {reason_context: 0, reason_code: 196620, text: 'TRX_CANCELLED'},
+        {reason_context: 0, reason_code: 196621, text: 'ROUTE_NOT_FOUND'},
+        {reason_context: 0, reason_code: 196622, text: 'DEST_ADDRESS_GLOBAL_BLOCKED'},
+        {reason_context: 0, reason_code: 196623, text: 'DEST_ADDRESS_LOCAL_BLOCKED'},
+        {reason_context: 0, reason_code: 196624, text: 'ORIG_ADDRESS_GLOBAL_BLOCKED'},
+        {reason_context: 0, reason_code: 196625, text: 'ORIG_ADDRESS_LOCAL_BLOCKED'},
+        {reason_context: 0, reason_code: 196626, text: 'VALIDATION_ERROR'}
+    ]);
+
+    MessagingGwConstants.constant('MSGGW_EDR_TYPES', [
+        {type_key: 1, text: 'EVENT_MT_DELIVERY_ATTEMPTED_VALUE'},
+        {type_key: 2, text: 'EVENT_MT_DELIVERY_SUCCESSFUL_VALUE'},
+        {type_key: 3, text: 'EVENT_MT_DELIVERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 4, text: 'EVENT_MO_DELIVERY_ATTEMPTED_VALUE'},
+        {type_key: 5, text: 'EVENT_MO_DELIVERY_SUCCESSFUL_VALUE'},
+        {type_key: 6, text: 'EVENT_MO_DELIVERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 7, text: 'EVENT_SR_DELIVERY_ATTEMPTED_VALUE'},
+        {type_key: 8, text: 'EVENT_SR_DELIVERY_SUCCESSFUL_VALUE'},
+        {type_key: 9, text: 'EVENT_SR_DELIVERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 10, text: 'EVENT_QUERY_SUCCESSFUL_VALUE'},
+        {type_key: 11, text: 'EVENT_QUERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 12, text: 'EVENT_CANCEL_SUCCESSFUL_VALUE'},
+        {type_key: 13, text: 'EVENT_CANCEL_UNSUCCESSFUL_VALUE'},
+        {type_key: 14, text: 'EVENT_REPLACE_SUCCESSFUL_VALUE'},
+        {type_key: 15, text: 'EVENT_REPLACE_UNSUCCESSFUL_VALUE'},
+        {type_key: 16, text: 'EVENT_ALERT_REQUEST_ATTEMPTED_VALUE'},
+        {type_key: 17, text: 'EVENT_ALERT_REQUEST_SUCCESSFUL_VALUE'},
+        {type_key: 18, text: 'EVENT_ALERT_REQUEST_UNSUCCESSFUL_VALUE'},
+        {type_key: 19, text: 'EVENT_STATUS_REPORT_GENERATED_VALUE'},
+        {type_key: 20, text: 'EVENT_CHARGING_ATTEMPTED_VALUE'},
+        {type_key: 21, text: 'EVENT_CHARGING_SUCCESSFUL_VALUE'},
+        {type_key: 22, text: 'EVENT_CHARGING_UNSUCCESSFUL_VALUE'},
+        {type_key: 23, text: 'EVENT_MT_REQUEST_RECEIVED_VALUE'},
+        {type_key: 24, text: 'EVENT_MO_REQUEST_RECEIVED_VALUE'},
+        {type_key: 25, text: 'EVENT_SR_REQUEST_RECEIVED_VALUE'},
+        {type_key: 26, text: 'EVENT_MT_REQUEST_SILENTLY_DROPPED_VALUE'},
+        {type_key: 27, text: 'EVENT_MO_REQUEST_SILENTLY_DROPPED_VALUE'},
+        {type_key: 28, text: 'EVENT_SR_REQUEST_SILENTLY_DROPPED_VALUE'},
+        {type_key: 29, text: 'EVENT_MO_CONSENT_ATTEMPTED_VALUE'},
+        {type_key: 30, text: 'EVENT_MO_CONSENT_PENDING_VALUE'},
+        {type_key: 31, text: 'EVENT_MO_CONSENT_RECEIVED_VALUE'},
+        {type_key: 32, text: 'EVENT_LICENSE_CONSUMED_VALUE'},
+        {type_key: 257, text: 'EVENT_SUBMIT_RECEIVED_VALUE'},
+        {type_key: 258, text: 'EVENT_SUBMIT_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 259, text: 'EVENT_SUBMIT_RECEIVED_REJECTED_VALUE'},
+        {type_key: 260, text: 'EVENT_DATA_RECEIVED_VALUE'},
+        {type_key: 261, text: 'EVENT_DATA_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 262, text: 'EVENT_DATA_RECEIVED_REJECTED_VALUE'},
+        {type_key: 263, text: 'EVENT_QUERY_RECEIVED_VALUE'},
+        {type_key: 264, text: 'EVENT_QUERY_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 265, text: 'EVENT_QUERY_RECEIVED_REJECTED_VALUE'},
+        {type_key: 266, text: 'EVENT_CANCEL_RECEIVED_VALUE'},
+        {type_key: 267, text: 'EVENT_CANCEL_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 268, text: 'EVENT_CANCEL_RECEIVED_REJECTED_VALUE'},
+        {type_key: 269, text: 'EVENT_REPLACE_RECEIVED_VALUE'},
+        {type_key: 270, text: 'EVENT_REPLACE_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 271, text: 'EVENT_REPLACE_RECEIVED_REJECTED_VALUE'},
+        {type_key: 272, text: 'EVENT_SM_RECEIVED_VALUE'},
+        {type_key: 273, text: 'EVENT_SM_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 274, text: 'EVENT_SM_RECEIVED_REJECTED_VALUE'},
+        {type_key: 275, text: 'EVENT_DELIVER_SENT_VALUE'},
+        {type_key: 276, text: 'EVENT_DELIVER_SENT_ACCEPTED_VALUE'},
+        {type_key: 277, text: 'EVENT_DELIVER_SENT_REJECTED_VALUE'},
+        {type_key: 278, text: 'EVENT_DATA_SENT_VALUE'},
+        {type_key: 279, text: 'EVENT_DATA_SENT_ACCEPTED_VALUE'},
+        {type_key: 280, text: 'EVENT_DATA_SENT_REJECTED_VALUE'},
+        {type_key: 281, text: 'EVENT_ALERT_NOTIFICATION_SENT_VALUE'},
+        {type_key: 282, text: 'EVENT_LONG_MESSAGES_ACCEPTED_VALUE'},
+        {type_key: 283, text: 'EVENT_LONG_MESSAGE_PARTS_VALUE'},
+        {type_key: 284, text: 'EVENT_SM_ITEMS_ACCEPTED_VALUE'},
+        {type_key: 285, text: 'EVENT_SM_ITEMS_REJECTED_VALUE'},
+        {type_key: 769, text: 'EVENT_STORE_DB_INSERTION_ATTEMPT_VALUE'},
+        {type_key: 770, text: 'EVENT_STORE_DB_INSERTION_SUCCESSFUL_VALUE'},
+        {type_key: 771, text: 'EVENT_STORE_DB_INSERTION_UNSUCCESSFUL_VALUE'},
+        {type_key: 772, text: 'EVENT_STORE_DB_RETRY_VALUE'},
+        {type_key: 773, text: 'EVENT_STORE_DB_DELETION_DELIVERED_VALUE'},
+        {type_key: 774, text: 'EVENT_STORE_DB_DELETION_EXPIRED_VALUE'},
+        {type_key: 2305, text: 'EVENT_SUBMIT_REQUEST_RECEIVED_VALUE'},
+        {type_key: 2306, text: 'EVENT_SUBMIT_REQUEST_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 2307, text: 'EVENT_SUBMIT_REQUEST_RECEIVED_REJECTED_VALUE'},
+        {type_key: 2308, text: 'EVENT_CANCEL_REQUEST_RECEIVED_VALUE'},
+        {type_key: 2309, text: 'EVENT_CANCEL_REQUEST_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 2310, text: 'EVENT_CANCEL_REQUEST_RECEIVED_REJECTED_VALUE'},
+        {type_key: 2311, text: 'EVENT_REPLACE_REQUEST_RECEIVED_VALUE'},
+        {type_key: 2312, text: 'EVENT_REPLACE_REQUEST_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 2313, text: 'EVENT_REPLACE_REQUEST_RECEIVED_REJECTED_VALUE'},
+        {type_key: 2314, text: 'EVENT_DELIVERY_REQUEST_SENT_VALUE'},
+        {type_key: 2315, text: 'EVENT_DELIVERY_REQUEST_SENT_ACCEPTED_VALUE'},
+        {type_key: 2316, text: 'EVENT_DELIVERY_REQUEST_SENT_REJECTED_VALUE'},
+        {type_key: 2561, text: 'EVENT_MT_DELIVERY_ATTEMPTED_VALUE'},
+        {type_key: 2562, text: 'EVENT_MT_DELIVERY_SUCCESSFUL_VALUE'},
+        {type_key: 2563, text: 'EVENT_MT_DELIVERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 2564, text: 'EVENT_MO_DELIVERY_ATTEMPTED_VALUE'},
+        {type_key: 2565, text: 'EVENT_MO_DELIVERY_SUCCESSFUL_VALUE'},
+        {type_key: 2566, text: 'EVENT_MO_DELIVERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 2567, text: 'EVENT_SR_DELIVERY_ATTEMPTED_VALUE'},
+        {type_key: 2568, text: 'EVENT_SR_DELIVERY_SUCCESSFUL_VALUE'},
+        {type_key: 2569, text: 'EVENT_SR_DELIVERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 2570, text: 'EVENT_QUERY_SUCCESSFUL_VALUE'},
+        {type_key: 2571, text: 'EVENT_QUERY_UNSUCCESSFUL_VALUE'},
+        {type_key: 2572, text: 'EVENT_CANCEL_SUCCESSFUL_VALUE'},
+        {type_key: 2573, text: 'EVENT_CANCEL_UNSUCCESSFUL_VALUE'},
+        {type_key: 2574, text: 'EVENT_REPLACE_SUCCESSFUL_VALUE'},
+        {type_key: 2575, text: 'EVENT_REPLACE_UNSUCCESSFUL_VALUE'},
+        {type_key: 2576, text: 'EVENT_STATUS_REPORT_GENERATED_VALUE'},
+        {type_key: 2577, text: 'EVENT_CHARGING_ATTEMPTED_VALUE'},
+        {type_key: 2578, text: 'EVENT_CHARGING_SUCCESSFUL_VALUE'},
+        {type_key: 2579, text: 'EVENT_CHARGING_UNSUCCESSFUL_VALUE'},
+        {type_key: 2580, text: 'EVENT_LICENSE_CONSUMED_VALUE'},
+        {type_key: 2817, text: 'EVENT_SMS_FORWARD_REQ_RECEIVED_VALUE'},
+        {type_key: 2818, text: 'EVENT_SMS_FORWARD_REQ_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 2819, text: 'EVENT_SMS_FORWARD_REQ_RECEIVED_REJECTED_VALUE'},
+        {type_key: 2820, text: 'EVENT_SMS_FORWARD_ATTEMPTED_VALUE'},
+        {type_key: 2821, text: 'EVENT_SMS_FORWARD_ATTEMPTED_SUCCESS_VALUE'},
+        {type_key: 2822, text: 'EVENT_SMS_FORWARD_ATTEMPTED_FAILURE_VALUE'},
+        {type_key: 2823, text: 'EVENT_SMS_FORWARD_REPORT_RECEIVED_STATUS_SUCCESS_VALUE'},
+        {type_key: 2824, text: 'EVENT_SMS_FORWARD_REPORT_RECEIVED_STATUS_FAILURE_VALUE'},
+        {type_key: 2825, text: 'EVENT_SMS_FORWARD_STATUS_REPORT_RECEIVED_VALUE'},
+        {type_key: 2826, text: 'EVENT_SMS_FORWARD_STATUS_REPORT_RECEIVED_ACCEPTED_VALUE'},
+        {type_key: 2827, text: 'EVENT_SMS_FORWARD_STATUS_REPORT_RECEIVED_REJECTED_VALUE'},
+        {type_key: 2828, text: 'EVENT_SMS_FORWARD_STATUS_REPORT_ATTEMPTED_VALUE'},
+        {type_key: 2829, text: 'EVENT_SMS_FORWARD_STATUS_REPORT_ATTEMPTED_SUCCESS_VALUE'}
+    ]);
+
+    MessagingGwConstants.constant('MSGGW_SMS_DELIVERY_STATES', [
+        {state: 0, text: 'UNKNOWN'},
+        {state: 1, text: 'SUBMIT'},
+        {state: 2, text: 'DELIVER'},
+        {state: 3, text: 'WAIT4RETRY'},
+        {state: 4, text: 'DELIVERED'},
+        {state: 5, text: 'UNDELIVERED'},
+        {state: 6, text: 'WAIT4REPLACE'},
+        {state: 7, text: 'WAIT4CANCEL'},
+        {state: 8, text: 'WAIT4RECOVERY'},
+        {state: 9, text: 'EXPIRED'},
+        {state: 10, text: 'REPLACED'},
+        {state: 11, text: 'CANCELED'}
+    ]);
+
+    MessagingGwConstants.constant('MSGGW_SMSC_AGENT_TYPES', [
+        {type_key: 8, text: 'SMSC'},
+        {type_key: 1, text: 'SERVICE'}
+    ]);
+
+    MessagingGwConstants.constant('MSGGW_MMSC_AGENT_TYPES', [
+        {type_key: 9, text: 'MMSC'},
+        {type_key: 1, text: 'SERVICE'}
+    ]);
+
+    MessagingGwConstants.constant('MSGGW_SLA_ACTIONS', ['LOG_REJECT_NOTIFY', 'LOG_NOTIFY', 'LOG']);
+
+    MessagingGwConstants.constant('MSGGW_SLA_REFRESH_PERIODS', ['HOURLY', 'DAILY', 'WEEKLY', 'MONTHLY']);
+
+    MessagingGwConstants.constant('MSGGW_KEYWORD_SCREENING_LISTS_OPERATIONS', ['REJECT', 'REPLACE']);
+
+})();

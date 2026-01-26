@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ pageHeaderKey | translate }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.TableColumns.Msc' | translate }}</label>
+            <div class="col-md-9">
+                <input name="msc" type="text" class="form-control" ng-maxlength="50" maxlength="50"
+                       ng-model="entry.msc" ng-required="true" required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.msc.$dirty && form.msc.$invalid }" ng-show="form.msc.$dirty && form.msc.$invalid">
+                    <li class="required" ng-show="form.msc.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.msc.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.msc.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || !AuthorizationService.canAntispamScreeningListsCreate()"
+            ng-click="save(entry)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

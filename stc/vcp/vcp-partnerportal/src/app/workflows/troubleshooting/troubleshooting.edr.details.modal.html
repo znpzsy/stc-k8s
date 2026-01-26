@@ -1,0 +1,98 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Workflows.Troubleshooting.Details.PageHeader' | translate:{ flowId: edrRecord.flowId } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.From' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.from }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.To' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.to ? edrRecord.to : DEFAULT_ORGANIZATION_NAME }}&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.PartnerName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.partnerName }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.PartnerId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.partnerId }}&nbsp;</td>
+                    </tr>
+
+                    <tr ng-if="edrRecord.resourceType === 'SERVICE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ServiceName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.serviceName }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'SERVICE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ServiceId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.serviceId }}&nbsp;</td>
+                    </tr>
+
+                    <tr ng-if="edrRecord.resourceType === 'OFFER'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.OfferName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.offerName }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'OFFER'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.OfferId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.offerId }}&nbsp;</td>
+                    </tr>
+
+                    <tr ng-if="edrRecord.resourceType === 'CONTENT_METADATA' || edrRecord.resourceType === 'CONTENT_FILE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ContentMetadataName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.contentMetadataName }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'CONTENT_METADATA' || edrRecord.resourceType === 'CONTENT_FILE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ContentMetadataId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.contentMetadataId }}&nbsp;</td>
+                    </tr>
+
+                    <tr ng-if="edrRecord.resourceType === 'CONTENT_FILE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ContentFileName' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.contentFileName }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'CONTENT_FILE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ContentFileId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.contentFileId }}&nbsp;</td>
+                    </tr>
+
+                    <tr ng-if="edrRecord.resourceType === 'SHORT_CODE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ShortCode' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.shortCode }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'SHORT_CODE'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.ShortCodeId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.shortCodeId }}&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td class="kv-key">{{ 'CommonLabels.State' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.state }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'SERVICE' || edrRecord.resourceType === 'OFFER' || edrRecord.resourceType === 'PARTNER' || edrRecord.resourceType === 'CONTENT_METADATA'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.StartDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.startDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.resourceType === 'SERVICE' || edrRecord.resourceType === 'OFFER' || edrRecord.resourceType === 'PARTNER' || edrRecord.resourceType === 'CONTENT_METADATA'">
+                        <td class="kv-key">{{ 'Workflows.Troubleshooting.TableColumns.EndDate' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.endDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

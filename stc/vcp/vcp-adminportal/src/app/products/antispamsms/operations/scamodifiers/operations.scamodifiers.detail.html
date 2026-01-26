@@ -1,0 +1,78 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.SCAModifiers.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="callingGt" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.CallingGT' | translate }}</label>
+            <div class="col-md-7">
+                <input id="callingGt" name="callingGt" type="text" class="form-control"
+                       ng-model="entry.callingGt"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="entry.callingGt"/>
+                <ul ng-class="{ 'parsley-error-list': form.callingGt.$dirty && form.callingGt.$invalid }" ng-show="form.callingGt.$dirty && form.callingGt.$invalid">
+                    <li class="required" ng-show="form.callingGt.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.callingGt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mscGt" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.MSCGT' | translate }}</label>
+            <div class="col-md-7">
+                <input id="mscGt" name="mscGt" type="text" class="form-control"
+                       ng-model="entry.mscGt"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="entry.mscGt"/>
+                <ul ng-class="{ 'parsley-error-list': form.mscGt.$dirty && form.mscGt.$invalid }" ng-show="form.mscGt.$dirty && form.mscGt.$invalid">
+                    <li class="required" ng-show="form.mscGt.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.mscGt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="imsi" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.IMSI' | translate }}</label>
+            <div class="col-md-7">
+                <input id="imsi" name="imsi" type="text" class="form-control"
+                       ng-model="entry.imsi"
+                       ng-maxlength="50" maxlength="50"
+                       ng-disabled="(entry.callingGt ? !AuthorizationService.canAntispamSCAModifiersUpdate() : !AuthorizationService.canAntispamSCAModifiersCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.imsi.$dirty && form.imsi.$invalid }" ng-show="form.imsi.$dirty && form.imsi.$invalid">
+                    <li class="required" ng-show="form.imsi.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status"  class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-7">
+                <select id="status" name="status" class="form-control"
+                        ng-disabled="(entry.callingGt ? !AuthorizationService.canAntispamSCAModifiersUpdate() : !AuthorizationService.canAntispamSCAModifiersCreate())"
+                        ng-model="entry.status"
+                        ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || isNotChanged() || (entry.callingGt ? !AuthorizationService.canAntispamSCAModifiersUpdate() : !AuthorizationService.canAntispamSCAModifiersCreate())"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

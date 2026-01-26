@@ -1,0 +1,49 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+        
+        <ul class="nav nav-tabs">
+            <!--Dashboards-->
+            <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.dashboards') }" ng-if="AuthorizationService.canAllDashboardRead()">
+                <a ui-sref="subsystems.contentmanagement.dashboards.rbt" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+            <!--Operations-->
+            <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.operations') && !$state.includes('subsystems.contentmanagement.operations.rbt.bulkoperations') }" ng-if="AuthorizationService.canCmsOperationsContentRead()">
+                <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.tones.list" data-toggle="tab">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+            <!--Bulk Operations-->
+            <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.bulkoperations') }" ng-if="AuthorizationService.canCmsOperationsContentRead()">
+                <a ui-sref="subsystems.contentmanagement.bulkoperations.management.list" data-toggle="tab">
+                    <span class="fa fa-tasks"></span> {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.Title' | translate }}
+                </a>
+            </li>
+            <!--Configuration-->
+            <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="subsystems.contentmanagement.configuration.settings.prayertimestones.list" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+            <!--Troubleshooting-->
+            <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.troubleshooting') }"
+                ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="subsystems.contentmanagement.troubleshooting" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

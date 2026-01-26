@@ -1,0 +1,124 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.TranslationTables.PageHeader' | translate }} / {{ $state.current.data.pageHeaderKey | translate }} / {{ $state.current.data.subPageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" ng-if="!isGlobal">
+        <div class="form-group">
+            <label for="selectedSMPPApplication" class="col-sm-3 control-label" style="text-align: left;">{{ 'Products.SMSC.Operations.TranslationTables.ApplicationName' | translate}}</label>
+            <div class="col-sm-9">
+                <select id="selectedSMPPApplication" name="selectedSMPPApplication" ng-model="smppApplication.selected" class="form-control"
+                        ng-change="changeSMPPApplication(smppApplication.selected)"
+                        ng-options="smppApplication as smppApplication.label for smppApplication in smppApplicationList">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div ng-show="showTable">
+
+    <div class="portlet-body buttons-portlet-body">
+        <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-5">
+                <div class="pull-left">
+                    <button class="btn btn-secondary btn-sm"
+                            ui-sref="{{newState}}({ appId: (smppApplication.selected.id || appId) })"
+                            ng-disabled="!AuthorizationService.canCreate()">
+                        <i class="fa fa-plus"></i>
+                        {{ 'CommonLabels.AddNewEntry' | translate }}
+                    </button>
+                    <button type="button" ng-click="showAddressTranslationTestForm()" class="btn btn-sm btn-success" style="margin-left: 10px;">{{ 'CommonLabels.TestDrive' | translate }}</button>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div class="pull-right">
+                    <div class="btn-group" ng-show="addressTranslationList.tableParams.total() > 0">
+                        <button type="button" ng-click="exportRecords(key, 'csv', smppApplication.selected)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                        <button type="button" ng-click="exportRecords(key, 'xls', smppApplication.selected)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <form class="mainnav-form">
+                    <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                           ng-model="filterText" ng-change="filterTable(filterText, ['name', 'priority', 'regex'])"
+                           placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                    <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table ng-table="addressTranslationList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <thead>
+                        <tr>
+                            <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('name', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('name', 'desc') }"
+                                ng-click="addressTranslationList.tableParams.sorting({'name': addressTranslationList.tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Operations.TranslationTables.TableColumns.Name' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('priority', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('priority', 'desc') }"
+                                ng-click="addressTranslationList.tableParams.sorting({'priority': addressTranslationList.tableParams.isSortBy('priority', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Operations.TranslationTables.TableColumns.Precedence' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('regex', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('regex', 'desc') }"
+                                ng-click="addressTranslationList.tableParams.sorting({'regex': addressTranslationList.tableParams.isSortBy('regex', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Operations.TranslationTables.TableColumns.MatchingPattern' | translate }}</div>
+                            </th>
+                            <th class="sortable" ng-class="{'sort-asc': addressTranslationList.tableParams.isSortBy('valid', 'asc'), 'sort-desc': addressTranslationList.tableParams.isSortBy('valid', 'desc') }"
+                                ng-click="addressTranslationList.tableParams.sorting({'valid': addressTranslationList.tableParams.isSortBy('valid', 'asc') ? 'desc' : 'asc'})">
+                                <div>{{ 'Products.SMSC.Operations.TranslationTables.TableColumns.Address' | translate }}</div>
+                            </th>
+                            <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                            <td align="center">{{data.name}}</td>
+                            <td align="center">{{data.priority}}</td>
+                            <td align="center">{{data.regex}}</td>
+                            <td align="center">{{data.valid | ValidityFilter}}</td>
+                            <td align="center">
+                                <button ui-sref="{{updateState}}({ appId: (smppApplication.selected.id || appId), name: data.name })"
+                                        class="btn btn-xs btn-secondary"
+                                        title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                    <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                    <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                                </button>
+                                <button ng-click="manageContentFilters(data)"
+                                        class="btn btn-xs btn-default"
+                                        title="{{ 'CommonLabels.FilteringCriteria' | translate }}"
+                                        ng-disabled="!AuthorizationService.canUpdate()">
+                                    <i class="fa fa-filter"></i>
+                                </button>
+                                <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

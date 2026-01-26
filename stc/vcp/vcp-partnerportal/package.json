@@ -1,0 +1,43 @@
+{
+  "name": "vcp-partnerportal",
+  "description": "Value Added Services Platform Partner Web Application",
+  "private": true,
+  "authors": [
+    "Okan Özeren"
+  ],
+  "devDependencies": {
+    "browser-sync": "^2.18.12",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-cache": "^0.4.6",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-gzip": "^1.4.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-jsonminify": "^1.0.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-ng-config": "^1.4.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-rev": "^7.1.2",
+    "gulp-string-replace": "^1.1.2",
+    "gulp-tar": "^1.9.0",
+    "gulp-uglify": "^2.1.2",
+    "gulp-usemin": "^0.3.28",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1",
+    "yargs": "^7.1.0",
+    "gulp-ssh": "^0.6.0",
+    "merge-stream": "^1.0.1",
+    "natives": "^1.1.6",
+    "serve-static": "^1.13.2"
+  },
+  "resolutions": {
+    "natives": "1.1.6"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

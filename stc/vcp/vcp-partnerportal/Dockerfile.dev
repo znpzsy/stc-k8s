@@ -1,0 +1,27 @@
+# Use Node 10 (More Stable for Legacy Projects) instead of Node 11
+FROM node:10-alpine as builder
+WORKDIR "/space/app"
+
+# Install global packages
+RUN npm install -g gulp@3.9.1 bower@1.8.14
+
+RUN apk add --no-cache git
+
+COPY ./package.json ./
+COPY ./bower.json ./
+COPY ./npm-shrinkwrap.original.json ./npm-shrinkwrap.json
+
+RUN npm shrinkwrap
+RUN npm install
+
+RUN bower --allow-root install
+
+COPY ./i18n ./i18n
+COPY ./src ./src
+COPY ./gulpfile.js ./
+
+EXPOSE 8080
+CMD ["gulp", "server"]
+
+# docker build -t stc-vcp/vcp-partnerportal -f Dockerfile.dev .
+# docker run -p 8080:8080 -it stc-vcp/vcp-partnerportal

@@ -1,0 +1,21 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h2 class="content-title">
+            <u translate="{{$state.current.data.title}}" translate-compile></u>
+        </h2>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.messaginggw.troubleshooting') }">
+                <a ui-sref="products.messaginggw.troubleshooting.sms" data-toggle="tab"><span class="fa fa-history"></span>&nbsp;
+                    {{ 'GenericTabs.ActivityHistory.Header' | translate }}</a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

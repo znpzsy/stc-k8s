@@ -1,0 +1,138 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Configuration.Settings.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="rejectMethod" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.PolicyInEffect.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select id="rejectMethod" name="rejectMethod" class="form-control parsley-validated"
+                        ng-model="srifsmcounter.rejectMethod"
+                        ng-options="policy for policy in SMS_ANTISPAM_REJECT_METHODS_1"
+                        ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="rejectCode" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.RejectionErrorCode.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select id="rejectCode" name="rejectCode" class="form-control parsley-validated"
+                        ng-model="srifsmcounter.rejectCode"
+                        ng-options="rejectionErrorCode for rejectionErrorCode in SMS_ANTISPAM_REJECTION_ERROR_CODES"
+                        ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="duration" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.Duration' | translate }}</label>
+            <div class="col-md-7">
+                <input id="duration" name="duration" type="number" class="form-control"
+                       ng-model="srifsmcounter.duration"
+                       min="1" max="60"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.duration.$dirty && form.duration.$invalid }"
+                    ng-show="form.duration.$dirty && form.duration.$invalid">
+                    <li class="required" ng-show="form.duration.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 1 } }}</li>
+                    <li class="required" ng-show="form.duration.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 60 } }}</li>
+                    <li class="required" ng-show="form.duration.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.CallingGtCheckTitle' | translate }}
+        </h5>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.CallingGtCheck' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{srifsmcounter.callingGtCheck?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="srifsmcounter.callingGtCheck" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                        </button>
+                        <button type="button" class="btn {{!srifsmcounter.callingGtCheck?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="srifsmcounter.callingGtCheck" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="srifsmcounter.callingGtCheck">
+                <label for="maxReqCallingGt" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.CallingGtMaxReq' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="maxReqCallingGt" name="maxReqCallingGt" type="number" class="form-control"
+                           ng-model="srifsmcounter.maxReqCallingGt"
+                           min="1" max="99999"
+                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.maxReqCallingGt.$dirty && form.maxReqCallingGt.$invalid }"
+                        ng-show="form.maxReqCallingGt.$dirty && form.maxReqCallingGt.$invalid">
+                        <li class="required" ng-show="form.maxReqCallingGt.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 1 } }}</li>
+                        <li class="required" ng-show="form.maxReqCallingGt.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 99999 } }}</li>
+                        <li class="required" ng-show="form.maxReqCallingGt.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">
+            {{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.SmscGtCheckTitle' | translate }}
+        </h5>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.SmscGtCheck' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{srifsmcounter.smscGtCheck?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="srifsmcounter.smscGtCheck" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                        </button>
+                        <button type="button" class="btn {{!srifsmcounter.smscGtCheck?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="srifsmcounter.smscGtCheck" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="srifsmcounter.smscGtCheck">
+                <label for="maxReqSmscGt" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.SRIFSMCounter.SmscGtMaxReq' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="maxReqSmscGt" name="maxReqSmscGt" type="number" class="form-control"
+                           ng-model="srifsmcounter.maxReqSmscGt"
+                           min="1" max="99999"
+                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.maxReqSmscGt.$dirty && form.maxReqSmscGt.$invalid }"
+                        ng-show="form.maxReqSmscGt.$dirty && form.maxReqSmscGt.$invalid">
+                        <li class="required" ng-show="form.maxReqSmscGt.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 1 } }}</li>
+                        <li class="required" ng-show="form.maxReqSmscGt.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 99999 } }}</li>
+                        <li class="required" ng-show="form.maxReqSmscGt.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save(srifsmcounter);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

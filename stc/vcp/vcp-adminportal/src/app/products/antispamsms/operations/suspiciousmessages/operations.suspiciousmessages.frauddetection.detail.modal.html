@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ pageHeaderKey | translate }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.Name' | translate }}</label>
+            <div class="col-md-9">
+                <input name="name" type="text" class="form-control" ng-maxlength="100" maxlength="100"
+                       ng-model="entry.name" ng-required="true" required="true" ng-disabled="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.name.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="entry.checkingParameters">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.FraudDetectionCheckingParameters' | translate }}</label>
+            <div class="col-md-9">
+                <select id="checkingParameters" name="checkingParameters" class="form-control parsley-validated"
+                        ng-model="entry.checkingParameters"
+                        ng-disabled="!AuthorizationService.canAntispamGreyListsUpdate()"
+                        ng-required="true"
+                        ng-options="checkingParameter for checkingParameter in SMS_ANTISPAM_CHECKING_PARAMETERS">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.checkingParameters.$dirty && form.checkingParameters.$invalid }" ng-show="form.checkingParameters.$dirty && form.checkingParameters.$invalid">
+                    <li class="required" ng-show="form.checkingParameters.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.Status' | translate }}</label>
+            <div class="col-md-9">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{entry.status?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canAntispamGreyListsUpdate()"
+                            ng-model="entry.status" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!entry.status?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canAntispamGreyListsUpdate()"
+                            ng-model="entry.status" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.TableColumns.PolicyInEffect' | translate }}</label>
+            <div class="col-md-9">
+                <select class="form-control parsley-validated" ng-model="entry.rejectMethod"
+                        ng-disabled="!AuthorizationService.canAntispamGreyListsUpdate()"
+                        ng-options="policy for policy in SMS_ANTISPAM_REJECT_METHODS_2">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.RejectErrorCode' | translate }}</label>
+            <div class="col-md-9">
+                <select class="form-control parsley-validated" ng-model="entry.rejectCode"
+                        ng-disabled="!AuthorizationService.canAntispamGreyListsUpdate()"
+                        ng-options="rejectionErrorCode for rejectionErrorCode in SMS_ANTISPAM_REJECTION_ERROR_CODES">
+                </select>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || isNotChanged() || !AuthorizationService.canAntispamGreyListUpdate()"
+            ng-click="save(entry)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

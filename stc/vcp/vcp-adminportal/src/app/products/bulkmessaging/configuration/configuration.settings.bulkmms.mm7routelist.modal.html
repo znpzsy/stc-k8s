@@ -1,0 +1,102 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Configuration.Settings.MM7RouteList' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-6 col-xs-4">
+        </div>
+
+        <div class="col-md-2 col-xs-4">
+        </div>
+
+        <div class="col-md-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['targetURL', 'targetHost', 'targetPort'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                    <table ng-table="mm7RouteList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <tr ng-repeat="mm7Route in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.BulkMessaging.Configuration.Settings.TargetURL' | translate" sortable="'targetURL'">{{ mm7Route.targetURL }}</td>
+                            <td align="center" data-title="'Products.BulkMessaging.Configuration.Settings.TargetHost' | translate" sortable="'targetHost'">{{ mm7Route.targetHost }}</td>
+                            <td align="center" data-title="'Products.BulkMessaging.Configuration.Settings.TargetPort' | translate" sortable="'targetPort'">{{ mm7Route.targetPort }}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                <button ng-click="removeMM7Route(smppApplicationRouting, mm7Route)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Delete' | translate }}"
+                                        ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hidden-link-cell-row">
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input id="targetURL" name="targetURL" type="text" class="form-control"
+                                           ng-model="newMM7Route.targetURL"
+                                           ng-pattern="$root.Validators.UrlSimple"
+                                           ng-maxlength="250" maxlength="250" ng-required="true"
+                                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.targetURL.$dirty && form.targetURL.$invalid }" ng-show="form.targetURL.$dirty && form.targetURL.$invalid">
+                                        <li class="required" style="display: list-item;" ng-show="form.targetURL.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" style="display: list-item;" ng-show="form.targetURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                                        <li class="required" style="display: list-item;" ng-show="form.targetURL.$error.pattern">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input id="targetHost" name="targetHost" type="text" class="form-control"
+                                           ng-model="newMM7Route.targetHost"
+                                           ng-maxlength="250" maxlength="250" ng-required="true"
+                                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.targetHost.$dirty && form.targetHost.$invalid }" ng-show="form.targetHost.$dirty && form.targetHost.$invalid">
+                                        <li class="required" style="display: list-item;" ng-show="form.targetHost.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" style="display: list-item;" ng-show="form.targetHost.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input id="targetPort" name="targetPort" type="number" class="form-control"
+                                           ng-model="newMM7Route.targetPort"
+                                           min="1" max="65535" ng-required="true"
+                                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                                    <ul ng-class="{ 'parsley-error-list': form.targetPort.$dirty && form.targetPort.$invalid }" ng-show="form.targetPort.$dirty && form.targetPort.$invalid">
+                                        <li class="required" ng-show="form.targetPort.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                                        <li class="required" ng-show="form.targetPort.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 65535} }}</li>
+                                        <li class="required" ng-show="form.targetPort.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <button ng-click="addMM7Route(newMM7Route)"
+                                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration()"
+                                        class="btn btn-xs btn-secondary" title="{{ 'CommonLabels.Save' | translate }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

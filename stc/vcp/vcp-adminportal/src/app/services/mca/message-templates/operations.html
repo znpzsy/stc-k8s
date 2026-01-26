@@ -1,0 +1,53 @@
+<div class="col-md-3 col-sm-5">
+
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.mca.messagetemplates.messagetemplates') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+
+                <li ng-if="$state.includes('services.mca.messagetemplates.messagetemplates.mcabasic')" ng-class="{ 'active':$state.includes('services.mca.messagetemplates.messagetemplates.mcabasic') }">
+                    <a ui-sref="services.mca.messagetemplates.messagetemplates.mcabasic.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.MCASimple' | translate }}
+                    </a>
+                </li>
+
+                <li ng-if="$state.includes('services.mca.messagetemplates.messagetemplates.mca')  || $state.includes('services.mca.messagetemplates.messagetemplates.notifyme') || $state.includes('services.mca.messagetemplates.messagetemplates.ann')"
+                    ng-class="{ 'active':$state.includes('services.mca.messagetemplates.messagetemplates.mca') }">
+                    <a ui-sref="services.mca.messagetemplates.messagetemplates.mca.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.MCASimple' | translate }}
+                    </a>
+                </li>
+                <li ng-if="$state.includes('services.mca.messagetemplates.messagetemplates.mca')  || $state.includes('services.mca.messagetemplates.messagetemplates.notifyme') || $state.includes('services.mca.messagetemplates.messagetemplates.ann')"
+                    class="divider"></li>
+
+
+                <li ng-if="$state.includes('services.mca.messagetemplates.messagetemplates.mca')  || $state.includes('services.mca.messagetemplates.messagetemplates.notifyme') || $state.includes('services.mca.messagetemplates.messagetemplates.ann')"
+                    ng-class="{ 'active':$state.includes('services.mca.messagetemplates.messagetemplates.notifyme') }">
+                    <a ui-sref="services.mca.messagetemplates.messagetemplates.notifyme.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.NotifyMeShort' | translate }}
+                    </a>
+                </li>
+
+                <li ng-if="$state.includes('services.mca.messagetemplates.messagetemplates.mca')  || $state.includes('services.mca.messagetemplates.messagetemplates.notifyme') || $state.includes('services.mca.messagetemplates.messagetemplates.ann')"
+                    ng-class="{ 'active':$state.includes('services.mca.messagetemplates.messagetemplates.ann') }">
+                    <a ui-sref="services.mca.messagetemplates.messagetemplates.ann.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.ANNShort' | translate }}
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

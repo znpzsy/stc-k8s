@@ -1,0 +1,33 @@
+# Build phase
+FROM node:11-alpine as builder
+WORKDIR "/space/app"
+
+COPY ./package.json ./
+COPY ./bower.json ./
+COPY ./npm-shrinkwrap.original.json ./npm-shrinkwrap.json
+RUN npm shrinkwrap
+RUN npm install
+# Install gulp and bower locally instead of globally to avoid permission issues
+RUN npm install gulp@3.9.1
+RUN npm install bower@1.8.14
+RUN apk add --no-cache git
+# Use local bower instead of global
+RUN ./node_modules/.bin/bower --allow-root install
+COPY ./i18n ./i18n
+COPY ./src ./src
+COPY ./gulpfile.js ./
+# Use local gulp instead of global
+RUN ./node_modules/.bin/gulp
+
+# Run phase
+FROM nginx:1.21-alpine
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+RUN rm -rf /usr/share/nginx/html/vcp-ccportal-*.tar.gz
+COPY --from=builder /space/app/vcp-ccportal-*.tar.gz /usr/share/nginx/html/
+RUN mkdir -p /usr/share/nginx/html/ccportal
+RUN tar -xvzf /usr/share/nginx/html/vcp-ccportal-*.tar.gz -C /usr/share/nginx/html/ccportal
+RUN rm -rf /usr/share/nginx/html/vcp-ccportal-*.tar.gz
+EXPOSE 8080
+
+# docker build -t stc-vcp/vcp-ccportal -f Dockerfile.prod .
+# docker run -p 8080:8080 -it stc-vcp/vcp-ccportal

@@ -1,0 +1,84 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.RBT.Operations.HotCodes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm" ui-sref="{{ newState }}"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="hotCodeList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('HotCodes', hotCodeList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('HotCodes', hotCodeList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['hotCode', 'contentAlias','content.name'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table ng-table="hotCodeList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Services.RBT.Operations.HotCodes.TableColumns.HotCode' | translate" sortable="'hotCode'">{{data.hotCode}}</td>
+                        <td align="center" data-title="'Services.RBT.Operations.HotCodes.TableColumns.ContentAlias' | translate" >{{data.contentAlias}}</td>
+                        <td align="center" data-title="'Services.RBT.Operations.HotCodes.TableColumns.ContentName' | translate"  sortable="'content.name'" class="wrap" uib-tooltip="{{data.content.name}}" tooltip-class="custom-class"  tooltip-placement="left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">{{data.content.name|NotAvailableFilter}}</td>
+                        <td align="center" data-title="'GenericFormFields.StartDate.Label' | translate"  class="nowrap" >{{data.usageStartDateTime }}</td>
+                        <td align="center" data-title="'GenericFormFields.EndDate.Label' | translate"  class="nowrap" >{{data.usageEndDateTime }}</td>
+                        <td align="center" data-title="'CommonLabels.State' | translate" >{{data.status}}</td>
+                        <td align="center" data-title="'Services.RBT.Operations.HotCodes.TableColumns.Reserved' | translate" >{{data.reserved | YesNoFilter}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate" class="nowrap">
+                            <button ng-if="!data.reserved"
+                                    ui-sref="{{ updateState }}({ hotCodeId : data.hotCode })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ng-if="(data.content && data.content.id)"
+                                    ng-click="showContentDetails(data)"
+                                    class="btn btn-xs btn-default"
+                                    title="{{ 'CommonLabels.Details' | translate }}">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button ng-click="remove(data.hotCode)" class="btn btn-xs btn-danger"
+                                    ng-disabled="!AuthorizationService.canRBTOperationsHotCodeDelete()"
+                                    title="{{ 'CommonLabels.Remove' | translate }}" >
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="9" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

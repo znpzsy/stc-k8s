@@ -1,0 +1,31 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.smsc.configuration.settings') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Configuration.Settings.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="myTabDrop1">
+                <li ng-class="{ 'active': $state.includes('products.smsc.configuration.settings.applicationgateway') }">
+                    <a ui-sref="products.smsc.configuration.settings.applicationgateway" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Configuration.Settings.ApplicationGateway.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.smsc.configuration.settings.messagestore') }">
+                    <a ui-sref="products.smsc.configuration.settings.messagestore" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.SMSC.Configuration.Settings.MessageStore.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,235 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.PrayerTimes.Signatures' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.ContentManagement.Configuration.Morning' | translate }}
+                    </h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descMorningFajrEn" name="descMorningFajrEn" class="form-control" dir="auto"
+                              ng-model="morningFajrEn.description" ng-maxlength="512" maxlength="512" 
+                              required="true" ng-required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descMorningFajrEn.$dirty && form.descMorningFajrEn.$invalid }"
+                                   ng-show="form.descMorningFajrEn.$dirty && form.descMorningFajrEn.$invalid">
+                        <li class="required" ng-show="form.descMorningFajrEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descMorningFajrEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descMorningFajrAr" name="descMorningFajrAr" class="form-control" dir="auto"
+                              ng-model="morningFajrAr.description" ng-maxlength="512" maxlength="512" 
+                              required="true" ng-required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descMorningFajrAr.$dirty && form.descMorningFajrAr.$invalid }"
+                                   ng-show="form.descMorningFajrAr.$dirty && form.descMorningFajrAr.$invalid">
+                        <li class="required" ng-show="form.descMorningFajrAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descMorningFajrAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.ContentManagement.Configuration.Noon' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descNoonZuhrEn" name="descNoonZuhrEn" class="form-control" dir="auto"
+                              ng-model="noonZuhrEn.description" ng-maxlength="512" maxlength="512" 
+                              required="true" ng-required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descNoonZuhrEn.$dirty && form.descNoonZuhrEn.$invalid }"
+                        ng-show="form.descNoonZuhrEn.$dirty && form.descNoonZuhrEn.$invalid">
+                        <li class="required" ng-show="form.descNoonZuhrEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descNoonZuhrEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descNoonZuhrAr" name="descNoonZuhrAr" class="form-control" dir="auto"
+                              ng-model="noonZuhrAr.description" ng-maxlength="512" maxlength="512" 
+                              required="true" ng-required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descNoonZuhrAr.$dirty && form.descNoonZuhrAr.$invalid }"
+                        ng-show="form.descNoonZuhrAr.$dirty && form.descNoonZuhrAr.$invalid">
+                        <li class="required" ng-show="form.descNoonZuhrAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descNoonZuhrAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.ContentManagement.Configuration.Afternoon' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descAfternoonAsrEn" name="descAfternoonAsrEn" class="form-control" dir="auto"
+                              ng-model="afternoonAsrEn.description" ng-maxlength="512" maxlength="512"
+                              ng-required="true" required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descAfternoonAsrEn.$dirty && form.descAfternoonAsrEn.$invalid }"
+                        ng-show="form.descAfternoonAsrEn.$dirty && form.descAfternoonAsrEn.$invalid">
+                        <li class="required" ng-show="form.descAfternoonAsrEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descAfternoonAsrEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descAfternoonAsrAr" name="descAfternoonAsrAr" class="form-control" dir="auto"
+                              ng-model="afternoonAsrAr.description" ng-maxlength="512" maxlength="512"
+                              ng-required="true" required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descAfternoonAsrAr.$dirty && form.descAfternoonAsrAr.$invalid }"
+                        ng-show="form.descAfternoonAsrAr.$dirty && form.descAfternoonAsrAr.$invalid">
+                        <li class="required" ng-show="form.descAfternoonAsrAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descAfternoonAsrAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.ContentManagement.Configuration.Evening' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descEveningMaghribEn" name="descEveningMaghribEn" class="form-control" dir="auto"
+                              ng-model="eveningMaghribEn.description" ng-maxlength="512" maxlength="512"
+                              ng-required="true" required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descEveningMaghribEn.$dirty && form.descEveningMaghribEn.$invalid }"
+                        ng-show="form.descEveningMaghribEn.$dirty && form.descEveningMaghribEn.$invalid">
+                        <li class="required" ng-show="form.descEveningMaghribEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descEveningMaghribEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descEveningMaghribAr" name="descEveningMaghribAr" class="form-control" dir="auto"
+                              ng-model="eveningMaghribAr.description" ng-maxlength="512" maxlength="512"
+                              ng-required="true" required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descEveningMaghribAr.$dirty && form.descEveningMaghribAr.$invalid }"
+                        ng-show="form.descEveningMaghribAr.$dirty && form.descEveningMaghribAr.$invalid">
+                        <li class="required" ng-show="form.descEveningMaghribAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descEveningMaghribAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.ContentManagement.Configuration.Night' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descNightIshaEn" name="descNightIshaEn" class="form-control" dir="auto"
+                              ng-model="nightIshaEn.description" ng-maxlength="512" maxlength="512"
+                              ng-required="true" required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descNightIshaEn.$dirty && form.descNightIshaEn.$invalid }"
+                        ng-show="form.descNightIshaEn.$dirty && form.descNightIshaEn.$invalid">
+                        <li class="required" ng-show="form.descNightIshaEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descNightIshaEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descNightIshaAr" name="descNightIshaAr" class="form-control" dir="auto"
+                              ng-model="nightIshaAr.description" ng-maxlength="512" maxlength="512"
+                              ng-required="true" required="true"
+                              rows="2" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descNightIshaAr.$dirty && form.descNightIshaAr.$invalid }"
+                        ng-show="form.descNightIshaAr.$dirty && form.descNightIshaAr.$invalid">
+                        <li class="required" ng-show="form.descNightIshaAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descNightIshaAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                            ng-click="save(prayerTimes);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>

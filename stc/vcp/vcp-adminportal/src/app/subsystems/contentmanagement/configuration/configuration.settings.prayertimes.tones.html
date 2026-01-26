@@ -1,0 +1,103 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.PrayerTimes.Tones' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm" ui-sref="subsystems.contentmanagement.configuration.settings.prayertimestones.new"
+                        ng-disabled="!AuthorizationService.canUpdateConfiguration()" >
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('PrayerTimeTones', serviceDataObj)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('PrayerTimeTones', serviceDataObj)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['personName', 'prayerTimesText'])"
+                       placeholder="{{ 'CommonLabels.SearchByName' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="prayer in $data track by $index" class="hidden-link-cell-row" ng-class="{ 'row-selected': prayer.isDefault }">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Configuration.PersonName' | translate" sortable="'personName'"
+                            uib-popover="Uploaded tones: {{prayer.uploadedCount}}/{{prayer.totalCount}}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            {{prayer.personName}} &nbsp;&nbsp;
+                            <span class="badge badge-primary" ng-if="prayer.isDefault">Default</span>
+                        </td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Configuration.PrayerTimes.Tones' | translate" sortable="'prayerTimesText'">
+                            <span ng-repeat="prayerTone in prayer.prayerTimes">
+                                <!-- Button for uploaded tone (playable) -->
+                                <button ng-if="prayerTone.hasFile"
+                                        ng-click="playAudio($parent.$index, prayerTone.toneFileId)"
+                                        class="btn btn-xs {{audio.canDisplayButton($parent.$index, prayerTone.toneFileId, 'stop') ? 'btn-danger' : 'btn-tertiary btn-inverse'}}"
+                                        title="{{prayerTone.prayerTime}}: {{ audio.getLabel($parent.$index, prayerTone.toneFileId) | translate }}" >
+                                    <i class="fa fa-play-circle"
+                                       ng-if="audio.canDisplayButton($parent.$index, prayerTone.toneFileId, 'play')"></i>
+                                    <i class="fa fa-spinner fa-spin"
+                                       ng-if="audio.canDisplayButton($parent.$index, prayerTone.toneFileId, 'spinner')"></i>
+                                    <i class="fa fa-stop-circle"
+                                       ng-if="audio.canDisplayButton($parent.$index, prayerTone.toneFileId, 'stop')"></i>
+                                    <span style="margin-left:1px; font-size:8px">{{prayerTone.prayerTime}}</span>
+                                </button>
+
+                                <!-- Button for missing tone (disabled) -->
+                                <button ng-if="!prayerTone.hasFile"
+                                        disabled
+                                        class="btn btn-xs btn-default"
+                                        title="{{prayerTone.prayerTime}}: No tone uploaded"
+                                        style="opacity: 0.5; cursor: not-allowed;">
+                                    <i class="fa fa-minus-circle"></i>
+                                    <span style="margin-left:1px; font-size:8px">{{prayerTone.prayerTime}}</span>
+                                </button>
+                            </span>
+                        </td>
+                        <td align="center" class="action-column"  data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.contentmanagement.configuration.settings.prayertimestones.update ({ id:prayer.personName })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdateConfiguration() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}" >
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdateConfiguration()" ></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdateConfiguration()" ></i>
+                            </button>
+                            <button ng-click="remove(prayer)" class="btn btn-xs btn-danger" ng-style="{ 'opacity': (prayer.isDefault ? '0.5' : '') }"
+                                    uib-popover="{{ prayer.isDefault ? ('Subsystems.ContentManagement.Configuration.SetDefaultFirst' | translate) : '' }}"
+                                    popover-trigger="'mouseenter'" popover-enable="prayer.isDefault" popover-placement="auto"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canUpdateConfiguration() || prayer.isDefault">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

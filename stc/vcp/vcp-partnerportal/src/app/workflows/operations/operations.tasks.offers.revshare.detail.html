@@ -1,0 +1,56 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Offers.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Offers.ServiceName' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.Service}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Offers.SettlementPrice' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.ServiceSettlementAmount}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Offers.TotalPrice' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.TotalPrice}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

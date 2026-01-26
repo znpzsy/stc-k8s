@@ -1,0 +1,84 @@
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+            <div>
+                <div class="form-group">
+                    <label for="chargingPeriod" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}</label>
+                    <div class="col-md-3">
+                        <select id="chargingPeriod" name="chargingPeriod" class="form-control parsley-validated"
+                                ng-model="contentMetadata.chargingDetails.chargingPeriod.duration"
+                                ng-options="duration for duration in [1,7,30]"
+                                ng-required="true"
+                                ng-disabled="(diyTone.id ? true : !AuthorizationService.canRBTOperationsDiyCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.chargingPeriod.$dirty && form.chargingPeriod.$invalid }"
+                            ng-show="form.chargingPeriod.$dirty && form.chargingPeriod.$invalid">
+                            <li class="required" ng-show="form.chargingPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="chargingPeriodUnit" name="chargingPeriodUnit" class="form-control col-md-6"
+                                ng-model="contentMetadata.chargingDetails.chargingPeriod.unit"
+                                ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                                ng-disabled="(diyTone.id ? true : !AuthorizationService.canRBTOperationsDiyCreate())">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="price" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="price" name="price" type="number" class="form-control"
+                               ng-model="contentMetadata.chargingDetails.price"
+                               ng-required="contentMetadata.subscriptionEnabled"
+                               ng-min="0" ng-max="99999999"
+                               ng-disabled="(diyTone.id ? true : !AuthorizationService.canRBTOperationsDiyCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.price.$dirty && form.price.$invalid }" ng-show="form.price.$dirty && form.price.$invalid">
+                            <li class="required" ng-show="form.price.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.price.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.price.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999999} }}</li>
+                            <li class="required" ng-show="form.price.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="originalprice" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="originalprice" name="originalprice" type="number" class="form-control"
+                               ng-model="contentMetadata.chargingDetails.originalPrice"
+                               ng-min="0" ng-max="99999999"
+                               ng-disabled="(diyTone.id ? true : !AuthorizationService.canRBTOperationsDiyCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.originalprice.$dirty && form.originalprice.$invalid }" ng-show="form.originalprice.$dirty && form.originalprice.$invalid">
+                            <li class="required" ng-show="form.originalprice.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.originalprice.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999999} }}</li>
+                            <li class="required" ng-show="form.originalprice.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.originalprice.$error.pricerange">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Messages.OriginalPriceInvalid' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || isNotChanged() || !AuthorizationService.canRBTOperationsDiyUpdate()"
+                            ng-click="save(contentMetadata);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>

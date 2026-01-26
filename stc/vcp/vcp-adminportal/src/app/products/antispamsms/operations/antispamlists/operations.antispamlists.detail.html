@@ -1,0 +1,117 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.AntispamLists.PageHeader' | translate }} / {{ pageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.AntispamLists.TableColumns.ListName' | translate }}</label>
+            <div class="col-md-7">
+                <input name="listName" type="text" class="form-control" ng-model="entry.listName"
+                       placeholder="{{ 'Products.AntiSpamSMS.Operations.AntispamLists.Placeholders.ListName' | translate }}..."
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="entry.listId"/>
+                <ul ng-class="{ 'parsley-error-list': form.listName.$dirty && form.listName.$invalid }" ng-show="form.listName.$dirty && form.listName.$invalid">
+                    <li class="required" ng-show="form.listName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.listName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.AntispamLists.TableColumns.ListDescription' | translate }}</label>
+            <div class="col-md-7">
+                <input name="listDescription" type="text" class="form-control" ng-model="entry.listDescription"
+                       placeholder="{{ 'Products.AntiSpamSMS.Operations.AntispamLists.Placeholders.ListDescription' | translate }}..."
+                       ng-disabled="(entry.listId ? !AuthorizationService.canAntispamListsUpdate() : !AuthorizationService.canAntispamListsCreate())"
+                       ng-required="true" ng-maxlength="50" maxlength="50" />
+                <ul ng-class="{ 'parsley-error-list': form.listDescription.$dirty && form.listDescription.$invalid }" ng-show="form.listDescription.$dirty && form.listDescription.$invalid">
+                    <li class="required" ng-show="form.listDescription.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.listDescription.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.AntispamLists.TableColumns.List' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="list" name="list" type="text" class="form-control"
+                          style="width: 475px; min-height: 200px; resize: vertical;"
+                          ng-model="entry.list"
+                          ng-disabled="(entry.listId ? !AuthorizationService.canAntispamListsUpdate() : !AuthorizationService.canAntispamListsCreate())"
+                          required="!entry.listId" ng-required="!entry.listId"
+                          line-length-validator max-line-length="512"
+                          placeholder="{{ 'Products.AntiSpamSMS.Operations.AntispamLists.Placeholders.List' | translate }}..."
+                          uib-popover-html="'{{ 'Products.AntiSpamSMS.Operations.AntispamLists.Placeholders.ListPopover' | translate }}'"
+                          popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.list.$dirty && form.list.$invalid }" ng-show="form.list.$dirty && form.list.$invalid">
+                    <li class="required" ng-show="form.list.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="line-length-error" ng-show="form.list.$error.lineLength">{{ 'Products.AntiSpamSMS.Operations.AntispamLists.Validation.ListItemLength' | translate:{ maxLineLength: 512} }}</li>
+                </ul>
+                <div class="clearfix" style="margin-top:8px;" ng-if="entry.listId">
+                    <div class="pull-left">
+                        <small>
+                            {{ 'TableFooter.Info' | translate:{
+                            from: (pager.page - 1) * pager.count + 1,
+                            to: Math.min(pager.page * pager.count, pager.total),
+                            total: pager.total
+                            } }}
+                        </small>
+                    </div>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <select class="form-control input-sm" style="display:inline-block;width:auto;"
+                                    ng-model="pager.count"
+                                    ng-change="changePageSize()"
+                                    ng-options="c for c in [10,25,50,100,250,500,1000]">
+                            </select>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="prevPage()" ng-disabled="pager.page === 1">
+                                ‹ {{ 'TableFooter.Previous' | translate }}
+                            </button>
+                            <div class="btn btn-default btn-sm"
+                                 style="padding:0 6px; height:30px; display:flex; align-items:center; gap:6px;">
+                                <input type="number"
+                                       class="form-control input-sm"
+                                       style="padding:0 6px; text-align:center; height:28px; border:0; box-shadow:none;"
+                                       min="1"
+                                       ng-model-options="{ debounce: 150 }"
+                                       ng-disabled="pager.page >= Math.ceil(pager.total / pager.count)"
+                                       ng-attr-max="{{ Math.max(1, Math.ceil(pager.total / pager.count)) }}"
+                                       ng-model="pager.inputPage"
+                                       aria-label="{{ 'TableFooter.GoToPage' | translate }}"
+                                       placeholder="{{ pager.page }}">
+                                <span>/ {{ Math.max(1, Math.ceil(pager.total / pager.count)) }}</span>
+                            </div>
+
+                            <button type="button" class="btn btn-default btn-sm" ng-click="nextPage()"
+                                    ng-disabled="pager.page >= Math.ceil(pager.total / pager.count)">
+                                {{ 'TableFooter.Next' | translate }} ›
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid ||  isNotChanged() || (entry.listId ? !AuthorizationService.canAntispamListsUpdate() : !AuthorizationService.canAntispamListsCreate())"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

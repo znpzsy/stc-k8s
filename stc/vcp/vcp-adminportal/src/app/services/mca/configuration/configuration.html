@@ -1,0 +1,52 @@
+
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.mca.configuration') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Services.MCA.Configuration.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+
+                <li ng-if="$state.includes('services.mca.configuration.mcabasic')" ng-class="{ 'active':$state.includes('services.mca.configuration.mcabasic') }">
+                    <a ui-sref="services.mca.configuration.mcabasic" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.MCASimple' | translate }}
+                    </a>
+                </li>
+
+                <li ng-if="$state.includes('services.mca.configuration.mca')  || $state.includes('services.mca.configuration.notifyme') || $state.includes('services.mca.configuration.ann')"
+                    ng-class="{ 'active':$state.includes('services.mca.configuration.mca') }">
+                    <a ui-sref="services.mca.configuration.mca" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.MCASimple' | translate }}
+                    </a>
+                </li>
+                <li ng-if="$state.includes('services.mca.configuration.mca')  || $state.includes('services.mca.configuration.notifyme') || $state.includes('services.mca.configuration.ann')"
+                    class="divider"></li>
+
+
+                <li ng-if="$state.includes('services.mca.configuration.mca')  || $state.includes('services.mca.configuration.notifyme') || $state.includes('services.mca.configuration.ann')"
+                    ng-class="{ 'active':$state.includes('services.mca.configuration.notifyme') }">
+                    <a ui-sref="services.mca.configuration.notifyme" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.NotifyMeShort' | translate }}
+                    </a>
+                </li>
+                <li ng-if="$state.includes('services.mca.configuration.mca')  || $state.includes('services.mca.configuration.notifyme') || $state.includes('services.mca.configuration.ann')"
+                    ng-class="{ 'active':$state.includes('services.mca.configuration.ann') }">
+                    <a ui-sref="services.mca.configuration.ann" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.MCA.Operations.MessageFormats.ANNShort' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div ui-view class="tab-pane fade active in portlet portlet-default">
+
+        </div>
+    </div>
+</div>

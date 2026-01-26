@@ -1,0 +1,146 @@
+<br>
+<br>
+<h5 class="portlet-title">
+    {{ 'Services.RBT.Operations.PressKey.Management.FormFields.CopyPrompt' | translate:{dtmfKey:dtmfKey} }}
+</h5>
+
+
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">
+            {{ 'Services.RBT.Operations.PressKey.Management.FormFields.FreePromptFile' | translate }}<br/>
+            <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+        </label>
+        <div class="col-md-7">
+
+            <div ng-show="!contentMetadata.freePrompt.name">
+                <!-- Select button -->
+                <button name="freePrompt" type="file" class="btn btn-sm btn-block btn-default"
+                        title="{{ (contentMetadata.freePrompt ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                        style="width: 262px;"
+                        ngf-select
+                        ng-model="contentMetadata.freePrompt"
+                        ng-init="contentMetadata.freePrompt ? contentMetadata.freePrompt.name = contentMetadata.freePrompt.$ngfName : null"
+                        ngf-change="form.freePrompt.$setDirty(); toneFileChanged(contentMetadata.freePrompt, 'freePrompt', form);"
+                        ngf-accept="'audio/wav'"
+                        ngf-max-size="1MB"
+                        ng-required="true"
+                        ngf-model-invalid="errorToneFile"
+                        ng-disabled="freePromptLoading || !AuthorizationService.canUpdate()">
+                    <i class="fa fa-spinner fa-spin" ng-if="freePromptLoading"></i>
+                    {{ ((contentMetadata.freePrompt.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                </button>
+            </div>
+            <div ng-show="contentMetadata.freePrompt.name">
+                <div class="fileinput-preview text-center" style="max-width: 200px;">
+                    <audio id="freePromptAudio" name="freePromptAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!contentMetadata.freePrompt.$error && contentMetadata.freePrompt"/>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{contentMetadata.freePrompt.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ contentMetadata.freePrompt.name }} <i class="fa fa-spinner fa-spin" ng-if="validationInProgress"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="contentMetadata.freePrompt = null; form.freePrompt.$setValidity('audioValiditiyCheck', true);"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                            ng-if="contentMetadata.freePrompt.name && (contentMetadata.id ? AuthorizationService.canUpdate() : AuthorizationService.canCreate())">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="contentMetadata.freePrompt.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ contentMetadata.freePrompt.name }}"
+                   href="{{ contentMetadata.freePrompt | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canRead()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+            <ul ng-class="{ 'parsley-error-list': form.freePrompt.$dirty && form.freePrompt.$invalid }"
+                ng-show="form.freePrompt.$dirty && form.freePrompt.$invalid">
+                <li class="required" ng-show="form.freePrompt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.freePrompt.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam || '1MB'} }}</li>
+                <li class="required" ng-show="form.freePrompt.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">
+            {{ 'Services.RBT.Operations.PressKey.Management.FormFields.PaidPromptFile' | translate }}<br/>
+            <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+        </label>
+        <div class="col-md-7">
+
+            <div ng-show="!contentMetadata.paidPrompt.name">
+                <!-- Select button -->
+                <button name="paidPrompt" type="file" class="btn btn-sm btn-block btn-default"
+                        title="{{ (contentMetadata.paidPrompt ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                        style="width: 262px;"
+                        ngf-select
+                        ng-model="contentMetadata.paidPrompt"
+                        ng-init="contentMetadata.paidPrompt ? contentMetadata.paidPrompt.name = contentMetadata.paidPrompt.$ngfName : null"
+                        ngf-change="form.paidPrompt.$setDirty(); toneFileChanged(contentMetadata.paidPrompt, 'paidPrompt', form);"
+                        ngf-accept="'audio/wav'"
+                        ngf-max-size="1MB"
+                        ng-required="true"
+                        ngf-model-invalid="errorToneFile"
+                        ng-disabled="paidPromptLoading || !AuthorizationService.canUpdate()">
+                    <i class="fa fa-spinner fa-spin" ng-if="paidPromptLoading"></i>
+                    {{ ((contentMetadata.paidPrompt.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                </button>
+            </div>
+            <div ng-show="contentMetadata.paidPrompt.name">
+                <div class="fileinput-preview text-center" style="max-width: 200px;">
+                    <audio id="paidPromptAudio" name="paidPromptAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!contentMetadata.paidPrompt.$error && contentMetadata.paidPrompt"/>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{contentMetadata.paidPrompt.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ contentMetadata.paidPrompt.name }} <i class="fa fa-spinner fa-spin" ng-if="validationInProgress"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="contentMetadata.paidPrompt = null; form.paidPrompt.$setValidity('audioValiditiyCheck', true);"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                            ng-if="contentMetadata.paidPrompt.name && (contentMetadata.id ? AuthorizationService.canUpdate() : AuthorizationService.canCreate())">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="contentMetadata.paidPrompt.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ contentMetadata.paidPrompt.name }}"
+                   href="{{ contentMetadata.paidPrompt | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canRead()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+            <ul ng-class="{ 'parsley-error-list': form.paidPrompt.$dirty && form.paidPrompt.$invalid }"
+                ng-show="form.paidPrompt.$dirty && form.paidPrompt.$invalid">
+                <li class="required" ng-show="form.paidPrompt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.paidPrompt.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam || '1MB'} }}</li>
+                <li class="required" ng-show="form.paidPrompt.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || !AuthorizationService.canUpdate() || isNotChanged() || paidPromptLoading || freePromptLoading || validationInProgress"
+                    ng-click="save();">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>
+

@@ -1,0 +1,35 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{ $state.current.data.title }}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.smsf.dashboards') }">
+                <a ui-sref="products.smsf.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.smsf.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="products.smsf.configuration.core" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.smsf.troubleshooting') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="products.smsf.troubleshooting" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

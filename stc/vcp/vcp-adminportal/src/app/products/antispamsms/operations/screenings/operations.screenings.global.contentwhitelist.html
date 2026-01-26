@@ -1,0 +1,135 @@
+
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.Screenings.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.MenuLabel' | translate }} / {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <uib-tabset justified="false" type="tabs">
+        <uib-tab ng-model="contentwhitelist" active="true">
+            <uib-tab-heading>
+                <span class="fa fa-file-text"></span> {{ 'ScreeningLists.WhiteList' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <div class="buttons-portlet-body">
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5">
+                            <div class="pull-left">
+                                <button class="btn btn-secondary btn-sm create-button"
+                                        ng-disabled="!AuthorizationService.canAntispamScreeningListsCreate()"
+                                        ng-click="addNewEntry();">
+                                    <i class="fa fa-plus-circle"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <div class="pull-right">
+                                <div class="btn-group" ng-show="contentwhitelist.tableParams.total() > 0">
+                                    <button type="button" ng-click="csv.download('SMSAntiSpamGlobalSourceScreeningLists' + key, contentwhitelist.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                    <button type="button" ng-click="xls.download('SMSAntiSpamGlobalSourceScreeningLists' + key, contentwhitelist.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <form class="mainnav-form">
+                                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                       ng-model="filterText" ng-change="filterTableList(filterText, ['name', 'contentScreening'])"
+                                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table ng-table="contentwhitelist.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html"
+                           export-csv="csv" export-xls="xls"
+                           export-options="exportOptions">
+                        <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.List.TableColumns.Name' | translate" sortable="'name'">{{data.name}}</td>
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.List.TableColumns.ContentScreening' | translate" sortable="'contentScreening'">{{data.contentScreening}}</td>
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.List.TableColumns.ScreeningType' | translate" sortable="'screeningType'">{{data.screeningType | AntiSpamSMSContentFilterTypeFilter}}</td>
+                            <td align="center" data-title="'CommonLabels.State' | translate" sortable="'state'">{{data.state | StatusTypeFilter}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                <button class="btn btn-xs btn-secondary" ng-click="updateEntry(data);"
+                                        title="{{ AuthorizationService.canAntispamScreeningListsUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                    <i class="fa fa-edit" ng-if="AuthorizationService.canAntispamScreeningListsUpdate()"></i>
+                                    <i class="fa fa-square-o" ng-if="!AuthorizationService.canAntispamScreeningListsUpdate()"></i>
+                                </button>
+                                <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canAntispamScreeningListsDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data || $data.length === 0">
+                            <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab ng-model="globalContentWhitelistConfiguration">
+            <uib-tab-heading>
+                <span class="fa fa-wrench"></span> {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.Configuration.MenuLabel' | translate }}
+            </uib-tab-heading>
+
+            <div class="bg-clean">
+                <form id="contentWhitelistConfigurationForm" name="contentWhitelistConfigurationForm"
+                      method="post" enctype="multipart/form-data" class="form-horizontal parsley-form"
+                      novalidate>
+
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.Configuration.Name' | translate }}</label>
+                        <div class="col-md-6">
+                            <input name="entryName" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                                   ng-model="globalContentWhitelistConf.name" ng-disabled="true"
+                                   ng-required="true" required="true" />
+                            <ul ng-class="{ 'parsley-error-list': form.entryName.$dirty && form.entryName.$invalid }" ng-show="form.entryName.$dirty && form.entryName.$invalid">
+                                <li class="required" ng-show="form.entryName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.entryName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                                <li class="required" ng-show="form.entryName.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.Configuration.MapOperationType' | translate }}</label>
+                        <div class="col-md-6">
+                            <select id="mapOperationType" name="mapOperationType"
+                                    ng-model="globalContentWhitelistConf.mapOperationType" class="form-control"
+                                    ng-options="opt.numericValue as opt.label for opt in SMS_ANTISPAM_GLOBAL_MAP_OPERATION_TYPE">
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger"
+                                    ng-click="updateGlobalWhitelistConfiguration(globalContentWhitelistConf);"
+                                    ng-disabled="contentWhitelistConfigurationForm.$invalid || !AuthorizationService.canAntispamScreeningListsUpdate() || isConfigurationNotChanged()">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="cancel();">
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </uib-tab>
+    </uib-tabset>
+
+</div>

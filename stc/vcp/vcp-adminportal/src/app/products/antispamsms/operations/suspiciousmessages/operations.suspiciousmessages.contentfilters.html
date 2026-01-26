@@ -1,0 +1,67 @@
+
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.ContentFilters.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <div class="btn-group" ng-show="contentfilters.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('SMSAntiSpamSuspiciousContentFilters_' + direction + '_' + participant, contentfilters.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('SMSAntiSpamSuspiciousContentFilters_' + direction + '_' + participant, contentfilters.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['direction', 'participant', 'contentFilterBean.name'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="contentfilters.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.Name' | translate" sortable="'contentFilterBean.name'">{{data.contentFilterBean.name}} </td>
+                        <td align="center" data-title="'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.Direction' | translate" sortable="'direction'">{{data.direction}}</td>
+                        <td align="center" data-title="'Products.AntiSpamSMS.Operations.SuspiciousMessages.TableColumns.Participant' | translate" sortable="'participant'">{{data.participant}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button class="btn btn-xs btn-secondary"
+                                    ng-click="updateEntry(data)"
+                                    title="{{ AuthorizationService.canAntispamContentFiltersUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canAntispamContentFiltersUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canAntispamContentFiltersUpdate()"></i>
+                            </button>
+                            <button ng-click="viewTroubleshootingRecords(tsHeaderKey, 162, data.contentFilterBean.name, tsFilterField)" class="btn btn-xs btn-default"
+                                    title="{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.ShowSuspiciousRecords' | translate }}">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="!$data || $data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

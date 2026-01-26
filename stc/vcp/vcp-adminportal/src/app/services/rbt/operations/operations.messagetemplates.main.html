@@ -1,0 +1,16 @@
+<div class="portlet-header">
+  <h4 class="portlet-title">
+    {{ $state.current.data.pageHeaderKey | translate }} / {{ $state.current.data.subPageHeaderKey | translate }} <span ng-if="$state.current.data.contentTypeHeaderKey">/ {{ $state.current.data.contentTypeHeaderKey | translate }}</span>
+  </h4>
+</div>
+
+<div ui-view="languageForm"></div>
+<div ui-view="confForm" ng-show="showForm" class="portlet-body"></div>
+
+<div class="row dt-rt back-button-layer" ng-if="$state.current.data.showBack">
+  <div class="col-sm-8">
+    <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+      {{ 'CommonLabels.Back' | translate }}
+    </button>
+  </div>
+</div>

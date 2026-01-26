@@ -1,0 +1,845 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Services.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.serviceTask.objectDetail.id">
+            <label class="col-md-3">{{ 'PartnerInfo.Services.Id' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.id}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Description' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.Description}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.StartDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.EndDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.Services.Servicei18nProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UINameEn' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.servicei18nProfiles[0].Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UIDescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                              ng-value="task.serviceTask.objectDetail.servicei18nProfiles[0].Description"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UISearchKeywordsEn' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.servicei18nProfiles[0].SearchKeyword}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UINameAr' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.servicei18nProfiles[1].Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UIDescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control well well-sm" dir="auto"
+                              ng-value="task.serviceTask.objectDetail.servicei18nProfiles[1].Description"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UISearchKeywordsAr' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.servicei18nProfiles[1].SearchKeyword}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.BusinessTypeID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.businessType.Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.SettlementTypeID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.settlementType.Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceVATProfile.VATCategory' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceVATProfile.VATCategory}}</div>
+                </div>
+            </div>
+
+            <div ng-if="['FEE_VAT_INCLUSIVE', 'FEE_VAT_EXCLUSIVE'].includes(task.serviceTask.objectDetail.serviceVATProfile.VATCategory)">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceVATProfile.HasSpecialVATPercentage' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button type="button" class="btn {{task.serviceTask.objectDetail.serviceVATProfile.HasSpecialVATPercentage?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.serviceTask.objectDetail.serviceVATProfile.HasSpecialVATPercentage">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button type="button" class="btn {{!task.serviceTask.objectDetail.serviceVATProfile.HasSpecialVATPercentage?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.serviceTask.objectDetail.serviceVATProfile.HasSpecialVATPercentage">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceVATProfile.HasSpecialVATPercentage">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceVATProfile.VATPercentage' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceVATProfile.VATPercentage}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.WebIcon' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.serviceTask.objectDetail.serviceProfile.WEBIconBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.serviceTask.objectDetail.serviceProfile.WEBIconName }}"
+                       href="{{ task.serviceTask.objectDetail.serviceProfile.WEBIconBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.serviceTask.objectDetail.serviceProfile.WEBIconBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.serviceTask.objectDetail.serviceProfile.WEBIconBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.WapIcon' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.serviceTask.objectDetail.serviceProfile.WAPIconBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.serviceTask.objectDetail.serviceProfile.WAPIconName }}"
+                       href="{{ task.serviceTask.objectDetail.serviceProfile.WAPIconBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.serviceTask.objectDetail.serviceProfile.WAPIconBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.serviceTask.objectDetail.serviceProfile.WAPIconBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceCopyrightFileProfile.CopyrightFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="row col-md-9" ng-if="task.serviceTask.objectDetail.serviceCopyrightFileProfileList.length">
+                        <div ng-repeat="serviceCopyrightFile in task.serviceTask.objectDetail.serviceCopyrightFileProfileList">
+                            <div>
+                                <span ng-if="!serviceCopyrightFile.copyrightFile.name">{{ 'CommonLabels.N/A' | translate }}</span>
+                                <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: inline-block;"
+                                        ng-if="serviceCopyrightFile.copyrightFile.name"
+                                        uib-tooltip="{{serviceCopyrightFile.copyrightFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ serviceCopyrightFile.copyrightFile.name }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="serviceCopyrightFile.copyrightFile.name"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ serviceCopyrightFile.copyrightFile.name }}"
+                                   href="{{ serviceCopyrightFile.copyrightFile | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div>
+                                {{ 'GenericFormFields.StartDate.Label' | translate }}:
+                                <span>
+                                    {{serviceCopyrightFile.ValidFrom | date:'MMMM d, y':DateTimeConstants.OFFSET}}
+                                </span>
+                            </div>
+                            <div>
+                                {{ 'GenericFormFields.EndDate.Label' | translate }}:
+                                <span>
+                                    {{serviceCopyrightFile.ValidTo | date:'MMMM d, y':DateTimeConstants.OFFSET}}
+                                </span>
+                            </div>
+
+                            <div class="row col-md-12">
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span ng-if="task.serviceTask.objectDetail.serviceCopyrightFileProfileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.Services.ServiceProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.CategoryID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.category.Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.LabelID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.label.Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Language' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.Language}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Type' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.Type}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.TrustStatus' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{task.serviceTask.objectDetail.dcbServiceProfile.TrustStatus === 'TRUSTED'?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceProfile.TrustStatus">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{task.serviceTask.objectDetail.dcbServiceProfile.TrustStatus === 'UNTRUSTED'?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceProfile.TrustStatus">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="!task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_')">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.ServiceCapability' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="task.serviceTask.objectDetail.serviceCapabilityAccessProfileList.length" class="row col-md-9">
+                        <div ng-repeat="serviceCapability in task.serviceTask.objectDetail.serviceCapabilityAccessProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getServiceCapabilityAccessProfileString(serviceCapability) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getServiceCapabilityAccessProfileString(serviceCapability) }}
+                            </span>&nbsp;
+                        </div>
+                    </div>
+                    <span ng-if="task.serviceTask.objectDetail.serviceCapabilityAccessProfileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') || task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Usage' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.Usage}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_')">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Template' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.Template}}</div>
+                </div>
+            </div>
+
+            <!-- Template attributes -->
+            <div ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && task.serviceTask.objectDetail.serviceProfile.Template">
+                <div ng-if="task.serviceTask.objectDetail.serviceProfile.Template === 'ALERTS' || task.serviceTask.objectDetail.serviceProfile.Template === 'SEQUENTIAL'">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.Title' | translate }}</label>
+                        <div class="col-md-7">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.IsDynamicContent' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn {{task.serviceTask.objectDetail.templateAttributes.IsDynamicContent?'btn-primary active':'btn-default'}} btn-sm"
+                                                    ng-disabled="true"
+                                                    ng-value="task.serviceTask.objectDetail.templateAttributes.IsDynamicContent">{{ 'CommonLabels.Yes' | translate }}</button>
+                                            <button type="button" class="btn {{!task.serviceTask.objectDetail.templateAttributes.IsDynamicContent?'btn-primary active':'btn-default'}} btn-sm"
+                                                    ng-disabled="true"
+                                                    ng-value="task.serviceTask.objectDetail.templateAttributes.IsDynamicContent">{{ 'CommonLabels.No' | translate }}</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="task.serviceTask.objectDetail.templateAttributes.IsDynamicContent">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.DynamicContentURL' | translate }}</label></td>
+                                    <td class="text-right">{{task.serviceTask.objectDetail.templateAttributes.DynamicContentURL}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.IsTriggerSending' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn {{task.serviceTask.objectDetail.templateAttributes.IsTriggerSending?'btn-primary active':'btn-default'}} btn-sm"
+                                                    ng-disabled="true"
+                                                    ng-value="task.serviceTask.objectDetail.templateAttributes.IsTriggerSending">{{ 'CommonLabels.Yes' | translate }}</button>
+                                            <button type="button" class="btn {{!task.serviceTask.objectDetail.templateAttributes.IsTriggerSending?'btn-primary active':'btn-default'}} btn-sm"
+                                                    ng-disabled="true"
+                                                    ng-value="task.serviceTask.objectDetail.templateAttributes.IsTriggerSending">{{ 'CommonLabels.No' | translate }}</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.AlertScheduling' | translate }}</label></td>
+                                    <td class="text-right">{{task.serviceTask.objectDetail.templateAttributes.AlertScheduling}}</td>
+                                </tr>
+                                <tr ng-if="task.serviceTask.objectDetail.templateAttributes.AlertScheduling === 'SCHEDULED'">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.CyclePeriod' | translate }}</label></td>
+                                    <td class="text-right">{{task.serviceTask.objectDetail.templateAttributes.CyclePeriod}}</td>
+                                </tr>
+                                <tr ng-if="task.serviceTask.objectDetail.templateAttributes.AlertScheduling === 'SCHEDULED' && task.serviceTask.objectDetail.templateAttributes.CyclePeriod === 'WEEK'">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.DaysOfWeek' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm ng-dirty {{task.serviceTask.objectDetail.templateAttributes.dummyDaysOfWeek[$index] ? 'btn-primary active' : 'btn-default'}}"
+                                                    ng-class="{ 'ng-invalid-required': ($index === 0 && (!alertTemplateProfile.DaysOfWeek || alertTemplateProfile.DaysOfWeek.length === 0)) }"
+                                                    ng-repeat="dayOfWeek in DAYS_OF_WEEK"
+                                                    ng-model="task.serviceTask.objectDetail.templateAttributes.dummyDaysOfWeek[$index]"
+                                                    uib-btn-checkbox
+                                                    ng-disabled="true">{{ dayOfWeek.abbr }}</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="task.serviceTask.objectDetail.templateAttributes.AlertScheduling === 'SCHEDULED' && task.serviceTask.objectDetail.templateAttributes.CyclePeriod === 'MONTH'">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.AddDaysOfMonth' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <span ng-repeat="n in task.serviceTask.objectDetail.templateAttributes.DaysOfMonth">
+                                            <span class="label label-default selected-item-label">{{n}}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="task.serviceTask.objectDetail.templateAttributes.AlertScheduling === 'SCHEDULED'">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.AlertTemplateProfile.AddTimesOfDay' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <span ng-repeat="n in task.serviceTask.objectDetail.templateAttributes.TimesOfDay">
+                                            <span class="label label-default selected-item-label">{{n}}</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND'">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.Title' | translate }}</label>
+                        <div class="col-md-7">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.IsDynamicContent' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn {{task.serviceTask.objectDetail.templateAttributes.IsDynamicContent?'btn-primary active':'btn-default'}} btn-sm"
+                                                    ng-disabled="true"
+                                                    ng-value="task.serviceTask.objectDetail.templateAttributes.IsDynamicContent">{{ 'CommonLabels.Yes' | translate }}</button>
+                                            <button type="button" class="btn {{!task.serviceTask.objectDetail.templateAttributes.IsDynamicContent?'btn-primary active':'btn-default'}} btn-sm"
+                                                    ng-disabled="true"
+                                                    ng-value="task.serviceTask.objectDetail.templateAttributes.IsDynamicContent">{{ 'CommonLabels.No' | translate }}</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="task.serviceTask.objectDetail.templateAttributes.IsDynamicContent">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.DynamicContentURL' | translate }}</label></td>
+                                    <td class="text-right">{{task.serviceTask.objectDetail.templateAttributes.DynamicContentURL}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ResponseMessageLangEN' | translate }}</label></td>
+                                    <td class="text-right">{{task.serviceTask.objectDetail.templateAttributes.ResponseMessageLangEN}}</td>
+                                </tr>
+                                <tr ng-if="false">
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ResponseMessageLangOther' | translate }}</label></td>
+                                    <td class="text-right">{{task.serviceTask.objectDetail.templateAttributes.ResponseMessageLangOther}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"><label>{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.OnDemandTemplateProfile.ServiceProposalFileID' | translate }}</label></td>
+                                    <td class="text-right">
+                                        <span ng-if="!task.serviceTask.objectDetail.templateAttributes.ServiceProposalFileName">{{ 'CommonLabels.N/A' | translate }}</span>
+                                        <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 152px;overflow: hidden;white-space: nowrap;display: inline-block;"
+                                                ng-if="task.serviceTask.objectDetail.templateAttributes.ServiceProposalFileName"
+                                                uib-tooltip="{{task.serviceTask.objectDetail.templateAttributes.ServiceProposalFileName}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                            {{ task.serviceTask.objectDetail.templateAttributes.ServiceProposalFileName }}
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <a class="btn btn-sm btn-success"
+                                           ng-if="task.serviceTask.objectDetail.templateAttributes.ServiceProposalFileName"
+                                           title="{{ 'CommonLabels.Download' | translate }}"
+                                           download="{{ task.serviceTask.objectDetail.templateAttributes.ServiceProposalFileName }}"
+                                           href="{{ task.serviceTask.objectDetail.templateAttributes.ServiceProposalFile | ngfDataUrl }}" target="_blank">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="(task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') || task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')) && task.serviceTask.objectDetail.serviceProfile.Usage === 'SUBSCRIPTION'">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.SubscriptionNotificationProfile.NotificationURL' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.subscriptionNotificationProfile.url}}</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.SubscriptionNotificationProfile.LegacyVsNewNotification' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.subscriptionNotificationProfile.LegacyVsNewNotification}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="(task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND') ||
+                        ((task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') || task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')) && task.serviceTask.objectDetail.serviceProfile.Usage === 'ON_DEMAND')">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.MOChargingProfile.MoServiceFee' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.moChargingProfile.Fee}}</div>
+                    </div>
+                </div>
+
+                <!-- TODO - Temporarily hidden -->
+                <div class="form-group" ng-if="false">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.MTChargingProfile.Title' | translate }}</label>
+                    <div class="col-md-7">
+                        <div ng-if="task.serviceTask.objectDetail.mtChargingProfileList.length" class="row col-md-9">
+                            <div ng-repeat="mtChargingProfile in task.serviceTask.objectDetail.mtChargingProfileList">
+                                <span class="label label-default selected-item-label"
+                                      uib-tooltip="{{ getMTServiceFeeProfileString(mtChargingProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getMTServiceFeeProfileString(mtChargingProfile) }}
+                                </span>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && task.serviceTask.objectDetail.serviceProfile.Template === 'CHAPTERED'">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.KeywordChapterMappingProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="task.serviceTask.objectDetail.keywordChapterMappingProfileList.length" class="row col-md-9">
+                        <div ng-repeat="keywordChapterMappingProfile in task.serviceTask.objectDetail.keywordChapterMappingProfileList">
+                                <span class="label label-default selected-item-label"
+                                      uib-tooltip="{{ getKeywordChapterMappingProfileString(keywordChapterMappingProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getKeywordChapterMappingProfileString(keywordChapterMappingProfile) }}
+                                </span>&nbsp;
+                        </div>
+                    </div>
+                    <span ng-if="task.serviceTask.objectDetail.keywordChapterMappingProfileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="(task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && (task.serviceTask.objectDetail.serviceProfile.Template === 'CHAPTERED' || task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND')) ||
+                                           ((task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') || task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')) && task.serviceTask.objectDetail.serviceProfile.Usage === 'ON_DEMAND')">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.OnDemandRequests' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="task.serviceTask.objectDetail.onDemandi18nProfileList.length" class="row col-md-9">
+                        <div ng-repeat="onDemandi18nProfile in task.serviceTask.objectDetail.onDemandi18nProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getOnDemandi18nProfileString(onDemandi18nProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getOnDemandi18nProfileString(onDemandi18nProfile) }}
+                            </span>&nbsp;
+                        </div>
+                    </div>
+                    <span ng-if="task.serviceTask.objectDetail.onDemandi18nProfileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="!(task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && (task.serviceTask.objectDetail.serviceProfile.Template === 'ALERTS' || task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND' || task.serviceTask.objectDetail.serviceProfile.Template === 'CHAPTERED'))">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.URLForMOSMS' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.URLForMOSMS}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="(task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && (task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND' || task.serviceTask.objectDetail.serviceProfile.Template === 'CHAPTERED'))">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.URLForMOSMS' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.URLForMOSMS}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="!(task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && (task.serviceTask.objectDetail.serviceProfile.Template === 'ALERTS'))">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.URLForMOMMS' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.URLForMOMMS}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.LegacyVsNewOutboundAPI' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.LegacyVsNewOutboundAPI}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.SenderIdProfile.SenderID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.senderIdProfile.SenderID}}</div>
+                </div>
+            </div>
+
+            <div ng-if="!task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') && !task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_')">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.IsHidingMSISDN' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button type="button" class="btn {{task.serviceTask.objectDetail.serviceProfile.IsHidingMSISDN?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.serviceTask.objectDetail.serviceProfile.IsHidingMSISDN">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button type="button" class="btn {{!task.serviceTask.objectDetail.serviceProfile.IsHidingMSISDN?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.serviceTask.objectDetail.serviceProfile.IsHidingMSISDN">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="task.serviceTask.objectDetail.serviceProfile.IsHidingMSISDN">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.HideMSISDNWith' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.serviceProfile.HideMSISDNWith}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="task.serviceTask.objectDetail.id && task.serviceTask.objectDetail.serviceProfile.profileId &&
+                                ((task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND') ||
+                                ((task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') || task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')) && task.serviceTask.objectDetail.serviceProfile.Usage === 'ON_DEMAND'))">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.Services.ProductProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div ng-if="task.serviceTask.objectDetail.id && task.serviceTask.objectDetail.serviceProfile.profileId &&
+                    ((task.serviceTask.objectDetail.serviceProfile.Type.startsWith('STANDARD_') && task.serviceTask.objectDetail.serviceProfile.Template === 'ON_DEMAND') ||
+                    ((task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_') || task.serviceTask.objectDetail.serviceProfile.Type.startsWith('CUSTOMIZED_')) && task.serviceTask.objectDetail.serviceProfile.Usage === 'ON_DEMAND'))">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.NameLangEN' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.productProfile.NameLangEN}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.DescriptionLangEN' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.productProfile.DescriptionLangEN}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.NameLangOther' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.productProfile.NameLangOther}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.DescriptionLangOther' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.productProfile.DescriptionLangOther}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.Code' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.productProfile.Code}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.Services.ServiceContentBasedSettlementProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceContentBasedSettlementProfile.Contents' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="task.serviceTask.objectDetail.serviceContentBasedSettlementProfileList.length" class="row col-md-9">
+                        <div ng-repeat="serviceContentBasedSettlementProfile in task.serviceTask.objectDetail.serviceContentBasedSettlementProfileList">
+                            <span class="label label-default selected-item-label"
+                                  uib-tooltip="{{ getServiceContentBasedSettlementProfileString(serviceContentBasedSettlementProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getServiceContentBasedSettlementProfileString(serviceContentBasedSettlementProfile) }}
+                            </span>&nbsp;
+                        </div>
+                    </div>
+                    <span ng-if="task.serviceTask.objectDetail.serviceContentBasedSettlementProfileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.Services.DCBSettings.DCBSettings' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.AggregatorName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.AggregatorName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.OTTName' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.OTTName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.CarrierId' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.CarrierId}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.SilentSMSShortCode' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.SilentSMSShortCode}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.Currency' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.Currency}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.AssociationAPIURL' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.AssociationAPIURL}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.DeassociationAPIURL' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.DeassociationAPIURL}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.ClientAPIUsername' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceProfile.ClientAPIUsername}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.ClientAPIPassword' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">******</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.BlockDCBEnabled' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.serviceTask.objectDetail.dcbServiceProfile.BlockDCBEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceProfile.BlockDCBEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.serviceTask.objectDetail.dcbServiceProfile.BlockDCBEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceProfile.BlockDCBEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.IsCapped' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.serviceTask.objectDetail.dcbServiceProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceProfile.IsCapped">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.serviceTask.objectDetail.dcbServiceProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceProfile.IsCapped">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div ng-if="task.serviceTask.objectDetail.serviceProfile.Type.startsWith('DCB_')">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseHeaderEnrichment' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.serviceTask.objectDetail.dcbServiceActivationProfile.UseHeaderEnrichment?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseHeaderEnrichment">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.serviceTask.objectDetail.dcbServiceActivationProfile.UseHeaderEnrichment?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseHeaderEnrichment">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseSilentSMS' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.serviceTask.objectDetail.dcbServiceActivationProfile.UseSilentSMS?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseSilentSMS">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.serviceTask.objectDetail.dcbServiceActivationProfile.UseSilentSMS?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseSilentSMS">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseOTTOTP' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOTTOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOTTOTP">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOTTOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOTTOTP">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseOperatorOTP' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOperatorOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOperatorOTP">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOperatorOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.serviceTask.objectDetail.dcbServiceActivationProfile.UseOperatorOTP">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.SubscriberIDatOperator' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceActivationProfile.SubscriberIDatOperator}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.SubscriberIDatOTT' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.serviceTask.objectDetail.dcbServiceActivationProfile.SubscriberIDatOTT}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <span>
+                    <!-- Service create -->
+                    <button type="submit" class="btn btn-danger"
+                            ui-sref="partner-info.services.resendcreatetask ({ id: task.serviceId })"
+                            ng-if="task.type === 'SERVICE' && AuthorizationService.canPrmServiceCreate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                            title="{{ 'CommonLabels.Resend' | translate }}">
+                        {{ 'CommonLabels.Resend' | translate }}
+                    </button>
+
+                    <!-- Service update -->
+                    <button type="submit" class="btn btn-danger"
+                            ui-sref="partner-info.services.resendupdatetask ({ id: task.serviceId })"
+                            ng-if="task.type === 'SERVICE' && AuthorizationService.canPrmServiceUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                            title="{{ 'CommonLabels.Resend' | translate }}">
+                        {{ 'CommonLabels.Resend' | translate }}
+                    </button>
+                </span>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

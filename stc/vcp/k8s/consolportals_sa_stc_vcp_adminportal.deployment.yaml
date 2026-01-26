@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-adminportal
+  template:
+    metadata:
+      labels:
+        component: vcp-adminportal
+    spec:
+      containers:
+        - name: vcp-adminportal
+          image: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.1
+          ports:
+            - containerPort: 8080

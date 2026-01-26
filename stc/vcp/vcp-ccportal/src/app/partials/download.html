@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE; IE=9; IE=8; IE=7"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Telenity - Vas Consolidation Admin Portal">
+    <meta name="author" content="Telenity">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <style>
+        @keyframes ajaxLoaderHorizontal {
+            0%, 40%, 100% {
+                background-color: #2f4354;
+                box-shadow: 0 5px 6px rgba(10, 10, 10, 0.1);
+                transform: scaleY(0.7);
+            }
+            20% {
+                background-color: #FEFEFE;
+                box-shadow: 0 5px 6px rgba(10, 10, 10, 0.9);
+                transform: scaleY(1);
+            }
+        }
+
+        div#ajaxLoaderHorizontal {
+            width: %100;
+            text-align: center;
+            margin: 120px auto;
+        }
+
+        div#ajaxLoaderHorizontal div.ajaxInner {
+            height: 45px;
+            width: 0;
+            display: inline-block;
+            padding: 5px;
+            margin: 0 2px;
+        }
+
+        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(1) {
+            animation: ajaxLoaderHorizontal 2s ease-in-out infinite;
+        }
+
+        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(2) {
+            animation: ajaxLoaderHorizontal 2s ease-in-out -1.6s infinite;
+        }
+
+        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(3) {
+            animation: ajaxLoaderHorizontal 2s ease-in-out -1.2s infinite;
+        }
+
+        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(4) {
+            animation: ajaxLoaderHorizontal 2s ease-in-out -0.8s infinite;
+        }
+
+        div#ajaxLoaderHorizontal div.ajaxInner:nth-child(5) {
+            animation: ajaxLoaderHorizontal 2s ease-in-out -0.4s infinite;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="ajaxLoaderHorizontal">
+    <div class="ajaxInner"></div>
+    <div class="ajaxInner"></div>
+    <div class="ajaxInner"></div>
+    <div class="ajaxInner"></div>
+    <div class="ajaxInner"></div>
+</div>
+
+</body>
+</html>

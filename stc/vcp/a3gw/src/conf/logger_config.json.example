@@ -1,0 +1,5 @@
+{
+  "timezone": "<timezone string>", // DELETE THIS COMMENT - For example Asia/Qatar
+  "maxSize": 10000000, // DELETE THIS COMMENT - 10 MB
+  "maxFiles": 15 // DELETE THIS COMMENT - 15 files maximum
+}

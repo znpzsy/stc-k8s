@@ -1,0 +1,539 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Organizations' | translate }} / {{ 'Subsystems.Provisioning.ServiceProviders.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="name" id="name" class="form-control" ng-model="provider.name"
+                       ng-disabled="!AuthorizationService.canCreateServiceProvider() || provider.id"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="providerId" value="" class="form-control" ng-model="provider.id"
+                       disabled="disabled"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.Description' | translate }}</label>
+            <div class="col-md-7">
+                    <textarea id="description" name="description" class="form-control" dir="auto"
+                              ng-model="provider.description"
+                              rows="3" ng-maxlength="255" maxlength="255"
+                              ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.description.$dirty && form.description.$invalid }"
+                    ng-show="form.description.$dirty && form.description.$invalid">
+                    <li class="required" ng-show="form.description.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ParentOrganization' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="provider.parentName" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{provider.parentName}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!provider.id">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ParentOrganization' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="$parent.selectedOrganization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{ $parent.selectedOrganization.name }}</span>
+                    <a ng-click="$parent.selectedOrganization.name = undefined" style="cursor: pointer;" ng-if="AuthorizationService.canCreateServiceProvider() || (provider.id && AuthorizationService.canUpdateServiceProvider())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': $parent.selectedOrganization.name, 'ng-invalid-required': !$parent.selectedOrganization.name }"
+                        ng-click="openOrganizations(provider)"
+                        ng-disabled="!AuthorizationService.canCreateServiceProvider() || (provider.id && !AuthorizationService.canUpdateServiceProvider())">{{ 'CommonLabels.Choose' | translate }}</button>
+                <div style="clear: both;">
+                    <input name="serviceOrganization" type="text" class="form-control"
+                           ng-model="$parent.selectedOrganization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="provider.id ? null : $parent.selectedOrganization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': $parent.selectedOrganization !== undefined && $parent.selectedOrganization.name === undefined }"
+                        ng-show="$parent.selectedOrganization !== undefined && $parent.selectedOrganization.name === undefined">
+                        <li class="required" ng-show="form.serviceOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.State' | translate }}</label>
+            <div class="col-md-3" ng-if="isAdminUser">
+                <select id="state" name="state" class="form-control parsley-validated"
+                        ng-model="provider.state"
+                        ng-disabled="provider.id ? !AuthorizationService.canCreateServiceProvider(provider.state) : !AuthorizationService.canUpdateServiceProvider()"
+                        ng-options="state.name as state.name for state in STATUS_TYPES">
+                </select>
+            </div>
+            <div class="col-md-3" ng-if="!isAdminUser">
+                <select id="state" name="state" class="form-control" ng-value="provider.state" ng-disabled="true">
+                    <option>{{provider.state}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.EffectiveDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(provider.state) : !AuthorizationService.canCreateServiceProvider()"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(provider.state) : !AuthorizationService.canCreateServiceProvider()">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                    <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.ExpiryDate' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-required="true"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(provider.state) : !AuthorizationService.canCreateServiceProvider()"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(provider.state) : !AuthorizationService.canCreateServiceProvider()">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                    <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="companyname" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.CompanyName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="companyname" name="companyname" type="text" class="form-control" dir="auto"
+                       ng-model="provider.serviceProviderCommonProfile.CompanyName"
+                       ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider()"
+                       ng-maxlength="250"  />
+                <ul ng-class="{ 'parsley-error-list': form.companyname.$dirty && form.companyname.$invalid }"
+                    ng-show="form.companyname.$dirty && form.companyname.$invalid">
+                    <li class="required" ng-show="form.companyname.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.companyname.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.CompanyLogoID' | translate }}</label>
+            <div class="col-md-7">
+                <div class="fileinput fileinput-new">
+                    <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="provider.serviceProviderCommonProfile.Logo.name">
+                        <img ngf-src="!provider.serviceProviderCommonProfile.Logo.$error && provider.serviceProviderCommonProfile.Logo" width="200"
+                             ng-style="{ 'height': (provider.serviceProviderCommonProfile.Logo ? '' : '200px') }"/>
+
+                        <div class="thumbnail-footer" ng-if="provider.serviceProviderCommonProfile.Logo.type">
+                            <div class="pull-left">
+                                {{ provider.serviceProviderCommonProfile.Logo.type }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button name="companyLogo" type="file"
+                                title="{{ (provider.serviceProviderCommonProfile.Logo ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                ngf-select
+                                ng-model="provider.serviceProviderCommonProfile.Logo"
+                                ng-init="provider.serviceProviderCommonProfile.Logo.name = provider.serviceProviderCommonProfile.Logo.$ngfName"
+                                class="btn btn-sm btn-default"
+                                ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                ngf-max-size="20MB"
+                                ngf-model-invalid="errorCompanyLogoFile"
+                                ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(provider.state) : !AuthorizationService.canCreateServiceProvider()">
+                            <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                            {{ (provider.serviceProviderCommonProfile.Logo.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                        </button>
+                        <button class="btn btn-sm btn-default"
+                                title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                ng-click="provider.serviceProviderCommonProfile.Logo = null;"
+                                ng-if="provider.serviceProviderCommonProfile.Logo.name && (provider.id ? AuthorizationService.canUpdateServiceProvider(provider.state) : AuthorizationService.canCreateServiceProvider())">
+                            <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                            {{ 'FileOperationLabels.Remove' | translate }}
+                        </button>
+                        &nbsp;&nbsp;
+                        <a class="btn btn-sm btn-success"
+                           ng-if="provider.serviceProviderCommonProfile.Logo.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ provider.serviceProviderCommonProfile.Logo.name }}"
+                           href="{{ provider.serviceProviderCommonProfile.Logo | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.companyLogo.$dirty && form.companyLogo.$invalid }"
+                    ng-show="form.companyLogo.$dirty && form.companyLogo.$invalid">
+                    <li class="required" ng-show="form.companyLogo.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorCompanyLogoFile.$errorParam} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="maxTones" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.MaxAllowedTonesCount' | translate }}</label>
+            <div class="col-md-3">
+                <input id="maxTones" name="maxTones" type="number" class="form-control"
+                       ng-model="provider.serviceProviderCommonProfile.MaxAllowedTonesCount"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       ng-required="true"
+                       min="0" max="100000"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxTones.$dirty && form.maxTones.$invalid }"
+                    ng-show="form.maxTones.$dirty && form.vat.$invalid">
+                    <li class="required" ng-show="form.maxTones.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.maxTones.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100000} }}</li>
+                    <li class="required" ng-show="form.maxTones.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxTones.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ProviderAllowedCategoryProfile.Title' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="provider.serviceProviderAllowedCategoryProfiles.length" class="row col-md-9">
+                        <div ng-repeat="categoryProfile in provider.serviceProviderAllowedCategoryProfiles">
+                                <span class="label label-default selected-item-label"
+                                      uib-tooltip="{{ getCategoryString(categoryProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getCategoryString(categoryProfile) }}
+                                </span>&nbsp;
+                            <a ng-click="removeAllowedCategoryProfile(provider, categoryProfile);form.serviceProviderAllowedCategoryProfiles.$setDirty();" style="cursor: pointer;text-decoration: none;"
+                               ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider" >
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"
+                            ng-class="{ 'pull-right': provider.serviceProviderAllowedCategoryProfiles.length > 0 }"
+                            ng-click="showCategorySelectionModal(provider)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        <div class="row" ng-if="provider.id">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.ServiceProviders.ProviderLegacyProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <!-- Legacy Details form fields -->
+        <div ng-if="provider.id">
+            <div class="form-group" >
+                <label for="legacyId" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ProviderLegacyProfile.LegacyId' | translate }}</label>
+                <div class="col-md-3">
+                    <input type="text" name="legacyId" id="legacyId"  value="" class="form-control" ng-model="provider.serviceProviderLegacyIDProfile.LegacyID"
+                           disabled="disabled"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.CompanyAddressTitle' | translate }}
+                </h5>
+            </div>
+        </div>
+        <!-- CompanyAddress form fields -->
+        <div>
+            <div class="form-group">
+                <label for="Address" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Address' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="Address" name="Address" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderAddressProfile.CompanyAddress"
+                           ng-maxlength="255" maxlength="255"
+                           ng-required="true"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.Address.$dirty && form.Address.$invalid }"
+                        ng-show="form.Address.$dirty && form.Address.$invalid">
+                        <li class="required" ng-show="form.Address.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.Address.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="POBox" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.POBox' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="POBox" name="POBox" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderAddressProfile.CompanyPostalCode"
+                           ng-maxlength="15" maxlength="15"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.POBox.$dirty && form.POBox.$invalid }"
+                        ng-show="form.POBox.$dirty && form.POBox.$invalid">
+                        <li class="required" ng-show="form.POBox.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.POBox.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Country" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Country' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="Country" name="Country" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderAddressProfile.CompanyCountry"
+                           ng-maxlength="100" maxlength="100"
+                           ng-required="true"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.Country.$dirty && form.Country.$invalid }"
+                        ng-show="form.Country.$dirty && form.Country.$invalid">
+                        <li class="required" ng-show="form.Country.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.Country.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Phone" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Phone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="Phone" name="Phone" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderAddressProfile.CompanyPhone"
+                           ng-minlength="5" maxlength="20" ng-maxlength="20"
+                           ng-required="true"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.Phone.$dirty && form.Phone.$invalid }" ng-show="form.Phone.$dirty && form.Phone.$invalid">
+                        <li class="required" ng-show="form.Phone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.Phone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                        <li class="required" ng-show="form.Phone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Fax" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Fax' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="Fax" name="Fax" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderAddressProfile.CompanyFax"
+                           ng-minlength="5" maxlength="20" ng-maxlength="20"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.Fax.$dirty && form.Fax.$invalid }" ng-show="form.Fax.$dirty && form.Fax.$invalid">
+                        <li class="required" ng-show="form.Fax.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                        <li class="required" ng-show="form.Fax.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="WebSite" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.WebSite' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="WebSite" name="WebSite" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderAddressProfile.CompanyWeb"
+                           ng-maxlength="250" maxlength="250"
+                           ng-pattern="$root.Validators.UrlSimple"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.WebSite.$dirty && form.WebSite.$invalid }" ng-show="form.WebSite.$dirty && form.WebSite.$invalid">
+                        <li class="required" ng-show="form.WebSite.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        <li class="required" ng-show="form.WebSite.$error.pattern">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.ServiceProviders.ProviderContactsProfile.PriContactTitle' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <!-- ProviderContactsProfile form fields -->
+        <div>
+            <!-- Primary -->
+            <div class="form-group">
+                <label for="PriContactName" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Name' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PriContactName" name="PriContactName" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.PrimaryContactName"
+                           ng-maxlength="100" maxlength="100"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PriContactName.$dirty && form.PriContactName.$invalid }"
+                        ng-show="form.PriContactName.$dirty && form.PriContactName.$invalid">
+                        <li class="required" ng-show="form.PriContactName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.PriContactName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PriContactMobilePhone" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.MobilePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PriContactMobilePhone" name="PriContactMobilePhone" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.PrimaryContactMobilePhone"
+                           ng-minlength="5" maxlength="20" ng-maxlength="20"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.PriContactMobilePhone.$dirty && form.PriContactMobilePhone.$invalid }"
+                        ng-show="form.PriContactMobilePhone.$dirty && form.PriContactMobilePhone.$invalid">
+                        <li class="required" ng-show="form.PriContactMobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.PriContactMobilePhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                        <li class="required" ng-show="form.PriContactMobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PriContactFixedPhone" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.FixedPhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PriContactFixedPhone" name="PriContactFixedPhone" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.PrimaryContactFixedPhone"
+                           ng-minlength="5" maxlength="20" ng-maxlength="20"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.PriContactFixedPhone.$dirty && form.PriContactFixedPhone.$invalid }" ng-show="form.PriContactFixedPhone.$dirty && form.PriContactFixedPhone.$invalid">
+                        <li class="required" ng-show="form.PriContactFixedPhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                        <li class="required" ng-show="form.PriContactFixedPhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="PriContactEmail" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Email' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="PriContactEmail" name="PriContactEmail" type="email" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.PrimaryContactEmail"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.PriContactEmail.$dirty && form.PriContactEmail.$invalid }"
+                        ng-show="form.PriContactEmail.$dirty && form.PriContactEmail.$invalid">
+                        <li class="required" ng-show="form.PriContactEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.PriContactEmail.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                        <li class="required" ng-show="form.PriContactEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.ServiceProviders.ProviderContactsProfile.AltContactTitle' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <!-- Alternative -->
+            <div class="form-group">
+                <label for="AltContactName" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Name' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="AltContactName" name="AltContactName" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.AlternativeContactName"
+                           ng-maxlength="100" maxlength="100"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.AltContactName.$dirty && form.AltContactName.$invalid }"
+                        ng-show="form.AltContactName.$dirty && form.AltContactName.$invalid">
+                        <li class="required" ng-show="form.AltContactName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.AltContactName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="AltContactMobilePhone" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.MobilePhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="AltContactMobilePhone" name="AltContactMobilePhone" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.AlternativeContactMobilePhone"
+                           ng-minlength="5" maxlength="20" ng-maxlength="20"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.AltContactMobilePhone.$dirty && form.AltContactMobilePhone.$invalid }" ng-show="form.AltContactMobilePhone.$dirty && form.AltContactMobilePhone.$invalid">
+                        <li class="required" ng-show="form.AltContactMobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.AltContactMobilePhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                        <li class="required" ng-show="form.AltContactMobilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="AltContactFixedPhone" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.FixedPhone' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="AltContactFixedPhone" name="AltContactFixedPhone" type="text" class="form-control" dir="auto"
+                           ng-model="provider.serviceProviderContactsProfile.AlternativeContactFixedPhone"
+                           ng-minlength="5" maxlength="20" ng-maxlength="20"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider">
+                    <ul ng-class="{ 'parsley-error-list': form.AltContactFixedPhone.$dirty && form.AltContactFixedPhone.$invalid }" ng-show="form.AltContactFixedPhone.$dirty && form.AltContactFixedPhone.$invalid">
+                        <li class="required" ng-show="form.AltContactFixedPhone.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                        <li class="required" ng-show="form.AltContactFixedPhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="AltContactEmail" class="col-md-3">{{ 'Subsystems.Provisioning.ServiceProviders.ServiceProviderProfile.Email' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="AltContactEmail" name="AltContactEmail" type="email" class="form-control"
+                           ng-model="provider.serviceProviderContactsProfile.AlternativeContactEmail"
+                           maxlength="100" ng-maxlength="100"
+                           ng-disabled="provider.id ? !AuthorizationService.canUpdateServiceProvider(): !AuthorizationService.canCreateServiceProvider"/>
+                    <ul ng-class="{ 'parsley-error-list': form.AltContactEmail.$dirty && form.AltContactEmail.$invalid }"
+                        ng-show="form.AltContactEmail.$dirty && form.AltContactEmail.$invalid">
+                        <li class="required" ng-show="form.AltContactEmail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.AltContactEmail.$error.email">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                        <li class="required" ng-show="form.AltContactEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreateServiceProvider() || (provider.id && !AuthorizationService.canUpdateServiceProvider()) || isNotChanged()"
+                        ng-click="save(provider);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

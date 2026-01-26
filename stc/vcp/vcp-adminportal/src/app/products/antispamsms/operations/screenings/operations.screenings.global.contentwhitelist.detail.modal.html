@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ pageHeaderKey | translate }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.List.TableColumns.Name' | translate }}</label>
+            <div class="col-md-9">
+                <input name="entryName" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                       ng-model="entry.name" ng-disabled="entry.id"
+                       ng-required="true" required="true" />
+                <ul ng-class="{ 'parsley-error-list': form.entryName.$dirty && form.entryName.$invalid }" ng-show="form.entryName.$dirty && form.entryName.$invalid">
+                    <li class="required" ng-show="form.entryName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.entryName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                    <li class="required" ng-show="form.entryName.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.List.TableColumns.ContentScreening' | translate }}</label>
+            <div class="col-md-9">
+                <input name="contentScreening" type="text" class="form-control"
+                       ng-model="entry.contentScreening"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.List.TableColumns.ScreeningType' | translate }}</label>
+            <div class="col-md-9">
+                <select name="type" class="form-control parsley-validated" ng-model="entry.screeningType" ng-required="true"
+                        ng-options="opt.numericValue as opt.label for opt in SMS_ANTISPAM_EVALUATION_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-9">
+                <select name="state" class="form-control parsley-validated"
+                        ng-disabled="(entry.id ? !AuthorizationService.canAntispamScreeningListsUpdate() : !AuthorizationService.canAntispamScreeningListsCreate())"
+                        ng-model="entry.state" ng-options="opt.numericValue as opt.label for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || isNotChanged() || (entry.id ? !AuthorizationService.canAntispamScreeningListsUpdate() : !AuthorizationService.canAntispamScreeningListsCreate())"
+            ng-click="save(entry)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

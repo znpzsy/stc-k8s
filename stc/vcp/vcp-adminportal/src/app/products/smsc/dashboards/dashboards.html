@@ -1,0 +1,106 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.SMSC.Dashboards.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.incomingSmsPerSecondForLastHour | number:2 }} mps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.SMSC.Dashboards.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.fdaSuccessRatioOutOfAllSuccess | number:2 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.SMSC.Dashboards.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.outgoingSmsPerSecondForLastHour | number:2 }} mps</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.SMSC.Dashboards.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.smsSuccessRatioOutOfReceived | number:2 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.SMSC.Dashboards.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.smsSuccessRatioOutOfAccepted | number:2 }}%</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.SMSC.Dashboards.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.retryCapacityRatio | number:2 }}%</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.SMSC.Dashboards.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="incomingSmsTraffic.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.SMSC.Dashboards.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="outgoingSmsTraffic.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.SMSC.Dashboards.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="failedSmsDeliveryAttempts.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

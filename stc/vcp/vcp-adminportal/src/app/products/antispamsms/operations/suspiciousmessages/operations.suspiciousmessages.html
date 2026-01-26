@@ -1,0 +1,30 @@
+
+<ul class="nav nav-tabs">
+    <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.frauddetection') }">
+        <a ui-sref="products.antispamsms.operations.suspiciousmessages.frauddetection.list" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.FraudDetection.MenuLabel' | translate }}        </a>
+    </li>
+    <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.screenings') }">
+        <a ui-sref="products.antispamsms.operations.suspiciousmessages.screenings.list" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Products.AntiSpamSMS.Operations.Screenings.MenuLabel' | translate }}
+        </a>
+    </li>
+    <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.counters') }">
+        <a ui-sref="products.antispamsms.operations.suspiciousmessages.counters.list" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Products.AntiSpamSMS.Operations.Counters.MenuLabel' | translate }}
+        </a>
+    </li>
+    <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.contentcounters') }">
+        <a ui-sref="products.antispamsms.operations.suspiciousmessages.contentcounters.list" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.MenuLabel' | translate }}
+        </a>
+    </li>
+    <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.contentfilters') }">
+        <a ui-sref="products.antispamsms.operations.suspiciousmessages.contentfilters.list" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Products.AntiSpamSMS.Operations.ContentFilters.MenuLabel' | translate }}
+        </a>
+    </li>
+</ul>
+<div ui-view></div>
+
+</div>

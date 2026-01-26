@@ -1,0 +1,85 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'Products.AntiSpamSMS.Operations.Substitutions.SubstitutionsModalTitle' | translate:{contentFiltersEntryName: contentFiltersEntryName} }}</h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-8 col-xs-6">
+        </div>
+
+        <div class="col-md-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['name', 'list'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <div class="table-responsive">
+                    <table ng-table="substitutionList.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html">
+                        <tr ng-repeat="substitution in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Substitutions.TableColumns.Name' | translate" sortable="'name'">{{substitution.name}}</td>
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.Substitutions.TableColumns.List' | translate" sortable="'applicableRange'">{{substitution.list}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                <button ng-click="removeSubstitution(substitution)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canAntispamContentFiltersUpdate()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hidden-link-cell-row">
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input type="text" class="form-control input-sm" id="name" name="name"
+                                           ng-disabled="!AuthorizationService.canAntispamContentFiltersUpdate()"
+                                           ng-required="true"
+                                           ng-model="newSubstitution.name" placeholder="{{ 'Products.AntiSpamSMS.Operations.Substitutions.TableColumns.Name' | translate }}"/>
+
+                                    <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                                        <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.name.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                                    </ul>
+
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div class="form-group form-group-in-tablecell">
+                                    <input type="text" class="form-control input-sm" id="list" name="list"
+                                           ng-disabled="!AuthorizationService.canAntispamContentFiltersUpdate()"
+                                           ng-required="true"
+                                           ng-model="newSubstitution.list" placeholder="{{ 'Products.AntiSpamSMS.Operations.Substitutions.ListFormatPlaceholder' | translate }}"/>
+
+                                    <ul ng-class="{ 'parsley-error-list': form.list.$dirty && form.list.$invalid }" ng-show="form.list.$dirty && form.list.$invalid">
+                                        <li class="required" ng-show="form.list.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.list.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                                    </ul>
+
+                                </div>
+                            </td>
+                            <td align="center">
+                                <button ng-click="addNewSubstitution(newSubstitution)"
+                                        ng-disabled="form.$invalid || !AuthorizationService.canAntispamContentFiltersUpdate()"
+                                        class="btn btn-xs btn-secondary" title="{{ 'CommonLabels.Save' | translate }}">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ok()">{{'CommonLabels.Close' | translate}}</button>
+</div>

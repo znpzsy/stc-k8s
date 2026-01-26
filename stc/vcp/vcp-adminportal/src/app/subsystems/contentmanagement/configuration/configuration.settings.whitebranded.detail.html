@@ -1,0 +1,862 @@
+<div class="col-md-12 col-sm-12">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <div class="portlet-body">
+
+                <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                    <!--  MAIN Settings -->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h5 class="portlet-title">
+                                {{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Header' | translate }}
+                            </h5>
+                        </div>
+                    </div>
+
+                    <!--  Organization / Partner Selection -->
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+                        <div class="col-md-7">
+                            <div ng-if="contentMetadata.organization.name" class="row col-md-9">
+                                <span class="label label-default selected-item-label">{{contentMetadata.organization.name}}</span>
+                                <a ng-click="removeSelectedOrganization();" style="cursor: pointer;"
+                                   ng-if="(!originalContentMetadata.partnerId && AuthorizationService.canUpdateConfiguration())">
+                                    <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                </a>
+                            </div>
+                            <button class="btn btn-default col-md-3 ng-dirty"
+                                    ng-class="{ 'pull-right': contentMetadata.organization.name, 'ng-invalid-required': !contentMetadata.organization.name }"
+                                    ng-click="openOrganizations(contentMetadata);"
+                                    ng-if="(!originalContentMetadata.partnerId && AuthorizationService.canUpdateConfiguration())">{{ 'CommonLabels.Choose' | translate }}
+                            </button>
+                            <div style="clear: both;">
+                                <input name="selectedOrganization" type="text" class="form-control"
+                                       ng-model="contentMetadata.organization.name"
+                                       ng-min="1" ng-required="true"
+                                       ng-init="contentMetadata.partnerId ? null : contentMetadata.organization = undefined"
+                                       ng-show="false"/>
+                                <ul ng-class="{ 'parsley-error-list': selectedOrganization !== undefined && selectedOrganization.name === undefined }"
+                                    ng-show="selectedOrganization !== undefined && selectedOrganization.name === undefined">
+                                    <li class="required" ng-show="form.selectedOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  Short Name -->
+                    <div class="form-group">
+                        <label for="shortName" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.ShortName' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="shortName" name="shortName" type="text" class="form-control"
+                                   ng-model="contentMetadata.shortName"
+                                   ng-pattern="/^[a-z]+(-[a-z]+)*$/"
+                                   ng-required="true" ng-maxlength="100" maxlength="100"
+                                   ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                            <ul ng-class="{ 'parsley-error-list': form.shortName.$dirty && form.shortName.$invalid }"
+                                ng-show="form.shortName.$dirty && form.shortName.$invalid">
+                                <li class="required" ng-show="form.shortName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.shortName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                                <li class="required" ng-show="form.shortName.$error.pattern">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Messages.PatternError' | translate:{pattern: 'lowercase-letters and hyphens'} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--  WBP Base URL -->
+                    <div class="form-group">
+                        <label for="wbpPortalUrl" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.WBPUrl' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="wbpPortalUrl" name="wbpPortalUrl" type="text" class="form-control" dir="auto"
+                                   ng-value="config.wbpPortalUrl + '/' + contentMetadata.shortName"
+                                   ng-disabled="true" disabled/>
+                            <ul ng-class="{ 'parsley-error-list': form.wbpPortalUrl.$dirty && form.wbpPortalUrl.$invalid }"
+                                ng-show="form.wbpPortalUrl.$dirty && form.wbpPortalUrl.$invalid">
+                                <li class="required" ng-show="form.wbpPortalUrl.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.wbpPortalUrl.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 500} }}</li>
+                                <li class="required" ng-show="form.wbpPortalUrl.$error.pattern">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Messages.PatternErrorUrl' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--  Redirect URL -->
+                    <div class="form-group">
+                        <label for="redirection" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Redirection' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="redirection" name="redirection" type="text" class="form-control" dir="auto"
+                                   ng-value="contentMetadata.redirection"
+                                   ng-disabled="true" disabled/>
+                            <ul ng-class="{ 'parsley-error-list': form.redirection.$dirty && form.redirection.$invalid }"
+                                ng-show="form.redirection.$dirty && form.redirection.$invalid">
+                                <li class="required" ng-show="form.redirection.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.redirection.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 500} }}</li>
+                                <li class="required" ng-show="form.redirection.$error.pattern">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Messages.PatternErrorUrl' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--  Logo -->
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Logo' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="fileinput fileinput-new">
+                                <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentMetadata.logoFile.name">
+                                    <img ngf-src="!contentMetadata.logoFile.$error && contentMetadata.logoFile" width="200"
+                                         ng-style="{ 'height': (contentMetadata.logoFile ? '' : '200px') }"/>
+
+                                    <div class="thumbnail-footer" ng-if="contentMetadata.logoFile.type">
+                                        <div class="pull-left">
+                                            {{ contentMetadata.logoFile.type }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button name="logoFile" type="file"
+                                            title="{{ (contentMetadata.logoFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                            class="btn btn-sm btn-default"
+                                            ngf-select
+                                            ng-model="contentMetadata.logoFile"
+                                            ng-init="contentMetadata.logoFile ? contentMetadata.logoFile.name = contentMetadata.logoFile.$ngfName : null"
+                                            ngf-change="form.logoFile.$setDirty()"
+                                            ng-required="true"
+                                            ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                            ngf-max-size="20MB"
+                                            ngf-model-invalid="errorImage"
+                                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                        <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ (contentMetadata.logoFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                    </button>
+                                    <ul ng-class="{ 'parsley-error-list': form.logoFile.$dirty && form.logoFile.$invalid }"
+                                        ng-show="form.logoFile.$dirty && form.logoFile.$invalid">
+                                        <li class="required" ng-show="form.logoFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.logoFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                    </ul>
+                                    <button class="btn btn-sm btn-default"
+                                            title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                            ng-click="contentMetadata.logoFile = null;"
+                                            ng-if="contentMetadata.logoFile.name && AuthorizationService.canUpdateConfiguration()">
+                                        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ 'FileOperationLabels.Remove' | translate }}
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-success"
+                                       ng-if="contentMetadata.logoFile.name"
+                                       title="{{ 'CommonLabels.Download' | translate }}"
+                                       download="{{ contentMetadata.logoFile.name }}"
+                                       href="{{ contentMetadata.logoFile | ngfDataUrl }}" target="_blank">
+                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  Favicon -->
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.FavIcon' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="fileinput fileinput-new">
+                                <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentMetadata.favIconFile.name">
+                                    <img ngf-src="!contentMetadata.favIconFile.$error && contentMetadata.favIconFile" width="200"
+                                         ng-style="{ 'height': (contentMetadata.favIconFile ? '' : '200px') }"/>
+
+                                    <div class="thumbnail-footer" ng-if="contentMetadata.favIconFile.type">
+                                        <div class="pull-left">
+                                            {{ contentMetadata.favIconFile.type }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button name="favIconFile" type="file"
+                                            title="{{ (contentMetadata.favIconFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                            class="btn btn-sm btn-default"
+                                            ngf-select
+                                            ng-model="contentMetadata.favIconFile"
+                                            ng-init="contentMetadata.favIconFile ? contentMetadata.favIconFile.name = contentMetadata.favIconFile.$ngfName : null"
+                                            ngf-change="form.favIconFile.$setDirty()"
+                                            ng-required="true"
+                                            ngf-accept="'.ico,.jpg,.jpeg,.png,.svg,.gif'"
+                                            ngf-max-size="100KB"
+                                            ngf-model-invalid="errorImage"
+                                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                        <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ (contentMetadata.favIconFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                    </button>
+                                    <ul ng-class="{ 'parsley-error-list': form.favIconFile.$dirty && form.favIconFile.$invalid }"
+                                        ng-show="form.favIconFile.$dirty && form.favIconFile.$invalid">
+                                        <li class="required" ng-show="form.favIconFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="form.favIconFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                    </ul>
+                                    <button class="btn btn-sm btn-default"
+                                            title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                            ng-click="contentMetadata.favIconFile = null;"
+                                            ng-if="contentMetadata.favIconFile.name && AuthorizationService.canUpdateConfiguration()">
+                                        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ 'FileOperationLabels.Remove' | translate }}
+                                    </button>                            &nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-success"
+                                       ng-if="contentMetadata.favIconFile.name"
+                                       title="{{ 'CommonLabels.Download' | translate }}"
+                                       download="{{ contentMetadata.favIconFile.name }}"
+                                       href="{{ contentMetadata.favIconFile | ngfDataUrl }}" target="_blank">
+                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--  Color Related Settings -->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h5 class="portlet-title">
+                                {{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Colors.Title' | translate }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="primary" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Colors.Primary' | translate }}</label>
+                            <div class="col-md-7">
+                                <div class="colorpicker-wrapper">
+                                    <input id="primary" name="primary" type="text"
+                                           class="form-control"
+                                           ng-model="contentMetadata.colors.primary"
+                                           ng-required="true" ng-maxlength="7"
+                                           ng-pattern="/^#[A-Fa-f0-9]{6}$/"
+                                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                           placeholder="#ffffff"
+                                           colorpicker
+                                           colorpicker-parent="true"
+                                           colorpicker-position="bottom"
+                                           colorpicker-format="hex"
+                                           colorpicker-size="175" />
+                                    <div class="inline-color-swatch"
+                                         ng-style="{ 'background-color': contentMetadata.colors.primary }"></div>
+                                </div>
+                                <ul ng-class="{ 'parsley-error-list': form.primary.$dirty && form.primary.$invalid }"
+                                    ng-show="form.primary.$dirty && form.primary.$invalid">
+                                    <li class="required" ng-show="form.primary.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    <li class="required" ng-show="form.primary.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 7} }}</li>
+                                    <li class="required" ng-show="form.primary.$error.pattern">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Messages.PatternError' | translate:{pattern: 'valid HEX codes'} }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secondary" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Colors.Secondary' | translate }}</label>
+                            <div class="col-md-7">
+                                <div class="colorpicker-wrapper">
+                                    <input id="secondary" name="secondary" type="text"
+                                           class="form-control"
+                                           ng-model="contentMetadata.colors.secondary"
+                                           ng-required="true" ng-maxlength="7"
+                                           ng-pattern="/^#[A-Fa-f0-9]{6}$/"
+                                           ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                           placeholder="#ffffff"
+                                           colorpicker
+                                           colorpicker-parent="true"
+                                           colorpicker-position="bottom"
+                                           colorpicker-format="hex"
+                                           colorpicker-size="175" />
+                                    <div class="inline-color-swatch"
+                                         ng-style="{ 'background-color': contentMetadata.colors.secondary }"></div>
+                                </div>
+                                <ul ng-class="{ 'parsley-error-list': form.secondary.$dirty && form.secondary.$invalid }"
+                                    ng-show="form.secondary.$dirty && form.secondary.$invalid">
+                                    <li class="required" ng-show="form.secondary.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    <li class="required" ng-show="form.secondary.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 7} }}</li>
+                                    <li class="required" ng-show="form.secondary.$error.pattern">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Messages.PatternError' | translate:{pattern: 'valid HEX codes'} }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  Fonts Related Settings -->
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h5 class="portlet-title">
+                                {{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Title' | translate }}
+                            </h5>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Fallback -->
+                        <div class="form-group">
+                            <label for="fallback" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Fallback' | translate }}</label>
+                            <div class="col-md-7">
+                                <select id="fallback" name="fallback" class="form-control parsley-validated"
+                                        ng-model="contentMetadata.fonts.fallback"
+                                        ng-required="true"
+                                        ng-options="font for font in CMS_RBT_WBP_FALLBACK_FONTS"
+                                        ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                    <option value="">&#45;&#45; {{ 'CommonLabels.SelectOne' | translate }} &#45;&#45;</option>
+                                </select>
+                                <ul ng-class="{ 'parsley-error-list': form.fallback.$dirty && form.fallback.$invalid }"
+                                    ng-show="form.fallback.$dirty && form.fallback.$invalid">
+                                    <li class="required" ng-show="form.fallback.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Is Customized -->
+                        <div class="form-group">
+                            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.IsCustom' | translate }}</label>
+                            <div class="col-md-7">
+                                <div class="btn-group">
+                                    <button class="btn {{contentMetadata.fonts.isCustom?'btn-primary active':'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                            ng-model="contentMetadata.fonts.isCustom" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!contentMetadata.fonts.isCustom?'btn-primary active':'btn-default'}} btn-sm"
+                                            ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                            ng-model="contentMetadata.fonts.isCustom" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Custom Font Name -->
+                        <div class="form-group" ng-if="contentMetadata.fonts.isCustom">
+                            <label for="customFontName" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.CustomFontName' | translate }}</label>
+                            <div class="col-md-7">
+                                <input id="customFontName" name="customFontName" type="text" class="form-control" dir="auto"
+                                       ng-model="contentMetadata.fonts.customFontName"
+                                       ng-required="true" ng-maxlength="50"
+                                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                                <ul ng-class="{ 'parsley-error-list': form.customFontName.$dirty && form.customFontName.$invalid }"
+                                    ng-show="form.customFontName.$dirty && form.customFontName.$invalid">
+                                    <li class="required" ng-show="form.customFontName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    <li class="required" ng-show="form.customFontName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Custom Font Type -->
+                        <div class="form-group" ng-if="contentMetadata.fonts.isCustom">
+                            <label for="customFontType" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.CustomFontType' | translate }}</label>
+                            <div class="col-md-7">
+                                <select id="customFontType" name="customFontType" class="form-control parsley-validated"
+                                        ng-model="contentMetadata.fonts.customFontType"
+                                        ng-options="fonttype for fonttype in CMS_RBT_WBP_CUSTOM_FONT_TYPES"
+                                        ng-required="true"
+                                        ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                    <option value="">&#45;&#45; {{ 'CommonLabels.SelectOne' | translate }} &#45;&#45;</option>
+                                </select>
+                                <ul ng-class="{ 'parsley-error-list': form.customFontType.$dirty && form.customFontType.$invalid }"
+                                    ng-show="form.customFontType.$dirty && form.customFontType.$invalid">
+                                    <li class="required" ng-show="form.customFontType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Font Weights - Path URLs -->
+                        <div class="row" ng-if="contentMetadata.fonts.isCustom">
+                            <div class="col-md-10">
+                                <h6 class="portlet-title">
+                                    {{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Title' | translate }}
+                                </h6>
+                            </div>
+                        </div>
+                        <div ng-if="contentMetadata.fonts.isCustom">
+
+
+                            <!-- Regular -->
+                            <!-- Regular300 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Regular300' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.regular300File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.regular300File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.regular300File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="regular300File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.regular300File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.regular300File"
+                                                    ng-init="contentMetadata.fonts.paths.regular300File ? contentMetadata.fonts.paths.regular300File.name = contentMetadata.fonts.paths.regular300File.$ngfName : null"
+                                                    ngf-change="form.regular300File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.regular300File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.regular300File.$dirty && form.regular300File.$invalid }"
+                                                ng-show="form.regular300File.$dirty && form.regular300File.$invalid">
+                                                <li class="required" ng-show="form.regular300File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.regular300File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.regular300File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.regular300File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.regular300File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.regular300File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.regular300File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Regular400 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Regular400' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.regular400File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.regular400File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.regular400File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="regular400File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.regular400File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.regular400File"
+                                                    ng-init="contentMetadata.fonts.paths.regular400File ? contentMetadata.fonts.paths.regular400File.name = contentMetadata.fonts.paths.regular400File.$ngfName : null"
+                                                    ngf-change="form.regular400File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.regular400File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.regular400File.$dirty && form.regular400File.$invalid }"
+                                                ng-show="form.regular400File.$dirty && form.regular400File.$invalid">
+                                                <li class="required" ng-show="form.regular400File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.regular400File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.regular400File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.regular400File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.regular400File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.regular400File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.regular400File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Regular500 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Regular500' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.regular500File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.regular500File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.regular500File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="regular500File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.regular500File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.regular500File"
+                                                    ng-init="contentMetadata.fonts.paths.regular500File ? contentMetadata.fonts.paths.regular500File.name = contentMetadata.fonts.paths.regular500File.$ngfName : null"
+                                                    ngf-change="form.regular500File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.regular500File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.regular500File.$dirty && form.regular500File.$invalid }"
+                                                ng-show="form.regular500File.$dirty && form.regular500File.$invalid">
+                                                <li class="required" ng-show="form.regular500File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.regular500File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.regular500File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.regular500File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.regular500File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.regular500File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.regular500File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Regular700 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Regular700' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.regular700File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.regular700File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.regular700File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="regular700File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.regular700File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.regular700File"
+                                                    ng-init="contentMetadata.fonts.paths.regular700File ? contentMetadata.fonts.paths.regular700File.name = contentMetadata.fonts.paths.regular700File.$ngfName : null"
+                                                    ngf-change="form.regular700File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.regular700File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.regular700File.$dirty && form.regular700File.$invalid }"
+                                                ng-show="form.regular700File.$dirty && form.regular700File.$invalid">
+                                                <li class="required" ng-show="form.regular700File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.regular700File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.regular700File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.regular700File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.regular700File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.regular700File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.regular700File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Italic -->
+                            <!-- Italic300 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Italic300' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.italic300File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.italic300File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.italic300File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="italic300File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.italic300File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.italic300File"
+                                                    ng-init="contentMetadata.fonts.paths.italic300File ? contentMetadata.fonts.paths.italic300File.name = contentMetadata.fonts.paths.italic300File.$ngfName : null"
+                                                    ngf-change="form.italic300File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.italic300File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.italic300File.$dirty && form.italic300File.$invalid }"
+                                                ng-show="form.italic300File.$dirty && form.italic300File.$invalid">
+                                                <li class="required" ng-show="form.italic300File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.italic300File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.italic300File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.italic300File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.italic300File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.italic300File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.italic300File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Italic400 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Italic400' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.italic400File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.italic400File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.italic400File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="italic400File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.italic400File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.italic400File"
+                                                    ng-init="contentMetadata.fonts.paths.italic400File ? contentMetadata.fonts.paths.italic400File.name = contentMetadata.fonts.paths.italic400File.$ngfName : null"
+                                                    ngf-change="form.italic400File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.italic400File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.italic400File.$dirty && form.italic400File.$invalid }"
+                                                ng-show="form.italic400File.$dirty && form.italic400File.$invalid">
+                                                <li class="required" ng-show="form.italic400File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.italic400File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.italic400File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.italic400File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.italic400File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.italic400File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.italic400File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Italic500 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Italic500' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.italic500File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.italic500File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.italic500File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="italic500File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.italic500File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.italic500File"
+                                                    ng-init="contentMetadata.fonts.paths.italic500File ? contentMetadata.fonts.paths.italic500File.name = contentMetadata.fonts.paths.italic500File.$ngfName : null"
+                                                    ngf-change="form.italic500File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.italic500File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.italic500File.$dirty && form.italic500File.$invalid }"
+                                                ng-show="form.italic500File.$dirty && form.italic500File.$invalid">
+                                                <li class="required" ng-show="form.italic500File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.italic500File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.italic500File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.italic500File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.italic500File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.italic500File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.italic500File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Italic700 Font Upload -->
+                            <div class="form-group">
+                                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.Fonts.Paths.Italic700' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="fileinput fileinput-new">
+                                        <div class="fileinput-preview text-center" ng-if="contentMetadata.fonts.paths.italic700File.name">
+                                            <div class="well well-sm text-left">
+                                                <strong>{{ contentMetadata.fonts.paths.italic700File.name }}</strong><br/>
+                                                <em>{{ contentMetadata.fonts.paths.italic700File.type }}</em>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button name="italic700File" type="file"
+                                                    title="{{ (contentMetadata.fonts.paths.italic700File ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                                    class="btn btn-sm btn-default"
+                                                    ngf-select
+                                                    ng-model="contentMetadata.fonts.paths.italic700File"
+                                                    ng-init="contentMetadata.fonts.paths.italic700File ? contentMetadata.fonts.paths.italic700File.name = contentMetadata.fonts.paths.italic700File.$ngfName : null"
+                                                    ngf-change="form.italic700File.$setDirty()"
+                                                    ng-required="true"
+                                                    ngf-accept="'.ttf,.woff,.woff2,.otf'"
+                                                    ngf-max-size="10MB"
+                                                    ngf-model-invalid="errorFont"
+                                                    ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-font" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ (contentMetadata.fonts.paths.italic700File.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                            </button>
+
+                                            <ul ng-class="{ 'parsley-error-list': form.italic700File.$dirty && form.italic700File.$invalid }"
+                                                ng-show="form.italic700File.$dirty && form.italic700File.$invalid">
+                                                <li class="required" ng-show="form.italic700File.$error.required">
+                                                    {{ 'CommonMessages.RequiredFieldError' | translate }}
+                                                </li>
+                                                <li class="required" ng-show="form.italic700File.$error.maxSize">
+                                                    {{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFont.$errorParam} }}
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-sm btn-default"
+                                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                                    ng-click="contentMetadata.fonts.paths.italic700File = null;"
+                                                    ng-if="contentMetadata.fonts.paths.italic700File.name && AuthorizationService.canUpdateConfiguration()">
+                                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                {{ 'FileOperationLabels.Remove' | translate }}
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <a class="btn btn-sm btn-success"
+                                               ng-if="contentMetadata.fonts.paths.italic700File.name"
+                                               title="{{ 'CommonLabels.Download' | translate }}"
+                                               download="{{ contentMetadata.fonts.paths.italic700File.name }}"
+                                               href="{{ contentMetadata.fonts.paths.italic700File | ngfDataUrl }}" target="_blank">
+                                                <i class="fa fa-download" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Actions - Save / Cancel -->
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger"
+                                    ng-disabled="form.$invalid || isNotChanged() || !AuthorizationService.canUpdateConfiguration()"
+                                    ng-click="save(contentMetadata);">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

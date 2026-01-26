@@ -1,0 +1,397 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <!--Address Ranges-->
+        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.addressranges.msisdn'), 'disabled': !AuthorizationService.canAntispamAddressRangeRead() }" >
+            <a ng-href="{{ !AuthorizationService.canAntispamAddressRangeRead() ? '' : $state.href('products.antispamsms.operations.addressranges.msisdn.list') }}" tabindex="-1" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.AddressRanges.Title' | translate }}
+            </a>
+        </li>
+
+        <!--Content Filters-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters'), 'disabled': !AuthorizationService.canAntispamContentFiltersRead() }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamContentFiltersRead()">
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.mosmscontent') }">
+                    <a ui-sref="products.antispamsms.operations.contentfilters.mosmscontent.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.MOSMSContent.Title' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.mtsmscontent') }">
+                    <a ui-sref="products.antispamsms.operations.contentfilters.mtsmscontent.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.MTSMSContent.Title' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.aosmscontent') }">
+                    <a ui-sref="products.antispamsms.operations.contentfilters.aosmscontent.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.AOSMSContent.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamContentFiltersRead()">
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.mosmscontent') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.MOSMSContent.Title' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.mosmscontent.aparty') }">
+                            <a ui-sref="products.antispamsms.operations.contentfilters.mosmscontent.aparty.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.ContentFilter' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.mtsmscontent') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.MTSMSContent.Title' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.mtsmscontent.aparty') }">
+                            <a ui-sref="products.antispamsms.operations.contentfilters.mtsmscontent.aparty.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.ContentFilter' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.aosmscontent') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.AOSMSContent.Title' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.aosmscontent.aparty') }">
+                            <a ui-sref="products.antispamsms.operations.contentfilters.aosmscontent.aparty.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.ContentFilter' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.substitutions') }">
+                    <a ui-sref="products.antispamsms.operations.contentfilters.substitutions.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Substitutions.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.contentfilters.fingerprints') }">
+                    <a ui-sref="products.antispamsms.operations.contentfilters.fingerprints.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Fingerprints.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Content Counters-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters'), 'disabled': !AuthorizationService.canAntispamCountersRead() }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamCountersRead()">
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mosmscounter') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.MOSMSCounter.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mosmscounter.aparty.simple') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mosmscounter.aparty.simple.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.Simple' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mosmscounter.aparty.distinct') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mosmscounter.aparty.distinct.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.Distinct' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mosmscounter.aparty.contentsensitivesinglerecipient') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mosmscounter.aparty.contentsensitivesinglerecipient.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.ContentSensitiveSingleRecipient' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mosmscounter.aparty.contentsensitivemultiplerecipient') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mosmscounter.aparty.contentsensitivemultiplerecipient.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.ContentSensitiveMultipleRecipient' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mosmscounter.bparty.simple') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mosmscounter.bparty.simple.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.Simple' | translate }} [{{ 'CommonLabels.BParty' | translate }}]
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mtsmscounter') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.MTSMSCounter.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mtsmscounter.aparty.simple') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mtsmscounter.aparty.simple.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.Simple' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mtsmscounter.aparty.distinct') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mtsmscounter.aparty.distinct.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.Distinct' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mtsmscounter.aparty.contentsensitivesinglerecipient') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mtsmscounter.aparty.contentsensitivesinglerecipient.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.ContentSensitiveSingleRecipient' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mtsmscounter.aparty.contentsensitivemultiplerecipient') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mtsmscounter.aparty.contentsensitivemultiplerecipient.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.ContentSensitiveMultipleRecipient' | translate }} [{{ 'CommonLabels.AParty' | translate }}]
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.counters.mtsmscounter.bparty.simple') }">
+                            <a ui-sref="products.antispamsms.operations.counters.mtsmscounter.bparty.simple.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.Simple' | translate }} [{{ 'CommonLabels.BParty' | translate }}]
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <!--Sim Farm Control-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.simfarmcontrol'), 'disabled': !AuthorizationService.canAntispamContentCountersRead() }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SimFarmControl.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamContentCountersRead()">
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.simfarmcontrol.containerlist') }">
+                    <a ui-sref="products.antispamsms.operations.simfarmcontrol.containerlist" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.simfarmcontrol.counterlist') }">
+                    <a ui-sref="products.antispamsms.operations.simfarmcontrol.counterlist" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounters.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Antispam Lists (Whitelists)-->
+        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.antispamlists'), 'disabled': !AuthorizationService.canAntispamListsRead() }">
+            <a ng-href="{{ !AuthorizationService.canAntispamListsRead() ? '' : $state.href('products.antispamsms.operations.antispamlists.list') }}" tabindex="-1" data-toggle="tab">
+                    <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.AntispamLists.MenuLabel' | translate }}
+            </a>
+        </li>
+
+        <!--Blacklists-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.blacklists'), 'disabled': !AuthorizationService.canAntispamBlackListsRead()}" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.BlackLists.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamBlackListsRead()">
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.blacklists.url') }">
+                    <a ui-sref="products.antispamsms.operations.blacklists.url.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.BlackLists.URLBlackLists.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.blacklists.urlanomaly') }">
+                    <a ui-sref="products.antispamsms.operations.blacklists.urlanomaly.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.BlackLists.URLAnomalyLists.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.blacklists.phone') }">
+                    <a ui-sref="products.antispamsms.operations.blacklists.phone.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Greylists-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.greylists'), 'disabled': !AuthorizationService.canAntispamGreyListsRead() }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.GreyLists.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamGreyListsRead()">
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.greylists.moinboundroamer') }">
+                    <a ui-sref="products.antispamsms.operations.greylists.moinboundroamer.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.GreyLists.MOInboundRoamer.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.greylists.mooutboundroamer') }">
+                    <a ui-sref="products.antispamsms.operations.greylists.mooutboundroamer.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.GreyLists.MOOutboundRoamer.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.greylists.moantispoofing') }">
+                    <a ui-sref="products.antispamsms.operations.greylists.moantispoofing.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.GreyLists.MOAntiSpoofing.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.greylists.mt') }">
+                    <a ui-sref="products.antispamsms.operations.greylists.mt.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.GreyLists.MT.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--Screenings-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings'), 'disabled': !AuthorizationService.canAntispamScreeningListsRead() }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamScreeningListsRead()">
+
+                <!--GLOBAL SCREENING LISTS-->
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.global') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.global.contentwhitelist') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.global.contentwhitelist.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.ContentWhitelist.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.global.sourcescreening') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.global.sourcescreening.configuration" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.Global.SourceScreening.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.intltoinboundroamer') || $state.includes('products.antispamsms.operations.screenings.pduparameter') || $state.includes('products.antispamsms.operations.screenings.srism') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.Exclusions.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.intltoinboundroamer') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.intltoinboundroamer.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.IntlToInboundRoamer.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.pduparameter') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.pduparameter.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.PDUParameter.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.srism') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.srism.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.SRISM.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown-submenu" ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.applicationmt') || $state.includes('products.antispamsms.operations.screenings.moinboundoutboundroamer') || $state.includes('products.antispamsms.operations.screenings.mtsmshub') }">
+                    <a href="javascript:;" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.Inclusions.MenuLabel' | translate }}
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.applicationmt') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.applicationmt.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.ApplicationMT.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.moinboundoutboundroamer') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.moinboundoutboundroamer.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.MOInboundOutboundRoamer.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.mtsmshub') }">
+                            <a ui-sref="products.antispamsms.operations.screenings.mtsmshub.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.MTSMSHub.MenuLabel' | translate }}
+                            </a>
+                        </li>
+
+                        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.screenings.localincomingmo') }"
+                            ng-if="false">
+                            <a ui-sref="products.antispamsms.operations.screenings.localincomingmo.list" tabindex="-1" data-toggle="tab">
+                                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.LocalIncomingMO.MenuLabel' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <!--SCA Modifiers-->
+        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.scamodifiers'), 'disabled': !AuthorizationService.canAntispamSCAModifiersRead() }" >
+            <a ng-href="{{ !AuthorizationService.canAntispamSCAModifiersRead() ? '' : $state.href('products.antispamsms.operations.scamodifiers.list') }}" tabindex="-1" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SCAModifiers.Title' | translate }}
+            </a>
+        </li>
+
+        <!--SMS Body Modification-->
+        <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.smsbodymodification'), 'disabled' : !AuthorizationService.canAntispamSMSModificationRead() }">
+            <a ng-href="{{ !AuthorizationService.canAntispamSMSModificationRead() ? '' : $state.href('products.antispamsms.operations.smsbodymodification.list') }}" tabindex="-1" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SMSBodyModification.MenuLabel' | translate }}
+            </a>
+        </li>
+
+        <!--Suspicious Messages (CDR Views)-->
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages'), 'disabled': !AuthorizationService.canAntispamSuspiciousMessagesRead() }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canAntispamSuspiciousMessagesRead()">
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.frauddetection') }">
+                    <a ui-sref="products.antispamsms.operations.suspiciousmessages.frauddetection.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.SuspiciousMessages.FraudDetection.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.counters') }">
+                    <a ui-sref="products.antispamsms.operations.suspiciousmessages.counters.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.contentcounters') }">
+                    <a ui-sref="products.antispamsms.operations.suspiciousmessages.contentcounters.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Counters.ContentCounters.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.contentfilters') }">
+                    <a ui-sref="products.antispamsms.operations.suspiciousmessages.contentfilters.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.ContentFilters.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('products.antispamsms.operations.suspiciousmessages.screenings')}">
+                    <a ui-sref="products.antispamsms.operations.suspiciousmessages.screenings.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.AntiSpamSMS.Operations.Screenings.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

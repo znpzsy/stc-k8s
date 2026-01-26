@@ -1,0 +1,82 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.configuration') }">
+            <a ui-sref="subsystems.subscriptionmanagement.configuration" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.Configuration.Settings' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <div class="portlet-header">
+                <h4 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Configuration.Settings' | translate }}
+                </h4>
+            </div>
+
+            <div class="portlet-body">
+
+                <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                    <!--CMPF - Max Allowed Subscriptions Count-->
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Configuration.MaxAllowedSubscriptionsCount' | translate }}</label>
+                        <div class="col-md-5">
+                            <input name="maxSubscriptionsCount" id="maxSubscriptionsCount" type="number" class="form-control"
+                                   ng-model="subsPolicyProfile.MaxAllowedSubscriptionsCount"
+                                   ng-min="1" ng-max="1000"
+                                   ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                            <ul ng-class="{ 'parsley-error-list': form.maxSubscriptionsCount.$dirty && form.maxSubscriptionsCount.$invalid }"
+                                ng-show="form.maxSubscriptionsCount.$dirty && form.maxSubscriptionsCount.$invalid">
+                                <li class="required" ng-show="form.maxSubscriptionsCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 1 } }}</li>
+                                <li class="required" ng-show="form.maxSubscriptionsCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 1000 } }}</li>
+                                <li class="required" ng-show="form.maxSubscriptionsCount.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--CMS - Value Added Tax (VAT) Configuration-->
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Configuration.VAT.VAT' | translate }}<br/>
+                            <!--<small><i class="fa fa-question-circle"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.Configuration.VAT.VATInfo' | translate }}</small></label>-->
+                            <small>{{ 'Subsystems.SubscriptionManagement.Configuration.VAT.VATInfo' | translate }}</small></label>
+                        <div class="col-md-5">
+                            <input id="vatRate" name="vatRate" type="number" class="form-control"
+                                   ng-model="config.vatRate"
+                                   min="0" max="1" step="0.01"
+                                   ng-min="0" ng-max="1"
+                                   ng-disabled="!AuthorizationService.canUpdateConfiguration() "/>
+                            <ul ng-class="{ 'parsley-error-list': form.vatRate.$dirty && form.vatRate.$invalid }" ng-show="form.vatRate.$dirty && form.vatRate.$invalid">
+                                <li class="required" ng-show="form.vatRate.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                                <li class="required" ng-show="form.vatRate.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 1} }}</li>
+                                <li class="required" ng-show="form.vatRate.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.vatRate.$error.step">{{ 'CommonMessages.NumericFieldStepError' | translate:{step: 2} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-push-3">
+                            <button type="submit" class="btn btn-danger" ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                                    ng-click="saveConfiguration();">
+                                {{ 'CommonLabels.Save' | translate }}
+                            </button>
+                            <button type="reset" class="btn btn-default" ng-click="cancel();" ng-disabled="!AuthorizationService.canUpdateConfiguration()"  >
+                                {{ 'CommonLabels.Cancel' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.OIVR.Configuration.Settings' | translate }} / {{ 'Products.OIVR.Configuration.CallerAddresses.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.CallerAddresses.Broadcast' | translate }}</label>
+            <div class="col-md-7">
+                <input id="broadcastCallerAddress" name="broadcastCallerAddress" type="number" class="form-control"
+                       ng-model="serviceCallerConfig.broadcastCallerAddress"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.ussdTimeout.$dirty && form.ussdTimeout.$invalid }"
+                    ng-show="form.broadcastCallerAddress.$dirty && form.broadcastCallerAddress.$invalid">
+                    <li class="required" ng-show="form.broadcastCallerAddress.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.broadcastCallerAddress.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.broadcastCallerAddress.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.CallerAddresses.Survey' | translate }}</label>
+            <div class="col-md-7">
+                <input id="surveyCallerAddress" name="surveyCallerAddress" type="number" class="form-control"
+                       ng-model="serviceCallerConfig.surveyCallerAddress"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.surveyCallerAddress.$dirty && form.surveyCallerAddress.$invalid }"
+                    ng-show="form.surveyCallerAddress.$dirty && form.surveyCallerAddress.$invalid">
+                    <li class="required" ng-show="form.surveyCallerAddress.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.surveyCallerAddress.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.surveyCallerAddress.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.CallerAddresses.Offer' | translate }}</label>
+            <div class="col-md-7">
+                <input id="offerCallerAddress" name="offerCallerAddress" type="number" class="form-control"
+                       ng-model="serviceCallerConfig.offerCallerAddress"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.offerCallerAddress.$dirty && form.offerCallerAddress.$invalid }"
+                    ng-show="form.offerCallerAddress.$dirty && form.offerCallerAddress.$invalid">
+                    <li class="required" ng-show="form.offerCallerAddress.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.offerCallerAddress.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.offerCallerAddress.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.CallerAddresses.Sada' | translate }}</label>
+            <div class="col-md-7">
+                <input id="sadaCallerAddress" name="sadaCallerAddress" type="number" class="form-control"
+                       ng-model="serviceCallerConfig.sadaCallerAddress"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.sadaCallerAddress.$dirty && form.sadaCallerAddress.$invalid }"
+                    ng-show="form.sadaCallerAddress.$dirty && form.sadaCallerAddress.$invalid">
+                    <li class="required" ng-show="form.sadaCallerAddress.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.sadaCallerAddress.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.sadaCallerAddress.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.CallerAddresses.SadaPP' | translate }}</label>
+            <div class="col-md-7">
+                <input id="sadaPPCallerAddress" name="sadaPPCallerAddress" type="number" class="form-control"
+                       ng-model="serviceCallerConfig.sadaPPCallerAddress"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.sadaPPCallerAddress.$dirty && form.sadaPPCallerAddress.$invalid }"
+                    ng-show="form.sadaPPCallerAddress.$dirty && form.sadaPPCallerAddress.$invalid">
+                    <li class="required" ng-show="form.sadaPPCallerAddress.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.sadaPPCallerAddress.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.sadaPPCallerAddress.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

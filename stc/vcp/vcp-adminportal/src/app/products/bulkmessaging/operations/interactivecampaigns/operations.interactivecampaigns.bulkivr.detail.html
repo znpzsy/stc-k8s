@@ -1,0 +1,1145 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="campaignForm" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignName' | translate }}</label>
+            <div class="col-md-7">
+                <input name="campaignName" type="text" class="form-control" ng-model="campaign.campaignName"
+                       ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                       ng-required="true" maxlength="512" ng-maxlength="512"/>
+                <ul ng-class="{ 'parsley-error-list': form.campaignName.$dirty && form.campaignName.$invalid }"
+                    ng-show="form.campaignName.$dirty && form.campaignName.$invalid">
+                    <li class="required" ng-show="form.campaignName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.campaignName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 512 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignStartDateTime' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input type="text" class="form-control input-sm" id="startDate" name="startDate"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                           is-open="startDatePicker.opened" close-text="Close"
+                           datepicker-options="dateOptions" ng-required="true"
+                           ng-change="updateStartDate(dateHolder.startDate)"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm"
+                                ng-click="openStartDatePicker($event)"><i
+                                class="fa fa-calendar"></i></button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }"
+                        ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.startDate.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-4 row">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="dateHolder.startTime" hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" readonly-input="true" mousewheel="false" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                         ng-change="updateStartDateTime(dateHolder.startTime)"></div>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="settings-expander">
+            <a id="extra-settings-expander" class="link" href="javascript:;" ng-click="showExtraSettings = !showExtraSettings;">
+                {{ (showExtraSettings ? 'CommonLabels.HideExtraSettings' : 'CommonLabels.ShowExtraSettings') | translate }}
+            </a>
+        </div>
+
+        <!-- Extra form fields -->
+        <span ng-if="showExtraSettings">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ForceExpiryDate' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{campaign.forceExpiryDate ?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-model="campaign.forceExpiryDate" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate() || forceExpiryDisabled()" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!campaign.forceExpiryDate ?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-model="campaign.forceExpiryDate" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate() || forceExpiryDisabled()" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="campaign.forceExpiryDate">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignExpiryDateTime' | translate }}</label>
+                <div class="col-md-3">
+                    <p class="input-group datepicker-field">
+                        <input type="text" class="form-control input-sm" id="endDate" name="endDate"
+                               uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                               ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                               is-open="endDatePicker.opened" close-text="Close"
+                               datepicker-options="dateOptions" ng-required="true"
+                               ng-change="updateEndDate(dateHolder.endDate)"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openEndDatePicker($event)"><i
+                                    class="fa fa-calendar"></i></button>
+                        </span>
+                        <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }"
+                            ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                            <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.endDate.$error.parse">{{ 'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="col-md-4 row">
+                    <span class="time-picker with-date-picker">
+                        <div uib-timepicker ng-model="dateHolder.endTime" hour-step="hstep" minute-step="mstep"
+                             show-meridian="false" readonly-input="true" mousewheel="false" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                             ng-change="updateEndDateTime(dateHolder.endTime)"></div>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Screening Lists -->
+            <div class="form-group" ng-if="blackListEnabled">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.EnforceScreening' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkIVRPolicyProfile.isScreeningListsEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkIVRPolicyProfile.isScreeningListsEnforced" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkIVRPolicyProfile.isScreeningListsEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkIVRPolicyProfile.isScreeningListsEnforced" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="blackListEnabled && bulkIVRPolicyProfile.isScreeningListsEnforced">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.ScreeningLists' | translate}}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.campaignBlackLists.length" class="row col-md-9">
+                        <div ng-repeat="campaignBlackList in campaign.campaignBlackLists">
+                            <span class="label label-default selected-item-label">
+                                {{ campaignBlackList.name | limitTo:40 }}{{ campaignBlackList.name.length > 40 ? '...' : '' }}
+                            </span>&nbsp;
+                            <a ng-click="removeBlackList(campaign, campaignBlackList)" style="cursor: pointer;text-decoration: none;">
+                                <span class="label label-danger" ng-if="AuthorizationService.canBmsOperationsCampaignCreate()"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-class="{ 'pull-right': bulkIVRPolicyProfile.ScreeningLists.length }"
+                            ng-click="addBlackList(campaign, campaign.campaignBlackLists)"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">{{ 'CommonLabels.Add' | translate }}</button>
+                </div>
+            </div>
+
+            <!-- Time Restrictions -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.EnforceTimeConstraints' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkIVRPolicyProfile.isTimeConstraintEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkIVRPolicyProfile.isTimeConstraintEnforced" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkIVRPolicyProfile.isTimeConstraintEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkIVRPolicyProfile.isTimeConstraintEnforced" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="bulkIVRPolicyProfile.isTimeConstraintEnforced">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.TimeConstraints' | translate}}</label>
+                <div class="col-md-7">
+                    <div ng-if="bulkIVRPolicyProfile.TimeConstraints.length" class="row col-md-9">
+                        <div ng-repeat="timeConstraint in bulkIVRPolicyProfile.TimeConstraints">
+                            <span class="label label-default selected-item-label">
+                                {{ timeConstraint.value | TimeConstraintViewFilter }}
+                            </span>&nbsp;
+                            <a ng-click="addUpdateTimeConstraint(campaign, bulkIVRPolicyProfile, timeConstraint)" style="cursor: pointer;text-decoration: none;">
+                                <span class="label label-secondary" ng-if="AuthorizationService.canBmsOperationsCampaignCreate()"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeTimeConstraint(bulkIVRPolicyProfile, timeConstraint)" style="cursor: pointer;text-decoration: none;">
+                                <span class="label label-danger" ng-if="AuthorizationService.canBmsOperationsCampaignCreate()"><i class="fa fa-times"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-class="{ 'pull-right': bulkIVRPolicyProfile.TimeConstraints.length }"
+                            ng-click="addUpdateTimeConstraint(campaign, bulkIVRPolicyProfile)"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">{{ 'CommonLabels.Add' | translate }}</button>
+                </div>
+            </div>
+
+            <!-- Disable Charging -->
+            <div class="form-group" ng-if="isDisableChargingAllowed">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.DisableCharging' | translate}}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{bulkIVRPolicyProfile.isDisableChargingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkIVRPolicyProfile.isDisableChargingAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!bulkIVRPolicyProfile.isDisableChargingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="bulkIVRPolicyProfile.isDisableChargingAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </span>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.From' | translate }}</label>
+            <div class="col-md-7" ng-if="bulkIVRPolicyProfile.isAlphanumericSenderListRestricted">
+                <select id="from" name="from" class="form-control parsley-validated" ng-model="campaign.from"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="permissibleAlphanumericSender.value as permissibleAlphanumericSender.value for permissibleAlphanumericSender in bulkIVRPolicyProfile.PermissibleAlphanumericSenders">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.from.$dirty && form.from.$invalid }" ng-show="form.from.$dirty && form.from.$invalid">
+                    <li class="required" ng-show="form.from.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-7" ng-if="!bulkIVRPolicyProfile.isAlphanumericSenderListRestricted">
+                <input name="from" type="text" class="form-control" ng-value="bulkIVRPolicyProfile.SenderMsisdn" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="bulkIVRPolicyProfile.isOffNetDeliveryAllowed && bulkIVRPolicyProfile.isOffnetSenderListRestricted">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.OffnetSenders' | translate}}</label>
+            <div class="col-md-7">
+                <div ng-show="campaign.offnetSenders.length" class="row col-md-9">
+                    <div ng-repeat="n in campaign.offnetSenders">
+                        <span class="label label-default selected-item-label">{{n.value}}</span>
+                        <a ng-click="removeSelectedOffnetSender(campaign.offnetSenders, n)" style="cursor: pointer;"
+                           ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="openOffnetSenders(bulkIVRPolicyProfile, campaign)"
+                        ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-class="{ 'pull-right': campaign.offnetSenders.length > 0 }">
+                    {{ 'CommonLabels.AddTo' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ListType' | translate }}</label>
+            <div class="col-md-7">
+                <select id="listType" name="listType" class="form-control parsley-validated" ng-model="listType"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="listType.key as (listType.textKey | translate | uppercase) for listType in BMS_DISTRIBUTION_LIST_TYPES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.listType.$dirty && form.listType.$invalid }" ng-show="form.listType.$dirty && form.listType.$invalid">
+                    <li class="required" ng-show="form.listType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.To' | translate }}</label>
+            <div class="col-md-7">
+                <select id="to" name="to" class="form-control parsley-validated" ng-model="campaign.to"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="distributionList.id as (distributionList.name + ' (' + distributionList.listSize + ')') for distributionList in (distributionListArray | DistributionListByListTypeFilter:listType)">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.to.$dirty && form.to.$invalid }" ng-show="form.to.$dirty && form.to.$invalid">
+                    <li class="required" ng-show="form.to.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="interactivityTemplate" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.InteractivityTemplate' | translate }}</label>
+            <div class="col-md-7">
+                <select id="interactivityTemplate" name="interactivityTemplate" class="form-control parsley-validated"
+                        ng-model="campaign.interactivityTemplate" ng-change="interactivityTemplateChanged(campaign.interactivityTemplate)"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="interactivityTemplate as interactivityTemplate.label group by interactivityTemplate.group for interactivityTemplate in BMS_INTERACTIVITY_TEMPLATES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.interactivityTemplate.$dirty && form.interactivityTemplate.$invalid }"
+                    ng-show="form.interactivityTemplate.$dirty && form.interactivityTemplate.$invalid">
+                    <li class="required" ng-show="form.interactivityTemplate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-if="campaign.interactivityTemplate && campaign.interactivityTemplate.value !== 'RBT Fast-Key'">
+            <span ng-include="'products/bulkmessaging/operations/interactivecampaigns/operations.interactivecampaigns.introfile.detail.html'"></span>
+        </div>
+
+        <!-- Poll -->
+        <div ng-if="campaign.interactivityTemplate.value === 'Poll'">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptionFiles' | translate }}</label>
+                <div class="col-md-5" ng-if="campaign.optionInfoLists && campaign.optionInfoLists.length > 0">
+                    <div ng-repeat="optionInfo in campaign.optionInfoLists">
+                        <div ng-if="optionInfo.choiceFileList.length" class="row col-md-12">
+                            <div ng-repeat="choiceFile in optionInfo.choiceFileList">
+                                {{'C'+($parent.$index+1)}}:
+                                <a ng-click="playStopAudio(choiceFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                                   ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                    <i class="fa {{ isPlaying(choiceFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                                </a>&nbsp;
+                                <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                      uib-tooltip="{{ getOptionInfoFileString(choiceFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getOptionInfoFileString(choiceFile) }}
+                                </span>&nbsp;
+                                <a ng-click="editOptionInfoFileList(campaign, optionInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removeOptionInfoFileList(campaign, optionInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                </a>
+                                <audio id="{{choiceFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!choiceFile.file.$error && choiceFile.file" style="position: absolute;visibility: hidden;"></audio>
+                            </div>
+                        </div>
+
+                        <span class="label label-danger selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 213px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                              uib-tooltip="{{ getOptionInfoString(optionInfo) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ getOptionInfoString(optionInfo) }}
+                        </span>
+
+                        <div class="row col-md-12" ng-if="$index < (campaign.optionInfoLists.length-1)">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="{{ ((campaign.optionInfoLists && campaign.optionInfoLists.length > 0) ? 'col-md-2' : 'col-md-7') }}">
+                    <button class="btn btn-default" style="width: 120px;"
+                            ng-if="!campaign.optionInfoLists || campaign.optionInfoLists.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.optionInfoLists.length > 0, 'ng-invalid-required': !campaign.optionInfoLists.length }"
+                            ng-click="addOptionInfoFileList(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default" style="width: 120px;" ng-if="campaign.optionInfoLists.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="optionInfoListsLength" type="number" class="form-control"
+                               ng-model="campaign.optionInfoLists.length"
+                               ng-init="campaign.optionInfoLists = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.optionInfoLists.length === 0 }"
+                            ng-show="campaign.optionInfoLists.length === 0">
+                            <li class="required" ng-show="form.optionInfoListsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Poll -->
+
+        <!-- Questionnaire -->
+        <div ng-if="campaign.interactivityTemplate.value === 'Questionnaire'">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Questions' | translate }}</label>
+                <div class="col-md-5" ng-if="campaign.qaInfoLists && campaign.qaInfoLists.length > 0">
+                    <div ng-repeat="qaInfo in campaign.qaInfoLists">
+                        <div ng-if="qaInfo.questionFileList.length" class="row col-md-12">
+                            <div ng-repeat="questionFile in qaInfo.questionFileList">
+                                {{'Q'+($parent.$index+1)}}:
+                                <a ng-click="playStopAudio(questionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                                   ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                    <i class="fa {{ isPlaying(questionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                                </a>&nbsp;
+                                <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                      uib-tooltip="{{ getQAInfoFileString(questionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getQAInfoFileString(questionFile) }}
+                                </span>&nbsp;
+                                <a ng-click="editQAInfoFileList(campaign, qaInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removeQAInfoFileList(campaign, qaInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                </a>
+                                <audio id="{{questionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!questionFile.file.$error && questionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                            </div>
+                        </div>
+
+                        <span class="label label-danger selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 213px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                              uib-tooltip="{{ getQAInfoString(qaInfo) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ getQAInfoString(qaInfo) }}
+                        </span>
+
+                        <div class="row col-md-12" ng-if="$index < (campaign.qaInfoLists.length-1)">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="{{ ((campaign.qaInfoLists && campaign.qaInfoLists.length > 0) ? 'col-md-2' : 'col-md-7') }}">
+                    <button class="btn btn-default" style="width: 120px;"
+                            ng-if="!campaign.qaInfoLists || campaign.qaInfoLists.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.qaInfoLists.length > 0, 'ng-invalid-required': !campaign.qaInfoLists.length }"
+                            ng-click="addQAInfoFileList(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default" style="width: 120px;" ng-if="campaign.qaInfoLists.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="qaInfoListsLength" type="number" class="form-control"
+                               ng-model="campaign.qaInfoLists.length"
+                               ng-init="campaign.qaInfoLists = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.qaInfoLists.length === 0 }"
+                            ng-show="campaign.qaInfoLists.length === 0">
+                            <li class="required" ng-show="form.qaInfoListsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Rules' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.ruleList.length" class="row col-md-9">
+                        <div ng-repeat="rule in campaign.ruleList">
+                            {{'R'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getRuleString(rule) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getRuleString(rule) }}
+                                </span>&nbsp;
+                            <a ng-click="editRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{rule.file.lastModified}}" controls controlsList="nodownload" ngf-src="!rule.file.$error && rule.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.ruleList || campaign.ruleList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.ruleList.length > 0 }"
+                            ng-click="addRule(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- // Questionnaire -->
+
+        <!-- RBT Poll -->
+        <div ng-if="campaign.interactivityTemplate.value === 'RBT Poll'">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptionFiles' | translate }}</label>
+                <div class="col-md-5" ng-if="campaign.optionInfoLists && campaign.optionInfoLists.length > 0">
+                    <div ng-repeat="optionInfo in campaign.optionInfoLists">
+                        <div ng-if="optionInfo.choiceFileList.length" class="row col-md-12">
+                            <div ng-repeat="choiceFile in optionInfo.choiceFileList">
+                                {{'C'+($parent.$index+1)}}:
+                                <a ng-click="playStopAudio(choiceFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                                   ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                    <i class="fa {{ isPlaying(choiceFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                                </a>&nbsp;
+                                <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                      uib-tooltip="{{ getOptionInfoFileString(choiceFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getOptionInfoFileString(choiceFile) }}
+                                </span>&nbsp;
+                                <a ng-click="editOptionInfoFileList(campaign, optionInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removeOptionInfoFileList(campaign, optionInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                </a>
+                                <audio id="{{choiceFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!choiceFile.file.$error && choiceFile.file" style="position: absolute;visibility: hidden;"></audio>
+                            </div>
+                        </div>
+
+                        <span class="label label-danger selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 213px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                              uib-tooltip="{{ getOptionInfoString(optionInfo) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ getOptionInfoString(optionInfo) }}
+                        </span>
+
+                        <div class="row col-md-12" ng-if="$index < (campaign.optionInfoLists.length-1)">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="{{ ((campaign.optionInfoLists && campaign.optionInfoLists.length > 0) ? 'col-md-2' : 'col-md-7') }}">
+                    <button class="btn btn-default" style="width: 120px;"
+                            ng-if="!campaign.optionInfoLists || campaign.optionInfoLists.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.optionInfoLists.length > 0, 'ng-invalid-required': !campaign.optionInfoLists.length }"
+                            ng-click="addOptionInfoFileList(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default" style="width: 120px;" ng-if="campaign.optionInfoLists.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="optionInfoListsLength" type="number" class="form-control"
+                               ng-model="campaign.optionInfoLists.length"
+                               ng-init="campaign.optionInfoLists = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.optionInfoLists.length === 0 }"
+                            ng-show="campaign.optionInfoLists.length === 0">
+                            <li class="required" ng-show="form.optionInfoListsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotionInstructions' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.promotionInstructionFileList.length" class="row col-md-9">
+                        <div ng-repeat="promotionInstructionFile in campaign.promotionInstructionFileList">
+                            <a ng-click="playStopAudio(promotionInstructionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(promotionInstructionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getPromotionInstructionFileString(promotionInstructionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getPromotionInstructionFileString(promotionInstructionFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editPromotionInstructionFile(campaign, promotionInstructionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removePromotionInstructionFile(campaign, promotionInstructionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{promotionInstructionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!promotionInstructionFile.file.$error && promotionInstructionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.promotionInstructionFileList || campaign.promotionInstructionFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.promotionInstructionFileList.length > 0, 'ng-invalid-required': !campaign.promotionInstructionFileList.length }"
+                            ng-click="addPromotionInstructionFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.promotionInstructionFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="promotionInstructionFileListLength" type="number" class="form-control"
+                               ng-model="campaign.promotionInstructionFileList.length"
+                               ng-init="campaign.promotionInstructionFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.promotionInstructionFileList.length === 0 }"
+                            ng-show="campaign.promotionInstructionFileList.length === 0">
+                            <li class="required" ng-show="form.promotionInstructionFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.SuccessfulSubscriptionFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.successfulSubscriptionFileList.length" class="row col-md-9">
+                        <div ng-repeat="successfulSubscriptionFile in campaign.successfulSubscriptionFileList">
+                            <a ng-click="playStopAudio(successfulSubscriptionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(successfulSubscriptionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getSuccessfulSubscriptionFileString(successfulSubscriptionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getSuccessfulSubscriptionFileString(successfulSubscriptionFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editSuccessfulSubscriptionFile(campaign, successfulSubscriptionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeSuccessfulSubscriptionFile(campaign, successfulSubscriptionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{successfulSubscriptionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!successfulSubscriptionFile.file.$error && successfulSubscriptionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.successfulSubscriptionFileList || campaign.successfulSubscriptionFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.successfulSubscriptionFileList.length > 0, 'ng-invalid-required': !campaign.successfulSubscriptionFileList.length }"
+                            ng-click="addSuccessfulSubscriptionFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.successfulSubscriptionFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="successfulSubscriptionFileListLength" type="number" class="form-control"
+                               ng-model="campaign.successfulSubscriptionFileList.length"
+                               ng-init="campaign.successfulSubscriptionFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.successfulSubscriptionFileList.length === 0 }"
+                            ng-show="campaign.successfulSubscriptionFileList.length === 0">
+                            <li class="required" ng-show="form.successfulSubscriptionFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptOutFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.optOutFileList.length" class="row col-md-9">
+                        <div ng-repeat="optOutFile in campaign.optOutFileList">
+                            <a ng-click="playStopAudio(optOutFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(optOutFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getOptOutFileString(optOutFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getOptOutFileString(optOutFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editOptOutFile(campaign, optOutFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeOptOutFile(campaign, optOutFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{optOutFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!optOutFile.file.$error && optOutFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.optOutFileList || campaign.optOutFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.optOutFileList.length > 0, 'ng-invalid-required': !campaign.optOutFileList.length }"
+                            ng-click="addOptOutFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.optOutFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="optOutFileListLength" type="number" class="form-control"
+                               ng-model="campaign.optOutFileList.length"
+                               ng-init="campaign.optOutFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.optOutFileList.length === 0 }"
+                            ng-show="campaign.optOutFileList.length === 0">
+                            <li class="required" ng-show="form.optOutFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // RBT Poll -->
+
+        <!-- RBT Questionnaire -->
+        <div ng-if="campaign.interactivityTemplate.value === 'RBT Questionnaire'">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Questions' | translate }}</label>
+                <div class="col-md-5" ng-if="campaign.qaInfoLists && campaign.qaInfoLists.length > 0">
+                    <div ng-repeat="qaInfo in campaign.qaInfoLists">
+                        <div ng-if="qaInfo.questionFileList.length" class="row col-md-12">
+                            <div ng-repeat="questionFile in qaInfo.questionFileList">
+                                {{'Q'+($parent.$index+1)}}:
+                                <a ng-click="playStopAudio(questionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                                   ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                    <i class="fa {{ isPlaying(questionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                                </a>&nbsp;
+                                <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                      uib-tooltip="{{ getQAInfoFileString(questionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getQAInfoFileString(questionFile) }}
+                                </span>&nbsp;
+                                <a ng-click="editQAInfoFileList(campaign, qaInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removeQAInfoFileList(campaign, qaInfo)" style="cursor: pointer;text-decoration: none;"
+                                   ng-if="($index === 0) && AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                </a>
+                                <audio id="{{questionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!questionFile.file.$error && questionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                            </div>
+                        </div>
+
+                        <span class="label label-danger selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 213px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                              uib-tooltip="{{ getQAInfoString(qaInfo) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ getQAInfoString(qaInfo) }}
+                        </span>
+
+                        <div class="row col-md-12" ng-if="$index < (campaign.qaInfoLists.length-1)">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="{{ ((campaign.qaInfoLists && campaign.qaInfoLists.length > 0) ? 'col-md-2' : 'col-md-7') }}">
+                    <button class="btn btn-default" style="width: 120px;"
+                            ng-if="!campaign.qaInfoLists || campaign.qaInfoLists.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.qaInfoLists.length > 0, 'ng-invalid-required': !campaign.qaInfoLists.length }"
+                            ng-click="addQAInfoFileList(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default" style="width: 120px;" ng-if="campaign.qaInfoLists.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="qaInfoListsLength" type="number" class="form-control"
+                               ng-model="campaign.qaInfoLists.length"
+                               ng-init="campaign.qaInfoLists = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.qaInfoLists.length === 0 }"
+                            ng-show="campaign.qaInfoLists.length === 0">
+                            <li class="required" ng-show="form.qaInfoListsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Rules' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.ruleList.length" class="row col-md-9">
+                        <div ng-repeat="rule in campaign.ruleList">
+                            {{'R'+($index+1)}}:
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getRuleString(rule) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getRuleString(rule) }}
+                            </span>&nbsp;
+                            <a ng-click="editRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeRule(campaign, rule)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{rule.file.lastModified}}" controls controlsList="nodownload" ngf-src="!rule.file.$error && rule.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.ruleList || campaign.ruleList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.ruleList.length > 0 }"
+                            ng-click="addRule(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotionInstructions' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.promotionInstructionFileList.length" class="row col-md-9">
+                        <div ng-repeat="promotionInstructionFile in campaign.promotionInstructionFileList">
+                            <a ng-click="playStopAudio(promotionInstructionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(promotionInstructionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getPromotionInstructionFileString(promotionInstructionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getPromotionInstructionFileString(promotionInstructionFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editPromotionInstructionFile(campaign, promotionInstructionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removePromotionInstructionFile(campaign, promotionInstructionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{promotionInstructionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!promotionInstructionFile.file.$error && promotionInstructionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.promotionInstructionFileList || campaign.promotionInstructionFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.promotionInstructionFileList.length > 0, 'ng-invalid-required': !campaign.promotionInstructionFileList.length }"
+                            ng-click="addPromotionInstructionFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.promotionInstructionFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="promotionInstructionFileListLength" type="number" class="form-control"
+                               ng-model="campaign.promotionInstructionFileList.length"
+                               ng-init="campaign.promotionInstructionFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.promotionInstructionFileList.length === 0 }"
+                            ng-show="campaign.promotionInstructionFileList.length === 0">
+                            <li class="required" ng-show="form.promotionInstructionFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.SuccessfulSubscriptionFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.successfulSubscriptionFileList.length" class="row col-md-9">
+                        <div ng-repeat="successfulSubscriptionFile in campaign.successfulSubscriptionFileList">
+                            <a ng-click="playStopAudio(successfulSubscriptionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(successfulSubscriptionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getSuccessfulSubscriptionFileString(successfulSubscriptionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getSuccessfulSubscriptionFileString(successfulSubscriptionFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editSuccessfulSubscriptionFile(campaign, successfulSubscriptionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeSuccessfulSubscriptionFile(campaign, successfulSubscriptionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{successfulSubscriptionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!successfulSubscriptionFile.file.$error && successfulSubscriptionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.successfulSubscriptionFileList || campaign.successfulSubscriptionFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.successfulSubscriptionFileList.length > 0, 'ng-invalid-required': !campaign.successfulSubscriptionFileList.length }"
+                            ng-click="addSuccessfulSubscriptionFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.successfulSubscriptionFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="successfulSubscriptionFileListLength" type="number" class="form-control"
+                               ng-model="campaign.successfulSubscriptionFileList.length"
+                               ng-init="campaign.successfulSubscriptionFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.successfulSubscriptionFileList.length === 0 }"
+                            ng-show="campaign.successfulSubscriptionFileList.length === 0">
+                            <li class="required" ng-show="form.successfulSubscriptionFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptOutFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.optOutFileList.length" class="row col-md-9">
+                        <div ng-repeat="optOutFile in campaign.optOutFileList">
+                            <a ng-click="playStopAudio(optOutFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(optOutFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getOptOutFileString(optOutFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getOptOutFileString(optOutFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editOptOutFile(campaign, optOutFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeOptOutFile(campaign, optOutFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{optOutFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!optOutFile.file.$error && optOutFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.optOutFileList || campaign.optOutFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.optOutFileList.length > 0, 'ng-invalid-required': !campaign.optOutFileList.length }"
+                            ng-click="addOptOutFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.optOutFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="optOutFileListLength" type="number" class="form-control"
+                               ng-model="campaign.optOutFileList.length"
+                               ng-init="campaign.optOutFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.optOutFileList.length === 0 }"
+                            ng-show="campaign.optOutFileList.length === 0">
+                            <li class="required" ng-show="form.optOutFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // RBT Questionnaire -->
+
+        <!-- RBT Outdial -->
+        <div ng-if="campaign.interactivityTemplate.value === 'RBT Outdial'">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotedTone' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <ui-select id="promotedTone" name="promotedTone" theme="bootstrap" allow-clear="true" append-to-body="true"
+                                   ng-model="campaign.promotedTone"
+                                   ng-required="true"
+                                   search-enabled="true"
+                                   close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                   ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                            <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                <span ng-bind="$select.selected.name"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="toneListItem as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                               refresh="searchPromotedTones($select.search)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                            <button type="button" ng-click="campaign.promotedTone = null;form.promotedTone.$setDirty();" class="btn btn-default" ng-disabled="!campaign.promotedTone">
+                                <span class="fa fa-times"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.promotedTone.$dirty && form.promotedTone.$invalid }"
+                        ng-show="form.promotedTone.$dirty && form.promotedTone.$invalid">
+                        <li class="required" ng-show="form.promotedTone.$error.required">{{
+                            'CommonMessages.RequiredFieldError' | translate }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotionInstructions' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.promotionInstructionFileList.length" class="row col-md-9">
+                        <div ng-repeat="promotionInstructionFile in campaign.promotionInstructionFileList">
+                            <a ng-click="playStopAudio(promotionInstructionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(promotionInstructionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getPromotionInstructionFileString(promotionInstructionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getPromotionInstructionFileString(promotionInstructionFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editPromotionInstructionFile(campaign, promotionInstructionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removePromotionInstructionFile(campaign, promotionInstructionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{promotionInstructionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!promotionInstructionFile.file.$error && promotionInstructionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.promotionInstructionFileList || campaign.promotionInstructionFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.promotionInstructionFileList.length > 0, 'ng-invalid-required': !campaign.promotionInstructionFileList.length }"
+                            ng-click="addPromotionInstructionFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.promotionInstructionFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="promotionInstructionFileListLength" type="number" class="form-control"
+                               ng-model="campaign.promotionInstructionFileList.length"
+                               ng-init="campaign.promotionInstructionFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.promotionInstructionFileList.length === 0 }"
+                            ng-show="campaign.promotionInstructionFileList.length === 0">
+                            <li class="required" ng-show="form.promotionInstructionFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.SuccessfulSubscriptionFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.successfulSubscriptionFileList.length" class="row col-md-9">
+                        <div ng-repeat="successfulSubscriptionFile in campaign.successfulSubscriptionFileList">
+                            <a ng-click="playStopAudio(successfulSubscriptionFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(successfulSubscriptionFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getSuccessfulSubscriptionFileString(successfulSubscriptionFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getSuccessfulSubscriptionFileString(successfulSubscriptionFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editSuccessfulSubscriptionFile(campaign, successfulSubscriptionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeSuccessfulSubscriptionFile(campaign, successfulSubscriptionFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{successfulSubscriptionFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!successfulSubscriptionFile.file.$error && successfulSubscriptionFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.successfulSubscriptionFileList || campaign.successfulSubscriptionFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.successfulSubscriptionFileList.length > 0, 'ng-invalid-required': !campaign.successfulSubscriptionFileList.length }"
+                            ng-click="addSuccessfulSubscriptionFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.successfulSubscriptionFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="successfulSubscriptionFileListLength" type="number" class="form-control"
+                               ng-model="campaign.successfulSubscriptionFileList.length"
+                               ng-init="campaign.successfulSubscriptionFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.successfulSubscriptionFileList.length === 0 }"
+                            ng-show="campaign.successfulSubscriptionFileList.length === 0">
+                            <li class="required" ng-show="form.successfulSubscriptionFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.OptOutFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-if="campaign.optOutFileList.length" class="row col-md-9">
+                        <div ng-repeat="optOutFile in campaign.optOutFileList">
+                            <a ng-click="playStopAudio(optOutFile.file.lastModified);" style="cursor: pointer;text-decoration: none;color: #333333;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa {{ isPlaying(optOutFile.file.lastModified) ? 'fa-pause-circle' : 'fa-play-circle' }}"></i>
+                            </a>&nbsp;
+                            <span class="label label-default selected-item-label" style="cursor: text;text-overflow: ellipsis;width: 192px;overflow: hidden;white-space: nowrap;display: inline-block;vertical-align: middle;text-align: left;padding: 4px 4px 4px 10px;"
+                                  uib-tooltip="{{ getOptOutFileString(optOutFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ getOptOutFileString(optOutFile) }}
+                            </span>&nbsp;
+                            <a ng-click="editOptOutFile(campaign, optOutFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                            </a>
+                            <a ng-click="removeOptOutFile(campaign, optOutFile)" style="cursor: pointer;text-decoration: none;"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignCreate()">
+                                <span class="label label-danger"><i class="fa fa-times"></i></span>
+                            </a>
+                            <audio id="{{optOutFile.file.lastModified}}" controls controlsList="nodownload" ngf-src="!optOutFile.file.$error && optOutFile.file" style="position: absolute;visibility: hidden;"></audio>
+                        </div>
+                    </div>
+                    <button class="btn btn-default col-md-3"
+                            ng-if="!campaign.optOutFileList || campaign.optOutFileList.length < 10"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                            ng-class="{ 'pull-right': campaign.optOutFileList.length > 0, 'ng-invalid-required': !campaign.optOutFileList.length }"
+                            ng-click="addOptOutFile(campaign)">{{ 'CommonLabels.Add' | translate }}
+                    </button>
+                    <button class="btn btn-default col-md-3" ng-if="campaign.optOutFileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                    <div style="clear: both;">
+                        <input name="optOutFileListLength" type="number" class="form-control"
+                               ng-model="campaign.optOutFileList.length"
+                               ng-init="campaign.optOutFileList = undefined"
+                               ng-min="1" ng-required="true"
+                               ng-show="false"/>
+                        <ul ng-class="{ 'parsley-error-list': campaign.optOutFileList.length === 0 }"
+                            ng-show="campaign.optOutFileList.length === 0">
+                            <li class="required" ng-show="form.optOutFileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // RBT Outdial -->
+
+        <!-- RBT Fast-Key -->
+        <div ng-if="campaign.interactivityTemplate.value === 'RBT Fast-Key'">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotedTones' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="campaign.promotedToneList"
+                               close-on-select="false"
+                               on-select="form.promotedToneListLength.$setDirty(); form.promotedToneListMaxLength.$setDirty();"
+                               on-remove="form.promotedToneListLength.$setDirty(); form.promotedToneListMaxLength.$setDirty();"
+                               title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-class="{ 'ng-invalid-required': (!campaign.promotedToneList || campaign.promotedToneList.length === 0) }"
+                               ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                        <ui-select-match placeholder="{{ 'CommonLabels.SelectOne' | translate }}">
+                            {{ $item.name }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="toneListItem as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                           refresh="searchPromotedTones($select.search)"
+                                           refresh-delay="0">
+                            <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input id="promotedToneListLength" name="promotedToneListLength" type="number" class="form-control"
+                           ng-model="campaign.promotedToneList.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="offer.id ? null : campaign.promotedToneList = undefined"
+                           ng-show="false"/>
+                    <input id="promotedToneListMaxLength" name="promotedToneListMaxLength" type="number" class="form-control"
+                           ng-model="campaign.promotedToneList.join(';').length"
+                           ng-max="512" ng-required="true"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': form.promotedToneListLength.$dirty && form.promotedToneListLength.$invalid }"
+                        ng-show="form.promotedToneListLength.$dirty && form.promotedToneListLength.$invalid">
+                        <li class="required" ng-show="form.promotedToneListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                    <ul ng-class="{ 'parsley-error-list': form.promotedToneListMaxLength.$dirty && form.promotedToneListMaxLength.$invalid }"
+                        ng-show="form.promotedToneListMaxLength.$dirty && form.promotedToneListMaxLength.$invalid">
+                        <li class="required" ng-show="form.promotedToneListMaxLength.$error.max">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 512} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- // RBT Fast-Key -->
+
+        <div ng-if="campaign.interactivityTemplate && campaign.interactivityTemplate.value !== 'RBT Fast-Key'">
+            <span ng-include="'products/bulkmessaging/operations/interactivecampaigns/operations.interactivecampaigns.outrofile.detail.html'"></span>
+        </div>
+
+        <div ng-if="campaign.interactivityTemplate.value.indexOf('RBT') > -1">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.TryAndBuyEnabled' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{campaign.tryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="campaign.tryAndBuyEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!campaign.tryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                                ng-model="campaign.tryAndBuyEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="campaign.tryAndBuyEnabled">
+                <label for="trialPeriod" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.TrialPeriod' | translate }}</label>
+                <div class="col-md-3">
+                    <input id="trialPeriod" name="trialPeriod" type="number" class="form-control"
+                           ng-model="campaign.trialPeriod.duration"
+                           ng-required="true" ng-min="0" ng-max="999"
+                           ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"/>
+                    <ul ng-class="{ 'parsley-error-list': form.trialPeriod.$dirty && form.trialPeriod.$invalid }"
+                        ng-show="form.trialPeriod.$dirty && form.trialPeriod.$invalid">
+                        <li class="required" ng-show="form.trialPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.trialPeriod.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                        <li class="required" ng-show="form.trialPeriod.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999 } }}</li>
+                        <li class="required" ng-show="form.trialPeriod.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="trialPeriodUnit" name="trialPeriodUnit" class="form-control col-md-6"
+                            ng-model="campaign.trialPeriod.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-click="start(campaign, dateHolder, bulkIVRPolicyProfile);">
+                    {{ 'CommonLabels.Submit' | translate }}
+                </button>
+                <button class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

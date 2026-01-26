@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'CommonLabels.ConfirmationModalTitle' | translate}}
+    </h3>
+</div>
+
+<div class="modal-body" ng-bind-html="confirmationMessage" ng-if="confirmationMessage">
+</div>
+<div class="modal-body" ng-if="!confirmationMessage">
+    {{ 'CommonLabels.ConfirmationRemoveMessage' | translate }}
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{'CommonLabels.Yes' | translate}}</button>
+    <button class="btn btn-default" ng-click="cancel()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>

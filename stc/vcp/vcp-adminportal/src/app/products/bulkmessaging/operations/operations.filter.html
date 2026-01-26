@@ -1,0 +1,28 @@
+<form class="form-horizontal parsley-form">
+
+    <div class="form-group" ng-if="isBMSAdminUser">
+        <label for="organizationId" class="col-sm-3 control-label" style="text-align: left;">{{'CommonLabels.Organization' | translate}}</label>
+        <div class="col-sm-7">
+            <select id="organizationId" name="organizationId" ng-model="organizationId" class="form-control"
+                    ng-change="changeOrganization(organizationId)"
+                    ng-options="organization.id as organization.name for organization in organizationList">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="isBMSAdminUser && userAccountList && userAccountList.length > 0">
+        <label for="userId" class="col-sm-3 control-label" style="text-align: left;">{{'CommonLabels.User' | translate}}</label>
+        <div class="col-sm-7">
+            <select id="userId" name="userId" ng-model="userId" class="form-control"
+                    ng-change="changeUserAccount(userId)"
+                    ng-options="userAccount.id as userAccount.userName for userAccount in userAccountList">
+                <option value="">
+                    {{ '-- ' + ('CommonLabels.SelectOne' | translate) + ' --' }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+</form>
+

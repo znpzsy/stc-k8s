@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ pageHeaderKey }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.Msisdn' | translate }}</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="entry.screenableEntryId" id="msisdn" name="msisdn"
+                       ng-maxlength="15" maxlength="15" ng-pattern="$root.Validators.ValidSubscriberMsisdn"
+                       ng-required="true" required="true"
+                       placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate}}" />
+                <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }" ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                    <li class="required" ng-show="form.msisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || !AuthorizationService.canCreateScreeningLists() || isNotChanged()"
+            ng-click="save(entry)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

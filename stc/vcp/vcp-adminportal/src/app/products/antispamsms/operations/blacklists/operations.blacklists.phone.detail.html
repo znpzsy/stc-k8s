@@ -1,0 +1,42 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="number" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.TableColumns.PhoneNumber' | translate }}</label>
+            <div class="col-md-7">
+                <input id="number" name="number" type="text" class="form-control"
+                       ng-model="entry.number"
+                       placeholder="{{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.PhoneNumberPlaceholder' | translate }}"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-change="normalizeArabicDigits(entry.number, 'number')"
+                       ng-disabled="(isUpdate ? !AuthorizationService.canAntispamBlackListsUpdate() : !AuthorizationService.canAntispamBlackListsCreate())" />
+                <ul ng-class="{ 'parsley-error-list': form.number.$dirty && form.number.$invalid }" ng-show="form.number.$dirty && form.number.$invalid">
+                    <li class="required" ng-show="form.number.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.number.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (isUpdate ? !AuthorizationService.canAntispamBlackListsUpdate() : !AuthorizationService.canAntispamBlackListsCreate()) || isNotChanged()"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

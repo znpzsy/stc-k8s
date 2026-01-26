@@ -1,0 +1,55 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+
+            <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement') }">
+                <!-- <a ui-sref="subsystems.subscriptionmanagement.troubleshooting.servicesubscription" data-toggle="tab"><span class="fa fa-gears"></span>&nbsp;
+                    {{ 'Subsystems.SubscriptionManagement.Title' | translate }}</a> -->
+            </li>
+        </ul>
+
+        <div class="row">
+
+            <div class="col-md-3 col-sm-3">
+                <ul class="nav nav-pills nav-stacked">
+    
+                    <li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.service') }">
+                        <a ui-sref="subsystems.subscriptionmanagement.service.serviceoffers" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.ServiceSubscription' | translate }}
+                        </a>
+                    </li>
+    
+                    <!--<li ng-class="{ 'active': $state.includes('subsystems.subscriptionmanagement.content') }">
+                        <a ui-sref="subsystems.subscriptionmanagement.content.contentoffers" data-toggle="tab">
+                            <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.SubscriptionManagement.ContentSubscription' | translate }}
+                        </a>
+                    </li>-->
+                    <li ng-if="AuthorizationService.canCcRbtSubscriptionRedirect()">
+                        <a id="mm-dmc" href="" ng-click="openRBTPortalApp(siteInformation.RbtPortalRedirectUri)">
+                            <i class="fa fa-arrow-circle-right"></i>
+                            {{ 'Subsystems.SubscriptionManagement.ContentSubscription' | translate }}
+                        </a>
+                    </li>
+    
+                </ul>
+            </div>
+    
+            <div class="col-md-9 col-sm-9">
+                <div class="tab-content stacked-content">
+                    <div class="tab-pane fade active in" ui-view>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+
+    </div>
+
+</div>

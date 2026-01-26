@@ -1,0 +1,41 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.Screenings.PageHeader' | translate }}
+        /
+        {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.MenuLabel' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <uib-tabset active="activeTab">
+
+        <uib-tab index="0"
+                 select="onTabSelected('products.antispamsms.operations.screenings.global.sourcescreening.configuration')">
+            <uib-tab-heading>
+                <i class="fa fa-wrench"></i>
+                {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.SourceScreening.Configuration.MenuLabel' | translate }}
+            </uib-tab-heading>
+        </uib-tab>
+
+        <uib-tab index="1"
+                 select="onTabSelected('products.antispamsms.operations.screenings.global.sourcescreening.mcarange')">
+            <uib-tab-heading>
+                <i class="fa fa-list"></i>
+                {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.SourceScreening.Configuration.MscRanges' | translate }}
+            </uib-tab-heading>
+        </uib-tab>
+
+        <uib-tab index="2"
+                 select="onTabSelected('products.antispamsms.operations.screenings.global.sourcescreening.msisdnrange')">
+            <uib-tab-heading>
+                <i class="fa fa-list"></i>
+                {{ 'Products.AntiSpamSMS.Operations.Screenings.Global.SourceScreening.Configuration.MsisdnRanges' | translate }}
+            </uib-tab-heading>
+        </uib-tab>
+
+    </uib-tabset>
+
+    <div ui-view></div>
+
+</div>

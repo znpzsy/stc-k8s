@@ -1,0 +1,105 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title" active-loading-indicator>
+                {{ 'PartnerInfo.Services.SMSSLAProfile.Title' | translate:{ name: service.name } }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <fieldset id="formFieldset">
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.SMSSLAProfile.IsMaxSMSLengthSLAEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.smsSLAProfile.IsMaxSMSLengthSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.smsSLAProfile.IsMaxSMSLengthSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.smsSLAProfile.IsMaxSMSLengthSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.smsSLAProfile.IsMaxSMSLengthSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.smsSLAProfile.IsMaxSMSLengthSLAEnabled">
+                    <label for="MaxSMSLength" class="col-md-3">{{ 'PartnerInfo.Services.SMSSLAProfile.MaxSMSLength' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="MaxSMSLength" name="MaxSMSLength" type="number" class="form-control"
+                               ng-model="service.smsSLAProfile.MaxSMSLength"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.smsSLAProfile.IsMaxSMSLengthSLAEnabled">
+                    <label for="MaxSMSLengthSLAViolationPolicy" class="col-md-3">{{ 'PartnerInfo.Services.SMSSLAProfile.MaxSMSLengthSLAViolationPolicy' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="MaxSMSLengthSLAViolationPolicy" name="MaxSMSLengthSLAViolationPolicy" class="form-control"
+                                ng-model="service.smsSLAProfile.MaxSMSLengthSLAViolationPolicy"
+                                ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                                ng-disabled="true">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.SMSSLAProfile.IsMaxRecipientsSLAEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.smsSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.smsSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.smsSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.smsSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.smsSLAProfile.IsMaxRecipientsSLAEnabled">
+                    <label for="MaxRecipients" class="col-md-3">{{ 'PartnerInfo.Services.SMSSLAProfile.MaxRecipients' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="MaxRecipients" name="MaxRecipients" type="number" class="form-control"
+                               ng-model="service.smsSLAProfile.MaxRecipients"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.smsSLAProfile.IsMaxRecipientsSLAEnabled">
+                    <label for="MaxRecipientsSLAViolationPolicy" class="col-md-3">{{ 'PartnerInfo.Services.SMSSLAProfile.MaxRecipientsSLAViolationPolicy' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="MaxRecipientsSLAViolationPolicy" name="MaxRecipientsSLAViolationPolicy" class="form-control"
+                                ng-model="service.smsSLAProfile.MaxRecipientsSLAViolationPolicy"
+                                ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                                ng-disabled="true">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+        <div class="portlet-footer back-button-layer">
+
+            <div class="row back-button-layer" ng-if="$state.current.data.backState">
+                <div class="col-sm-8">
+                    <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+                        {{ 'CommonLabels.Back' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

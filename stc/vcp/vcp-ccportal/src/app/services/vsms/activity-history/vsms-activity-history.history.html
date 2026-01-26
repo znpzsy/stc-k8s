@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ 'Services.VSMS.Troubleshooting.History.PageHeader' | translate:{ origparty: origparty, destparty: destparty } }}</h3>
+</div>
+
+<div class="modal-body">
+
+    <div class="row search-panel">
+        <div class="col-sm-9 btn-group">
+            <span ng-if="submitDate">
+                <label>{{ 'Services.VSMS.Troubleshooting.TableColumns.Date' | translate }}</label>:
+                {{ submitDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}
+            </span>
+            <span ng-if="completionDate">
+                &nbsp;&nbsp;&nbsp;
+                <label>{{ 'Services.VSMS.Troubleshooting.TableColumns.CompletionDate' | translate }}</label>:
+                {{ completionDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}
+            </span>
+        </div>
+        <div class="col-sm-3">
+            <div class="row col-sm-12 pull-right" ng-show="activityHistoryDetailedHistoryList.tableParams.total() > 0">
+                <button type="button" ng-click="csv.download('VoiceSMSHistoryRecords')" class="btn btn-sm btn-default pull-right" style="">{{ 'Export.CSV' | translate }}</button>
+                <button type="button" ng-click="xls.download('VoiceSMSHistoryRecords')" class="btn btn-sm btn-default pull-right" style="margin-right: 4px;">{{ 'Export.Excel' | translate }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <table ng-table="activityHistoryDetailedHistoryList.tableParams" class="table table-striped table-bordered"
+                   template-pagination="ngTableCustomPager.html"
+                   export-csv="csv" export-xls="xls"
+                   export-options="historyExportOptions">
+                <thead>
+                <tr>
+                    <th class="sortable"
+                        uib-popover="{{ 'Services.VSMS.Troubleshooting.TableColumnsTooltips.HistoryEventDate' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                        ng-class="{'sort-asc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.timestamp', 'asc'), 'sort-desc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.timestamp', 'desc') }"
+                        ng-click="activityHistoryDetailedHistoryList.tableParams.sorting({'_source.timestamp': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.timestamp', 'asc') ? 'desc' : 'asc'})">
+                        <div>{{ 'Services.VSMS.Troubleshooting.TableColumns.HistoryEventDate' | translate }}</div>
+                    </th>
+                    <th class="sortable"
+                        uib-popover="{{ 'Services.VSMS.Troubleshooting.TableColumnsTooltips.CallTypeEventCode' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                        ng-class="{'sort-asc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.calltype', 'asc'), 'sort-desc': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.calltype', 'desc') }"
+                        ng-click="activityHistoryDetailedHistoryList.tableParams.sorting({'_source.calltype': activityHistoryDetailedHistoryList.tableParams.isSortBy('_source.calltype', 'asc') ? 'desc' : 'asc'})">
+                        <div>{{ 'Services.VSMS.Troubleshooting.TableColumns.EventCode' | translate }}</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                    <td align="center">{{item._source.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                    <td align="left">{{item._source.calltype_eventcode}}</td>
+                </tr>
+                <tr ng-if="$data.length === 0">
+                    <td colspan="2" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

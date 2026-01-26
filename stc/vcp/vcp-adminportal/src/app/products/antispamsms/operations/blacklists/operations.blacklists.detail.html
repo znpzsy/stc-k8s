@@ -1,0 +1,72 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.BlackLists.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="url" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.BlackLists.TableColumns.Url' | translate }}</label>
+            <div class="col-md-7">
+                <input id="url" name="url" type="text" class="form-control"
+                       ng-model="entry.url"
+                       placeholder="{{ 'Products.AntiSpamSMS.Operations.BlackLists.URLPlaceholder' | translate }}"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="(isUpdate ? true : !AuthorizationService.canCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.url.$dirty && form.url.$invalid }" ng-show="form.url.$dirty && form.url.$invalid">
+                    <li class="required" ng-show="form.url.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.url.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.BlackLists.TableColumns.Description' | translate }}</label>
+            <div class="col-md-7">
+                <input id="description" name="description" type="text" class="form-control"
+                       ng-model="entry.description"
+                       ng-required="true"
+                       ng-maxlength="50" maxlength="50"
+                       ng-disabled="(isUpdate ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.description.$dirty && form.description.$invalid }" ng-show="form.description.$dirty && form.description.$invalid">
+                    <li class="required" ng-show="form.description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.description.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="replacementUrl" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.BlackLists.TableColumns.ReplacementUrl' | translate }}</label>
+            <div class="col-md-7">
+                <input id="replacementUrl" name="replacementUrl" type="text" class="form-control"
+                       placeholder="{{ 'Products.AntiSpamSMS.Operations.BlackLists.URLPlaceholder' | translate }}"
+                       ng-model="entry.replacementUrl"
+                       ng-maxlength="50" maxlength="50"
+                       ng-disabled="(isUpdate ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.replacementUrl.$dirty && form.replacementUrl.$invalid }" ng-show="form.replacementUrl.$dirty && form.replacementUrl.$invalid">
+                    <li class="required" ng-show="form.replacementUrl.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.replacementUrl.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (isUpdate ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate()) || isNotChanged()"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

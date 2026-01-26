@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.USSI.Troubleshooting.History.PageHeader' | translate:{ ticket: edrRecord.ticket} }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-10 col-xs-9">
+            <div class="pull-left">
+                <!--<label>{{ 'Products.USSI.Troubleshooting.TableColumns.StartDate' | translate }}:&nbsp;</label>
+                {{edrRecord.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}
+                &nbsp;&nbsp;&nbsp;
+                <label>{{ 'Products.USSI.Troubleshooting.TableColumns.CompletionDate' | translate }}:&nbsp;</label>
+                {{troubleshootEdrHistoryList.list[troubleshootEdrHistoryList.list.length - 1]._source.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}-->
+            </div>
+        </div>
+
+        <div class="col-md-2 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group export-buttons-without-search" ng-show="troubleshootEdrHistoryList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('USSDServiceCenterTroubleshootingDetailedRecords-' + edrRecord.sessionId, troubleshootEdrHistoryList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('USSDServiceCenterTroubleshootingDetailedRecords-' + edrRecord.sessionId, troubleshootEdrHistoryList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="troubleshootEdrHistoryList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="historyExportOptions">
+                    <thead>
+                    <tr>
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.Timestamp' | translate }}" popover-placement="top"
+                            popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            class="sortable"
+                            ng-class="{'sort-asc': troubleshootEdrHistoryList.tableParams.isSortBy('_source.timestamp', 'asc'), 'sort-desc': troubleshootEdrHistoryList.tableParams.isSortBy('_source.timestamp', 'desc') }"
+                            ng-click="troubleshootEdrHistoryList.tableParams.sorting({'_source.timestamp': troubleshootEdrHistoryList.tableParams.isSortBy('_source.timestamp', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.Timestamp' | translate }}</div>
+                        </th>
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.SipMsisdn' | translate }}" popover-placement="top"
+                            popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            class="sortable"
+                            ng-class="{'sort-asc': troubleshootEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'asc'), 'sort-desc': troubleshootEdrHistoryList.tableParams.isSortBy('_source.sipMsisdn', 'desc') }"
+                            ng-click="troubleshootEdrHistoryList.tableParams.sorting({'_source.sipMsisdn': troubleshootEdrHistoryList.tableParams.isSortBy('_source.sipMsisdn', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.SipMsisdn' | translate }}</div>
+                        </th>
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.CDRType' | translate }}" popover-placement="top"
+                            popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            class="sortable"
+                            ng-class="{'sort-asc': troubleshootEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'asc'), 'sort-desc': troubleshootEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'desc') }"
+                            ng-click="troubleshootEdrHistoryList.tableParams.sorting({'_source.cdrType': troubleshootEdrHistoryList.tableParams.isSortBy('_source.cdrType', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.CDRType' | translate }}</div>
+                        </th>
+                        <!--Refactor starting here-->
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.Result' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.Result' | translate }}</div>
+                        </th>
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.SipCallId' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.SipCallId' | translate }}</div>
+                        </th>
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.Dcs' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.Dcs' | translate }}</div>
+                        </th>
+                        <th uib-popover="{{ 'Products.USSI.Troubleshooting.TableColumnsTooltips.UssdMessageString' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            <div>{{ 'Products.USSI.Troubleshooting.TableColumns.UssdMessageString' | translate }}</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'text-danger': (item._source.result != 0) }">
+                        <td align="center">{{item._source.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                        <td align="center">{{item._source.sipMsisdn}}</td>
+                        <td align="center">{{item._source.cdrType | UssiEDRTypeFilter}} [{{item._source.cdrType}}]</td>
+                        <td align="center"
+                            uib-popover-html="'{{ (item._source.result > 0 ? item._source.reasonText : '') }}'"
+                            popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                            {{item._source.result | GeneralEDRResultFilter}}
+                        </td>
+                        <td align="center">{{item._source.sipCallId}}</td>
+                        <td align="center">{{item._source.dcs}}</td>
+                        <td align="center">{{item._source.ussdMessageString}}</td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="7" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

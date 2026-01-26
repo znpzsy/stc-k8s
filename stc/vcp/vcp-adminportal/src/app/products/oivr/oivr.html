@@ -1,0 +1,35 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{ $state.current.data.title }}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.oivr.dashboards') }">
+                <a ui-sref="products.oivr.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.oivr.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="products.oivr.configuration.calleraddresses" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.oivr.troubleshooting') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="products.oivr.troubleshooting" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

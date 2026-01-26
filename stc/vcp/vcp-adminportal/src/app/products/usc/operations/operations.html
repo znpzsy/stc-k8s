@@ -1,0 +1,45 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.usc.operations.applications') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.USC.Operations.Applications' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="myTabDrop1">
+                <li ng-class="{ 'active': $state.includes('products.usc.operations.applications.smppapps') }">
+                    <a ui-sref="products.usc.operations.applications.smppapps" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.USC.Operations.SmppApps' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.usc.operations.applications.wsapps') }">
+                    <a ui-sref="products.usc.operations.applications.wsapps" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.USC.Operations.WsApps' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.usc.operations.stringreplacements') }" >
+            <a href="javascript:;" id="myTabDrop2" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.USC.Operations.StringReplacements.StringReplacements' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="myTabDrop2">
+                <li ng-class="{ 'active': $state.includes('products.usc.operations.stringreplacements.pssr') }">
+                    <a ui-sref="products.usc.operations.stringreplacements.pssr" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.USC.Operations.StringReplacements.Pssr' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

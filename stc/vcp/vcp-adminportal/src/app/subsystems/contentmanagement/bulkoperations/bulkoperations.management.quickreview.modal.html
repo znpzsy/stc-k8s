@@ -1,0 +1,193 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.Management.QuickReview' | translate:{ name: contentMetadata.name, alias:contentMetadata.alias } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Id' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Subscriptions' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.totalSubscriptionCount ? contentMetadata.totalSubscriptionCount : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Alias' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.alias }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Name' | translate  }}</td>
+                        <td class="kv-value">{{ contentMetadata.name | translate }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'GenericFormFields.Organization.Label' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.organizationName }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'CommonLabels.State' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.status }}</td>
+                    </tr>
+                    <!--<th data-title="'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate }}</div></th>
+                        {{data.offers[0].price | PriceFormatterFilter}}
+                        <th data-title="'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}</div></th>-->
+
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}</td>
+                        <td class="kv-value">{{contentMetadata.offers[0].price | PriceFormatterFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate }}</td>
+                        <td class="kv-value">{{contentMetadata.offers[0].originalPrice | PriceFormatterFilter}}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.offers[0].chargingPeriodDetail | ChargingDetailsFilter}}</td>
+                    </tr>
+                    <tr ng-if="contentMetadata.rejectReason">
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.RejectReason' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.rejectReason }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SubscriptionEnabled' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.subscriptionEnabled | YesNoFilter }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Blacklisted' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.blacklisted | YesNoFilter }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Promoted' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.promoted | YesNoFilter }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'CommonLabels.CreatedOn' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.dateCreated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'CommonLabels.LastUpdateTime' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.dateUpdated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'GenericFormFields.StartDate.Label' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.launchDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'GenericFormFields.EndDate.Label' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.expireDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <h5 class="modal-header">
+                {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.Header' | translate }}
+            </h5>
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-4">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentMetadata.coverImage.name">
+                            <img ngf-src="!contentMetadata.coverImage.$error && contentMetadata.coverImage" width="200"
+                                 ng-style="{ 'height': (contentMetadata.coverImage ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentMetadata.coverImage.type">
+                                <div class="pull-left">
+                                    Cover Image ({{ contentMetadata.coverImage.type }})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentMetadata.cardImage.name">
+                            <img ngf-src="!contentMetadata.cardImage.$error && contentMetadata.cardImage" width="200"
+                                 ng-style="{ 'height': (contentMetadata.cardImage ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentMetadata.cardImage.type">
+                                <div class="pull-left">
+                                    Card Image ({{ contentMetadata.cardImage.type }})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentMetadata.thumbnail.name">
+                            <img ngf-src="!contentMetadata.thumbnail.$error && contentMetadata.thumbnail" width="200"
+                                 ng-style="{ 'height': (contentMetadata.thumbnail ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentMetadata.thumbnail.type">
+                                <div class="pull-left">
+                                    Thumbnail ({{ contentMetadata.thumbnail.type }})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Orig. -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleEn' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.nameEn }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.descriptionEn }}</td>
+                    </tr>
+                    <tr ng-if="contentMetadata.promoted">
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedTitleEn' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.featuredTitleEn }}</td>
+                    </tr>
+                    <tr ng-if="contentMetadata.promoted">
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedDescriptionEn' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.featuredDescriptionEn }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dest. -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleAr' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.nameAr }}</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.descriptionAr }}</td>
+                    </tr>
+                    <tr ng-if="contentMetadata.promoted">
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedTitleAr' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.featuredTitleAr }}</td>
+                    </tr>
+                    <tr ng-if="contentMetadata.promoted">
+                        <td class="kv-key">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedDescriptionAr' | translate }}</td>
+                        <td class="kv-value">{{ contentMetadata.featuredDescriptionAr }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

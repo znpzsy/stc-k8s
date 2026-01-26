@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.OffnetSenderTitle' | translate:{userName:userAccount.userName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleOffnetSender' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="permissibleOffnetSender" id="permissibleOffnetSender" class="form-control"
+                       ng-model="permissibleOffnetSender.value"
+                       ng-maxlength="50" maxlength="50" ng-required="true"
+                       ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                <ul ng-class="{ 'parsley-error-list': form.permissibleOffnetSender.$dirty && form.permissibleOffnetSender.$invalid }" ng-show="form.permissibleOffnetSender.$dirty && form.permissibleOffnetSender.$invalid">
+                    <li class="required" ng-show="form.permissibleOffnetSender.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.permissibleOffnetSender.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()) || isNotChanged()"
+                        ng-click="save(permissibleOffnetSender);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

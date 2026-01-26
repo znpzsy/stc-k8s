@@ -1,0 +1,150 @@
+<div class="portlet-header">
+    <h4 ng-if="prayerTimesTonesData.id" class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.SysDefaultGrace.Header' | translate }}
+    </h4>
+    <h4 ng-if="!prayerTimesTonesData.id" class="portlet-title">
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.SysDefaultGrace.Header' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.SysDefaultGrace.SysDefaultTone' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!systemDefaultTone.toneFile.name">
+                        <!-- Select button -->
+                        <button name="sysDefaultToneFile" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (systemDefaultTone.toneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="systemDefaultTone.toneFile"
+                                ng-required="true"
+                                ng-init="systemDefaultTone.toneFile ? systemDefaultTone.toneFile.name = systemDefaultTone.toneFile.$ngfName : null"
+                                ngf-change="form.sysDefaultToneFile.$setDirty(); toneFileChanged(systemDefaultTone.toneFile, 'sysDefaultToneFile')"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ngf-model-invalid="errorMp3File"
+                                ng-disabled="sysDefaultDownloading || !AuthorizationService.canUpdateConfiguration()">
+                            {{ ((systemDefaultTone.toneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="systemDefaultTone.toneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="systemDefaultToneAudio" name="systemDefaultToneAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!systemDefaultTone.toneFile.$error && systemDefaultTone.toneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{systemDefaultTone.toneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ systemDefaultTone.toneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="systemDefaultTone.toneFile = null; form.sysDefaultToneFile.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="systemDefaultTone.toneFile.name && (contentMetadata.id ? AuthorizationService.canRBTOperationsToneUpdate(originalContentMetadata.status) : AuthorizationService.canRBTOperationsToneCreate())">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="systemDefaultTone.toneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ systemDefaultTone.toneFile.name }}"
+                           href="{{ systemDefaultTone.toneFile | ngfDataUrl }}" target="_blank"
+                           ng-if="AuthorizationService.canCmsOperationsContentFileRead()">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.sysDefaultToneFile.$dirty && form.sysDefaultToneFile.$invalid }"
+                        ng-show="form.sysDefaultToneFile.$dirty && form.sysDefaultToneFile.$invalid">
+                        <li class="required" ng-show="form.sysDefaultToneFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.sysDefaultToneFile.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                        <li class="required" ng-show="form.sysDefaultToneFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorMp3File.$errorParam} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.SysDefaultGrace.GracePeriodTone' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!gracePeriodTone.toneFile.name">
+                        <!-- Select button -->
+                        <button name="gracePeriodToneFile" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (gracePeriodTone.toneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="gracePeriodTone.toneFile"
+                                ng-init="gracePeriodTone.toneFile ? gracePeriodTone.toneFile.name = gracePeriodTone.toneFile.$ngfName : null"
+                                ngf-change="form.gracePeriodToneFile.$setDirty(); toneFileChanged(gracePeriodTone.toneFile, 'gracePeriodToneFile');"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="gracePeriodDownloading || !AuthorizationService.canUpdateConfiguration()">
+                            {{ ((gracePeriodTone.toneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="gracePeriodTone.toneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="toneFileAudio" name="toneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!gracePeriodTone.toneFile.$error && gracePeriodTone.toneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{gracePeriodTone.toneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ gracePeriodTone.toneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="gracePeriodTone.toneFile = null; form.gracePeriodToneFile.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="gracePeriodTone.toneFile.name && (contentMetadata.id ? AuthorizationService.canRBTOperationsToneUpdate(originalContentMetadata.status) : AuthorizationService.canRBTOperationsToneCreate())">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="gracePeriodTone.toneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ gracePeriodTone.toneFile.name }}"
+                           href="{{ gracePeriodTone.toneFile | ngfDataUrl }}" target="_blank"
+                           ng-if="AuthorizationService.canCmsOperationsContentFileRead()">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.gracePeriodToneFile.$dirty && form.gracePeriodToneFile.$invalid }"
+                        ng-show="form.gracePeriodToneFile.$dirty && form.gracePeriodToneFile.$invalid">
+                        <li class="required" ng-show="form.gracePeriodToneFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.gracePeriodToneFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.gracePeriodToneFile.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="validationInProgress || form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                            ng-click="save();">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+
+
+        </fieldset>
+    </form>
+
+</div>

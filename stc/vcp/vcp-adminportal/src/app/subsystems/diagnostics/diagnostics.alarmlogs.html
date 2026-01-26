@@ -1,0 +1,259 @@
+<div class="col-md-12 col-xs-12">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-4">
+                        <div class="pull-left">
+                            <div class="btn btn-secondary btn-sm pull-left"
+                                 title="{{ 'CommonMessages.DateFilterButtonTitle' | translate }}"
+                                 ng-model="filterFormLayer.isFilterFormOpen"
+                                 ng-init="filterFormLayer.isFilterFormOpen = false"
+                                 ng-click="filterFormLayer.isFilterFormOpen = !filterFormLayer.isFilterFormOpen">
+                                <span ng-if="!filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.ShowDateFilter' | translate }} <i class="fa fa-chevron-circle-right"></i></span>
+                                <span ng-if="filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.HideDateFilter' | translate }} <i class="fa fa-chevron-circle-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xs-8">
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn {{filter.type === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.type" uib-btn-radio="'ALL'">{{ 'CommonLabels.All' | translate }}
+                                </button>
+                                <button type="button" class="btn {{filter.type === 'SET'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.type" uib-btn-radio="'SET'">{{ 'Subsystems.Diagnostics.AlarmLogs.Buttons.SetUnset' | translate }}
+                                </button>
+                                <button type="button" class="btn {{filter.type === 'EVENT'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.type" uib-btn-radio="'EVENT'">{{ 'Subsystems.Diagnostics.AlarmLogs.Buttons.Event' | translate }}
+                                </button>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div class="btn-group">
+                                <button type="button" class="btn {{filter.severity === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.severity" uib-btn-radio="'ALL'">{{ 'CommonLabels.All' | translate }}
+                                </button>
+                                <button type="button" class="btn {{filter.severity === 'CRITICAL'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.severity" uib-btn-radio="'CRITICAL'">{{ 'Subsystems.Diagnostics.AlarmLogs.Buttons.Critical' | translate }}
+                                </button>
+                                <button type="button" class="btn {{filter.severity === 'MAJOR'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.severity" uib-btn-radio="'MAJOR'">{{ 'Subsystems.Diagnostics.AlarmLogs.Buttons.Major' | translate }}
+                                </button>
+                                <button type="button" class="btn {{filter.severity === 'MINOR'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.severity" uib-btn-radio="'MINOR'">{{ 'Subsystems.Diagnostics.AlarmLogs.Buttons.Minor' | translate }}
+                                </button>
+                                <button type="button" class="btn {{filter.severity === 'INFO'?'btn-default active':'btn-default'}} btn-sm"
+                                        ng-change="throttledReloadTable();"
+                                        ng-model="filter.severity" uib-btn-radio="'INFO'">{{ 'Subsystems.Diagnostics.AlarmLogs.Buttons.Info' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div hidden-filter-form ng-model="filterFormLayer" class="col-sm-12 filter-form">
+                        <form id="filterForm" name="filterForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+                            <div class="portlet portlet-boxed">
+                                <div class="portlet-body">
+
+                                    <div class="form-group">
+                                        <label for="startDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.StartDateAndTime.Label' | translate }}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <div id="startDate" class="input-group date datepicker-field">
+                                                <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                                       ng-model="dateFilter.startDate" uib-datepicker-popup="{{dateFormat}}"
+                                                       ng-change="updateStartDate(dateFilter.startDate)"
+                                                       ng-focus="openStartDatePicker($event)"
+                                                       min-max-check is-open="startDatePicker.opened"
+                                                       max-date="dateFilter.endDate" datepicker-options="dateOptions"
+                                                       ng-required="true"/>
+                                                <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default input-sm"
+                                                ng-click="openStartDatePicker($event)"><i
+                                                class="fa fa-calendar"></i></button>
+                                    </span>
+                                            </div>
+                                            <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                                                <li class="required" ng-show="filterForm.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                <li class="required" ng-show="filterForm.startDate.$error.parse">{{ 'GenericFormFields.StartDateAndTime.Messages.Invalid' | translate }}</li>
+                                                <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-sm-4">
+                                            <div uib-timepicker ng-model="dateFilter.startTime" class="time-picker with-date-picker"
+                                                 hour-step="hstep" minute-step="mstep"
+                                                 show-meridian="false" readonly-input="true" mousewheel="false"
+                                                 ng-change="updateStartDateTime(dateFilter.startTime)"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="endDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.EndDateAndTime.Label' | translate }}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <div id="endDate" class="input-group date datepicker-field">
+                                                <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                                                       ng-model="dateFilter.endDate" uib-datepicker-popup="{{dateFormat}}"
+                                                       ng-change="updateEndDate(dateFilter.endDate)"
+                                                       ng-focus="openEndDatePicker($event)"
+                                                       min-max-check is-open="endDatePicker.opened"
+                                                       min-date="dateFilter.startDate" datepicker-options="dateOptions"
+                                                       ng-required="true"/>
+                                                <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default input-sm"
+                                                ng-click="openEndDatePicker($event)"><i
+                                                class="fa fa-calendar"></i></button>
+                                    </span>
+                                            </div>
+                                            <ul ng-class="{ 'parsley-error-list': filterForm.endDate.$dirty && filterForm.endDate.$invalid }" ng-show="filterForm.endDate.$dirty && filterForm.endDate.$invalid">
+                                                <li class="required" ng-show="filterForm.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                <li class="required" ng-show="filterForm.endDate.$error.parse">{{ 'GenericFormFields.EndDateAndTime.Messages.Invalid' | translate }}</li>
+                                                <li class="required" ng-show="filterForm.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDateAndTime.Messages.MinDateExceeded' | translate }}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6 col-sm-4">
+                                            <div uib-timepicker ng-model="dateFilter.endTime" class="time-picker with-date-picker"
+                                                 hour-step="hstep" minute-step="mstep"
+                                                 show-meridian="false" readonly-input="true" mousewheel="false"
+                                                 ng-change="updateEndDateTime(dateFilter.endTime)"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 col-sm-3">&nbsp;</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <button class="btn btn-sm btn-secondary" ng-disabled="filterForm.$invalid"
+                                                    ng-click="throttledReloadTable();"><i class="fa fa-search"></i>
+                                                {{'CommonLabels.Search' | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-5">
+                        <div class="pull-left">
+                            <div class="btn-group">
+                                <button type="button" ng-class="{'active': alarmLogs.tableParams.count() == 10}"
+                                        ng-click="alarmLogs.tableParams.count(10)" class="btn btn-sm btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active': alarmLogs.tableParams.count() == 25}"
+                                        ng-click="alarmLogs.tableParams.count(25)" class="btn btn-sm btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active': alarmLogs.tableParams.count() == 50}"
+                                        ng-click="alarmLogs.tableParams.count(50)" class="btn btn-sm btn-default">50
+                                </button>
+                                <button type="button" ng-class="{'active': alarmLogs.tableParams.count() == 100}"
+                                        ng-click="alarmLogs.tableParams.count(100)" class="btn btn-sm btn-default">100
+                                </button>
+                                <button type="button" ng-class="{'active': alarmLogs.tableParams.count() == 250}"
+                                        ng-click="alarmLogs.tableParams.count(250)" class="btn btn-sm btn-default">250
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="pull-right">
+                            <div class="btn-group" ng-show="alarmLogs.tableParams.total() > 0">
+                                <button type="button" ng-click="csv.download('DiagnosticsAlarmLogs', alarmLogs.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                <button type="button" ng-click="xls.download('DiagnosticsAlarmLogs', alarmLogs.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-4">
+                        <form class="mainnav-form">
+                            <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                   ng-model="filterText" ng-change="filterTable(filterText, ['severity', 'type', 'cluster', 'host', 'message'])"
+                                   placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                            <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table ng-table="alarmLogs.tableParams" class="table table-striped table-bordered"
+                                   template-pagination="ngTableCustomPager.html"
+                                   export-csv="csv" export-xls="xls"
+                                   export-options="exportOptions">
+                                <thead>
+                                <tr>
+                                    <th class="sortable"
+                                        ng-class="{'sort-asc': alarmLogs.tableParams.isSortBy('timestamp', 'asc'), 'sort-desc': alarmLogs.tableParams.isSortBy('timestamp', 'desc') }"
+                                        ng-click="alarmLogs.tableParams.sorting({'timestamp': alarmLogs.tableParams.isSortBy('timestamp', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.Diagnostics.AlarmLogs.TableColumns.Time' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        ng-class="{'sort-asc': alarmLogs.tableParams.isSortBy('severity', 'asc'), 'sort-desc': alarmLogs.tableParams.isSortBy('severity', 'desc') }"
+                                        ng-click="alarmLogs.tableParams.sorting({'severity': alarmLogs.tableParams.isSortBy('severity', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.Diagnostics.AlarmLogs.TableColumns.Severity' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        ng-class="{'sort-asc': alarmLogs.tableParams.isSortBy('type', 'asc'), 'sort-desc': alarmLogs.tableParams.isSortBy('type', 'desc') }"
+                                        ng-click="alarmLogs.tableParams.sorting({'type': alarmLogs.tableParams.isSortBy('type', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.Diagnostics.AlarmLogs.TableColumns.Type' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        ng-class="{'sort-asc': alarmLogs.tableParams.isSortBy('cluster', 'asc'), 'sort-desc': alarmLogs.tableParams.isSortBy('cluster', 'desc') }"
+                                        ng-click="alarmLogs.tableParams.sorting({'cluster': alarmLogs.tableParams.isSortBy('cluster', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.Diagnostics.AlarmLogs.TableColumns.Cluster' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        ng-class="{'sort-asc': alarmLogs.tableParams.isSortBy('host', 'asc'), 'sort-desc': alarmLogs.tableParams.isSortBy('host', 'desc') }"
+                                        ng-click="alarmLogs.tableParams.sorting({'host': alarmLogs.tableParams.isSortBy('host', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.Diagnostics.AlarmLogs.TableColumns.Host' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        ng-class="{'sort-asc': alarmLogs.tableParams.isSortBy('message', 'asc'), 'sort-desc': alarmLogs.tableParams.isSortBy('message', 'desc') }"
+                                        ng-click="alarmLogs.tableParams.sorting({'message': alarmLogs.tableParams.isSortBy('message', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.Diagnostics.AlarmLogs.TableColumns.Message' | translate }}</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                                    <td align="center">{{ item._source.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                                    <td align="center"><h6 style="margin: 1px;"><span class="label severity severity-{{ item._source.severity | lowercase }}">{{ item._source.severity }}</span></h6></td>
+                                    <td align="center">{{ item._source.type | AlarmTypeFilter:item._source.count }}</td>
+                                    <td align="center">{{ item._source.cluster }}</td>
+                                    <td align="center">{{ item._source.host }}</td>
+                                    <td align="left" title="{{item._source.message}}">
+                                        {{ item._source.message | textPruneFilter:75 }}
+                                    </td>
+                                </tr>
+                                <tr ng-if="$data.length === 0">
+                                    <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

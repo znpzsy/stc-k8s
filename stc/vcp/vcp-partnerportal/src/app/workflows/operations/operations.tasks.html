@@ -1,0 +1,213 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn {{resourceTypeFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'ALL'" ng-change="resourceTypeFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter === 'PARTNER'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'PARTNER'" ng-change="resourceTypeFilterChange('PARTNER');">PARTNER
+                </button>
+                <!-- <button type="button" class="btn {{resourceTypeFilter === 'SERVICE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'SERVICE'" ng-change="resourceTypeFilterChange('SERVICE');">SERVICE
+                </button> -->
+                <button type="button" class="btn {{resourceTypeFilter.startsWith('CONTENT')?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'CONTENT_METADATA'" ng-change="resourceTypeFilterChange('CONTENT_METADATA');">CONTENT
+                </button>
+                <!-- <button type="button" class="btn {{resourceTypeFilter === 'OFFER'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'OFFER'" ng-change="resourceTypeFilterChange('OFFER');">OFFER
+                </button>
+                <button type="button" class="btn {{resourceTypeFilter === 'SHORT_CODE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'SHORT_CODE'" ng-change="resourceTypeFilterChange('SHORT_CODE');">SHORT CODE
+                </button> -->
+                <button type="button" class="btn {{resourceTypeFilter.startsWith('RBT')?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="resourceTypeFilter" uib-btn-radio="'RBT'" ng-change="resourceTypeFilterChange('RBT');">RBT
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-12" i-scroll="lazyLoad()" i-scroll-block="{{ BLOCK_SCROLL }}">
+
+            <div class="feed-item feed-item-idea" ng-repeat="task in tasks">
+                <div ng-class="{ 'well well-sm': task.taskSelected }">
+
+                    <div class="feed-icon bg-primary {{ getBgColorByType(task.type) }}">
+                        <i class="fa {{ getIconByType(task.type) }}"></i>
+                    </div> <!-- /.feed-icon -->
+
+                    <div class="feed-subject">
+                        <h6 ng-if="task.status !== WORKFLOWS_STATUSES.NOTIFICATION">{{ task.name }} [{{ getLabelByType(task.type) }} = {{ task.description }}{{ getDescriptionByType(task.type) }}]</h6>
+                        <h6 ng-if="task.status === WORKFLOWS_STATUSES.NOTIFICATION && (task.notification.newState !== task.notification.oldState)">{{ 'Workflows.Operations.Messages.NotificationStateChangeTitle' | translate }} [{{ getLabelByType(task.type) }} = {{ task.description }}]</h6>
+                        <h6 ng-if="task.status === WORKFLOWS_STATUSES.NOTIFICATION && (task.notification.newState === task.notification.oldState)">{{ 'Workflows.Operations.Messages.NotificationUpdateTitle' | translate }} [{{ getLabelByType(task.type) }} = {{ task.description }}]</h6>
+                    </div> <!-- /.feed-subject -->
+
+                    <div class="feed-content">
+                        <ul class="icons-list">
+                            <li>
+                                <i class="icon-li fa fa-quote-left"></i>
+                                {{ task.note }}
+                                <span ng-if="task.response === 'REJECT'">
+                                    <br/>{{ 'Workflows.Operations.Messages.RejectReason' | translate }}: {{ task.message ? task.message : 'N/A' }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div> <!-- /.feed-content -->
+
+                    <div class="feed-actions">
+                        <a href="javascript:;" ng-click="showDetail(task.type, task.id)" class="pull-left"
+                           ng-if="task.status !== WORKFLOWS_STATUSES.NOTIFICATION"
+                           title="{{ 'CommonLabels.Review' | translate }}">
+                            <i class="fa fa-check-square-o"></i> {{ 'CommonLabels.Review' | translate }}</a>
+
+                        <a href="javascript:;" ng-click="deleteTask(task)" class="pull-left"
+                           ng-if="task.status === WORKFLOWS_STATUSES.PENDING"
+                           title="{{ 'CommonLabels.Remove' | translate }}">
+                            <i class="fa fa-remove text-danger"></i> {{ 'CommonLabels.Remove' | translate }}</a>
+
+                        <!-- Resend buttons -->
+                        <span>
+                            <span>
+                                <!-- Service create -->
+                                <a ui-sref="partner-info.services.resendcreatetask ({ id: task.serviceId })" class="pull-left"
+                                   ng-if="task.type === 'SERVICE' && AuthorizationService.canPrmServiceCreate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- Service update -->
+                                <a ui-sref="partner-info.services.resendupdatetask ({ id: task.serviceId })" class="pull-left"
+                                   ng-if="task.type === 'SERVICE' && AuthorizationService.canPrmServiceUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- Offer create -->
+                                <a ui-sref="partner-info.offers.resendcreatetask ({ id: task.offerId })" class="pull-left"
+                                   ng-if="task.type === 'OFFER' && AuthorizationService.canPrmOfferCreate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- Offer update -->
+                                <a ui-sref="partner-info.offers.resendupdatetask ({ id: task.offerId })" class="pull-left"
+                                   ng-if="task.type === 'OFFER' && AuthorizationService.canPrmOfferUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- Partner update -->
+                                <a ui-sref="partner-profile-resendupdatetask ({ id: task.partnerId })" class="pull-left"
+                                   ng-if="task.type === 'PARTNER' && AuthorizationService.canPrmProfileUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- ContentMetadata create -->
+                                <a ui-sref="partner-info.contentmetadatas.resendcreatetask ({ id: task.contentMetadataId })" class="pull-left"
+                                   ng-if="task.type === 'CONTENT_METADATA' && AuthorizationService.canPrmContentCreate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- ContentMetadata update -->
+                                <a ui-sref="partner-info.contentmetadatas.resendupdatetask ({ id: task.contentMetadataId })" class="pull-left"
+                                   ng-if="task.type === 'CONTENT_METADATA' && AuthorizationService.canPrmContentUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- RBT Category create -->
+                                <a ui-sref="partner-info.operations.rbt.contentcategories.resendcreatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_CATEGORY' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- RBT Category update -->
+                                <a ui-sref="partner-info.operations.rbt.contentcategories.resendupdatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_CATEGORY' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- Mood create -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.moods.resendcreatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_MOOD' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- Mood update -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.moods.resendupdatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_MOOD' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- Tone create -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.tones.resendcreatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_TONE' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- Tone update -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.tones.resendupdatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_TONE' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- Artist create -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.artists.resendcreatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_ARTIST' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- Artist update -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.artists.resendupdatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_ARTIST' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+
+                            <span>
+                                <!-- Album create -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.albums.resendcreatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_ALBUM' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && !task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+
+                                <!-- Album update -->
+                                <a ui-sref="partner-info.operations.rbt.contentmetadatas.albums.resendupdatetask ({ id: task.rbtContentId })" class="pull-left"
+                                   ng-if="task.type === 'RBT_ALBUM' && AuthorizationService.canRBTCategoryUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'REJECT' && task.objectDetail.id"
+                                   title="{{ 'CommonLabels.Resend' | translate }}">
+                                    <i class="fa fa-edit"></i> {{ 'CommonLabels.Resend' | translate }}</a>
+                            </span>
+                        </span>
+
+                        <span class="pull-right" ng-if="!task.updateDate"><a href="javascript:;"><i class="fa fa-clock-o"></i> {{ task.createDate | DateTimeFilter:'YYYY-MM-DD HH:mm:ss' }}</a></span>
+                        <span class="pull-right" ng-if="task.updateDate"><a href="javascript:;"><i class="fa fa-clock-o"></i> {{ task.updateDate | DateTimeFilter:'YYYY-MM-DD HH:mm:ss' }}</a></span>
+                    </div> <!-- /.feed-actions -->
+
+                </div> <!-- /.feed-item -->
+            </div> <!-- /.feed-item -->
+
+            <div ng-if="tasks.length === 0">
+                <h5 class="text-center" style="margin-top: .65em;">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

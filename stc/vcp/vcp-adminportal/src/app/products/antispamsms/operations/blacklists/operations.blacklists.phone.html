@@ -1,0 +1,96 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.PageHeader' | translate }}
+    </h4>
+</div>
+
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="extension"  class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.Extension' | translate }}</label>
+        <div class="col-md-7">
+            <input id="extension" name="extension" type="text" class="form-control"
+                   ng-model="entry.extension"
+                   ng-change="normalizeArabicDigits(entry.extension, 'extension')"
+                   placeholder="{{ 'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.PhoneNumberPlaceholder' | translate }}"
+                   ng-required="true" ng-maxlength="50" maxlength="50"/>
+            <ul ng-class="{ 'parsley-error-list': form.extension.$dirty && form.extension.$invalid }" ng-show="form.extension.$dirty && form.extension.$invalid">
+                <li class="required" ng-show="form.extension.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                <li class="required" ng-show="form.extension.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="!entry.extension  || !AuthorizationService.canAntispamBlackListsRead()"
+                    ng-click="search(entry.extension);">
+                {{ 'CommonLabels.Search' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<div ng-show="populatedResults">
+    <div class="portlet-body buttons-portlet-body">
+        <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-5">
+                <div class="pull-left">
+                    <button class="btn btn-secondary btn-sm" ui-sref="{{ newState }}"
+                            ng-disabled="!AuthorizationService.canAntispamBlackListsCreate()">
+                        <i class="fa fa-plus"></i>
+                        {{ 'CommonLabels.AddNewEntry' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div class="pull-right">
+                    <div class="btn-group" ng-show="blacklists.tableParams.total() > 0">
+                        <button type="button" ng-click="csv.download('PhoneNumberBlackLists', blacklists.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                        <button type="button" ng-click="xls.download('PhoneNumberBlackLists', blacklists.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <form class="mainnav-form">
+                    <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                           ng-model="filterText" ng-change="filterTable(filterText, ['number', 'description', 'replacementUrl'])"
+                           placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                    <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table ng-table="blacklists.tableParams" class="table table-striped table-bordered"
+                           template-pagination="ngTableCustomPager.html"
+                           export-csv="csv" export-xls="xls"
+                           export-options="exportOptions">
+                        <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                            <td align="center" data-title="'Products.AntiSpamSMS.Operations.BlackLists.PhoneNumberBlackLists.TableColumns.PhoneNumber' | translate" sortable="'number'">{{data.number}}</td>
+                            <td align="center" data-title="'CommonLabels.Actions' | translate">
+
+                                <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="!AuthorizationService.canAntispamBlackListsDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="2" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

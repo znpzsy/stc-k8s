@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.OTP.Troubleshooting.OTPMessageDeliveryReport.PageHeader' | translate:{ origAddress: edrRecord.origAddress, origAgent: edrRecord.origAgentName } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 200px;">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.OTP.Troubleshooting.MessageDeliveryReport.Date' | translate }}</td>
+                        <td class="kv-value">{{ deliveryReport.date | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.OTP.Troubleshooting.MessageDeliveryReport.MessageState' | translate }}</td>
+                        <td class="kv-value">{{ deliveryReport.messageState | MessagingGwSMSDeliveryReportFilter }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

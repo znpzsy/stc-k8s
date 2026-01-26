@@ -1,0 +1,360 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Albums.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.albumTask.objectDetail.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Albums.Id' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.id}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.serviceProviderName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.status}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.launchDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.expireDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SubscriptionEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.albumTask.objectDetail.subscriptionEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.albumTask.objectDetail.subscriptionEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.albumTask.objectDetail.subscriptionEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.albumTask.objectDetail.subscriptionEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Promoted' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.albumTask.objectDetail.promoted?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.albumTask.objectDetail.promoted">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.albumTask.objectDetail.promoted?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.albumTask.objectDetail.promoted">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.CategoryInfo.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleEn' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.nameEn}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                              ng-value="task.albumTask.objectDetail.descriptionEn"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleAr' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.nameAr}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                              ng-value="task.albumTask.objectDetail.descriptionAr"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.SearchKeywords' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple tagging tagging-label="false" theme="bootstrap" allow-clear="false" append-to-body="true"
+                               ng-model="task.albumTask.objectDetail.tags"
+                               title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                               ng-disabled="true">
+                        <ui-select-match>
+                            {{ $item }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="searchKeywordItem as searchKeywordItem in (searchKeyword | filter: $select.search)">
+                            {{ searchKeywordItem }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.CoverImage' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.albumTask.objectDetail.coverImageBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.albumTask.objectDetail.coverImageName }}"
+                       href="{{ task.albumTask.objectDetail.coverImageBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.albumTask.objectDetail.coverImageBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.albumTask.objectDetail.coverImageBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.CardImage' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.albumTask.objectDetail.cardImageBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.albumTask.objectDetail.cardImageName }}"
+                       href="{{ task.albumTask.objectDetail.cardImageBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.albumTask.objectDetail.cardImageBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.albumTask.objectDetail.cardImageBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Thumbnail' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.albumTask.objectDetail.thumbnailBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.albumTask.objectDetail.thumbnailName }}"
+                       href="{{ task.albumTask.objectDetail.thumbnailBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.albumTask.objectDetail.thumbnailBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.albumTask.objectDetail.thumbnailBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentTemplate.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Albums.Categories' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple theme="bootstrap" allow-clear="false" append-to-body="true"
+                               ng-model="task.albumTask.objectDetail.categoryIds"
+                               title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                               ng-disabled="true">
+                        <ui-select-match>
+                            {{ $item.name }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="contentCategoryListItem.id as contentCategoryListItem in (contentCategoryList | filter: $select.search)">
+                            {{ contentCategoryListItem.name }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Albums.Moods' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple theme="bootstrap" allow-clear="false" append-to-body="true"
+                               ng-model="task.albumTask.objectDetail.moodIds"
+                               title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                               ng-disabled="true">
+                        <ui-select-match>
+                            {{ $item.name }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="moodListItem.id as moodListItem in (moodList | filter: $select.search)">
+                            {{ moodListItem.name }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div> -->
+            
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Albums.AccessChannels' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple theme="bootstrap" allow-clear="false" append-to-body="true"
+                               ng-model="task.albumTask.objectDetail.accessChannels"
+                               title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                               ng-disabled="true">
+                        <ui-select-match>
+                            {{ $item }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="accessChannelListItem as accessChannelListItem in (CMS_ACCESS_CHANNELS | filter: $select.search)">
+                            {{ accessChannelListItem }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.DefaultTone' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.defaultTone.name}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.chargingPeriodString}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.price}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.SubscriptionCode' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.subscriptionCode}}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.RevSharePolicy' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.revSharePolicy}}</div>
+                </div>
+            </div>
+
+            <div ng-if="task.albumTask.objectDetail.chargingDetails.revSharePolicy === 'COMPLEX'">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.OperatorDeductionType' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.revShare.operatorDeductionType}}</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="task.albumTask.objectDetail.chargingDetails.revShare.operatorDeductionType === 'FIXED'">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.OperatorDeductionType' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.revShare.operatorDeduction}}</div>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="task.albumTask.objectDetail.chargingDetails.revShare.operatorDeductionType === 'PERCENTAGE'">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.OperatorDeductionPercentage' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.revShare.operatorDeduction}}</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.RevenueSplitAcrossTones' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.revShare.type}}</div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="task.albumTask.objectDetail.chargingDetails.revShare.operatorDeductionType === 'NONE' &&
+                                               task.albumTask.objectDetail.chargingDetails.revShare.type === 'PERCENTAGES'">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.RevenueShareDetails.OperatorShare' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.albumTask.objectDetail.chargingDetails.revShare.operatorShare}}</div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-success"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="rejectTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskReject()">
+                    {{ 'CommonLabels.Reject' | translate }}
+                </button>
+                <!--<button type="submit" ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.albums.update ({ id: task.albumTask.objectDetail.id })" class="btn btn-secondary"
+                        ng-if="AuthorizationService.canRBTOperationsAlbumRead() && AuthorizationService.canRBTOperationsAlbumUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.albumTask.objectDetail.id">
+                    {{ 'CommonLabels.Update' | translate }}
+                </button>-->
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

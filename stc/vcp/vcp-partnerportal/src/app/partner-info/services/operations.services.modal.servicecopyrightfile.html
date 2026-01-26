@@ -1,0 +1,123 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.Services.ServiceCopyrightFileProfile.ModalTitle' | translate:{name: service.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="copyrightFile" class="col-md-3">{{ 'PartnerInfo.Services.ServiceCopyrightFileProfile.FileID' | translate }}</label>
+                    <div class="col-md-7" ng-if="!serviceCopyrightFileProfile.copyrightFile.name">
+                        <!-- Select button -->
+                        <button name="copyrightFile" type="file" class="btn btn-sm btn-block btn-default"
+                                ngf-select
+                                ng-model="serviceCopyrightFileProfile.copyrightFile"
+                                ng-init="serviceCopyrightFileProfile.copyrightFile ? serviceCopyrightFileProfile.copyrightFile.name = serviceCopyrightFileProfile.copyrightFile.$ngfName : null"
+                                ngf-accept="'.txt,.pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.odt,.ott'"
+                                ngf-max-size="20MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorFile"
+                                ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                            {{ ((serviceCopyrightFileProfile.copyrightFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                        <ul ng-class="{ 'parsley-error-list': form.copyrightFile.$dirty && form.copyrightFile.$invalid }"
+                            ng-show="form.copyrightFile.$dirty && form.copyrightFile.$invalid">
+                            <li class="required" ng-show="form.copyrightFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.copyrightFile.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7" ng-if="serviceCopyrightFileProfile.copyrightFile.name && (service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                        <!-- Remove button with the selected file name -->
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 245px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{serviceCopyrightFileProfile.copyrightFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ serviceCopyrightFileProfile.copyrightFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="serviceCopyrightFileProfile.copyrightFile = null;"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="serviceCopyrightFileProfile.copyrightFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ serviceCopyrightFileProfile.copyrightFile.name }}"
+                           href="{{ serviceCopyrightFileProfile.copyrightFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="validFrom" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+                    <div class="col-md-5">
+                        <p class="input-group datepicker-field">
+                            <input id="validFrom" name="validFrom" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="serviceCopyrightFileProfile.ValidFrom"
+                                   is-open="validFromPicker.opened"
+                                   ng-required="true"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openValidFromPicker($event)"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <ul ng-class="{ 'parsley-error-list': form.validFrom.$dirty && form.validFrom.$invalid }" ng-show="form.validFrom.$dirty && form.validFrom.$invalid">
+                                <li class="required" ng-show="form.validFrom.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.validFrom.$error.date">{{'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="validTo" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+                    <div class="col-md-5">
+                        <p class="input-group datepicker-field">
+                            <input id="validTo" name="validTo" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="serviceCopyrightFileProfile.ValidTo"
+                                   is-open="validToPicker.opened"
+                                   ng-required="true"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openValidToPicker($event)"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <ul ng-class="{ 'parsley-error-list': form.validTo.$dirty && form.validTo.$invalid }" ng-show="form.validTo.$dirty && form.validTo.$invalid">
+                                <li class="required" ng-show="form.validTo.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.validTo.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || (service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate()) || isNotChanged()"
+                                ng-click="save(serviceCopyrightFileProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

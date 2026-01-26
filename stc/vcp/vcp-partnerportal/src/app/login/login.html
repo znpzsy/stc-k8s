@@ -1,0 +1,98 @@
+<div class="account-wrapper login-main-wrapper">
+
+    <div class="account-body">
+
+        <h3>{{ 'Login.Texts.Welcome' | translate }}</h3>
+
+        <h5>{{ 'Login.Texts.PleaseSignin' | translate }}</h5>
+
+        <form id="loginForm" name="loginForm" ng-submit="login(user)"
+              method="post" class="form account-form parsley-form" novalidate form-autofill-fix autocomplete="off">
+
+            <div class="form-group">
+                <label for="username" class="placeholder-hidden">{{ 'Login.Form.Username.Label' | translate }}</label>
+                <input id="username" name="username" type="text" class="form-control" autocomplete="off"
+                       style="margin-bottom: 0;"
+                       ng-model="user.username"
+                       ng-required="true" required
+                       ng-maxlength="100" maxlength="100"
+                       placeholder="{{ 'Login.Form.Username.Label' | translate }}" tabindex="1"/>
+                <ul ng-class="{ 'parsley-error-list': loginForm.username.$dirty && loginForm.username.$invalid }"
+                    ng-show="loginForm.username.$dirty && loginForm.username.$invalid">
+                    <li class="required" ng-show="loginForm.username.$error.required">{{ 'Login.Form.Username.Messages.Required' | translate }}</li>
+                    <li class="required" ng-show="loginForm.username.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="placeholder-hidden">{{ 'Login.Form.Password.Label' | translate }}</label>
+                <input id="password" name="password" type="password" class="form-control" autocomplete="current-password"
+                       style="margin-bottom: 0;"
+                       ng-model="user.password"
+                       ng-required="true" required
+                       ng-maxlength="100" maxlength="100"
+                       placeholder="{{ 'Login.Form.Password.Label' | translate }}" tabindex="2"/>
+                <ul ng-class="{ 'parsley-error-list': loginForm.password.$dirty && loginForm.password.$invalid }"
+                    ng-show="loginForm.password.$dirty && loginForm.password.$invalid">
+                    <li class="required" ng-show="loginForm.password.$error.required">{{ 'Login.Form.Password.Messages.Required' | translate }}</li>
+                    <li class="required" ng-show="loginForm.password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+
+            <div class="form-group clearfix">
+                <div class="pull-left" ng-if="false">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" class="" value="" tabindex="3"> <small>Remember me</small>
+                    </label>
+                </div>
+
+                <div class="pull-right">
+                    <small>
+                        <a ui-sref="forgotpassword">Forgot Password?</a>
+                    </small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <small>{{ 'Login.Form.Captcha.Placeholder' | translate }}</small>
+                <div class="input-group">
+                    <input id="captcha" name="captcha" type="text" class="form-control"
+                           style="margin-bottom: 0;width: 150px;height: 55px;"
+                           ng-model="user.captcha"
+                           ng-required="true"
+                           tabindex="3"/>
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" style="padding: 0;cursor: default;" ng-click="$event.preventDefault();">
+                            <img ng-src="{{captcha.url}}" style="height: 53px;"/>
+                        </a>
+                        <button class="btn btn-default" type="button" style="height: 55px;"
+                                ng-click="refreshCaptcha($event);"
+                                ng-disabled="!captcha.enableRefresh">
+                            <i class="fa fa-refresh" ng-class="{'fa-spin': !captcha.enableRefresh}"></i>
+                        </button>
+                    </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': loginForm.captcha.$dirty && loginForm.captcha.$invalid }"
+                    ng-show="loginForm.captcha.$dirty && loginForm.captcha.$invalid">
+                    <li class="required" ng-show="loginForm.captcha.$error.required">{{
+                        'Login.Form.Captcha.Messages.Required' | translate }}
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block btn-lg" tabindex="4">
+                    {{ 'CommonLabels.Signin' | translate }} &nbsp;<i class="fa fa-play-circle"></i>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="account-footer">
+        <p>
+        </p>
+    </div>
+
+</div>

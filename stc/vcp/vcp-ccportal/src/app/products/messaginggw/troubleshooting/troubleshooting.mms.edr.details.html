@@ -1,0 +1,97 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.MessagingGw.Troubleshooting.Details.PageHeader' | translate:{ pageKey: 'MMS', origAddress: edrRecord.origAddress, destAddress: edrRecord.destAddress } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 350px;">
+        <div class="row">
+            <!-- Common -->
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.CspTrxId' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cspTrxId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.MessageSize' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.messageSize }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.MessageClass' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.messageClass }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.Subject' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.subject }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.StatusCode' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.statusCode }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.StatusText' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.statusText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.DrRequested' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.drRequested | requestedFilter }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.CdrKey' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.cdrKey }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Orig -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.OrigAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.OrigAgentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAgentTypeText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.OrigAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.origAgentName }} [{{ edrRecord.origAgentId }}]&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Dest -->
+            <div class="col-md-6 col-sm-6">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.DestAddress' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAddress }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.DestAgentType' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAgentTypeText }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Products.MessagingGw.Troubleshooting.TableColumns.DestAgent' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.destAgentName }} [{{ edrRecord.destAgentId }}]&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

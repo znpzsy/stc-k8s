@@ -1,0 +1,22 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.mmsc.activity-history') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="products.mmsc.activity-history">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting.Header' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

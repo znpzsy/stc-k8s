@@ -1,0 +1,41 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('products.mmsc.dashboards') }">
+                <a ui-sref="products.mmsc.dashboards">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.mmsc.operations') }" ng-if="AuthorizationService.canRead()">
+                <a ui-sref="products.mmsc.operations.applications.mm7">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.mmsc.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="products.mmsc.configuration.relayserver">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('products.mmsc.troubleshooting') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="products.mmsc.troubleshooting.edr.view">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

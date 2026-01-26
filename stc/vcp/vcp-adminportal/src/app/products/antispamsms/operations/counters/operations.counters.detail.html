@@ -1,0 +1,197 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.Counters.PageHeader' | translate }} / {{ pageHeaderKey | translate }} / {{ pageHeaderTypeKey | translate }} [{{ pageHeaderDirectionKey | translate }}]
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.Name' | translate }}
+                <span class="fa fa-question-circle" ng-if="!entry.id"
+                      uib-popover="{{ 'Products.AntiSpamSMS.Common.CannotContainSpaces' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                      style="margin-left: 6px; cursor: pointer;">
+                </span>
+            </label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" ng-model="entry.name"
+                       space-to-underscore
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="entry.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-7">
+                <select name="state" class="form-control parsley-validated" ng-model="entry.state"
+                        ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                        ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.RangePolicy' | translate }}</label>
+            <div class="col-md-7">
+                <select name="rangePolicy" class="form-control parsley-validated" ng-model="entry.rangePolicy"
+                        ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                        ng-options="opt.value as opt.label for opt in SMS_ANTISPAM_RANGE_POLICIES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.ReputationLoss' | translate }}</label>
+            <div class="col-md-7">
+                <input name="reputationLoss" type="number" class="form-control" ng-model="entry.reputationLoss"
+                       ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                       ng-required="true" min="0" max="100"/>
+                <ul ng-class="{ 'parsley-error-list': form.reputationLoss.$dirty && form.reputationLoss.$invalid }" ng-show="form.reputationLoss.$dirty && form.reputationLoss.$invalid">
+                    <li class="required" ng-show="form.reputationLoss.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.reputationLoss.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.reputationLoss.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.reputationLoss.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div ng-if="(type === 'CONTENT_SENSITIVE_SINGLE_RECIPIENT' || type === 'CONTENT_SENSITIVE_MULTIPLE_RECIPIENT')">
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.SimilarityAlgorithm' | translate }}</label>
+                <div class="col-md-7">
+                    <select name="similarityAlgorithm" class="form-control parsley-validated" ng-model="entry.similarityAlgorithm"
+                            ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                            ng-options="opt.value as opt.label for opt in SMS_ANTISPAM_SIMILARITY_ALGORITHMS">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.NilsimsaSimilarityRatio' | translate }}</label>
+                <div class="col-md-7">
+                    <input name="nilsimsaSimilarityRatio" type="number" class="form-control" ng-model="entry.nilsimsaSimilarityRatio"
+                           ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                           ng-required="true" min="0" max="100"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nilsimsaSimilarityRatio.$dirty && form.nilsimsaSimilarityRatio.$invalid }" ng-show="form.nilsimsaSimilarityRatio.$dirty && form.nilsimsaSimilarityRatio.$invalid">
+                        <li class="required" ng-show="form.nilsimsaSimilarityRatio.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.nilsimsaSimilarityRatio.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                        <li class="required" ng-show="form.nilsimsaSimilarityRatio.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nilsimsaSimilarityRatio.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.NilsimsaMinSmsLength' | translate }}</label>
+                <div class="col-md-7">
+                    <input name="nilsimsaMinSmsLength" type="number" class="form-control" ng-model="entry.nilsimsaMinSmsLength"
+                           ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                           ng-required="true" min="8" max="160"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nilsimsaMinSmsLength.$dirty && form.nilsimsaMinSmsLength.$invalid }" ng-show="form.nilsimsaMinSmsLength.$dirty && form.nilsimsaMinSmsLength.$invalid">
+                        <li class="required" ng-show="form.nilsimsaMinSmsLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 8} }}</li>
+                        <li class="required" ng-show="form.nilsimsaMinSmsLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 160} }}</li>
+                        <li class="required" ng-show="form.nilsimsaMinSmsLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nilsimsaMinSmsLength.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.MonitoringDuration' | translate }}</label>
+            <div class="col-md-7">
+                <input name="monitoringDuration" type="number" class="form-control" ng-model="entry.monitoringDuration"
+                       ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                       ng-required="true" min="5" max="2592000"/>
+                <ul ng-class="{ 'parsley-error-list': form.monitoringDuration.$dirty && form.monitoringDuration.$invalid }" ng-show="form.monitoringDuration.$dirty && form.monitoringDuration.$invalid">
+                    <li class="required" ng-show="form.monitoringDuration.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 5} }}</li>
+                    <li class="required" ng-show="form.monitoringDuration.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 2592000} }}</li>
+                    <li class="required" ng-show="form.monitoringDuration.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.monitoringDuration.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.MaxNumberOfMessages' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxMessages" type="number" class="form-control" ng-model="entry.maxMessages"
+                       ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                       ng-required="true" min="1" max="999999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxMessages.$dirty && form.maxMessages.$invalid }" ng-show="form.maxMessages.$dirty && form.maxMessages.$invalid">
+                    <li class="required" ng-show="form.maxMessages.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.maxMessages.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                    <li class="required" ng-show="form.maxMessages.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxMessages.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="(type === 'DISTINCT' || type === 'CONTENT_SENSITIVE_MULTIPLE_RECIPIENT')">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.MaxNumberOfDistinctRecipients' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxDistinctReceiver" type="number" class="form-control" ng-model="entry.maxDistinctReceiver"
+                       ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                       ng-required="true" min="1" max="999999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxDistinctReceiver.$dirty && form.maxDistinctReceiver.$invalid }" ng-show="form.maxDistinctReceiver.$dirty && form.maxDistinctReceiver.$invalid">
+                    <li class="required" ng-show="form.maxDistinctReceiver.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.maxDistinctReceiver.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999999} }}</li>
+                    <li class="required" ng-show="form.maxDistinctReceiver.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxDistinctReceiver.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.BlockingDuration' | translate }}</label>
+            <div class="col-md-7">
+                <input name="blockingDuration" type="number" class="form-control" ng-model="entry.blockingDuration"
+                       ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                       ng-required="true" min="0" max="129600"/>
+                <ul ng-class="{ 'parsley-error-list': form.blockingDuration.$dirty && form.blockingDuration.$invalid }" ng-show="form.blockingDuration.$dirty && form.blockingDuration.$invalid">
+                    <li class="required" ng-show="form.blockingDuration.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.blockingDuration.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 129600} }}</li>
+                    <li class="required" ng-show="form.blockingDuration.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.blockingDuration.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Counters.TableColumns.RejectMethod' | translate }}</label>
+            <div class="col-md-7">
+                <select name="rejectMethod" class="form-control parsley-validated"
+                        ng-model="entry.rejectMethod"
+                        ng-options="opt.value as opt.label for opt in SMS_ANTISPAM_REJECT_METHODS_3"
+                        ng-disabled="(entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || isNotChanged() || (entry.id ? !AuthorizationService.canAntispamCountersUpdate() : !AuthorizationService.canAntispamCountersCreate())"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

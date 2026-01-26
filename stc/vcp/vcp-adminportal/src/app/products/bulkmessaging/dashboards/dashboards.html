@@ -1,0 +1,423 @@
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.SMS.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.sms.submitted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.SMS.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.sms.accepted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.SMS.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.sms.delivered | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.SMS.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.sms.failed | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.SMS.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.sms.queued | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.SMS.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.sms.tile6 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.SMS.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="smsOrganizationTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-sms-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.SMS.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="smsUserTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-sms-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.SMS.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="smsMsgErrorData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-sms-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM1.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm1.submitted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM1.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm1.accepted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM1.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm1.delivered | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM1.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm1.failed | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM1.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm1.read | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM1.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm1.downloaded }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.MM1.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mm1OrganizationTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-mm1-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.MM1.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mm1UserTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-mm1-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.MM1.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mm1MsgErrorData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-mm1-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM7.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm7.submitted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM7.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm7.accepted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM7.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm7.delivered | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM7.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm7.failed | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM7.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm7.read | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.MM7.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.mm7.downloaded }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.MM7.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mm7OrganizationTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-mm7-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.MM7.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mm7UserTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-mm7-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.MM7.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mm7MsgErrorData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-mm7-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.IVR.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.ivr.submitted | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.IVR.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.ivr.answered | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.IVR.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.ivr.delivered | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.IVR.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.ivr.failed | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.IVR.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.ivr.queued | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Products.BulkMessaging.Dashboards.IVR.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ tileInfo.ivr.tile6 }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.IVR.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="ivrOrganizationTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-ivr-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.IVR.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="ivrUserTrafficData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-ivr-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Products.BulkMessaging.Dashboards.IVR.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="ivrMsgErrorData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-ivr-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.VM.Configuration.Settings.Title' | translate }} / {{ 'Services.RBT.Configuration.Settings.PrayerTimes.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.PrayerTimes.NotificationStartTime' | translate }}</label>
+            <div class="col-md-4">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker id="notificationStartTime" name="notificationStartTime"
+                         ng-model="serviceProfile.notificationStartTime"
+                         hour-step="1" minute-step="1"
+                         show-meridian="false"
+                         ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"></div>
+                    <ul ng-class="{ 'parsley-error-list': form.notificationStartTime.$dirty && form.notificationStartTime.$invalid }"
+                        ng-show="form.notificationStartTime.$dirty && form.notificationStartTime.$invalid">
+                        <li class="required" ng-show="form.notificationStartTime.$error.time">{{ 'CommonMessages.InvalidTime' | translate }}</li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.PrayerTimes.NotificationEndTime' | translate }}</label>
+            <div class="col-md-4">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker id="notificationEndTime" name="notificationEndTime"
+                         ng-model="serviceProfile.notificationEndTime"
+                         hour-step="1" minute-step="1"
+                         show-meridian="false"
+                         ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"></div>
+                    <ul ng-class="{ 'parsley-error-list': form.notificationEndTime.$dirty && form.notificationEndTime.$invalid }"
+                        ng-show="form.notificationEndTime.$dirty && form.notificationEndTime.$invalid">
+                        <li class="required" ng-show="form.notificationEndTime.$error.time">{{ 'CommonMessages.InvalidTime' | translate }}</li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.PrayerTimes.PrayerTimesServiceStatus' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{serviceProfile.prayerTimesServiceStatus?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"
+                            ng-model="serviceProfile.prayerTimesServiceStatus" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!serviceProfile.prayerTimesServiceStatus?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"
+                            ng-model="serviceProfile.prayerTimesServiceStatus" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="pollInterval" class="col-md-3">{{ 'Services.RBT.Configuration.Settings.PrayerTimes.PollingInterval' | translate }}</label>
+            <div class="col-md-5">
+                <input id="pollInterval" name="pollInterval" type="number" class="form-control"
+                       ng-model="serviceProfile.pollInterval"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="86400" ng-required="true"
+                       ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.pollInterval.$dirty && form.pollInterval.$invalid }"
+                    ng-show="form.pollInterval.$dirty && form.pollInterval.$invalid">
+                    <li class="required" ng-show="form.pollInterval.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.pollInterval.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.pollInterval.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 86400} }}</li>
+                    <li class="required" ng-show="form.pollInterval.$error.number || form.pollInterval.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label for="ptQueryRepeatCount" class="col-md-3">{{ 'Services.RBT.Configuration.Settings.PrayerTimes.QueryRepeatCount' | translate }}</label>
+            <div class="col-md-5">
+                <input id="ptQueryRepeatCount" name="ptQueryRepeatCount" type="number" class="form-control"
+                       ng-model="serviceProfile.ptQueryRepeatCount"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="3" ng-required="true"
+                       ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.ptQueryRepeatCount.$dirty && form.ptQueryRepeatCount.$invalid }"
+                    ng-show="form.ptQueryRepeatCount.$dirty && form.ptQueryRepeatCount.$invalid">
+                    <li class="required" ng-show="form.ptQueryRepeatCount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.ptQueryRepeatCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.ptQueryRepeatCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 3} }}</li>
+                    <li class="required" ng-show="form.ptQueryRepeatCount.$error.number || form.ptQueryRepeatCount.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canRBTServiceConfigurationUpdate() || isNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

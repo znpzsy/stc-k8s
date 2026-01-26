@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.SMSF.Troubleshooting.Detail.PageHeader' | translate:{ mobileno: edrRecord.mobileno, session: edrRecord.sessionType, sessionId: edrRecord.sessionId} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 220px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="portlet portlet-boxed">
+                    <div class="portlet-header">
+                        <h4 class="portlet-title">
+                            {{ 'Products.SMSF.Troubleshooting.Detail.Content' | translate }}
+                        </h4>
+                    </div>
+                    <div class="portlet-body">
+                        <span dir="auto" style="overflow: auto;height: 95px;display: block;" ng-if="edrRecord.detail" ng-bind-html="edrRecord.detail._source.content | NewlineToHtmlNewlineFilter"></span>
+                        <span ng-if="!edrRecord.detail" style="color:red">{{ 'Products.SMSF.Troubleshooting.Detail.ContentNA' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

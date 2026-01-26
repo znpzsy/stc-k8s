@@ -1,0 +1,107 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.USC.Configuration.Gateway.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.Gateway.SmppServerPort' | translate }}</label>
+            <div class="col-md-7">
+                <input id="smppServerPort" name="smppServerPort" type="text" class="form-control" placeholder="18051"
+                       value="{{appGw.smppServerPort}}"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.Gateway.MaxMessageLength' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxMessageLength" id="maxMessageLength" type="number" class="form-control"
+                       ng-model="appGw.maxMessageLength"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxMessageLength.$dirty && form.maxMessageLength.$invalid }"
+                    ng-show="form.maxMessageLength.$dirty && form.maxMessageLength.$invalid">
+                    <li class="required" ng-show="form.maxMessageLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.maxMessageLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.maxMessageLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.Gateway.ExceededMessageSizePolicy' | translate }}</label>
+            <div class="col-md-7">
+                <select class="form-control parsley-validated" ng-model="appGw.exceededMessageSizePolicy"
+                        ng-options="opt for opt in policies" ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.Gateway.MaxConnections' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxConnections" id="maxConnections" type="number" class="form-control"
+                       ng-model="appGw.maxConnections"
+                       ng-min="1" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxConnections.$dirty && form.maxConnections.$invalid }"
+                    ng-show="form.maxConnections.$dirty && form.maxConnections.$invalid">
+                    <li class="required" ng-show="form.maxConnections.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 1 } }}</li>
+                    <li class="required" ng-show="form.maxConnections.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.maxConnections.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.Gateway.BindTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input name="bindTimeout" id="bindTimeout" type="number" class="form-control"
+                       ng-model="appGw.bindTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.bindTimeout.$dirty && form.bindTimeout.$invalid }"
+                    ng-show="form.bindTimeout.$dirty && form.bindTimeout.$invalid">
+                    <li class="required" ng-show="form.bindTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.bindTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.bindTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.Gateway.TcpWriteTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input name="tcpWriteTimeout" id="tcpWriteTimeout" type="number" class="form-control"
+                       ng-model="appGw.tcpWriteTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.tcpWriteTimeout.$dirty && form.tcpWriteTimeout.$invalid }"
+                    ng-show="form.tcpWriteTimeout.$dirty && form.tcpWriteTimeout.$invalid">
+                    <li class="required" ng-show="form.tcpWriteTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.tcpWriteTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.tcpWriteTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isApplicationGatewayNotChanged()" ng-click="save(appGw);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

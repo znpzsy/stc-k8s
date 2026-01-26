@@ -1,0 +1,123 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.Contents.RBT.ContentMetadatas.Tones.CopyrightFile.ModalTitle' | translate:{name: contentMetadata.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="copyrightFile" class="col-md-3">{{ 'PartnerInfo.Contents.RBT.ContentMetadatas.Tones.CopyrightFile.FileID' | translate }}</label>
+                    <div class="col-md-7" ng-if="!copyrightFile.copyrightFile.name">
+                        <!-- Select button -->
+                        <button name="copyrightFile" type="file" class="btn btn-sm btn-block btn-default"
+                                ngf-select
+                                ng-model="copyrightFile.copyrightFile"
+                                ng-init="copyrightFile.copyrightFile ? copyrightFile.copyrightFile.name = copyrightFile.copyrightFile.$ngfName : null"
+                                ngf-accept="'.txt,.pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.odt,.ott'"
+                                ngf-max-size="20MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorFile"
+                                ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTToneCreate())">
+                            {{ ((copyrightFile.copyrightFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                        <ul ng-class="{ 'parsley-error-list': form.copyrightFile.$dirty && form.copyrightFile.$invalid }"
+                            ng-show="form.copyrightFile.$dirty && form.copyrightFile.$invalid">
+                            <li class="required" ng-show="form.copyrightFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.copyrightFile.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7" ng-if="copyrightFile.copyrightFile.name && (contentMetadata.id ? AuthorizationService.canRBTToneUpdate(contentMetadata.status) : AuthorizationService.canRBTToneCreate())">
+                        <!-- Remove button with the selected file name -->
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 245px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{copyrightFile.copyrightFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ copyrightFile.copyrightFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="copyrightFile.copyrightFile = null;"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="copyrightFile.copyrightFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ copyrightFile.copyrightFile.name }}"
+                           href="{{ copyrightFile.copyrightFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+                    <div class="col-md-5">
+                        <p class="input-group datepicker-field">
+                            <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="copyrightFile.startDate"
+                                   is-open="startDatePicker.opened"
+                                   ng-required="true"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTToneCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                        ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTToneCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                            <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.startDate.$error.parse">{{'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+                    <div class="col-md-5">
+                        <p class="input-group datepicker-field">
+                            <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="copyrightFile.endDate"
+                                   is-open="endDatePicker.opened"
+                                   ng-required="true"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTToneCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                        ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTToneCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                            <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.endDate.$error.parse">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || (contentMetadata.id ? !AuthorizationService.canRBTToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTToneCreate()) || isNotChanged()"
+                                ng-click="save(copyrightFile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

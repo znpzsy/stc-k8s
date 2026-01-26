@@ -1,0 +1,6 @@
+{
+  "algorithm": "HS256",
+  "secret": "CEeVSUcB",
+  "tokenExpireTime": 3600000,
+  "refreshTokenNotBeforeTime": 3300000
+}

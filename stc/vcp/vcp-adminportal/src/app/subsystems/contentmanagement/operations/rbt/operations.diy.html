@@ -1,0 +1,24 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.DIY.Navigation' | translate }} ({{ 'Subsystems.ContentManagement.Operations.RBT.DIY.Title' | translate }})
+    </h4>
+</div>
+
+<ul class="nav nav-tabs" ng-if="$state.includes('subsystems.contentmanagement.operations.rbt.diy.list') || $state.includes('subsystems.contentmanagement.operations.rbt.diy.timeline')">
+    <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.operations.rbt.diy.list') }">
+        <a ui-sref="subsystems.contentmanagement.operations.rbt.diy.list" data-toggle="tab">
+            <span class="fa fa-file-text"></span> {{ 'Subsystems.ContentManagement.Operations.RBT.DIY.ListView' | translate }}
+        </a>
+    </li>
+
+    <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.operations.rbt.diy.timeline') }">
+        <a ui-sref="subsystems.contentmanagement.operations.rbt.diy.timeline" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Subsystems.ContentManagement.Operations.RBT.DIY.TimelineView' | translate }}
+        </a>
+    </li>
+</ul>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="row" ui-view>
+    </div>
+</div>

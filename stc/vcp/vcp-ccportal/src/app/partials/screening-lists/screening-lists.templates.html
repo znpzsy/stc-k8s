@@ -1,0 +1,95 @@
+<script type="text/ng-template" id="smListDeleteConfirmationModalContent.html">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                {{ 'CommonLabels.Confirmation' | translate }}
+            </h4>
+        </div>
+
+        <div class="modal-body">
+            <span ng-bind-html="cancelConfirmationMessage"></span>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="yes()">{{ 'CommonLabels.Yes' | translate }}</button>
+            <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="smListAddFormModalContent.html">
+    <div class="modal-content">
+
+        <form id="listItemForm" method="post" enctype="multipart/form-data"
+              name="listItemForm" class="form parsley-form"
+              novalidate>
+
+            <div class="modal-header">
+                <h4 class="modal-title" ng-bind="addFormTitle"></h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="screenableEntryId">
+                        {{ 'ScreeningLists.AddForm.ScreenableEntryId.Label' | translate }}
+                    </label>
+                    <span popover-title="{{ 'CommonLabels.Tooltip' | translate }}"
+                       uib-popover-html="'{{ 'ScreeningLists.AddForm.ScreenableEntryId.Tooltip' | translate }}'"
+                       popover-placement="right" popover-append-to-body="true" popover-trigger="'mouseenter'"
+                       style="position: relative;top: 2px;">
+                        <i class="fa fa-question-circle text-info" style="font-size: 1.5em;"></i>
+                    </span>
+                    <input id="screenableEntryId" name="screenableEntryId" type="text" class="form-control"
+                           ng-model="listItem.screenableEntryId" ng-maxlength="15"
+                           ng-pattern="$root.Validators.ScreeningListValidPhoneNumber" maxlength="15"
+                           ng-required="true"
+                           availablity-check
+                           subscribers-number-check
+                           placeholder="{{ 'ScreeningLists.AddForm.ScreenableEntryId.Placeholder' | translate }}"/>
+                    <ul ng-class="{ 'parsley-error-list': listItemForm.screenableEntryId.$dirty && listItemForm.screenableEntryId.$invalid }"
+                        ng-show="listItemForm.screenableEntryId.$dirty && listItemForm.screenableEntryId.$invalid">
+                        <li class="required" ng-show="listItemForm.screenableEntryId.$error.required">{{
+                            'CommonMessages.RequiredFieldError' | translate }}
+                        </li>
+                        <li class="required" ng-show="listItemForm.screenableEntryId.$error.pattern">{{
+                            'ScreeningLists.AddForm.ScreenableEntryId.Messages.Invalid' | translate }}
+                        </li>
+                        <li class="required" ng-show="listItemForm.screenableEntryId.$error.maxlength">{{
+                            'ScreeningLists.AddForm.ScreenableEntryId.Messages.MaxLength' | translate }}
+                        </li>
+                        <li class="required" ng-show="listItemForm.screenableEntryId.$error.availabilityCheck">{{
+                            'ScreeningLists.AddForm.ScreenableEntryId.Messages.PhoneNumberAvailable' | translate }}
+                        </li>
+                        <li class="required" ng-show="listItemForm.screenableEntryId.$error.subscribersNumberCheck">{{
+                            'ScreeningLists.AddForm.ScreenableEntryId.Messages.SubscribersNumber' | translate }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0px">
+                    <label for="screenableCorrelator">{{ 'ScreeningLists.AddForm.ScreenableCorrelator.Label' | translate
+                        }}</label>
+                    <textarea id="screenableCorrelator" name="screenableCorrelator" type="text" class="form-control"
+                              rows="2"
+                              ng-model="listItem.screenableCorrelator" ng-maxlength="100" maxlength="100">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': listItemForm.screenableCorrelator.$dirty && listItemForm.screenableCorrelator.$invalid }"
+                        ng-show="listItemForm.screenableCorrelator.$dirty && listItemForm.screenableCorrelator.$invalid">
+                        <li class="required" ng-show="listItemForm.screenableCorrelator.$error.maxlength">{{
+                            'ScreeningLists.AddForm.ScreenableCorrelator.Messages.MaxLength' | translate }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" ng-click="save(listItem)"
+                        ng-disabled="listItemForm.$invalid">{{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+            </div>
+
+        </form>
+
+    </div>
+</script>

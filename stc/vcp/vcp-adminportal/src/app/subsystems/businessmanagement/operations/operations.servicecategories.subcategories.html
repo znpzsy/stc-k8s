@@ -1,0 +1,85 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.Title' | translate }} / {{ 'Subsystems.BusinessManagement.Operations.ServiceCategories.SubCategories' | translate:{serviceCategoryName: serviceCategory.Name} }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="subsystems.businessmanagement.operations.servicecategories.subcategories.new"
+                        ng-disabled="!AuthorizationService.canBizOperationsServiceCategoryCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="serviceSubCategoryList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download($state.current.data.exportFileName, serviceSubCategoryList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download($state.current.data.exportFileName, serviceSubCategoryList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['profileId', 'Name', 'Status'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="serviceSubCategoryList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': data.rowSelected }">
+                        <td align="center" data-title="'Subsystems.BusinessManagement.Operations.ServiceCategories.SubCategoryId' | translate" sortable="'profileId'">{{data.profileId}}</td>
+                        <td align="center" data-title="'Subsystems.BusinessManagement.Operations.ServiceCategories.SubCategoryName' | translate" sortable="'Name'">{{data.Name}}</td>
+                        <td align="center" data-title="'CommonLabels.Description' | translate" sortable="'Description'">{{data.Description}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="subsystems.businessmanagement.operations.servicecategories.subcategories.update({ id : data.profileId })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canBizOperationsServiceCategoryUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canBizOperationsServiceCategoryUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canBizOperationsServiceCategoryUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canBizOperationsServiceCategoryDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-footer back-button-layer">
+
+    <div class="row back-button-layer" ng-if="$state.current.data.backState">
+        <div class="col-sm-8">
+            <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+                {{ 'CommonLabels.Back' | translate }}
+            </button>
+        </div>
+    </div>
+
+</div>

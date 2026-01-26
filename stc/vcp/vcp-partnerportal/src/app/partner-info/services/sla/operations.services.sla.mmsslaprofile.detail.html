@@ -1,0 +1,131 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title" active-loading-indicator>
+                {{ 'PartnerInfo.Services.MMSSLAProfile.Title' | translate:{ name: service.name } }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <fieldset id="formFieldset">
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.IsMaxMMSSizeSLAEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.mmsSLAProfile.IsMaxMMSSizeSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.mmsSLAProfile.IsMaxMMSSizeSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.mmsSLAProfile.IsMaxMMSSizeSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.mmsSLAProfile.IsMaxMMSSizeSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.mmsSLAProfile.IsMaxMMSSizeSLAEnabled">
+                    <label for="MaxMMSSize" class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.MaxMMSSize' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="MaxMMSSize" name="MaxMMSSize" type="number" class="form-control"
+                               ng-model="service.mmsSLAProfile.MaxMMSSize"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.mmsSLAProfile.IsMaxMMSSizeSLAEnabled">
+                    <label for="MaxMMSSizeViolationPolicy" class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.MaxMMSSizeViolationPolicy' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="MaxMMSSizeViolationPolicy" name="MaxMMSSizeViolationPolicy" class="form-control"
+                                ng-model="service.mmsSLAProfile.MaxMMSSizeViolationPolicy"
+                                ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                                ng-disabled="true">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.IsMaxRecipientsSLAEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.mmsSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.mmsSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.mmsSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.mmsSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.mmsSLAProfile.IsMaxRecipientsSLAEnabled">
+                    <label for="MaxRecipients" class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.MaxRecipients' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="MaxRecipients" name="MaxRecipients" type="number" class="form-control"
+                               ng-model="service.mmsSLAProfile.MaxRecipients"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.mmsSLAProfile.IsMaxRecipientsSLAEnabled">
+                    <label for="MaxRecipientsViolationPolicy" class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.MaxRecipientsViolationPolicy' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="MaxRecipientsViolationPolicy" name="MaxRecipientsViolationPolicy" class="form-control"
+                                ng-model="service.mmsSLAProfile.MaxRecipientsViolationPolicy"
+                                ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                                ng-disabled="true">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.IsContentTypesSLAEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.mmsSLAProfile.IsContentTypesSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.mmsSLAProfile.IsContentTypesSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.mmsSLAProfile.IsContentTypesSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.mmsSLAProfile.IsContentTypesSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.mmsSLAProfile.IsContentTypesSLAEnabled">
+                    <label for="ContentTypesSLAViolationPolicy" class="col-md-3">{{ 'PartnerInfo.Services.MMSSLAProfile.ContentTypesSLAViolationPolicy' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="ContentTypesSLAViolationPolicy" name="ContentTypesSLAViolationPolicy" class="form-control"
+                                ng-model="service.mmsSLAProfile.ContentTypesSLAViolationPolicy"
+                                ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                                ng-disabled="true">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+        <div class="portlet-footer back-button-layer">
+
+            <div class="row back-button-layer" ng-if="$state.current.data.backState">
+                <div class="col-sm-8">
+                    <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+                        {{ 'CommonLabels.Back' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

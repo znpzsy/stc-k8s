@@ -1,0 +1,22 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ $state.current.data.pageParentHeaderKey | translate }} / {{ $state.current.data.pageHeaderKey | translate }}
+    </h4>
+</div>
+
+<ul class="nav nav-tabs">
+    <li ng-class="{ 'active': $state.includes($state.current.data.onDemandState), 'disabled': !AuthorizationService.canReportOnDemandFor($state.current.data.viewKey) }">
+        <a ng-href="{{ !AuthorizationService.canReportOnDemandFor($state.current.data.viewKey) ? '' : $state.href($state.current.data.onDemandState) }}" data-toggle="tab">
+            <span class="fa fa-file-text-o"></span> {{ 'Subsystems.Reporting.OnDemand' | translate }}
+        </a>
+    </li>
+
+    <li ng-class="{ 'active': $state.includes($state.current.data.scheduleState), 'disabled': !AuthorizationService.canReportScheduledFor($state.current.data.viewKey) }">
+        <a ng-href="{{ !AuthorizationService.canReportScheduledFor($state.current.data.viewKey) ? '' : $state.href($state.current.data.scheduleState) }}" data-toggle="tab">
+            <span class="fa fa-clock-o"></span> {{ 'Subsystems.Reporting.Scheduled' | translate }}
+        </a>
+    </li>
+</ul>
+
+<div class="portlet-body" ui-view>
+</div>

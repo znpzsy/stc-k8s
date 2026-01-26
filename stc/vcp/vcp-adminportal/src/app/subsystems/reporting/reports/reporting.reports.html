@@ -1,0 +1,156 @@
+<div class="col-md-3 col-sm-5">
+	<ul class="nav nav-pills nav-stacked">
+
+		<li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products'), 'disabled': !AuthorizationService.anyViewsAllowedFor(['SMSC','ANTISPAM', 'MMSC', 'USC', 'USSI', 'SMSF', 'BMS','OIVR','CHGW','MSGW']) }">
+			<a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+				<i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu" role="menu" ng-if="AuthorizationService.anyViewsAllowedFor(['SMSC','ANTISPAM', 'MMSC', 'USC', 'USSI', 'SMSF', 'BMS','OIVR','CHGW','MSGW'])">
+
+                <!--SMSC-->
+				<li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.smsc'), 'disabled': !AuthorizationService.viewAllowedFor('SMSC') }">
+					<a ng-href="{{!AuthorizationService.viewAllowedFor('SMSC') ? '' : (AuthorizationService.canReportOnDemandFor('SMSC') ? $state.href('subsystems.reporting.reports.products.smsc.report') : $state.href('subsystems.reporting.reports.products.smsc.schedule'))}}" data-toggle="tab">
+						<i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.SMSC' | translate }}
+					</a>
+				</li>
+                <!--ANTISPAM-->
+				<li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.antispamsms'), 'disabled': !AuthorizationService.viewAllowedFor('ANTISPAM') }">
+					<a ng-href="{{!AuthorizationService.viewAllowedFor('ANTISPAM') ? '' : (AuthorizationService.canReportOnDemandFor('ANTISPAM') ? $state.href('subsystems.reporting.reports.products.antispamsms.report') : $state.href('subsystems.reporting.reports.products.antispamsms.schedule'))}}" data-toggle="tab">
+						<i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.AntiSpamSMS' | translate }}
+					</a>
+				</li>
+                <!--MMSC-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.mmsc'), 'disabled': !AuthorizationService.viewAllowedFor('MMSC') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('MMSC') ? '' : (AuthorizationService.canReportOnDemandFor('MMSC') ? $state.href('subsystems.reporting.reports.products.mmsc.report') : $state.href('subsystems.reporting.reports.products.mmsc.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.MMSC' | translate }}
+                    </a>
+                </li>
+                <!--USC-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.usc'), 'disabled': !AuthorizationService.viewAllowedFor('USC') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('USC') ? '' : (AuthorizationService.canReportOnDemandFor('USC') ? $state.href('subsystems.reporting.reports.products.usc.report') : $state.href('subsystems.reporting.reports.products.usc.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.USC' | translate }}
+                    </a>
+                </li>
+                <!--USSI-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.ussi'), 'disabled': !AuthorizationService.viewAllowedFor('USSI') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('USSI') ? '' : (AuthorizationService.canReportOnDemandFor('USSI') ? $state.href('subsystems.reporting.reports.products.ussi.report') : $state.href('subsystems.reporting.reports.products.ussi.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.USSI' | translate }}
+                    </a>
+                </li>
+                <!--SMSF-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.smsf'), 'disabled': !AuthorizationService.viewAllowedFor('SMSF') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('SMSF') ? '' : (AuthorizationService.canReportOnDemandFor('SMSF') ? $state.href('subsystems.reporting.reports.products.smsf.report') : $state.href('subsystems.reporting.reports.products.smsf.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.SMSF' | translate }}
+                    </a>
+                </li>
+
+				<li class="divider" ng-if="AuthorizationService.anyViewsAllowedFor(['SMSC','ANTISPAM', 'MMSC', 'USC', 'USSI', 'SMSF']) && AuthorizationService.anyViewsAllowedFor(['BMS','OIVR'])"></li>
+
+                <!--BMS-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.bulkmessaging'), 'disabled': !AuthorizationService.viewAllowedFor('BMS') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('BMS') ? '' : (AuthorizationService.canReportOnDemandFor('BMS') ? $state.href('subsystems.reporting.reports.products.bulkmessaging.report') : $state.href('subsystems.reporting.reports.products.bulkmessaging.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.BulkMessaging' | translate }}
+                    </a>
+                </li>
+                <!--OIVR-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.obivr'), 'disabled': !AuthorizationService.viewAllowedFor('OIVR') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('OIVR') ? '' : (AuthorizationService.canReportOnDemandFor('OIVR') ? $state.href('subsystems.reporting.reports.products.obivr.report') : $state.href('subsystems.reporting.reports.products.obivr.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.OBIVR' | translate }}
+                    </a>
+                </li>
+
+				<li class="divider" ng-if="(AuthorizationService.anyViewsAllowedFor(['SMSC','ANTISPAM', 'MMSC', 'USC', 'USSI', 'SMSF']) || AuthorizationService.anyViewsAllowedFor(['BMS','OIVR'])) && AuthorizationService.anyViewsAllowedFor(['CHGW','MSGW'])"></li>
+
+                <!--CHGW-->
+				<li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.charginggw'), 'disabled': !AuthorizationService.viewAllowedFor('CHGW') }">
+					<a ng-href="{{!AuthorizationService.viewAllowedFor('CHGW') ? '' : (AuthorizationService.canReportOnDemandFor('CHGW') ? $state.href('subsystems.reporting.reports.products.charginggw.report') : $state.href('subsystems.reporting.reports.products.charginggw.schedule'))}}" data-toggle="tab">
+						<i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.ChargingGw' | translate }}
+					</a>
+				</li>
+                <!--MSGW-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.products.messaginggw'), 'disabled': !AuthorizationService.viewAllowedFor('MSGW') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('MSGW') ? '' : (AuthorizationService.canReportOnDemandFor('MSGW') ? $state.href('subsystems.reporting.reports.products.messaginggw.report') : $state.href('subsystems.reporting.reports.products.messaginggw.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ProductReports.MessagingGw' | translate }}
+                    </a>
+                </li>
+
+			</ul>
+		</li>
+
+		<li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services'), 'disabled': !AuthorizationService.anyViewsAllowedFor(['CC','MCN', 'CMB', 'VM', 'VSMS', 'RBT']) }">
+			<a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+				<i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu" role="menu" ng-if="AuthorizationService.anyViewsAllowedFor(['CC','MCN', 'CMB', 'VM', 'VSMS', 'RBT'])">
+
+                <!--CC-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services.collectcall'), 'disabled': !AuthorizationService.viewAllowedFor('CC') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('CC') ? '' : (AuthorizationService.canReportOnDemandFor('CC') ? $state.href('subsystems.reporting.reports.services.collectcall.report') : $state.href('subsystems.reporting.reports.services.collectcall.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.CollectCall' | translate }}
+                    </a>
+                </li>
+                <!--MCN-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services.mca'), 'disabled': !AuthorizationService.viewAllowedFor('MCN') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('MCN') ? '' : (AuthorizationService.canReportOnDemandFor('MCN') ? $state.href('subsystems.reporting.reports.services.mca.report') : $state.href('subsystems.reporting.reports.services.mca.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.MCA' | translate }}
+                    </a>
+                </li>
+                <!--CMB-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services.cmb'), 'disabled': !AuthorizationService.viewAllowedFor('CMB') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('CMB') ? '' : (AuthorizationService.canReportOnDemandFor('CMB') ? $state.href('subsystems.reporting.reports.services.cmb.report') : $state.href('subsystems.reporting.reports.services.cmb.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.CMB' | translate }}
+                    </a>
+                </li>
+                <!--VM-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services.voicemail'), 'disabled': !AuthorizationService.viewAllowedFor('VM') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('VM') ? '' : (AuthorizationService.canReportOnDemandFor('VM') ? $state.href('subsystems.reporting.reports.services.voicemail.report') : $state.href('subsystems.reporting.reports.services.voicemail.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.VM' | translate }}
+                    </a>
+                </li>
+                <!--VSMS-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services.voicesms'), 'disabled': !AuthorizationService.viewAllowedFor('VSMS') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('VSMS') ? '' : (AuthorizationService.canReportOnDemandFor('VSMS') ? $state.href('subsystems.reporting.reports.services.voicesms.report') : $state.href('subsystems.reporting.reports.services.voicesms.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.VSMS' | translate }}
+                    </a>
+                </li>
+
+				<li class="divider" ng-if="AuthorizationService.anyViewsAllowedFor(['CC','MCN', 'CMB', 'VM', 'VSMS']) && AuthorizationService.anyViewsAllowedFor(['RBT'])"></li>
+
+                <!--RBT-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.services.rbt'), 'disabled': !AuthorizationService.viewAllowedFor('RBT') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('RBT') ? '' : (AuthorizationService.canReportOnDemandFor('RBT') ? $state.href('subsystems.reporting.reports.services.rbt.report') : $state.href('subsystems.reporting.reports.services.rbt.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.ServiceReports.RBT' | translate }}
+                    </a>
+                </li>
+
+			</ul>
+		</li>
+
+		<li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.reporting.reports.subsystems'), 'disabled': !AuthorizationService.anyViewsAllowedFor(['SSM']) }">
+			<a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+				<i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.SubsystemReports.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu" role="menu" ng-if="AuthorizationService.anyViewsAllowedFor(['SSM'])">
+
+                <!--SSM-->
+                <li ng-class="{ 'active': $state.includes('subsystems.reporting.reports.subsystems.ssm'), 'disabled': !AuthorizationService.viewAllowedFor('SSM') }">
+                    <a ng-href="{{!AuthorizationService.viewAllowedFor('SSM') ? '' : (AuthorizationService.canReportOnDemandFor('SSM') ? $state.href('subsystems.reporting.reports.subsystems.ssm.report') : $state.href('subsystems.reporting.reports.subsystems.ssm.schedule'))}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Reporting.SubsystemReports.SubscriptionManagement' | translate }}
+                    </a>
+                </li>
+
+			</ul>
+		</li>
+
+	</ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+	<div class="tab-content stacked-content">
+		<div class="tab-pane fade active in portlet portlet-default" ui-view>
+
+			<h4>{{ 'Subsystems.Reporting.DashboardDescription' | translate }}</h4>
+
+		</div>
+	</div>
+</div>

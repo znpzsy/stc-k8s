@@ -1,0 +1,79 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.RetryPolicies.PageHeader' | translate }} / {{ headerKey | translate }}{{ additionalHeaderText }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm" ui-sref="{{ newUrl }}"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="policyList.tableParams.total() > 0">
+                    <button type="button" ng-click="exportRecords('csv')" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="exportRecords('xls')" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['preference', 'retryCount', 'retryInterval'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="policyList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center"data-title="'Products.MMSC.Operations.RetryPolicies.TableColumns.Preference' | translate" sortable="'preference'">{{data.preference}}</td>
+                        <td align="center"data-title="'Products.MMSC.Operations.RetryPolicies.TableColumns.RetryCount' | translate" sortable="'retryCount'">{{data.retryCount}}</td>
+                        <td align="center"data-title="'Products.MMSC.Operations.RetryPolicies.TableColumns.Interval' | translate" sortable="'retryInterval'">{{data.retryInterval}}</td>
+                        <td align="center"data-title="'Products.MMSC.Operations.RetryPolicies.TableColumns.RetryIntervalUnit' | translate">SECOND</td>
+                        <td align="center"data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="{{ updateUrl }}"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dt-rt" ng-if="backUrl">
+        <div class="col-sm-8">
+            <button type="reset" class="btn btn-primary" ui-sref="{{ backUrl }}">
+                {{ 'CommonLabels.Back' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

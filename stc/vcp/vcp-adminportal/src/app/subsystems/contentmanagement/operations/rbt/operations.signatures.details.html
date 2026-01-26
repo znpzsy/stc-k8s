@@ -1,0 +1,121 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.Signatures.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+            <div class="form-group" ng-if="signature.id">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Signatures.Id' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="signatureId" name="signatureId" type="text" class="form-control"
+                           ng-value="signature.id"
+                           ng-disabled="true"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="alias" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Signatures.Alias' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="alias" name="alias" type="text" class="form-control"
+                           ng-model="signature.alias"
+                           ng-required="true" ng-maxlength="100" maxlength="100"
+                           ng-disabled="(signature.id ? !AuthorizationService.canRBTOperationsSignatureUpdate(signature.type) : !AuthorizationService.canRBTOperationsSignatureCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.alias.$dirty && form.alias.$invalid }"
+                        ng-show="form.alias.$dirty && form.alias.$invalid">
+                        <li class="required" ng-show="form.alias.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.alias.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="type" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Signatures.Type' | translate }}</label>
+                <div class="col-md-4">
+                    <select id="type" name="type" class="form-control parsley-validated"
+                            ng-model="signature.type"
+                            ng-required="true"
+                            ng-options="type.key as (type.label | translate) for type in CMS_SIGNATURE_TYPES"
+                            ng-disabled="(signature.id ? !AuthorizationService.canRBTOperationsSignatureUpdate(signature.type) : !AuthorizationService.canRBTOperationsSignatureCreate())">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.type.$dirty && form.type.$invalid }"
+                        ng-show="form.type.$dirty && form.type.$invalid">
+                        <li class="required" ng-show="form.type.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <button ng-if="signature.type === 'prayer' && AuthorizationService.canUpdateConfiguration()"
+                        class="btn btn-xs btn-info" ng-click="editPrayerSignature();"
+                        style="align-items: center; margin-top: 5px;"
+                        title="{{ 'CommonLabels.Update' | translate }}">
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label for="key" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Signatures.Key' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="key" name="key" type="text" class="form-control"
+                           ng-model="signature.key"
+                           ng-required="true" ng-maxlength="100" maxlength="100"
+                           ng-disabled="(signature.id ? !AuthorizationService.canRBTOperationsSignatureUpdate(signature.type) : !AuthorizationService.canRBTOperationsSignatureCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.key.$dirty && form.key.$invalid }"
+                        ng-show="form.key.$dirty && form.key.$invalid">
+                        <li class="required" ng-show="form.key.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.key.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                              ng-model="signature.descriptionEn"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(signature.id ? !AuthorizationService.canRBTOperationsSignatureUpdate(signature.type) : !AuthorizationService.canRBTOperationsSignatureCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                        ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                        <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                              ng-model="signature.descriptionAr"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(signature.id ? !AuthorizationService.canRBTOperationsSignatureUpdate(signature.type) : !AuthorizationService.canRBTOperationsSignatureCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                        ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                        <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || (signature.id ? !AuthorizationService.canRBTOperationsSignatureUpdate(signature.type) : !AuthorizationService.canRBTOperationsSignatureCreate()) || isNotChanged()"
+                            ng-click="save(signature);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>

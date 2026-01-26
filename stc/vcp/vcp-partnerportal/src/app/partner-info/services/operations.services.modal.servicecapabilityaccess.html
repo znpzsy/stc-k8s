@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'PartnerInfo.Services.ServiceCapabilityAccessProfile.ModalTitle' | translate:{name: service.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="CapabilityName" class="col-md-3">{{ 'PartnerInfo.Services.ServiceCapabilityAccessProfile.CapabilityName' | translate }}</label>
+                    <div class="col-md-9">
+                        <select id="CapabilityName" name="CapabilityName" class="form-control parsley-validated"
+                                ng-model="serviceCapabilityAccessProfile.CapabilityName"
+                                ng-required="true"
+                                ng-options="serviceCapability.name as serviceCapability.name for serviceCapability in serviceCapabilityList"
+                                ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.CapabilityName.$dirty && form.CapabilityName.$invalid }"
+                            ng-show="form.CapabilityName.$dirty && form.CapabilityName.$invalid">
+                            <li class="required" ng-show="form.CapabilityName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.CapabilityName.$error.availabilityCheck">{{ 'PartnerInfo.Services.ServiceCapabilityAccessProfile.CapabilityIsAlreadyUsed' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || (service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate()) || isNotChanged()"
+                                ng-click="save(serviceCapabilityAccessProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

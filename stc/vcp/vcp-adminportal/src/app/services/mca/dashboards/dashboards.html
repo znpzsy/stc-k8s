@@ -1,0 +1,269 @@
+<!--Mawjood Dashboard (MCA)-->
+<div class="col-md-12" ng-if="dashboardOption === 'Mawjood'">
+    <div class="portlet">
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'Services.MCA.Operations.MessageFormats.MCAShort' | translate }}
+            </h4>
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mca.dailyIncomingCall | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mca.callRate | number:2 }} cps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mca.mcaSmsSuccess | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mca.mcaSmsRate | number:2 }} mps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">RESERVED</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                    <!--<div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.nmSmsSuccess | number }}</h3>
+                    </div>-->
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">RESERVED</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                    <!--<div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.nmSmsRate | number:2 }} mps</h3>
+                    </div>-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.MCA.Dashboards.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mcaRedirectionReasonsData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart1" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.MCA.Dashboards.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mcaNotificationsData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart2" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.MCA.Dashboards.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart3" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Mawjood Extra (MCA Plus) Dashboard-->
+<div class="col-md-12" ng-if="dashboardOption === 'MawjoodExtra'">
+
+    <div class="portlet">
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'Services.MCA.Operations.MessageFormats.MCAPlusShort' | translate }}
+            </h4>
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile1' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.dailyIncomingCall | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile2' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.callRate | number:2 }} cps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile3' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.mcaSmsSuccess | number }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile4' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.mcaSmsRate | number:2 }} mps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile5' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.nmSmsSuccess | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile6' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.nmSmsRate | number:2 }} mps</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile7' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.annSmsSuccess | number }}</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">{{ 'Services.MCA.Dashboards.Tiles.Tile8' | translate }}</p>
+
+                        <h3 class="row-stat-value">{{ mcaPlus.annSmsRate | number:2 }} mps</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="row-stat">
+                        <p class="row-stat-label">RESERVED</p>
+
+                        <h3 class="row-stat-value">TBD</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet">
+        <div class="portlet-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.MCA.Dashboards.Charts.Chart1' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mcaPlusRedirectionReasonsData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart4" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.MCA.Dashboards.Charts.Chart2' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 ng-if="mcaPlusNotificationsData.length === 0" class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart5" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="portlet">
+                        <h4 class="portlet-title">
+                            <u>{{ 'Services.MCA.Dashboards.Charts.Chart3' | translate }}</u>
+                        </h4>
+
+                        <div class="portlet-body">
+                            <h5 class="text-warning">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+                            <div id="pie-chart6" class="chart-holder-250"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

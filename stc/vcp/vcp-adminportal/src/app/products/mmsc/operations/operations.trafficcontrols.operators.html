@@ -1,0 +1,98 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.TrafficControls.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.TrafficControls.PerOperator.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form">
+        <div class="form-group">
+            <label for="selectedOperator" class="col-sm-3 control-label" style="text-align: left;">{{ 'Products.MMSC.Operations.TrafficControls.PerOperator.OperatorName' | translate }}</label>
+            <div class="col-sm-7">
+                <select id="selectedOperator" name="selectedOperator" ng-model="selectedOperator" class="form-control"
+                        ng-change="changeOperator(selectedOperator)"
+                        ng-options="operator as operator.name for operator in operatorList">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal parsley-form" novalidate id="operatorsOptionsForm" name="operatorsOptionsForm" method="post" enctype="multipart/form-data"
+          ng-if="selectedOperator.id">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.IncomingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{operatorsOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="operatorsOptions.incomingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!operatorsOptions.incomingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="operatorsOptions.incomingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="operatorsOptions.incomingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.IncomingTrafficThreshold.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="incomingTrafficThreshold" ng-model="operatorsOptions.incomingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': operatorsOptionsForm.incomingTrafficThreshold.$dirty && operatorsOptionsForm.incomingTrafficThreshold.$invalid }"
+                    ng-show="operatorsOptionsForm.incomingTrafficThreshold.$dirty && operatorsOptionsForm.incomingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="operatorsOptionsForm.incomingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="operatorsOptionsForm.incomingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="operatorsOptionsForm.incomingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.OutgoingTrafficControlEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{operatorsOptions.outgoingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="operatorsOptions.outgoingTrafficControlEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!operatorsOptions.outgoingTrafficControlEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="operatorsOptions.outgoingTrafficControlEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="operatorsOptions.outgoingTrafficControlEnabled">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.TrafficControls.FormFields.OutgoingTrafficThreshold.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" name="outgoingTrafficThreshold" ng-model="operatorsOptions.outgoingTrafficThreshold" class="form-control"
+                       ng-required="true" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': operatorsOptionsForm.outgoingTrafficThreshold.$dirty && operatorsOptionsForm.outgoingTrafficThreshold.$invalid }"
+                    ng-show="operatorsOptionsForm.outgoingTrafficThreshold.$dirty && operatorsOptionsForm.outgoingTrafficThreshold.$invalid">
+                    <li class="required" ng-show="operatorsOptionsForm.outgoingTrafficThreshold.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}
+                    </li>
+                    <li class="required" ng-show="operatorsOptionsForm.outgoingTrafficThreshold.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}
+                    </li>
+                    <li class="required" ng-show="operatorsOptionsForm.outgoingTrafficThreshold.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="operatorsOptionsForm.$invalid || !AuthorizationService.canUpdate() || isConfigurationNotChanged()"
+                        ng-click="save(operatorsOptions);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

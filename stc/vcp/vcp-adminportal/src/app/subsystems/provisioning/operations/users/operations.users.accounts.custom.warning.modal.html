@@ -1,0 +1,19 @@
+
+<div ng-if="modalTitle" class="modal-header">
+    <h4 class="modal-title" ng-bind-html="modalTitle" ng-if="modalTitle"></h4>
+</div>
+<div ng-if="!modalTitle" class="modal-header">
+    <h4 class="modal-title">
+        {{'CommonLabels.ConfirmationModalTitle' | translate}}
+    </h4>
+</div>
+
+<div class="modal-body" ng-bind-html="modalMessage" ng-if="modalMessage"></div>
+<div class="modal-body" ng-if="!modalMessage">
+    {{ 'CommonLabels.ConfirmationRemoveMessage' | translate }}
+</div>
+
+<div class="modal-footer">
+    <button ng-if="!modalOkDisabled" class="btn btn-primary" ng-click="ok()">{{'CommonLabels.OK' | translate}}</button>
+    <button ng-if="!modalCancelDisabled" class="btn btn-default" ng-click="cancel()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>

@@ -1,0 +1,88 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.RetryPolicies.PageHeader' | translate }} / {{ $state.current.data.pageHeaderKey | translate }} / {{ $state.current.data.subPageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RetryPolicies.FormFields.ContextName.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="contextName" class="form-control parsley-validated" ng-model="retryPolicyErrorCode.contextName"
+                        ng-options="opt for opt in RETRY_POLICIES_CONTEXT_NAMES" ng-if="!retryPolicyErrorCode.id"
+                        list-error-code-availability-check>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.contextName.$dirty && form.contextName.$invalid }"
+                    ng-show="form.contextName.$dirty && form.contextName.$invalid">
+                    <li class="required" ng-show="form.contextName.$error.availabilityCheck">{{ 'Products.SMSC.Operations.RetryPolicies.Messages.PolicyErrorCodeAlreadyDefinedError' | translate:{error_code: retryPolicyErrorCode.errorCode, context: retryPolicyErrorCode.contextName} }}</li>
+                </ul>
+                <select name="contextName" class="form-control parsley-validated" ng-model="retryPolicyErrorCode.contextName"
+                        ng-options="opt for opt in RETRY_POLICIES_CONTEXT_NAMES" ng-if="retryPolicyErrorCode.id" ng-disabled="true">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RetryPolicies.FormFields.ErrorCode.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="errorCode" type="number" class="form-control" min="0" max="99999"
+                       ng-model="retryPolicyErrorCode.errorCode"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       ng-required="true"
+                       ng-if="!retryPolicyErrorCode.id"
+                       list-error-code-availability-check/>
+                <ul ng-class="{ 'parsley-error-list': form.errorCode.$dirty && form.errorCode.$invalid }"
+                    ng-show="form.errorCode.$dirty && form.errorCode.$invalid">
+                    <li class="required" ng-show="form.errorCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.errorCode.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.errorCode.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.errorCode.$error.number || form.errorCode.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.errorCode.$error.availabilityCheck">{{ 'Products.SMSC.Operations.RetryPolicies.Messages.PolicyErrorCodeAlreadyDefinedError' | translate:{error_code: retryPolicyErrorCode.errorCode, context: retryPolicyErrorCode.contextName} }}</li>
+                </ul>
+                <input name="errorCode" type="number" class="form-control" ng-model="retryPolicyErrorCode.errorCode" ng-if="retryPolicyErrorCode.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RetryPolicies.FormFields.PolicyName.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="policyName" class="form-control"
+                       ng-model="retryPolicyErrorCode.policyName"
+                       ng-required="true"
+                       ng-maxlength="100" maxlength="100"
+                       ng-if="!retryPolicyErrorCode.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.policyName.$dirty && form.policyName.$invalid }" ng-show="form.policyName.$dirty && form.policyName.$invalid">
+                    <li class="required" ng-show="form.policyName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.policyName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+                <input name="policyName" class="form-control" ng-model="retryPolicyErrorCode.policyName" ng-if="retryPolicyErrorCode.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RetryPolicies.FormFields.ErrorType.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="errorType" class="form-control parsley-validated" ng-model="retryPolicyErrorCode.errorType" ng-options="opt for opt in RETRY_POLICIES_ERROR_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (retryPolicyErrorCode.id && !AuthorizationService.canUpdate()) || isRetryPolicyNotChanged()"
+                        ng-click="save(retryPolicyErrorCode);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

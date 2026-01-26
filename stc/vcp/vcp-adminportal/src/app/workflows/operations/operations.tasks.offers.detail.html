@@ -1,0 +1,647 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.offerTask.objectDetail.id">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Id' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.id}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.Description' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmOfferProfile.Description}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Organization' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.serviceProviderName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Services' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto" ng-if="task.offerTask.objectDetail.services.length > 0">
+                    <div ng-repeat="service in task.offerTask.objectDetail.services">
+                        {{service.name}}
+                    </div>
+                </div>
+                <div ng-if="task.offerTask.objectDetail.services.length === 0">N/A</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmOfferProfile.FirstSubscriptionDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmOfferProfile.LastSubscriptionDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UINameEn' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offeri18nProfiles[0].Name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIDescriptionEn' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                          ng-value="task.offerTask.objectDetail.offeri18nProfiles[0].Description"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISearchKeywordsEn' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offeri18nProfiles[0].SearchKeyword}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISubscriptionDescriptionEn' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="subscriptiondescriptionen" name="subscriptiondescriptionen" class="form-control well well-sm" dir="auto"
+                          ng-value="task.offerTask.objectDetail.offeri18nProfiles[0].SubscriptionDescription"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIUnsubscriptionDescriptionEn' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="unsubscriptiondescriptionen" name="unsubscriptiondescriptionen" class="form-control well well-sm" dir="auto"
+                          ng-value="task.offerTask.objectDetail.offeri18nProfiles[0].UnsubscriptionDescription"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UINameAr' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offeri18nProfiles[1].Name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIDescriptionAr' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="descriptionar" name="descriptionar" class="form-control well well-sm" dir="auto"
+                          ng-value="task.offerTask.objectDetail.offeri18nProfiles[1].Description"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISearchKeywordsAr' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offeri18nProfiles[1].SearchKeyword}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UISubscriptionDescriptionAr' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="subscriptiondescriptionar" name="subscriptiondescriptionar" class="form-control well well-sm" dir="auto"
+                          ng-value="task.offerTask.objectDetail.offeri18nProfiles[1].SubscriptionDescription"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.Offeri18nProfile.UIUnsubscriptionDescriptionAr' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="unsubscriptiondescriptionar" name="unsubscriptiondescriptionar" class="form-control well well-sm" dir="auto"
+                          ng-value="task.offerTask.objectDetail.offeri18nProfiles[1].UnsubscriptionDescription"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <!-- BundleOfferProfile -->
+        <div ng-if="task.offerTask.objectDetail.services && task.offerTask.objectDetail.services.length > 1">
+            <div class="form-group">
+                <label for="BusinessTypeID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.BundleOfferProfile.BusinessTypeID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.bundleOfferProfile.businessType.Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BusinessTypeID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.BundleOfferProfile.SettlementTypeID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.bundleOfferProfile.settlementType.Name}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BusinessTypeID" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.BundleOfferProfile.CategoryID' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.bundleOfferProfile.category.Name}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="task.offerTask.objectDetail.xsmOfferProfile && task.offerTask.objectDetail.xsmOfferProfile.IsRbt">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.CoverImage' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.offerTask.objectDetail.xsmOfferProfile.coverImageBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.offerTask.objectDetail.xsmOfferProfile.coverImageName }}"
+                       href="{{ task.offerTask.objectDetail.xsmOfferProfile.coverImageBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.offerTask.objectDetail.xsmOfferProfile.coverImageBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.offerTask.objectDetail.xsmOfferProfile.coverImageBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.CardImage' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.offerTask.objectDetail.xsmOfferProfile.cardImageBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.offerTask.objectDetail.xsmOfferProfile.cardImageName }}"
+                       href="{{ task.offerTask.objectDetail.xsmOfferProfile.cardImageBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.offerTask.objectDetail.xsmOfferProfile.cardImageBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.offerTask.objectDetail.xsmOfferProfile.cardImageBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.Thumbnail' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.offerTask.objectDetail.xsmOfferProfile.thumbnailBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.offerTask.objectDetail.xsmOfferProfile.thumbnailName }}"
+                       href="{{ task.offerTask.objectDetail.xsmOfferProfile.thumbnailBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.offerTask.objectDetail.xsmOfferProfile.thumbnailBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.offerTask.objectDetail.xsmOfferProfile.thumbnailBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.BundlingEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.offerTask.objectDetail.offerBundlingProfile.BundlingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.offerBundlingProfile.BundlingEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.offerTask.objectDetail.offerBundlingProfile.BundlingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.offerBundlingProfile.BundlingEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+        <div ng-if="task.offerTask.objectDetail.offerBundlingProfile.BundlingEnabled">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.BundlingType' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offerBundlingProfile.BundlingType}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.offerTask.objectDetail.offerBundlingProfile.BundlingType === 'SOFT_BUNDLE'">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.MainOfferList' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select id="MainOfferList" name="MainOfferList" multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="task.offerTask.objectDetail.offerBundlingProfile.MainOfferList"
+                               title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="true">
+                        <ui-select-match>
+                            {{ $item.name }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="mainOfferListItem.id as mainOfferListItem in (mainOfferList | filter: $select.search)">
+                            {{ mainOfferListItem.name }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.offerTask.objectDetail.offerBundlingProfile.BundlingType === 'SOFT_BUNDLE'">
+                <label for="MainOfferEvalPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.MainOfferEvalPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offerBundlingProfile.MainOfferEvalPolicy}}</div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.offerTask.objectDetail.offerBundlingProfile.BundlingType === 'SOFT_BUNDLE' || task.offerTask.objectDetail.offerBundlingProfile.BundlingType === 'HARD_BUNDLE'">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.EligibilityEvalCustomerProfiles' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="task.offerTask.objectDetail.offerBundlingProfile.EligibilityEvalCustomerProfiles"
+                               title="{{ 'CommonLabels.SelectOne' | translate }}"
+                               ng-disabled="true">
+                        <ui-select-match>
+                            {{ $item.Name }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="eligibilityEvalCustomerProfilesItem as eligibilityEvalCustomerProfilesItem in (eligibilityEvalCustomerProfiles | filter: $select.search)">
+                            {{ eligibilityEvalCustomerProfilesItem.Name }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="task.offerTask.objectDetail.offerBundlingProfile.BundlingType === 'SOFT_BUNDLE' || task.offerTask.objectDetail.offerBundlingProfile.BundlingType === 'HARD_BUNDLE'">
+                <label for="EligibilityEvalPolicy" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferBundlingProfile.EligibilityEvalPolicy' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offerBundlingProfile.EligibilityEvalPolicy}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargingPeriod' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.ChargingPeriodString}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MainPrice' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.MainPrice}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargeOn' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.ChargeOn}}</div>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.Handler' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.Handler}}</div>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.InitialChargingPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.InitialChargingPolicy}}</div>
+            </div>
+        </div>
+
+        <!-- TODO - Temporarily hidden -->
+        <div class="form-group" ng-if="false">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.ChargingFailurePolicy' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.ChargingFailurePolicy}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.RetryPeriod' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.RetryPeriodString}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MaxRetryCount' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.MaxRetryCount}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.PartialChargingEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.offerTask.objectDetail.xsmChargingProfile.PartialChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.xsmChargingProfile.PartialChargingEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.offerTask.objectDetail.xsmChargingProfile.PartialChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.xsmChargingProfile.PartialChargingEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="!task.offerTask.objectDetail.xsmChargingProfile.PartialChargingEnabled">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabled' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" class="btn {{task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button type="button" class="btn {{!task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="true"
+                                ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabled">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingPeriod' | translate }}</label>
+                    <div class="col-md-4">
+                        <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.MicroChargingPeriodString}}</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroPrice' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.MicroPrice}}</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabledAtInitialSubscription' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button type="button" class="btn {{task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button type="button" class="btn {{!task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtInitialSubscription">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabledAtRenewals' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button type="button" class="btn {{task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtRenewals?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtRenewals">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button type="button" class="btn {{!task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtRenewals?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtRenewals">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MicroChargingEnabledAtTrialEnd' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button type="button" class="btn {{task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtTrialEnd?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtTrialEnd">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button type="button" class="btn {{!task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtTrialEnd?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-value="task.offerTask.objectDetail.xsmChargingProfile.MicroChargingEnabledAtTrialEnd">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmChargingProfile.MaxMicroChargingEventCount' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmChargingProfile.MaxMicroChargingEventCount}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.NotifySubscriberOnStateChanges' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.offerTask.objectDetail.xsmOfferProfile.NotifySubscriberOnStateChanges?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.xsmOfferProfile.NotifySubscriberOnStateChanges">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.offerTask.objectDetail.xsmOfferProfile.NotifySubscriberOnStateChanges?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.xsmOfferProfile.NotifySubscriberOnStateChanges">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.SubscriptionKeywords' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="task.offerTask.objectDetail.smsPortali18nProfileList.length" class="row col-md-9">
+                    <div ng-repeat="smsPortali18nProfile in task.offerTask.objectDetail.smsPortali18nProfileList">
+                        <span class="label label-default selected-item-label"
+                              uib-tooltip="{{ getSMSPortali18nProfileString(smsPortali18nProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ getSMSPortali18nProfileString(smsPortali18nProfile) }}
+                        </span>&nbsp;
+                    </div>
+                </div>
+                <span ng-if="task.offerTask.objectDetail.smsPortali18nProfileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmOfferProfile.NotificationSenderID' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmOfferProfile.NotificationSenderID}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferEligibilityProfile.PackageEligibility' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.offerEligibilityProfile.PackageEligibility}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.offerTask.objectDetail.offerEligibilityProfile.PackageEligibility === 'Whitelist' || task.offerTask.objectDetail.offerEligibilityProfile.PackageEligibility === 'Blacklist'">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.OfferEligibilityProfile.PackageList' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto" ng-if="task.offerTask.objectDetail.offerEligibilityProfile.PackageList">
+                    <div ng-repeat="package in task.offerTask.objectDetail.offerEligibilityProfile.PackageList.split(';')">
+                        {{package}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.RenewalPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmRenewalProfile.RenewalPolicy}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.offerTask.objectDetail.xsmRenewalProfile.RenewalPolicy !== 'NoRenewal'">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SubscriptionRenewalNotificationProfile.RecurRenewalCount' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.offerTask.objectDetail.subscriptionRenewalNotificationProfile.RecurRenewalCount === 1?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.subscriptionRenewalNotificationProfile.RecurRenewalCount">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{task.offerTask.objectDetail.subscriptionRenewalNotificationProfile.RecurRenewalCount === 0?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.subscriptionRenewalNotificationProfile.RecurRenewalCount">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.offerTask.objectDetail.xsmRenewalProfile.RenewalPolicy === 'AutoWithNotification'">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.NotificationEventDuration' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmOfferProfile.NotificationEventDurationString}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.offerTask.objectDetail.xsmRenewalProfile.RenewalPolicy === 'AutoWithConfirmation'">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.ConfirmationDuration' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmOfferProfile.ConfirmationEventDurationString}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmRenewalProfile.BlacklistedSubscriberPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmRenewalProfile.BlacklistedSubscriberPolicy}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.TryAndBuyEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.offerTask.objectDetail.xsmTrialProfile.TryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.xsmTrialProfile.TryAndBuyEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.offerTask.objectDetail.xsmTrialProfile.TryAndBuyEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.offerTask.objectDetail.xsmTrialProfile.TryAndBuyEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="task.offerTask.objectDetail.xsmTrialProfile.TryAndBuyEnabled">
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.TrialPeriod' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmTrialProfile.TrialPeriodString}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.XsmTrialProfile.NextAllowedTrialUsagePeriod' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.offerTask.objectDetail.xsmTrialProfile.NextAllowedTrialUsagePeriodString}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-success"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="rejectTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskReject()">
+                    {{ 'CommonLabels.Reject' | translate }}
+                </button>
+                <button type="submit" ui-sref="subsystems.subscriptionmanagement.operations.offers.update ({ id: task.offerTask.objectDetail.id })" class="btn btn-secondary"
+                        ng-if="AuthorizationService.canSsmOperationsOfferRead() && AuthorizationService.canSsmOperationsOfferUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.offerTask.objectDetail.id">
+                    {{ 'CommonLabels.Update' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,23 @@
+{{- if .Values.ccportal.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-ccportal-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  replicas: {{ .Values.ccportal.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-ccportal
+  template:
+    metadata:
+      labels:
+        component: vcp-ccportal
+    spec:
+      containers:
+        - name: vcp-ccportal
+          image: "{{ .Values.ccportal.image.repository }}:{{ .Values.ccportal.image.tag }}"
+          imagePullPolicy: {{ .Values.ccportal.image.pullPolicy }}
+          ports:
+            - containerPort: 8081
+  {{- end }}

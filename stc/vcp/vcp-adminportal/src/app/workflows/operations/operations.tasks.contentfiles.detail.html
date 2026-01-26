@@ -1,0 +1,83 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group" ng-if="task.contentFileTask.objectDetail.fileId">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.FileId' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentFileTask.objectDetail.fileId}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentFileTask.contentMetadata.detail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.File' | translate }}</label>
+            <div class="col-md-7">
+                <span ng-if="!task.contentFileTask.objectDetail.FileName">{{ 'CommonLabels.N/A' | translate }}</span>
+                <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: inline-block;"
+                        ng-if="task.contentFileTask.objectDetail.FileName"
+                        uib-tooltip="{{task.contentFileTask.objectDetail.FileName}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                    {{ task.contentFileTask.objectDetail.FileName }}
+                </button>
+                &nbsp;&nbsp;
+                <a class="btn btn-sm btn-success"
+                   ng-if="task.contentFileTask.objectDetail.FileName"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ task.contentFileTask.objectDetail.FileName }}"
+                   href="{{ task.contentFileTask.objectDetail.File | ngfDataUrl }}" target="_blank">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ManageContentFiles.FileType' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentFileTask.objectDetail.fileType}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-success"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="rejectTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskReject()">
+                    {{ 'CommonLabels.Reject' | translate }}
+                </button>
+                <button type="submit" ui-sref="subsystems.contentmanagement.operations.contentmetadatas.contentfiles.update ({ contentMetadataId: task.contentFileTask.objectDetail.contentMetadataId, id: task.contentFileTask.objectDetail.id })" class="btn btn-secondary"
+                        ng-if="AuthorizationService.canCmsOperationsContentFileRead() && AuthorizationService.canCmsOperationsContentFileUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.contentFileTask.objectDetail.id">
+                    {{ 'CommonLabels.Update' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

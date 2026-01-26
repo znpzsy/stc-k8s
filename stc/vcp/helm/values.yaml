@@ -1,0 +1,106 @@
+global:
+  namespace: null
+a3gw:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
+    tag: 1.0.0.1
+    pullPolicy: IfNotPresent
+adminportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
+    tag: 1.0.0.1
+    pullPolicy: IfNotPresent
+partnerportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
+    tag: 1.0.0.1
+    pullPolicy: IfNotPresent
+ccportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
+    tag: 1.0.0.1
+    pullPolicy: IfNotPresent
+httpd:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
+    tag: 1.0.0.1
+    pullPolicy: IfNotPresent
+service:
+  a3gw:
+    name: consolportals-sa-stc-vcp-a3gw-service
+    type: ClusterIP
+    ports:
+    - name: portals
+      port: 8444
+      targetPort: 8444
+    - name: auth
+      port: 8445
+      targetPort: 8445
+    selector:
+      component: vcp-a3gw
+  adminportal:
+    name: consolportals-sa-stc-vcp-adminportal-service
+    type: ClusterIP
+    ports:
+    - port: 8080
+      targetPort: 8080
+    selector:
+      component: vcp-adminportal
+  partnerportal:
+    name: consolportals-sa-stc-vcp-partnerportal-service
+    type: ClusterIP
+    ports:
+    - port: 8082
+      targetPort: 8082
+    selector:
+      component: vcp-partnerportal
+  ccportal:
+    name: consolportals-sa-stc-vcp-ccportal-service
+    type: ClusterIP
+    ports:
+    - port: 8081
+      targetPort: 8081
+    selector:
+      component: vcp-ccportal
+  httpd:
+    name: consolportals-sa-stc-vcp-httpd-service
+    type: ClusterIP
+    ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+    selector:
+      component: vcp-httpd
+ingress:
+  enabled: true
+  className: nginx
+  host: ''
+  a3gwServicePort: 8444
+  rules:
+    mainPaths:
+    - /adminportal
+    - /ccportal
+    - /partnerportal
+    - /conf
+    - /site.json
+    refreshTokenPaths:
+    - /auth
+    cmpfRestPaths:
+    - /cmpf-rest
+    captchaPaths:
+    - /captcha
+    vcpServicesPaths:
+    - /vcp-services

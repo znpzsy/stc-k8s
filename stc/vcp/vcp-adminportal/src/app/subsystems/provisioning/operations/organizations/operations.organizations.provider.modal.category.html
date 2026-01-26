@@ -1,0 +1,98 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.ServiceProviders.ProviderAllowedCategoryProfile.ModalTitle' | translate:{providerName: providerName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal parsley-form ng-pristine ng-invalid ng-invalid-required ng-valid-maxlength" novalidate="" id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <!-- Category Search -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentCategory' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <ui-select id="categoryId" name="categoryId" theme="bootstrap" allow-clear="true"
+                                       ng-model="categoryProfile.category"
+                                       ng-required="true"
+                                       search-enabled="true"
+                                       close-on-select="true" title="{{ 'CommonLabels.SelectOne' | translate }}">
+                                <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="categoryListItem in (contentCategoryList | filter: $select.search) track by categoryListItem.id"
+                                                   ui-disable-choice="categoryListItem.status !== 'ACTIVE'"
+                                                   refresh="searchCategories($select.search)"
+                                                   refresh-delay="0">
+                                    <div ng-bind-html="categoryListItem.name | highlight: $select.search"></div>
+                                    <small>
+                                        Access Channels: {{ categoryListItem.accessChannels | AccessChannelsFilter }}
+                                    </small>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="categoryProfile.category = null; categoryProfile.subCategory = null" class="btn btn-default">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.categoryId.$dirty && form.categoryId.$invalid }"
+                            ng-show="form.categoryId.$dirty && form.categoryId.$invalid">
+                            <li class="required" ng-show="form.categoryId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Subcategory Search -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentSubcategory' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <ui-select id="subcategory" name="subcategory" theme="bootstrap" allow-clear="true"
+                                       ng-model="categoryProfile.subCategory"
+                                       ng-disabled="!categoryProfile.category"
+                                       ng-required="true"
+                                       search-enabled="true"
+                                       close-on-select="true" title="{{ 'CommonLabels.SelectOne' | translate }}">
+                                <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="contentSubcategoryListItem in (contentSubcategoryList | filter: $select.search) track by contentSubcategoryListItem.id"
+                                                   ui-disable-choice="contentSubcategoryListItem.status !== 'ACTIVE' || checkIfAllowed(contentSubcategoryListItem)"
+                                                   refresh="searchSubcategories($select.search, categoryProfile.categoryId)"
+                                                   refresh-delay="0">
+                                    <div ng-bind-html="contentSubcategoryListItem.name | highlight: $select.search"></div>
+                                    <small>
+                                        Access Channels: {{ contentSubcategoryListItem.accessChannels | AccessChannelsFilter }}  {{ checkIfAllowed(contentSubcategoryListItem) ? "- Already Selected":"" }}
+                                    </small>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="categoryProfile.subCategory = null;" class="btn btn-default">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <ul ng-class="{ 'parsley-error-list': form.subcategory.$dirty && form.subcategory.$invalid }"
+                            ng-show="form.subcategory.$dirty && form.subcategory.$invalid">
+                            <li class="required" ng-show="form.subcategory.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || !categoryProfile.subCategory"
+            ng-click="save(categoryProfile)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+
+</div>.

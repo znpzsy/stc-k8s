@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE; IE=9; IE=8; IE=7"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Telenity - VaDigital Services Platform Admin Portal">
+    <meta name="author" content="Telenity">
+
+    <script type="text/javascript">
+        // This method helps to get values of the query string parameters.
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        var blobUrl = getParameterByName('url');
+
+        // File read to be used to read blob content.
+        var fileReader = new window.FileReader();
+        // This event will be triggered after the "readAsText" method has successfully worked.
+        fileReader.addEventListener("loadend", function (e) {
+            // Replace the all document content with the report content.
+            document.write(e.srcElement ? e.srcElement.result : e.target.result);
+            document.close();
+        });
+
+        // Call the blob url with an ajax request to be able to read content of the blob from url.
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', blobUrl, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function (e) {
+            if (this.status == 200 && this.responseType === 'blob') {
+                // When getting the blob response, start the reading process.
+                fileReader.readAsText(this.response);
+            }
+        };
+        xhr.send();
+    </script>
+</head>
+<body>
+</body>
+</html>

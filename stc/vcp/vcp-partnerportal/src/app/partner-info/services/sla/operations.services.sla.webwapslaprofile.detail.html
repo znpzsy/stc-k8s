@@ -1,0 +1,70 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title" active-loading-indicator>
+                {{ 'PartnerInfo.Services.WEBWAPSLAProfile.Title' | translate:{ name: service.name } }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <fieldset id="formFieldset">
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.WEBWAPSLAProfile.IsMaxRecipientsSLAEnabled' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="true"
+                                    ng-model="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled">
+                    <label for="MaxRecipients" class="col-md-3">{{ 'PartnerInfo.Services.WEBWAPSLAProfile.MaxRecipients' | translate }}</label>
+                    <div class="col-md-4">
+                        <input id="MaxRecipients" name="MaxRecipients" type="number" class="form-control"
+                               ng-model="service.webWAPSLAProfile.MaxRecipients"
+                               ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.webWAPSLAProfile.IsMaxRecipientsSLAEnabled">
+                    <label for="MaxRecipientsSLAViolationPolicy" class="col-md-3">{{ 'PartnerInfo.Services.WEBWAPSLAProfile.MaxRecipientsSLAViolationPolicy' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="MaxRecipientsSLAViolationPolicy" name="MaxRecipientsSLAViolationPolicy" class="form-control"
+                                ng-model="service.webWAPSLAProfile.MaxRecipientsSLAViolationPolicy"
+                                ng-options="slaViolationPolicy as slaViolationPolicy for slaViolationPolicy in SERVICE_SLA_VIOLATION_POLICIES"
+                                ng-disabled="true">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+        <div class="portlet-footer back-button-layer">
+
+            <div class="row back-button-layer" ng-if="$state.current.data.backState">
+                <div class="col-sm-8">
+                    <button type="reset" class="btn btn-primary" ui-sref="{{ $state.current.data.backState }}">
+                        {{ 'CommonLabels.Back' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

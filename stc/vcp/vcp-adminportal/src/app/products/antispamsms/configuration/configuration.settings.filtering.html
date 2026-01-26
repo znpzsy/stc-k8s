@@ -1,0 +1,171 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Configuration.Settings.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.FormFields.FilteringEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{filtering.enabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                            ng-disabled="true">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button" class="btn {{!filtering.enabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                            ng-disabled="true">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="filtering.enabled">
+            <label for="policyInEffect" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.PolicyInEffect.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select id="policyInEffect" name="policyInEffect" class="form-control parsley-validated"
+                        ng-model="filtering.policyInEffect"
+                        ng-required="true"
+                        ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                        ng-options="policy for policy in SMS_ANTISPAM_REJECT_METHODS_2">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.policyInEffect.$dirty && form.policyInEffect.$invalid }" ng-show="form.policyInEffect.$dirty && form.policyInEffect.$invalid">
+                    <li class="required" ng-show="form.policyInEffect.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="filtering.enabled">
+            <label for="defaultMOFSMRejectionErrorCode" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.FormFields.DefaultMOFSMRejectionErrorCode.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select id="defaultMOFSMRejectionErrorCode" name="defaultMOFSMRejectionErrorCode" class="form-control parsley-validated"
+                        ng-model="filtering.defaultMOFSMRejectionErrorCode"
+                        ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                        ng-required="true"
+                        ng-options="rejectionErrorCode for rejectionErrorCode in SMS_ANTISPAM_REJECTION_ERROR_CODES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.defaultMOFSMRejectionErrorCode.$dirty && form.defaultMOFSMRejectionErrorCode.$invalid }" ng-show="form.defaultMOFSMRejectionErrorCode.$dirty && form.defaultMOFSMRejectionErrorCode.$invalid">
+                    <li class="required" ng-show="form.defaultMOFSMRejectionErrorCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="filtering.enabled">
+            <label for="defaultMTFSMRejectionErrorCode" class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.FormFields.DefaultMTFSMRejectionErrorCode.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select id="defaultMTFSMRejectionErrorCode" name="defaultMTFSMRejectionErrorCode" class="form-control parsley-validated"
+                        ng-model="filtering.defaultMTFSMRejectionErrorCode"
+                        ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                        ng-required="true"
+                        ng-options="rejectionErrorCode for rejectionErrorCode in SMS_ANTISPAM_REJECTION_ERROR_CODES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.defaultMTFSMRejectionErrorCode.$dirty && form.defaultMTFSMRejectionErrorCode.$invalid }" ng-show="form.defaultMTFSMRejectionErrorCode.$dirty && form.defaultMTFSMRejectionErrorCode.$invalid">
+                    <li class="required" ng-show="form.defaultMTFSMRejectionErrorCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- sub-sections -->
+        <div ng-if="filtering.enabled">
+            <h5 class="portlet-title">{{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.ApplicationMTFiltering.Header' | translate }}</h5>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.FeatureEnabled.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button"
+                                class="btn {{filtering.applicationMTFilteringFeatureEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.applicationMTFilteringFeatureEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                        </button>
+                        <button type="button"
+                                class="btn {{!filtering.applicationMTFilteringFeatureEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.applicationMTFilteringFeatureEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="portlet-title">{{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.InternationalToInboundRoamerFiltering.Header' | translate }}</h5>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.FeatureEnabled.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button"
+                                class="btn {{filtering.internationalToInboundRoamerFilteringFeatureEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.internationalToInboundRoamerFilteringFeatureEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                        </button>
+                        <button type="button"
+                                class="btn {{!filtering.internationalToInboundRoamerFilteringFeatureEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.internationalToInboundRoamerFilteringFeatureEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="portlet-title">{{ 'Products.AntiSpamSMS.Configuration.Settings.Filtering.SRISMFiltering.Header' | translate }}</h5>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.FeatureEnabled.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button"
+                                class="btn {{filtering.srismFilteringFeatureEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.srismFilteringFeatureEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                        </button>
+                        <button type="button"
+                                class="btn {{!filtering.srismFilteringFeatureEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.srismFilteringFeatureEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Products.AntiSpamSMS.Configuration.Settings.CommonFormFields.ReplySRIFSMwithRealMSC.Label' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button"
+                                class="btn {{filtering.replySRIFSMwithRealMSC?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.replySRIFSMwithRealMSC" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}
+                        </button>
+                        <button type="button"
+                                class="btn {{!filtering.replySRIFSMwithRealMSC?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration()"
+                                ng-model="filtering.replySRIFSMwithRealMSC" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save(filtering);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

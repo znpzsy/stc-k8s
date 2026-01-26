@@ -1,0 +1,709 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.Title' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.Management.Title' | translate }}
+    </h4>
+</div>
+
+
+<!--Show Filter / Hide Filter-->
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-7 col-xs-4">
+            <div class="pull-left">
+                <div class="btn btn-secondary btn-sm pull-left"
+                     title="{{ 'CommonMessages.FilterButtonTitle' | translate }}"
+                     ng-model="filterFormLayer.isFilterFormOpen"
+                     ng-init="filterFormLayer.isFilterFormOpen = false"
+                     ng-click="filterFormLayer.isFilterFormOpen = !filterFormLayer.isFilterFormOpen">
+                    <span ng-if="!filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.ShowFilter' | translate }} <i class="fa fa-chevron-circle-right"></i></span>
+                    <span ng-if="filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.HideFilter' | translate }} <i class="fa fa-chevron-circle-down"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 col-xs-8">
+            <div class="pull-right">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Filter Form-->
+<div class="portlet-body">
+    <div class="row">
+        <div hidden-filter-form ng-model="filterFormLayer" class="col-sm-12 filter-form">
+
+            <form id="filterForm" name="filterForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+
+                <div class="portlet portlet-boxed">
+
+                    <div class="portlet-body">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <!--Status Filter-->
+                            <div class="form-group">
+                                <label for="status" class="col-md-4 control-label text-right">{{ 'CommonLabels.State' | translate }}</label>
+                                <div class="col-md-7">
+                                    <select id="status" name="status" class="form-control"
+                                            ng-model="dateFilter.status"
+                                            ng-options="status as status for status in CMS_RBT_STATUS_TYPES">
+                                        <option value="">{{ 'CommonLabels.All' | translate | uppercase}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--Organization Filter-->
+                            <div class="form-group">
+                                <label for="organizationId" class="col-md-4 control-label text-right">{{ 'CommonLabels.Organization' | translate }}</label>
+                                <div class="col-md-7">
+                                    <select id= "organizationId" name="organizationId" class="form-control parsley-validated"
+                                            ng-model="dateFilter.organizationId"
+                                            ng-options="opt.id as opt.name for opt in allOrganizations">
+                                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--Alias Filter-->
+                            <div class="form-group">
+                                <label for="alias" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Alias' | translate }}</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control input-sm" id="alias" name="alias"
+                                           ng-model="dateFilter.alias" placeholder="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.AliasPlaceholder' | translate }}"/>
+                                </div>
+                            </div>
+
+                            <!--Featured Filter-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Promoted' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="btn-group">
+                                        <button class="btn {{dateFilter.promoted === undefined || dateFilter.promoted === null?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.promoted" uib-btn-radio="null">{{ 'CommonLabels.All' | translate | humanizeAndTitleize}}</button>
+                                        <button class="btn {{dateFilter.promoted === true?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.promoted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                        <button class="btn {{dateFilter.promoted === false?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.promoted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Blacklisted Filter-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Blacklisted' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="btn-group">
+                                        <button class="btn {{dateFilter.blacklisted === undefined || dateFilter.blacklisted === null?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.blacklisted" uib-btn-radio="null">{{ 'CommonLabels.All' | translate | humanizeAndTitleize }}</button>
+                                        <button class="btn {{dateFilter.blacklisted === true?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.blacklisted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                        <button class="btn {{dateFilter.blacklisted === false?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.blacklisted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Subscription Filter-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SubscriptionEnabled' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="btn-group">
+                                        <button class="btn {{dateFilter.subscriptionEnabled == undefined || dateFilter.subscriptionEnabled == null?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.subscriptionEnabled" uib-btn-radio="null">{{ 'CommonLabels.All' | translate | humanizeAndTitleize}}</button>
+                                        <button class="btn {{dateFilter.subscriptionEnabled === true?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.subscriptionEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                        <button class="btn {{dateFilter.subscriptionEnabled === false?'btn-primary active':'btn-default'}} btn-sm"
+                                                ng-disabled="false"
+                                                ng-model="dateFilter.subscriptionEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <!-- Category Search -->
+                            <!--<div class="form-group">
+                                <label class="col-md-3 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentCategory' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <ui-select id="categoryId" name="categoryId" theme="bootstrap" allow-clear="true"
+                                                   ng-model="dateFilter.categoryId"
+                                                   search-enabled="true"
+                                                   close-on-select="true" title="{{ 'CommonLabels.SelectOne' | translate }}">
+                                            <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                                <span ng-bind="$select.selected.name"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="categoryListItem.id as categoryListItem in (contentCategoryList | filter: $select.search) track by categoryListItem.id"
+                                                               refresh="searchCategories($select.search)"
+                                                               refresh-delay="0">
+                                                <div ng-bind-html="categoryListItem.name | highlight: $select.search"></div>
+                                                <small>
+                                                    Channels: {{(categoryListItem.accessChannels ? categoryListItem.accessChannels : 'N/A')}}
+                                                </small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <span class="input-group-btn">
+                                        <button type="button" ng-click="dateFilter.categoryId = null;" class="btn btn-default">
+                                            <span class="fa fa-times"></span>
+                                        </button>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <label for="categoryId" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentCategory' | translate }}</label>
+                                <div class="col-md-7">
+                                    <select id="categoryId" name="categoryId" class="form-control parsley-validated"
+                                            ng-model="dateFilter.categoryId"
+                                            ng-options="category.id as (category.name) for category in categoryList">
+                                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Subcategory Search -->
+                            <!--<div class="form-group">
+                                <label class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentSubcategory' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <ui-select id="subcategory" name="subcategory" theme="bootstrap" allow-clear="true"
+                                                   ng-model="dateFilter.subcategory"
+                                                   ng-disabled="!dateFilter.categoryId"
+                                                   search-enabled="true"
+                                                   close-on-select="true" title="{{ 'CommonLabels.SelectOne' | translate }}">
+                                            <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                                <span ng-bind="$select.selected.name"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="contentSubcategoryListItem.id as contentSubcategoryListItem in (contentSubcategoryList | filter: $select.search) track by contentSubcategoryListItem.id"
+                                                               refresh="searchSubcategories($select.search, dateFilter.categoryId)"
+                                                               refresh-delay="0">
+                                                <div ng-bind-html="contentSubcategoryListItem.name | highlight: $select.search"></div>
+                                                <small>
+                                                    Organization: {{(contentSubcategoryListItem.organizationName ? contentSubcategoryListItem.organizationName : 'N/A')}}
+                                                </small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <span class="input-group-btn">
+                                            <button type="button" ng-click="dateFilter.subcategory = null;" class="btn btn-default">
+                                                <span class="fa fa-times"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <label for="subCategoryId" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentSubcategory' | translate }}</label>
+                                <div class="col-md-7">
+                                    <select id="subCategoryId" name="subCategoryId" class="form-control parsley-validated"
+                                            ng-model="dateFilter.subcategory"
+                                            ng-disabled="!dateFilter.categoryId"
+                                            ng-options="subCategory.id as (subCategory.name) for subCategory in subcategoryList">
+                                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Artist Search -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentArtist' | translate }}</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <ui-select id="artistId" name="artistId" theme="bootstrap" allow-clear="true"
+                                                   ng-model="dateFilter.artistId"
+                                                   search-enabled="true"
+                                                   close-on-select="true" title="{{ 'CommonLabels.SelectOne' | translate }}">
+                                            <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                                <span ng-bind="$select.selected.name"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="artistListItem.id as artistListItem in (artistList | filter: $select.search) track by artistListItem.id"
+                                                               refresh="searchArtists($select.search)"
+                                                               refresh-delay="0">
+                                                <div ng-bind-html="artistListItem.name | highlight: $select.search"></div>
+                                                <small>
+                                                    Organization: {{(artistListItem.organizationName ? artistListItem.organizationName : 'N/A')}}
+                                                </small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <span class="input-group-btn">
+                                            <button type="button" ng-click="dateFilter.artistId = null;" class="btn btn-default">
+                                                <span class="fa fa-times"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Date Filters-->
+                            <div class="form-group">
+                                <label for="startDate" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.DateCreated' | translate }} {{'CommonLabels.From' | translate}}</label>
+                                <div class="col-md-7">
+                                    <p class="input-group datepicker-field">
+                                        <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                               uib-datepicker-popup="{{dateFormat}}" ng-model="dateFilter.startDate"
+                                               min-max-check is-open="startDatePicker.opened"
+                                               max-date="dateFilter.endDate" datepicker-options="dateOptions"
+                                               ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTOperationsToneUpdate(originalContentMetadata.status) : !AuthorizationService.canRBTOperationsToneCreate())"/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                                    ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTOperationsToneUpdate(originalContentMetadata.status) : !AuthorizationService.canRBTOperationsToneCreate())">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                        <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                                            <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                                            <li class="required" ng-show="filterForm.startDate.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                                            <li class="required" ng-show="filterForm.startDate.$error.maxToday">{{ 'Subsystems.Licensing.Messages.MaxDateToday' | translate }}</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="endDate" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.DateCreated' | translate }} {{'CommonLabels.To' | translate}}</label>
+                                <div class="col-md-7">
+                                    <p class="input-group datepicker-field">
+                                        <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                                               uib-datepicker-popup="{{dateFormat}}" ng-model="dateFilter.endDate"
+                                               min-max-check is-open="endDatePicker.opened"
+                                               min-date="dateFilter.startDate" datepicker-options="dateOptions"
+                                               ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTOperationsToneUpdate(originalContentMetadata.status) : !AuthorizationService.canRBTOperationsToneCreate())"/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                                    ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTOperationsToneUpdate(originalContentMetadata.status) : !AuthorizationService.canRBTOperationsToneCreate())">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                        <ul ng-class="{ 'parsley-error-list': filterForm.endDate.$dirty && filterForm.endDate.$invalid }" ng-show="filterForm.endDate.$dirty && filterForm.endDate.$invalid">
+                                            <li class="required" ng-show="filterForm.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDateAndTime.Messages.MinDateExceeded' | translate }}</li>
+                                            <li class="required" ng-show="filterForm.endDate.$error.parse">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                                            <li class="required" ng-show="filterForm.endDate.$error.maxToday">{{ 'Subsystems.Licensing.Messages.MaxDateToday' | translate }}</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!--Search Button-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label text-right">&nbsp;</label>
+                                <div class="col-md-7">
+                                    <button class="btn btn-sm btn-secondary" ng-disabled="filterForm.$invalid"
+                                            ng-click="throttledReloadTable();"><i class="fa fa-search"></i>
+                                        {{'CommonLabels.Search' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--Search With Name & Display selected count-->
+<div class="portlet-body buttons-portlet-body" ng-show="contentMetadataList.showTable">
+    <div class="row">
+        <div class="col-md-8 col-sm-6 col-xs-8">
+            <span ng-if="selectedItems && selectedItems.length > 0"><strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.SelectionMessage' | translate:{count:selectedItems.length} }}</strong></span>
+            <span ng-if="!selectedItems || selectedItems.length == 0"><strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.NoSelectionMessage' | translate }}</strong></span>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['name'])"
+                       placeholder="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SearchByToneTitle' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Data Table -->
+<div class="portlet-body" ng-show="contentMetadataList.showTable">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="contentMetadataList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <thead>
+                    <tr>
+                        <th data-title="'CommonLabels.SelectAll' | translate">
+                            <input type="checkbox" ng-model="selectAll"
+                                   ng-click="toggleSelectAll($data)" ui-indeterminate="isAnySelected($data)">
+                        </th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('organizationName', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('organizationName', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'organizationName': contentMetadataList.tableParams.isSortBy('organizationName', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'CommonLabels.Organization' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('alias', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('alias', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'alias': contentMetadataList.tableParams.isSortBy('alias', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Alias' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('name', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('name', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'name': contentMetadataList.tableParams.isSortBy('name', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Name' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('status', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('status', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'status': contentMetadataList.tableParams.isSortBy('status', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'CommonLabels.State' | translate }}</div>
+                        </th>
+                        <th data-title="'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}</div></th>
+                        <!--<th data-title="'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate }}</div></th>
+                        <th data-title="'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}</div></th>
+                        <th data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ExpireDate' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ExpireDate' | translate }}</div></th>-->
+                        <th class="sortable"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('dateCreated', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('dateCreated', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'dateCreated': contentMetadataList.tableParams.isSortBy('dateCreated', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'CommonLabels.CreatedOn' | translate }}</div>
+                        </th>
+                        <th class="sortable"
+                            uib-popover="{{ 'GenericFormFields.EndDate.Label' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('expireDate', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('expireDate', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'expireDate': contentMetadataList.tableParams.isSortBy('expireDate', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ExpireDate' | translate }}</div>
+                        </th>
+                        <!--<th class="sortable"
+                            uib-popover="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.DateUpdated' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('dateUpdated', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('dateUpdated', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'dateUpdated': contentMetadataList.tableParams.isSortBy('dateUpdated', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.DateUpdated' | translate }}</div>
+                        </th>-->
+                        <th class="wrap-sm" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Promoted' | translate"><div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Promoted' | translate }}</div></th>
+                        <th class="wrap-sm" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Blacklisted' | translate">{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Blacklisted' | translate}}</th>
+                        <th class="wrap-sm" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SubscriptionEnabled' | translate">{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SubscriptionEnabled' | translate}}</th>
+                        <th class="sortable"
+                            ng-class="{'sort-asc': contentMetadataList.tableParams.isSortBy('totalSubscriptionCount', 'asc'), 'sort-desc': contentMetadataList.tableParams.isSortBy('totalSubscriptionCount', 'desc') }"
+                            ng-click="contentMetadataList.tableParams.sorting({'totalSubscriptionCount': contentMetadataList.tableParams.isSortBy('totalSubscriptionCount', 'asc') ? 'desc' : 'asc'})">
+                            <div>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Subscriptions' | translate }}</div>
+                        </th>
+                        <th data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ToneWAVEAudio' | translate">{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ToneWAVEAudio' | translate}}</th>
+                        <th data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ToneMP3Audio' | translate">{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ToneMP3Audio' | translate}}</th>
+                        <th data-title="'CommonLabels.Actions' | translate">{{'CommonLabels.Actions' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="data in $data track by $index" class="hidden-link-cell-row" ng-class="{ 'row-selected': data.selected }"
+                        uib-popover-template="'subsystems/contentmanagement/bulkoperations/bulkoperations.management.confirmation.popover.html'"
+                        popover-placement="auto" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                        popover-title="[Tone Title = {{data.name}}]" popover-tmpl-tone="data">
+                        <td align="center">
+                            <input type="checkbox" ng-model="data.selected"
+                                   ng-click="toneSelected(data, $data)">
+                        </td>
+                        <td align="center" class="wrap" uib-tooltip="{{data.organizationName}}" tooltip-class="custom-class"  tooltip-placement="top" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">{{data.organizationName}}</td>
+                        <td align="center">{{data.alias}}</td>
+                        <td align="center" class="wrap" uib-tooltip="{{data.name}}" tooltip-class="custom-class"  tooltip-placement="top" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">{{data.name}}</td>
+                        <td align="center" class="nowrap-fixedwidth width-105">{{data.status}}
+                            <span ng-if="data.status == 'REJECTED' && data.rejectReason" class="fa fa-question-circle"
+                                  uib-tooltip="{{data.rejectReason}}"
+                                  tooltip-placement="top"
+                                  style="margin-left: 6px; cursor: pointer;"></span>
+                        </td>
+                        <td align="center">{{data.offers[0].price | PriceFormatterFilter}}</td>
+                        <!--<td align="center">{{data.offers[0].originalPrice | PriceFormatterFilter}}</td>
+                        <td align="center">{{data.offers[0].chargingPeriodDetail | ChargingDetailsFilter}}</td>-->
+                        <td align="center" class="wrap-sm" uib-tooltip="{{data.dateCreated}}" tooltip-class="custom-class"  tooltip-placement="top" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">{{data.dateCreated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                        <td align="center" class="wrap-sm" uib-tooltip="{{data.expireDate}}" tooltip-class="custom-class"  tooltip-placement="top" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">{{data.expireDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                        <!--<td align="center">{{data.dateUpdated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>-->
+                        <td align="center" class="nowrap-fixedwidth width-30">{{data.promoted | YesNoFilter}}</td>
+                        <td align="center" class="nowrap-fixedwidth width-30">{{data.isBlacklisted | YesNoFilter}}</td>
+                        <td align="center" class="nowrap-fixedwidth width-30">{{data.subscriptionEnabled | YesNoFilter}}</td>
+                        <td align="center" class="nowrap-fixedwidth width-30">{{data.totalSubscriptionCount}}</td>
+                        <td align="center">
+                            <button ng-if="data.toneFileId"
+                                    ng-click="playAudio($index, data.toneFileId)"
+                                    class="btn btn-xs {{audio.canDisplayButton($index, data.toneFileId, 'stop') ? 'btn-danger' : 'btn-secondary btn-inverse'}}"
+                                    title="{{ audio.getLabel($index,data.toneFileId) | translate }}">
+                                <i class="fa fa-play-circle"
+                                   ng-if="audio.canDisplayButton($index, data.toneFileId, 'play')"></i>
+                                <i class="fa fa-spinner fa-spin"
+                                   ng-if="audio.canDisplayButton($index, data.toneFileId, 'spinner')"></i>
+                                <i class="fa fa-stop-circle"
+                                   ng-if="audio.canDisplayButton($index, data.toneFileId, 'stop')"></i>
+                            </button>
+                        </td>
+                        <td align="center">
+                            <button ng-if="data.mp3FileId"
+                                    ng-click="playAudio($index, data.mp3FileId)"
+                                    class="btn btn-xs {{audio.canDisplayButton($index, data.mp3FileId, 'stop') ? 'btn-danger' : 'btn-secondary btn-inverse'}}"
+                                    title="{{ audio.getLabel($index,data.mp3FileId) | translate }}">
+                                <i class="fa fa-play-circle"
+                                   ng-if="audio.canDisplayButton($index, data.mp3FileId, 'play')"></i>
+                                <i class="fa fa-spinner fa-spin"
+                                   ng-if="audio.canDisplayButton($index, data.mp3FileId, 'spinner')"></i>
+                                <i class="fa fa-stop-circle"
+                                   ng-if="audio.canDisplayButton($index, data.mp3FileId, 'stop')"></i>
+                            </button>
+                        </td>
+                        <td align="center">
+                            <div class="btn-group dropdown" uib-dropdown dropdown-append-to-body="true" is-open="status.isopen">
+                                <button id="single-button" type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">
+                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                    <!--Quick Review Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="review(data)"
+                                           ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                                            <i class="fa fa-eye"></i>&nbsp;&nbsp;{{ 'CommonLabels.Review' | translate }}
+                                        </a>
+                                    </li>
+                                    <!--Update Tone Item Action-->
+                                    <li role="menuitem">
+                                        <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.tones.update({ id : data.id })"
+                                           ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                                            <i class="fa fa-edit" ng-if="AuthorizationService.canRBTOperationsToneUpdate(data.status)"></i>
+                                            <i class="fa fa-square-o" ng-if="!AuthorizationService.canRBTOperationsToneUpdate(data.status)"></i>&nbsp;&nbsp;{{ AuthorizationService.canRBTOperationsToneUpdate(data.status) ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}
+                                        </a>
+                                    </li>
+                                    <!--Activate Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="bulkOperation(data, 'activate')"
+                                           ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('activate') && AuthorizationService.canRBTOperationsToneUpdate(data.status)">
+                                            <i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp;{{ 'BulkOperationActionTypes.activate' | translate }}
+                                        </a>
+                                    </li>
+                                    <!--Reject Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="bulkOperation(data, 'reject')"
+                                           ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('reject') && AuthorizationService.canRBTOperationsToneUpdate(data.status)">
+                                            <i class="fa fa-times"></i>&nbsp;&nbsp;{{ 'BulkOperationActionTypes.reject' | translate }}
+                                        </a>
+                                    </li>
+                                    <!--Hide Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="bulkOperation(data, 'hide')"
+                                           ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('hide') && AuthorizationService.canRBTOperationsToneUpdate(data.status)">
+                                            <i class="fa fa-arrow-circle-right"></i>&nbsp;&nbsp;{{ 'BulkOperationActionTypes.hide' | translate }}
+                                        </a>
+                                    </li>
+                                    <!--Suspend Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="bulkOperation(data, 'suspend')"
+                                           ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('suspend') && AuthorizationService.canRBTOperationsToneUpdate(data.status)">
+                                            <i class="fa fa-pause-circle-o"></i>&nbsp;&nbsp;{{ 'BulkOperationActionTypes.suspend' | translate }}
+                                        </a>
+                                    </li>
+                                    <!--Inactivate Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="bulkOperation(data, 'inactivate')"
+                                           ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('inactivate') && AuthorizationService.canRBTOperationsToneUpdate(data.status)">
+                                            <i class="fa fa-lock"></i>&nbsp;&nbsp;{{ 'BulkOperationActionTypes.inactivate' | translate }}
+                                        </a>
+                                    </li>
+                                    <li role="separator" class="divider" ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('move') || (data.copyrightFiles && data.copyrightFiles.length > 0)"></li>
+                                    <!--Move Action-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="bulkOperation(data, 'move')"
+                                           ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('move')">
+                                            <i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;{{ 'BulkOperationActionTypes.move' | translate }}
+                                        </a>
+                                    </li>
+                                    <!--Download Copyright Files-->
+                                    <li role="menuitem">
+                                        <a href="javascript:;" ng-click="downloadCopyrightFiles(data.copyrightFiles)"
+                                           ng-if="data.copyrightFiles && data.copyrightFiles.length > 0">
+                                            <i class="fa fa-download"></i>&nbsp;&nbsp;{{ 'CommonLabels.DownloadCopyrightFiles' | translate }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <!--<td align="center" class="action-column">
+                            <button ng-click="review(data)"
+                                    class="btn btn-xs btn-info"
+                                    title="Quick Review">
+                                <i class="fa fa-eye" ng-if="AuthorizationService.canRBTOperationsToneRead()"></i>
+                            </button>
+                            <button ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.tones.update({ id : data.id })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canRBTOperationsToneUpdate(data.status) ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canRBTOperationsToneUpdate(data.status)"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canRBTOperationsToneUpdate(data.status)"></i>
+                            </button>
+                            <button ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('move')" ng-click="bulkOperation(data, 'move')" class="btn btn-xs btn-outline-inverse"
+                                    title="{{ 'BulkOperationActionTypes.move' | translate }}">
+                                <i class="fa fa-arrow-circle-o-up"></i>
+                            </button>
+                            <button ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('activate')" ng-click="bulkOperation(data, 'activate')" class="btn btn-xs btn-success"
+                                    title="{{ 'BulkOperationActionTypes.activate' | translate }}">
+                                <i class="fa fa-arrow-circle-up"></i>
+                            </button>
+                            <button ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('reject')" ng-click="bulkOperation(data, 'reject')" class="btn btn-xs btn-danger"
+                                    title="{{ 'BulkOperationActionTypes.reject' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <button ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('hide')" ng-click="bulkOperation(data, 'hide')" class="btn btn-xs btn-default"
+                                    title="{{ 'BulkOperationActionTypes.hide' | translate }}">
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                            <button ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('suspend')" ng-click="bulkOperation(data, 'suspend')" class="btn btn-xs btn-warning"
+                                    title="{{ 'BulkOperationActionTypes.suspend' | translate }}">
+                                <i class="fa fa-circle-o"></i>
+                            </button>
+                            <button ng-if="CMS_RBT_BULK_ACTIONS[data.status].includes('inactivate')" ng-click="bulkOperation(data, 'inactivate')" class="btn btn-xs btn-danger"
+                                    title="{{ 'BulkOperationActionTypes.inactivate' | translate }}">
+                                <i class="fa fa-archive"></i>
+                            </button>
+                            <button ng-if="data.copyrightFiles && data.copyrightFiles.length > 0" ng-click="downloadCopyrightFiles(data.copyrightFiles)"
+                                    class="btn btn-xs btn-primary" title="{{ 'CommonLabels.DownloadCopyrightFiles' | translate }}">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </td>-->
+                    </tr>
+                    <tr ng-if="!$data || $data.length === 0">
+                        <td colspan="18" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Operations -->
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12 filter-form">
+            <form id="bulkActionsForm" name="bulkActionsForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+
+                <div class="portlet portlet-boxed">
+
+                    <div class="portlet-body">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div ng-if="selectedTones.length > 0" class="portlet portlet-boxed">
+                            <label class="modal-option-selection" ng-repeat="data in selectedTones track by data.id" uib-popover-template="'subsystems/contentmanagement/bulkoperations/bulkoperations.management.confirmation.popover.html'"
+                                   popover-placement="auto" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                   popover-title="[Tone Title = {{data.name}}]" popover-tmpl-tone="data">
+                                <span ng-if="data.alias" class="label label-warning" style="margin-right: 5px;">{{data.alias}}</span>
+                            </label>
+                            </div>
+                            <div ng-if="selectedTones.length === 0">{{ 'CommonMessages.SelectTableRecord' | translate }}</div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <!--Operation Selection-->
+                            <div class="form-group">
+                                <label for="bulkOp" class="col-md-3 control-label text-right">{{'CommonLabels.Actions' | translate}}
+                                    <span class="fa fa-question-circle"
+                                          uib-popover="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.BulkOperations.ActionsSelectionInfoMessage' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+
+                                          style="margin-left: 6px; cursor: pointer;">
+                                    </span>
+                                    <br/>
+                                </label>
+                                <div class="col-md-8">
+                                    <select id="bulkOp" name="bulkOp" class="form-control"
+                                            ng-model="actionFilter.selectedBulkOperation"
+                                            ng-disabled="selectedTones.length === 0 || !AuthorizationService.canRBTOperationsToneUpdate()">
+                                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                        <option ng-repeat="action in availableActions" value="{{ action }}">{{ ('BulkOperationActionTypes.' + action) | translate | uppercase }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--Organization Filter-->
+                            <div class="form-group" ng-if="actionFilter.selectedBulkOperation === 'move'">
+                                <label for="moveOrg" class="col-md-3 control-label text-right">{{ 'CommonLabels.Organization' | translate }}</label>
+                                <div class="col-md-8">
+                                    <select id= "moveOrg" name="moveOrg" class="form-control parsley-validated"
+                                            ng-disabled="selectedTones.length === 0 || !AuthorizationService.canRBTOperationsToneUpdate()"
+                                            ng-required="actionFilter.selectedBulkOperation === 'move'"
+                                            ng-model="actionFilter.organizationId"
+                                            ng-options="opt.id as opt.name for opt in allOrganizations">
+                                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                    </select>
+                                    <ul ng-class="{ 'parsley-error-list': bulkActionsForm.moveOrg.$dirty && bulkActionsForm.moveOrg.$invalid }" ng-show="bulkActionsForm.moveOrg.$dirty && bulkActionsForm.moveOrg.$invalid">
+                                        <li class="required" ng-show="bulkActionsForm.moveOrg.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-if="actionFilter.selectedBulkOperation === 'reject'">
+                                <label for="rejectReason" class="col-md-3 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.RejectReason' | translate }}</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control input-sm" id="rejectReason" name="rejectReason"
+                                           ng-required="actionFilter.selectedBulkOperation === 'reject'"
+                                           ng-disabled="selectedTones.length === 0 || !AuthorizationService.canRBTOperationsToneUpdate()"
+                                           ng-model="actionFilter.rejectReason" placeholder="{{ 'Description' | translate }}"/>
+                                    <ul ng-class="{ 'parsley-error-list': bulkActionsForm.rejectReason.$dirty && bulkActionsForm.rejectReason.$invalid }" ng-show="bulkActionsForm.rejectReason.$dirty && bulkActionsForm.rejectReason.$invalid">
+                                        <li class="required" ng-show="bulkActionsForm.rejectReason.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!--Action Button-->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label text-right">&nbsp;</label>
+                                <div class="col-md-7">
+                                    <button class="btn btn-danger" ng-disabled="selectedTones.length === 0 || !actionFilter.selectedBulkOperation || bulkActionsForm.$invalid"
+                                            ng-click="bulkOperation();"><i class="fa fa-exclamation-triangle"></i>
+                                        {{'CommonLabels.Submit' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Tone Detail Popover. Please use "data" for binding. -->
+<script type="text/ng-template" id="subsystems/contentmanagement/bulkoperations/bulkoperations.management.confirmation.popover.html">
+    <div>
+        <div>
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Alias' | translate }}:</strong> {{data.alias}} <br />
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Id' | translate }}:</strong> {{data.id}} <br />
+            <!--<strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Name' | translate }}:</strong> {{data.name}}<br />-->
+            <strong>{{ 'CommonLabels.Organization' | translate }}:</strong> {{data.organizationName}}<br />
+            <strong>{{ 'CommonLabels.State' | translate }}:</strong> {{data.status}}<br />
+            <div  ng-if="data.status === 'REJECTED' && data.rejectReason"><strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.RejectReason' | translate }}:</strong> {{data.rejectReason}}<br /></div>
+            <div>
+                <strong>{{ 'CommonLabels.CreatedOn' | translate }}:</strong> {{data.dateCreated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}} -
+                <strong>{{ 'CommonLabels.LastUpdateTime' | translate }}:</strong> {{data.dateCreated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}<br /></div>
+            <div>
+                <strong>{{ 'GenericFormFields.StartDate.Label' | translate }}:</strong> {{data.launchDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}} -
+                <strong>{{ 'GenericFormFields.EndDate.Label' | translate }}:</strong> {{data.expireDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}
+            </div>
+            <strong>{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Blacklisted' | translate}}:</strong> {{data.isBlacklisted | YesNoFilter}} -
+            <strong>{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Promoted' | translate}}:</strong> {{data.promoted | YesNoFilter}} -
+            <strong>{{'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SubscriptionEnabled' | translate}}:</strong> {{data.subscriptionEnabled | YesNoFilter}}<br />
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}:</strong> {{data.offers[0].price | PriceFormatterFilter}} -
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate }}:</strong> {{data.offers[0].originalPrice | PriceFormatterFilter}}<br />
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}:</strong> {{data.offers[0].chargingPeriodDetail | ChargingDetailsFilter}}<br />
+        </div>
+    </div>
+</script>
+
+
+

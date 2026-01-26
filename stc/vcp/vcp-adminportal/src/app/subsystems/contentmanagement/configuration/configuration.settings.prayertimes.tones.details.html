@@ -1,0 +1,356 @@
+<div class="portlet-header">
+    <h4 ng-if="prayerTimesTonesData.id" class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.PrayerTimes.Tones' | translate }}
+    </h4>
+    <h4 ng-if="!prayerTimesTonesData.id" class="portlet-title">
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.PrayerTimes.Tones' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+            <div class="form-group">
+                <label for="personName" class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.PersonName' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="personName" name="personName" type="text" class="form-control" dir="auto"
+                           ng-model="prayerTimesTonesData.personName"
+                           ng-required="!prayerTimesTonesData.id" ng-maxlength="50"
+                           ng-disabled="!AuthorizationService.canUpdateConfiguration() || prayerTimesTonesData.id"/>
+                    <ul ng-class="{ 'parsley-error-list': form.personName.$dirty && form.personName.$invalid }"
+                        ng-show="form.personName.$dirty && form.personName.$invalid">
+                        <li class="required" ng-show="form.personName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.personName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Configuration.IsDefault' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group" uib-popover="{{prayerTimesTonesDataOriginal.isDefault ? ('Subsystems.ContentManagement.Configuration.SetDefaultFirst' | translate) : '' }}"
+                         popover-trigger="'mouseenter'"
+                         popover-enable="prayerTimesTonesDataOriginal.isDefault"
+                         popover-placement="top">
+                        <button class="btn {{prayerTimesTonesData.isDefault?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration() || prayerTimesTonesDataOriginal.isDefault"
+                                ng-model="prayerTimesTonesData.isDefault" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!prayerTimesTonesData.isDefault?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!AuthorizationService.canUpdateConfiguration() || prayerTimesTonesDataOriginal.isDefault"
+                                ng-model="prayerTimesTonesData.isDefault" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.Morning' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name">
+                        <!-- Select button -->
+                        <button name="morningFajrTone" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (prayerTimesTonesData.prayerTimesTones.morningFajrToneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="prayerTimesTonesData.prayerTimesTones.morningFajrToneFile"
+                                ng-init="prayerTimesTonesData.prayerTimesTones.morningFajrToneFile ? prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name = prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.$ngfName : null"
+                                ngf-change="form.morningFajrTone.$setDirty(); toneFileChanged(prayerTimesTonesData.prayerTimesTones.morningFajrToneFile, 'morningFajrTone');"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="morningFajrDownloading || !AuthorizationService.canUpdateConfiguration()">
+                            {{ ((prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="morningFajrToneFileAudio" name="morningFajrToneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.$error && prayerTimesTonesData.prayerTimesTones.morningFajrToneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="prayerTimesTonesData.prayerTimesTones.morningFajrToneFile = null; form.morningFajrTone.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name && AuthorizationService.canUpdateConfiguration()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ prayerTimesTonesData.prayerTimesTones.morningFajrToneFile.name }}"
+                           href="{{ prayerTimesTonesData.prayerTimesTones.morningFajrToneFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.morningFajrTone.$dirty && form.morningFajrTone.$invalid }"
+                        ng-show="form.morningFajrTone.$dirty && form.morningFajrTone.$invalid">
+                        <li class="required" ng-show="form.morningFajrTone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.morningFajrTone.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.morningFajrTone.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.Noon' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name">
+                        <!-- Select button -->
+                        <button name="noonZuhrTone" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile"
+                                ng-init="prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile ? prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name = prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.$ngfName : null"
+                                ngf-change="form.noonZuhrTone.$setDirty(); toneFileChanged(prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile, 'noonZuhrTone');"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="noonZuhrDownloading || !AuthorizationService.canUpdateConfiguration()">
+                            {{ ((prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="noonZuhrToneFileAudio" name="noonZuhrToneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.$error && prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile = null; form.noonZuhrTone.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name && AuthorizationService.canUpdateConfiguration()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile.name }}"
+                           href="{{ prayerTimesTonesData.prayerTimesTones.noonZuhrToneFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.noonZuhrTone.$dirty && form.noonZuhrTone.$invalid }"
+                        ng-show="form.noonZuhrTone.$dirty && form.noonZuhrTone.$invalid">
+                        <li class="required" ng-show="form.noonZuhrTone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.noonZuhrTone.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.noonZuhrTone.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.Afternoon' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name">
+                        <!-- Select button -->
+                        <button name="afternoonAsrTone" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile"
+                                ng-init="prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile ? prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name = prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.$ngfName : null"
+                                ngf-change="form.afternoonAsrTone.$setDirty(); toneFileChanged(prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile, 'afternoonAsrTone');"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="afternoonAsrDownloading ||!AuthorizationService.canUpdateConfiguration()">
+                            {{ ((prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="afternoonAsrToneFileAudio" name="afternoonAsrToneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.$error && prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile = null; form.afternoonAsrTone.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name && AuthorizationService.canUpdateConfiguration()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile.name }}"
+                           href="{{ prayerTimesTonesData.prayerTimesTones.afternoonAsrToneFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.afternoonAsrTone.$dirty && form.afternoonAsrTone.$invalid }"
+                        ng-show="form.afternoonAsrTone.$dirty && form.afternoonAsrTone.$invalid">
+                        <li class="required" ng-show="form.afternoonAsrTone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.afternoonAsrTone.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.afternoonAsrTone.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.Evening' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name">
+                        <!-- Select button -->
+                        <button name="eveningMaghribTone" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile"
+                                ng-init="prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile ? prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name = prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.$ngfName : null"
+                                ngf-change="form.eveningMaghribTone.$setDirty(); toneFileChanged(prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile, 'eveningMaghribTone');"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="eveningMaghribDownloading ||!AuthorizationService.canUpdateConfiguration()">
+                            {{ ((prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="eveningMaghribToneFileAudio" name="eveningMaghribToneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.$error && prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile = null; form.eveningMaghribTone.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name && AuthorizationService.canUpdateConfiguration()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile.name }}"
+                           href="{{ prayerTimesTonesData.prayerTimesTones.eveningMaghribToneFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.eveningMaghribTone.$dirty && form.eveningMaghribTone.$invalid }"
+                        ng-show="form.eveningMaghribTone.$dirty && form.eveningMaghribTone.$invalid">
+                        <li class="required" ng-show="form.eveningMaghribTone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.eveningMaghribTone.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.eveningMaghribTone.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Configuration.Night' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name">
+                        <!-- Select button -->
+                        <button name="nightIshaTone" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (prayerTimesTonesData.prayerTimesTones.nightIshaToneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="prayerTimesTonesData.prayerTimesTones.nightIshaToneFile"
+                                ng-init="prayerTimesTonesData.prayerTimesTones.nightIshaToneFile ? prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name = prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.$ngfName : null"
+                                ngf-change="form.nightIshaTone.$setDirty(); toneFileChanged(prayerTimesTonesData.prayerTimesTones.nightIshaToneFile, 'nightIshaTone');"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="nightIshaDownloading || !AuthorizationService.canUpdateConfiguration()">
+                            {{ ((prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="nightIshaToneFileAudio" name="nightIshaToneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.$error && prayerTimesTonesData.prayerTimesTones.nightIshaToneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="prayerTimesTonesData.prayerTimesTones.nightIshaToneFile = null; form.nightIshaTone.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name && AuthorizationService.canUpdateConfiguration()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ prayerTimesTonesData.prayerTimesTones.nightIshaToneFile.name }}"
+                           href="{{ prayerTimesTonesData.prayerTimesTones.nightIshaToneFile | ngfDataUrl }}" target="_blank">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.nightIshaTone.$dirty && form.nightIshaTone.$invalid }"
+                        ng-show="form.nightIshaTone.$dirty && form.nightIshaTone.$invalid">
+                        <li class="required" ng-show="form.nightIshaTone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nightIshaTone.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.nightIshaTone.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger" uib-popover="{{ !hasAtLeastOneToneFile() ? ('Subsystems.ContentManagement.Configuration.AtLeastOneTone' | translate) : '' }}"
+                            popover-trigger="'mouseenter'"
+                            popover-enable="!hasAtLeastOneToneFile()"
+                            popover-placement="top"
+                            ng-disabled="validationInProgress ||form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged() || !hasAtLeastOneToneFile()"
+                            ng-click="save(prayerTimesTonesData);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>

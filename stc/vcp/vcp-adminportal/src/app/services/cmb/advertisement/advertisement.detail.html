@@ -1,0 +1,46 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.CMB.Advertisement.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="advertLanguage" class="col-md-3">{{ 'Services.CMB.Advertisement.TableColumns.AdLanguage' | translate }}</label>
+            <div class="col-md-7">
+                <input id="advertLanguage" name="advertLanguage" type="text" class="form-control" dir="auto"
+                       ng-model="entry.advertLanguage"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="advertContent" class="col-md-3">{{ 'Services.CMB.Advertisement.TableColumns.AdContent' | translate }}</label>
+            <div class="col-md-7">
+                <input id="advertContent" name="advertContent" type="text" class="form-control" dir="auto"
+                       ng-model="entry.advertContent"
+                       ng-disabled="!AuthorizationService.canUpdateAdvertisements()"
+                       ng-required="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || isNotChanged()"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+

@@ -1,0 +1,104 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{'CommonLabels.ConfirmationModalTitle' | translate}}
+    </h4>
+</div>
+
+<div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <!--Confirmation Modal Form-->
+            <form id="confirmationForm" name="confirmationForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+                <div class="form-horizontal">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <label class="col-md-12">You are about to apply changes to {{ selectedItems.length }} selected {{ selectedItems.length === 1 ? 'tone' : 'tones' }}.<br></label>
+                            <label ng-if="filter.operationType === 'move' && !confirmationForm.$valid" class="col-md-12">Please select an organization...</label>
+                            <label ng-if="filter.operationType === 'reject' && !confirmationForm.$valid" class="col-md-12">Please specify a reject reason...</label>
+                            <label ng-if="confirmationForm.$valid" class="col-md-12">Do you wish to confirm?</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        <!--Confirmation Modal Operation Display-->
+                        <div class="form-group">
+                            <label for="operationType" class="col-md-3 control-label">Action: </label>
+                            <div class="col-md-8">
+                                <select id="operationType" name="operationType" class="form-control"
+                                        ng-model="filter.operationType"
+                                        ng-disabled="true">
+                                    <option ng-repeat="action in availableActions" value="{{ action }}">{{ ('BulkOperationActionTypes.' + action) | translate | uppercase }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--Confirmation Modal Organization Filter-->
+                        <div class="form-group" ng-if="filter.operationType === 'move'">
+                            <label for="moveOrg" class="col-md-3 control-label text-right">{{ 'CommonLabels.Organization' | translate }}</label>
+                            <div class="col-md-8">
+                                <select id= "moveOrg" name="moveOrg" class="form-control parsley-validated"
+                                        ng-disabled="selectedItems.length === 0 || !AuthorizationService.canRBTOperationsToneUpdate()"
+                                        ng-required="filter.operationType === 'move'"
+                                        ng-model="filter.orgId"
+                                        ng-options="opt.id as opt.name for opt in allOrganizations">
+                                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                </select>
+                                <ul ng-class="{ 'parsley-error-list': confirmationForm.moveOrg.$dirty && confirmationForm.moveOrg.$invalid }" ng-show="confirmationForm.moveOrg.$dirty && confirmationForm.moveOrg.$invalid">
+                                    <li class="required" ng-show="confirmationForm.moveOrg.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="filter.operationType === 'reject'">
+                            <label for="rejectReason" class="col-md-3 control-label text-right">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.RejectReason' | translate }}</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control input-sm" id="rejectReason" name="rejectReason"
+                                       ng-required="filter.operationType === 'reject'"
+                                       ng-disabled="selectedItems.length === 0 || !AuthorizationService.canRBTOperationsToneUpdate()"
+                                       ng-model="filter.rejectReason" placeholder="{{ 'Description' | translate }}"/>
+                                <ul ng-class="{ 'parsley-error-list': confirmationForm.rejectReason.$dirty && confirmationForm.rejectReason.$invalid }" ng-show="confirmationForm.rejectReason.$dirty && confirmationForm.rejectReason.$invalid">
+                                    <li class="required" ng-show="confirmationForm.rejectReason.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-6 col-sm-12">
+
+                    <div class="portlet portlet-boxed">
+
+                        <div class="portlet-body">
+                            <div class="form-group">
+                                <label class="modal-option-selection" ng-repeat="data in selectedItems track by data.id"
+                                       uib-popover-template="'subsystems/contentmanagement/bulkoperations/bulkoperations.management.confirmation.popover.html'"
+                                       popover-placement="auto" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                       popover-title="[Tone Title = {{data.name}}]" popover-tmpl-tone="data">
+                                    <span ng-if="data.alias" class="label label-danger" style="margin-right: 5px;">{{data.alias}}</span>
+                                </label>
+                            </div>
+                            <div ng-if="selectedItems.length === 0">{{ 'CommonMessages.SelectTableRecord' | translate }}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <!--Confirmation Modal Action Button-->
+    <button class="btn btn-danger" ng-disabled="selectedItems.length === 0 || confirmationForm.$invalid"
+            ng-click="submit();">
+        {{ 'CommonLabels.Submit' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>
+
+

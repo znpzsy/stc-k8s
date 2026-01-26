@@ -1,0 +1,114 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.VM.Configuration.Settings.Title' | translate }} / {{ 'Services.RBT.Configuration.Settings.SMSAutomation.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.SMSAutomation.SMSAutomationEnabled' | translate }}</label>
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.smsAutomationServiceEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.smsAutomationServiceEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.smsAutomationServiceEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.smsAutomationServiceEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <label for="workingHoursStartTime" class="col-md-3">{{ 'Services.RBT.Configuration.Settings.SMSAutomation.WorkingHoursStartTime' | translate }}</label>
+            <div class="col-md-5">
+                 <span class="time-picker with-date-picker">
+                    <div uib-timepicker id="workingHoursStartTime" name="workingHoursStartTime"
+                         ng-model="serviceProfile.workingHoursStartTime"
+                         hour-step="1" minute-step="1"
+                         show-meridian="false"
+                         ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"></div>
+                    <ul ng-class="{ 'parsley-error-list': form.workingHoursStartTime.$dirty && form.workingHoursStartTime.$invalid }"
+                        ng-show="form.workingHoursStartTime.$dirty && form.workingHoursStartTime.$invalid">
+                        <li class="required" ng-show="form.workingHoursStartTime.$error.maxTime">{{ 'GenericFormFields.StartTime.Messages.MaxTimeExceeded' | translate }}</li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <label for="workingHoursEndTime" class="col-md-3">{{ 'Services.RBT.Configuration.Settings.SMSAutomation.WorkingHoursEndTime' | translate }}</label>
+            <div class="col-md-5">
+                 <span class="time-picker with-date-picker">
+                    <div uib-timepicker id="workingHoursEndTime" name="workingHoursEndTime"
+                         ng-model="serviceProfile.workingHoursEndTime"
+                         hour-step="1" minute-step="1"
+                         show-meridian="false"
+                         ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"></div>
+                    <ul ng-class="{ 'parsley-error-list': form.workingHoursEndTime.$dirty && form.workingHoursEndTime.$invalid }"
+                        ng-show="form.workingHoursEndTime.$dirty && form.workingHoursEndTime.$invalid">
+                       <li class="required" ng-show="form.workingHoursEndTime.$error.minTime">{{ 'GenericFormFields.EndTime.Messages.MinTimeExceeded' | translate }}</li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.SMSAutomation.FrequencyDays' | translate }}</label>
+            <div class="col-md-5">
+                <input id="frequencyDays" name="frequencyDays" type="number" class="form-control"
+                       ng-model="serviceProfile.smsAutomationFrequencyDays"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.frequencyDays.$dirty && form.frequencyDays.$invalid }"
+                    ng-show="form.frequencyDays.$dirty && form.frequencyDays.$invalid">
+                    <li class="required" ng-show="form.frequencyDays.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.frequencyDays.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.frequencyDays.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.frequencyDays.$error.number || form.frequencyDays.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Configuration.Settings.SMSAutomation.AgedTonesDaysLimit' | translate }}</label>
+            <div class="col-md-5">
+                <input id="promotionPeriodCount" name="promotionPeriodCount" type="number" class="form-control"
+                       ng-model="serviceProfile.promotionPeriodCount"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canRBTServiceConfigurationUpdate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.promotionPeriodCount.$dirty && form.promotionPeriodCount.$invalid }"
+                    ng-show="form.promotionPeriodCount.$dirty && form.promotionPeriodCount.$invalid">
+                    <li class="required" ng-show="form.promotionPeriodCount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.promotionPeriodCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.promotionPeriodCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.promotionPeriodCount.$error.number || form.promotionPeriodCount.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canRBTServiceConfigurationUpdate() || isNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

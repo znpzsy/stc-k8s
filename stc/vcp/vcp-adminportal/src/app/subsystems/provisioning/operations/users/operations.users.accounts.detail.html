@@ -1,0 +1,1502 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Subsystems.Provisioning.Users' | translate }} / {{ 'Subsystems.Provisioning.UserAccounts.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data" autocomplete="off">
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.UserName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" autocomplete="off" class="form-control"
+                       ng-model="userAccount.userName"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true" ng-if="!userAccount.id"
+                       ng-disabled="!AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+                <input id="nameupdate" name="nameupdate" type="text" class="form-control" ng-value="userAccount.userName" ng-if="userAccount.id" disabled="disabled"/>
+            </div>
+        </div>
+
+        <!--Last login, last update etc. dates-->
+        <div ng-if="userAccount.id">
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'CommonLabels.LastUpdatedOn' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-value="userAccount.userProfile.LastUpdateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.LastSuccessfulLogin' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-value="userAccount.userProfile.LastSuccessfulLogin | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.LastFailedLoginAttempt' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-value="userAccount.userProfile.LastFailedLoginAttempt | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+                </div>
+            </div>
+
+            <!--Show Last Password Change only if this user is managed by CMPF (local user)-->
+            <div class="form-group" ng-if="isLocallyManagedUser(userAccount)">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.LastPasswordChange' | translate }}</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-value="userAccount.userProfile.LastPasswordChange | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <label for="state" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.State' | translate }}</label>
+            <div class="col-md-7">
+                <select id="state" name="state" class="form-control parsley-validated"
+                        ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                        ng-model="userAccount.state"
+                        ng-options="state as state for state in USER_STATES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="userAccount.selectedOrganization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{userAccount.selectedOrganization.name}}</span>
+                    <a ng-click="userAccount.selectedOrganization = {};" style="cursor: pointer;" ng-if="AuthorizationService.canCreateUserAccount() || (userAccount.id && AuthorizationService.canUpdateUserAccount())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="openOrganizations(userAccount)"
+                        ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                        ng-class="{ 'pull-right': userAccount.selectedOrganization.name, 'ng-invalid-required': !(userAccount.selectedOrganization && userAccount.selectedOrganization.name) }">
+                    {{ 'CommonLabels.Choose' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="userOrganizationValidator" type="text" class="form-control"
+                           ng-model="userAccount.selectedOrganization.name"
+                           ng-required="true"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': !(userAccount.selectedOrganization && userAccount.selectedOrganization.name) }"
+                        ng-show="!(userAccount.selectedOrganization && userAccount.selectedOrganization.name)">
+                        <li class="required" ng-show="form.userOrganizationValidator.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.AuthAgainstAD' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{userAccount.userProfile.ActiveDirectoryAuthentication?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                            ng-model="userAccount.userProfile.ActiveDirectoryAuthentication" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!userAccount.userProfile.ActiveDirectoryAuthentication?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                            ng-model="userAccount.userProfile.ActiveDirectoryAuthentication" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.RemotePasswordControl' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{userAccount.userProfile.RemotePasswordControl?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() || userAccount.selectedRemotePassworControl : !AuthorizationService.canCreateUserAccount())"
+                            ng-model="userAccount.userProfile.RemotePasswordControl" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!userAccount.userProfile.RemotePasswordControl?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() || userAccount.selectedRemotePassworControl  : !AuthorizationService.canCreateUserAccount())"
+                            ng-model="userAccount.userProfile.RemotePasswordControl" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="isLocallyManagedUser(userAccount) && userAccount.activityProfile">
+            <!-- ENFORCE PASSWORD CHANGE -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.EnforcePasswordChange' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{userAccount.userProfile.EnforcePasswordChange?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-model="userAccount.userProfile.EnforcePasswordChange" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!userAccount.userProfile.EnforcePasswordChange?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount()  : !AuthorizationService.canCreateUserAccount())"
+                                ng-model="userAccount.userProfile.EnforcePasswordChange" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONSECUTIVE LOGIN FAILURES -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.MonitorConsecutiveLoginFailures' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{userAccount.activityProfile.MonitorConsecutiveLoginFailures?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-model="userAccount.activityProfile.MonitorConsecutiveLoginFailures" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!userAccount.activityProfile.MonitorConsecutiveLoginFailures?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount()  : !AuthorizationService.canCreateUserAccount())"
+                                ng-model="userAccount.activityProfile.MonitorConsecutiveLoginFailures" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.MaxConsecutiveLoginFailures' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="maxConsecutiveLoginFailures" name="maxConsecutiveLoginFailures" type="number" class="form-control"
+                           ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                           ng-model="userAccount.activityProfile.MaxConsecutiveLoginFailures"
+                           maxlength="50" ng-maxlength="50"/>
+                    <ul ng-class="{ 'parsley-error-list': form.maxConsecutiveLoginFailures.$dirty && form.maxConsecutiveLoginFailures.$invalid }" ng-show="form.maxConsecutiveLoginFailures.$dirty && form.maxConsecutiveLoginFailures.$invalid">
+                        <li class="required" ng-show="form.maxConsecutiveLoginFailures.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.BlockUserFor' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="blockingDuration" name="blockingDuration" type="number" class="form-control"
+                           ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                           ng-model="userAccount.activityProfile.BlockUserFor"
+                           maxlength="50" ng-maxlength="50"/>
+                    <ul ng-class="{ 'parsley-error-list': form.blockingDuration.$dirty && form.blockingDuration.$invalid }" ng-show="form.blockingDuration.$dirty && form.blockingDuration.$invalid">
+                        <li class="required" ng-show="form.blockingDuration.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- USER INACTIVITY -->
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.MonitorUserInactivity' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button class="btn {{userAccount.activityProfile.MonitorUserInactivity?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-model="userAccount.activityProfile.MonitorUserInactivity" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                        <button class="btn {{!userAccount.activityProfile.MonitorUserInactivity?'btn-primary active':'btn-default'}} btn-sm"
+                                ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount()  : !AuthorizationService.canCreateUserAccount())"
+                                ng-model="userAccount.activityProfile.MonitorUserInactivity" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.DisableUserAfter' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="disableUserAfter" name="disableUserAfter" type="number" class="form-control"
+                           ng-disabled="!isLocallyManagedUser(userAccount) || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                           ng-model="userAccount.activityProfile.DisableUserAfter"
+                           maxlength="50" ng-maxlength="50"/>
+                    <ul ng-class="{ 'parsley-error-list': form.disableUserAfter.$dirty && form.disableUserAfter.$invalid }" ng-show="form.disableUserAfter.$dirty && form.disableUserAfter.$invalid">
+                        <li class="required" ng-show="form.disableUserAfter.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="startDate" class="col-md-3 text-left">{{ 'Subsystems.Provisioning.UserAccounts.EffectiveDate' | translate }}</label>
+                <div class="col-md-4">
+                    <p class="input-group datepicker-field">
+                        <input type="text" class="form-control input-sm" id="startDate" name="startDate"
+                               uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                               is-open="startDatePicker.opened"
+                               datepicker-options="dateOptions"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.parse">{{'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate" class="col-md-3 text-left">{{ 'Subsystems.Provisioning.UserAccounts.ExpiryDate' | translate }}</label>
+                <div class="col-md-4">
+                    <p class="input-group datepicker-field">
+                        <input type="text" class="form-control input-sm" id="endDate" name="endDate"
+                               uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                               is-open="endDatePicker.opened"
+                               datepicker-options="dateOptions"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.parse">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- PASSWORD -->
+        <!--<div class="form-group" ng-if="userAccount.id && isLocallyManagedUser(userAccount)">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Password' | translate }}</label>
+            <div class="col-md-7">
+                <button class="btn btn-default col-md-5 ng-dirty"
+                        ng-disabled="form.$invalid || !userAccountOriginal.userProfile.Email || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                        ng-click="resetPassword(userAccount);">
+                    {{ 'Login.ForgotPassword.ResetPassword' | translate }}
+                </button>
+            </div>
+        </div>-->
+
+        <div class="form-group" ng-if="!userAccount.userProfile.RemotePasswordControl">
+            <label for="password" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Password' | translate }}</label>
+            <div class="col-md-5">
+                <input id="password" name="password" type="password" autocomplete="new-password" class="form-control"
+                       ng-model="userAccount.password"
+                       uib-popover="{{ 'CommonMessages.PasswordTooltip' | translate }}" popover-placement="top-left" popover-animation="false" popover-trigger="'focus'" popover-append-to-body="true"
+                       ng-minlength="12" ng-maxlength="100"
+                       ng-pattern="form.password.$dirty ? $root.Validators.UserPassword : false"
+                       ng-required="!userAccount.userProfile.RemotePasswordControl" ng-change="resetConfirmPassword()"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.password.$dirty && form.password.$invalid }" ng-show="form.password.$dirty && form.password.$invalid">
+                    <li class="required" ng-show="!form.password.$error.minlength && form.password.$error.pattern">{{ 'CommonMessages.PasswordDoesNotMeetRequirements' | translate }}</li>
+                    <li class="required" ng-show="form.password.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.password.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 12 } }}</li>
+                    <li class="required" ng-show="form.password.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!userAccount.userProfile.RemotePasswordControl">
+            <label for="confirmpassword" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.ConfirmPassword' | translate }}</label>
+            <div class="col-md-5">
+                <input id="confirmpassword" name="confirmpassword" type="password" autocomplete="new-password" class="form-control"
+                       ng-model="userAccount.confirmpassword"
+                       ng-minlength="12" ng-maxlength="100"
+                       ng-required="!userAccount.userProfile.RemotePasswordControl" password-verify="userAccount.password"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.confirmpassword.$dirty && form.confirmpassword.$invalid }" ng-show="form.confirmpassword.$dirty && form.confirmpassword.$invalid">
+                    <li class="required" ng-show="form.confirmpassword.$error.passwordVerify">{{ 'CommonMessages.PasswordError' | translate }}</li>
+                    <li class="required" ng-show="form.confirmpassword.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.confirmpassword.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{ min_length: 12 } }}</li>
+                    <li class="required" ng-show="form.confirmpassword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- USER GROUPS -->
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.UserGroups' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-show="userAccount.userGroups.length" class="row col-md-9">
+                    <div ng-repeat="n in userAccount.userGroups">
+                        <span class="label label-default selected-item-label">{{n.name}}</span>
+                        <a ng-click="removeSelectedGroup(userAccount.userGroups, n)" style="cursor: pointer;" ng-if="AuthorizationService.canCreateUserAccount() || (userAccount.id && AuthorizationService.canUpdateUserAccount())">
+                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty" ng-click="openUserGroups(userAccount)"
+                        ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"
+                        ng-class="{ 'pull-right': userAccount.userGroups.length > 0, 'ng-invalid-required': !userAccount.userGroups || userAccount.userGroups.length === 0 }">
+                    {{ 'CommonLabels.AddTo' | translate }}
+                </button>
+                <div style="clear: both;">
+                    <input name="userGroupsLength" type="number" class="form-control"
+                           ng-model="userAccount.userGroups.length"
+                           ng-min="1" ng-required="true"
+                           ng-init="userAccount.id ? null : userAccount.userGroups = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': userAccount.userGroups.length === 0 }"
+                        ng-show="userAccount.userGroups.length === 0">
+                        <li class="required" ng-show="form.userGroupsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.UserAccounts.DetailsTitle' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="firstname" name="firstname" type="text" class="form-control"
+                       ng-model="userAccount.userProfile.Name"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.firstname.$dirty && form.firstname.$invalid }" ng-show="form.firstname.$dirty && form.firstname.$invalid">
+                    <li class="required" ng-show="form.firstname.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="surname" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.Surname' | translate }}</label>
+            <div class="col-md-7">
+                <input id="surname" name="surname" type="text" class="form-control"
+                       ng-model="userAccount.userProfile.Surname"
+                       maxlength="50" ng-maxlength="50"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.surname.$dirty && form.surname.$invalid }" ng-show="form.surname.$dirty && form.surname.$invalid">
+                    <li class="required" ng-show="form.surname.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mobilePhoneNo" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.MobilePhoneNo' | translate }}</label>
+            <div class="col-md-7">
+                <input id="mobilePhoneNo" name="mobilePhoneNo" type="text" class="form-control"
+                       ng-model="userAccount.userProfile.MobilePhone"
+                       ng-minlength="5" maxlength="20" ng-maxlength="20"
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.mobilePhoneNo.$dirty && form.mobilePhoneNo.$invalid }" ng-show="form.mobilePhoneNo.$dirty && form.mobilePhoneNo.$invalid">
+                    <li class="required" ng-show="form.mobilePhoneNo.$error.minlength">{{ 'CommonMessages.MinLengthError' | translate:{min_length: 5} }}</li>
+                    <li class="required" ng-show="form.mobilePhoneNo.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.EMail' | translate }}</label>
+            <div class="col-md-7">
+                <input id="email" name="email" type="email" class="form-control"
+                       ng-class="{ 'ng-invalid-required': isLocallyManagedUser(userAccount) && form.email.$invalid  }"
+                       ng-model="userAccount.userProfile.Email"
+                       maxlength="100" ng-maxlength="100"
+                       ng-required="!userAccount.userProfile.RemotePasswordControl"
+                       valid-email
+                       ng-disabled="userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()"/>
+                <ul ng-class="{ 'parsley-error-list': form.email.$dirty && form.email.$invalid }" ng-show="form.email.$dirty && form.email.$invalid">
+                    <li class="required" ng-show="form.email.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.email.$error.validEmail">{{ 'CommonMessages.InvalidEmail' | translate }}</li>
+                    <li class="required" ng-show="form.email.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="AuthorizationService.canMMSimotaAccess()">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.SimotaRoleId' | translate }}</label>
+            <div class="col-md-7">
+                <select id="simotaRoleId" name="simotaRoleId" ng-options="opt.id as opt.text for opt in PROVISIONING_MM_SIMOTA_ROLES" class="form-control parsley-validated"
+                        ng-model="userAccount.userProfile.SimotaRoleId"
+                        ng-disabled="!AuthorizationService.canCreateService() || (userAccount.id && !AuthorizationService.canUpdateService())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="AuthorizationService.canMMDMCAccess()">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.UserAccounts.DmcRoleId' | translate }}</label>
+            <div class="col-md-7">
+                <select id="dmcRoleId" name="dmcRoleId" ng-options="opt.id as opt.text for opt in PROVISIONING_MM_DMC_ROLES" class="form-control parsley-validated"
+                        ng-model="userAccount.userProfile.DmcRoleId"
+                        ng-disabled="!AuthorizationService.canCreateUserAccount() || (userAccount.id && !AuthorizationService.canUpdateUserAccount())">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Provisioning.BulkAccountDetails.Title' | translate }}
+                </h5>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountOwner' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{userAccount.bulkMessagingUser?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                            ng-model="userAccount.bulkMessagingUser" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!userAccount.bulkMessagingUser?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                            ng-model="userAccount.bulkMessagingUser" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="userAccount.bulkMessagingUser">
+            <div>
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.AccountTypes' | translate }}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkUserProfile.isBulkSmsUser?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkUserProfile.isBulkSmsUser" uib-btn-checkbox>{{ 'Subsystems.Provisioning.BulkAccountDetails.SMS' | translate }}</button>
+                            <button class="btn {{userAccount.bulkUserProfile.isBulkMmsUser?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkUserProfile.isBulkMmsUser" uib-btn-checkbox>{{ 'Subsystems.Provisioning.BulkAccountDetails.MMS' | translate }}</button>
+                            <button class="btn {{userAccount.bulkUserProfile.isBulkIvrUser?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkUserProfile.isBulkIvrUser" uib-btn-checkbox>{{ 'Subsystems.Provisioning.BulkAccountDetails.IVR' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Name' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" name="bulkUserProfileName" id="bulkUserProfileName" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.Name"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileName.$dirty && form.bulkUserProfileName.$invalid }" ng-show="form.bulkUserProfileName.$dirty && form.bulkUserProfileName.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkUserProfileName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Surname' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" name="bulkUserProfileSurname" id="bulkUserProfileSurname" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.Surname"
+                               ng-maxlength="100" maxlength="100"
+                               ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileSurname.$dirty && form.bulkUserProfileSurname.$invalid }" ng-show="form.bulkUserProfileSurname.$dirty && form.bulkUserProfileSurname.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileSurname.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkUserProfileSurname.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Email' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" name="bulkUserProfileEmail" id="bulkUserProfileEmail" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.Email"
+                               ng-maxlength="250" maxlength="250"
+                               ng-pattern="$root.Validators.EmailAddress"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileEmail.$dirty && form.bulkUserProfileEmail.$invalid }" ng-show="form.bulkUserProfileEmail.$dirty && form.bulkUserProfileEmail.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileEmail.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                            <li class="required" ng-show="form.bulkUserProfileEmail.$error.pattern">{{ 'CommonMessages.InvalidEmailAddress' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Phone' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" name="bulkUserProfilePhone" id="bulkUserProfilePhone" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.Phone"
+                               ng-maxlength="15" maxlength="15"
+                               ng-required="true"
+                               ng-pattern="$root.Validators.InternationalPhoneNumber"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfilePhone.$dirty && form.bulkUserProfilePhone.$invalid }" ng-show="form.bulkUserProfilePhone.$dirty && form.bulkUserProfilePhone.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkUserProfilePhone.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                            <li class="required" ng-show="form.bulkUserProfilePhone.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.Address' | translate }}</label>
+                    <div class="col-md-7">
+                        <textarea name="bulkUserProfileAddress" id="bulkUserProfileAddress" class="form-control"
+                                  ng-model="userAccount.bulkUserProfile.Address"
+                                  ng-maxlength="250" maxlength="250"
+                                  ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())">
+                        </textarea>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileAddress.$dirty && form.bulkUserProfileAddress.$invalid }" ng-show="form.bulkUserProfileAddress.$dirty && form.bulkUserProfileAddress.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileAddress.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.SecretQuestion' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" name="bulkUserProfileSecretQuestion" id="bulkUserProfileSecretQuestion" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.SecretQuestion"
+                               ng-maxlength="250" maxlength="250"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileSecretQuestion.$dirty && form.bulkUserProfileSecretQuestion.$invalid }" ng-show="form.bulkUserProfileSecretQuestion.$dirty && form.bulkUserProfileSecretQuestion.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileSecretQuestion.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.SecretQuestionCorrectAnswer' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="password" name="bulkUserProfileSecretQuestionCorrectAnswer" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.SecretQuestionCorrectAnswer"
+                               ng-maxlength="250" maxlength="250"
+                               ng-change="resetbulkUserProfileSecretQuestionCorrectAnswer()"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileSecretQuestionCorrectAnswer.$dirty && form.bulkUserProfileSecretQuestionCorrectAnswer.$invalid }" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswer.$dirty && form.bulkUserProfileSecretQuestionCorrectAnswer.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswer.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswer.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.SecretQuestionCorrectAnswerConfirm' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="password" name="bulkUserProfileSecretQuestionCorrectAnswerConfirm" class="form-control"
+                               ng-model="userAccount.bulkUserProfile.SecretQuestionCorrectAnswerConfirm"
+                               ng-maxlength="250" maxlength="250"
+                               password-verify="userAccount.bulkUserProfile.SecretQuestionCorrectAnswer"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$dirty && form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$invalid }" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$dirty && form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$invalid">
+                            <li class="required" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$error.passwordVerify">{{ 'CommonMessages.AnswerError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkUserProfileSecretQuestionCorrectAnswerConfirm.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 250 } }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="userAccount.bulkUserProfile.isBulkSmsUser">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.Provisioning.BulkSMSPolicySettings.Title' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div ng-if="userAccount.bulkUserProfile.isBulkSmsUser">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.SenderMsisdn' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="senderMsisdn" name="senderMsisdn" type="text" class="form-control"
+                               ng-model="userAccount.bulkSMSPolicyProfile.SenderMsisdn"
+                               ng-maxlength="15" maxlength="15"
+                               ng-required="true"
+                               ng-pattern="$root.Validators.InternationalPhoneNumber"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.senderMsisdn.$dirty && form.senderMsisdn.$invalid }"
+                            ng-show="form.senderMsisdn.$dirty && form.senderMsisdn.$invalid">
+                            <li class="required" ng-show="form.senderMsisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.senderMsisdn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                            <li class="required" ng-show="form.senderMsisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsAlphanumericSenderListRestricted' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkSMSPolicyProfile.isAlphanumericSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isAlphanumericSenderListRestricted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkSMSPolicyProfile.isAlphanumericSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isAlphanumericSenderListRestricted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isAlphanumericSenderListRestricted">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleAlphanumericSenders' | translate}}</label>
+                    <div class="col-md-7">
+                        <div ng-if="userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders.length" class="row col-md-9">
+                            <div ng-repeat="permissibleAlphanumericSender in userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders">
+                                <span class="label label-default selected-item-label">
+                                    {{ permissibleAlphanumericSender.value }}
+                                </span>&nbsp;
+                                <a ng-click="addUpdatePermissibleAlphanumericSender(userAccount, 'bulkSMSPolicyProfile', permissibleAlphanumericSender)" style="cursor: pointer;">
+                                    <span class="label label-secondary" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removePermissibleAlphanumericSender(userAccount, 'bulkSMSPolicyProfile', permissibleAlphanumericSender)" style="cursor: pointer;">
+                                    <span class="label label-danger" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-times"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-default col-md-3"
+                                ng-click="addUpdatePermissibleAlphanumericSender(userAccount, 'bulkSMSPolicyProfile')"
+                                ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-class="{ 'pull-right': userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders.length, 'ng-invalid-required': !userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders || userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                        <div style="clear: both;">
+                            <input name="bulkSMSPermissibleAlphanumericSendersLength" type="number" class="form-control"
+                                   ng-model="userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders.length"
+                                   ng-min="1" ng-required="true"
+                                   ng-init="userAccount.id ? null : userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders = undefined"
+                                   ng-show="false"/>
+                            <ul ng-class="{ 'parsley-error-list': userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders.length === 0 }"
+                                ng-show="userAccount.bulkSMSPolicyProfile.PermissibleAlphanumericSenders.length === 0">
+                                <li class="required" ng-show="form.bulkSMSPermissibleAlphanumericSendersLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsOffNetDeliveryAllowed' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkSMSPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkSMSPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="userAccount.bulkSMSPolicyProfile.isOffNetDeliveryAllowed">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsOffnetSenderListRestricted' | translate}}</label>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button class="btn {{userAccount.bulkSMSPolicyProfile.isOffnetSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                        ng-model="userAccount.bulkSMSPolicyProfile.isOffnetSenderListRestricted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!userAccount.bulkSMSPolicyProfile.isOffnetSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                        ng-model="userAccount.bulkSMSPolicyProfile.isOffnetSenderListRestricted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isOffnetSenderListRestricted">
+                        <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleOffnetSenders' | translate}}</label>
+                        <div class="col-md-7">
+                            <div ng-if="userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders.length" class="row col-md-9">
+                                <div ng-repeat="permissibleOffnetSender in userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders">
+                                    <span class="label label-default selected-item-label">
+                                        {{ permissibleOffnetSender.value }}
+                                    </span>&nbsp;
+                                    <a ng-click="addUpdatePermissibleOffnetSender(userAccount, 'bulkSMSPolicyProfile', permissibleOffnetSender)" style="cursor: pointer;">
+                                        <span class="label label-secondary" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-edit"></i></span>
+                                    </a>
+                                    <a ng-click="removePermissibleOffnetSender(userAccount, 'bulkSMSPolicyProfile', permissibleOffnetSender)" style="cursor: pointer;">
+                                        <span class="label label-danger" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-times"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="btn btn-default col-md-3"
+                                    ng-click="addUpdatePermissibleOffnetSender(userAccount, 'bulkSMSPolicyProfile')"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-class="{ 'pull-right': userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders.length, 'ng-invalid-required': !userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders || userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                            <div style="clear: both;">
+                                <input name="bulkSMSPermissibleOffnetSendersLength" type="number" class="form-control"
+                                       ng-model="userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders.length"
+                                       ng-min="1" ng-required="true"
+                                       ng-init="userAccount.id ? null : userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders = undefined"
+                                       ng-show="false"/>
+                                <ul ng-class="{ 'parsley-error-list': userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders.length === 0 }"
+                                    ng-show="userAccount.bulkSMSPolicyProfile.PermissibleOffnetSenders.length === 0">
+                                    <li class="required" ng-show="form.bulkSMSPermissibleOffnetSendersLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsQuotaLimited' | translate}}</label>
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkSMSPolicyProfile.isQuotaLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isQuotaLimited" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkSMSPolicyProfile.isQuotaLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isQuotaLimited" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.AvailableQuotaAmount' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="AvailableQuotaAmount" name="AvailableQuotaAmount" type="number" class="form-control"
+                               ng-model="userAccount.bulkSMSPolicyProfile.AvailableQuotaAmount"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999" ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.AvailableQuotaAmount.$dirty && form.AvailableQuotaAmount.$invalid }"
+                            ng-show="form.AvailableQuotaAmount.$dirty && form.AvailableQuotaAmount.$invalid">
+                            <li class="required" ng-show="form.AvailableQuotaAmount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmount.$error.number || form.AvailableQuotaAmount.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.QuotaStartDate' | translate}}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="bulkSMSPolicyQuotaStartDateDay" name="bulkSMSPolicyQuotaStartDateDay" type="text" class="form-control input-sm"
+                                   ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="userAccount.bulkSMSPolicyProfile.QuotaStartDate"
+                                   is-open="bulkSMSPolicyQuotaStartDateDay.opened" close-text="Close"
+                                   datepicker-options="dateOptions" ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openDatePicker($event, bulkSMSPolicyQuotaStartDateDay);"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"><i
+                                        class="fa fa-calendar"></i></button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkSMSPolicyQuotaStartDateDay.$dirty && form.bulkSMSPolicyQuotaStartDateDay.$invalid }"
+                            ng-show="form.bulkSMSPolicyQuotaStartDateDay.$dirty && form.bulkSMSPolicyQuotaStartDateDay.$invalid">
+                            <li class="required" ng-show="form.bulkSMSPolicyQuotaStartDateDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkSMSPolicyQuotaStartDateDay.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                        <span class="time-picker with-date-picker">
+                            <div uib-timepicker ng-model="userAccount.bulkSMSPolicyProfile.QuotaStartDate"
+                                 hour-step="hstep" minute-step="mstep"
+                                 show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.QuotaExpiryDate' | translate}}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="bulkSMSPolicyQuotaExpiryDateDay" name="bulkSMSPolicyQuotaExpiryDateDay" type="text" class="form-control input-sm"
+                                   ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="userAccount.bulkSMSPolicyProfile.QuotaExpiryDate"
+                                   is-open="bulkSMSPolicyQuotaExpiryDateDay.opened" close-text="Close"
+                                   datepicker-options="dateOptions" ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openDatePicker($event, bulkSMSPolicyQuotaExpiryDateDay);"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"><i
+                                        class="fa fa-calendar"></i></button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkSMSPolicyQuotaExpiryDateDay.$dirty && form.bulkSMSPolicyQuotaExpiryDateDay.$invalid }"
+                            ng-show="form.bulkSMSPolicyQuotaExpiryDateDay.$dirty && form.bulkSMSPolicyQuotaExpiryDateDay.$invalid">
+                            <li class="required" ng-show="form.bulkSMSPolicyQuotaExpiryDateDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkSMSPolicyQuotaExpiryDateDay.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                        <span class="time-picker with-date-picker">
+                            <div uib-timepicker ng-model="userAccount.bulkSMSPolicyProfile.QuotaExpiryDate"
+                                 hour-step="hstep" minute-step="mstep"
+                                 show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsQuotaRefundedUponDeliveryFailure' | translate}}</label>
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkSMSPolicyProfile.isQuotaRefundedUponDeliveryFailure?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isQuotaRefundedUponDeliveryFailure" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkSMSPolicyProfile.isQuotaRefundedUponDeliveryFailure?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isQuotaRefundedUponDeliveryFailure" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsThroughputLimited' | translate}}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkSMSPolicyProfile.isThroughputLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isThroughputLimited" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkSMSPolicyProfile.isThroughputLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkSMSPolicyProfile.isThroughputLimited" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkSMSPolicyProfile.isThroughputLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.ThroughputLimit' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="ThroughputLimit" name="ThroughputLimit" type="number" class="form-control"
+                               ng-model="userAccount.bulkSMSPolicyProfile.ThroughputLimit"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999" ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.ThroughputLimit.$dirty && form.ThroughputLimit.$invalid }"
+                            ng-show="form.ThroughputLimit.$dirty && form.ThroughputLimit.$invalid">
+                            <li class="required" ng-show="form.ThroughputLimit.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.ThroughputLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.ThroughputLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                            <li class="required" ng-show="form.ThroughputLimit.$error.number || form.ThroughputLimit.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" ng-if="userAccount.bulkUserProfile.isBulkMmsUser">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.Provisioning.BulkMMSPolicySettings.Title' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div ng-if="userAccount.bulkUserProfile.isBulkMmsUser">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.ChargingMsisdn' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="chargingMsisdn" name="chargingMsisdn" type="text" class="form-control"
+                               ng-model="userAccount.bulkMMSPolicyProfile.ChargingMsisdn"
+                               ng-maxlength="15" maxlength="15"
+                               ng-required="true"
+                               ng-pattern="$root.Validators.InternationalPhoneNumber"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.chargingMsisdn.$dirty && form.chargingMsisdn.$invalid }"
+                            ng-show="form.chargingMsisdn.$dirty && form.chargingMsisdn.$invalid">
+                            <li class="required" ng-show="form.chargingMsisdn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.chargingMsisdn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                            <li class="required" ng-show="form.chargingMsisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsAlphanumericSenderListRestricted' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isAlphanumericSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isAlphanumericSenderListRestricted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isAlphanumericSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isAlphanumericSenderListRestricted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkMMSPolicyProfile.isAlphanumericSenderListRestricted">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleAlphanumericSenders' | translate}}</label>
+                    <div class="col-md-7">
+                        <div ng-if="userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders.length" class="row col-md-9">
+                            <div ng-repeat="permissibleAlphanumericSender in userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders">
+                                <span class="label label-default selected-item-label">
+                                    {{ permissibleAlphanumericSender.value }}
+                                </span>&nbsp;
+                                <a ng-click="addUpdatePermissibleAlphanumericSender(userAccount, 'bulkMMSPolicyProfile', permissibleAlphanumericSender)" style="cursor: pointer;">
+                                    <span class="label label-secondary" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removePermissibleAlphanumericSender(userAccount, 'bulkMMSPolicyProfile', permissibleAlphanumericSender)" style="cursor: pointer;">
+                                    <span class="label label-danger" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-times"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-default col-md-3"
+                                ng-click="addUpdatePermissibleAlphanumericSender(userAccount, 'bulkMMSPolicyProfile')"
+                                ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-class="{ 'pull-right': userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders.length, 'ng-invalid-required': !userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders || userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                        <div style="clear: both;">
+                            <input name="bulkMMSPermissibleAlphanumericSendersLength" type="number" class="form-control"
+                                   ng-model="userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders.length"
+                                   ng-min="1" ng-required="true"
+                                   ng-init="userAccount.id ? null : userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders = undefined"
+                                   ng-show="false"/>
+                            <ul ng-class="{ 'parsley-error-list': userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders.length === 0 }"
+                                ng-show="userAccount.bulkMMSPolicyProfile.PermissibleAlphanumericSenders.length === 0">
+                                <li class="required" ng-show="form.bulkMMSPermissibleAlphanumericSendersLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsOffNetDeliveryAllowed' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsForwardTrackingAllowed' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isForwardTrackingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isForwardTrackingAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isForwardTrackingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isForwardTrackingAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsDisableChargingAllowed' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isDisableChargingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isDisableChargingAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isDisableChargingAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isDisableChargingAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsQuotaLimited' | translate}}</label>
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isQuotaLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isQuotaLimited" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isQuotaLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isQuotaLimited" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkMMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.AvailableQuotaAmount' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="AvailableQuotaAmountMMS" name="AvailableQuotaAmountMMS" type="number" class="form-control"
+                               ng-model="userAccount.bulkMMSPolicyProfile.AvailableQuotaAmount"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999" ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.AvailableQuotaAmountMMS.$dirty && form.AvailableQuotaAmountMMS.$invalid }"
+                            ng-show="form.AvailableQuotaAmountMMS.$dirty && form.AvailableQuotaAmountMMS.$invalid">
+                            <li class="required" ng-show="form.AvailableQuotaAmountMMS.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmountMMS.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmountMMS.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmountMMS.$error.number || form.AvailableQuotaAmountMMS.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkMMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.QuotaStartDate' | translate}}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="bulkMMSPolicyQuotaStartDateDay" name="bulkMMSPolicyQuotaStartDateDay" type="text" class="form-control input-sm"
+                                   ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="userAccount.bulkMMSPolicyProfile.QuotaStartDate"
+                                   is-open="bulkMMSPolicyQuotaStartDateDay.opened" close-text="Close"
+                                   datepicker-options="dateOptions" ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openDatePicker($event, bulkMMSPolicyQuotaStartDateDay);"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"><i
+                                        class="fa fa-calendar"></i></button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkMMSPolicyQuotaStartDateDay.$dirty && form.bulkMMSPolicyQuotaStartDateDay.$invalid }"
+                            ng-show="form.bulkMMSPolicyQuotaStartDateDay.$dirty && form.bulkMMSPolicyQuotaStartDateDay.$invalid">
+                            <li class="required" ng-show="form.bulkMMSPolicyQuotaStartDateDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkMMSPolicyQuotaStartDateDay.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                        <span class="time-picker with-date-picker">
+                            <div uib-timepicker ng-model="userAccount.bulkMMSPolicyProfile.QuotaStartDate"
+                                 hour-step="hstep" minute-step="mstep"
+                                 show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkMMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.QuotaExpiryDate' | translate}}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="bulkMMSPolicyQuotaExpiryDateDay" name="bulkMMSPolicyQuotaExpiryDateDay" type="text" class="form-control input-sm"
+                                   ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="userAccount.bulkMMSPolicyProfile.QuotaExpiryDate"
+                                   is-open="bulkMMSPolicyQuotaExpiryDateDay.opened" close-text="Close"
+                                   datepicker-options="dateOptions" ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openDatePicker($event, bulkMMSPolicyQuotaExpiryDateDay);"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"><i
+                                        class="fa fa-calendar"></i></button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkMMSPolicyQuotaExpiryDateDay.$dirty && form.bulkMMSPolicyQuotaExpiryDateDay.$invalid }"
+                            ng-show="form.bulkMMSPolicyQuotaExpiryDateDay.$dirty && form.bulkMMSPolicyQuotaExpiryDateDay.$invalid">
+                            <li class="required" ng-show="form.bulkMMSPolicyQuotaExpiryDateDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkMMSPolicyQuotaExpiryDateDay.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                        <span class="time-picker with-date-picker">
+                            <div uib-timepicker ng-model="userAccount.bulkMMSPolicyProfile.QuotaExpiryDate"
+                                 hour-step="hstep" minute-step="mstep"
+                                 show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkMMSPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsQuotaRefundedUponDeliveryFailure' | translate}}</label>
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isQuotaRefundedUponDeliveryFailure?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isQuotaRefundedUponDeliveryFailure" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isQuotaRefundedUponDeliveryFailure?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isQuotaRefundedUponDeliveryFailure" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsThroughputLimited' | translate}}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkMMSPolicyProfile.isThroughputLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isThroughputLimited" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkMMSPolicyProfile.isThroughputLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkMMSPolicyProfile.isThroughputLimited" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkMMSPolicyProfile.isThroughputLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.ThroughputLimit' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="ThroughputLimitMMS" name="ThroughputLimitMMS" type="number" class="form-control"
+                               ng-model="userAccount.bulkMMSPolicyProfile.ThroughputLimit"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999" ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.ThroughputLimitMMS.$dirty && form.ThroughputLimitMMS.$invalid }"
+                            ng-show="form.ThroughputLimitMMS.$dirty && form.ThroughputLimitMMS.$invalid">
+                            <li class="required" ng-show="form.ThroughputLimitMMS.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.ThroughputLimitMMS.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.ThroughputLimitMMS.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                            <li class="required" ng-show="form.ThroughputLimitMMS.$error.number || form.ThroughputLimitMMS.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" ng-if="userAccount.bulkUserProfile.isBulkIvrUser">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.Provisioning.BulkIVRPolicySettings.Title' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div ng-if="userAccount.bulkUserProfile.isBulkIvrUser">
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.SenderMsisdn' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="senderMsisdnIVR" name="senderMsisdnIVR" type="text" class="form-control"
+                               ng-model="userAccount.bulkIVRPolicyProfile.SenderMsisdn"
+                               ng-maxlength="15" maxlength="15"
+                               ng-required="true"
+                               ng-pattern="$root.Validators.InternationalPhoneNumber"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.senderMsisdnIVR.$dirty && form.senderMsisdnIVR.$invalid }"
+                            ng-show="form.senderMsisdnIVR.$dirty && form.senderMsisdnIVR.$invalid">
+                            <li class="required" ng-show="form.senderMsisdnIVR.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.senderMsisdnIVR.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 15 } }}</li>
+                            <li class="required" ng-show="form.senderMsisdnIVR.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsAlphanumericSenderListRestricted' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkIVRPolicyProfile.isAlphanumericSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isAlphanumericSenderListRestricted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkIVRPolicyProfile.isAlphanumericSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isAlphanumericSenderListRestricted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isAlphanumericSenderListRestricted">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleAlphanumericSenders' | translate}}</label>
+                    <div class="col-md-7">
+                        <div ng-if="userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders.length" class="row col-md-9">
+                            <div ng-repeat="permissibleAlphanumericSender in userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders">
+                                <span class="label label-default selected-item-label">
+                                    {{ permissibleAlphanumericSender.value }}
+                                </span>&nbsp;
+                                <a ng-click="addUpdatePermissibleAlphanumericSender(userAccount, 'bulkIVRPolicyProfile', permissibleAlphanumericSender)" style="cursor: pointer;">
+                                    <span class="label label-secondary" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removePermissibleAlphanumericSender(userAccount, 'bulkIVRPolicyProfile', permissibleAlphanumericSender)" style="cursor: pointer;">
+                                    <span class="label label-danger" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-times"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-default col-md-3"
+                                ng-click="addUpdatePermissibleAlphanumericSender(userAccount, 'bulkIVRPolicyProfile')"
+                                ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-class="{ 'pull-right': userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders.length, 'ng-invalid-required': !userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders || userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                        <div style="clear: both;">
+                            <input name="bulkIVRPermissibleAlphanumericSendersLength" type="number" class="form-control"
+                                   ng-model="userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders.length"
+                                   ng-min="1" ng-required="true"
+                                   ng-init="userAccount.id ? null : userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders = undefined"
+                                   ng-show="false"/>
+                            <ul ng-class="{ 'parsley-error-list': userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders.length === 0 }"
+                                ng-show="userAccount.bulkIVRPolicyProfile.PermissibleAlphanumericSenders.length === 0">
+                                <li class="required" ng-show="form.bulkIVRPermissibleAlphanumericSendersLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsOffNetDeliveryAllowed' | translate}}</label>
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkIVRPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkIVRPolicyProfile.isOffNetDeliveryAllowed?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isOffNetDeliveryAllowed" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="userAccount.bulkIVRPolicyProfile.isOffNetDeliveryAllowed">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsOffnetSenderListRestricted' | translate}}</label>
+                        <div class="col-md-2">
+                            <div class="btn-group">
+                                <button class="btn {{userAccount.bulkIVRPolicyProfile.isOffnetSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                        ng-model="userAccount.bulkIVRPolicyProfile.isOffnetSenderListRestricted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!userAccount.bulkIVRPolicyProfile.isOffnetSenderListRestricted?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                        ng-model="userAccount.bulkIVRPolicyProfile.isOffnetSenderListRestricted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isOffnetSenderListRestricted">
+                        <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.PermissibleOffnetSenders' | translate}}</label>
+                        <div class="col-md-7">
+                            <div ng-if="userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders.length" class="row col-md-9">
+                                <div ng-repeat="permissibleOffnetSender in userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders">
+                                    <span class="label label-default selected-item-label">
+                                        {{ permissibleOffnetSender.value }}
+                                    </span>&nbsp;
+                                    <a ng-click="addUpdatePermissibleOffnetSender(userAccount, 'bulkIVRPolicyProfile', permissibleOffnetSender)" style="cursor: pointer;">
+                                        <span class="label label-secondary" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-edit"></i></span>
+                                    </a>
+                                    <a ng-click="removePermissibleOffnetSender(userAccount, 'bulkIVRPolicyProfile', permissibleOffnetSender)" style="cursor: pointer;">
+                                        <span class="label label-danger" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-times"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="btn btn-default col-md-3"
+                                    ng-click="addUpdatePermissibleOffnetSender(userAccount, 'bulkIVRPolicyProfile')"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-class="{ 'pull-right': userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders.length, 'ng-invalid-required': !userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders || userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                            <div style="clear: both;">
+                                <input name="bulkIVRPermissibleOffnetSendersLength" type="number" class="form-control"
+                                       ng-model="userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders.length"
+                                       ng-min="1" ng-required="true"
+                                       ng-init="userAccount.id ? null : userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders = undefined"
+                                       ng-show="false"/>
+                                <ul ng-class="{ 'parsley-error-list': userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders.length === 0 }"
+                                    ng-show="userAccount.bulkIVRPolicyProfile.PermissibleOffnetSenders.length === 0">
+                                    <li class="required" ng-show="form.bulkIVRPermissibleOffnetSendersLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsQuotaLimited' | translate}}</label>
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkIVRPolicyProfile.isQuotaLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isQuotaLimited" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkIVRPolicyProfile.isQuotaLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isQuotaLimited" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.AvailableQuotaAmount' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="AvailableQuotaAmountIVR" name="AvailableQuotaAmountIVR" type="number" class="form-control"
+                               ng-model="userAccount.bulkIVRPolicyProfile.AvailableQuotaAmount"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999" ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.AvailableQuotaAmountIVR.$dirty && form.AvailableQuotaAmountIVR.$invalid }"
+                            ng-show="form.AvailableQuotaAmountIVR.$dirty && form.AvailableQuotaAmountIVR.$invalid">
+                            <li class="required" ng-show="form.AvailableQuotaAmountIVR.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmountIVR.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmountIVR.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                            <li class="required" ng-show="form.AvailableQuotaAmountIVR.$error.number || form.AvailableQuotaAmountIVR.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.QuotaStartDate' | translate}}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="bulkIVRPolicyQuotaStartDateDay" name="bulkIVRPolicyQuotaStartDateDay" type="text" class="form-control input-sm"
+                                   ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="userAccount.bulkIVRPolicyProfile.QuotaStartDate"
+                                   is-open="bulkIVRPolicyQuotaStartDateDay.opened" close-text="Close"
+                                   datepicker-options="dateOptions" ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openDatePicker($event, bulkIVRPolicyQuotaStartDateDay);"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"><i
+                                        class="fa fa-calendar"></i></button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkIVRPolicyQuotaStartDateDay.$dirty && form.bulkIVRPolicyQuotaStartDateDay.$invalid }"
+                            ng-show="form.bulkIVRPolicyQuotaStartDateDay.$dirty && form.bulkIVRPolicyQuotaStartDateDay.$invalid">
+                            <li class="required" ng-show="form.bulkIVRPolicyQuotaStartDateDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkIVRPolicyQuotaStartDateDay.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                        <span class="time-picker with-date-picker">
+                            <div uib-timepicker ng-model="userAccount.bulkIVRPolicyProfile.QuotaStartDate"
+                                 hour-step="hstep" minute-step="mstep"
+                                 show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.QuotaExpiryDate' | translate}}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="bulkIVRPolicyQuotaExpiryDateDay" name="bulkIVRPolicyQuotaExpiryDateDay" type="text" class="form-control input-sm"
+                                   ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="userAccount.bulkIVRPolicyProfile.QuotaExpiryDate"
+                                   is-open="bulkIVRPolicyQuotaExpiryDateDay.opened" close-text="Close"
+                                   datepicker-options="dateOptions" ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openDatePicker($event, bulkIVRPolicyQuotaExpiryDateDay);"
+                                        ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"><i
+                                        class="fa fa-calendar"></i></button>
+                            </span>
+                        <ul ng-class="{ 'parsley-error-list': form.bulkIVRPolicyQuotaExpiryDateDay.$dirty && form.bulkIVRPolicyQuotaExpiryDateDay.$invalid }"
+                            ng-show="form.bulkIVRPolicyQuotaExpiryDateDay.$dirty && form.bulkIVRPolicyQuotaExpiryDateDay.$invalid">
+                            <li class="required" ng-show="form.bulkIVRPolicyQuotaExpiryDateDay.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.bulkIVRPolicyQuotaExpiryDateDay.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <div class="col-md-4 row">
+                        <span class="time-picker with-date-picker">
+                            <div uib-timepicker ng-model="userAccount.bulkIVRPolicyProfile.QuotaExpiryDate"
+                                 hour-step="hstep" minute-step="mstep"
+                                 show-meridian="false" readonly-input="true" mousewheel="false"></div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isQuotaLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsQuotaRefundedUponDeliveryFailure' | translate}}</label>
+                    <div class="col-md-3">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkIVRPolicyProfile.isQuotaRefundedUponDeliveryFailure?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isQuotaRefundedUponDeliveryFailure" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkIVRPolicyProfile.isQuotaRefundedUponDeliveryFailure?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isQuotaRefundedUponDeliveryFailure" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsThroughputLimited' | translate}}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkIVRPolicyProfile.isThroughputLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isThroughputLimited" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkIVRPolicyProfile.isThroughputLimited?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkIVRPolicyProfile.isThroughputLimited" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkIVRPolicyProfile.isThroughputLimited">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.ThroughputLimit' | translate}}</label>
+                    <div class="col-md-5">
+                        <input id="ThroughputLimitIVR" name="ThroughputLimitIVR" type="number" class="form-control"
+                               ng-model="userAccount.bulkIVRPolicyProfile.ThroughputLimit"
+                               ng-pattern="$root.Validators.IntegerNumber"
+                               min="0" max="999999" ng-required="true"
+                               ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.ThroughputLimitIVR.$dirty && form.ThroughputLimitIVR.$invalid }"
+                            ng-show="form.ThroughputLimitIVR.$dirty && form.ThroughputLimitIVR.$invalid">
+                            <li class="required" ng-show="form.ThroughputLimitIVR.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.ThroughputLimitIVR.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                            <li class="required" ng-show="form.ThroughputLimitIVR.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                            <li class="required" ng-show="form.ThroughputLimitIVR.$error.number || form.ThroughputLimitIVR.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-if="userAccount.bulkUserProfile.isBulkSmsUser || userAccount.bulkUserProfile.isBulkMmsUser || userAccount.bulkUserProfile.isBulkIvrUser">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'Subsystems.Provisioning.BulkAccountDetails.Other' | translate }}
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.IsTimeConstraintEnforced' | translate}}</label>
+                    <div class="col-md-7">
+                        <div class="btn-group">
+                            <button class="btn {{userAccount.bulkUserPolicyProfile.isTimeConstraintEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkUserPolicyProfile.isTimeConstraintEnforced" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!userAccount.bulkUserPolicyProfile.isTimeConstraintEnforced?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                    ng-model="userAccount.bulkUserPolicyProfile.isTimeConstraintEnforced" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="userAccount.bulkUserPolicyProfile.isTimeConstraintEnforced">
+                    <label class="col-md-3">{{ 'Subsystems.Provisioning.BulkAccountDetails.BulkMessagingPolicyProfile.TimeConstraints' | translate}}</label>
+                    <div class="col-md-7">
+                        <div ng-if="userAccount.bulkUserPolicyProfile.TimeConstraints.length" class="row col-md-9">
+                            <div ng-repeat="timeConstraint in userAccount.bulkUserPolicyProfile.TimeConstraints">
+                                        <span class="label label-default selected-item-label">
+                                            {{ timeConstraint.value | TimeConstraintViewFilter }}
+                                        </span>&nbsp;
+                                <a ng-click="addUpdateTimeConstraint(userAccount, timeConstraint)" style="cursor: pointer;">
+                                    <span class="label label-secondary" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-edit"></i></span>
+                                </a>
+                                <a ng-click="removeTimeConstraint(userAccount, timeConstraint)" style="cursor: pointer;">
+                                    <span class="label label-danger" ng-if="(userAccount.id ? AuthorizationService.canUpdateUserAccount() : AuthorizationService.canCreateUserAccount())"><i class="fa fa-times"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-default col-md-3"
+                                ng-click="addUpdateTimeConstraint(userAccount)"
+                                ng-disabled="(userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount())"
+                                ng-class="{ 'pull-right': userAccount.bulkUserPolicyProfile.TimeConstraints.length, 'ng-invalid-required': !userAccount.bulkUserPolicyProfile.TimeConstraints || userAccount.bulkUserPolicyProfile.TimeConstraints.length === 0 }">{{ 'CommonLabels.Add' | translate }}</button>
+                        <div style="clear: both;">
+                            <input name="timeConstraintsLength" type="number" class="form-control"
+                                   ng-model="userAccount.bulkUserPolicyProfile.TimeConstraints.length"
+                                   ng-min="1" ng-required="true"
+                                   ng-init="userAccount.id ? null : userAccount.bulkUserPolicyProfile.TimeConstraints = undefined"
+                                   ng-show="false"/>
+                            <ul ng-class="{ 'parsley-error-list': userAccount.bulkUserPolicyProfile.TimeConstraints.length === 0 }"
+                                ng-show="userAccount.bulkUserPolicyProfile.TimeConstraints.length === 0">
+                                <li class="required" ng-show="form.timeConstraintsLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (userAccount.id ? !AuthorizationService.canUpdateUserAccount() : !AuthorizationService.canCreateUserAccount()) || isNotChanged()"
+                        ng-click="save(userAccount);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+
+    </form>
+
+</div>

@@ -1,0 +1,54 @@
+<div class="portlet-header">
+        <h4 class="portlet-title">
+            {{ 'Products.SMSC.Operations.RoutingTables.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.RoutingTables.SS7SubsystemRouting.PageHeader' | translate }}
+        </h4>
+    </div>
+
+    <div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RoutingTables.FormFields.Start.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="addressRangeStart" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                       ng-model="ss7SubsystemRouting.addressRangeStart"
+                       ng-pattern="$root.Validators.IntegerNumber" ng-required="true" required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.addressRangeStart.$dirty && form.addressRangeStart.$invalid }" ng-show="form.addressRangeStart.$dirty && form.addressRangeStart.$invalid">
+                    <li class="required" ng-show="form.addressRangeStart.$error.number || form.addressRangeStart.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeStart.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeStart.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeStart.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RoutingTables.FormFields.End.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="addressRangeEnd" type="text" class="form-control" ng-maxlength="20" maxlength="20"
+                       ng-model="ss7SubsystemRouting.addressRangeEnd"
+                       ng-pattern="$root.Validators.IntegerNumber" ng-required="true" required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.addressRangeEnd.$dirty && form.addressRangeEnd.$invalid }" ng-show="form.addressRangeEnd.$dirty && form.addressRangeEnd.$invalid">
+                    <li class="required" ng-show="form.addressRangeEnd.$error.number || form.addressRangeEnd.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeEnd.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.addressRangeEnd.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 20} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate()" ng-click="save(ss7SubsystemRouting);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

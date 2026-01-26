@@ -1,0 +1,36 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('subsystems.diagnostics.dashboards') }">
+                <a ui-sref="subsystems.diagnostics.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.diagnostics.alarmlogs') }" ng-if="AuthorizationService.canSeeDiagnostics()">
+                <a ui-sref="subsystems.diagnostics.alarmlogs" data-toggle="tab">
+                    <span class="fa fa-file-text-o"></span> {{ 'Subsystems.Diagnostics.AlarmLogs.Header' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('subsystems.diagnostics.auditlogs') }" ng-if="AuthorizationService.canSeeDiagnostics()">
+                <a ui-sref="subsystems.diagnostics.auditlogs" data-toggle="tab">
+                    <span class="fa fa-file-text"></span> {{ 'Subsystems.Diagnostics.AuditLogs.Header' | translate }}
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

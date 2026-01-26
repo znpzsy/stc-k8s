@@ -1,0 +1,115 @@
+# Remember, leave a key empty if there is no value.  None will be a string,
+# # not a Python "NoneType"
+# #
+# # Also remember that all examples have 'disable_action' set to True.  If you
+# # want to use this action as a template, be sure to set this to False after
+# # copying it.
+#
+# TODO: Actions 2 & 3 are separated because curator fails the whole action,
+#       even if only one of add/remove operation fails with "empty list"
+#       exception.
+#
+actions:
+  1:
+    action: create_index
+    description: "Create new index."
+    options:
+      name: 'a3gw-%Y.%m'
+      continue_if_exception: True
+  2:
+    action: alias
+    description: "Add new index to read alias."
+    options:
+      name: a3gw-read
+      ignore_empty_list: True
+      continue_if_exception: True
+    add:
+      filters:
+      - filtertype: pattern
+        kind: prefix
+        value: a3gw-
+      - filtertype: period
+        period_type: relative
+        source: name
+        range_from: 0
+        range_to: 0
+        timestring: '%Y.%m'
+        unit: months
+  3:
+    action: alias
+    description: "Remove old indices from read alias."
+    options:
+      name: a3gw-read
+      ignore_empty_list: True
+      continue_if_exception: True
+    remove:
+      filters:
+      - filtertype: pattern
+        kind: prefix
+        value: a3gw-
+      - filtertype: period
+        period_type: relative
+        source: name
+        range_from: -999
+        range_to: -12
+        timestring: '%Y.%m'
+        unit: months
+  4:
+    action: alias
+    description: "Update write alias to point to the new index only."
+    options:
+      name: a3gw-write
+      ignore_empty_list: True
+      continue_if_exception: True
+    remove:
+      filters:
+      - filtertype: pattern
+        kind: prefix
+        value: a3gw-
+    add:
+      filters:
+      - filtertype: pattern
+        kind: prefix
+        value: a3gw-
+      - filtertype: period
+        period_type: relative
+        source: name
+        range_from: 0
+        range_to: 0
+        timestring: '%Y.%m'
+        unit: months
+  5:
+    action: delete_indices
+    description: "Delete old indices."
+    options:
+      ignore_empty_list: True
+      continue_if_exception: True
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: a3gw-
+    - filtertype: period
+      period_type: relative
+      source: name
+      range_from: -999
+      range_to: -24
+      timestring: '%Y.%m'
+      unit: months
+  6:
+    action: close
+    description: "Close old indices, removing them from read alias as well."
+    options:
+      delete_aliases: True
+      ignore_empty_list: True
+      continue_if_exception: True
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: a3gw-
+    - filtertype: period
+      period_type: relative
+      source: name
+      range_from: -999
+      range_to: -12 
+      timestring: '%Y.%m'
+      unit: months

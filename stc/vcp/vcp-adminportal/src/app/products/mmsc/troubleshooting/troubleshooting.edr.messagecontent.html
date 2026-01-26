@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.MMSC.Troubleshooting.MessageContent.PageHeader' | translate:{ origAddress: edrRecord.sender.address, destAddress: edrRecord.recipient.address } }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="details-modal" style="height: 220px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="portlet-body">
+                    <table ng-table="tableParams" class="table table-striped table-bordered" template-pagination="ngTableCustomPager.html">
+                        <thead>
+                        <tr>
+                            <th>{{ 'Products.MMSC.Troubleshooting.MessageContent.Name' | translate }}</th>
+                            <th>{{ 'Products.MMSC.Troubleshooting.MessageContent.Type' | translate }}</th>
+                            <th>{{ 'CommonLabels.Actions' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="entry in $data" class="hidden-link-cell-row">
+                            <td align="center">{{entry.key}}</td>
+                            <td align="center">{{entry.value}}</td>
+                            <td align="center">
+                                <button ng-click="downloadFile(messageID, entry.key)" title="{{ 'CommonLabels.Download' | translate }}" style="cursor: pointer;">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </td>
+
+                            <!--<td align="center"><a href="{{restServicePath}}/{{messageID}}/{{entry.key}}" title="{{ 'CommonLabels.Download' | translate }}"><i class="fa fa-download"></i></a></td>-->
+                        </tr>
+                        <tr ng-if="$data.length === 0">
+                            <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

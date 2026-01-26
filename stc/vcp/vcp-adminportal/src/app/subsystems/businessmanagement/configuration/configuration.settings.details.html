@@ -1,0 +1,82 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.BusinessManagement.Configuration.Settings.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group">
+            <label for="vat" class="col-md-3">{{ 'Subsystems.BusinessManagement.Configuration.Settings.VAT' | translate }}</label>
+            <div class="col-md-4">
+                <input id="vat" name="vat" type="number" class="form-control"
+                       ng-model="settlementGLCodesProfile.vatSettlementGLCodesProfile.TaxPercentage"
+                       ng-pattern="$root.Validators.DecimalNumber"
+                       min="0" max="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.vat.$dirty && form.vat.$invalid }"
+                    ng-show="form.vat.$dirty && form.vat.$invalid">
+                    <li class="required" ng-show="form.vat.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.vat.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.vat.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.vat.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="withholdingTax" class="col-md-3">{{ 'Subsystems.BusinessManagement.Configuration.Settings.WithholdingTax' | translate }}</label>
+            <div class="col-md-4">
+                <input id="withholdingTax" name="withholdingTax" type="number" class="form-control"
+                       ng-model="settlementGLCodesProfile.withholdingTaxSettlementGLCodesProfile.TaxPercentage"
+                       ng-pattern="$root.Validators.DecimalNumber"
+                       min="0" max="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.withholdingTax.$dirty && form.withholdingTax.$invalid }"
+                    ng-show="form.withholdingTax.$dirty && form.withholdingTax.$invalid">
+                    <li class="required" ng-show="form.withholdingTax.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.withholdingTax.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.withholdingTax.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.withholdingTax.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="badDebt" class="col-md-3">{{ 'Subsystems.BusinessManagement.Configuration.Settings.BadDebtTax' | translate }}</label>
+            <div class="col-md-4">
+                <input id="badDebt" name="badDebt" type="number" class="form-control"
+                       ng-model="settlementGLCodesProfile.badDebtSettlementGLCodesProfile.TaxPercentage"
+                       ng-pattern="$root.Validators.DecimalNumber"
+                       min="0" max="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.badDebt.$dirty && form.badDebt.$invalid }"
+                    ng-show="form.badDebt.$dirty && form.badDebt.$invalid">
+                    <li class="required" ng-show="form.badDebt.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.badDebt.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 100} }}</li>
+                    <li class="required" ng-show="form.badDebt.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.badDebt.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save(settlementGLCodesProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

@@ -1,0 +1,61 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.ContentFilters.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Operations.Substitutions.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Substitutions.TableColumns.Name' | translate }}
+                <span class="fa fa-question-circle" ng-if="!entry.id"
+                      uib-popover="{{ 'Products.AntiSpamSMS.Common.CannotContainSpaces' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                      style="margin-left: 6px; cursor: pointer;">
+                </span>
+            </label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="entry.name"
+                       space-to-underscore
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="($state.includes('products.antispamsms.operations.contentfilters.substitutions.update') ? !AuthorizationService.canAntispamContentFiltersUpdate() : !AuthorizationService.canAntispamContentFiltersCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="list" class="col-md-3">{{ 'Products.AntiSpamSMS.Operations.Substitutions.TableColumns.List' | translate }}</label>
+            <div class="col-md-7">
+                <input id="list" name="list" type="text" class="form-control"
+                       placeholder="{{ 'Products.AntiSpamSMS.Operations.Substitutions.ListFormatPlaceholder' | translate }}"
+                       ng-model="entry.list"
+                       ng-disabled="($state.includes('products.antispamsms.operations.contentfilters.substitutions.update') ? !AuthorizationService.canAntispamContentFiltersUpdate() : !AuthorizationService.canAntispamContentFiltersCreate())"
+                       ng-required="true" ng-maxlength="50" maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.list.$dirty && form.list.$invalid }" ng-show="form.list.$dirty && form.list.$invalid">
+                    <li class="required" ng-show="form.list.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.list.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || isNotChanged() || ($state.includes('products.antispamsms.operations.contentfilters.substitutions.update') ? !AuthorizationService.canAntispamContentFiltersUpdate() : !AuthorizationService.canAntispamContentFiltersCreate())"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

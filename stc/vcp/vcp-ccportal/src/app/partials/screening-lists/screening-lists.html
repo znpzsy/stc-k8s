@@ -1,0 +1,37 @@
+<div class="col-md-12" ng-if="!error_message">
+    <div class="portlet portlet-default">
+
+        <div class="portlet-body">
+            <div class="row">
+
+                <div class="col-md-3 col-sm-3">
+                    <ul id="myTab" class="nav nav-pills nav-stacked">
+                        <li ng-if="showLists" ng-class="{ 'active': $state.includes($state.current.data.statePrefix + 'screening-lists.lists') }">
+                            <a ui-sref="{{ $state.current.data.statePrefix }}screening-lists.lists" data-toggle="tab">
+                                <i class="fa fa-list"></i>&nbsp;{{ 'ScreeningLists.ScreeningLists' | translate }}
+                            </a>
+                        </li>
+
+                        <li ng-if="showModes" ng-class="{ 'active': $state.includes($state.current.data.statePrefix + 'screening-lists.mode') }">
+                            <a ui-sref="{{ $state.current.data.statePrefix }}screening-lists.mode" data-toggle="tab">
+                                <i class="fa fa-cog"></i>&nbsp;{{ 'ScreeningLists.ScreeningMode' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-9 col-sm-9">
+                    <div class="tab-content stacked-content">
+                        <div class="tab-pane fade active in" ui-view>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<span ng-include="'partials/generic-alerts.html'"></span>
+
+<ccportal-screening-lists-templates></ccportal-screening-lists-templates>

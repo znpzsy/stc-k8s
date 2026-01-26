@@ -1,0 +1,130 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.Applications.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.Applications.MM7.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.Applications.MM7.BlackHourRules.Title' | translate:{vasId: app.vasId} }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+
+
+        <div class="form-group">
+            <label for="name" class="col-md-3 col-sm-4">{{ 'Products.MMSC.Operations.Applications.MM7.BlackHourRules.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="configuration.name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(configuration.id)"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 col-sm-4">{{ 'GenericFormFields.StartDateAndTime.Label' | translate }}</label>
+            <div class="col-md-4 col-sm-5">
+                <div id="startDate" class="input-group date datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           ng-model="dateHolder.startDate" uib-datepicker-popup="{{dateFormat}}"
+                           ng-change="updateStartDate(dateHolder.startDate)"
+                           ng-focus="openStartDatePicker($event)"
+                           min-max-check is-open="startDatePicker.opened"
+                           max-date="dateHolder.endDate" datepicker-options="dateOptions"
+                           ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default input-sm"
+                                    ng-click="openStartDatePicker($event)">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                    <li class="required" ng-show="filterForm.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="filterForm.startDate.$error.parse">{{ 'GenericFormFields.StartDateAndTime.Messages.Invalid' | translate }}</li>
+                    <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-5 col-sm-3">
+                <div uib-timepicker ng-model="dateHolder.startTime" class="time-picker with-date-picker"
+                     hour-step="hstep" minute-step="mstep"
+                     show-meridian="false" readonly-input="true" mousewheel="false"
+                     ng-change="updateStartDateTime(dateHolder.startTime)"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 col-sm-4">{{ 'GenericFormFields.EndDateAndTime.Label' | translate }}</label>
+            <div class="col-md-4 col-sm-5">
+                <div id="endDate" class="input-group date datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           ng-model="dateHolder.endDate" uib-datepicker-popup="{{dateFormat}}"
+                           ng-change="updateEndDate(dateHolder.endDate)"
+                           ng-focus="openEndDatePicker($event)"
+                           min-max-check is-open="endDatePicker.opened"
+                           min-date="dateHolder.endDate" datepicker-options="dateOptions"
+                           ng-required="true"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm"
+                                        ng-click="openEndDatePicker($event)">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': filterForm.endDate.$dirty && filterForm.endDate.$invalid }" ng-show="filterForm.endDate.$dirty && filterForm.endDate.$invalid">
+                    <li class="required" ng-show="filterForm.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="filterForm.endDate.$error.parse">{{ 'GenericFormFields.EndDateAndTime.Messages.Invalid' | translate }}</li>
+                    <li class="required" ng-show="filterForm.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDateAndTime.Messages.MinDateExceeded' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-5 col-sm-3">
+                <div uib-timepicker ng-model="dateHolder.endTime" class="time-picker with-date-picker"
+                     hour-step="hstep" minute-step="mstep"
+                     show-meridian="false" readonly-input="true" mousewheel="false"
+                     ng-change="updateEndDateTime(dateHolder.endTime)"></div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3 col-sm-4">{{ 'Products.MMSC.Operations.Applications.MM7.BlackHourRules.Recurring' | translate }}</label>
+            <div class="col-md-5">
+                <div class="btn-group">
+                    <button class="btn {{configuration.recurrence?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="configuration.recurrence" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!configuration.recurrence?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="configuration.recurrence" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 col-sm-4">{{ 'Products.MMSC.Operations.Applications.MM7.BlackHourRules.Enabled' | translate }}</label>
+            <div class="col-md-5">
+                <select name="enabled" class="form-control parsley-validated" ng-model="configuration.enabled"
+                        ng-options="opt for opt in STATES">
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (configuration.id && !AuthorizationService.canUpdate()) || isNotChanged()"
+                        ng-click="save(configuration);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

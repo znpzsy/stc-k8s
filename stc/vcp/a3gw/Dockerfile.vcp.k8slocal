@@ -1,0 +1,47 @@
+# stc/vcp/a3gw/Dockerfile.vcp.k8slocal
+
+# ----------------------------------------------------------------------
+# FROM mersin.telenity.com/com/telenity/a3gw:1.0.9-main
+
+# COPY ./vcp/ecosystem.config.js ./ecosystem.config.js
+# COPY ./vcp/conf.k8s ./src/conf
+# RUN mkdir -p ./static
+# COPY ./vcp/static.prod ./static
+
+# EXPOSE 8444
+# EXPOSE 8445
+# CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+# ----------------------------------------------------------------------
+
+# Base image with Node.js and PM2
+FROM node:20.15.0-alpine
+
+# Create app directory
+WORKDIR /space/a3gw
+
+# Copy package files separately to leverage Docker layer caching
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Install PM2 globally
+RUN npm install -g pm2
+
+# Copy the entire application source
+COPY ./src ./src
+
+# Copy the rest of the conf & app source
+COPY ./vcp/ecosystem.config.js ./ecosystem.config.js
+COPY ./vcp/conf.k8s ./src/conf
+
+# Create static directory and copy static files
+RUN mkdir -p ./static
+COPY ./vcp/static.prod ./static
+
+# Expose application ports
+EXPOSE 8444
+EXPOSE 8445
+
+# Run app via PM2
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]

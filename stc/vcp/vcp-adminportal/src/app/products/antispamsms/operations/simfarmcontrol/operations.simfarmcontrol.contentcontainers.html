@@ -1,0 +1,111 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.AntiSpamSMS.Operations.SimFarmControl.PageHeader' | translate }} / {{ 'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm" ui-sref="products.antispamsms.operations.simfarmcontrol.newcontainer"
+                        ng-disabled="!AuthorizationService.canAntispamContentCountersCreate()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="contentCounterContainersList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('ContentCounterGroups', contentCounterContainersList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('ContentCounterGroups', contentCounterContainersList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['name', 'parentName', 'contentFilter'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="contentCounterContainersList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.TableColumns.Name' | translate" sortable="'name'">{{data.name}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.TableColumns.CheckGeo' | translate" sortable="'checkGeo'">{{data.checkGeo ? 'YES' : 'NO'}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.TableColumns.Flow' | translate" sortable="'flow'">{{data.flow | AntiSpamSMSContentCounterFlowFilter}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.TableColumns.MsisdnAdjacency' | translate" sortable="'msisdnAdjacency'">{{data.msisdnAdjacency}}</td>
+                        <td align="center" class="wrap" data-title="'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounterContainers.TableColumns.ContentCounters' | translate"
+                            uib-popover-template="'products/antispamsms/operations/operations.simfarmcontrol.contentcontainers.popover.html'"
+                            popover-placement="auto" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                            popover-title="Content Counters of Group [{{data.name}}]">
+                            <a ui-sref="products.antispamsms.operations.simfarmcontrol.counterlist ({ parentName:data.name })">
+                                <i class="fa fa-tag  "></i>&nbsp;&nbsp;{{data.counters ? data.counters.length : 0}}
+                            </a>
+                        </td>
+                        <td align="center" class="action-column" data-title="'CommonLabels.Actions' | translate">
+
+                            <button ui-sref="products.antispamsms.operations.simfarmcontrol.updatecontainer ({ parentName:data.name })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canAntispamContentCountersUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }} {{}}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canAntispamContentCountersUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canAntispamContentCountersUpdate()"></i>
+                            </button>
+                            <button ui-sref="products.antispamsms.operations.simfarmcontrol.counterlist ({ parentName:data.name })"
+                                    class="btn btn-xs btn-tertiary"
+                                    title="{{ 'CommonLabels.View' | translate }} {{ 'Products.AntiSpamSMS.Operations.SimFarmControl.ContentCounters.PageHeader' | translate}}">
+                                <i class="fa fa-bars" ng-if="AuthorizationService.canAntispamContentCountersUpdate()"></i>
+                                <i class="fa fa-list" ng-if="!AuthorizationService.canAntispamContentCountersUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canAntispamContentCountersDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Detail Popover. Please use "data" for binding. -->
+<script type="text/ng-template" id="products/antispamsms/operations/operations.simfarmcontrol.contentcontainers.popover.html">
+    <div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <tr ng-repeat="counter in data.counters" class="hidden-link-cell-row">
+                                <td align="center" class="nowrap"  sortable="'name'">{{counter.name}}</td>
+                                <td align="center" sortable="'contentFilter'">{{counter.contentFilter}} - {{counter.contentFilterType | AntiSpamSMSContentCounterFilterTypeFilter}} - {{counter.state}}</td>
+                            </tr>
+                            <tr ng-if="data.counters.length === 0">
+                                <td colspan="2" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</script>

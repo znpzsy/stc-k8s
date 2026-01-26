@@ -1,0 +1,120 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Title' | translate }} / {{ ('Subsystems.ContentManagement.Operations.RBT.CategoryTypes.' + $stateParams.accessType) | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <!--<div class="btn-group pull-right">
+                <button type="button" class="btn {{stateFilter === 'WAITING'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'WAITING'" ng-change="stateFilterChange('WAITING');">{{ 'StatusTypes.Waiting' | translate | uppercase }}
+                </button>
+            </div>-->
+            <div class="btn-group pull-right" style="margin-right: 10px;">
+                <button type="button" class="btn {{stateFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'ALL'" ng-change="stateFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{stateFilter === 'ACTIVE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'ACTIVE'" ng-change="stateFilterChange('ACTIVE');">{{ 'StatusTypes.Active' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{stateFilter === 'INACTIVE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'INACTIVE'" ng-change="stateFilterChange('INACTIVE');">{{ 'StatusTypes.Inactive' | translate | uppercase }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ng-if="$stateParams.accessType !== 'IVR'"
+                        ui-sref="subsystems.contentmanagement.operations.rbt.contentcategories.new({accessType: $stateParams.accessType})"
+                        ng-disabled="!AuthorizationService.canRBTOperationsCategoryCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="false && contentCategoryList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download($state.current.data.exportFileName, contentCategoryList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download($state.current.data.exportFileName, contentCategoryList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['id', 'name', 'status'])"
+                       placeholder="{{ 'CommonLabels.SearchByName' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="contentCategoryList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': data.rowSelected }">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Id' | translate" sortable="'id'">{{data.id || 'TBD'}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentCategories.ContentCategory' | translate">{{data.name}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Promoted' | translate">{{data.promoted | YesNoFilter}}</td>
+                        <td align="center" data-title="'CommonLabels.State' | translate">{{data.status}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ng-click="showTaskDetails(data)"
+                                    ng-if="data.taskObjectId && (data.state === 'WAITING FOR APPROVAL')"
+                                    ng-disabled="!AuthorizationService.canBpmOperationsTaskRead()"
+                                    class="btn btn-xs btn-default"
+                                    title="{{ 'CommonLabels.Details' | translate }}">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+
+                            <span ng-if="data.state !== 'WAITING FOR APPROVAL'">
+                                <button ui-sref="subsystems.contentmanagement.operations.rbt.contentcategories.update({ accessType: $stateParams.accessType, id : data.id })"
+                                        class="btn btn-xs btn-secondary"
+                                        title="{{ AuthorizationService.canRBTOperationsCategoryUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                    <i class="fa fa-edit" ng-if="AuthorizationService.canRBTOperationsCategoryUpdate()"></i>
+                                    <i class="fa fa-square-o" ng-if="!AuthorizationService.canRBTOperationsCategoryUpdate()"></i>
+                                </button>
+                                <button ng-click="viewPlaylists('categories', data, 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.PlaylistsModalTitle')" class="btn btn-xs btn-default"
+                                        title="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.ShowPlaylists' | translate }}">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                                <button ng-click="viewTones('categories', data, 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.TonesModalTitle')" class="btn btn-xs btn-primary"
+                                        title="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.ShowTones' | translate }}">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                                <!--<button ng-click="viewSubscriptions(data)" class="btn btn-xs btn-default" ng-if="false"
+                                        title="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.ShowSubscriptions' | translate }}">
+                                    <i class="fa fa-bars"></i>
+                                </button>-->
+                                <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                        title="{{ 'CommonLabels.Deactivate' | translate }}"
+                                        ng-if="AuthorizationService.canRBTOperationsCategoryDelete()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="!$data || $data.length === 0">
+                        <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

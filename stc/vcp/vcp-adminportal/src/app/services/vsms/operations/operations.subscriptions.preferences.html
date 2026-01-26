@@ -1,0 +1,15 @@
+<form class="form-horizontal" novalidate id="subscriptionPreferencesForm" name="subscriptionPreferencesForm" method="post" enctype="multipart/form-data"
+      ng-show="showPreferences">
+
+    <h5 class="portlet-title">{{ 'Services.VSMS.Preferences.Title' | translate:{msisdn: subscriptionPreferences.msisdn} }}</h5>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.VSMS.Preferences.FormFields.Language' | translate }}</label>
+        <div class="col-md-7">
+            <select name="language" class="form-control parsley-validated" ng-disabled="true">
+                <option>{{ 'Languages.' + subscriptionPreferences.language.toUpperCase() | translate }}</option>
+            </select>
+        </div>
+    </div>
+
+</form>

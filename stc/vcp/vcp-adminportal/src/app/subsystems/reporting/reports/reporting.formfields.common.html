@@ -1,0 +1,575 @@
+
+<div class="form-group" ng-if="channels">
+    <label for="channel" class="col-md-3">{{ 'Subsystems.Reporting.Channel' | translate }}</label>
+    <div class="col-md-3">
+        <select id="channel" name="channel" class="form-control parsley-validated" ng-model="$parent.channel"
+                ng-disabled="true"
+                ng-change="changeMsggwChannel($parent.channel);"
+                ng-options="channel as channel for channel in channels">
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="REPORTING_BMS_CHANNELS">
+    <label for="channel" class="col-md-3">{{ 'Subsystems.Reporting.CampaignType' | translate }}</label>
+    <div class="col-md-4">
+        <select id="channel" name="channel" class="form-control parsley-validated" ng-model="$parent.channel"
+                ng-change="changeBMSChannel($parent.channel);"
+                ng-options="channel as channel for channel in REPORTING_BMS_CHANNELS">
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-md-3">{{ 'Subsystems.Reporting.Category' | translate }}</label>
+    <div class="col-md-9">
+        <select class="form-control parsley-validated" ng-model="$parent.reportCategory"
+                ng-options="report as report.label group by report.group for report in REPORTS"
+                ng-change="changeReportCategory($parent.reportCategory);">
+        </select>
+    </div>
+</div>
+
+<!-- SMSC Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'hosts')">
+    <label for="hosts" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Hosts' | translate }}</label>
+    <div class="col-md-7">
+        <input id="hosts" name="hosts" type="text" class="form-control input-sm" maxlength="250"
+               placeholder="{{ 'Subsystems.Reporting.AdditionalParams.HostsPlaceholder' | translate }}"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.hosts"/>
+        <ul ng-class="{ 'parsley-error-list': form.hosts.$dirty && form.hosts.$invalid }" ng-show="form.hosts.$dirty && form.hosts.$invalid">
+            <li class="required" ng-show="form.hosts.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'mcc')">
+    <label for="destinationNetwork" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.DestinationNetwork' | translate }}</label>
+    <div class="col-md-4">
+        <select id="destinationNetwork" name="destinationNetwork" class="form-control"
+                ng-change="additionalParams.mcc = destinationNetwork.selected.mcc; additionalParams.mnc = destinationNetwork.selected.mnc"
+                destroy-additional-field
+                ng-required="true"
+                ng-model="$parent.destinationNetwork.selected"
+                ng-init="destinationNetwork.selected = null;"
+                ng-options="destinationNetwork as destinationNetwork.name for destinationNetwork in DESTINATION_NETWORKS">
+            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.destinationNetwork.$dirty && form.destinationNetwork.$invalid }"
+            ng-show="form.destinationNetwork.$dirty && form.destinationNetwork.$invalid">
+            <li class="required" ng-show="form.destinationNetwork.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'mcc') && destinationNetwork.selected && destinationNetwork.selected.name !== 'ALL'">
+    <label for="mcc" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.MCC' | translate }}</label>
+    <div class="col-md-4">
+        <input id="mcc" name="mcc" type="text" class="form-control input-sm"
+               destroy-additional-field
+               maxlength="50"
+               ng-disabled="destinationNetwork.selected.mcc !== null"
+               ng-required="true"
+               ng-model="$parent.additionalParams.mcc"/>
+        <ul ng-class="{ 'parsley-error-list': form.mcc.$dirty && form.mcc.$invalid }" ng-show="form.mcc.$dirty && form.mcc.$invalid">
+            <li class="required" ng-show="form.mcc.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'mnc') && destinationNetwork.selected && destinationNetwork.selected.name !== 'ALL'"
+     ng-show="additionalParams.mcc">
+    <label for="mnc" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.MNC' | translate }}</label>
+    <div class="col-md-4">
+        <input id="mnc" name="mnc" type="text" class="form-control input-sm"
+               destroy-additional-field
+               maxlength="50"
+               ng-disabled="destinationNetwork.selected.mnc !== null"
+               ng-required="true"
+               ng-model="$parent.additionalParams.mnc"/>
+        <ul ng-class="{ 'parsley-error-list': form.mnc.$dirty && form.mnc.$invalid }" ng-show="form.mnc.$dirty && form.mnc.$invalid">
+            <li class="required" ng-show="form.mnc.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'appId')">
+    <label for="appId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.AppName' | translate }}</label>
+    <div class="col-md-4">
+        <select id="appId" name="appId" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.appId"
+                ng-options="smppApplication.id as smppApplication.label for smppApplication in smppApplicationList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'shortCode')">
+    <label for="shortCode" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.ShortCode' | translate }}</label>
+    <div class="col-md-4">
+        <input id="shortCode" name="shortCode" type="text" class="form-control input-sm"
+               destroy-additional-field
+               maxlength="50"
+               ng-model="$parent.additionalParams.shortCode"/>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'aspId')">
+    <label for="aspId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.ASPId' | translate }}</label>
+    <div class="col-md-4">
+        <select id="aspId" name="aspId" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.aspId"
+                ng-options="organization.id as organization.name for organization in organizationList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+<!-- // SMSC Specific Fields -->
+
+<!-- AntiSpamSMS Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'filterType')">
+    <label for="filterType" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.FilterType' | translate }}</label>
+    <div class="col-md-4">
+        <select id="filterType" name="filterType" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.filterType"
+                ng-required="true"
+                ng-options="filterType as filterType for filterType in SMS_ANTISPAM_REPORTING_FILTER_TYPES">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.filterType.$dirty && form.filterType.$invalid }"
+            ng-show="form.filterType.$dirty && form.filterType.$invalid">
+            <li class="required" ng-show="form.filterType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'operatorFilter')">
+    <label for="operatorFilter" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Operator' | translate }}</label>
+    <div class="col-md-4">
+        <input id="operatorFilter" name="operatorFilter" type="text" class="form-control input-sm" maxlength="50"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.operatorFilter"/>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'operatorListFilter')">
+    <label for="operatorFilter" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Operator' | translate }}</label>
+    <div class="col-md-4">
+        <select id="operatorFilter" name="operatorFilter" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.operatorFilter"
+                ng-required="true"
+                ng-options="operator.value as operator.text for operator in SMS_ANTISPAM_REPORTING_OPERATORS">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'mscFilter')">
+    <label for="mscFilter" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.OrigMscGT' | translate }}</label>
+    <div class="col-md-4">
+        <input id="mscFilter" name="mscFilter" type="text" class="form-control input-sm" maxlength="50"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.mscFilter"/>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'requestLimit')">
+    <label for="requestLimit" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.RequestLimit' | translate }}</label>
+    <div class="col-md-4">
+        <input id="requestLimit" name="requestLimit" type="number" class="form-control input-sm"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.requestLimit"/>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'hub')">
+    <label for="hub" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Hub' | translate }}</label>
+    <div class="col-md-4">
+        <select id="hub" name="hub" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.hub"
+                ng-required="true"
+                ng-options="hub.value as hub.text for hub in SMS_ANTISPAM_REPORTING_HUBS">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.hub.$dirty && form.hub.$invalid }"
+            ng-show="form.hub.$dirty && form.hub.$invalid">
+            <li class="required" ng-show="form.hub.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'mvno')">
+    <label for="mvno" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.MVNO' | translate }}</label>
+    <div class="col-md-4">
+        <select id="mvno" name="mvno" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.mvno"
+                ng-required="true"
+                ng-options="mvno.value as mvno.text for mvno in SMS_ANTISPAM_REPORTING_MVNO">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.mvno.$dirty && form.mvno.$invalid }"
+            ng-show="form.mvno.$dirty && form.mvno.$invalid">
+            <li class="required" ng-show="form.mvno.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'counterName')">
+    <label for="counterName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.CounterName' | translate }}</label>
+    <div class="col-md-4">
+        <select id="counterName" name="counterName" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.counterName"
+                ng-required="true"
+                ng-options="counterName.value as counterName.text for counterName in SMS_ANTISPAM_REPORTING_COUNTER_NAMES">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.counterName.$dirty && form.counterName.$invalid }"
+            ng-show="form.counterName.$dirty && form.counterName.$invalid">
+            <li class="required" ng-show="form.counterName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'senderId')">
+    <label for="senderId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.SenderId' | translate }}</label>
+    <div class="col-md-4">
+        <input id="senderId" name="senderId" type="text" class="form-control input-sm"
+               maxlength="50"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.senderId"/>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'smscgtId')">
+    <label for="smscgtId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.SmscGtId' | translate }}</label>
+    <div class="col-md-4">
+        <input id="smscgtId" name="smscgtId" type="text" class="form-control input-sm"
+               maxlength="50"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.smscgtId"/>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'ruleName')">
+    <label for="ruleName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.RuleName' | translate }}</label>
+    <div class="col-md-4">
+        <input id="ruleName" name="ruleName" type="text" class="form-control input-sm"
+               maxlength="100"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.ruleName"/>
+    </div>
+</div>
+<!-- // AntiSpamSMS Specific Fields -->
+
+<!-- MMSC Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'operator')">
+    <label for="operator" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Operator' | translate }}</label>
+    <div class="col-md-4">
+        <select id="operator" name="operator"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.operator" class="form-control"
+                ng-options="mm4Operator.name as mm4Operator.name for mm4Operator in mm4OperatorList">
+            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'vas')">
+    <label for="vas" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Vas' | translate }}</label>
+    <div class="col-md-4">
+        <select id="vas" name="vas"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.vas" class="form-control"
+                ng-options="mm7Vas.shortCode as mm7Vas.label for mm7Vas in mm7VasList">
+            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+        </select>
+    </div>
+</div>
+<!-- // MMSC Specific Fields -->
+
+<!-- USSD Browser and Gateway Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'webServicesNames')">
+    <label for="appNames" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.AppName' | translate }}</label>
+    <div class="col-md-7">
+        <select id="appNames" name="appNames"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.appNames" class="form-control"
+                ng-options="ussdWebService.name as ussdWebService.name for ussdWebService in ussdWebServiceList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+<!-- // USSD Browser and Gateway Specific Fields -->
+
+<!-- RBT Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'organizationId')">
+    <label for="organizationId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Organization' | translate }}</label>
+    <div class="col-md-4">
+        <select id="organizationId" name="organizationId" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.organizationId"
+                ng-options="organization.id as organization.name for organization in organizationList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'topN')">
+    <label for="topN" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.TopN' | translate }}</label>
+    <div class="col-md-5">
+        <input id="topN" name="topN" type="number" class="form-control" destroy-additional-field
+               uib-tooltip="{{ 'Subsystems.Reporting.AdditionalParams.TopNPlaceholder' | translate }}" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+               ng-model="$parent.additionalParams.topN"
+               min="0" max="9999"/>
+        <ul ng-class="{ 'parsley-error-list': form.topN.$dirty && form.topN.$invalid }"
+            ng-show="form.topN.$dirty && form.topN.$invalid">
+            <li class="required" ng-show="form.topN.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+            <li class="required" ng-show="form.topN.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 9999 } }}</li>
+            <li class="required" ng-show="form.topN.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'topNSelect')">
+    <label for="topN" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.TopN' | translate }}</label>
+    <div class="col-md-5">
+        <select id="topN" name="topN" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.topN"
+                ng-options="topNRange as topNRange for topNRange in topNRanges">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'topNMandatory')">
+    <label for="topN" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.TopN' | translate }}</label>
+    <div class="col-md-5">
+        <input id="topN" name="topN" type="number" class="form-control" destroy-additional-field
+               uib-tooltip="{{ 'Subsystems.Reporting.AdditionalParams.TopNPlaceholder' | translate }}" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+               ng-model="$parent.additionalParams.topN"
+               ng-required="true"
+               min="0" max="9999"/>
+        <ul ng-class="{ 'parsley-error-list': form.topN.$dirty && form.topN.$invalid }"
+            ng-show="form.topN.$dirty && form.topN.$invalid">
+            <li class="required" ng-show="form.topN.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            <li class="required" ng-show="form.topN.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+            <li class="required" ng-show="form.topN.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 9999 } }}</li>
+            <li class="required" ng-show="form.topN.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'topNSelectMandatory')">
+    <label for="topN" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.TopN' | translate }}</label>
+    <div class="col-md-5">
+        <select id="topN" name="topN" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.topN"
+                ng-required="true"
+                ng-options="topNRange as topNRange for topNRange in topNRanges">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.topN.$dirty && form.topN.$invalid }"
+            ng-show="form.topN.$dirty && form.topN.$invalid">
+            <li class="required" ng-show="form.topN.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+<!-- // RBT Specific Fields -->
+
+<!-- DSP -->
+<!-- BMS Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'organization') && isAdminUser">
+    <label for="organization" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Organization' | translate }}</label>
+    <div class="col-md-7">
+        <select id="organization" name="organization" destroy-additional-field
+                ng-model="$parent.additionalParams.organization" class="form-control"
+                ng-options="organization.name as organization.name for organization in organizationList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'user') && (isAdminUser || isBMSAdminUser)">
+    <label for="user" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.User' | translate }}</label>
+    <div class="col-md-7">
+        <select id="user" name="user" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.user"
+                ng-options="userAccount.userName as userAccount.userName for userAccount in userAccountList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'campaignId')">
+    <label for="campaignId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.CampaignId' | translate }}</label>
+    <div class="col-md-4">
+        <input id="campaignId" name="campaignId" type="text" class="form-control input-sm"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.campaignId"
+               ng-maxlength="100"/>
+        <ul ng-class="{ 'parsley-error-list': form.campaignId.$dirty && form.campaignId.$invalid }" ng-show="form.campaignId.$dirty && form.campaignId.$invalid">
+            <li class="required" ng-show="form.campaignId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'bmsId')">
+    <label for="bmsId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.CampaignId' | translate }}</label>
+    <div class="col-md-4">
+        <input id="bmsId" name="bmsId" type="text" class="form-control input-sm"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.bmsId"
+               ng-maxlength="100"/>
+        <ul ng-class="{ 'parsley-error-list': form.bmsId.$dirty && form.bmsId.$invalid }" ng-show="form.bmsId.$dirty && form.bmsId.$invalid">
+            <li class="required" ng-show="form.bmsId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+        </ul>
+    </div>
+</div>
+<!-- // BMS Specific Fields -->
+
+<!-- OBIVR Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'callFlow')">
+    <label for="callFlow" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.CallFlow' | translate }}</label>
+    <div class="col-md-4">
+        <select id="callFlow" name="callFlow" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.callFlow"
+                ng-required="true"
+                ng-options="callFlow.value as callFlow.text for callFlow in REPORTING_OBIVR_CALL_FLOWS">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.callFlow.$dirty && form.callFlow.$invalid }"
+            ng-show="form.callFlow.$dirty && form.callFlow.$invalid">
+            <li class="required" ng-show="form.callFlow.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'clientId')">
+    <label for="clientId" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.ClientId' | translate }}</label>
+    <div class="col-md-4">
+        <select id="clientId" name="clientId" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.clientId"
+                ng-required="true"
+                ng-options="client.clientName as client.clientName for client in clientList">
+            <option value="">{{ 'CommonLabels.SelectOne' | translate }}</option>
+        </select>
+        <ul ng-class="{ 'parsley-error-list': form.clientId.$dirty && form.clientId.$invalid }"
+            ng-show="form.clientId.$dirty && form.clientId.$invalid">
+            <li class="required" ng-show="form.clientId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+
+<!-- OBIVR Specific Fields -->
+
+
+<!-- API Manager Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'endpoint')">
+    <label for="endpoint" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Endpoint' | translate }}</label>
+    <div class="col-md-7">
+        <select id="endpoint" name="endpoint" destroy-additional-field
+                ng-model="$parent.additionalParams.endpoint" class="form-control"
+                ng-options="endpoint.name as endpoint.name for endpoint in endpointList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'developerName')">
+    <label for="developerName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Developer' | translate }}</label>
+    <div class="col-md-7">
+        <select id="developerName" name="developerName" destroy-additional-field
+                ng-model="$parent.additionalParams.developerName" class="form-control"
+                ng-options="dev.name as dev.name for dev in developerList"
+                ng-change="getApplications(additionalParams.developerName)">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'applicationName') && $parent.additionalParams.developerName">
+    <label for="applicationName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Application' | translate }}</label>
+    <div class="col-md-7">
+        <select id="applicationName" name="applicationName" destroy-additional-field
+                ng-model="$parent.additionalParams.applicationName" class="form-control"
+                ng-options="application.name as application.name for application in applicationList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'apiName')">
+    <label for="apiName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.API' | translate }}</label>
+    <div class="col-md-7">
+        <select id="apiName" name="apiName" destroy-additional-field
+                ng-model="$parent.api" class="form-control"
+                ng-options="api as (api.apiName + ' - ' + api.versionName) for api in apiList"
+                ng-change="setApiProperties(api)">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'apiMethodName') && $parent.additionalParams.apiName">
+    <label for="apiMethodName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Method' | translate }}</label>
+    <div class="col-md-7">
+        <select id="apiMethodName" name="apiMethodName" destroy-additional-field
+                ng-model="$parent.additionalParams.apiMethodName" class="form-control"
+                ng-options="method.name as method.name for method in apiList[$parent.api.index].methods">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'offerName')">
+    <label for="offerName" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.Offer' | translate }}</label>
+    <div class="col-md-7">
+        <select id="offerName" name="offerName" destroy-additional-field
+                ng-model="$parent.additionalParams.offerName" class="form-control"
+                ng-options="offer.name as offer.name for offer in offerList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+<!-- // API Manager Specific Fields -->
+
+<!-- Revenue Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'businessType')">
+    <label for="businessType" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.BusinessType' | translate }}</label>
+    <div class="col-md-7">
+        <select id="businessType" name="businessType" destroy-additional-field
+                ng-model="$parent.additionalParams.businessType" class="form-control"
+                ng-options="businessType.Name as businessType.Name for businessType in businessTypes">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'topN')">
+    <label for="topN" class="col-md-3">{{ 'Subsystems.Reporting.AdditionalParams.TopN' | translate }}</label>
+    <div class="col-md-5">
+        <input id="topN" name="topN" type="number" class="form-control" destroy-additional-field
+               uib-tooltip="{{ 'Subsystems.Reporting.AdditionalParams.TopNPlaceholder' | translate }}" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+               ng-model="$parent.additionalParams.topN"
+               min="0" max="9999"/>
+        <ul ng-class="{ 'parsley-error-list': form.topN.$dirty && form.topN.$invalid }"
+            ng-show="form.topN.$dirty && form.topN.$invalid">
+            <li class="required" ng-show="form.topN.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+            <li class="required" ng-show="form.topN.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 9999 } }}</li>
+            <li class="required" ng-show="form.topN.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+<!-- // Revenue Specific Fields -->

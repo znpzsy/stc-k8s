@@ -1,0 +1,128 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.Provisioning.ServiceProviders.ProviderAllowedCategoryProfile.ModalTitle' | translate:{providerName: provider.name} }}
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="table-responsive">
+                <table ng-table="subcategoriesList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': isSubcategorySelected(data.id) }"
+                        ng-click="subcategorySelected(data)">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentCategory' | translate" sortable="'category.name'">
+                            {{data.category.name}}
+                            <span class="dot-indicator bg-success" ng-if="data.category.status === 'ACTIVE'"></span>
+                            <span class="dot-indicator bg-danger" ng-if="data.category.status !== 'ACTIVE'"></span>
+                        </td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentSubcategory' | translate" sortable="'name'">
+                            {{data.name}}
+                            <span class="dot-indicator bg-success" ng-if="data.status === 'ACTIVE'"></span>
+                            <span class="dot-indicator bg-danger" ng-if="data.status !== 'ACTIVE'"></span>
+                        </td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Id' | translate" sortable="'id'">{{data.id}}</td>
+                        <td align="center" data-title="'Info' | translate" sortable="'id'">
+                            <!-- Info Icon with Popover -->
+                            <span class="label label-info"
+                                  ng-class="{'label-danger': (data.categoryId && data.category.id !== data.categoryId || data.status !== 'ACTIVE' || data.category.status !== 'ACTIVE') }"
+                                  ng-click="$event.stopPropagation();"
+                                  uib-popover-template="'partials/modal/categorization.info.popover.html'"
+                                  popover-placement="auto"
+                                  popover-trigger="'click'">
+                                <i class="fa fa-info-circle" style="cursor: pointer;"></i>
+                            </span>
+                        </td>
+
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="5" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Subcategory List, assigned-->
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div ng-if="(selectedSubcategories && selectedSubcategories.length > 0)" class="metadata-container metadata-container-fixed-height">
+                <div class="metadata-item" ng-repeat="subcategory in selectedSubcategories" ng-if="isGeneral(subcategory)">
+                    <!-- Categorization Details -->
+                    <!--<span class="label metadata-label"
+                                  ng-class="{ 'label-success': subcategory.status === 'ACTIVE',
+                                              'label-danger': subcategory.status === 'INACTIVE',
+                                              'label-tertiary': !(subcategory.status === 'ACTIVE' || subcategory.status === 'INACTIVE') }">
+                                    {{subcategory.status}}
+                            </span>-->
+                    <span class="label label-tertiary metadata-label" style="width:80px">{{subcategory.status}}</span>
+                    <span class="label label-default metadata-label"
+                          style="margin-right: 5px; width: 200px"
+                          uib-popover="{{subcategory.name}}"
+                          popover-trigger="'mouseenter'"
+                          popover-placement="auto">
+                                    {{subcategory.name}}
+                    </span>
+                </div>
+            </div>
+            <span ng-if="selectedSubcategories && selectedSubcategories.length == 0">
+                {{ 'CommonMessages.SelectTableRecord' | translate }}
+            </span>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="isNotChanged()" ng-click="ok()">{{'CommonLabels.Save' | translate}}</button>
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Cancel' | translate}}</button>
+</div>
+
+
+<!-- Subcategory Detail Popover. Please use "data" for binding. -->
+<script type="text/ng-template" id="partials/modal/categorization.info.popover.html">
+    <div>
+        <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentSubcategory' | translate}} Details:</strong> {{data.name}} - ({{data.status}} / {{data.id}})  <br />
+        <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.ContentCategory' | translate}} Details:</strong> {{data.category.name}} - ({{data.category.status}} / {{data.category.id}} ) <br />
+        <div ng-if="data.categoryId && data.category.id !== data.categoryId">
+            <strong>{{'Current Category ID' | translate}}:</strong> {{data.categoryId}} <br />
+        </div>
+        <div ng-if="data.categoryId && data.category.id !== data.categoryId || data.status !== 'ACTIVE' || data.category.status !== 'ACTIVE'">
+
+            <hr/>
+            <p><h6>WARNINGS:</h6></p>
+            <div ng-if="data.categoryId && data.category.id !== data.categoryId">Subcategory <strong>{{data.name}}</strong> needs reassignment. Please verify organization details.
+                <a class="label label-danger"
+                   ui-sref="subsystems.provisioning.operations.organizations.providers.update({ id : provider.id })"
+                   ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                    <i class="fa fa-mail-forward"></i>
+                </a>
+                <br />
+            </div>
+            <div ng-if="data.category.status !== 'ACTIVE'">Category <strong>{{data.category.name}}</strong> is no longer ACTIVE. Please verify category details.
+                <a class="label label-danger"
+                   ui-sref="subsystems.contentmanagement.operations.rbt.contentcategories.update({ accessType: 'GENERAL', id : data.category.id })"
+                   ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                    <i class="fa fa-mail-forward"></i>
+                </a>
+                <br />
+            </div>
+            <div ng-if="data.status !== 'ACTIVE'">Subcategory <strong>{{data.name}}</strong> is no longer ACTIVE. <br />Please verify subcategory details.
+                <a class="label label-danger"
+                   ui-sref="subsystems.contentmanagement.operations.rbt.contentsubcategories.update({ accessType: 'GENERAL', id : data.id })"
+                   ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                    <i class="fa fa-mail-forward"></i>
+                </a>
+                <br />
+            </div>
+
+        </div>
+    </div>
+</script>

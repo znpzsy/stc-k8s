@@ -1,0 +1,23 @@
+{{- if .Values.adminportal.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  replicas: {{ .Values.adminportal.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-adminportal
+  template:
+    metadata:
+      labels:
+        component: vcp-adminportal
+    spec:
+      containers:
+        - name: vcp-adminportal
+          image: "{{ .Values.adminportal.image.repository }}:{{ .Values.adminportal.image.tag }}"
+          imagePullPolicy: {{ .Values.adminportal.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+{{- end }}

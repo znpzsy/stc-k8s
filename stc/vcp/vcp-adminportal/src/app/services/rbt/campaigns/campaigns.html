@@ -1,0 +1,31 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li ng-class="{ 'active': $state.includes('services.rbt.campaigns.happyhour') }">
+            <a ui-sref="services.rbt.campaigns.happyhour.list" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.Campaigns.HappyHour' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('services.rbt.campaigns.xdaysfree') }">
+            <a ui-sref="services.rbt.campaigns.xdaysfree.list" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.Campaigns.XDaysFree' | translate }}
+            </a>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('services.rbt.campaigns.bogof') }">
+            <a ui-sref="services.rbt.campaigns.bogof.list" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Services.RBT.Campaigns.Bogof' | translate }}
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div ui-view class="tab-pane fade active in portlet portlet-default">
+
+        </div>
+    </div>
+</div>

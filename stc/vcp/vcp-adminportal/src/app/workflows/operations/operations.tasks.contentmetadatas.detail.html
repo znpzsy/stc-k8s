@@ -1,0 +1,248 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Name' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.contentMetadataTask.objectDetail.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.Id' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.id}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.Description' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.description}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.serviceProviderName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.from.orgId === DEFAULT_ORGANIZATION_NAME">
+            <label class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.status}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.dateLaunch | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-4">
+                <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.dateExpiry | date:'MMMM d, y':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.TitleEn' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.titleen}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                              ng-value="task.contentMetadataTask.objectDetail.descriptionen"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.SearchKeywordsEn' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.searchkeyworden}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.TitleAr' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.titlear}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control well well-sm" dir="auto"
+                              ng-value="task.contentMetadataTask.objectDetail.descriptionar"
+                              rows="3" ng-disabled="true">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.SearchKeywordsAr' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.searchkeywordar}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.WebIcon' | translate }}</label>
+                <div class="col-md-4">
+                    <a ng-if="task.contentMetadataTask.objectDetail.WEBIconBlobUrl"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ task.contentMetadataTask.objectDetail.WEBIconName }}"
+                       href="{{ task.contentMetadataTask.objectDetail.WEBIconBlobUrl }}" target="_blank">
+                        <img ng-src="{{task.contentMetadataTask.objectDetail.WEBIconBlobUrl}}" class="img-responsive thumbnail" width="200"/>
+                    </a>
+                    <span ng-if="!task.contentMetadataTask.objectDetail.WEBIconBlobUrl">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentInfo.CopyrightFile.CopyrightFiles' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="row col-md-9" ng-if="task.contentMetadataTask.objectDetail.copyrightFileList.length">
+                        <div ng-repeat="copyrightFile in task.contentMetadataTask.objectDetail.copyrightFileList">
+                            <div>
+                                <span ng-if="!copyrightFile.copyrightFile.name">{{ 'CommonLabels.N/A' | translate }}</span>
+                                <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: inline-block;"
+                                        ng-if="copyrightFile.copyrightFile.name"
+                                        uib-tooltip="{{copyrightFile.copyrightFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ copyrightFile.copyrightFile.name }}
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="btn btn-sm btn-success"
+                                   ng-if="copyrightFile.copyrightFile.name"
+                                   title="{{ 'CommonLabels.Download' | translate }}"
+                                   download="{{ copyrightFile.copyrightFile.name }}"
+                                   href="{{ copyrightFile.copyrightFile | ngfDataUrl }}" target="_blank">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div>
+                                {{ 'GenericFormFields.StartDate.Label' | translate }}:
+                                <span>
+                                    {{copyrightFile.startDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}
+                                </span>
+                            </div>
+                            <div>
+                                {{ 'GenericFormFields.EndDate.Label' | translate }}:
+                                <span>
+                                    {{copyrightFile.endDate | date:'MMMM d, y':DateTimeConstants.OFFSET}}
+                                </span>
+                            </div>
+
+                            <div class="row col-md-12">
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span ng-if="task.contentMetadataTask.objectDetail.copyrightFileList.length === 0">{{ 'CommonLabels.N/A' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.ContentCategory' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.categoryName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.ContentType' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.typeName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'CommonLabels.Service' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.serviceName}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.Language' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.language | LanguageAbbrFilter | translate}}</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.ContentMetadatas.ContentTemplate.Label' | translate }}</label>
+                <div class="col-md-4">
+                    <div class="well well-sm" dir="auto">{{task.contentMetadataTask.objectDetail.label}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-success"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="rejectTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskReject()">
+                    {{ 'CommonLabels.Reject' | translate }}
+                </button>
+                <button type="submit" ui-sref="subsystems.contentmanagement.operations.contentmetadatas.update ({ id: task.contentMetadataTask.objectDetail.id })" class="btn btn-secondary"
+                        ng-if="AuthorizationService.canCmsOperationsContentMetadataRead() && AuthorizationService.canCmsOperationsContentMetadataUpdate() && task.status === WORKFLOWS_STATUSES.COMPLETED && task.response === 'APPROVE' && task.contentMetadataTask.objectDetail.id">
+                    {{ 'CommonLabels.Update' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

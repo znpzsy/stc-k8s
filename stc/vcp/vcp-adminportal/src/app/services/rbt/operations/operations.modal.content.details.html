@@ -1,0 +1,73 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Services.RBT.Operations.HotCodes.ContentDetailsModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body row">
+
+    <div class="form-group" >
+        <table class="table">
+            <tbody>
+            <tr>
+                <td class="kv-key" >{{ 'Services.RBT.Operations.HotCodes.TableColumns.ContentId' | translate }}</td>
+                <td class="kv-value" >{{ contentDetails.id}}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key" >{{ 'Services.RBT.Operations.HotCodes.TableColumns.SubscriptionCode' | translate }}</td>
+                <td class="kv-value" >{{ contentDetails.subscriptionCode}}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.ContentName'| translate }}</td>
+                <td class="kv-value">{{ contentDetails.name }}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.ContentType' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.contentType }}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.Description' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.descriptions[0].description }}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.ContentAlias' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.alias| NotAvailableFilter }}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.Status' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.status }}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.Organization' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.organizationName }}&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.LaunchDate' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.launchDate | date:'yyyy-MM-dd HH:mm:ss': DateTimeConstants.OFFSET}}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.ExpireDate' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.expireDate | date:'yyyy-MM-dd HH:mm:ss': DateTimeConstants.OFFSET}}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.CreateDate' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.dateCreated | date:'yyyy-MM-dd HH:mm:ss': DateTimeConstants.OFFSET}}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.UpdateDate' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.dateUpdated | date:'yyyy-MM-dd HH:mm:ss': DateTimeConstants.OFFSET}}&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="kv-key">{{ 'Services.RBT.Operations.HotCodes.TableColumns.Price' | translate }}</td>
+                <td class="kv-value">{{ contentDetails.offers[0].price }}&nbsp;</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{ 'CommonLabels.Close' | translate }}</button>
+</div>

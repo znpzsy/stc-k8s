@@ -1,0 +1,97 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.MCA.Operations.Subscriptions.Title' | translate }} {{ 'Services.MCA.Operations.Subscriptions.MawjoodExtraOnly' | translate }}
+    </h4>
+</div>
+
+<form class="form-horizontal" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+	<div class="form-group">
+		<label class="col-md-3">{{ 'CommonLabels.Msisdn' | translate }}</label>
+        <div class="col-md-6">
+            <input type="text" class="form-control" ng-model="msisdn" id="msisdn" name="msisdn"
+                   ng-maxlength="15" maxlength="15"
+                   ng-pattern="$root.Validators.Msisdn"
+                   placeholder="{{ 'CommonLabels.SubscriberMsisdnPlaceholder' | translate}}"/>
+            <ul ng-class="{ 'parsley-error-list': form.msisdn.$dirty && form.msisdn.$invalid }" ng-show="form.msisdn.$dirty && form.msisdn.$invalid">
+                <li class="required" style="display: list-item;" ng-show="form.msisdn.$error.pattern">{{ 'CommonMessages.InvalidPhoneNumber' | translate }}</li>
+            </ul>
+        </div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-7 col-md-push-3">
+			<button type="submit" class="btn btn-danger" ng-disabled="form.$invalid" ng-click="search (msisdn)">
+				{{ 'CommonLabels.Search' | translate }}
+			</button>
+		</div>
+	</div>
+
+</form>
+
+<form class="form-horizontal" novalidate id="newEntryForm" name="newEntryForm" method="post"
+      enctype="multipart/form-data"
+      ng-show="subscriberNumber">
+
+    <h5 class="portlet-title">{{ 'Services.MCA.Operations.Subscriptions.SubscriptionPreferences' | translate:{subscriber:subscriberNumber} }}</h5>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.Subscriptions.AnnStatus' | translate }}</label>
+        <div class="col-md-7">
+            <div class="btn-group">
+                <button type="button" class="btn {{subscriptionDetail.annStatus?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.annStatus" uib-btn-radio="true" ng-disabled="true" >{{ 'CommonLabels.Yes' | translate }}</button>
+                <button type="button" class="btn {{!subscriptionDetail.annStatus?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.annStatus" uib-btn-radio="false" ng-disabled="true" >{{ 'CommonLabels.No' | translate }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="subscriptionDetail.annStatus">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.Subscriptions.AnnNumber' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" id="annNumber" name="annNumber" ng-model="subscriptionDetail.annNumber" ng-required="subscriptionDetail.annStatus" class="form-control" ng-disabled="true" />
+            <li class="required" ng-show="newEntryForm.annNumber.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.Subscriptions.IsFixedLine' | translate }}</label>
+        <div class="col-md-7">
+            <div class="btn-group">
+                <button type="button" class="btn {{subscriptionDetail.isFixedLine?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.isFixedLine" uib-btn-radio="true" ng-disabled="true" >{{ 'CommonLabels.Yes' | translate }}</button>
+                <button type="button" class="btn {{!subscriptionDetail.isFixedLine?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.isFixedLine" uib-btn-radio="false" ng-disabled="true" >{{ 'CommonLabels.No' | translate }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="subscriptionDetail.isFixedLine">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.Subscriptions.MobileNo' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" id="mobilePhone" name="mobilePhone" ng-model="subscriptionDetail.mobilePhone" ng-required="subscriptionDetail.isFixedLine" class="form-control" ng-disabled="true" />
+            <li class="required" ng-show="newEntryForm.mobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Operations.Subscriptions.Language' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" id="language" name="annNumber" ng-value="subscriptionDetail.language | LanguageAbbrFilter | translate" ng-required="true" class="form-control" ng-disabled="true" />
+            <li class="required" ng-show="newEntryForm.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+        </div>
+    </div>
+
+</form>
+
+<div class="form-horizontal" ng-if="error_message">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-7">
+<!--        <div class="col-md-2"><i class="fa fa-exclamation kv-icon kv-icon-danger btn-block btn-danger"></i></div>-->
+        <div class="col-md-10 text-center alert alert-warning demo-block">
+            <!--<h4 style="margin-bottom: 0;" translate="{{error_message}}" translate-compile></h4>-->
+            <!--<i class="fa fa-exclamation-triangle kv-icon kv-icon-danger btn-block btn-danger"></i>
+            <br>-->
+            <br>
+            <h4>{{error_message}}</h4>
+        </div>
+    </div>
+</div>

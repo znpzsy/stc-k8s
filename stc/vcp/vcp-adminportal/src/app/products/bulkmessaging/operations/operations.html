@@ -1,0 +1,111 @@
+<div class="col-md-3 col-sm-5">
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.campaigns') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Campaigns.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.campaigns.bulksms') }">
+                    <a ui-sref="products.bulkmessaging.operations.campaigns.bulksms({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.BulkSMS.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.campaigns.bulkmms') }">
+                    <a ui-sref="products.bulkmessaging.operations.campaigns.bulkmms({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.BulkMMS.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.campaigns.bulkivr') }">
+                    <a ui-sref="products.bulkmessaging.operations.campaigns.bulkivr({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.BulkIVR.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.interactivecampaigns') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.interactivecampaigns.bulksms') }">
+                    <a ui-sref="products.bulkmessaging.operations.interactivecampaigns.bulksms({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.BulkSMS.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.interactivecampaigns.bulkivr') }">
+                    <a ui-sref="products.bulkmessaging.operations.interactivecampaigns.bulkivr({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.BulkIVR.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.distributionlists') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.DistributionLists.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.distributionlists.global'), 'disabled': !AuthorizationService.canBmsOperationsDistroListRead('GLOBAL') }">
+                    <a ng-href="{{!AuthorizationService.canBmsOperationsDistroListRead('GLOBAL') ? '' : $state.href('products.bulkmessaging.operations.distributionlists.global.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Global.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.distributionlists.perorganization'), 'disabled': !AuthorizationService.canBmsOperationsDistroListRead('ORGANIZATION') }">
+                    <a ui-sref="products.bulkmessaging.operations.distributionlists.perorganization.list({organizationId: null})" tabindex="-1" data-toggle="tab" ng-if="AuthorizationService.canBmsOperationsDistroListRead('ORGANIZATION')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerOrganization.MenuHeader' | translate }}
+                    </a>
+                    <a href="javascript:;" tabindex="-1" data-toggle="tab" ng-if="!AuthorizationService.canBmsOperationsDistroListRead('ORGANIZATION')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerOrganization.MenuHeader' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.distributionlists.peruser'), 'disabled': !AuthorizationService.canBmsOperationsDistroListRead('USER') }">
+                    <a ui-sref="products.bulkmessaging.operations.distributionlists.peruser.list({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab" ng-if="AuthorizationService.canBmsOperationsDistroListRead('USER')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerUser.MenuHeader' | translate }}
+                    </a>
+                    <a href="javascript:;" tabindex="-1" data-toggle="tab" ng-if="!AuthorizationService.canBmsOperationsDistroListRead('USER')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerUser.MenuHeader' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.screeninglists') }" >
+            <a href="javascript:;" id="myTabDrop1" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.ScreeningLists.Title' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.screeninglists.global'), 'disabled': !AuthorizationService.canBmsOperationsBlackListRead('GLOBAL') }">
+                    <a ng-href="{{!AuthorizationService.canBmsOperationsBlackListRead('GLOBAL') ? '' : $state.href('products.bulkmessaging.operations.screeninglists.global.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.Global.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.screeninglists.perorganization'), 'disabled': !AuthorizationService.canBmsOperationsBlackListRead('ORGANIZATION') }">
+                    <a ui-sref="products.bulkmessaging.operations.screeninglists.perorganization.list({organizationId: null})" tabindex="-1" data-toggle="tab" ng-if="AuthorizationService.canBmsOperationsBlackListRead('ORGANIZATION')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerOrganization.MenuHeader' | translate }}
+                    </a>
+                    <a href="javascript:;" tabindex="-1" data-toggle="tab" ng-if="!AuthorizationService.canBmsOperationsBlackListRead('ORGANIZATION')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerOrganization.MenuHeader' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.bulkmessaging.operations.screeninglists.peruser'), 'disabled': !AuthorizationService.canBmsOperationsBlackListRead('USER') }">
+                    <a ui-sref="products.bulkmessaging.operations.screeninglists.peruser.list({organizationId: null, userId: null})" tabindex="-1" data-toggle="tab" ng-if="AuthorizationService.canBmsOperationsBlackListRead('USER')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerUser.MenuHeader' | translate }}
+                    </a>
+                    <a href="javascript:;" tabindex="-1" data-toggle="tab" ng-if="!AuthorizationService.canBmsOperationsBlackListRead('USER')">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.BulkMessaging.Operations.PerUser.MenuHeader' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" id="ng-app" ng-app="ccportal">
+<![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" id="ng-app" ng-app="ccportal">
+<![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" id="ng-app" ng-app="ccportal">
+<![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js" id="ng-app" ng-app="ccportal"> <!--<![endif]-->
+<head>
+    <title></title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE; IE=9; IE=8; IE=7"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Telenity - VCP Customer Care Portal">
+    <meta name="author" content="Telenity">
+
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <!-- Google Font: Open Sans -->
+    <!--
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Oswald:400,300,700">
+    -->
+
+    <!-- build:css styles/main.css -->
+    <!-- Google Font: Open Sans -->
+    <link rel="stylesheet" href="css/googleapis-open-sans.css">
+    <link rel="stylesheet" href="css/googleapis-oswald.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css">
+
+    <!-- angular-ng-table CSS -->
+    <link rel="stylesheet" href="../bower_components/ng-table/dist/ng-table.css">
+    <link rel="stylesheet" href="css/ng-table-custom.css">
+
+    <!-- Angular loading-bar-->
+    <link rel="stylesheet" href="../bower_components/angular-loading-bar/src/loading-bar.css">
+    <!-- Highlight JS CSS -->
+    <link rel="stylesheet" href="../bower_components/highlightjs/styles/default.css"/>
+    <!-- Angular UI Select -->
+    <link rel="stylesheet" href="../bower_components/angular-ui-select/dist/select.css">
+    <!-- Template CSS files -->
+    <link rel="stylesheet" href="css/mvpready-admin.css">
+
+    <!-- Application CSS -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- endbuild -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-controller="MainController" ccportal-translate-cloak
+      ng-class="{ 'account-bg': !isSessionValid() }">
+
+    <div id="wrapper" class="father-container ng-cloak" ng-cloak>
+
+        <div flash:messages class="notifications top-right"></div>
+
+        <ccportal-header></ccportal-header>
+
+        <ccportal-navbar ng-if="isSessionValid()"></ccportal-navbar>
+
+        <div ui-view class="content">
+            <!-- Angularjs general content container -->
+        </div>
+
+    </div> <!-- /#wrapper -->
+
+    <div>
+        <ccportal-footer></ccportal-footer>
+    </div>
+
+    <ccportal-common-templates></ccportal-common-templates>
+
+    <!-- build:libjs js/lib.js -->
+    <!-- jQuery -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+
+    <!-- AngularJS main libraries -->
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+    <!-- 3rd Party AngularJS plugins and other libraries -->
+    <!-- Angular UI Router -->
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <!-- Angular UI Bootstrap -->
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <!-- Angular UI Select -->
+    <script src="../bower_components/angular-ui-select/dist/select.js"></script>
+    <!-- ng-translate -->
+    <script src="../bower_components/angular-translate/angular-translate.js"></script>
+    <script src="../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="../bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+    <!-- Angular Base64-->
+    <script src="../bower_components/angular-base64/angular-base64.js"></script>
+    <!-- ng-table -->
+    <script src="../bower_components/ng-table/dist/ng-table.js"></script>
+    <!-- Promise tracker -->
+    <script src="../bower_components/promise-tracker/promise-tracker.js"></script>
+    <!-- Angular loading-bar-->
+    <script src="../bower_components/angular-loading-bar/src/loading-bar.js"></script>
+    <!-- Elasticsearch -->
+    <script src="../bower_components/elasticsearch/elasticsearch.angular.js"></script>
+    <!-- MomentJS -->
+    <script src="../bower_components/moment/min/moment.min.js"></script>
+    <script src="../bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+    <!-- Decimal.js -->
+    <script src="../bower_components/decimal.js/decimal.js"></script>
+    <!-- CryptoJS -->
+    <script src="../bower_components/crypto-js/crypto-js.js"></script>
+    <!-- Underscore -->
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/underscore.string/dist/underscore.string.js"></script>
+    <!-- ng-idle - Customized and put to the lib directory -->
+    <!--
+    <script src="../bower_components/ng-idle/angular-idle.js"></script>
+    -->
+    <!-- Restangular -->
+    <script src="../bower_components/restangular/dist/restangular.js"></script>
+
+    <!-- Polyfill methods for IE versions -->
+    <script src="../bower_components/String.prototype.startsWith/startswith.js"></script>
+    <script src="../bower_components/String.prototype.endsWith/endswith.js"></script>
+    <script src="../bower_components/String.prototype.includes/includes.js"></script>
+
+    <!-- JS Beautifier -->
+    <script src="../bower_components/js-beautify/js/lib/beautify.js"></script>
+    <script src="../bower_components/js-beautify/js/lib/beautify-css.js"></script>
+    <script src="../bower_components/js-beautify/js/lib/beautify-html.js"></script>
+    
+    <!-- Custom AngularJS modules and libraries -->
+    <script src="lib/*.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:remove -->
+    <!-- AngularJS mock library for defining mock responses -->
+    <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+
+    <!-- Highlight JS -->
+    <script src="../bower_components/angular-highlightjs/angular-highlightjs.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:app_js main.js -->
+    <script src="app.js"></script>
+    <script src="app-config.js"></script>
+    <script src="common/*.js"></script>
+    <script src="app/**/*.js"></script>
+    <!-- endbuild -->
+</body>
+</html>

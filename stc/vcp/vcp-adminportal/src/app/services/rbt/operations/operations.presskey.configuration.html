@@ -1,0 +1,61 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ $state.current.data.pageHeaderKey | translate }} / {{ $state.current.data.subPageHeaderKey | translate }} <span ng-if="$state.current.data.contentTypeHeaderKey">/ {{ $state.current.data.contentTypeHeaderKey | translate }}</span>
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Operations.PressKey.Configuration.FormFields.MaxDailyCount' | translate }}</label>
+            <div class="col-md-5">
+                <input id="maxDailyCount" name="maxDailyCount" type="number" class="form-control"
+                       ng-model="serviceProfile.maxDailyCount"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxDailyCount.$dirty && form.maxDailyCount.$invalid }"
+                    ng-show="form.maxDailyCount.$dirty && form.maxDailyCount.$invalid">
+                    <li class="required" ng-show="form.maxDailyCount.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.maxDailyCount.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.maxDailyCount.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.maxDailyCount.$error.number || form.maxDailyCount.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Operations.PressKey.Configuration.FormFields.Frequency' | translate }}</label>
+            <div class="col-md-5">
+                <input id="frequency" name="frequency" type="number" class="form-control"
+                       ng-model="serviceProfile.frequency"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       min="1" max="99999" ng-required="true"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.frequency.$dirty && form.frequency.$invalid }"
+                    ng-show="form.frequency.$dirty && form.frequency.$invalid">
+                    <li class="required" ng-show="form.frequency.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.frequency.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.frequency.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999} }}</li>
+                    <li class="required" ng-show="form.frequency.$error.number || form.frequency.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

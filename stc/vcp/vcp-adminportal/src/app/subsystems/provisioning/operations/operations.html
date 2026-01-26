@@ -1,0 +1,64 @@
+<div class="col-md-3 col-sm-5">
+
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.organizations') }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Organizations' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.organizations.providers'), 'disabled': !AuthorizationService.canReadServiceProvider() }">
+                    <a ng-href="{{!AuthorizationService.canReadServiceProvider() ? '' : $state.href('subsystems.provisioning.operations.organizations.providers.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.ServiceProviders.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.organizations.operators'), 'disabled': !AuthorizationService.canReadOperator() }">
+                    <a ng-href="{{!AuthorizationService.canReadOperator() ? '' : $state.href('subsystems.provisioning.operations.organizations.operators.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Operators.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users'), 'disabled': !(AuthorizationService.canReadUserAccount() && AuthorizationService.canReadUserGroup()) }">
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Users' | translate }}&nbsp;&nbsp;<b
+                        class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" ng-if="AuthorizationService.canReadUserAccount() || AuthorizationService.canReadUserGroup()">
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.accounts'), 'disabled': !AuthorizationService.canReadUserAccount() }">
+                    <a ng-href="{{!AuthorizationService.canReadUserAccount() ? '' : $state.href('subsystems.provisioning.operations.users.accounts.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.UserAccounts.Title' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.users.groups'), 'disabled': !AuthorizationService.canReadUserGroup() }">
+                    <a ng-href="{{!AuthorizationService.canReadUserGroup() ? '' : $state.href('subsystems.provisioning.operations.users.groups.list')}}" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.UserGroups.Title' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.services'), 'disabled': !AuthorizationService.canReadService() }">
+            <a ng-href="{{!AuthorizationService.canReadService() ? '' : $state.href('subsystems.provisioning.operations.services.list')}}" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Services.Title' | translate }}
+            </a>
+        </li>
+
+        <!-- <li ng-class="{ 'active': $state.includes('subsystems.provisioning.operations.subscribers'), 'disabled': !AuthorizationService.canReadSubscriber() }">
+            <a ui-sref="subsystems.provisioning.operations.subscribers.list" data-toggle="tab">
+                <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Subsystems.Provisioning.Subscribers.Title' | translate }}
+            </a>
+        </li> -->
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

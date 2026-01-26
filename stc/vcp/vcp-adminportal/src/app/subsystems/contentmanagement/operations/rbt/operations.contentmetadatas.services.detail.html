@@ -1,0 +1,506 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Services.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Services.ServiceTitle' | translate }}</label>
+            <div class="col-md-7">
+                <input id="title" name="title" type="text" class="form-control" ng-model="service.title"
+                       ng-maxlength="100" maxlength="100"
+                       ng-required="true"
+                       ng-disabled="!AuthorizationService.canRBTOperationsServiceCreate() || service.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.title.$dirty && form.title.$invalid }"
+                    ng-show="form.title.$dirty && form.title.$invalid">
+                    <li class="required" ng-show="form.title.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                    <li class="required" ng-show="form.title.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="service.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Services.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="service.id" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="nameen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="nameen" name="nameen" type="text" class="form-control" dir="auto"
+                           ng-model="service.nameEn"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nameen.$dirty && form.nameen.$invalid }"
+                        ng-show="form.nameen.$dirty && form.nameen.$invalid">
+                        <li class="required" ng-show="form.nameen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nameen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-repeat="descr in service.descriptionEn" style="margin-bottom: 10px;">
+                        <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                                  ng-model="descr.description"
+                                  rows="3" ng-maxlength="600" maxlength="600" ng-required="true"
+                                  ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                        </textarea>
+                        <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                            ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                            <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="benefitsen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.BenefitsEn' | translate }}</label>
+                <div class="col-md-7" id="benefitsen">
+                    <div ng-repeat="benefit in service.benefitsEn">
+                        <div class="col-md-11 col-sm-11 col-xs-11" style="margin-bottom: 10px;padding-left: 0px !important;padding-right: 0px !important;" >
+                                <textarea id="benefitsen-{{$index}}" name="benefitsen-{{$index}}" class="form-control" dir="auto"
+                                          ng-model="benefit.value"
+                                          rows="3" ng-maxlength="600" maxlength="600" ng-required="true"
+                                          ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                                </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form['benefitsen-' + $index].$dirty && form['benefitsen-' + $index].$invalid }"
+                                ng-show="form['benefitsen-' + $index].$dirty && form['benefitsen-' + $index].$invalid">
+                                <li class="required" ng-show="form['benefitsen-' + $index].$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form['benefitsen-' + $index].$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 600} }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <button class="btn btn-xs btn-danger pull-left"
+                                    ng-click="deleteFromList($index, service.benefitsEn)"
+                                    title="{{ 'CommonLabels.DeleteEntry' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-info pull-left"
+                            title="{{ 'Products.BulkMessaging.Operations.Screenings.ShowConstraints' | translate }}"
+                            ng-click="addToList('en', service.benefitsEn, 'value')">
+                        <i class="fa fa-plus"></i>
+                        {{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="detaildescriptionen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DetailDescriptionEn' | translate }}</label>
+                <div class="col-md-7" id="detaildescriptionen">
+                    <div ng-repeat="desc in service.detailDescriptionEn">
+                        <div class="col-md-11 col-sm-11 col-xs-11" style ="margin-bottom: 10px; padding-left: 0px !important; padding-right: 0px !important;" >
+                                <textarea id="detaildescriptionen-{{$index}}" name="detaildescriptionen-{{$index}}" class="form-control" dir="auto"
+                                          ng-model="desc.description"
+                                          rows="3" ng-maxlength="600" maxlength="600" ng-required="true"
+                                          ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                                </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form['detaildescriptionen-' + $index].$dirty && form['detaildescriptionen-' + $index].$invalid }"
+                                ng-show="form['detaildescriptionen-' + $index].$dirty && form['detaildescriptionen-' + $index].$invalid">
+                                <li class="required" ng-show="form['detaildescriptionen-' + $index].$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form['detaildescriptionen-' + $index].$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 600} }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <button class="btn btn-xs btn-danger pull-left"
+                                    ng-click="deleteFromList($index, service.detailDescriptionEn)"
+                                    title="{{ 'CommonLabels.DeleteEntry' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-info pull-left"
+                            title="{{ 'Products.BulkMessaging.Operations.Screenings.ShowConstraints' | translate }}"
+                            ng-click="addToList('en', service.detailDescriptionEn, 'description')">
+                        <i class="fa fa-plus"></i>
+                        {{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="namear" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="namear" name="namear" type="text" class="form-control" dir="auto"
+                           ng-model="service.nameAr"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.namear.$dirty && form.namear.$invalid }"
+                        ng-show="form.namear.$dirty && form.namear.$invalid">
+                        <li class="required" ng-show="form.namear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.namear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <div ng-repeat="descr in service.descriptionAr" style="margin-bottom: 10px;">
+                        <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                                  ng-model="descr.description"
+                                  rows="3" ng-maxlength="600" maxlength="600" ng-required="true"
+                                  ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                        </textarea>
+                        <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                            ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                            <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="detaildescriptionar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DetailDescriptionAr' | translate }}</label>
+                <div class="col-md-7" id="detaildescriptionar">
+                    <div ng-repeat="desc in service.detailDescriptionAr">
+                        <div class="col-md-11 col-sm-11 col-xs-11" style ="margin-bottom: 10px; padding-left: 0px !important; padding-right: 0px !important;" >
+                                <textarea id="detaildescriptionar-{{$index}}" name="detaildescriptionar-{{$index}}" class="form-control" dir="auto"
+                                          ng-model="desc.description"
+                                          rows="3" ng-maxlength="600" maxlength="600" ng-required="true"
+                                          ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                                </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form['detaildescriptionar-' + $index].$dirty && form['detaildescriptionar-' + $index].$invalid }"
+                                ng-show="form['detaildescriptionar-' + $index].$dirty && form['detaildescriptionar-' + $index].$invalid">
+                                <li class="required" ng-show="form['detaildescriptionar-' + $index].$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form['detaildescriptionar-' + $index].$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 600} }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <button class="btn btn-xs btn-danger pull-left"
+                                    ng-click="deleteFromList($index, service.detailDescriptionAr)"
+                                    title="{{ 'CommonLabels.DeleteEntry' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-info pull-left"
+                            title="{{ 'Products.BulkMessaging.Operations.Screenings.ShowConstraints' | translate }}"
+                            ng-click="addToList('ar', service.detailDescriptionAr, 'description')">
+                        <i class="fa fa-plus"></i>
+                        {{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="benefitsar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.BenefitsAr' | translate }}</label>
+                <div class="col-md-7" id="benefitsar">
+                    <div ng-repeat="benefit in service.benefitsAr">
+                        <div class="col-md-11 col-sm-11 col-xs-11" style ="margin-bottom: 10px; padding-left: 0px !important; padding-right: 0px !important;" >
+                                <textarea id="benefitsar-{{$index}}" name="benefitsar-{{$index}}" class="form-control" dir="auto"
+                                          ng-model="benefit.value"
+                                          rows="3" ng-maxlength="600" maxlength="600" ng-required="true"
+                                          ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                                </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form['benefitsar-' + $index].$dirty && form['benefitsar-' + $index].$invalid }"
+                                ng-show="form['benefitsar-' + $index].$dirty && form['benefitsar-' + $index].$invalid">
+                                <li class="required" ng-show="form['benefitsar-' + $index].$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form['benefitsar-' + $index].$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 600} }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <button class="btn btn-xs btn-danger pull-left"
+                                    ng-click="deleteFromList($index, service.benefitsAr)"
+                                    title="{{ 'CommonLabels.DeleteEntry' | translate }}">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-info pull-left"
+                            title="{{ 'Products.BulkMessaging.Operations.Screenings.ShowConstraints' | translate }}"
+                            ng-click="addToList('ar', service.benefitsAr, 'value')">
+                        <i class="fa fa-plus"></i>
+                        {{ 'CommonLabels.Add' | translate }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="identifier" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Services.Identifier' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="identifier" name="identifier" type="text" class="form-control" ng-model="service.key"
+                           ng-maxlength="255" maxlength="255"
+                           ng-disabled="true"/>
+                    <ul ng-class="{ 'parsley-error-list': form.identifier.$dirty && form.identifier.$invalid }"
+                        ng-show="form.identifier.$dirty && form.identifier.$invalid">
+                        <li class="required" ng-show="form.identifier.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.CoverImage' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="service.coverImage.name">
+                            <img ngf-src="!service.coverImage.$error && service.coverImage" width="200"
+                                 ng-style="{ 'height': (service.coverImage ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="service.coverImage.type">
+                                <div class="pull-left">
+                                    {{ service.coverImage.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="coverImage" type="file"
+                                    title="{{ (service.coverImage ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    class="btn btn-sm btn-default"
+                                    ngf-select
+                                    ng-model="service.coverImage"
+                                    ng-init="service.coverImage ? service.coverImage.name = service.coverImage.$ngfName : null"
+                                    ngf-change="form.coverImage.$setDirty()"
+                                    ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                    ngf-max-size="20MB"
+                                    ngf-model-invalid="errorImage"
+                                    ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (service.coverImage.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <ul ng-class="{ 'parsley-error-list': form.coverImage.$dirty && form.coverImage.$invalid }"
+                                ng-show="form.coverImage.$dirty && form.coverImage.$invalid">
+                                <li class="required" ng-show="form.coverImage.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                            </ul>
+                            <button class="btn btn-sm btn-default"
+                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                    ng-click="service.coverImage = null;"
+                                    ng-if="service.coverImage.name && (service.id ? AuthorizationService.canRBTOperationsServiceUpdate() : AuthorizationService.canRBTOperationsServiceCreate())">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ 'FileOperationLabels.Remove' | translate }}
+                            </button>
+                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="service.coverImage.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ service.coverImage.name }}"
+                               href="{{ service.coverImage | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.CardImage' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="service.cardImage.name">
+                            <img ngf-src="!service.cardImage.$error && service.cardImage" width="200"
+                                 ng-style="{ 'height': (service.cardImage ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="service.cardImage.type">
+                                <div class="pull-left">
+                                    {{ service.cardImage.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="cardImage" type="file"
+                                    title="{{ (service.cardImage ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    class="btn btn-sm btn-default"
+                                    ngf-select
+                                    ng-model="service.cardImage"
+                                    ng-init="service.cardImage ? service.cardImage.name = service.cardImage.$ngfName : null"
+                                    ngf-change="form.cardImage.$setDirty()"
+                                    ngf-accept="'.jpg,.jpeg'"
+                                    ngf-max-size="20MB"
+                                    ngf-validate="{ width:  { min: 512 }, height: { min: 512 }, ratio:  '1:1' }"
+                                    ngf-model-invalid="errorImage"
+                                    ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate() : !AuthorizationService.canRBTOperationsServiceCreate())">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (service.cardImage.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <ul ng-class="{ 'parsley-error-list': form.cardImage.$dirty && form.cardImage.$invalid }"
+                                ng-show="form.cardImage.$dirty && form.cardImage.$invalid">
+                                <li class="required" ng-show="form.cardImage.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                <li class="required" ng-show="errorImage && (errorImage.$error === 'dimensions' || errorImage.$error === 'ratio' || errorImage.$error === 'minWidth' || errorImage.$error === 'minHeight')">
+                                    {{ 'FileOperationLabels.ImageDimensionsError' | translate: {minWidth: 512, minHeight: 512, ratio:'1:1 (square)'} }}
+                                    <br>
+                                    ({{ 'FileOperationLabels.ImageDimensionsErrorInfo' | translate: {width: errorImage.$ngfWidth, height: errorImage.$ngfHeight} }})
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-default"
+                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                    ng-click="service.cardImage = null;"
+                                    ng-if="service.cardImage.name && (service.id ? AuthorizationService.canRBTOperationsServiceUpdate() : AuthorizationService.canRBTOperationsServiceCreate())">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ 'FileOperationLabels.Remove' | translate }}
+                            </button>
+                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="service.cardImage.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ service.cardImage.name }}"
+                               href="{{ service.cardImage | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="service.id">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Thumbnail' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="service.thumbnail.name">
+                            <img ngf-src="!service.thumbnail.$error && service.thumbnail" width="200"
+                                 ng-style="{ 'height': (service.thumbnail ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="service.thumbnail.type">
+                                <div class="pull-left">
+                                    {{ service.thumbnail.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="thumbnail" type="file"
+                                    title="{{ (service.thumbnail ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    class="btn btn-sm btn-default"
+                                    ngf-select
+                                    ng-model="service.thumbnail"
+                                    ng-init="service.thumbnail ? service.thumbnail.name = service.thumbnail.$ngfName : null"
+                                    ngf-change="form.thumbnail.$setDirty()"
+                                    ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                    ngf-max-size="20MB"
+                                    ngf-model-invalid="errorImage"
+                                    ng-disabled="true">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (service.thumbnail.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <ul ng-class="{ 'parsley-error-list': form.thumbnail.$dirty && form.thumbnail.$invalid }"
+                                ng-show="form.thumbnail.$dirty && form.thumbnail.$invalid">
+                                <li class="required" ng-show="form.thumbnail.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                            </ul>
+                            <!--<button class="btn btn-sm btn-default"
+                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                    ng-click="service.thumbnail = null;"
+                                    ng-if="service.thumbnail.name && (service.id ? AuthorizationService.canRBTOperationsServiceUpdate() : AuthorizationService.canRBTOperationsServiceCreate())">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ 'FileOperationLabels.Remove' | translate }}
+                            </button>-->
+                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="service.thumbnail.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ service.thumbnail.name }}"
+                               href="{{ service.thumbnail | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="chargingPeriod" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}</label>
+                <div class="col-md-3">
+                    <select id="chargingPeriod" name="chargingPeriod" class="form-control parsley-validated"
+                            ng-model="service.chargingDetails.chargingPeriod.duration"
+                            ng-options="duration for duration in [1,7,30]"
+                            ng-required="true"
+                            ng-disabled="true">
+                        <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                    </select>
+                    <ul ng-class="{ 'parsley-error-list': form.chargingPeriod.$dirty && form.chargingPeriod.$invalid }"
+                        ng-show="form.chargingPeriod.$dirty && form.chargingPeriod.$invalid">
+                        <li class="required" ng-show="form.chargingPeriod.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <select id="chargingPeriodUnit" name="chargingPeriodUnit" class="form-control col-md-6"
+                            ng-model="service.chargingDetails.chargingPeriod.unit"
+                            ng-options="opt.key as (opt.label | translate ) for opt in DURATION_UNITS"
+                            ng-disabled="true">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="price" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}</label>
+                <div class="col-md-4">
+                    <input id="price" name="price" type="number" class="form-control"
+                           ng-model="service.chargingDetails.price"
+                           ng-required="service.subscriptionEnabled"
+                           ng-min="0" ng-max="99999999"
+                           ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate(service.status) : !AuthorizationService.canRBTOperationsServiceCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.price.$dirty && form.price.$invalid }" ng-show="form.price.$dirty && form.price.$invalid">
+                        <li class="required" ng-show="form.price.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.price.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.price.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999999} }}</li>
+                        <li class="required" ng-show="form.price.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="originalprice" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.OriginalPrice' | translate }}</label>
+                <div class="col-md-4">
+                    <input id="originalprice" name="originalprice" type="number" class="form-control"
+                           ng-model="service.chargingDetails.originalPrice"
+                           ng-min="0" ng-max="99999999"
+                           ng-disabled="(service.id ? !AuthorizationService.canRBTOperationsServiceUpdate(service.status) : !AuthorizationService.canRBTOperationsServiceCreate())"/>
+                    <!--                    <ul ng-class="{ 'parsley-error-list': form.originalprice.$dirty && (form.originalprice.$invalid || form.originalprice.$error.min || orm.originalprice.$error.max) }" ng-show="form.originalprice.$dirty && (form.originalprice.$invalid || form.originalprice.$error.min || form.originalprice.$error.max)">-->
+                    <ul ng-class="{ 'parsley-error-list': form.originalprice.$dirty && form.originalprice.$invalid }" ng-show="form.originalprice.$dirty && form.originalprice.$invalid">
+                        <li class="required" ng-show="form.originalprice.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                        <li class="required" ng-show="form.originalprice.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 99999999} }}</li>
+                        <li class="required" ng-show="form.originalprice.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.originalprice.$error.pricerange">{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Messages.OriginalPriceInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canRBTOperationsServiceCreate() || (service.id && !AuthorizationService.canRBTOperationsServiceUpdate()) || isNotChanged()"
+                        ng-click="save(service);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

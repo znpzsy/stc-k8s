@@ -1,0 +1,62 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.RetryPolicies.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.RetryPolicies.ErrorBased.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.RetryPolicies.ErrorBased.TableColumns.Context' | translate}}</label>
+            <div class="col-md-7">
+                <select name="errorContext" class="form-control parsley-validated" ng-model="errorBasedProfile.errorContext" ng-options="opt as opt for opt in ErrorContexts" ng-disabled="update">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.RetryPolicies.ErrorBased.TableColumns.Code' | translate }}</label>
+            <div class="col-md-7">
+                <input name="count" type="text" class="form-control" ng-model="errorBasedProfile.errorCode" ng-required="true" ng-disabled="update" />
+                <ul ng-class="{ 'parsley-error-list': form.count.$dirty && form.count.$invalid }" ng-show="form.count.$dirty && form.count.$invalid">
+                    <li class="required" ng-show="form.count.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.RetryPolicies.ErrorBased.TableColumns.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input name="interval" type="text" class="form-control" ng-model="errorBasedProfile.errorName" ng-required="true" ng-disabled="update" />
+                <ul ng-class="{ 'parsley-error-list': form.interval.$dirty && form.interval.$invalid }" ng-show="form.interval.$dirty && form.interval.$invalid">
+                    <li class="required" ng-show="form.interval.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.RetryPolicies.ErrorBased.TableColumns.Type' | translate }}</label>
+            <div class="col-md-7">
+                <select name="errorType" class="form-control parsley-validated" ng-model="errorBasedProfile.errorType" ng-options="opt as opt for opt in ErrorTypes">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (operator.id && !AuthorizationService.canUpdate()) || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ui-sref="products.mmsc.operations.retrypolicies.errorbased" >
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

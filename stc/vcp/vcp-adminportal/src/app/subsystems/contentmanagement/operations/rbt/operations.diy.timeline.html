@@ -1,0 +1,78 @@
+<div class="portlet-body">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn {{stateFilter === 'ALL'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'ALL'" ng-change="stateFilterChange('ALL');">{{ 'CommonLabels.All' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{stateFilter === 'PENDING'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'PENDING'" ng-change="stateFilterChange('PENDING');">{{ 'StatusTypes.Pending' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{stateFilter === 'ACTIVE'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'ACTIVE'" ng-change="stateFilterChange('ACTIVE');">{{ 'StatusTypes.Active' | translate | uppercase }}
+                </button>
+                <button type="button" class="btn {{stateFilter === 'REJECTED'?'btn-default active':'btn-default'}} btn-sm"
+                        ng-model="stateFilter" uib-btn-radio="'REJECTED'" ng-change="stateFilterChange('REJECTED');">{{ 'StatusTypes.Rejected' | translate | uppercase }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-12" i-scroll="lazyLoad()" i-scroll-block="{{BLOCK_SCROLL}}">
+
+            <div class="feed-item feed-item-idea" ng-repeat="diyItem in diyTonesList.list">
+                <div ng-class="{ 'well well-sm': diyItem.taskSelected }">
+
+                    <div class="feed-icon bg-primary {{ getBgColorByState(diyItem.status) }}">
+                        <i class="fa {{ getIconByState(diyItem.status) }}"></i>
+                    </div> <!-- /.feed-icon -->
+
+                    <div class="feed-subject">
+                        <h6>[{{ getLabelByState(diyItem.status) }}] : by {{ diyItem.msisdn }} [{{ diyItem.artistName }} - {{ diyItem.recordName }}]</h6>
+                    </div> <!-- /.feed-subject -->
+
+                    <div class="feed-content">
+                        <ul class="icons-list">
+                            <li>
+                                <i class="icon-li fa fa-quote-left"></i>
+                                {{ 'Subsystems.ContentManagement.Operations.RBT.DIY.UploadedNote' | translate:{msisdn:diyItem.msisdn} }}
+                                <span>
+                                    <br/><i class="icon-li fa fa-mobile"></i>       {{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.SubscriptionCode' | translate }}:  {{ diyItem.subscriptionCode }}
+                                    <br/><i class="icon-li fa fa-microphone"></i>    {{ 'Subsystems.ContentManagement.Operations.RBT.DIY.ArtistName' | translate }}: {{ diyItem.artistName }}
+                                    <br/><i class="icon-li fa fa-headphones"></i>    {{ 'Subsystems.ContentManagement.Operations.RBT.DIY.RecordName' | translate }}: {{ diyItem.recordName }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div> <!-- /.feed-content -->
+
+                    <div class="feed-actions">
+                        <a href="javascript:;" class="pull-left"
+                           ui-sref="subsystems.contentmanagement.operations.rbt.diy.update({ id : diyItem.id })"
+                           ng-if="AuthorizationService.canRBTOperationsDiyUpdate()"
+                           title="{{ 'CommonLabels.Review' | translate }}">
+                            <i class="fa fa-check-square-o"></i> {{ 'CommonLabels.Review' | translate }}</a>
+
+                        <a href="javascript:;" ng-click="approve(diyItem);" class="pull-left"
+                           ng-if="diyItem.status === 'PENDING' && AuthorizationService.canRBTOperationsDiyUpdate()"
+                           title="{{ 'CommonLabels.Approve' | translate }}">
+                            <i class="fa fa-thumbs-up"></i> {{ 'CommonLabels.Approve' | translate }}</a>
+
+                        <a href="javascript:;" ng-click="reject(diyItem);" class="pull-left"
+                           ng-if="diyItem.status === 'PENDING' && AuthorizationService.canRBTOperationsDiyUpdate()"
+                           title="{{ 'CommonLabels.Reject' | translate }}">
+                            <i class="fa fa-thumbs-down"></i> {{ 'CommonLabels.Reject' | translate }}</a>
+
+                        <span class="pull-right"><a href="javascript:;" ui-sref="subsystems.contentmanagement.operations.rbt.diy.update({ id : diyItem.id })"><i class="fa fa-share"></i> {{ diyItem.id }}</a></span>
+                    </div> <!-- /.feed-actions -->
+
+                </div> <!-- /.feed-item -->
+            </div> <!-- /.feed-item -->
+
+            <div ng-if="diyTonesList.list.length === 0">
+                <h5 class="text-center" style="margin-top: .65em;">{{ 'CommonMessages.NoDataAvailable' | translate }}</h5>
+            </div>
+
+        </div>
+    </div>
+
+</div>

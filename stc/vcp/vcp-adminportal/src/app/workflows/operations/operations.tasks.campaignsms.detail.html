@@ -1,0 +1,191 @@
+<div class="portlet-header" ng-if="!isModal">
+    <h4 class="portlet-title">
+        {{ 'Workflows.Operations.TaskStatuses.' + $state.params.taskStatus | translate }} {{ task ? '/ ' + task.name : '' }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form task-review-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.Organization' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.organizationName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'CommonLabels.User' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.userAccountName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignName' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.name}}</div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.campaignTask.objectDetail.id">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignId' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.id}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignStatusBpms' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignStatusBpms}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignStartDateTime' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignStartTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.CampaignExpiryDateTime' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignExpiryTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.campaignTask.objectDetail.campaignBlackLists.length">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.ScreeningLists' | translate }}</label>
+            <div class="col-md-7">
+                <div class="row col-md-9">
+                    <div ng-repeat="timeConstraint in task.campaignTask.objectDetail.timeConstraints">
+                        <span class="label label-default selected-item-label">
+                            {{ timeConstraint.value | TimeConstraintViewFilter }}
+                        </span>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="task.campaignTask.objectDetail.timeConstraints.length">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.TimeConstraints' | translate }}</label>
+            <div class="col-md-7">
+                <div class="row col-md-9">
+                    <div ng-repeat="timeConstraint in task.campaignTask.objectDetail.timeConstraints">
+                        <span class="label label-default selected-item-label">
+                            {{ timeConstraint.value | TimeConstraintViewFilter }}
+                        </span>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.AllowOffNetDelivery' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.campaignTask.objectDetail.campaignOffnetEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.campaignTask.objectDetail.campaignOffnetEnabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.campaignTask.objectDetail.campaignOffnetEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.campaignTask.objectDetail.campaignOffnetEnabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.DisableCharging' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{task.campaignTask.objectDetail.campaignChargingDisabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.campaignTask.objectDetail.campaignChargingDisabled">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!task.campaignTask.objectDetail.campaignChargingDisabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="true"
+                            ng-value="task.campaignTask.objectDetail.campaignChargingDisabled">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.MaxRetryCount' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignMaxRetryCount}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.From' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignFrom}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ListType' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignListType}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.To' | translate }}</label>
+            <div class="col-md-7">
+                <div class="well well-sm" dir="auto">{{task.campaignTask.objectDetail.campaignListName}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.MessageContent' | translate }}</label>
+            <div class="col-md-7">
+                <textarea id="campaignContent" name="campaignContent" class="form-control well well-sm" dir="auto"
+                          ng-value="task.campaignTask.objectDetail.campaignContent"
+                          rows="3" ng-disabled="true">
+                </textarea>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="!isModal">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-success"
+                        ng-click="approveTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskApprove()">
+                    {{ 'CommonLabels.Approve' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="rejectTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskReject()">
+                    {{ 'CommonLabels.Reject' | translate }}
+                </button>
+                <button type="submit" class="btn btn-danger"
+                        ng-click="deleteTask(task);"
+                        ng-if="$state.params.taskStatus === 'pending' && AuthorizationService.canBpmOperationsTaskDelete()">
+                    {{ 'CommonLabels.Remove' | translate }}
+                </button>
+
+                <button type="reset" class="btn btn-default"
+                        ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

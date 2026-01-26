@@ -1,0 +1,42 @@
+<div class="container">
+
+    <h3 class="page-title">
+        <span translate="{{$state.current.data.title}}" translate-compile></span>
+    </h3>
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <ul class="nav nav-tabs">
+                <li ng-class="{ 'active': $state.includes('subscriber-info.subscriber-profile') }">
+                    <a ui-sref="subscriber-info.subscriber-profile" data-toggle="tab"><span class="fa fa-info-circle"></span>&nbsp;
+                        {{ 'SubscriberInfo.SubscriberProfile.Header' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.activity-history') }"
+                    ng-if="false && AuthorizationService.canReadTroubleshooting()">
+                    <a ui-sref="subscriber-info.activity-history" data-toggle="tab"><span class="fa fa-history"></span>&nbsp;
+                        {{ 'GenericTabs.SubscriberInfoActivityHistory.Header' | translate }}
+                    </a>
+                </li>
+
+                <li ng-class="{ 'active': $state.includes('subscriber-info.screening-manager-activity-history') }"
+                    ng-if="false && AuthorizationService.canReadTroubleshooting()">
+                    <a ui-sref="subscriber-info.screening-manager-activity-history" data-toggle="tab"><span class="fa fa-history"></span>&nbsp;
+                        {{ 'GenericTabs.ScreeningManagerActivityHistory.Header' | translate }}
+                    </a>
+                </li>
+            </ul>
+
+            <div class="row" ui-view>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<ccportal-common-templates></ccportal-common-templates>

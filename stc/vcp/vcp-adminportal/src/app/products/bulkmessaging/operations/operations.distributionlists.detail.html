@@ -1,0 +1,135 @@
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Products.BulkMessaging.Operations.DistributionLists.TableColumns.Name' | translate }}</label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" ng-model="distributionList.name"
+                       ng-required="true" ng-maxlength="50" maxlength="50"
+                       ng-disabled="!AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType) || distributionList.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.DistributionLists.TableColumns.FileAttachment' | translate }}</label>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="btn-group col-md-12" ng-if="!distributionList.file">
+                        <!-- Single button -->
+                        <div class="btn-group" uib-dropdown dropdown-append-to-body="true" is-open="actionButton.isOpen" ng-if="distributionList.creationTime">
+                            <button type="button" class="btn btn-sm btn-default"
+                                    ng-disabled="(distributionList.id ? !AuthorizationService.canBmsOperationsDistroListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType))"
+                                    uib-dropdown-toggle>
+                                {{ ('CommonLabels.' + $parent.$parent.action) | translate }} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Append' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Append';">{{ 'CommonLabels.Append' | translate }}</a></li>
+                                <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Remove' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Remove';">{{ 'CommonLabels.Remove' | translate }}</a></li>
+                            </ul>
+                        </div>
+                        <button name="fileAttachment" type="file"
+                                ngf-select
+                                ng-model="distributionList.file"
+                                class="btn btn-sm btn-default col-md-5"
+                                ngf-accept="'.txt,.csv,.xls,.xlsx'"
+                                ngf-max-size="20MB"
+                                ngf-model-invalid="errorFile"
+                                ng-disabled="(distributionList.id ? !AuthorizationService.canBmsOperationsDistroListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType))">
+                            {{ ((distributionList.previousFile) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-offset-3 col-md-9" ng-if="!distributionList.file">
+                        <ul ng-class="{ 'parsley-error-list': form.fileAttachment.$dirty && form.fileAttachment.$invalid }"
+                            ng-show="form.fileAttachment.$dirty && form.fileAttachment.$invalid">
+                            <li class="required" ng-show="form.fileAttachment.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                        </ul>
+                    </div>
+                    <div class="input-group input-group-sm col-md-12" ng-if="distributionList.file">
+                        <div class="col-md-12">
+                            <!-- Single button -->
+                            <div class="input-group-btn" uib-dropdown dropdown-append-to-body="true" is-open="actionButton.isOpen" ng-if="distributionList.creationTime">
+                                <button type="button" class="btn btn-sm btn-default"
+                                        ng-disabled="(distributionList.id ? !AuthorizationService.canBmsOperationsDistroListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType))"
+                                        uib-dropdown-toggle>
+                                    {{ ('CommonLabels.' + $parent.$parent.action) | translate }} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Append' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Append';">{{ 'CommonLabels.Append' | translate }}</a></li>
+                                    <li role="menuitem" ng-class="{ 'active': $parent.$parent.action === 'Remove' }"><a href="javascript:;" ng-click="$parent.$parent.action = 'Remove';">{{ 'CommonLabels.Remove' | translate }}</a></li>
+                                </ul>
+                            </div>
+                            <span class="input-group-addon"
+                                  uib-tooltip="{{distributionList.file.name.length >= 50 ? distributionList.file.name : '' }}" tooltip-class="custom-class" tooltip-append-to-body="true">
+                                {{ distributionList.file.name | limitTo:50}}{{distributionList.file.name.length > 50 ? '...' : '' }}
+                            </span>
+                            <span class="input-group-btn" style="width: auto;">
+                                <button name="removeFileAttachment" class="btn btn-sm btn-danger"
+                                        ng-click="removeFileAttachment();"
+                                        title="{{ 'CommonLabels.Remove' | translate }}"
+                                        ng-disabled="(distributionList.id ? !AuthorizationService.canBmsOperationsDistroListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType))">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldNames" class="col-md-3">{{ 'Products.BulkMessaging.Operations.DistributionLists.TableColumns.FieldNames' | translate }}</label>
+            <div class="col-md-7">
+                <input name="fieldNames" type="text" class="form-control" ng-model="distributionList.fieldNames"
+                       ng-maxlength="250" maxlength="250"
+                       placeholder="{{ !distributionList.id ? ('Products.BulkMessaging.Operations.DistributionLists.FieldNamesPlaceholder' | translate) : '' }}"
+                       ng-disabled="!AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType) || distributionList.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.fieldNames.$dirty && form.fieldNames.$invalid }"
+                    ng-show="form.fieldNames.$dirty && form.fieldNames.$invalid">
+                    <li class="required" ng-show="form.fieldNames.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="distributionList.listSize !== undefined">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.DistributionLists.TableColumns.Size' | translate }}</label>
+            <div class="col-md-7">
+                <span class="form-control" ng-disabled="true">{{distributionList.listSize}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="distributionList.creationTime">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.DistributionLists.TableColumns.CreationTime' | translate }}</label>
+            <div class="col-md-7">
+                <span class="form-control" ng-disabled="true">{{distributionList.creationTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="distributionList.updateTime">
+            <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.DistributionLists.TableColumns.UpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <span class="form-control" ng-disabled="true">{{distributionList.updateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (distributionList.id ? !AuthorizationService.canBmsOperationsDistroListUpdate($state.current.data.listType) : !AuthorizationService.canBmsOperationsDistroListCreate($state.current.data.listType)) || isNotChanged()"
+                        ng-click="save(action, distributionList, distributionList.file);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

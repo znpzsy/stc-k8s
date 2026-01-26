@@ -1,0 +1,85 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.Applications.PageHeader' | translate }} / {{ 'Products.SMSC.Operations.Applications.SmppApps.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="products.smsc.operations.applications.smppapps-new"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="smppApplicationList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('SMSCSMPPApplications', smppApplicationList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('SMSCSMPPApplications', smppApplicationList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['id', 'name', 'organization.name', 'billingAddress', 'state'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="smppApplicationList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="app in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Products.SMSC.Operations.Applications.SmppApps.TableColumns.Id' | translate" sortable="'id'">{{app.id}}</td>
+                        <td align="center" data-title="'Products.SMSC.Operations.Applications.SmppApps.TableColumns.AppName' | translate" sortable="'name'">{{app.name}}</td>
+                        <td align="center" data-title="'Products.SMSC.Operations.Applications.SmppApps.TableColumns.Organization' | translate" sortable="'organization.name'">{{app.organization.name}}</td>
+                        <td align="center" data-title="'Products.SMSC.Operations.Applications.SmppApps.Charging.BillingAddress' | translate" sortable="'billingAddress'">{{app.billingAddress}}</td>
+                        <td align="center" data-title="'Products.SMSC.Operations.Applications.SmppApps.TableColumns.State' | translate" sortable="'state'">{{app.state}}</td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ui-sref="products.smsc.operations.applications.smppapps-update({ appId : app.id, organizationId: app.organizationId })"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ui-sref="products.smsc.operations.applications.smppapps-blackhourrules.list({ appId : app.id })"
+                                    class="btn btn-xs btn-tertiary"
+                                    title="{{ 'CommonLabels.SetBlackHourRules' | translate }}"
+                                    ng-disabled="!AuthorizationService.canUpdate()">
+                                <i class="fa fa-adjust"></i>
+                            </button>
+                            <button ng-click="showLiveConnections(app)"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ 'CommonLabels.ShowLiveConnections' | translate }}">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button ng-click="remove(app)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

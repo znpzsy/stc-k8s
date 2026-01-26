@@ -1,0 +1,75 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title">
+                {{ 'PartnerInfo.Users.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body buttons-portlet-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="pull-left">
+                        <button class="btn btn-secondary btn-sm"
+                                ui-sref="partner-info.users.new"
+                                ng-if="SessionService.isUserAdmin()"
+                                ng-disabled="!AuthorizationService.canPrmUserAccountCreate()">
+                            <i class="fa fa-plus"></i>
+                            {{ 'CommonLabels.AddNewEntry' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <form class="mainnav-form">
+                        <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                               ng-model="filterText" ng-change="filterTable(filterText, ['userName', 'groupNames', 'state'])"
+                               placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                        <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table ng-table="usersTable.tableParams" class="table table-striped table-bordered" template-pagination="ngTableCustomPager.html">
+                            <tr ng-repeat="user in $data" class="hidden-link-cell-row"
+                                ng-class="{ 'row-selected': user.rowSelected }">
+                                <td align="center" data-title="'PartnerInfo.Users.TableColumns.UserName' | translate" sortable="'userName'">{{user.userName}}</td>
+                                <td align="center" data-title="'PartnerInfo.Users.TableColumns.Group' | translate" sortable="'groupNames'">{{user.groupNames}}</td>
+                                <td align="center" data-title="'PartnerInfo.Users.TableColumns.State' | translate" sortable="'state'">{{user.state}}</td>
+                                <td align="center" data-title="'CommonLabels.Actions' | translate">
+                                    <button ui-sref="partner-info.users.update ({ id: user.id })"
+                                            class="btn btn-xs btn-secondary"
+                                            title="{{ AuthorizationService.canPrmUserAccountUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}"
+                                            ng-if="SessionService.isUserAdmin() || user.id === SessionService.getUserId()">
+                                        <i class="fa fa-edit" ng-if="AuthorizationService.canPrmUserAccountUpdate()" ></i>
+                                        <i class="fa fa-square-o" ng-if="!AuthorizationService.canPrmUserAccountUpdate()" ></i>
+                                    </button>
+                                    <button ng-click="remove(user)" class="btn btn-xs btn-danger" title="{{ 'CommonLabels.Delete' | translate }}"
+                                            ng-if="SessionService.isUserAdmin()"
+                                            ng-disabled="!AuthorizationService.canPrmUserAccountDelete()">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr ng-if="$data.length === 0">
+                                <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

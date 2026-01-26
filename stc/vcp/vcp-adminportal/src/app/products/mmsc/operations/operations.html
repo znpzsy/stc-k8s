@@ -1,0 +1,139 @@
+<div class="col-md-3 col-sm-5">
+    <ul class="nav nav-pills nav-stacked">
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.mmsc.operations.applications') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.Applications.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.applications.mm7') }">
+                    <a ui-sref="products.mmsc.operations.applications.mm7" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.Applications.MM7.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.mmsc.operations.contenttypefilters') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.ContentFilters.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.contenttypefilters.list') }">
+                    <a ui-sref="products.mmsc.operations.contenttypefilters.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.ContentFilters.ContentType.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.mmsc.operations.interconnections') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.Interconnections.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.interconnections.mm4') }">
+                    <a ui-sref="products.mmsc.operations.interconnections.mm4" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.Interconnections.MM4.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.mmsc.operations.retrypolicies') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.RetryPolicies.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.retrypolicies.applications') }">
+                    <a ui-sref="products.mmsc.operations.retrypolicies.applications" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.RetryPolicies.Applications.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.retrypolicies.externalservers') }">
+                    <a ui-sref="products.mmsc.operations.retrypolicies.externalservers" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.RetryPolicies.ExternalServers.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.retrypolicies.operators') }">
+                    <a ui-sref="products.mmsc.operations.retrypolicies.operators" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.RetryPolicies.Operators.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.retrypolicies.useragents') }">
+                    <a ui-sref="products.mmsc.operations.retrypolicies.useragents" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.RetryPolicies.UserAgents.MenuLabel' | translate }}
+                    </a>
+                </li>
+
+                <li class="divider"></li>
+
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.retrypolicies.errorbased') }">
+                    <a ui-sref="products.mmsc.operations.retrypolicies.errorbased" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.RetryPolicies.ErrorBased.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.mmsc.operations.trafficcontrols') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TrafficControls.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.trafficcontrols.externalservers') }">
+                    <a ui-sref="products.mmsc.operations.trafficcontrols.externalservers" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TrafficControls.ExternalServers.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.trafficcontrols.applications') }">
+                    <a ui-sref="products.mmsc.operations.trafficcontrols.applications" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TrafficControls.PerApplication.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.trafficcontrols.operators') }">
+                    <a ui-sref="products.mmsc.operations.trafficcontrols.operators" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TrafficControls.PerOperator.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.trafficcontrols.useragents') }">
+                    <a ui-sref="products.mmsc.operations.trafficcontrols.useragents" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TrafficControls.UserAgents.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('products.mmsc.operations.translationtables') }" >
+            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                <i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TranslationTables.MenuLabel' | translate }}&nbsp;&nbsp;<b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.translationtables.destaddress') }">
+                    <a ui-sref="products.mmsc.operations.translationtables.destaddress.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TranslationTables.DestAddress.MenuLabel' | translate }}
+                    </a>
+                </li>
+                <li ng-class="{ 'active': $state.includes('products.mmsc.operations.translationtables.origaddress') }">
+                    <a ui-sref="products.mmsc.operations.translationtables.origaddress.list" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Products.MMSC.Operations.TranslationTables.OrigAddress.MenuLabel' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-9 col-sm-7">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" ui-view>
+        </div>
+    </div>
+</div>

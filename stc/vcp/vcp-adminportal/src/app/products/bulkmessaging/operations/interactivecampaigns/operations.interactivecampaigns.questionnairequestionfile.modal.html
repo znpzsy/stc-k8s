@@ -1,0 +1,177 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.QuestionAnswerModalTitle' | translate }}
+    </h4>
+</div>
+
+<div class="modal-body" style="max-height: 600px; overflow-y: auto;">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <!-- Question related fields -->
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Files' | translate }}</label>
+                    <div class="col-md-7">
+                        <button name="questionFile" type="file"
+                                title="{{ 'FileOperationLabels.SelectAddTitle' | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="questionFile.file"
+                                ng-init="questionFile.file ? questionFile.file.name = questionFile.file.$ngfName : null"
+                                ngf-change="questionFileSelected($files, $event, questionFile)"
+                                class="btn btn-sm btn-default"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="100MB"
+                                ngf-model-invalid="errorFile"
+                                ngf-validate-force="true"
+                                ngf-run-all-validations="true"
+                                ng-required="!qaInfo.questionFileList || qaInfo.questionFileList.length === 0"
+                                ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                            {{ 'CommonLabels.SelectAddFile' | translate }}
+                        </button>
+                        <ul ng-class="{ 'parsley-error-list': form.questionFile.$dirty && form.questionFile.$invalid }"
+                            ng-show="form.questionFile.$dirty && form.questionFile.$invalid">
+                            <li class="required" ng-show="form.questionFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.questionFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorFile.$errorParam} }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default panel-body" ng-repeat="questionFile in qaInfo.questionFileList track by $index">
+                    <div class="form-group">
+                        <button class="btn btn-xs btn-danger" type="button" style="float: right;margin: -10px 5px;"
+                                ng-click="removeQuestionFile(questionFile);form.questionFile.$setDirty();"
+                                title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                ng-if="questionFile.file.name && AuthorizationService.canBmsOperationsCampaignCreate()">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;margin-top: -20px;">
+                        <label class="col-md-3 text-right">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.FilePrefix' | translate }} {{$index + 1}}</label>
+                        <div class="col-md-9" ng-if="questionFile.file.name">
+                            <div class="fileinput-preview text-center">
+                                <audio class="audio-player" controls controlsList="nodownload" ngf-src="!questionFile.file.$error && questionFile.file"/>
+                            </div>
+
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                        uib-tooltip="{{questionFile.file.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ questionFile.file.name }}
+                                </button>
+                                &nbsp;&nbsp;
+                            </div>
+                            <a class="btn btn-sm btn-success"
+                               ng-if="questionFile.file.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ questionFile.file.name }}"
+                               href="{{ questionFile.file | ngfDataUrl }}" target="_blank"
+                               ng-if="AuthorizationService.canBmsOperationsCampaignRead()">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- // Question related fields -->
+
+                <div class="form-group">
+                    <label for="dtmfCodes" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.DTMFCodes' | translate }}</label>
+                    <div class="col-md-7">
+                        <ui-select id="dtmfCodes" name="dtmfCodes" multiple tagging="newDTMFCode" tagging-label="false" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                   uib-tooltip="{{ 'CommonMessages.InvalidKeypadEntry' | translate }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                                   ng-model="qaInfo.dtmfCodes"
+                                   limit="20"
+                                   title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                                   ng-required="true"
+                                   ui-select-maxlength="25"
+                                   ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                            <ui-select-match placeholder=" {{ 'CommonLabels.EnterNewOne' | translate }}">
+                                {{ $item }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="dtmfCodeItem as dtmfCodeItem in (dtmfCode | filter: $select.search)">
+                                {{ dtmfCodeItem }}
+                            </ui-select-choices>
+                        </ui-select>
+                        <ul ng-class="{ 'parsley-error-list': form.dtmfCodes.$dirty && form.dtmfCodes.$invalid }"
+                            ng-show="form.dtmfCodes.$dirty && form.dtmfCodes.$invalid">
+                            <li class="required" ng-show="form.dtmfCodes.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.dtmfCodes.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 25} }}</li>
+                            <li class="required" ng-show="form.dtmfCodes.$error.pattern">{{ 'CommonMessages.InvalidKeypadEntry' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="identifiers" class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.Identifiers' | translate }}</label>
+                    <div class="col-md-7">
+                        <ui-select id="identifiers" name="identifiers" multiple tagging tagging-label="false" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                   ng-model="qaInfo.identifiers"
+                                   limit="20"
+                                   title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                                   ng-required="true"
+                                   ui-select-maxlength="25"
+                                   ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                            <ui-select-match placeholder=" {{ 'CommonLabels.EnterNewOne' | translate }}">
+                                {{ $item }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="identifierItem as identifierItem in (identifier | filter: $select.search)">
+                                {{ identifierItem }}
+                            </ui-select-choices>
+                        </ui-select>
+                        <ul ng-class="{ 'parsley-error-list': form.identifiers.$dirty && form.identifiers.$invalid }"
+                            ng-show="form.identifiers.$dirty && form.identifiers.$invalid">
+                            <li class="required" ng-show="form.identifiers.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.identifiers.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 25} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div ng-if="campaign.interactivityTemplate.value === 'RBT Questionnaire'"
+                     ng-repeat="dtmfCode in qaInfo.dtmfCodes">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'Products.BulkMessaging.Operations.InteractiveCampaigns.PromotedTone' | translate }} ({{dtmfCode}}:{{qaInfo.identifiers[$index]}})</label>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <ui-select id="promotedTone_{{$index}}" name="promotedTone_{{$index}}" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                           ng-model="qaInfo.promotedTones[$index]"
+                                           search-enabled="true"
+                                           close-on-select="true"title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                           ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()">
+                                    <ui-select-match placeholder="{{ 'CommonLabels.PleaseWrite' | translate }}">
+                                        <span ng-bind="$select.selected.name"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="toneListItem as toneListItem in (toneList | filter: $select.search) track by toneListItem.id"
+                                                       refresh="searchPromotedTones($select.search)"
+                                                       refresh-delay="0">
+                                        <div ng-bind-html="toneListItem.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-btn">
+                                    <button type="button" ng-click="qaInfo.promotedTones[$index] = null;form.promotedTone_$index.$setDirty();" class="btn btn-default" ng-disabled="!qaInfo.promotedTones[$index]">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate() || isNotChanged()"
+                                ng-click="save(qaInfo);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

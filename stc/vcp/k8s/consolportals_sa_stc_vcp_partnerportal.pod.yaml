@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal
+  labels:
+    component: vcp-partnerportal
+spec:
+  containers:
+    - name: vcp-partnerportal
+      image: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1
+      ports:
+        - containerPort: 8082

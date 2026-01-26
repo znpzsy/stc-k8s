@@ -1,0 +1,357 @@
+<div class="col-md-12 col-sm-12">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default">
+
+            <!--Show Filter / Hide Filter-->
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-7 col-xs-4">
+                        <div class="pull-left">
+                            <div class="btn btn-secondary btn-sm pull-left"
+                                 title="{{ 'CommonMessages.DateFilterButtonTitle' | translate }}"
+                                 ng-model="filterFormLayer.isFilterFormOpen"
+                                 ng-init="filterFormLayer.isFilterFormOpen = true"
+                                 ng-click="filterFormLayer.isFilterFormOpen = !filterFormLayer.isFilterFormOpen">
+                                <span ng-if="!filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.ShowFilter' | translate }} <i class="fa fa-chevron-circle-right"></i></span>
+                                <span ng-if="filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.HideFilter' | translate }} <i class="fa fa-chevron-circle-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 col-xs-8">
+                    </div>
+                </div>
+            </div>
+
+            <!--Filter Form-->
+            <div class="portlet-body">
+                <div class="row">
+                    <div hidden-filter-form ng-model="filterFormLayer" class="col-sm-12 filter-form">
+
+                        <form id="filterForm" name="filterForm" method="post" enctype="multipart/form-data" class="form-horizontal parsley-form" novalidate>
+                            <div class="portlet portlet-boxed">
+                                <div class="portlet-body">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                        <!--Date Filters-->
+                                        <div class="form-group">
+                                            <label for="startDate" class="col-md-4 control-label text-right">{{ 'GenericFormFields.StartDateAndTime.Label' | translate }}</label>
+                                            <div class="col-md-5 col-sm-5">
+                                                <div class="input-group date datepicker-field">
+                                                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                                           ng-model="dateFilter.startDate" uib-datepicker-popup="{{dateFormat}}"
+                                                           ng-change="updateStartDate(dateFilter.startDate)"
+                                                           ng-focus="openStartDatePicker($event)"
+                                                           min-max-check is-open="startDatePicker.opened"
+                                                           max-date="dateFilter.endDate" datepicker-options="dateOptions"
+                                                           ng-required="true"/>
+                                                    <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default input-sm"
+                                                            ng-click="openStartDatePicker($event)"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </span>
+                                                </div>
+                                                <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                                                    <li class="required" ng-show="filterForm.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                    <li class="required" ng-show="filterForm.startDate.$error.parse">{{ 'GenericFormFields.StartDateAndTime.Messages.Invalid' | translate }}</li>
+                                                    <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div uib-timepicker ng-model="dateFilter.startTime" class="time-picker with-date-picker"
+                                                     hour-step="hstep" minute-step="mstep"
+                                                     show-meridian="false" readonly-input="true" mousewheel="false"
+                                                     ng-change="updateStartDateTime(dateFilter.startTime)"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="endDate" class="col-md-4 control-label text-right">{{ 'GenericFormFields.EndDateAndTime.Label' | translate }}</label>
+                                            <div class="col-md-5 col-sm-5">
+                                                <div class="input-group date datepicker-field">
+                                                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                                                           ng-model="dateFilter.endDate" uib-datepicker-popup="{{dateFormat}}"
+                                                           ng-change="updateEndDate(dateFilter.endDate)"
+                                                           ng-focus="openEndDatePicker($event)"
+                                                           min-max-check is-open="endDatePicker.opened"
+                                                           min-date="dateFilter.startDate" datepicker-options="dateOptions"
+                                                           ng-required="true"/>
+                                                    <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default input-sm"
+                                                            ng-click="openEndDatePicker($event)"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </span>
+                                                </div>
+                                                <ul ng-class="{ 'parsley-error-list': filterForm.endDate.$dirty && filterForm.endDate.$invalid }" ng-show="filterForm.endDate.$dirty && filterForm.endDate.$invalid">
+                                                    <li class="required" ng-show="filterForm.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                                    <li class="required" ng-show="filterForm.endDate.$error.parse">{{ 'GenericFormFields.EndDateAndTime.Messages.Invalid' | translate }}</li>
+                                                    <li class="required" ng-show="filterForm.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDateAndTime.Messages.MinDateExceeded' | translate }}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div uib-timepicker ng-model="dateFilter.endTime" class="time-picker with-date-picker"
+                                                     hour-step="hstep" minute-step="mstep"
+                                                     show-meridian="false" readonly-input="true" mousewheel="false"
+                                                     ng-change="updateEndDateTime(dateFilter.endTime)"></div>
+                                            </div>
+                                        </div>
+
+                                        <!--Alias Filter-->
+                                        <div class="form-group">
+                                            <label for="entityAlias" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Troubleshooting.FilterForm.EntityAlias' | translate }}</label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control input-sm" id="entityAlias" name="entityAlias"
+                                                       ng-model="dateFilter.entityAlias" placeholder="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.AliasPlaceholder' | translate }}"/>
+                                            </div>
+                                        </div>
+
+                                        <!--Entity Type (Content) Filter-->
+                                        <div class="form-group">
+                                            <label for="entityType" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Troubleshooting.FilterForm.EntityType' | translate }}</label>
+                                            <div class="col-md-7">
+                                                <select id="entityType" name="entityType" class="form-control"
+                                                        ng-model="dateFilter.entityType"
+                                                        ng-options="entityType as entityType for entityType in CMS_RBT_TROUBLESHOOTING_ENTITY_TYPES">
+                                                    <option value="">{{ 'CommonLabels.All' | translate | uppercase}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <!--Operation Filter-->
+                                        <div class="form-group">
+                                            <label for="operation" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Troubleshooting.FilterForm.Operation' | translate }}</label>
+                                            <div class="col-md-7">
+                                                <select id="operation" name="operation" class="form-control"
+                                                        ng-model="dateFilter.operation"
+                                                        ng-options="operation as operation for operation in CMS_RBT_TROUBLESHOOTING_OPERATIONS">
+                                                    <option value="">{{ 'CommonLabels.All' | translate | uppercase}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <!--Operation Type Filter-->
+                                        <div class="form-group">
+                                            <label for="operationType" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Troubleshooting.FilterForm.OperationType' | translate }}</label>
+                                            <div class="col-md-7">
+                                                <select id="operationType" name="operationType" class="form-control"
+                                                        ng-model="dateFilter.operationType"
+                                                        ng-options="operationType as operationType for operationType in CMS_RBT_TROUBLESHOOTING_OPERATION_TYPES">
+                                                    <option value="">{{ 'CommonLabels.All' | translate | uppercase}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!--User Filter-->
+                                        <div class="form-group">
+                                            <label for="userName" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Troubleshooting.FilterForm.UserName' | translate }}</label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control input-sm" id="userName" name="userName"
+                                                       ng-model="dateFilter.userName" placeholder="e.g., user@provider.com or username"/>
+                                            </div>
+                                        </div>
+
+                                        <!--Operation Type Filter-->
+                                        <div class="form-group">
+                                            <label for="resourceName" class="col-md-4 control-label text-right">{{ 'Subsystems.ContentManagement.Troubleshooting.FilterForm.ResourceName' | translate }}</label>
+                                            <div class="col-md-7">
+                                                <select id="resourceName" name="resourceName" class="form-control"
+                                                        ng-model="dateFilter.resourceName"
+                                                        ng-options="resourceName as resourceName for resourceName in CMS_RELATED_RESOURCES">
+                                                    <option value="">{{ 'CommonLabels.All' | translate | uppercase}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <!--Search Button-->
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label text-right">&nbsp;</label>
+                                            <div class="col-md-7">
+                                                <button class="btn btn-sm btn-secondary" ng-disabled="filterForm.$invalid"
+                                                        ng-click="throttledReloadTable();"><i class="fa fa-search"></i>
+                                                    {{'CommonLabels.Search' | translate }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body buttons-portlet-body" ng-show="activityHistory.showTable">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-5">
+                        <div class="pull-left">
+                            <div class="btn-group">
+                                <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 10}"
+                                        ng-click="activityHistory.tableParams.count(10)" class="btn btn-sm btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 25}"
+                                        ng-click="activityHistory.tableParams.count(25)" class="btn btn-sm btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 50}"
+                                        ng-click="activityHistory.tableParams.count(50)" class="btn btn-sm btn-default">50
+                                </button>
+                                <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 100}"
+                                        ng-click="activityHistory.tableParams.count(100)" class="btn btn-sm btn-default">100
+                                </button>
+                                <button type="button" ng-class="{'active': activityHistory.tableParams.count() == 250}"
+                                        ng-click="activityHistory.tableParams.count(250)" class="btn btn-sm btn-default">250
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="pull-right">
+                            <div class="btn-group" ng-show="activityHistory.tableParams.total() > 0">
+                                <button type="button" ng-click="csv.download('ContentManagementTroubleshootingRecords')" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                <button type="button" ng-click="xls.download('ContentManagementTroubleshootingRecords')" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-4">
+                        <form class="mainnav-form">
+                            <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                                   ng-model="filterText" ng-change="filterTable(filterText, ['entityName'])"
+                                   uib-tooltip="{{ 'Subsystems.ContentManagement.Troubleshooting.SearchByInfo' | translate }}" tooltip-placement="left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                                   placeholder="{{ 'Subsystems.ContentManagement.Troubleshooting.SearchByTitle' | translate }} ...">
+                            <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body" ng-show="activityHistory.showTable">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table ng-table="activityHistory.tableParams" class="table table-striped table-bordered"
+                                   template-pagination="ngTableCustomPager.html"
+                                   export-csv="csv" export-xls="xls"
+                                   export-options="exportOptions">
+                                <thead>
+                                    <th class="sortable"
+                                        uib-popover="{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.Timestamp' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                        ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('timestamp', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('timestamp', 'desc') }"
+                                        ng-click="activityHistory.tableParams.sorting({'timestamp': activityHistory.tableParams.isSortBy('timestamp', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.Timestamp' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        uib-popover-html="'{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.EntityType' | translate }}'" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                        ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('entityType', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('entityType', 'desc') }"
+                                        ng-click="activityHistory.tableParams.sorting({'entityType': activityHistory.tableParams.isSortBy('entityType', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.EntityType' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        uib-popover="{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.EntityId' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                        ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('entityId', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('entityId', 'desc') }"
+                                        ng-click="activityHistory.tableParams.sorting({'entityId': activityHistory.tableParams.isSortBy('entityId', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.EntityId' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        uib-popover="{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.EntityAlias' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                        ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('entityAlias', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('entityAlias', 'desc') }"
+                                        ng-click="activityHistory.tableParams.sorting({'entityAlias': activityHistory.tableParams.isSortBy('entityAlias', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.EntityAlias' | translate }}</div>
+                                    </th>
+                                    <th class="sortable"
+                                        uib-popover="{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.EntityName' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                        ng-class="{'sort-asc': activityHistory.tableParams.isSortBy('entityName', 'asc'), 'sort-desc': activityHistory.tableParams.isSortBy('entityName', 'desc') }"
+                                        ng-click="activityHistory.tableParams.sorting({'entityName': activityHistory.tableParams.isSortBy('entityName', 'asc') ? 'desc' : 'asc'})">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.EntityName' | translate }}</div>
+                                    </th>
+                                    <th uib-popover-html="'{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.Operation' | translate }}'" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.Operation' | translate }}</div>
+                                    </th>
+                                    <th uib-popover-html="'{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.OperationType' | translate }}'" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.OperationType' | translate }}</div>
+                                    </th>
+                                    <th uib-popover="{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.UserName' | translate }}" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.UserName' | translate }}</div>
+                                    </th>
+                                    <th uib-popover-html="'{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumnsTooltips.ResourceName' | translate }}'" popover-placement="top" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                        <div>{{ 'Subsystems.ContentManagement.Troubleshooting.TableColumns.ResourceName' | translate }}</div>
+                                    </th>
+                                    <th>
+                                        <div>{{ 'CommonLabels.Actions' | translate }}</div>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in $data" class="hidden-link-cell-row"
+                                        ng-class="{ 'row-selected': item._source.rowSelected, 'text-danger': (item._source.result > 0) }">
+                                        <td align="center" class="nowrap-fixedwidth width-150">{{item._source.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</td>
+                                        <td align="center" class="nowrap-fixedwidth width-50">{{item._source.entityType}}</td>
+                                        <td align="center">{{item._source.entityId}}</td>
+                                        <td align="center" class="nowrap-fixedwidth width-30">{{item._source.entityAlias}}</td>
+                                        <td align="center" class="wrap"
+                                            uib-popover="{{ item._source.entityName }}" popover-placement="top"
+                                            popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true">
+                                            {{item._source.entityName}}
+                                        </td>
+                                        <td align="center">
+                                            {{item._source.operation}}
+                                            <span ng-if="item._source.operation == 'MOVE' && item._source.operationDetail" class="fa fa-question-circle"
+                                                  uib-popover="{{ getOrganizationDetail(item._source.operationDetail) }}" popover-placement="top"
+                                                  popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                                  style="margin-left: 6px; cursor: pointer;"></span>
+                                        </td>
+                                        <td align="center">
+                                            {{item._source.operationType}}
+                                            <span ng-if="item._source.operationType == 'SUSPENDED' && item._source.operationDetail" class="fa fa-question-circle"
+                                                  uib-popover="{{ item._source.operationDetail }}" popover-placement="top"
+                                                  popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                                  style="margin-left: 6px; cursor: pointer;"></span></td>
+                                        <td align="center">{{item._source.userName}}</td>
+                                        <td align="center" class="nowrap-fixedwidth width-150">{{item._source.resourceName}}</td>
+                                        <td align="center">
+                                            <div class="btn-group dropdown" uib-dropdown dropdown-append-to-body="true" is-open="status.isopen">
+                                                <button id="single-button" type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">
+                                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                                    <!--Update Tone Item Action-->
+                                                    <li role="menuitem" ng-if="item._source.entityType == 'TONE'">
+                                                        <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.tones.update({ id : item._source.entityId })"
+                                                           ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                                                            <i class="fa fa-edit" ng-if="AuthorizationService.canRBTOperationsToneUpdate(item._source.operation)"></i>
+                                                            <i class="fa fa-square-o" ng-if="!AuthorizationService.canRBTOperationsToneUpdate(item._source.operation)"></i>&nbsp;&nbsp;{{ AuthorizationService.canRBTOperationsToneUpdate(data.status) ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}
+                                                        </a>
+                                                    </li>
+                                                    <!--Update Playlist Item Action-->
+                                                    <li role="menuitem" ng-if="item._source.entityType == 'PLAYLIST'">
+                                                        <a ui-sref="subsystems.contentmanagement.operations.rbt.contentmetadatas.playlists.update({ id : item._source.entityId })"
+                                                           ng-if="AuthorizationService.canRBTOperationsToneRead()">
+                                                            <i class="fa fa-edit" ng-if="AuthorizationService.canRBTOperationsPlaylistUpdate()"></i>
+                                                            <i class="fa fa-square-o" ng-if="!AuthorizationService.canRBTOperationsPlaylistUpdate()"></i>&nbsp;&nbsp;{{ AuthorizationService.canRBTOperationsPlaylistUpdate() ? ('CommonLabels.Update' | translate) : ('CommonLabels.View' | translate) }}
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="!$data || $data.length === 0">
+                                        <td colspan="10" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

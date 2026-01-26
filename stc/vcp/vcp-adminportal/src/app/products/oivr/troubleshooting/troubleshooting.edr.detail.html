@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.OIVR.Troubleshooting.Detail.PageHeader' | translate:{ sessionId: edrRecord.sessionId} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.Timestamp' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.edrTimestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.DestAddress' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.destinationParty | SipNumberFilter}}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.Client' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.clientId }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.PromptSet' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.promptSetId | SmsfEDRTypeFilter }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.EventCode' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.eventCode }}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.CallDuration' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.duration | Divide:1000:0}}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.OrigAddress' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.originatingParty | SipNumberFilter}}&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">{{ 'Products.OIVR.Troubleshooting.TableColumns.CustomerResponse' | translate }}</td>
+                            <td class="kv-value">{{ edrRecord.customerResponse }}&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

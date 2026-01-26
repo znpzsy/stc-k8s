@@ -1,0 +1,23 @@
+{{- if .Values.partnerportal.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  replicas: {{ .Values.partnerportal.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-partnerportal
+  template:
+    metadata:
+      labels:
+        component: vcp-partnerportal
+    spec:
+      containers:
+        - name: vcp-partnerportal
+          image: "{{ .Values.partnerportal.image.repository }}:{{ .Values.partnerportal.image.tag }}"
+          imagePullPolicy: {{ .Values.partnerportal.image.pullPolicy }}
+          ports:
+            - containerPort: 8082
+  {{- end }}

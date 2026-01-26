@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.SMSC.Operations.Applications.SmppApps.TagsModalTitle' | translate:{appName:app.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <!--<div class="form-group">
+                    <label for="tag" class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Tag.Label' | translate }}</label>
+                    <div class="col-md-7">
+                        <select name="tag" name="tag" class="form-control parsley-validated"
+                                ng-model="selected.tag" ng-required="true"
+                                ng-options="tag as tag for tag in SMPP_APPS_TAGS">
+                            <option value="">&#45;&#45; {{ 'CommonLabels.SelectOne' | translate }} &#45;&#45;</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.tag.$dirty && form.tag.$invalid }" ng-show="form.tag.$dirty && form.tag.$invalid">
+                            <li class="required" ng-show="form.tag.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.tag.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label for="tagName" class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Tag.TagName' | translate }}</label>
+                    <div class="col-md-7">
+                        <input name="tagName" type="text" class="form-control" ng-model="selected.tagName"
+                               placeholder="{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Tag.TagNamePlaceholder' | translate }}..."
+                               ng-required="true" ng-maxlength="50" maxlength="50" />
+                        <ul ng-class="{ 'parsley-error-list': form.tagName.$dirty && form.tagName.$invalid }" ng-show="form.tagName.$dirty && form.tagName.$invalid">
+                            <li class="required" ng-show="form.tagName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.tagName.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tagValue" class="col-md-3">{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Tag.TagValue' | translate }}</label>
+                    <div class="col-md-7">
+                        <input name="tagValue" type="text" class="form-control" ng-model="selected.tagValue"
+                               placeholder="{{ 'Products.SMSC.Operations.Applications.SmppApps.FormFields.Tag.TagValuePlaceholder' | translate }}..."
+                               ng-required="true" ng-maxlength="50" maxlength="50" />
+                        <ul ng-class="{ 'parsley-error-list': form.tagValue.$dirty && form.tagValue.$invalid }" ng-show="form.tagValue.$dirty && form.tagValue.$invalid">
+                            <li class="required" ng-show="form.tagValue.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || (app.id ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())"
+            ng-click="ok(selected)">
+        {{ 'CommonLabels.Yes' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

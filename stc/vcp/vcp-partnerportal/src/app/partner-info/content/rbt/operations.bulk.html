@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="col-md-3 col-sm-5">
+            <ul class="nav nav-pills nav-stacked">
+
+                <!--Tones / Management List-->
+                <li ng-class="{ 'active': $state.includes('partner-info.operations.rbt.bulk.management') }">
+                    <a ui-sref="partner-info.operations.rbt.bulk.management.list" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Contents.BulkOperations.Management.Title' | translate }}
+                    </a>
+                </li>
+
+                <!--Bulk Upload-->
+                <li ng-class="{ 'active': $state.includes('partner-info.operations.rbt.bulk.upload') }">
+                    <a ui-sref="partner-info.operations.rbt.bulk.upload" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Contents.BulkOperations.BulkUpload.Title' | translate }}
+                    </a>
+                </li>
+
+                <!--Add New Tone-->
+                <li ng-class="{ 'active': $state.includes('partner-info.operations.rbt.contentmetadatas.tones.new') }">
+                    <a ui-sref="partner-info.operations.rbt.contentmetadatas.tones.new" tabindex="-1" data-toggle="tab">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'PartnerInfo.Contents.BulkOperations.BulkUpload.Title' | translate }}
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="col-md-9 col-sm-7">
+            <div class="tab-content stacked-content">
+                <div class="tab-pane fade active in portlet portlet-default" ui-view>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

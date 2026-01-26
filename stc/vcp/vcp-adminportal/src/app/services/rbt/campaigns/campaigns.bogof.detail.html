@@ -1,0 +1,190 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.RBT.Campaigns.Bogof' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group" ng-if="campaign.profileId">
+        <label class="col-md-3">{{ 'Services.RBT.Campaigns.TableColumns.CampaignId' | translate }}</label>
+        <div class="col-md-3">
+            <input type="text" name="profileId" id="profileId" class="form-control" ng-model="campaign.profileId"
+                   ng-disabled="true"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.RBT.Campaigns.TableColumns.CampaignName' | translate }}</label>
+        <div class="col-md-7">
+            <input type="text" name="name" id="name" class="form-control" ng-model="campaign.BOGOFCampaignName"
+                   ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate() && check(dateHolder.endDate))  :  !AuthorizationService.canRBTCampaignsCreate()"
+                   ng-maxlength="100" maxlength="100"
+                   ng-required="true"/>
+            <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                ng-show="form.name.$dirty && form.name.$invalid">
+                <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="startDate" class="col-md-3 text-left">{{ 'Services.RBT.Campaigns.TableColumns.StartDateAndTime' | translate }}</label>
+        <div class="col-md-3">
+            <p class="input-group datepicker-field">
+                <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                       uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                       is-open="startDatePicker.opened"
+                       datepicker-options="startDateOptions"
+                       ng-required="true"
+                       ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate()  && check(dateHolder.startDate) ) :  !AuthorizationService.canRBTCampaignsCreate()"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                            ng-disabled="startDate.enabled">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                <li class="required" ng-show="form.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.startDate.$error.date">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                <li class="required" ng-show="form.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDate.Messages.MaxDateExceeded' | translate }}</li>
+                <li class="required" ng-show="form.startDate.$error.todayDateExceeded">{{ 'GenericFormFields.StartDate.Messages.TodayDateExceeded' | translate }}</li>
+
+            </ul>
+            </p>
+        </div>
+        <div class="col-md-4 row">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="dateHolder.startTime" hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" mousewheel="false"
+                         readonly-input="campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate()  && check(dateHolder.startDate) ) :  !AuthorizationService.canRBTCampaignsCreate()"
+                         ng-change="updateStartDateTime(dateHolder.startTime)"></div>
+                </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="endDate" class="col-md-3 text-left">{{ 'Services.RBT.Campaigns.TableColumns.EndDateAndTime' | translate }}</label>
+        <div class="col-md-3">
+            <p class="input-group datepicker-field">
+                <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                       uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                       is-open="endDatePicker.opened"
+                       datepicker-options="endDateOptions"
+                       ng-required="true"
+                       ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate()   && check(dateHolder.endDate)) :  !AuthorizationService.canRBTCampaignsCreate()"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                            ng-disabled="endDate.enabled">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.endDate.$error.date">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                <li class="required" ng-show="form.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDate.Messages.MinDateExceeded' | translate }}</li>
+                <li class="required" ng-show="form.endDate.$error.todayDateExceeded">{{ 'GenericFormFields.EndDate.Messages.TodayDateExceeded' | translate }}</li>
+            </ul>
+            </p>
+        </div>
+        <div class="col-md-4 row">
+                <span class="time-picker with-date-picker">
+                    <div uib-timepicker ng-model="dateHolder.endTime" hour-step="hstep" minute-step="mstep"
+                         show-meridian="false" mousewheel="false"
+                         readonly-input=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate() && check(dateHolder.endDate)) :  !AuthorizationService.canRBTCampaignsCreate()"
+                         ng-change="updateEndDateTime(dateHolder.endTime)"></div>
+                </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="freeDays" class="col-md-3">{{ 'Services.RBT.Campaigns.FreeDays' | translate }}</label>
+        <div class="col-md-3">
+            <input id="freeDays" name="freeDays" type="number" class="form-control"
+                   ng-model="campaign.BOGOFCampaignNumOfFreeDays"
+                   ng-pattern="$root.Validators.IntegerNumber"
+                   ng-required="true"
+                   min="1" max="365"
+                   ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate()  && check(dateHolder.endDate)):  !AuthorizationService.canRBTCampaignsCreate()"/>
+            <ul ng-class="{ 'parsley-error-list': form.freeDays.$dirty && form.freeDays.$invalid }"
+                ng-show="form.freeDays.$dirty && form.freeDays.$invalid">
+                <li class="required" ng-show="form.freeDays.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                <li class="required" ng-show="form.freeDays.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 365} }}</li>
+                <li class="required" ng-show="form.freeDays.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                <li class="required" ng-show="form.freeDays.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+            <label class="col-md-3">{{ 'Services.RBT.Campaigns.AllowReminder' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{campaign.allowReminder?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="campaign.allowReminder" uib-btn-radio="true"
+                            ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate() && check(dateHolder.endDate)) :  !AuthorizationService.canRBTCampaignsCreate()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!campaign.allowReminder?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="campaign.allowReminder" uib-btn-radio="false"
+                            ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate() && check(dateHolder.endDate) ):  !AuthorizationService.canRBTCampaignsCreate()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    <div class="form-group" ng-if = "campaign.allowReminder">
+            <label for="reminderDays" class="col-md-3">{{ 'Services.RBT.Campaigns.TableColumns.ReminderDays' | translate }}</label>
+            <div class="col-md-3">
+                <input id="reminderDays" name="reminderDays" type="number" class="form-control"
+                       ng-model="campaign.BOGOFCampaignReminderDaysBeforePaidRenewal"
+                       ng-pattern="$root.Validators.IntegerNumber"
+                       ng-required="true"
+                       min="1" max= "{{ campaign.BOGOFCampaignNumOfFreeDays -1}}"
+                       ng-disabled=" campaign.profileId ? !(AuthorizationService.canRBTCampaignsUpdate()  && check(dateHolder.endDate)) :  !AuthorizationService.canRBTCampaignsCreate()"/>
+                <ul ng-class="{ 'parsley-error-list': form.reminderDays.$dirty && form.reminderDays.$invalid }"
+                    ng-show="form.reminderDays.$dirty && form.reminderDays.$invalid">
+                    <li class="required" ng-show="form.reminderDays.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.reminderDays.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: campaign.BOGOFCampaignNumOfFreeDays -1} }}</li>
+                    <li class="required" ng-show="form.reminderDays.$error.pattern">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.reminderDays.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+    <div class="form-group" ng-if="campaign.profileId" >
+        <label class="col-md-3">{{ 'CommonLabels.LastUpdatedBy' | translate }}</label>
+        <div class="col-md-4">
+            <input id="lastUpdatedUser" name="lastUpdatedUser" type="text" class="form-control"
+                   ng-value="campaign.BOGOFCampaignLastUpdatedUser"
+                   ng-disabled="true" />
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="campaign.profileId" >
+        <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+        <div class="col-md-4">
+            <input id="lastUpdatedTime" name="lastUpdatedTime" type="text" class="form-control"
+                   ng-value="campaign.BOGOFCampaignLastUpdatedDateTime | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+        </div>
+    </div>
+
+    <div class="form-group">
+
+    <div class="col-md-7 col-md-push-3">
+        <button type="submit" class="btn btn-danger"
+                ng-disabled="form.$invalid || !AuthorizationService.canRBTCampaignsCreate() || (campaign.profileId && !AuthorizationService.canRBTCampaignsUpdate()  || isNotChanged())"
+                ng-click="save(campaign);">
+            {{ 'CommonLabels.Save' | translate }}
+        </button>
+        <button type="reset" class="btn btn-default" ng-click="cancel();">
+            {{ 'CommonLabels.Cancel' | translate }}
+        </button>
+    </div>
+</div>
+
+</form>
+</div>

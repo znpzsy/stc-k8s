@@ -1,0 +1,32 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('services.vm.preferences') }">
+                <a ui-sref="services.vm.preferences.details" data-toggle="tab"><span class="fa fa-gears"></span>&nbsp;
+                    {{ 'GenericTabs.Preferences.Header' | translate }}</a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.vm.messages') }">
+                <a ui-sref="services.vm.messages" data-toggle="tab"><span class="fa fa-envelope"></span>&nbsp;
+                    {{ 'GenericTabs.Messages.Header' | translate }}</a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.vm.activity-history') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="services.vm.activity-history">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting.Header' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,1830 @@
+[
+    {
+        "operationName": "PRM::Offer:Update",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:CustomerProfiling:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ListOrganizations",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "PRM::Content:Delete",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Signature:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageService",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Dashboard:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Task:Notify",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ViewOrganizationToCreateUser",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:InteractiveCampaign:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "GetRule",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Tone:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:OnDemand:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Artist:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Monitoring:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Assign",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::UserAccount:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageSubscriber",
+        "resourceName": "Subscription Management"
+    },
+    {
+        "operationName": "ALL::FinancialReports:OnDemand:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Diagnostics:AlarmLogs",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Team:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Task:Reject",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "GetService",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "RBT::Operations:SpecialCondition:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "GetOffer",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Products:OTP",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Products:BMS",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Products:DCB",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "GetOrganization",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "ALL::Subsystems:SCRM",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Troubleshooting:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Album:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::ShortCode:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "AdminPageOperation",
+        "resourceName": "AdminPageResource"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "GetSubscriber",
+        "resourceName": "Subscription Management"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Client:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Monitoring:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ManageProfile",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Campaigns:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Role:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Subsystems:BIZ",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "GetProfileBinding",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Artist:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Category:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::ShortCode:Create",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:InteractiveCampaign:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Event:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:CustomerProfiling:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:InteractiveCampaign:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:OnDemand:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Content:Update",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Charging:Debit",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:InteractiveCampaign:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Role:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SpecialCondition:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Subsystems:DIAG",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Approve",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Troubleshooting:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Client:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManagePricing",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Client:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Task:Create",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "GetPrice",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "RBT::Operations:Signature:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Products:MSGW",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Artist:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "GetPolicy",
+        "resourceName": "Security Management"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Notify",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Team:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Team:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Service:Delete",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "GetProfileDefinition",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SpecialCondition:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Department:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Department:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Approve",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Event:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CreateOrganization",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageServiceOperations",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::UserAccount:Update",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Campaigns:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ManageProfileBinding",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "ALL::Subsystems:CMS",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Mood:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Service:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Task:Delete",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Department:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SignatureBox:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Troubleshooting:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Assign",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Tone:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Content:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Mood:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Offer:Create",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ManageUser",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Diagnostics:AlarmLogs",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Category:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Tone:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::UserAccount:Create",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Category:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Album:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Mood:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Offer:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Charging:Refund",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::ShortCode:Delete",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Reject",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Team:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "GetUser",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Charging:Refund",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Service:Create",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:InteractiveCampaign:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:InteractiveCampaign:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Artist:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Mood:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Offer:Delete",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Subsystems:CMPF",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageIdentityOperations",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ManagePolicy",
+        "resourceName": "Security Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Dashboard:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SignatureBox:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::UserAccount:Delete",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageSecurityOperations",
+        "resourceName": "Security Management"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:CustomerProfiling:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Diagnostics:AuditLogs",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::ShortCode:Update",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Reports:OnDemand:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ManageProfileDefinition",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Service:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Department:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Task:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ManageRule",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::FinancialReports:OnDemand:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Products:CHGW",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Monitoring:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Reject",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Tone:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageOffer",
+        "resourceName": "Service & Catalog Management"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ManageProfileOperations",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:CustomerProfiling:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Monitoring:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Album:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Event:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SpecialCondition:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentMetadata:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "PRM::FinancialReports:OnDemand:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ALL::Subsystems:SSM",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:Campaign:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentType:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Charging:Debit",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:BusinessType:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "GetGroup",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Signature:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Troubleshooting:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Troubleshooting:Peek",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerUserAccount:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Task:Assign",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Notify",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Products:APIM",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:SettlementType:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SignatureBox:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Subscriber:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Diagnostics:AuditLogs",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Client:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceCategory:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:Global:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ServiceProvider:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Album:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceType:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageGroup",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Channel:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Profile:Read",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ALL::Troubleshooting:Peek",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:ServiceLabel:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:Global:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Subsystems:REP",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ManageOrganization",
+        "resourceName": "Identity Management"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserGroup:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Operator:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Content:Create",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Project:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:BlackList:PerOrganization:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:ShortCode:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Signature:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerUserAccount:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Event:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BPM::Operations:Task:Create",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Role:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:UserAccount:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "ALL::Templates:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:ShortCode:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:Global:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Profile:Update",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "ALL::Configuration:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Delete",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "PRM::Service:Update",
+        "resourceName": "MaaP Partner Portal"
+    },
+    {
+        "operationName": "BIZ::Operations:Agreement:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "CMPF::Operations:Role:Create",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:RoutingTable:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentCategory:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "CMS::Operations:ContentFile:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SCRM::Operations:PerService:Delete",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "SSM::Operations:Offer:Read",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "GetProfile",
+        "resourceName": "Profile Management"
+    },
+    {
+        "operationName": "ALL::Reports:Scheduled:Update",
+        "resourceName": "MaaP Admin Portal"
+    },
+    {
+        "operationName": "BMS::Operations:DistroList:PerOrganization:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "MSGW::Operations:ScreeningKeyword:Read",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:SignatureBox:Update",
+        "resourceName": "DSP Admin Portal"
+    },
+    {
+        "operationName": "RBT::Operations:Category:Update",
+        "resourceName": "DSP Admin Portal"
+    }
+]

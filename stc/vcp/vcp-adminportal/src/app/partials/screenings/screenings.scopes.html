@@ -1,0 +1,40 @@
+<div ng-show="showPreferences">
+
+    <h5 class="portlet-title">
+        {{ 'ScreeningLists.Screenings.ScreeningPreferencesTitle' | translate:{subscriber: subscriberNumber} }}
+    </h5>
+
+    <table ng-table="tableParams" class="table table-striped table-bordered" template-pagination="ngTableCustomPagerEmpty.html">
+
+        <thead>
+        <tr>
+            <th>{{ 'ScreeningLists.Screenings.Scope' | translate }}</th>
+            <th>{{ 'ScreeningLists.Screenings.Rule' | translate }}</th>
+            <th>{{ 'CommonLabels.Actions' | translate }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="entry in $data" class="hidden-link-cell-row"
+            ng-class="{ 'row-selected': entry.rowSelected }">
+            <td align="center">{{entry.screeningScopeId | ScreeningScopeFilter}}</td>
+            <td align="center">{{entry.selectedScreeningModeType}}</td>
+            <td align="center">
+                <button class="btn btn-xs btn-default" title="{{ 'ScreeningLists.Screenings.ShowWhitelist' | translate }}"
+                        ng-click="showWhitelists(entry)">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <button class="btn btn-xs btn-danger" title="{{ 'ScreeningLists.Screenings.ShowBlacklist' | translate }}"
+                        ng-click="showBlacklists(entry)">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </td>
+        </tr>
+        <tr ng-if="$data.length === 0">
+            <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>

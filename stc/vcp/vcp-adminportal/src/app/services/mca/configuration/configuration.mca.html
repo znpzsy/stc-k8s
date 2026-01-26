@@ -1,0 +1,51 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.MCA.Configuration.McaTitle' | translate }}
+    </h4>
+</div>
+<form class="form-horizontal" novalidate id="configurationForm" name="configurationForm" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.MCA.Configuration.RedirectionReasons' | translate }}</label>
+        <div class="col-md-7">
+            <div class="checkbox">
+                <label>
+                    <input ng-model="mcaRedirectionFlags.isBusy" type="checkbox" class="parsley-validated" ng-disabled="!AuthorizationService.canUpdateConfiguration()" >
+                    {{ 'Services.MCA.Configuration.Busy' | translate }}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input ng-model="mcaRedirectionFlags.isNoAnswer" type="checkbox" class="parsley-validated" ng-disabled="!AuthorizationService.canUpdateConfiguration()" >
+                    {{ 'Services.MCA.Configuration.NoAnswer' | translate }}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input ng-model="mcaRedirectionFlags.isUnconditional" type="checkbox" class="parsley-validated" ng-disabled="!AuthorizationService.canUpdateConfiguration()" >
+                    {{ 'Services.MCA.Configuration.Unconditional' | translate }}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input ng-model="mcaRedirectionFlags.isUnreachable" type="checkbox" class="parsley-validated" ng-disabled="!AuthorizationService.canUpdateConfiguration()" >
+                    {{ 'Services.MCA.Configuration.Unreachable' | translate }}
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="configurationForm.$invalid || !AuthorizationService.canUpdateConfiguration() || isMCAConfigurationNotChanged()"
+                    ng-click="saveMca();">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-disabled="!AuthorizationService.canUpdateConfiguration()" ng-click="cancel();" >
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

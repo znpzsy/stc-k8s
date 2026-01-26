@@ -1,0 +1,24 @@
+{{- if .Values.a3gw.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  replicas: {{ .Values.a3gw.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-a3gw
+  template:
+    metadata:
+      labels:
+        component: vcp-a3gw
+    spec:
+      containers:
+        - name: vcp-a3gw
+          image: "{{ .Values.a3gw.image.repository }}:{{ .Values.a3gw.image.tag }}"
+          imagePullPolicy: {{ .Values.a3gw.image.pullPolicy }}
+          ports:
+            - containerPort: 8444
+            - containerPort: 8445
+{{- end }}

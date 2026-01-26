@@ -1,0 +1,171 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.VM.Operations.ClassOfServiceProfiles.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.CosName' | translate }}</label>
+            <div class="col-md-6">
+                <input name="cosName" type="text" class="form-control" value="{{entry.cosName | uppercase}}" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">{{ 'Services.VM.Operations.ClassOfServiceProfiles.Greetings' | translate }}</h5>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.ShortLongGreetingLength' | translate }}</label>
+            <div class="col-md-3">
+                <input name="shortGreetingLength" type="number" class="form-control" ng-model="entry.shortGreetingLength"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.shortGreetingLength.$dirty && form.shortGreetingLength.$invalid }" ng-show="form.shortGreetingLength.$dirty && form.shortGreetingLength.$invalid">
+                    <li class="required" ng-show="form.shortGreetingLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.shortGreetingLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.shortGreetingLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.shortGreetingLength.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input name="longGreetingLength" type="number" class="form-control" ng-model="entry.longGreetingLength"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.longGreetingLength.$dirty && form.longGreetingLength.$invalid }" ng-show="form.longGreetingLength.$dirty && form.longGreetingLength.$invalid">
+                    <li class="required" ng-show="form.longGreetingLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.longGreetingLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.longGreetingLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.longGreetingLength.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.GreetingMsgQuota' | translate }}</label>
+            <div class="col-md-6">
+                <input name="greetingMsgQuota" type="number" class="form-control" ng-model="entry.greetingMsgQuota"
+                       ng-required="true" min="1" max="10"/>
+                <ul ng-class="{ 'parsley-error-list': form.greetingMsgQuota.$dirty && form.greetingMsgQuota.$invalid }" ng-show="form.greetingMsgQuota.$dirty && form.greetingMsgQuota.$invalid">
+                    <li class="required" ng-show="form.greetingMsgQuota.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 1} }}</li>
+                    <li class="required" ng-show="form.greetingMsgQuota.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 10} }}</li>
+                    <li class="required" ng-show="form.greetingMsgQuota.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.greetingMsgQuota.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">{{ 'Services.VM.Operations.ClassOfServiceProfiles.Deposits' | translate }}</h5>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.VoiceMessageQuota' | translate }}</label>
+            <div class="col-md-6">
+                <input name="voiceMessageQuota" type="number" class="form-control" ng-model="entry.voiceMessageQuota"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.voiceMessageQuota.$dirty && form.voiceMessageQuota.$invalid }" ng-show="form.voiceMessageQuota.$dirty && form.voiceMessageQuota.$invalid">
+                    <li class="required" ng-show="form.voiceMessageQuota.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.voiceMessageQuota.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.voiceMessageQuota.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.voiceMessageQuota.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.ShortLongMessageLength' | translate }}</label>
+            <div class="col-md-3">
+                <input name="shortMessageLength" type="number" class="form-control" ng-model="entry.shortMessageLength"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.shortMessageLength.$dirty && form.shortMessageLength.$invalid }" ng-show="form.shortMessageLength.$dirty && form.shortMessageLength.$invalid">
+                    <li class="required" ng-show="form.shortMessageLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.shortMessageLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.shortMessageLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.shortMessageLength.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input name="longMessageLength" type="number" class="form-control" ng-model="entry.longMessageLength"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.longMessageLength.$dirty && form.longMessageLength.$invalid }" ng-show="form.longMessageLength.$dirty && form.longMessageLength.$invalid">
+                    <li class="required" ng-show="form.longMessageLength.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.longMessageLength.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.longMessageLength.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.longMessageLength.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <h5 class="portlet-title">{{ 'Services.VM.Operations.ClassOfServiceProfiles.RetentionTimes' | translate }}</h5>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.ReadMessageRetentionTime' | translate }}</label>
+            <div class="col-md-6">
+                <input name="readMessageRetentionTime" type="number" class="form-control" ng-model="entry.readMessageRetentionTime"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.readMessageRetentionTime.$dirty && form.readMessageRetentionTime.$invalid }" ng-show="form.readMessageRetentionTime.$dirty && form.readMessageRetentionTime.$invalid">
+                    <li class="required" ng-show="form.readMessageRetentionTime.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.readMessageRetentionTime.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.readMessageRetentionTime.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.readMessageRetentionTime.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.UnreadMessageRetentionTime' | translate }}</label>
+            <div class="col-md-6">
+                <input name="unreadMessageRetentionTime" type="number" class="form-control" ng-model="entry.unreadMessageRetentionTime"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.unreadMessageRetentionTime.$dirty && form.unreadMessageRetentionTime.$invalid }" ng-show="form.unreadMessageRetentionTime.$dirty && form.unreadMessageRetentionTime.$invalid">
+                    <li class="required" ng-show="form.unreadMessageRetentionTime.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.unreadMessageRetentionTime.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.unreadMessageRetentionTime.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.unreadMessageRetentionTime.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.InactPersonalizedMboxRetentionTime' | translate }}</label>
+            <div class="col-md-6">
+                <input name="inactPersonalizedMboxRetentionTime" type="number" class="form-control" ng-model="entry.inactPersonalizedMboxRetentionTime"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.inactPersonalizedMboxRetentionTime.$dirty && form.inactPersonalizedMboxRetentionTime.$invalid }" ng-show="form.inactPersonalizedMboxRetentionTime.$dirty && form.inactPersonalizedMboxRetentionTime.$invalid">
+                    <li class="required" ng-show="form.inactPersonalizedMboxRetentionTime.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.inactPersonalizedMboxRetentionTime.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.inactPersonalizedMboxRetentionTime.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.inactPersonalizedMboxRetentionTime.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Services.VM.Operations.ClassOfServiceProfiles.TableColumns.InactImpersonalizedMboxRetentionTime' | translate }}</label>
+            <div class="col-md-6">
+                <input name="inactImpersonalizedMboxRetentionTime" type="number" class="form-control" ng-model="entry.inactImpersonalizedMboxRetentionTime"
+                       ng-required="true" min="0" max="999999"/>
+                <ul ng-class="{ 'parsley-error-list': form.inactImpersonalizedMboxRetentionTime.$dirty && form.inactImpersonalizedMboxRetentionTime.$invalid }" ng-show="form.inactImpersonalizedMboxRetentionTime.$dirty && form.inactImpersonalizedMboxRetentionTime.$invalid">
+                    <li class="required" ng-show="form.inactImpersonalizedMboxRetentionTime.$error.min">{{ 'CommonMessages.MinValueError' | translate:{min: 0} }}</li>
+                    <li class="required" ng-show="form.inactImpersonalizedMboxRetentionTime.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{max: 999999} }}</li>
+                    <li class="required" ng-show="form.inactImpersonalizedMboxRetentionTime.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.inactImpersonalizedMboxRetentionTime.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (entry.id && !AuthorizationService.canUpdate()) || isNotChanged()"
+                        ng-click="save(entry);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -1,0 +1,630 @@
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Title' | translate }} / {{ ('Subsystems.ContentManagement.Operations.RBT.CategoryTypes.' + $stateParams.accessType) | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+        <div class="form-group" ng-if="contentCategory.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Id' | translate }}</label>
+            <div class="col-md-7">
+                <input id="categoryId" name="categoryId" type="text" class="form-control"
+                       ng-value="contentCategory.id"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentCategory.id">
+            <label class="col-md-3">{{ 'CommonLabels.CreatedOn' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentCategory.dateCreated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="contentCategory.id">
+            <label class="col-md-3">{{ 'CommonLabels.LastUpdateTime' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentCategory.dateUpdated | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+            </div>
+        </div>
+
+        <!-- <div class="form-group" ng-if="contentCategory.id">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Subscriptions' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-value="contentCategory.totalSubscriptionCount" disabled/>
+            </div>
+        </div> -->
+
+        <div class="form-group">
+            <label for="name" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.ContentCategory' | translate }}</label>
+            <div class="col-md-7">
+                <input id="name" name="name" type="text" class="form-control"
+                       ng-model="contentCategory.name"
+                       ng-required="true" ng-maxlength="100" maxlength="100"
+                       ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                    ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="contentCategory.organizationName" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{contentCategory.organizationName}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="status" for="status" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+            <div class="col-md-4">
+                <select id="status" name="status" class="form-control parsley-validated"
+                        ng-model="contentCategory.status"
+                        ng-options="status as status for status in CMS_RBT_STATUS_TYPES"
+                        ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                           is-open="startDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                        <li class="required" ng-show="form.startDate.$error.parse">{{ 'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+            <div class="col-md-3">
+                <p class="input-group datepicker-field">
+                    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                           uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                           is-open="endDatePicker.opened"
+                           datepicker-options="dateOptions"
+                           ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                    <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                        <li class="required" ng-show="form.endDate.$error.parse">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Promoted' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button class="btn {{contentCategory.promoted?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"
+                            ng-model="contentCategory.promoted" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button class="btn {{!contentCategory.promoted?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"
+                            ng-model="contentCategory.promoted" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="contentCategory.promoted">
+            <div class="form-group">
+                <label for="featuredTitleEn" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedTitleEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="featuredTitleEn" name="featuredTitleEn" type="text" class="form-control" dir="auto"
+                           ng-model="contentCategory.featuredTitleEn"
+                           ng-required="contentCategory.promoted" ng-maxlength="50"
+                           ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.featuredTitleEn.$dirty && form.featuredTitleEn.$invalid }"
+                        ng-show="form.featuredTitleEn.$dirty && form.featuredTitleEn.$invalid">
+                        <li class="required" ng-show="form.featuredTitleEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.featuredTitleEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="featuredDescriptionEn" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedDescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+            <textarea id="featuredDescriptionEn" name="featuredDescriptionEn" class="form-control" dir="auto"
+                      ng-model="contentCategory.featuredDescriptionEn"
+                      rows="3" ng-maxlength="255" maxlength="255" ng-required="contentCategory.promoted"
+                      ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())">
+            </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.featuredDescriptionEn.$dirty && form.featuredDescriptionEn.$invalid }"
+                        ng-show="form.featuredDescriptionEn.$dirty && form.featuredDescriptionEn.$invalid">
+                        <li class="required" ng-show="form.featuredDescriptionEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.featuredDescriptionEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="featuredTitleAr" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedTitleAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="featuredTitleAr" name="featuredTitleAr" type="text" class="form-control" dir="auto"
+                           ng-model="contentCategory.featuredTitleAr"
+                           ng-required="contentCategory.promoted" ng-maxlength="50"
+                           ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.featuredTitleAr.$dirty && form.featuredTitleAr.$invalid }"
+                        ng-show="form.featuredTitleAr.$dirty && form.featuredTitleAr.$invalid">
+                        <li class="required" ng-show="form.featuredTitleAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.featuredTitleAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="featuredDescriptionAr" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.FeaturedDescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+            <textarea id="featuredDescriptionAr" name="featuredDescriptionAr" class="form-control" dir="auto"
+                      ng-model="contentCategory.featuredDescriptionAr"
+                      rows="3" ng-maxlength="255" maxlength="255" ng-required="contentCategory.promoted"
+                      ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())">
+            </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.featuredDescriptionAr.$dirty && form.featuredDescriptionAr.$invalid }"
+                        ng-show="form.featuredDescriptionAr.$dirty && form.featuredDescriptionAr.$invalid">
+                        <li class="required" ng-show="form.featuredDescriptionAr.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.featuredDescriptionAr.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.CategoryInfo.Header' | translate }}
+                </h5>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="nameen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="nameen" name="nameen" type="text" class="form-control" dir="auto"
+                           ng-model="contentCategory.nameEn"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nameen.$dirty && form.nameen.$invalid }"
+                        ng-show="form.nameen.$dirty && form.nameen.$invalid">
+                        <li class="required" ng-show="form.nameen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nameen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                              ng-model="contentCategory.descriptionEn"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                        ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                        <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="namear" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="namear" name="namear" type="text" class="form-control" dir="auto"
+                           ng-model="contentCategory.nameAr"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.namear.$dirty && form.namear.$invalid }"
+                        ng-show="form.namear.$dirty && form.namear.$invalid">
+                        <li class="required" ng-show="form.namear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.namear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                              ng-model="contentCategory.descriptionAr"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                        ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                        <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.SearchKeywords' | translate }}</label>
+                <div class="col-md-7">
+                    <ui-select id="searchkeywords" multiple tagging tagging-label="false" theme="bootstrap" allow-clear="true" append-to-body="true"
+                               ng-model="contentCategory.tags"
+                               limit="20"
+                               title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                               ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                        <ui-select-match placeholder=" {{ 'CommonLabels.EnterNewOne' | translate }}">
+                            {{ $item }}
+                        </ui-select-match>
+                        <ui-select-choices repeat="searchKeywordItem as searchKeywordItem in (searchKeyword | filter: $select.search)">
+                            {{ searchKeywordItem }}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.CoverImage' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentCategory.coverImage.name">
+                            <img ngf-src="!contentCategory.coverImage.$error && contentCategory.coverImage" width="200"
+                                 ng-style="{ 'height': (contentCategory.coverImage ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentCategory.coverImage.type">
+                                <div class="pull-left">
+                                    {{ contentCategory.coverImage.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="coverImage" type="file"
+                                    title="{{ (contentCategory.coverImage ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    class="btn btn-sm btn-default"
+                                    ngf-select
+                                    ng-model="contentCategory.coverImage"
+                                    ng-init="contentCategory.coverImage ? contentCategory.coverImage.name = contentCategory.coverImage.$ngfName : null"
+                                    ngf-change="form.coverImage.$setDirty()"
+                                    ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                    ngf-max-size="20MB"
+                                    ngf-model-invalid="errorImage"
+                                    ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (contentCategory.coverImage.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <ul ng-class="{ 'parsley-error-list': form.coverImage.$dirty && form.coverImage.$invalid }"
+                                ng-show="form.coverImage.$dirty && form.coverImage.$invalid">
+                                <li class="required" ng-show="form.coverImage.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                            </ul>
+                            <button class="btn btn-sm btn-default"
+                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                    ng-click="contentCategory.coverImage = null;"
+                                    ng-if="contentCategory.coverImage.name && (contentCategory.id ? AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : AuthorizationService.canRBTOperationsCategoryCreate())">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ 'FileOperationLabels.Remove' | translate }}
+                            </button>
+                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="contentCategory.coverImage.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ contentCategory.coverImage.name }}"
+                               href="{{ contentCategory.coverImage | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.CardImage' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentCategory.cardImage.name">
+                            <img ngf-src="!contentCategory.cardImage.$error && contentCategory.cardImage" width="200"
+                                 ng-style="{ 'height': (contentCategory.cardImage ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentCategory.cardImage.type">
+                                <div class="pull-left">
+                                    {{ contentCategory.cardImage.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="cardImage" type="file"
+                                    title="{{ (contentCategory.cardImage ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    class="btn btn-sm btn-default"
+                                    ngf-select
+                                    ng-model="contentCategory.cardImage"
+                                    ng-init="contentCategory.cardImage ? contentCategory.cardImage.name = contentCategory.cardImage.$ngfName : null"
+                                    ngf-change="form.cardImage.$setDirty()"
+                                    ngf-accept="'.jpg,.jpeg'"
+                                    ngf-max-size="20MB"
+                                    ngf-validate="{ width:  { min: 512 }, height: { min: 512 }, ratio:  '1:1' }"
+                                    ngf-model-invalid="errorImage"
+                                    ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate())">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (contentCategory.cardImage.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <ul ng-class="{ 'parsley-error-list': form.cardImage.$dirty && form.cardImage.$invalid }"
+                                ng-show="form.cardImage.$dirty && form.cardImage.$invalid">
+                                <li class="required" ng-show="form.cardImage.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                                <li class="required" ng-show="errorImage && (errorImage.$error === 'dimensions' || errorImage.$error === 'ratio' || errorImage.$error === 'minWidth' || errorImage.$error === 'minHeight')">
+                                    {{ 'FileOperationLabels.ImageDimensionsError' | translate: {minWidth: 512, minHeight: 512, ratio:'1:1 (square)'} }}
+                                    <br>
+                                    ({{ 'FileOperationLabels.ImageDimensionsErrorInfo' | translate: {width: errorImage.$ngfWidth, height: errorImage.$ngfHeight} }})
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-default"
+                                    title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                    ng-click="contentCategory.cardImage = null;"
+                                    ng-if="contentCategory.cardImage.name && (contentCategory.id ? AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : AuthorizationService.canRBTOperationsCategoryCreate())">
+                                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ 'FileOperationLabels.Remove' | translate }}
+                            </button>
+                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="contentCategory.cardImage.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ contentCategory.cardImage.name }}"
+                               href="{{ contentCategory.cardImage | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="contentCategory.id">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Thumbnail' | translate }}</label>
+                <div class="col-md-7">
+                    <div class="fileinput fileinput-new">
+                        <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="contentCategory.thumbnail.name">
+                            <img ngf-src="!contentCategory.thumbnail.$error && contentCategory.thumbnail" width="200"
+                                 ng-style="{ 'height': (contentCategory.thumbnail ? '' : '200px') }"/>
+
+                            <div class="thumbnail-footer" ng-if="contentCategory.thumbnail.type">
+                                <div class="pull-left">
+                                    {{ contentCategory.thumbnail.type }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button name="thumbnail" type="file"
+                                    title="{{ (contentCategory.thumbnail ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                    class="btn btn-sm btn-default"
+                                    ngf-select
+                                    ng-model="contentCategory.thumbnail"
+                                    ng-init="contentCategory.thumbnail ? contentCategory.thumbnail.name = contentCategory.thumbnail.$ngfName : null"
+                                    ngf-change="form.thumbnail.$setDirty()"
+                                    ng-required="true"
+                                    ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                    ngf-max-size="20MB"
+                                    ngf-model-invalid="errorImage"
+                                    ng-disabled="true">
+                                <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                {{ (contentCategory.thumbnail.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                            </button>
+                            <ul ng-class="{ 'parsley-error-list': form.thumbnail.$dirty && form.thumbnail.$invalid }"
+                                ng-show="form.thumbnail.$dirty && form.thumbnail.$invalid">
+                                <li class="required" ng-show="form.thumbnail.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.thumbnail.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorImage.$errorParam} }}</li>
+                            </ul>                            &nbsp;&nbsp;
+                            <a class="btn btn-sm btn-success"
+                               ng-if="contentCategory.thumbnail.name"
+                               title="{{ 'CommonLabels.Download' | translate }}"
+                               download="{{ contentCategory.thumbnail.name }}"
+                               href="{{ contentCategory.thumbnail | ngfDataUrl }}" target="_blank">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT TEMPLATE -->
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="portlet-title">
+                        {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentTemplate.Header' | translate }}
+                    </h5>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Subcategories' | translate }}</label>
+                    <div class="col-md-7">
+                        <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                                   id="subcategoryIds" name="subcategoryIds"
+                                   ng-model="contentCategory.subcategoryIds"
+                                   close-on-select="false"
+                                   limit="20"
+                                   title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                   ng-disabled="accessType == 'IVR' || (accessType == 'GENERAL' && contentCategory.id) ||  (contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())">
+                            <ui-select-match placeholder="{{ 'CommonLabels.SelectFromTheList' | translate }}">
+                                <span class="dot-indicator bg-success" ng-if="$item.status === 'ACTIVE'" title="{{ $item.name }} ({{ $item.status }})"></span>
+                                <span class="dot-indicator bg-danger" ng-if="$item.status !== 'ACTIVE'" title="{{ $item.name }} ({{ $item.status }})"></span>
+                                {{ $item.name }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="subcategoryListItem.id as subcategoryListItem in (contentSubcategoryList | filter: $select.search)"
+                                               ui-disable-choice="subcategoryListItem.status !== 'ACTIVE'"
+                                               refresh="searchSubcategories($select.search, accessType)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="subcategoryListItem.name | highlight: $select.search"></div>
+                                <small>
+                                    Access Channels: {{ subcategoryListItem.accessChannels | AccessChannelsFilter }}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+                        <ul ng-class="{ 'parsley-error-list': form.subcategoryIds.$dirty && form.subcategoryIds.$invalid }"
+                                        ng-show="form.subcategoryIds.$dirty && form.subcategoryIds.$invalid">
+                            <li class="required" ng-show="form.subcategoryIds.$error.leafCategoryCheck">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Messages.LeafCategoryError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="accessType == 'GENERAL'">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Artists' | translate }}</label>
+                    <div class="col-md-7">
+                        <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                                   ng-model="contentCategory.artistIds"
+                                   close-on-select="false"
+                                   limit="20"
+                                   title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                   ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())">
+                            <ui-select-match placeholder="{{ 'CommonLabels.SelectFromTheList' | translate }}">
+                                {{ $item.name }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="artistListItem.id as artistListItem in (artistList | filter: $select.search)"
+                                               refresh="searchArtists($select.search)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="artistListItem.name | highlight: $select.search"></div>
+                                <small>
+                                    Organization: {{(artistListItem.organizationName ? artistListItem.organizationName : 'N/A')}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="accessType == 'GENERAL'">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Playlists' | translate }}</label>
+                    <div class="col-md-7">
+                        <ui-select multiple theme="bootstrap" allow-clear="true" append-to-body="true"
+                                   ng-model="contentCategory.playlistIds"
+                                   close-on-select="false"
+                                   limit="20"
+                                   title="{{ 'CommonLabels.SelectOne' | translate }}"
+                                   ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsToneCreate())">
+                            <ui-select-match placeholder="{{ 'CommonLabels.SelectFromTheList' | translate }}">
+                                {{ $item.name }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="playlistListItem.id as playlistListItem in (playlistList | filter: $select.search)"
+                                               refresh="searchPlaylists($select.search)"
+                                               refresh-delay="0">
+                                <div ng-bind-html="playlistListItem.name | highlight: $select.search"></div>
+                                <small>
+                                    Organization: {{(playlistListItem.organizationName ? playlistListItem.organizationName : 'N/A')}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="(accessType == 'IVR' || accessType == 'USSD')">
+                    <label for="showTones" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.TonesCount' | translate }}</label>
+                    <div class="col-md-7" id="showTones">
+                        <div ng-if="(contentCategory.tones && contentCategory.tones.length > 0)" class="metadata-container">
+                            <div class="metadata-item" ng-repeat="tone in contentCategory.tones">
+                                <!-- Tone Details -->
+                                <span ng-if="enableToneOrdering" class="label label-primary" style="margin-right: 5px">{{$index + 1}}</span>
+                                <span ng-if="tone.alias" class="label label-tertiary metadata-label" style="width:80px">{{tone.alias}}</span>
+                                <span class="label label-default metadata-label"
+                                      style="margin-right: 5px; width: 200px"
+                                      uib-popover="{{tone.name}}"
+                                      popover-trigger="'mouseenter'"
+                                      popover-placement="auto">
+                                    {{tone.name}}
+                                </span>
+
+                                <!-- Up/Down Icons for ordering-->
+                                <span ng-if="enableToneOrdering" class="label label-warning"
+                                      ng-class="{'invisible': !($index !== 0 && enableToneOrdering &&
+                                                               (contentCategory.id ? AuthorizationService.canRBTOperationsCategoryUpdate(contentCategory.status) : AuthorizationService.canRBTOperationsCategoryCreate()))}">
+                                    <a href="javascript:;" ng-click="shift(contentCategory.toneIds, contentCategory.tones, $index, -1)">
+                                        <i class="fa fa-arrow-up"></i>
+                                    </a>
+                                </span>
+
+                                <span ng-if="enableToneOrdering" class="label label-info"
+                                      ng-class="{'invisible': !(($index !== contentCategory.tones.length - 1) && enableToneOrdering &&
+                                                                (contentCategory.id ? AuthorizationService.canRBTOperationsCategoryUpdate(contentCategory.status) : AuthorizationService.canRBTOperationsCategoryCreate()))}">
+                                    <a href="javascript:;" ng-click="shift(contentCategory.toneIds, contentCategory.tones, $index, 1)">
+                                        <i class="fa fa-arrow-down"></i>
+                                    </a>
+                                </span>
+
+                                <span class="label label-danger"
+                                      ng-class="{'invisible': !(contentCategory.id ? AuthorizationService.canRBTOperationsCategoryUpdate(contentCategory.status) : AuthorizationService.canRBTOperationsCategoryCreate())}">
+                                    <a href="javascript:;"
+                                       ng-click="removeToneSelection(contentCategory.toneIds, contentCategory.tones, $index)">
+                                        <i class="fa fa-times-circle"></i>
+                                    </a>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div style="margin-top: 5px">
+                            <button class="btn btn-sm btn-default pull-left" name="selectTones" id="selectTones"
+                                    title="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SelectTone' | translate }}"
+                                    ng-click="openToneSelection()"
+                                    ng-disabled="(contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(contentCategory.status) : !AuthorizationService.canRBTOperationsCategoryCreate())"
+                                    ng-class="{ 'ng-invalid-required': form.selectTones.$invalid }">
+                                <i class="fa fa-plus"></i>
+                                {{ 'CommonLabels.Select' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-7">
+                        <!-- Hidden input for form validation -->
+                        <input type="hidden" name="selectTones" ng-model="contentCategory.toneIds" />
+                        <ul ng-class="{ 'parsley-error-list': form.selectTones.$invalid }"
+                            ng-show="form.selectTones.$invalid">
+                            <li class="required" ng-show="form.selectTones.$error.leafCategoryCheck">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentCategories.Messages.RemoveTonesError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.AccessChannels' | translate }}</label>
+                    <div class="col-md-7">
+                        <select name="accessChannels" class="form-control parsley-validated" ng-model="contentCategory.accessChannels" ng-options="opt.value as opt.label for opt in CMS_ACCESS_CHANNELS" ng-disabled="true">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (contentCategory.id ? !AuthorizationService.canRBTOperationsCategoryUpdate(originalContentCategory.status, $stateParams.accessType) : !AuthorizationService.canRBTOperationsCategoryCreate()) || isNotChanged()"
+                        ng-click="sendToWorkflow(contentCategory);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+        </fieldset>
+    </form>
+
+</div>

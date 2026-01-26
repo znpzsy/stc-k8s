@@ -1,0 +1,105 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.OfferSubscriptionsModalTitle' | translate:{subscriber: subscriber.msisdn} }}
+    </h4>
+</div>
+
+<div class="modal-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-3">
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download('OfferSubscriptions-(' + subscriber.msisdn + ')', offerSubscriptions.content)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download('OfferSubscriptions-(' + subscriber.msisdn + ')', offerSubscriptions.content)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-6">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['name', 'subscriptionState'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="subscription in $data" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.OfferId' | translate" sortable="'id'">{{subscription.offerId}}</td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.OfferName' | translate" sortable="'name'">{{subscription.offerName}}</td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.SubscriptionState' | translate" sortable="'subscriptionState'">
+                            {{subscription.state.currentState}}
+                            <span ng-if="subscription.state.curentState !== 'ACTIVE'" class="fa fa-question-circle"
+                                  uib-popover-template="'subsystems/subscriptionmanagement/operations/subscribers/modal.subscription.detail.popover.html'"
+                                  popover-placement="auto" popover-animation="false" popover-trigger="'mouseenter'" popover-append-to-body="true"
+                                  popover-title="Subscription Details [Msisdn = {{subscription.msisdn}}]" popover-tmpl-tone="subscription"
+                                  style="margin-left: 6px; cursor: pointer;">
+                                  </span>
+                        </td>
+                        <td align="center" data-title="'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.SubscriptionRequestDate' | translate" sortable="'subscriptionRequestDate'">{{ subscription.subscriptionRequestDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}</td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="4" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{ 'CommonLabels.Close' | translate }}</button>
+</div>
+
+
+<!-- Subscription Detail Popover. Please use "subscription" for binding. -->
+<script type="text/ng-template" id="subsystems/subscriptionmanagement/operations/subscribers/modal.subscription.detail.popover.html">
+    <div>
+
+        <div>
+            <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Status' | translate }}:</strong> {{subscription.state.currentState }}     <span ng-if="subscription.isInTryPeriod" class="label label-warning">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.InTryPeriod' | translate }}</span>
+        </div>
+        <div ng-if="subscription.inGracePeriod">
+            <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.InGracePeriod' | translate }}:</strong> {{subscription.inGracePeriod | YesNoFilter }} -
+            <span ng-if="subscription.graceBySsm" class="label label-info">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.GraceBySsm' | translate }}</span>
+            <span ng-if="subscription.graceBySubscriber" class="label label-info">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.GraceBySubscriber' | translate }}</span>
+        </div>
+        <div ng-if="subscription.isGift">
+            <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.IsGift' | translate }}:</strong> {{subscription.isGift | YesNoFilter }} -
+            <span ng-if="subscription.giftConfirmed" class="label label-success">{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.GiftConfirmed' | translate }}</span>
+        </div>
+        <div ng-if="subscription.lastOperatingChannel">
+            <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.LastOperatingChannel' | translate }}:</strong> {{subscription.lastOperatingChannel}}
+            <span ng-if="subscription.subChannel">- <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.SubChannel' | translate }}:</strong>  {{subscription.subChannel}}</span>
+        </div>
+        <div>
+            <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.SubscriptionRequestDate' | translate }}:</strong> {{subscription.subscriptionRequestDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}} -
+            <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.SubscriptionStartDate' | translate }}:</strong> {{subscription.subscriptionStartDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}} <br>
+            <span ng-if="subscription.nextChargingDate"><strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.NextChargingDate' | translate }}:</strong> {{subscription.nextChargingDate | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET}}</span>
+        </div>
+        <div>
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.Price' | translate }}:</strong> {{subscription.price | PriceFormatterFilter}} -
+            <strong>{{ 'Subsystems.ContentManagement.Operations.RBT.ChargingDetails.ChargingPeriod' | translate }}:</strong> {{subscription.chargingPeriod | ChargingDetailsFilter}}
+            <span ng-if="subscription.language"> - <strong>{{ 'Subsystems.SubscriptionManagement.Operations.Subscribers.TableColumns.Language' | translate }}:</strong> {{subscription.language}}</span>
+        </div>
+
+
+
+
+
+
+
+    </div>
+</script>

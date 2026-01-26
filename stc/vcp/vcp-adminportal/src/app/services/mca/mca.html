@@ -1,0 +1,81 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{$state.current.data.title}}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+
+            <!--<li ng-class="{ 'active': $state.includes('services.mca.dashboards') }">
+                <a ui-sref="services.mca.dashboards">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>-->
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.mca.dashboards') }">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.mca.dashboards.basic') }">
+                        <a ui-sref="services.mca.dashboards.basic">{{ 'Services.MCA.Operations.MessageFormats.MCAShort' | translate }}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.mca.dashboards.extra') }">
+                        <a ui-sref="services.mca.dashboards.extra">{{ 'Services.MCA.Operations.MessageFormats.MCAPlusShort' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.mca.messagetemplates.messagetemplates.mca') || $state.includes('services.mca.messagetemplates.messagetemplates.mcabasic') }" ng-if="AuthorizationService.canReadTemplates()">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-language"></span> {{ 'GenericTabs.Templates' | translate }}<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.mca.messagetemplates.messagetemplates.mcabasic') }">
+                        <a ui-sref="services.mca.messagetemplates.messagetemplates.mcabasic.list">{{ 'Services.MCA.Operations.MessageFormats.MCAShort' | translate }}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.mca.messagetemplates.messagetemplates.mca') }">
+                        <a ui-sref="services.mca.messagetemplates.messagetemplates.mca.list">{{ 'Services.MCA.Operations.MessageFormats.MCAPlusShort' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.mca.operations') }" ng-if="AuthorizationService.canRead()">
+                <a ui-sref="services.mca.operations.subscriptions">
+                    <span class="fa fa-gears"></span> {{ 'GenericTabs.Operations' | translate }}
+                </a>
+            </li>
+
+            <li class="dropdown" uib-dropdown ng-class="{ 'active': $state.includes('services.mca.configuration.mca') || $state.includes('services.mca.configuration.mcabasic') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.mca.configuration.mcabasic') }">
+                        <a ui-sref="services.mca.configuration.mcabasic">{{ 'Services.MCA.Operations.MessageFormats.MCAShort' | translate }}</a>
+                    </li>
+                    <li role="menuitem" ng-class="{ 'active': $state.includes('services.mca.configuration.mca') }">
+                        <a ui-sref="services.mca.configuration.mca">{{ 'Services.MCA.Operations.MessageFormats.MCAPlusShort' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.mca.troubleshooting') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="services.mca.troubleshooting">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,237 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.USC.Operations.WsAppsTitle' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.AppName' | translate }}</label>
+            <div class="col-md-7">
+                <input name="name" id="name" type="text" class="form-control" ng-model="app.name"
+                       ng-required="true" maxlength="100" ng-maxlength="100"
+                       ng-disabled="app.id"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="app.serviceId">
+            <label class="col-md-3">{{ 'Products.USC.Operations.AppId' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="app.serviceId" ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'GenericFormFields.Organization.Label' | translate }}</label>
+            <div class="col-md-7">
+                <div ng-if="operator.organization.name" class="row col-md-9">
+                    <span class="label label-default selected-item-label">{{ operator.organization.name }}</span>
+                    <a ng-click="operator.organization.name = undefined" style="cursor: pointer;" ng-if="AuthorizationService.canCreate() || (app.id && AuthorizationService.canUpdate())">
+                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                    </a>
+                </div>
+                <button class="btn btn-default col-md-3 ng-dirty"
+                        ng-class="{ 'pull-right': operator.organization.name, 'ng-invalid-required': !operator.organization.name }"
+                        ng-click="showOperators()"
+                        ng-disabled="!AuthorizationService.canCreate() || (app.id && !AuthorizationService.canUpdate())">{{ 'CommonLabels.Choose' | translate }}</button>
+                <div style="clear: both;">
+                    <input name="serviceOrganization" type="text" class="form-control"
+                           ng-model="operator.organization.name"
+                           ng-min="1" ng-required="true"
+                           ng-init="app.id ? null : operator.organization = undefined"
+                           ng-show="false"/>
+                    <ul ng-class="{ 'parsley-error-list': operator.organization !== undefined && operator.organization.name === undefined }"
+                        ng-show="operator.organization !== undefined && operator.organization.name === undefined">
+                        <li class="required" ng-show="form.serviceOrganization.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="operator.organization && !isStcOrganization(operator.organization)">
+            <label class="col-md-3">{{ 'Products.USC.Operations.ShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <select name="shortCode" class="form-control parsley-validated" ng-model="shortCode.profile"
+                        ng-options="code as (code | UssdCorporateCodeUssdCodeStatusTypeFilter) for code in ussdCorporateCodeList"
+                        ng-required="operator.organization">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.shortCode.$dirty && form.shortCode.$invalid }" ng-show="form.shortCode.$dirty && form.shortCode.$invalid">
+                    <li class="required" ng-show="form.shortCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="operator.organization && isStcOrganization(operator.organization)">
+            <label class="col-md-3">{{ 'Products.USC.Operations.ShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <input name="shortCodeLocal" type="number" class="form-control"
+                       ng-model="shortCode.local"
+                       min="0" ng-required="true"/>
+                <ul ng-class="{ 'parsley-error-list': form.shortCodeLocal.$dirty && form.shortCodeLocal.$invalid }" ng-show="form.shortCodeLocal.$dirty && form.shortCodeLocal.$invalid">
+                    <li class="required" ng-show="form.shortCodeLocal.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.shortCodeLocal.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.shortCodeLocal.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.State' | translate }}</label>
+            <div class="col-md-7">
+                <select class="form-control parsley-validated" ng-model="state" ng-options="opt for opt in USC_STATUS_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.SessionShortCode' | translate }}</label>
+            <div class="col-md-7">
+                <input type="number" class="form-control" ng-model="app.sessionShortcode"  name="sessionShortcode" id="sessionShortcode" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': form.sessionShortcode.$dirty && form.sessionShortcode.$invalid }" ng-show="form.sessionShortcode.$dirty && form.sessionShortcode.$invalid">
+                    <li class="required" ng-show="form.sessionShortcode.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.sessionShortcode.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.MsisdnType' | translate }}</label>
+            <div class="col-md-7">
+                <select class="form-control parsley-validated" ng-model="app.msisdnType" ng-options="opt for opt in USC_MSISDN_TYPES" ng-required="true">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.IsAuthorizationActive' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.isAuthorizationActive?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.isAuthorizationActive" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.isAuthorizationActive?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.isAuthorizationActive" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="app.isAuthorizationActive">
+            <label class="col-md-3">{{ 'Products.USC.Operations.UserName' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="username" id="username" class="form-control" ng-model="app.username" ng-required="app.isAuthorizationActive" />
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="app.isAuthorizationActive">
+            <label class="col-md-3">{{ 'Products.USC.Operations.Password' | translate }}</label>
+            <div class="col-md-7">
+                <input type="password" name="password" id="password" class="form-control" ng-model="app.password" ng-required="app.isAuthorizationActive" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.WebServiceUrl' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" name="webServiceUrl" id="webServiceUrl" class="form-control" ng-model="app.webServiceUrl"
+                       ng-required="true" maxlength="500" ng-maxlength="500"
+                       placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}" />
+                <ul ng-class="{ 'parsley-error-list': form.webServiceUrl.$dirty && form.webServiceUrl.$invalid }" ng-show="form.webServiceUrl.$dirty && form.webServiceUrl.$invalid">
+                    <li class="required" ng-show="form.webServiceUrl.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 500 } }}</li>
+                    <li class="required" ng-show="form.webServiceUrl.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.RequestTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input name="requestTimeout" id="requestTimeout" type="number" class="form-control"
+                       ng-model="app.requestTimeout" min="0"/>
+                <ul ng-class="{ 'parsley-error-list': form.requestTimeout.$dirty && form.requestTimeout.$invalid }" ng-show="form.requestTimeout.$dirty && form.requestTimeout.$invalid">
+                    <li class="required" ng-show="form.requestTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.requestTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.AccessProtocol' | translate }}</label>
+            <div class="col-md-7">
+                <select name="accessProtocol" class="form-control parsley-validated" ng-model="app.accessProtocol"
+                        ng-options="opt for opt in USC_ACCESS_PROTOCOLS"
+                        ng-required="true">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.accessProtocol.$dirty && form.accessProtocol.$invalid }"
+                    ng-show="form.accessProtocol.$dirty && form.accessProtocol.$invalid">
+                    <li class="required" ng-show="form.accessProtocol.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.AppSessionLimit' | translate }}</label>
+            <div class="col-md-7">
+                <input name="appSessionLimit" id="appSessionLimit" type="number" class="form-control"
+                       ng-model="app.appSessionLimit" min="0" max="50000"/>
+                <ul ng-class="{ 'parsley-error-list': form.appSessionLimit.$dirty && form.appSessionLimit.$invalid }" ng-show="form.appSessionLimit.$dirty && form.appSessionLimit.$invalid">
+                    <li class="required" ng-show="form.appSessionLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.appSessionLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 50000 } }}</li>
+                    <li class="required" ng-show="form.appSessionLimit.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.RateLimiterActive' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.rateLimiterActive?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.rateLimiterActive" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.rateLimiterActive?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.rateLimiterActive" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="app.rateLimiterActive">
+            <label class="col-md-3">{{ 'Products.USC.Operations.Tpm' | translate }}</label>
+            <div class="col-md-7">
+                <input name="tpm" id="tpm" type="number" ng-model="app.tpm" class="form-control"
+                       min="0" ng-required="app.rateLimiterActive"/>
+                <ul ng-class="{ 'parsley-error-list': form.tpm.$dirty && form.tpm.$invalid }" ng-show="form.tpm.$dirty && form.tpm.$invalid">
+                    <li class="required" ng-show="form.tpm.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.tpm.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Operations.RoutingApp' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{app.routingApp?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.routingApp" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!app.routingApp?'btn-primary active':'btn-default'}} btn-sm" ng-model="app.routingApp" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (app.id && !AuthorizationService.canUpdate()) || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

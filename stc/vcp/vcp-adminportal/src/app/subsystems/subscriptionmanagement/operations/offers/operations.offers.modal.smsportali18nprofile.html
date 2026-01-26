@@ -1,0 +1,167 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.ModalTitle' | translate:{offerName: offer.name} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="Language" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.Language' | translate }}</label>
+                    <div class="col-md-5">
+                        <select id="Language" name="Language" class="form-control parsley-validated"
+                                ng-model="smsPortali18nProfile.Language"
+                                ng-options="language.value as (language.label | translate) for language in PROVISIONING_LANGUAGES"
+                                ng-required="true"
+                                ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.Language.$dirty && form.Language.$invalid }"
+                            ng-show="form.Language.$dirty && form.Language.$invalid">
+                            <li class="required" ng-show="form.Language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TODO - Temporarily hidden -->
+                <div class="form-group" ng-if="false">
+                    <label class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.IsDefault' | translate }}</label>
+                    <div class="col-md-5">
+                        <div class="btn-group">
+                            <button class="btn {{smsPortali18nProfile.IsDefault?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                    ng-model="smsPortali18nProfile.IsDefault" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                            <button class="btn {{!smsPortali18nProfile.IsDefault?'btn-primary active':'btn-default'}} btn-sm"
+                                    ng-disabled="(offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())"
+                                    ng-model="smsPortali18nProfile.IsDefault" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="SubUnsubShortCode" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.SubUnsubShortCode' | translate }}</label>
+                    <div class="col-md-5">
+                        <select id="SubUnsubShortCode" name="SubUnsubShortCode" class="form-control parsley-validated"
+                                ng-model="smsPortali18nProfile.SubUnsubShortCode"
+                                ng-options="shortCode.ShortCode as shortCode.ShortCode for shortCode in shortCodeList"
+                                ng-change="smsPortali18nProfile.SubCommands = []; smsPortali18nProfile.UnsubCommands = [];"
+                                ng-required="true"
+                                ng-disabled="queryingCommands || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                        </select>
+                        <ul ng-class="{ 'parsley-error-list': form.SubUnsubShortCode.$dirty && form.SubUnsubShortCode.$invalid }"
+                            ng-show="form.SubUnsubShortCode.$dirty && form.SubUnsubShortCode.$invalid">
+                            <li class="required" ng-show="form.SubUnsubShortCode.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.SubUnsubShortCode.$error.cmpfQuery">{{ 'CommonMessages.GenericServerError' | translate }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div ng-if="smsPortali18nProfile.SubUnsubShortCode">
+                    <div class="form-group">
+                        <label for="SubCommands" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.SubCommands' | translate }}</label>
+                        <div class="col-md-7">
+                            <ui-select id="SubCommands" name="SubCommands" multiple tagging tagging-label="false" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                       ng-model="smsPortali18nProfile.SubCommands"
+                                       limit="20"
+                                       title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                                       ng-required="true"
+                                       on-select="onSelectNewRecord($item, $model);"
+                                       on-remove="onRemoveRecord($item, $model);"
+                                       ui-select-maxlength="25"
+                                       ng-disabled="queryingCommands || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                                <ui-select-match placeholder=" {{ 'CommonLabels.EnterNewOne' | translate }}">
+                                    {{ $item }}
+                                </ui-select-match>
+                                <ui-select-choices repeat="subCommandItem as subCommandItem in (subCommand | filter: $select.search)">
+                                    {{ subCommandItem }}
+                                </ui-select-choices>
+                            </ui-select>
+                            <ul ng-class="{ 'parsley-error-list': form.SubCommands.$dirty && form.SubCommands.$invalid }"
+                                ng-show="form.SubCommands.$dirty && form.SubCommands.$invalid">
+                                <li class="required" ng-show="form.SubCommands.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.SubCommands.$error.availabilityCheck">{{ subCommandsAvailabilityMessage }}</li>
+                                <li class="required" ng-show="form.SubCommands.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 25} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SubConfirmationMessage" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.SubConfirmationMessage' | translate }}</label>
+                        <div class="col-md-7">
+                            <textarea id="SubConfirmationMessage" name="SubConfirmationMessage" class="form-control" dir="auto"
+                                      ng-model="smsPortali18nProfile.SubConfirmationMessage"
+                                      rows="3" ng-maxlength="512" maxlength="512"
+                                      ng-disabled="queryingCommands || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form.SubConfirmationMessage.$dirty && form.SubConfirmationMessage.$invalid }"
+                                ng-show="form.SubConfirmationMessage.$dirty && form.SubConfirmationMessage.$invalid">
+                                <li class="required" ng-show="form.SubConfirmationMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UnsubCommands" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.UnsubCommands' | translate }}</label>
+                        <div class="col-md-7">
+                            <ui-select id="UnsubCommands" name="UnsubCommands" multiple tagging tagging-label="false" theme="bootstrap" allow-clear="true" append-to-body="false"
+                                       ng-model="smsPortali18nProfile.UnsubCommands"
+                                       limit="20"
+                                       title="{{ 'CommonLabels.EnterNewOne' | translate }}"
+                                       ng-required="true"
+                                       ui-select-maxlength="25"
+                                       ng-disabled="queryingCommands || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                                <ui-select-match placeholder=" {{ 'CommonLabels.EnterNewOne' | translate }}">
+                                    {{ $item }}
+                                </ui-select-match>
+                                <ui-select-choices repeat="unsubCommandItem as unsubCommandItem in (unsubCommand | filter: $select.search)">
+                                    {{ unsubCommandItem }}
+                                </ui-select-choices>
+                            </ui-select>
+                            <ul ng-class="{ 'parsley-error-list': form.UnsubCommands.$dirty && form.UnsubCommands.$invalid }"
+                                ng-show="form.UnsubCommands.$dirty && form.UnsubCommands.$invalid">
+                                <li class="required" ng-show="form.UnsubCommands.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.UnsubCommands.$error.availabilityCheck">{{ unsubCommandsAvailabilityMessage }}</li>
+                                <li class="required" ng-show="form.UnsubCommands.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 25} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UnsubConfirmationMessage" class="col-md-3">{{ 'Subsystems.SubscriptionManagement.Operations.Offers.SMSPortali18nProfile.UnsubConfirmationMessage' | translate }}</label>
+                        <div class="col-md-7">
+                            <textarea id="UnsubConfirmationMessage" name="UnsubConfirmationMessage" class="form-control" dir="auto"
+                                      ng-model="smsPortali18nProfile.UnsubConfirmationMessage"
+                                      rows="3" ng-maxlength="512" maxlength="512"
+                                      ng-disabled="queryingCommands || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate())">
+                            </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form.UnsubConfirmationMessage.$dirty && form.UnsubConfirmationMessage.$invalid }"
+                                ng-show="form.UnsubConfirmationMessage.$dirty && form.UnsubConfirmationMessage.$invalid">
+                                <li class="required" ng-show="form.UnsubConfirmationMessage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid || (offer.id ? !AuthorizationService.canSsmOperationsOfferUpdate(offer.state) : !AuthorizationService.canSsmOperationsOfferCreate()) || isNotChanged()"
+                                ng-click="save(smsPortali18nProfile);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

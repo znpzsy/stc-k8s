@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ modalTitle | translate:{scope:(scopeName | ScreeningScopeFilter)} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="table-responsive">
+        <table ng-table="tableParams" class="table table-striped table-bordered"
+               template-pagination="ngTableCustomPager.html">
+            <tr ng-repeat="item in $data" class="hidden-link-cell-row">
+                <td align="center" data-title="'Products.BulkMessaging.Operations.Screenings.Label' | translate" sortable="'screenableCorrelator'">{{item.screenableCorrelator}}</td>
+                <td align="center" data-title="'CommonLabels.Msisdn' | translate" sortable="'screenableEntryId'">{{item.screenableEntryId}}</a></td>
+            </tr>
+            <tr ng-if="$data.length === 0">
+                <td colspan="2" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{ 'CommonLabels.Close' | translate }}</button>
+</div>

@@ -1,0 +1,64 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.OIVR.Configuration.Settings' | translate }} / {{ 'Products.OIVR.Configuration.SMS.MenuLabel' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="configurationForm" name="configurationForm" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.SMS.SmsTextEn' | translate }}</label>
+            <div class="col-md-6">
+                <textarea id="smsTextEn" name="smsTextEn" class="form-control" dir="auto"
+                          ng-model="smsTextEn.smsText"
+                          rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                          ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                </textarea>
+                <ul ng-class="{ 'parsley-error-list': form.smsTextEn.$dirty && form.smsTextEn.$invalid }"
+                    ng-show="form.smsTextEn.$dirty && form.smsTextEn.$invalid">
+                    <li class="required" ng-show="form.smsTextEn.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.smsTextEn.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                </ul>
+
+                <!--<input type="text" name="maxRecipientCount" class="form-control" ng-model="smsTextEn.smsText" enabled />-->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.SMS.SmsTextAr' | translate }}</label>
+            <div class="col-md-6">
+
+                <textarea id="smsTextAr" name="smsTextAr" class="form-control" dir="auto"
+                          ng-model="smsTextAr.smsText"
+                          rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                          ng-disabled="!AuthorizationService.canUpdateConfiguration()">
+                </textarea>
+                <!--<input type="text" name="maxRecipientCount" class="form-control" ng-model="smsTextAr.smsText" enabled />-->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.OIVR.Configuration.SMS.SenderAddress' | translate }}</label>
+            <div class="col-md-6">
+                <input type="number" name="smsSenderAddress" class="form-control" ng-model="smsSenderAddress" enabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="configurationForm.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

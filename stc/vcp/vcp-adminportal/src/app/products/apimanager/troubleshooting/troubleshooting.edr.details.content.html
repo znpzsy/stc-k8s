@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.ApiManager.Troubleshooting.Details.Content.PageHeader' | translate:{ devName: edrRecord._source.devName, appName: edrRecord._source.appName, apiName: edrRecord._source.apiName, versionName: edrRecord._source.apiVersion } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 500px;margin-bottom: 20px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <p style="white-space: pre;">{{content.header}}<p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div hljs hljs-source="content.body"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

@@ -1,0 +1,69 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'GenericTabs.Preferences.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.MCA.Preferences.FormFields.AnnStatus' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{subscriptionDetail.annStatus?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.annStatus" uib-btn-radio="true" ng-disabled="true" >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!subscriptionDetail.annStatus?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.annStatus" uib-btn-radio="false" ng-disabled="true" >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="subscriptionDetail.annStatus">
+            <label class="col-md-3">{{ 'Services.MCA.Preferences.FormFields.AnnNumber' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" id="annNumber" name="annNumber" ng-model="subscriptionDetail.annNumber" ng-required="subscriptionDetail.annStatus" class="form-control" ng-disabled="true" />
+                <li class="required" ng-show="form.annNumber.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.MCA.Preferences.FormFields.IsFixedLine' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button" class="btn {{subscriptionDetail.isFixedLine?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.isFixedLine" uib-btn-radio="true" ng-disabled="true" >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!subscriptionDetail.isFixedLine?'btn-primary active':'btn-default'}} btn-sm" ng-model="subscriptionDetail.isFixedLine" uib-btn-radio="false" ng-disabled="true" >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="subscriptionDetail.isFixedLine">
+            <label class="col-md-3">{{ 'Services.MCA.Preferences.FormFields.MobileNo' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" id="mobilePhone" name="mobilePhone" ng-model="subscriptionDetail.mobilePhone" ng-required="subscriptionDetail.isFixedLine" class="form-control" ng-disabled="true" />
+                <li class="required" ng-show="form.mobilePhone.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.MCA.Preferences.FormFields.Language' | translate }}</label>
+            <div class="col-md-7">
+                <input type="text" id="language" name="annNumber" ng-value="subscriptionDetail.language | LanguageAbbrFilter | translate" ng-required="true" class="form-control" ng-disabled="true" />
+                <li class="required" ng-show="form.language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </div>
+        </div>
+
+        <!--<div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || isNotChanged()"
+                        ng-click="save(subscriptionDetail);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>-->
+    </form>
+
+</div>

@@ -1,0 +1,65 @@
+<div class="portlet-body buttons-portlet-body">
+    <div class="row">
+        <div class="col-md-5 col-sm-5 col-xs-5">
+            <div class="pull-left">
+                <button class="btn btn-secondary btn-sm"
+                        ui-sref="{{$state.current.data.newState}}"
+                        ng-disabled="!AuthorizationService.canCreate()">
+                    <i class="fa fa-plus"></i> {{ 'CommonLabels.AddNewEntry' | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="pull-right">
+                <div class="btn-group" ng-show="keywordScreeningList.tableParams.total() > 0">
+                    <button type="button" ng-click="csv.download($state.current.data.keywordScreeningListName, keywordScreeningList.list)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                    <button type="button" ng-click="xls.download($state.current.data.keywordScreeningListName, keywordScreeningList.list)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <form class="mainnav-form">
+                <input type="text" class="form-control input-sm pull-right mainnav-search-query"
+                       ng-model="filterText" ng-change="filterTable(filterText, ['sender', 'keyword'])"
+                       placeholder="{{ 'CommonLabels.Search' | translate }}...">
+                <button class="btn btn-sm mainnav-form-btn"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table ng-table="keywordScreeningList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="keywordScreeningList in $data" class="hidden-link-cell-row"
+                        ng-class="{ 'row-selected': keywordScreeningList.rowSelected }">
+                        <td align="center" data-title="'Products.SMSC.Operations.KeywordScreening.TableColumns.Sender' | translate" sortable="'sender'"
+                            ng-attr-title="{{keywordScreeningList.sender.length > 30 ? keywordScreeningList.sender : ''}}">
+                            {{keywordScreeningList.sender | limitTo:30}}{{keywordScreeningList.sender.length > 30 ? '...' : ''}}
+                        </td>
+                        <td align="center" data-title="'Products.SMSC.Operations.KeywordScreening.TableColumns.Keyword' | translate" sortable="'keyword'"
+                            ng-attr-title="{{keywordScreeningList.keyword.length > 30 ? keywordScreeningList.keyword : ''}}">
+                            {{keywordScreeningList.keyword | limitTo:30}}{{keywordScreeningList.keyword.length > 30 ? '...' : ''}}
+                        </td>
+                        <td align="center" data-title="'CommonLabels.Actions' | translate">
+                            <button ng-click="remove(keywordScreeningList)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}" ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="3" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="col-md-12 col-md-12">
+
+    <div class="tab-content stacked-content">
+
+        <div class="tab-pane fade active in portlet portlet-default">
+            
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-7 col-xs-4">
+                        <div class="pull-left">
+                            <div class="btn btn-secondary btn-sm pull-left"
+                                 title="{{ 'CommonMessages.DateFilterButtonTitle' | translate }}"
+                                 ng-model="filterFormLayer.isFilterFormOpen"
+                                 ng-init="filterFormLayer.isFilterFormOpen = false"
+                                 ng-click="filterFormLayer.isFilterFormOpen = !filterFormLayer.isFilterFormOpen">
+                                <span ng-if="!filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.ShowFilter' | translate }} <i class="fa fa-chevron-circle-right"></i></span>
+                                <span ng-if="filterFormLayer.isFilterFormOpen">{{ 'CommonLabels.HideFilter' | translate }} <i class="fa fa-chevron-circle-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 col-xs-8">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default btn-sm" ui-sref-active="active"
+                                    ui-sref="products.messaginggw.troubleshooting.sms"
+                                    ng-model="selectedTab" uib-btn-radio="'SMS'">{{ 'Products.MessagingGw.Troubleshooting.SMS' | translate }}
+                            </button>
+                            <!--<button type="button" class="btn btn-default btn-sm" ui-sref-active="active"
+                                    ui-sref="products.messaginggw.troubleshooting.mms"
+                                    ng-model="selectedTab" uib-btn-radio="'MMS'">{{ 'Products.MessagingGw.Troubleshooting.MMS' | translate }}
+                            </button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div hidden-filter-form ng-model="filterFormLayer" class="col-sm-12 filter-form" ui-view="filter-form" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div ui-view="table">
+            </div>
+
+        </div>
+    </div>
+</div>

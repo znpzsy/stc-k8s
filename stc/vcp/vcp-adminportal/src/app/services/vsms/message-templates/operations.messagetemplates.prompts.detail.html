@@ -1,0 +1,57 @@
+<br />
+
+<form class="form-horizontal" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label class="col-md-3">{{ 'Services.VSMS.Operations.MessageTemplates.VoicePrompt' | translate }}</label>
+        <div class="col-md-2">
+            <button title="{{ 'CommonLabels.Download' | translate }}"
+               ng-click="downloadSoundFile(languageCode, contentKey)"
+               class="btn btn-secondary"
+               ng-if="AuthorizationService.canReadTemplates()">
+                <i class="fa fa-download"></i>
+                {{ 'CommonLabels.Download' | translate }}
+            </button>
+        </div>
+        <div class="col-md-5">
+            <div class="btn-group" role="group" aria-label="{{ 'CommonLabels.Upload' | translate }}">
+                <button type="file" ngf-select ng-model="promptsFile" name="promptsFile"
+                        class="btn btn-default" style="width: 262px;"
+                        ngf-accept="'audio/*'" ngf-max-size="20MB" required
+                        accept-waw-file="promptsFile"
+                        ngf-model-invalid="errorFile"
+                        ng-disabled="!AuthorizationService.canUpdateTemplates()">
+                    {{ 'CommonLabels.SelectNewFile' | translate }} (max 20M)
+                </button>
+                <button ng-disabled="!form.$valid || !AuthorizationService.canUpdateTemplates() || (promptsFile.result && promptsFile.progress >= 0)"
+                        ng-click="uploadFile(promptsFile)" class="btn btn-danger">
+                    {{ 'CommonLabels.Upload' | translate }}
+                </button>
+            </div>
+            <div class="row col-md-12">
+                <ul ng-class="{ 'parsley-error-list': form.promptsFile.$dirty && form.promptsFile.$invalid }" ng-show="form.promptsFile.$dirty && form.promptsFile.$invalid">
+                    <li class="required" style="display: list-item;" ng-show="form.promptsFile.$error.required && !form.promptsFile.$error.maxSize && !form.promptsFile.$error.wawFileTypeError">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" style="display: list-item;" ng-show="form.promptsFile.$error.maxSize">{{ 'CommonMessages.FileTooLargeError' | translate:{file_size: errorFile.size} }}</li>
+                    <li class="required" style="display: list-item;" ng-show="form.promptsFile.$error.wawFileTypeError">{{ 'Please select a "waw" file.' }}</li>
+                </ul>
+            </div>
+            <div class="panel panel-default" style="margin-top: 10px;" ng-if="promptsFile && form.$valid">
+                <div class="panel-body">
+                    <div class="progress" ng-if="promptsFile.progress >= 0">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{promptsFile.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{promptsFile.progress}}%;">
+                            {{promptsFile.progress}}%
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="display: inline;">{{ promptsFile.name }}</h4>
+                        <a href="javascript:;" style="margin-top: 3px;float: right;" ng-click="removeFile();">{{ 'CommonLabels.RemoveFile' | translate }}</a>
+                        <br />
+                        <audio controls style="width: 100%;margin-top: 3px;" ngf-src="promptsFile"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

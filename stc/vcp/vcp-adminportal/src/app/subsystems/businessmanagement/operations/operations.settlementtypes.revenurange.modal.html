@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.RevenueRanges.Title' | translate:{name:settlementTypeName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="StartPoint" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.RevenueRanges.StartEndPoint' | translate }}</label>
+            <div class="col-md-3">
+                <input id="StartPoint" name="StartPoint" type="number" class="form-control"
+                       ng-model="revenueRange.StartPoint"
+                       ng-required="true"
+                       min="0" max="999999"
+                       ng-disabled="(revenueRange.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.StartPoint.$dirty && form.StartPoint.$invalid }"
+                    ng-show="form.StartPoint.$dirty && form.StartPoint.$invalid">
+                    <li class="required" ng-show="form.StartPoint.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.StartPoint.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                    <li class="required" ng-show="form.StartPoint.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 999999} }}</li>
+                    <li class="required" ng-show="form.StartPoint.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input id="EndPoint" name="EndPoint" type="number" class="form-control"
+                       ng-model="revenueRange.EndPoint"
+                       min="0" max="999999"
+                       ng-disabled="(revenueRange.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.EndPoint.$dirty && form.EndPoint.$invalid }"
+                    ng-show="form.EndPoint.$dirty && form.EndPoint.$invalid">
+                    <li class="required" ng-show="form.EndPoint.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                    <li class="required" ng-show="form.EndPoint.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 999999} }}</li>
+                    <li class="required" ng-show="form.EndPoint.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="CarrierPercentage" class="col-md-3">{{ 'Subsystems.BusinessManagement.Operations.SettlementTypes.CarrierPartnerPercentage' | translate }}</label>
+            <div class="col-md-3">
+                <input id="CarrierPercentage" name="CarrierPercentage" type="number" class="form-control"
+                       ng-model="revenueRange.CarrierPercentage"
+                       ng-required="true"
+                       min="0" max="100"
+                       ng-disabled="(revenueRange.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate())"/>
+                <ul ng-class="{ 'parsley-error-list': form.CarrierPercentage.$dirty && form.CarrierPercentage.$invalid }"
+                    ng-show="form.CarrierPercentage.$dirty && form.CarrierPercentage.$invalid">
+                    <li class="required" ng-show="form.CarrierPercentage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.CarrierPercentage.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                    <li class="required" ng-show="form.CarrierPercentage.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 100} }}</li>
+                    <li class="required" ng-show="form.CarrierPercentage.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <input id="PartnerPercentage" name="PartnerPercentage" type="number" class="form-control"
+                       ng-model="revenueRange.PartnerPercentage"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-9 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || (revenueRange.profileId ? !AuthorizationService.canBizOperationsSettlementTypeUpdate() : !AuthorizationService.canBizOperationsSettlementTypeCreate()) || isNotChanged()"
+                        ng-click="save(revenueRange);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

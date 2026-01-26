@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <h4 class="modal-title" ng-bind="addFormTitle">
+    </h4>
+</div>
+
+<div class="modal-body">
+    <form id="listItemForm" method="post" enctype="multipart/form-data"
+          name="listItemForm" class="form-horizontal parsley-form"
+          novalidate>
+        <div class="form-group">
+            <label for="identifier" class="col-md-3">
+                {{ 'ScreeningLists.AddForm.Identifier.Label' | translate }}
+            </label>
+            <div class="col-md-8">
+                <select ng-model="listItem.identifier" class="form-control"
+                        ng-options="identifier as (identifier.label | translate) for identifier in identifierList"
+                        ng-change="listItem.screenableEntryId = null">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="listItem.identifier.value === 'MSISDN'">
+            <label for="screenableEntryId" class="col-md-3">
+                {{ listItem.identifier.label | translate }}
+            </label>
+            <div class="col-md-8">
+                <input id="screenableEntryId" name="screenableEntryId" type="text" class="form-control"
+                       ng-model="listItem.screenableEntryId" ng-maxlength="61" maxlength="61"
+                       ng-pattern="$root.Validators.ScreeningListValidNumericRange"
+                       ng-required="true"
+                       list-availability-check list="currentList" propertyname="screenableEntryId"
+                       placeholder="{{ 'ScreeningLists.AddForm.MSISDN.Placeholder' | translate }}"/>
+                <ul ng-class="{ 'parsley-error-list': listItemForm.screenableEntryId.$dirty && listItemForm.screenableEntryId.$invalid }"
+                    ng-show="listItemForm.screenableEntryId.$dirty && listItemForm.screenableEntryId.$invalid">
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.required">{{ 'ScreeningLists.AddForm.Messages.Required' | translate }}</li>
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.pattern">{{ 'ScreeningLists.AddForm.Messages.InvalidRangeNumber' | translate }}</li>
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 61} }}</li>
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.availabilityCheck">{{ 'ScreeningLists.AddForm.Messages.ItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="listItem.identifier.value === 'SAN'">
+            <label for="screenableEntryId" class="col-md-3">
+                {{ listItem.identifier.label | translate }}
+            </label>
+            <div class="col-md-8">
+                <input id="screenableEntryId" name="screenableEntryId" type="text" class="form-control"
+                       ng-model="listItem.screenableEntryId" ng-maxlength="101" maxlength="101"
+                       ng-pattern="$root.Validators.ScreeningListValidLongNumericRange"
+                       ng-required="true"
+                       list-availability-check list="currentList" propertyname="screenableEntryId"
+                       placeholder="{{ 'ScreeningLists.AddForm.SAN.Placeholder' | translate }}"/>
+                <ul ng-class="{ 'parsley-error-list': listItemForm.screenableEntryId.$dirty && listItemForm.screenableEntryId.$invalid }"
+                    ng-show="listItemForm.screenableEntryId.$dirty && listItemForm.screenableEntryId.$invalid">
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.required">{{ 'ScreeningLists.AddForm.Messages.Required' | translate }}</li>
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.pattern">{{ 'ScreeningLists.AddForm.Messages.InvalidRangeNumber' | translate }}</li>
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 101} }}</li>
+                    <li class="required" ng-show="listItemForm.screenableEntryId.$error.availabilityCheck">{{ 'ScreeningLists.AddForm.Messages.ItemAvailable' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0px">
+            <label for="screenableCorrelator" class="col-md-3">
+                {{ 'ScreeningLists.AddForm.ScreenableCorrelator.Label' | translate }}
+            </label>
+            <div class="col-md-8">
+                    <textarea id="screenableCorrelator" name="screenableCorrelator" type="text" class="form-control" rows="2"
+                              ng-model="listItem.screenableCorrelator" ng-maxlength="100" maxlength="100">
+                    </textarea>
+                <ul ng-class="{ 'parsley-error-list': listItemForm.screenableCorrelator.$dirty && listItemForm.screenableCorrelator.$invalid }"
+                    ng-show="listItemForm.screenableCorrelator.$dirty && listItemForm.screenableCorrelator.$invalid">
+                    <li class="required"
+                        ng-show="listItemForm.screenableCorrelator.$error.maxlength">{{ 'ScreeningLists.AddForm.ScreenableCorrelator.Messages.DescriptionMaxLength' | translate:{max: 100} }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="save(listItem)"
+            ng-disabled="listItemForm.$invalid">{{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

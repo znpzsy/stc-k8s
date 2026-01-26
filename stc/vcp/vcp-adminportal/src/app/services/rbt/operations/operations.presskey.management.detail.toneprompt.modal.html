@@ -1,0 +1,78 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ pageHeaderKey | translate }}</h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">
+                {{ 'Services.RBT.Operations.PressKey.Management.FormFields.TonePromptFile' | translate }}<br/>
+                <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+            </label>
+            <div class="col-md-7">
+
+                <div ng-show="!entry.promptFile.name">
+                    <!-- Select button -->
+                    <button name="tonePrompt" type="file" class="btn btn-sm btn-block btn-default"
+                            title="{{ (entry.promptFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                            style="width: 262px;"
+                            ngf-select
+                            ng-model="entry.promptFile"
+                            ng-init="entry.promptFile ? entry.promptFile.name = entry.promptFile.$ngfName : null"
+                            ngf-change="form.tonePrompt.$setDirty(); toneFileChanged(entry.promptFile, 'tonePrompt', form);"
+                            ngf-accept="'audio/wav'"
+                            ngf-max-size="1MB"
+                            ng-required="true"
+                            ngf-model-invalid="errorToneFile">
+                        <i class="fa fa-spinner fa-spin" ng-if="tonePromptLoading"></i>
+                        {{ ((entry.promptFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                    </button>
+                </div>
+                <div ng-show="entry.promptFile.name">
+                    <div class="fileinput-preview text-center" style="max-width: 200px;">
+                        <audio id="tonePromptAudio" name="tonePromptAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!entry.promptFile.$error && entry.promptFile"/>
+                    </div>
+
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 200px;overflow: hidden;white-space: nowrap;display: block;"
+                                uib-tooltip="{{entry.promptFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                            {{ entry.promptFile.name }}
+                        </button>
+                        <button class="btn btn-sm btn-danger" type="button"
+                                ng-click="entry.promptFile = null; form.tonePrompt.$setValidity('audioValiditiyCheck', true);"
+                                title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        &nbsp;&nbsp;
+                    </div>
+                    <a class="btn btn-sm btn-success"
+                       ng-if="entry.promptFile.name"
+                       title="{{ 'CommonLabels.Download' | translate }}"
+                       download="{{ entry.promptFile.name }}"
+                       href="{{ entry.promptFile | ngfDataUrl }}" target="_blank"
+                       ng-if="AuthorizationService.canRead()">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <ul ng-class="{ 'parsley-error-list': form.tonePrompt.$dirty && form.tonePrompt.$invalid }"
+                    ng-show="form.tonePrompt.$dirty && form.tonePrompt.$invalid">
+                    <li class="required" ng-show="form.tonePrompt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.tonePrompt.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam || '1MB'} }}</li>
+                    <li class="required" ng-show="form.tonePrompt.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary"
+            ng-disabled="form.$invalid || !AuthorizationService.canUpdate() || isNotChanged() || validationInProgress"
+            ng-click="save(entry)">
+        {{ 'CommonLabels.Save' | translate }}
+    </button>
+    <button class="btn btn-default" ng-click="cancel()">{{ 'CommonLabels.Cancel' | translate }}</button>
+</div>

@@ -1,0 +1,1259 @@
+<div class="col-md-12">
+
+    <div class="portlet portlet-default">
+
+        <div class="portlet-header">
+            <h4 class="portlet-title" active-loading-indicator>
+                {{ 'PartnerInfo.Services.Title' | translate }}
+            </h4>
+        </div>
+
+        <div class="portlet-body">
+
+            <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+                <fieldset id="formFieldset">
+
+                <div class="form-group">
+                    <label for="name" class="col-md-3">{{ 'PartnerInfo.Services.Name' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="name" name="name" type="text" class="form-control" dir="auto"
+                               ng-model="service.name"
+                               ng-maxlength="100" maxlength="100" ng-if="!service.id"
+                               ng-required="true"
+                               ng-pattern="$root.Validators.WordsBetweenOneCharOrSpace"
+                               ng-disabled="!AuthorizationService.canPrmServiceCreate()"/>
+                        <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }"
+                            ng-show="form.name.$dirty && form.name.$invalid">
+                            <li class="required" ng-show="form.name.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            <li class="required" ng-show="form.name.$error.pattern">{{ 'CommonMessages.InvalidName' | translate }}</li>
+                        </ul>
+                        <input id="name" name="name" type="text" class="form-control" ng-value="service.name" ng-if="service.id" ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.id">
+                    <label class="col-md-3">{{ 'PartnerInfo.Services.Id' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-model="service.id" ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.id">
+                    <label class="col-md-3">{{ 'CommonLabels.CreatedOn' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-value="service.entityAuditProfile.CreatedOn | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.id">
+                    <label class="col-md-3">{{ 'CommonLabels.CreatedBy' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-value="service.entityAuditProfile.CreatedBy" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.id">
+                    <label class="col-md-3">{{ 'CommonLabels.LastUpdatedOn' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-value="service.entityAuditProfile.LastUpdatedOn | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.id">
+                    <label class="col-md-3">{{ 'CommonLabels.LastUpdatedBy' | translate }}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" ng-value="service.entityAuditProfile.LastUpdatedBy" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Description" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Description' | translate }}</label>
+                    <div class="col-md-7">
+                        <input id="Description" name="Description" type="text" class="form-control"
+                               ng-model="service.serviceProfile.Description"
+                               ng-maxlength="255" maxlength="255"
+                               ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                        <ul ng-class="{ 'parsley-error-list': form.Description.$dirty && form.Description.$invalid }"
+                            ng-show="form.Description.$dirty && form.Description.$invalid">
+                            <li class="required" ng-show="form.Description.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="startDate" class="col-md-3 text-left">{{ 'GenericFormFields.StartDate.Label' | translate }}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.startDate"
+                                   is-open="startDatePicker.opened"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openStartDatePicker($event)"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <ul ng-class="{ 'parsley-error-list': form.startDate.$dirty && form.startDate.$invalid }" ng-show="form.startDate.$dirty && form.startDate.$invalid">
+                                <li class="required" ng-show="form.startDate.$error.parse">{{'GenericFormFields.StartDate.Messages.Invalid' | translate }}</li>
+                                <li class="required" ng-show="form.startDate.$error.maxDateExceeded">{{'GenericFormFields.StartDate.Messages.MaxDateExceeded' | translate }}</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate" class="col-md-3 text-left">{{ 'GenericFormFields.EndDate.Label' | translate }}</label>
+                    <div class="col-md-3">
+                        <p class="input-group datepicker-field">
+                            <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                                   uib-datepicker-popup="{{dateFormat}}" ng-model="dateHolder.endDate"
+                                   is-open="endDatePicker.opened"
+                                   ng-required="true"
+                                   datepicker-options="dateOptions"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default input-sm" ng-click="openEndDatePicker($event)"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                            <ul ng-class="{ 'parsley-error-list': form.endDate.$dirty && form.endDate.$invalid }" ng-show="form.endDate.$dirty && form.endDate.$invalid">
+                                <li class="required" ng-show="form.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.endDate.$error.parse">{{'GenericFormFields.EndDate.Messages.Invalid' | translate }}</li>
+                                <li class="required" ng-show="form.endDate.$error.minDateExceeded">{{'GenericFormFields.EndDate.Messages.MinDateExceeded' | translate }}</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="service.id">
+                    <label for="state" for="state" class="col-md-3">{{ 'CommonLabels.State' | translate }}</label>
+                    <div class="col-md-4">
+                        <select id="state" name="state" class="form-control parsley-validated" ng-disabled="true">
+                            <option>{{service.state}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'PartnerInfo.Services.Servicei18nProfile.Title' | translate }}
+                        </h5>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="nameen" class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UINameEn' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="nameen" name="nameen" type="text" class="form-control" dir="auto"
+                                   ng-model="service.servicei18nProfiles[0].Name"
+                                   ng-required="true" ng-maxlength="50"
+                                   ng-pattern="$root.Validators.CheckCommas"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.nameen.$dirty && form.nameen.$invalid }"
+                                ng-show="form.nameen.$dirty && form.nameen.$invalid">
+                                <li class="required" ng-show="form.nameen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.nameen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                <li class="required" ng-show="form.nameen.$error.pattern">{{ 'CommonMessages.InvalidNameWithCommas' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descriptionen" class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UIDescriptionEn' | translate }}</label>
+                        <div class="col-md-7">
+                            <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                                      ng-model="service.servicei18nProfiles[0].Description"
+                                      rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                                      ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                            </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                                ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                                <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="searchkeywordsen" class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UISearchKeywordsEn' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="searchkeywordsen" name="searchkeywordsen" type="text" class="form-control" dir="auto"
+                                   ng-model="service.servicei18nProfiles[0].SearchKeyword"
+                                   ng-maxlength="50"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.searchkeywordsen.$dirty && form.searchkeywordsen.$invalid }"
+                                ng-show="form.searchkeywordsen.$dirty && form.searchkeywordsen.$invalid">
+                                <li class="required" ng-show="form.searchkeywordsen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namear" class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UINameAr' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="namear" name="namear" type="text" class="form-control" dir="auto"
+                                   ng-model="service.servicei18nProfiles[1].Name"
+                                   ng-required="true" ng-maxlength="50"
+                                   ng-pattern="$root.Validators.CheckCommas"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.namear.$dirty && form.namear.$invalid }"
+                                ng-show="form.namear.$dirty && form.namear.$invalid">
+                                <li class="required" ng-show="form.namear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.namear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                <li class="required" ng-show="form.namear.$error.pattern">{{ 'CommonMessages.InvalidNameWithCommas' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descriptionar" class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UIDescriptionAr' | translate }}</label>
+                        <div class="col-md-7">
+                            <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                                      ng-model="service.servicei18nProfiles[1].Description"
+                                      rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                                      ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                            </textarea>
+                            <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                                ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                                <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="searchkeywordsar" class="col-md-3">{{ 'PartnerInfo.Services.Servicei18nProfile.UISearchKeywordsAr' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="searchkeywordsar" name="searchkeywordsar" type="text" class="form-control" dir="auto"
+                                   ng-model="service.servicei18nProfiles[1].SearchKeyword"
+                                   ng-maxlength="50"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.searchkeywordsar.$dirty && form.searchkeywordsar.$invalid }"
+                                ng-show="form.searchkeywordsar.$dirty && form.searchkeywordsar.$invalid">
+                                <li class="required" ng-show="form.searchkeywordsar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="BusinessTypeID" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.BusinessTypeID' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="BusinessTypeID" name="BusinessTypeID" class="form-control parsley-validated"
+                                    ng-model="service.serviceProfile.BusinessTypeID"
+                                    ng-required="true"
+                                    ng-options="businessType.profileId as businessType.Name for businessType in businessTypes"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.BusinessTypeID.$dirty && form.BusinessTypeID.$invalid }"
+                                ng-show="form.BusinessTypeID.$dirty && form.BusinessTypeID.$invalid">
+                                <li class="required" ng-show="form.BusinessTypeID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SettlementTypeID" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.SettlementTypeID' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="SettlementTypeID" name="SettlementTypeID" class="form-control parsley-validated"
+                                    ng-model="service.serviceProfile.SettlementTypeID"
+                                    ng-required="true"
+                                    ng-options="settlementType.profileId as settlementType.Name for settlementType in settlementTypes"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.SettlementTypeID.$dirty && form.SettlementTypeID.$invalid }"
+                                ng-show="form.SettlementTypeID.$dirty && form.SettlementTypeID.$invalid">
+                                <li class="required" ng-show="form.SettlementTypeID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="VATCategory" class="col-md-3">{{ 'PartnerInfo.Services.ServiceVATProfile.VATCategory' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="VATCategory" name="VATCategory" class="form-control"
+                                    ng-model="service.serviceVATProfile.VATCategory"
+                                    ng-options="vatCategory as vatCategory for vatCategory in SERVICE_VAT_CATEGORIES"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div ng-if="['FEE_VAT_INCLUSIVE', 'FEE_VAT_EXCLUSIVE'].includes(service.serviceVATProfile.VATCategory)">
+                        <div class="form-group">
+                            <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceVATProfile.HasSpecialVATPercentage' | translate }}</label>
+                            <div class="col-md-7">
+                                <div class="btn-group">
+                                    <button class="btn {{service.serviceVATProfile.HasSpecialVATPercentage?'btn-primary active':'btn-default'}} btn-sm"
+                                            ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                            ng-model="service.serviceVATProfile.HasSpecialVATPercentage" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!service.serviceVATProfile.HasSpecialVATPercentage?'btn-primary active':'btn-default'}} btn-sm"
+                                            ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                            ng-model="service.serviceVATProfile.HasSpecialVATPercentage" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="service.serviceVATProfile.HasSpecialVATPercentage">
+                            <label for="VATPercentage" class="col-md-3">{{ 'PartnerInfo.Services.ServiceVATProfile.VATPercentage' | translate }}</label>
+                            <div class="col-md-4">
+                                <input id="VATPercentage" name="VATPercentage" type="number" class="form-control"
+                                       ng-model="service.serviceVATProfile.VATPercentage"
+                                       ng-required="true"
+                                       min="0" max="100"
+                                       ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <ul ng-class="{ 'parsley-error-list': form.VATPercentage.$dirty && form.VATPercentage.$invalid }"
+                                    ng-show="form.VATPercentage.$dirty && form.VATPercentage.$invalid">
+                                    <li class="required" ng-show="form.VATPercentage.$error.min">{{ 'CommonMessages.MinValueError' | translate: {min: 0} }}</li>
+                                    <li class="required" ng-show="form.VATPercentage.$error.max">{{ 'CommonMessages.MaxValueError' | translate: {max: 100} }}</li>
+                                    <li class="required" ng-show="form.VATPercentage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                    <li class="required" ng-show="form.VATPercentage.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.WebIcon' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="fileinput fileinput-new">
+                                <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="service.serviceProfile.webIconFile.name">
+                                    <img ngf-src="!service.serviceProfile.webIconFile.$error && service.serviceProfile.webIconFile" width="200"
+                                         ng-style="{ 'height': (service.serviceProfile.webIconFile ? '' : '200px') }"/>
+
+                                    <div class="thumbnail-footer" ng-if="service.serviceProfile.webIconFile.type">
+                                        <div class="pull-left">
+                                            {{ service.serviceProfile.webIconFile.type }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button name="webIconFile" type="file"
+                                            title="{{ (service.serviceProfile.webIconFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                            ngf-select
+                                            ng-model="service.serviceProfile.webIconFile"
+                                            ng-init="service.serviceProfile.webIconFile.name = service.serviceProfile.webIconFile.$ngfName"
+                                            class="btn btn-sm btn-default"
+                                            ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                            ngf-max-size="20MB"
+                                            ngf-model-invalid="errorWebIconFile"
+                                            ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                        <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ (service.serviceProfile.webIconFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                    </button>
+                                    <button class="btn btn-sm btn-default"
+                                            title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                            ng-click="service.serviceProfile.webIconFile = null;"
+                                            ng-if="service.serviceProfile.webIconFile.name && (service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ 'FileOperationLabels.Remove' | translate }}
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-success"
+                                       ng-if="service.serviceProfile.webIconFile.name"
+                                       title="{{ 'CommonLabels.Download' | translate }}"
+                                       download="{{ service.serviceProfile.webIconFile.name }}"
+                                       href="{{ service.serviceProfile.webIconFile | ngfDataUrl }}" target="_blank">
+                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <ul ng-class="{ 'parsley-error-list': form.webIconFile.$dirty && form.webIconFile.$invalid }"
+                                ng-show="form.webIconFile.$dirty && form.webIconFile.$invalid">
+                                <li class="required" ng-show="form.webIconFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorWebIconFile.$errorParam} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.WapIcon' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="fileinput fileinput-new">
+                                <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="service.serviceProfile.wapIconFile.name">
+                                    <img ngf-src="!service.serviceProfile.wapIconFile.$error && service.serviceProfile.wapIconFile" width="200"
+                                         ng-style="{ 'height': (service.serviceProfile.wapIconFile ? '' : '200px') }"/>
+
+                                    <div class="thumbnail-footer" ng-if="service.serviceProfile.wapIconFile.type">
+                                        <div class="pull-left">
+                                            {{ service.serviceProfile.wapIconFile.type }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button name="wapIconFile" type="file"
+                                            title="{{ (service.serviceProfile.wapIconFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                            ngf-select
+                                            ng-model="service.serviceProfile.wapIconFile"
+                                            ng-init="service.serviceProfile.wapIconFile.name = service.serviceProfile.wapIconFile.$ngfName"
+                                            class="btn btn-sm btn-default"
+                                            ngf-accept="'.jpg,.jpeg,.png,.gif'"
+                                            ngf-max-size="20MB"
+                                            ngf-model-invalid="errorWapIconFile"
+                                            ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                        <i class="fa fa-image" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ (service.serviceProfile.wapIconFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                                    </button>
+                                    <button class="btn btn-sm btn-default"
+                                            title="{{ 'FileOperationLabels.RemoveTitle' | translate }}"
+                                            ng-click="service.serviceProfile.wapIconFile = null;"
+                                            ng-if="service.serviceProfile.wapIconFile.name && (service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <i class="fa fa-times" aria-hidden="true"></i>&nbsp;&nbsp;
+                                        {{ 'FileOperationLabels.Remove' | translate }}
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    <a class="btn btn-sm btn-success"
+                                       ng-if="service.serviceProfile.wapIconFile.name"
+                                       title="{{ 'CommonLabels.Download' | translate }}"
+                                       download="{{ service.serviceProfile.wapIconFile.name }}"
+                                       href="{{ service.serviceProfile.wapIconFile | ngfDataUrl }}" target="_blank">
+                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <ul ng-class="{ 'parsley-error-list': form.wapIconFile.$dirty && form.wapIconFile.$invalid }"
+                                ng-show="form.wapIconFile.$dirty && form.wapIconFile.$invalid">
+                                <li class="required" ng-show="form.wapIconFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorWapIconFile.$errorParam} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceCopyrightFileProfile.CopyrightFiles' | translate }}</label>
+                        <div class="col-md-7">
+                            <div ng-if="service.serviceCopyrightFileProfileList.length" class="row col-md-9">
+                                <div ng-repeat="serviceCopyrightFile in service.serviceCopyrightFileProfileList">
+                                    <span class="label label-default selected-item-label"
+                                          uib-tooltip="{{ getServiceCopyrightFileProfileString(serviceCopyrightFile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                        {{ getServiceCopyrightFileProfileString(serviceCopyrightFile) }}
+                                    </span>&nbsp;
+                                    <a style="cursor: pointer;text-decoration: none;"
+                                       ng-if="serviceCopyrightFile.copyrightFile.name"
+                                       title="{{ 'CommonLabels.Download' | translate }}"
+                                       download="{{ serviceCopyrightFile.copyrightFile.name }}"
+                                       href="{{ serviceCopyrightFile.copyrightFile | ngfDataUrl }}" target="_blank">
+                                        <span class="label label-success"><i class="fa fa-download"></i></span>
+                                    </a>
+                                    <a ng-click="editServiceCopyrightFileProfile(service, serviceCopyrightFile)" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                    </a>
+                                    <a ng-click="removeServiceCopyrightFileProfile(service, serviceCopyrightFile)" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="btn btn-default col-md-3"
+                                    ng-if="!service.serviceCopyrightFileProfileList || service.serviceCopyrightFileProfileList.length < 10"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                    ng-class="{ 'pull-right': service.serviceCopyrightFileProfileList.length > 0 }"
+                                    ng-click="addServiceCopyrightFileProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                            </button>
+                            <button class="btn btn-default col-md-3" ng-if="service.serviceCopyrightFileProfileList.length >= 10" ng-disabled="true" class="pull-right">{{ 'CommonLabels.Add' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'PartnerInfo.Services.ServiceProfile.Title' | translate }}
+                        </h5>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="CategoryID" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.CategoryID' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="CategoryID" name="CategoryID" class="form-control"
+                                    ng-model="service.serviceProfile.CategoryID"
+                                    ng-required="true"
+                                    ng-options="serviceSubCategory.profileId as serviceSubCategory.Name group by serviceSubCategory.serviceCategory.Name for serviceSubCategory in serviceSubCategories"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.CategoryID.$dirty && form.CategoryID.$invalid }"
+                                ng-show="form.CategoryID.$dirty && form.CategoryID.$invalid">
+                                <li class="required" ng-show="form.CategoryID.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LabelID" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.LabelID' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="LabelID" name="LabelID" class="form-control"
+                                    ng-model="service.serviceProfile.LabelID"
+                                    ng-options="serviceLabel.profileId as serviceLabel.Name for serviceLabel in serviceLabels"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Language" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Language' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="Language" name="Language" class="form-control parsley-validated"
+                                    ng-model="service.serviceProfile.Language"
+                                    ng-required="true"
+                                    ng-options="serviceLanguage as serviceLanguage for serviceLanguage in SERVICE_LANGUAGES"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.Language.$dirty && form.Language.$invalid }"
+                                ng-show="form.Language.$dirty && form.Language.$invalid">
+                                <li class="required" ng-show="form.Language.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label name="Type" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Type' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="Type" name="Type" class="form-control"
+                                    ng-model="service.serviceProfile.Type"
+                                    ng-required="true"
+                                    ng-change="service.onDemandi18nList=[]; service.mtServiceFeeList=[];"
+                                    ng-options="serviceType.value as serviceType.text for serviceType in SERVICE_TYPES"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.Type.$dirty && form.Type.$invalid }"
+                                ng-show="form.Type.$dirty && form.Type.$invalid">
+                                <li class="required" ng-show="form.Type.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.TrustStatus' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceProfile.TrustStatus === 'TRUSTED'?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-change="service.serviceCapabilityAccessProfileList = [];"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceProfile.TrustStatus" uib-btn-radio="'TRUSTED'">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{service.dcbServiceProfile.TrustStatus === 'UNTRUSTED'?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-change="service.serviceCapabilityAccessProfileList = [];"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceProfile.TrustStatus" uib-btn-radio="'UNTRUSTED'">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type && !service.serviceProfile.Type.startsWith('STANDARD_')">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.ServiceCapability' | translate }}</label>
+                        <div class="col-md-7">
+                            <div ng-if="service.serviceCapabilityAccessProfileList.length" class="row col-md-9">
+                                <div ng-repeat="serviceCapability in service.serviceCapabilityAccessProfileList">
+                                    <span class="label label-default selected-item-label"
+                                          uib-tooltip="{{ getServiceCapabilityAccessProfileString(serviceCapability) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                        {{ getServiceCapabilityAccessProfileString(serviceCapability) }}
+                                    </span>&nbsp;
+                                    <a ng-click="editServiceCapabilityAccessProfile(service, serviceCapability)" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                    </a>
+                                    <a ng-click="removeServiceCapabilityAccessProfile(service, serviceCapability)" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="btn btn-default col-md-3"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                    ng-class="{ 'pull-right': service.serviceCapabilityAccessProfileList.length > 0, 'ng-invalid-required': !service.serviceCapabilityAccessProfileList || service.serviceCapabilityAccessProfileList.length === 0 }"
+                                    ng-click="addServiceCapabilityAccessProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                            </button>
+                            <div style="clear: both;">
+                                <input name="selectedServiceCapabilityAccessProfileListLength" type="number" class="form-control"
+                                       ng-model="service.serviceCapabilityAccessProfileList.length"
+                                       ng-init="service.id ? (service.serviceCapabilityAccessProfileList.length > 0 ? null : service.serviceCapabilityAccessProfileList = undefined) : service.serviceCapabilityAccessProfileList = undefined"
+                                       ng-min="1" ng-required="true"
+                                       ng-show="false"/>
+                                <ul ng-class="{ 'parsley-error-list': form.selectedServiceCapabilityAccessProfileListLength.$invalid && service.serviceCapabilityAccessProfileList.length === 0 }"
+                                    ng-show="form.selectedServiceCapabilityAccessProfileListLength.$invalid && service.serviceCapabilityAccessProfileList.length === 0">
+                                    <li class="required" ng-show="form.selectedServiceCapabilityAccessProfileListLength.$error.min">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')">
+                        <label name="Usage" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Usage' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="Usage" name="Usage" class="form-control"
+                                    ng-model="service.serviceProfile.Usage"
+                                    ng-required="true"
+                                    ng-change="service.onDemandi18nList=[]; service.mtServiceFeeList=[];"
+                                    ng-options="serviceUsage as serviceUsage for serviceUsage in SERVICE_USAGES"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.Usage.$dirty && form.Usage.$invalid }"
+                                ng-show="form.Usage.$dirty && form.Usage.$invalid">
+                                <li class="required" ng-show="form.Usage.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type.startsWith('STANDARD_')">
+                        <label name="Template" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.Template' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="Template" name="Template" class="form-control"
+                                    ng-model="service.serviceProfile.Template"
+                                    ng-required="true"
+                                    ng-change="service.onDemandi18nList=[]; service.mtServiceFeeList=[]; changeTemplate()"
+                                    ng-options="serviceTemplate as serviceTemplate for serviceTemplate in SERVICE_TEMPLATES"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.Template.$dirty && form.Template.$invalid }"
+                                ng-show="form.Template.$dirty && form.Template.$invalid">
+                                <li class="required" ng-show="form.Template.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type.startsWith('STANDARD_') && (service.serviceProfile.Template === 'ALERTS' || service.serviceProfile.Template === 'ON_DEMAND' || service.serviceProfile.Template === 'SEQUENTIAL')">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.Title' | translate }}</label>
+                        <div class="col-md-7">
+                            <button class="btn btn-default col-md-3 ng-dirty"
+                                    ng-class="{ 'ng-invalid-required': (service.templateAttributes === undefined) }"
+                                    ng-click="showTemplateAttributes(service.serviceProfile.Template)">{{ 'CommonLabels.Display' | translate }}</button>
+                            <div style="clear: both;" ng-if="templateAttributesForm.$dirty && templateAttributesForm.$invalid">
+                                <ul class="parsley-error-list">
+                                    <li class="required">{{ 'PartnerInfo.Services.ServiceProfile.TemplateAttributes.Messages.RequiredAttributesError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="(service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')) && service.serviceProfile.Usage === 'SUBSCRIPTION'">
+                        <div class="form-group" >
+                            <label for="NotificationURL" class="col-md-3">{{ 'PartnerInfo.Services.SubscriptionNotificationProfile.NotificationURL' | translate }}</label>
+                            <div class="col-md-7">
+                                <input id="NotificationURL" name="NotificationURL" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                                       ng-model="service.subscriptionNotificationProfile.url"
+                                       ng-maxlength="250" maxlength="250"
+                                       ng-required="true"
+                                       ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                                <ul ng-class="{ 'parsley-error-list': form.NotificationURL.$dirty && form.NotificationURL.$invalid }"
+                                    ng-show="form.NotificationURL.$dirty && form.NotificationURL.$invalid">
+                                    <li class="required" ng-show="form.NotificationURL.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                    <li class="required" ng-show="form.NotificationURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                                    <li class="required" ng-show="form.NotificationURL.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="LegacyVsNewNotification" class="col-md-3">{{ 'PartnerInfo.Services.SubscriptionNotificationProfile.LegacyVsNewNotification' | translate }}</label>
+                            <div class="col-md-4">
+                                <select id="LegacyVsNewNotification" name="LegacyVsNewNotification" class="form-control"
+                                        ng-model="service.subscriptionNotificationProfile.LegacyVsNewNotification"
+                                        ng-required="true"
+                                        ng-options="serviceNotificationProtocol.value as serviceNotificationProtocol.text for serviceNotificationProtocol in SERVICE_NOTIFICATION_PROTOCOLS"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                </select>
+                                <ul ng-class="{ 'parsley-error-list': form.LegacyVsNewNotification.$dirty && form.LegacyVsNewNotification.$invalid }"
+                                    ng-show="form.LegacyVsNewNotification.$dirty && form.LegacyVsNewNotification.$invalid">
+                                    <li class="required" ng-show="form.LegacyVsNewNotification.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="(service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'ON_DEMAND') ||
+                                ((service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')) && service.serviceProfile.Usage === 'ON_DEMAND')">
+                        <div class="form-group">
+                            <label for="moServiceFee" class="col-md-3">{{ 'PartnerInfo.Services.MOChargingProfile.MoServiceFee' | translate }}</label>
+                            <div class="col-md-4">
+                                <input id="moServiceFee" name="moServiceFee" type="number" class="form-control"
+                                       ng-model="service.moChargingProfile.Fee"
+                                       min="0" max="999999"
+                                       ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                                <ul ng-class="{ 'parsley-error-list': form.moServiceFee.$dirty && form.moServiceFee.$invalid }"
+                                    ng-show="form.moServiceFee.$dirty && form.moServiceFee.$invalid">
+                                    <li class="required" ng-show="form.moServiceFee.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                                    <li class="required" ng-show="form.moServiceFee.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                                    <li class="required" ng-show="form.moServiceFee.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- TODO - Temporarily hidden -->
+                        <div class="form-group" ng-if="false">
+                            <label class="col-md-3">{{ 'PartnerInfo.Services.MTChargingProfile.Title' | translate }}</label>
+                            <div class="col-md-7">
+                                <div ng-if="service.mtServiceFeeList.length" class="row col-md-9">
+                                    <div ng-repeat="mtServiceFee in service.mtServiceFeeList">
+                                        <span class="label label-default selected-item-label"
+                                              uib-tooltip="{{ getMTServiceFeeProfileString(mtServiceFee) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                            {{ getMTServiceFeeProfileString(mtServiceFee) }}
+                                        </span>&nbsp;
+                                        <a ng-click="editMTServiceFeeProfile(service, mtServiceFee)" style="cursor: pointer;text-decoration: none;"
+                                           ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                            <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                        </a>
+                                        <a ng-click="removeMTServiceFeeProfile(service, mtServiceFee);form.mtServiceFeeListLength.$setDirty();" style="cursor: pointer;text-decoration: none;"
+                                           ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <button class="btn btn-default col-md-3"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-class="{ 'pull-right': service.mtServiceFeeList.length > 0 }"
+                                        ng-click="addMTServiceFeeProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'CHAPTERED'">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.KeywordChapterMappingProfile.Title' | translate }}</label>
+                        <div class="col-md-7">
+                            <div ng-if="service.keywordChapterMappingList.length" class="row col-md-9">
+                                <div ng-repeat="keywordChapterMapping in service.keywordChapterMappingList">
+                                        <span class="label label-default selected-item-label"
+                                              uib-tooltip="{{ getKeywordChapterMappingProfileString(keywordChapterMapping) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                            {{ getKeywordChapterMappingProfileString(keywordChapterMapping) }}
+                                        </span>&nbsp;
+                                    <a ng-click="editKeywordChapterMappingProfile(service, keywordChapterMapping)" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                    </a>
+                                    <a ng-click="removeKeywordChapterMappingProfile(service, keywordChapterMapping);form.keywordChapterMappingListLength.$setDirty();" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="btn btn-default col-md-3"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                    ng-class="{ 'pull-right': service.keywordChapterMappingList.length > 0 }"
+                                    ng-click="addKeywordChapterMappingProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div ng-if="(service.serviceProfile.Type.startsWith('STANDARD_') && (service.serviceProfile.Template === 'CHAPTERED' || service.serviceProfile.Template === 'ON_DEMAND')) ||
+                                ((service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')) && service.serviceProfile.Usage === 'ON_DEMAND')">
+                        <div class="form-group">
+                            <label class="col-md-3">{{ 'PartnerInfo.Services.OnDemandi18nProfile.OnDemandRequests' | translate }}</label>
+                            <div class="col-md-7">
+                                <div ng-if="service.onDemandi18nList.length" class="row col-md-9">
+                                    <div ng-repeat="onDemandi18n in service.onDemandi18nList">
+                                        <span class="label label-default selected-item-label"
+                                              uib-tooltip="{{ getOnDemandi18nProfileString(onDemandi18n) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                            {{ getOnDemandi18nProfileString(onDemandi18n) }}
+                                        </span>&nbsp;
+                                        <a ng-click="editOnDemandi18nProfile(service, onDemandi18n)" style="cursor: pointer;text-decoration: none;"
+                                           ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                            <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                        </a>
+                                        <a ng-click="removeOnDemandi18nProfile(service, onDemandi18n);form.onDemandi18nListLength.$setDirty();" style="cursor: pointer;text-decoration: none;"
+                                           ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                            <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <button class="btn btn-default col-md-3"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-class="{ 'pull-right': service.onDemandi18nList.length > 0 }"
+                                        ng-click="addOnDemandi18nProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="!(service.serviceProfile.Type.startsWith('STANDARD_') && (service.serviceProfile.Template === 'ALERTS' || service.serviceProfile.Template === 'ON_DEMAND' || service.serviceProfile.Template === 'CHAPTERED'))">
+                        <label for="URLForMOSMS" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.URLForMOSMS' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="URLForMOSMS" name="URLForMOSMS" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                                   ng-model="service.serviceProfile.URLForMOSMS"
+                                   ng-init="service.serviceProfile.URLForMOSMS = originalService.serviceProfile.URLForMOSMS"
+                                   ng-maxlength="250" maxlength="250"
+                                   ng-required="((service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')) && service.serviceProfile.Usage === 'ON_DEMAND')"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.URLForMOSMS.$dirty && form.URLForMOSMS.$invalid }"
+                                ng-show="form.URLForMOSMS.$dirty && form.URLForMOSMS.$invalid">
+                                <li class="required" ng-show="form.URLForMOSMS.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                <li class="required" ng-show="form.URLForMOSMS.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="(service.serviceProfile.Type.startsWith('STANDARD_') && (service.serviceProfile.Template === 'ON_DEMAND' || service.serviceProfile.Template === 'CHAPTERED'))">
+                        <label for="URLForMOSMS" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.URLForMOSMS' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="URLForMOSMS" name="URLForMOSMS" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                                   ng-model="service.serviceProfile.URLForMOSMS"
+                                   ng-init="service.serviceProfile.URLForMOSMS = 'http://see-vip:8025/oneapi/sms/notification'"
+                                   ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="!(service.serviceProfile.Type.startsWith('STANDARD_') && (service.serviceProfile.Template === 'ALERTS'))">
+                        <label for="URLForMOMMS" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.URLForMOMMS' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="URLForMOMMS" name="URLForMOMMS" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                                   ng-model="service.serviceProfile.URLForMOMMS"
+                                   ng-maxlength="250" maxlength="250"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.URLForMOMMS.$dirty && form.URLForMOMMS.$invalid }"
+                                ng-show="form.URLForMOMMS.$dirty && form.URLForMOMMS.$invalid">
+                                <li class="required" ng-show="form.URLForMOMMS.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                <li class="required" ng-show="form.URLForMOMMS.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.serviceProfile.Type.startsWith('CUSTOMIZED_')">
+                        <label for="LegacyVsNewOutboundAPI" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.LegacyVsNewOutboundAPI' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="LegacyVsNewOutboundAPI" name="LegacyVsNewOutboundAPI" class="form-control"
+                                    ng-model="service.serviceProfile.LegacyVsNewOutboundAPI"
+                                    ng-required="true"
+                                    ng-options="serviceLegacyVsNewOutboundAPI as serviceLegacyVsNewOutboundAPI for serviceLegacyVsNewOutboundAPI in SERVICE_OUTBOUND_APIS"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.LegacyVsNewOutboundAPI.$dirty && form.LegacyVsNewOutboundAPI.$invalid }"
+                                ng-show="form.LegacyVsNewOutboundAPI.$dirty && form.LegacyVsNewOutboundAPI.$invalid">
+                                <li class="required" ng-show="form.LegacyVsNewOutboundAPI.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SenderID" class="col-md-3">{{ 'PartnerInfo.Services.SenderIdProfile.SenderID' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="SenderID" name="SenderID" type="text" class="form-control"
+                                   placeholder="{{ 'PartnerInfo.Services.SenderIdProfile.SenderIDPlaceholder' | translate }}"
+                                   ng-model="service.senderIdProfile.SenderID"
+                                   ng-required="service.serviceProfile.Type.startsWith('STANDARD_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')"
+                                   ng-maxlength="255" maxlength="255"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.SenderID.$dirty && form.SenderID.$invalid }"
+                                ng-show="form.SenderID.$dirty && form.SenderID.$invalid">
+                                <li class="required" ng-show="form.SenderID.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                <li class="required" ng-show="form.SenderID.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-if="!service.serviceProfile.Type.startsWith('DCB_') && !service.serviceProfile.Type.startsWith('STANDARD_')">
+                        <div class="form-group">
+                            <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.IsHidingMSISDN' | translate }}</label>
+                            <div class="col-md-7">
+                                <div class="btn-group">
+                                    <button class="btn {{service.serviceProfile.IsHidingMSISDN?'btn-primary active':'btn-default'}} btn-sm"
+                                            ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                            ng-model="service.serviceProfile.IsHidingMSISDN" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                    <button class="btn {{!service.serviceProfile.IsHidingMSISDN?'btn-primary active':'btn-default'}} btn-sm"
+                                            ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                            ng-model="service.serviceProfile.IsHidingMSISDN" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="service.serviceProfile.IsHidingMSISDN">
+                            <label for="HideMSISDNWith" class="col-md-3">{{ 'PartnerInfo.Services.ServiceProfile.HideMSISDNWith' | translate }}</label>
+                            <div class="col-md-4">
+                                <select id="HideMSISDNWith" name="HideMSISDNWith" class="form-control"
+                                        ng-model="service.serviceProfile.HideMSISDNWith"
+                                        ng-required="true"
+                                        ng-options="serviceHideMSISDNWith as serviceHideMSISDNWith for serviceHideMSISDNWith in SERVICE_HIDE_MSISDN_WITH_VALUES"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                                </select>
+                                <ul ng-class="{ 'parsley-error-list': form.HideMSISDNWith.$dirty && form.HideMSISDNWith.$invalid }"
+                                    ng-show="form.HideMSISDNWith.$dirty && form.HideMSISDNWith.$invalid">
+                                    <li class="required" ng-show="form.HideMSISDNWith.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="service.id && service.productProfile.profileId &&
+                                        ((service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'ON_DEMAND') ||
+                                        ((service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')) && service.serviceProfile.Usage === 'ON_DEMAND'))">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'PartnerInfo.Services.ProductProfile.Title' | translate }}
+                        </h5>
+                    </div>
+                </div>
+                <div ng-if="service.id && service.productProfile.profileId &&
+                            ((service.serviceProfile.Type.startsWith('STANDARD_') && service.serviceProfile.Template === 'ON_DEMAND') ||
+                            ((service.serviceProfile.Type.startsWith('DCB_') || service.serviceProfile.Type.startsWith('CUSTOMIZED_')) && service.serviceProfile.Usage === 'ON_DEMAND'))">
+                    <div class="form-group">
+                        <label for="NameLangEN" class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.NameLangEN' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="NameLangEN" name="NameLangEN" type="text" class="form-control" ng-value="service.productProfile.NameLangEN" ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DescriptionLangEN" class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.DescriptionLangEN' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="DescriptionLangEN" name="DescriptionLangEN" type="text" class="form-control" ng-value="service.productProfile.DescriptionLangEN" ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="NameLangOther" class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.NameLangOther' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="NameLangOther" name="NameLangOther" type="text" class="form-control" ng-value="service.productProfile.NameLangOther" ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DescriptionLangOther" class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.DescriptionLangOther' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="DescriptionLangOther" name="DescriptionLangOther" type="text" class="form-control" ng-value="service.productProfile.DescriptionLangOther" ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Code" class="col-md-3">{{ 'PartnerInfo.Services.ProductProfile.Code' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="Code" name="Code" type="text" class="form-control" ng-value="service.productProfile.Code" ng-disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'PartnerInfo.Services.ServiceContentBasedSettlementProfile.Title' | translate }}
+                        </h5>
+                    </div>
+                </div>
+                <div ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.ServiceContentBasedSettlementProfile.Contents' | translate }}</label>
+                        <div class="col-md-7">
+                            <div ng-if="service.contentBasedSettlementList.length" class="row col-md-9">
+                                <div ng-repeat="contentBasedSettlement in service.contentBasedSettlementList">
+                                <span class="label label-default selected-item-label"
+                                      uib-tooltip="{{ getServiceContentBasedSettlementProfileString(contentBasedSettlement) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                    {{ getServiceContentBasedSettlementProfileString(contentBasedSettlement) }}
+                                </span>&nbsp;
+                                    <a ng-click="editServiceContentBasedSettlementProfile(service, contentBasedSettlement)" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-secondary"><i class="fa fa-edit"></i></span>
+                                    </a>
+                                    <a ng-click="removeServiceContentBasedSettlementProfile(service, contentBasedSettlement);form.contentBasedSettlementListLength.$setDirty();" style="cursor: pointer;text-decoration: none;"
+                                       ng-if="(service.id ? AuthorizationService.canPrmServiceUpdate(service.state) : AuthorizationService.canPrmServiceCreate())">
+                                        <span class="label label-danger"><i class="fa fa-times"></i></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="btn btn-default col-md-3"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())""
+                                    ng-class="{ 'pull-right': service.contentBasedSettlementList.length > 0 }"
+                                    ng-click="addServiceContentBasedSettlementProfile(service)">{{ 'CommonLabels.Add' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'PartnerInfo.Services.DCBSettings.DCBSettings' | translate }}
+                        </h5>
+                    </div>
+                </div>
+                <div ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                    <div class="form-group">
+                        <label for="AggregatorName" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.AggregatorName' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="AggregatorName" name="AggregatorName" type="text" class="form-control" dir="auto"
+                                   ng-model="service.dcbServiceProfile.AggregatorName"
+                                   ng-maxlength="50"
+                                   ng-required="true"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.AggregatorName.$dirty && form.AggregatorName.$invalid }"
+                                ng-show="form.AggregatorName.$dirty && form.AggregatorName.$invalid">
+                                <li class="required" ng-show="form.AggregatorName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                <li class="required" ng-show="form.AggregatorName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="OTTName" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.OTTName' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="OTTName" name="OTTName" type="text" class="form-control" dir="auto"
+                                   ng-model="service.dcbServiceProfile.OTTName"
+                                   ng-maxlength="50"
+                                   ng-required="true"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.OTTName.$dirty && form.OTTName.$invalid }"
+                                ng-show="form.OTTName.$dirty && form.OTTName.$invalid">
+                                <li class="required" ng-show="form.OTTName.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                <li class="required" ng-show="form.OTTName.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CarrierId" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.CarrierId' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="CarrierId" name="CarrierId" type="text" class="form-control" dir="auto"
+                                   ng-model="service.dcbServiceProfile.CarrierId"
+                                   ng-maxlength="50"
+                                   ng-required="true"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.CarrierId.$dirty && form.CarrierId.$invalid }"
+                                ng-show="form.CarrierId.$dirty && form.CarrierId.$invalid">
+                                <li class="required" ng-show="form.CarrierId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                                <li class="required" ng-show="form.CarrierId.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.id">
+                        <label for="SilentSMSShortCode" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.SilentSMSShortCode' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="SilentSMSShortCode" name="SilentSMSShortCode" type="text" class="form-control"
+                                   ng-value="service.dcbServiceProfile.SilentSMSShortCode"
+                                   ng-disabled="true"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Currency" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.Currency' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="Currency" name="Currency" class="form-control"
+                                    ng-model="service.dcbServiceProfile.Currency"
+                                    ng-required="true"
+                                    ng-options="serviceCurrency as serviceCurrency for serviceCurrency in SERVICE_CURRENCIES"
+                                    ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())">
+                                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                            </select>
+                            <ul ng-class="{ 'parsley-error-list': form.Currency.$dirty && form.Currency.$invalid }"
+                                ng-show="form.Currency.$dirty && form.Currency.$invalid">
+                                <li class="required" ng-show="form.Currency.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="AssociationAPIURL" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.AssociationAPIURL' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="AssociationAPIURL" name="AssociationAPIURL" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                                   ng-model="service.dcbServiceProfile.AssociationAPIURL"
+                                   ng-maxlength="250" maxlength="250"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.AssociationAPIURL.$dirty && form.AssociationAPIURL.$invalid }"
+                                ng-show="form.AssociationAPIURL.$dirty && form.AssociationAPIURL.$invalid">
+                                <li class="required" ng-show="form.AssociationAPIURL.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                <li class="required" ng-show="form.AssociationAPIURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DeassociationAPIURL" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.DeassociationAPIURL' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="DeassociationAPIURL" name="DeassociationAPIURL" type="url" class="form-control" placeholder="{{ 'CommonLabels.UrlPlaceholder' | translate }}"
+                                   ng-model="service.dcbServiceProfile.DeassociationAPIURL"
+                                   ng-maxlength="250" maxlength="250"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.DeassociationAPIURL.$dirty && form.DeassociationAPIURL.$invalid }"
+                                ng-show="form.DeassociationAPIURL.$dirty && form.DeassociationAPIURL.$invalid">
+                                <li class="required" ng-show="form.DeassociationAPIURL.$error.url">{{ 'CommonMessages.InvalidURL' | translate }}</li>
+                                <li class="required" ng-show="form.DeassociationAPIURL.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 250} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ClientAPIUsername" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.ClientAPIUsername' | translate }}</label>
+                        <div class="col-md-5">
+                            <input id="ClientAPIUsername"name="ClientAPIUsername" type="text" class="form-control"
+                                   ng-model="service.dcbServiceProfile.ClientAPIUsername"
+                                   ng-maxlength="100" maxlength="100"
+                                   ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                            <ul ng-class="{ 'parsley-error-list': form.ClientAPIUsername.$dirty && form.ClientAPIUsername.$invalid }"
+                                ng-show="form.ClientAPIUsername.$dirty && form.ClientAPIUsername.$invalid">
+                                <li class="required" ng-show="form.ClientAPIUsername.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ClientAPIPassword" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.ClientAPIPassword' | translate }}</label>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input id="dummyClientAPIPassword" name="dummyClientAPIPassword" type="password" style="display:none;width:0;height:0"/>
+                                <input id="ClientAPIPassword" name="ClientAPIPassword" type="{{showClientAPIPassword ? 'text' : 'password'}}" class="form-control"
+                                       ng-model="service.dcbServiceProfile.ClientAPIPassword"
+                                       ng-maxlength="50" maxlength="50"
+                                       ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"/>
+                                <div class="input-group-btn" ng-init="showClientAPIPassword = false;">
+                                    <button class="btn btn-default" ng-click="showClientAPIPassword = !showClientAPIPassword" type="button">{{ (showClientAPIPassword ? 'CommonLabels.Hide' : 'CommonLabels.Show') | translate }}</button>
+                                </div>
+                            </div>
+                            <ul ng-class="{ 'parsley-error-list': form.ClientAPIPassword.$dirty && form.ClientAPIPassword.$invalid }"
+                                ng-show="form.ClientAPIPassword.$dirty && form.ClientAPIPassword.$invalid">
+                                <li class="required" ng-show="form.ClientAPIPassword.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.BlockDCBEnabled' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceProfile.BlockDCBEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="!AuthorizationService.canPrmServiceUpdate(service.state)"
+                                        ng-model="service.dcbServiceProfile.BlockDCBEnabled" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceProfile.BlockDCBEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="!AuthorizationService.canPrmServiceUpdate(service.state)"
+                                        ng-model="service.dcbServiceProfile.BlockDCBEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.id">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceProfile.IsCapped' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group" ng-if="service.id">
+                                <button class="btn {{service.dcbServiceProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="true">{{ 'CommonLabels.Yes' | translate }}
+                                </button>
+                                <button class="btn {{!service.dcbServiceProfile.IsCapped?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="true">{{ 'CommonLabels.No' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                    <div class="col-md-10">
+                        <h5 class="portlet-title">
+                            {{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.Title' | translate }}
+                        </h5>
+                    </div>
+                </div>
+                <div ng-if="service.serviceProfile.Type.startsWith('DCB_')">
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseHeaderEnrichment' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceActivationProfile.UseHeaderEnrichment?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseHeaderEnrichment" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceActivationProfile.UseHeaderEnrichment?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseHeaderEnrichment" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseSilentSMS' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceActivationProfile.UseSilentSMS?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseSilentSMS" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceActivationProfile.UseSilentSMS?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseSilentSMS" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseOTTOTP' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceActivationProfile.UseOTTOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseOTTOTP" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceActivationProfile.UseOTTOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseOTTOTP" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.UseOperatorOTP' | translate }}</label>
+                        <div class="col-md-7">
+                            <div class="btn-group">
+                                <button class="btn {{service.dcbServiceActivationProfile.UseOperatorOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseOperatorOTP" uib-btn-radio="true">{{ 'CommonLabels.Yes' | translate }}</button>
+                                <button class="btn {{!service.dcbServiceActivationProfile.UseOperatorOTP?'btn-primary active':'btn-default'}} btn-sm"
+                                        ng-disabled="(service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate())"
+                                        ng-model="service.dcbServiceActivationProfile.UseOperatorOTP" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.id">
+                        <label for="SubscriberIDatOperator" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.SubscriberIDatOperator' | translate }}</label>
+                        <div class="col-md-4">
+                            <select id="SubscriberIDatOperator" name="SubscriberIDatOperator" class="form-control"
+                                    ng-disabled="true">
+                                <option value="">{{ service.dcbServiceActivationProfile.SubscriberIDatOperator }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="service.id">
+                        <label for="SubscriberIDatOTT" class="col-md-3">{{ 'PartnerInfo.Services.DCBSettings.DCBServiceActivationProfile.SubscriberIDatOTT' | translate }}</label>
+                        <div class="col-md-7">
+                            <input id="SubscriberIDatOTT" name="SubscriberIDatOTT" type="text" class="form-control" dir="auto"
+                                   ng-value="service.dcbServiceActivationProfile.SubscriberIDatOTT"
+                                   ng-disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-7 col-md-push-3">
+                        <button type="submit" class="btn btn-danger"
+                                ng-disabled="form.$invalid ||
+                                             (service.serviceProfile.Type.startsWith('STANDARD_') &&
+                                             (service.serviceProfile.Template === 'ALERTS' || service.serviceProfile.Template === 'ON_DEMAND' || service.serviceProfile.Template === 'SEQUENTIAL') &&
+                                             (service.templateAttributes === undefined || templateAttributesForm.$invalid)) ||
+                                             (service.id ? !AuthorizationService.canPrmServiceUpdate(service.state) : !AuthorizationService.canPrmServiceCreate()) || isNotChanged()"
+                                ng-click="save(service);">
+                            {{ 'CommonLabels.Save' | translate }}
+                        </button>
+                        <button type="reset" class="btn btn-default" ng-click="cancel();">
+                            {{ 'CommonLabels.Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

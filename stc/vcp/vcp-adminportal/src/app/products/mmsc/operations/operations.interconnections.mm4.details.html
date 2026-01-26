@@ -1,0 +1,99 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.MMSC.Operations.Interconnections.PageHeader' | translate }} / {{ 'Products.MMSC.Operations.Interconnections.MM4.PageHeader' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.Name.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input name="name" type="text" class="form-control" maxlength="20" ng-required="true"
+                       ng-model="operator.name" ng-disabled="operator.id"
+                       placeholder="{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.Name.Placeholder' | translate }}"/>
+                <ul ng-class="{ 'parsley-error-list': form.name.$dirty && form.name.$invalid }" ng-show="form.name.$dirty && form.name.$invalid">
+                    <li class="required" ng-show="form.name.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.Type.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="operatorType" class="form-control parsley-validated" ng-model="operator.operatorType" ng-options="opt as opt for opt in interconnections">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.Status.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="state" class="form-control parsley-validated" ng-model="status" ng-options="opt as opt.name for opt in statusTypes">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.Domain.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="domain" type="text" class="form-control" ng-model="operator.domain" ng-required="true" ng-maxlength="50" maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.domain.$dirty && form.domain.$invalid }" ng-show="form.domain.$dirty && form.domain.$invalid">
+                    <li class="required" ng-show="form.domain.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.domain.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.SystemUser.Label' | translate }}</label>
+            <div class="col-md-7">
+                <input name="systemUser" type="text" class="form-control" ng-model="operator.systemUser" ng-required="true" ng-maxlength="50" maxlength="50"/>
+                <ul ng-class="{ 'parsley-error-list': form.systemUser.$dirty && form.systemUser.$invalid }" ng-show="form.systemUser.$dirty && form.systemUser.$invalid">
+                    <li class="required" ng-show="form.systemUser.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    <li class="required" ng-show="form.systemUser.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.MnpId.Label' | translate}}</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control" ng-model="operator.mnpId"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.DeliveryReportMOPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <select name="deliveryReportMOPolicy" class="form-control parsley-validated" ng-model="deliveryReportMOPolicy" ng-options="opt as opt.text for opt in deliveryReportPolicies">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.MMSC.Operations.Interconnections.MM4.FormFields.DeliveryReportMTPolicy' | translate }}</label>
+            <div class="col-md-7">
+                <select name="deliveryReportMTPolicy" class="form-control parsley-validated" ng-model="deliveryReportMTPolicy" ng-options="opt as opt.text for opt in deliveryReportPolicies">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (operator.id && !AuthorizationService.canUpdate()) || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

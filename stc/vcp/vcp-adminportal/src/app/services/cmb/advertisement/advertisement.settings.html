@@ -1,0 +1,41 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Services.P4M.Configuration.Settings' | translate }}
+    </h4>
+</div>
+    <form class="form-horizontal" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Services.CMB.Advertisement.AdvertisementEnabled' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group">
+                    <button type="button"
+                            class="btn {{serviceProfile.advertisementEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.advertisementEnabled" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button"
+                            class="btn {{!serviceProfile.advertisementEnabled?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="serviceProfile.advertisementEnabled" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isConfigurationNotChanged()"
+                        ng-click="save(serviceProfile);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();" ng-disabled="!AuthorizationService.canUpdateConfiguration()"  >
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+        
+    </form>
+
+</div>

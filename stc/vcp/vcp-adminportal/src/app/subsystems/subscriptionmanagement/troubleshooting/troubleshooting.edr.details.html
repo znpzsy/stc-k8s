@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Subsystems.SubscriptionManagement.Troubleshooting.Details.PageHeader' | translate:{ msisdn: edrRecord.msisdn, offerName: edrRecord.offerName } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 100%;margin-bottom: 20px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key"
+                            uib-popover="{{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumnsTooltips.TransactionId' | translate }}"
+                            popover-placement="bottom" popover-animation="false" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">
+                            {{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumns.TransactionId' | translate }}
+                        </td>
+                        <td class="kv-value">{{ edrRecord.transactionId }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key"
+                            uib-popover="{{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumnsTooltips.State' | translate }}"
+                            popover-placement="bottom" popover-animation="false" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">
+                            {{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumns.State' | translate }}
+                        </td>
+                        <td class="kv-value">{{ edrRecord.state }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key"
+                            uib-popover-html="'{{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumnsTooltips.InactivationReason' | translate }}'"
+                            popover-placement="bottom" popover-animation="false" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">
+                            {{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumns.InactivationReason' | translate }}
+                        </td>
+                        <td class="kv-value">{{ edrRecord.inactivationReason }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key"
+                            uib-popover="{{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumnsTooltips.SubscriberNotificationType' | translate }}"
+                            popover-placement="bottom" popover-animation="false" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">
+                            {{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumns.SubscriberNotificationType' | translate }}
+                        </td>
+                        <td class="kv-value">{{ edrRecord.subscriberNotificationType }}&nbsp;</td>
+                    </tr>
+                    <tr ng-if="edrRecord.error">
+                        <td class="kv-key"
+                            uib-popover="{{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumnsTooltips.ErrorDescription' | translate }}"
+                            popover-placement="bottom" popover-animation="false" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">
+                            {{ 'Subsystems.SubscriptionManagement.Troubleshooting.TableColumns.ErrorDescription' | translate }}
+                        </td>
+                        <td class="kv-value">{{ edrRecord.error }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

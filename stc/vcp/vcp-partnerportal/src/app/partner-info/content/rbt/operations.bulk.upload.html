@@ -1,0 +1,143 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'PartnerInfo.Contents.RBT.BulkOperations.Title' | translate }} / {{ 'PartnerInfo.Contents.RBT.BulkOperations.BulkUpload.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+
+        <div class="form-group">
+            <label class="col-md-3">
+                {{ 'PartnerInfo.Contents.RBT.BulkOperations.BulkUpload.FormFields.TemplateFile' | translate }}
+                <span class="fa fa-question-circle"
+                      uib-tooltip="{{ 'FileOperationLabels.BulkUploadTemplateFileExplanation' | translate }}"
+                      tooltip-placement="top"
+                      style="margin-left: 6px; cursor: pointer;">
+                </span>
+                <br/>
+                <!--<small>({{ 'FileOperationLabels.BulkUploadTemplateFileExplanation' | translate }})</small>-->
+            </label>
+            <div class="col-md-7">
+                <div class="btn-group" role="group" ng-show="!bulkObject.templateFile.name">
+                    <button name="templateFile" type="file" class="btn btn-sm btn-block btn-default" style="width: 282px;"
+                            title="{{ (bulkObject.templateFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                            ngf-select
+                            ng-model="bulkObject.templateFile"
+                            ng-init="bulkObject.templateFile ? bulkObject.templateFile.name = bulkObject.templateFile.$ngfName : null"
+                            ngf-change="form.templateFile.$setDirty(); templateFileChanged(bulkObject.templateFile);"
+                            ngf-accept="'.csv, text/csv'"
+                            ngf-max-size="50MB"
+                            ng-required="true"
+                            ngf-model-invalid="errorToneFile"
+                            ng-disabled="uploading || !AuthorizationService.canRBTToneCreate()">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;&nbsp;
+                        {{ (bulkObject.templateFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                    </button>
+                </div>
+                <div class="btn-group" role="group" ng-show="bulkObject.templateFile.name">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{bulkObject.templateFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ bulkObject.templateFile.name }}
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="bulkObject.templateFile = null;"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                            ng-disabled="uploading || !AuthorizationService.canRBTToneCreate()"
+                            ng-if="bulkObject.templateFile.name && AuthorizationService.canRBTToneCreate()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <a class="btn btn-sm btn-info"
+                   title="{{ 'PartnerInfo.Contents.RBT.BulkOperations.BulkUpload.FormFields.DownloadTemplateFile' | translate }}"
+                   uib-tooltip="{{ 'FileOperationLabels.BulkUploadDownloadSampleTemplateExplanation' | translate }}"
+                   tooltip-placement="top"
+                   style="margin-left: 5px; cursor: pointer;"
+                   download="{{ bulkObject.templateSample.name }}"
+                   href="{{ bulkObject.templateSample | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canRBTToneRead()">
+                    <i ng-show="!bulkObject.templateSample.name" class="fa fa-spinner fa-spin pull-right title-spinner" aria-hidden="true"></i>
+                    <i ng-show="bulkObject.templateSample.name" class="fa fa-download" aria-hidden="true"></i>
+                </a>
+                <ul ng-class="{ 'parsley-error-list': form.templateFile.$dirty && form.templateFile.$invalid }" style="width: 282px;"
+                    ng-show="form.templateFile.$dirty && form.templateFile.$invalid">
+                    <li class="required" ng-show="form.templateFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.templateFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-3">
+                {{ 'PartnerInfo.Contents.RBT.BulkOperations.BulkUpload.FormFields.BatchFileZip' | translate }}
+                <span class="fa fa-question-circle"
+                      uib-tooltip="{{ 'FileOperationLabels.BulkUploadZipFileExplanation' | translate }}"
+                      tooltip-placement="top"
+                      style="margin-left: 6px; cursor: pointer;">
+                </span>
+                <br/>
+            </label>
+            <div class="col-md-7">
+                <div class="btn-group" role="group" ng-show="!bulkObject.contentZipFile.name">
+                    <button name="contentZipFile" type="file" class="btn btn-sm btn-block btn-default" style="width: 282px;"
+                            title="{{ (bulkObject.contentZipFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                            ngf-select
+                            ng-model="bulkObject.contentZipFile"
+                            ng-init="bulkObject.contentZipFile ? bulkObject.contentZipFile.name = bulkObject.contentZipFile.$ngfName : null"
+                            ngf-change="form.contentZipFile.$setDirty();"
+                            ngf-accept="'.zip, application/zip, application/x-zip-compressed, multipart/x-zip'"
+                            ngf-max-size="50MB"
+                            ng-required="true"
+                            ngf-model-invalid="errorToneFile"
+                            ng-disabled="uploading || !AuthorizationService.canRBTToneCreate()">
+                        <i class="fa fa-file-archive-o" aria-hidden="true"></i>&nbsp;&nbsp;
+                        {{ (bulkObject.contentZipFile.name ? 'FileOperationLabels.Change' : 'FileOperationLabels.Browse') | translate }}
+                    </button>
+                </div>
+                <div class="btn-group" role="group" ng-show="bulkObject.contentZipFile.name">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{bulkObject.contentZipFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ bulkObject.contentZipFile.name }}
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="bulkObject.contentZipFile = null;"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                            ng-disabled="uploading || !AuthorizationService.canRBTToneCreate()"
+                            ng-if="bulkObject.contentZipFile.name && AuthorizationService.canRBTToneCreate()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <a class="btn btn-sm btn-info"
+                   title="{{ 'PartnerInfo.Contents.RBT.BulkOperations.BulkUpload.FormFields.DownloadBatchFileZip' | translate }}"
+                   uib-tooltip="{{ 'FileOperationLabels.BulkUploadDownloadSampleZipExplanation' | translate }}"
+                   tooltip-placement="top"
+                   style="margin-left: 5px; cursor: pointer;"
+                   download="{{ bulkObject.contentZipSample.name }}"
+                   href="{{ bulkObject.contentZipSample | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canRBTToneRead()">
+                    <i ng-show="!bulkObject.contentZipSample.name" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                    <i ng-show="bulkObject.contentZipSample.name" class="fa fa-download" aria-hidden="true"></i>
+                </a>
+                <ul ng-class="{ 'parsley-error-list': form.contentZipFile.$dirty && form.contentZipFile.$invalid }" style="width: 282px;"
+                    ng-show="form.contentZipFile.$dirty && form.contentZipFile.$invalid">
+                    <li class="required" ng-show="form.contentZipFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.contentZipFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-9 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || uploading || !AuthorizationService.canRBTToneCreate()"
+                        ng-click="upload(bulkObject);">
+                    {{ 'CommonLabels.Submit' | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

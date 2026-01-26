@@ -1,0 +1,6 @@
+{
+  "algorithm": "HS256",
+  "secret": "<secret>",
+  "tokenExpireTime": 3600000, // DELETE THIS COMMENT - 1 hour in miliseconds
+  "refreshTokenNotBeforeTime": 3300000 // DELETE THIS COMMENT - 55 minutes in miliseconds
+}

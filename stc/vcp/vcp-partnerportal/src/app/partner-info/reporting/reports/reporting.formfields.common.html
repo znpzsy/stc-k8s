@@ -1,0 +1,255 @@
+<div class="form-group" ng-if="channels">
+    <label class="col-md-3">{{ 'PartnerInfo.Reporting.Channel' | translate }}</label>
+    <div class="col-md-3">
+        <select class="form-control parsley-validated" ng-model="$parent.channel"
+                ng-change="changeMsggwChannel($parent.channel);"
+                ng-disabled="true"
+                ng-options="channel as channel for channel in channels">
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="REPORTING_BMS_CHANNELS">
+    <label for="channel" class="col-md-3">{{ 'PartnerInfo.Reporting.Category' | translate }}</label>
+    <div class="col-md-4">
+        <select id="channel" name="channel" class="form-control parsley-validated" ng-model="$parent.channel"
+                ng-change="changeBMSChannel($parent.channel);"
+                ng-options="channel as channel for channel in REPORTING_BMS_CHANNELS">
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="reportCategory" class="col-md-3">{{ 'PartnerInfo.Reporting.Category' | translate }}</label>
+    <div class="col-md-9">
+        <select id="reportCategory" name="reportCategory" class="form-control parsley-validated"
+                ng-model="$parent.reportCategory"
+                ng-options="report as report.label group by report.group for report in REPORTS"
+                ng-init="changeReportCategory($parent.reportCategory);"
+                ng-change="changeReportCategory($parent.reportCategory);">
+        </select>
+    </div>
+</div>
+
+<!-- Show the template selection for only on demand report pages. -->
+<!-- Report Template -->
+<div class="form-group" ng-if="reportTemplateList.length > 0">
+    <label for="reportTemplate" class="col-md-3">{{ 'PartnerInfo.Reporting.ReportTemplate.Title' | translate }}</label>
+    <div class="col-md-6">
+        <div class="input-group">
+            <ui-select theme="bootstrap" allow-clear="true" append-to-body="true"
+                       ng-model="$parent.$parent.$parent.reportTemplate"
+                       on-select="applyReportTemplate($parent.$parent.$parent.reportTemplate); form.reportTemplate.$setDirty();"
+                       ng-disabled="!AuthorizationService.canPrmReportsOnDemandRead()">
+                <ui-select-match placeholder="{{ 'CommonLabels.SelectOne' | translate }}">
+                    <span ng-bind="$select.selected.TemplateName"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="reportTemplateItem as reportTemplateItem in (reportTemplateList | filter: $select.search) track by reportTemplateItem.TemplateName">
+                    <div ng-bind-html="reportTemplateItem.TemplateName | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+            <span class="input-group-btn">
+                <button type="button" ng-click="$parent.$parent.reportTemplate = null;" class="btn btn-default">
+                    <span class="fa fa-times"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default"
+                    uib-tooltip="{{ 'CommonLabels.Update' | translate }}" tooltip-placement="top" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                    ng-disabled="reportTemplate === null || isUpdated()"
+                    ng-click="updateReportTemplate(reportTemplate, reportCategory, interval, formatPentaho, dateHolder, permanentParams, additionalParams);">
+                <span class="fa fa-save"></span>
+            </button>
+            <button type="button" class="btn btn-danger"
+                    uib-tooltip="{{ 'CommonLabels.Delete' | translate }}" tooltip-placement="top" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+                    ng-disabled="reportTemplate === null"
+                    ng-click="removeReportTemplate(reportTemplate);">
+                <span class="fa fa-trash"></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<hr ng-if="reportCategory.additionalFields.length > 0 && reportTemplateList.length > 0">
+<!-- // Report Template -->
+
+<span ng-if="isParamActive(reportCategory.additionalFields, 'serviceId')">
+    <div class="form-group">
+        <label for="serviceId" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Service' | translate }}</label>
+        <div class="col-md-7">
+            <select id="serviceId" name="serviceId" destroy-additional-field
+                    ng-model="$parent.additionalParams.serviceId" class="form-control"
+                    ng-options="service.id as service.name for service in serviceList">
+                <option value="">{{ 'CommonLabels.All' | translate }}</option>
+            </select>
+        </div>
+    </div>
+</span>
+
+<!-- SSM Specific Fields -->
+<span ng-if="isParamActive(reportCategory.additionalFields, 'ssmServiceId')">
+    <div class="form-group">
+        <label for="ssmServiceId" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Service' | translate }}</label>
+        <div class="col-md-7">
+            <select id="ssmServiceId" name="ssmServiceId"
+                    destroy-additional-field
+                    ng-model="$parent.additionalParams.serviceId" class="form-control"
+                    ng-options="service.id as service.name for service in serviceList">
+                <option value="">{{ 'CommonLabels.All' | translate }}</option>
+            </select>
+        </div>
+    </div>
+</span>
+
+<span ng-if="isParamActive(reportCategory.additionalFields, 'ssmOfferId')">
+    <div class="form-group">
+        <label for="ssmOfferId" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Offer' | translate }}</label>
+        <div class="col-md-7">
+            <select id="ssmOfferId" name="ssmOfferId"
+                    destroy-additional-field
+                    ng-model="$parent.additionalParams.offerId" class="form-control"
+                    ng-options="offer.id as offer.name for offer in offerList">
+                <option value="">{{ 'CommonLabels.All' | translate }}</option>
+            </select>
+        </div>
+    </div>
+</span>
+
+<span ng-if="isParamActive(reportCategory.additionalFields, 'contentType')">
+    <div class="form-group">
+        <label for="contentType" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.ContentType' | translate }}</label>
+        <div class="col-md-7">
+            <select id="contentType" name="contentType"
+                    destroy-additional-field
+                    ng-model="$parent.additionalParams.contentType" class="form-control"
+                    ng-options="contentType as contentType for contentType in contentTypeList">
+                <option value="">{{ 'CommonLabels.All' | translate }}</option>
+            </select>
+        </div>
+    </div>
+</span>
+<!-- // SSM Specific Fields -->
+
+<!-- BMS Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'user')">
+    <label for="user" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.User' | translate }}</label>
+    <div class="col-md-7">
+        <select id="user" name="user" class="form-control"
+                destroy-additional-field
+                ng-model="$parent.additionalParams.user"
+                ng-options="userAccount.userName as userAccount.userName for userAccount in userAccountList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'campaignId')">
+    <label for="campaignId" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.CampaignId' | translate }}</label>
+    <div class="col-md-4">
+        <input id="campaignId" name="campaignId" type="text" class="form-control input-sm"
+               destroy-additional-field
+               ng-model="$parent.additionalParams.campaignId"
+               ng-maxlength="100"/>
+        <ul ng-class="{ 'parsley-error-list': form.campaignId.$dirty && form.campaignId.$invalid }" ng-show="form.campaignId.$dirty && form.campaignId.$invalid">
+            <li class="required" ng-show="form.campaignId.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 100} }}</li>
+        </ul>
+    </div>
+</div>
+
+<span ng-if="isParamActive(reportCategory.additionalFields, 'dspchannel')">
+    <div class="form-group">
+        <label for="channel" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Channel' | translate }}</label>
+        <div class="col-md-7">
+            <select id="channel" name="channel"
+                    destroy-additional-field
+                    ng-model="$parent.additionalParams.channel" class="form-control"
+                    ng-options="channel.value as channel.text for channel in SUBSCRIPTION_MANAGEMENT_CHANNEL_TYPES">
+                <option value="">{{ 'CommonLabels.All' | translate }}</option>
+            </select>
+        </div>
+    </div>
+</span>
+
+<span ng-if="isParamActive(reportCategory.additionalFields, 'rbtchannel')">
+    <div class="form-group">
+        <label for="channel" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Channel' | translate }}</label>
+        <div class="col-md-7">
+            <select id="channel" name="channel"
+                    destroy-additional-field
+                    ng-model="$parent.additionalParams.channel" class="form-control"
+                    ng-options="channel.value as channel.text for channel in SUBSCRIPTION_MANAGEMENT_CHANNEL_TYPES_RBT">
+                <option value="">{{ 'CommonLabels.All' | translate }}</option>
+            </select>
+        </div>
+    </div>
+</span>
+
+<!-- // BMS Specific Fields -->
+
+<!-- API Manager Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'applicationName')">
+    <label class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Application' | translate }}</label>
+    <div class="col-md-7">
+        <select id="applicationName" name="applicationName" destroy-additional-field
+                ng-model="$parent.additionalParams.applicationName" class="form-control"
+                ng-options="application.name as application.name for application in applicationList">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'apiName')">
+    <label class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.API' | translate }}</label>
+    <div class="col-md-7">
+        <select id="apiName" name="apiName" destroy-additional-field
+                ng-model="$parent.api" class="form-control"
+                ng-options="api as (api.apiName + ' - ' + api.versionName) for api in apiList"
+                ng-change="setApiProperties(api)">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'apiMethodName') && $parent.additionalParams.apiName">
+    <label class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.Method' | translate }}</label>
+    <div class="col-md-7">
+        <select id="apiMethodName" name="apiMethodName" destroy-additional-field
+                ng-model="$parent.additionalParams.apiMethodName" class="form-control"
+                ng-options="method.name as method.name for method in apiList[$parent.api.index].methods">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+<!-- // API Manager Specific Fields -->
+
+<!-- Revenue Specific Fields -->
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'businessType')">
+    <label for="businessType" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.BusinessType' | translate }}</label>
+    <div class="col-md-7">
+        <select id="businessType" name="businessType" destroy-additional-field
+                ng-model="$parent.additionalParams.businessType" class="form-control"
+                ng-options="businessType.Name as businessType.Name for businessType in businessTypes">
+            <option value="">{{ 'CommonLabels.All' | translate }}</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group" ng-if="isParamActive(reportCategory.additionalFields, 'topN')">
+    <label for="topN" class="col-md-3">{{ 'PartnerInfo.Reporting.AdditionalParams.TopN' | translate }}</label>
+    <div class="col-md-5">
+        <input id="topN" name="topN" type="number" class="form-control" destroy-additional-field
+               uib-tooltip="{{ 'PartnerInfo.Reporting.AdditionalParams.TopNPlaceholder' | translate }}" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true"
+               ng-model="$parent.additionalParams.topN"
+               min="0" max="9999"/>
+        <ul ng-class="{ 'parsley-error-list': form.topN.$dirty && form.topN.$invalid }"
+            ng-show="form.topN.$dirty && form.topN.$invalid">
+            <li class="required" ng-show="form.topN.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+            <li class="required" ng-show="form.topN.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 9999 } }}</li>
+            <li class="required" ng-show="form.topN.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+        </ul>
+    </div>
+</div>
+<!-- // Revenue Specific Fields -->

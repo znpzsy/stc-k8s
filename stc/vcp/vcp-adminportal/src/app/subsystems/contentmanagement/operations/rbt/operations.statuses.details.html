@@ -1,0 +1,159 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'CommonLabels.RBT' | translate }} / {{ 'Subsystems.ContentManagement.Operations.RBT.Statuses.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+        <fieldset id="formFieldset">
+
+            <div class="form-group" ng-if="status.id">
+                <label class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.Statuses.Id' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="statusId" name="statusId" type="text" class="form-control"
+                           ng-value="status.id"
+                           ng-disabled="true"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nameen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleEn' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="nameen" name="nameen" type="text" class="form-control" dir="auto"
+                           ng-model="status.nameEn"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(status.id ? !AuthorizationService.canRBTOperationsToneUpdate(status.status) : !AuthorizationService.canRBTOperationsToneCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.nameen.$dirty && form.nameen.$invalid }"
+                        ng-show="form.nameen.$dirty && form.nameen.$invalid">
+                        <li class="required" ng-show="form.nameen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.nameen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionen" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionEn' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionen" name="descriptionen" class="form-control" dir="auto"
+                              ng-model="status.descriptionEn"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(status.id ? !AuthorizationService.canRBTOperationsToneUpdate(status.status) : !AuthorizationService.canRBTOperationsToneCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionen.$dirty && form.descriptionen.$invalid }"
+                        ng-show="form.descriptionen.$dirty && form.descriptionen.$invalid">
+                        <li class="required" ng-show="form.descriptionen.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionen.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="namear" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.TitleAr' | translate }}</label>
+                <div class="col-md-7">
+                    <input id="namear" name="namear" type="text" class="form-control" dir="auto"
+                           ng-model="status.nameAr"
+                           ng-required="true" ng-maxlength="50"
+                           ng-disabled="(status.id ? !AuthorizationService.canRBTOperationsToneUpdate(status.status) : !AuthorizationService.canRBTOperationsToneCreate())"/>
+                    <ul ng-class="{ 'parsley-error-list': form.namear.$dirty && form.namear.$invalid }"
+                        ng-show="form.namear.$dirty && form.namear.$invalid">
+                        <li class="required" ng-show="form.namear.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.namear.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 50} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descriptionar" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ContentInfo.DescriptionAr' | translate }}</label>
+                <div class="col-md-7">
+                    <textarea id="descriptionar" name="descriptionar" class="form-control" dir="auto"
+                              ng-model="status.descriptionAr"
+                              rows="3" ng-maxlength="255" maxlength="255" ng-required="true"
+                              ng-disabled="(status.id ? !AuthorizationService.canRBTOperationsToneUpdate(status.status) : !AuthorizationService.canRBTOperationsToneCreate())">
+                    </textarea>
+                    <ul ng-class="{ 'parsley-error-list': form.descriptionar.$dirty && form.descriptionar.$invalid }"
+                        ng-show="form.descriptionar.$dirty && form.descriptionar.$invalid">
+                        <li class="required" ng-show="form.descriptionar.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.descriptionar.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{max_length: 255} }}</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-md-3">
+                    {{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.ToneFile' | translate }}<br/>
+                    <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+                </label>
+                <div class="col-md-7">
+                    <div ng-show="!contentMetadata.toneFile.name">
+                        <!-- Select button -->
+                        <button name="toneFile" type="file" class="btn btn-sm btn-block btn-default"
+                                title="{{ (contentMetadata.toneFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                                style="width: 262px;"
+                                ngf-select
+                                ng-model="contentMetadata.toneFile"
+                                ng-init="contentMetadata.toneFile ? contentMetadata.toneFile.name = contentMetadata.toneFile.$ngfName : null"
+                                ngf-change="form.toneFile.$setDirty(); toneFileChanged(contentMetadata.toneFile);"
+                                ngf-accept="'audio/wav'"
+                                ngf-max-size="50MB"
+                                ng-required="true"
+                                ngf-model-invalid="errorToneFile"
+                                ng-disabled="(contentMetadata.id ? !AuthorizationService.canRBTOperationsToneUpdate(contentMetadata.status) : !AuthorizationService.canRBTOperationsToneCreate())">
+                            {{ ((contentMetadata.toneFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                        </button>
+                    </div>
+                    <div ng-show="contentMetadata.toneFile.name">
+                        <div class="fileinput-preview text-center" style="max-width: 200px;">
+                            <audio id="toneFileAudio" name="toneFileAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!contentMetadata.toneFile.$error && contentMetadata.toneFile"/>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                                    uib-tooltip="{{contentMetadata.toneFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                {{ contentMetadata.toneFile.name }}
+                            </button>
+                            <button class="btn btn-sm btn-danger" type="button"
+                                    ng-click="contentMetadata.toneFile = null; form.toneFile.$setValidity('audioValiditiyCheck', true);"
+                                    title="{{ 'CommonLabels.RemoveFile' | translate }}"
+                                    ng-if="contentMetadata.toneFile.name && (contentMetadata.id ? AuthorizationService.canRBTOperationsToneUpdate(contentMetadata.status) : AuthorizationService.canRBTOperationsToneCreate())">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                        </div>
+                        <a class="btn btn-sm btn-success"
+                           ng-if="contentMetadata.toneFile.name"
+                           title="{{ 'CommonLabels.Download' | translate }}"
+                           download="{{ contentMetadata.toneFile.name }}"
+                           href="{{ contentMetadata.toneFile | ngfDataUrl }}" target="_blank"
+                           ng-if="AuthorizationService.canCmsOperationsContentFileRead()">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul ng-class="{ 'parsley-error-list': form.toneFile.$dirty && form.toneFile.$invalid }"
+                        ng-show="form.toneFile.$dirty && form.toneFile.$invalid">
+                        <li class="required" ng-show="form.toneFile.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                        <li class="required" ng-show="form.toneFile.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam} }}</li>
+                        <li class="required" ng-show="form.toneFile.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-7 col-md-push-3">
+                    <button type="submit" class="btn btn-danger"
+                            ng-disabled="form.$invalid || (status.id ? !AuthorizationService.canRBTOperationsSignatureUpdate() : !AuthorizationService.canRBTOperationsSignatureCreate()) || isNotChanged()"
+                            ng-click="save(status);">
+                        {{ 'CommonLabels.Save' | translate }}
+                    </button>
+                    <button type="reset" class="btn btn-default" ng-click="cancel();">
+                        {{ 'CommonLabels.Cancel' | translate }}
+                    </button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>

@@ -1,0 +1,148 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.SMSF.Troubleshooting.Detail.PageHeader' | translate:{ imsi: edrRecord.imsi} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="overflow-x:auto;padding:5px">
+        <div class="col-md-12 col-sm-12">
+            <table class="table keyvalue-table">
+                <tbody>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.SequenceNum' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.sequenceNum }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.CDRType' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.cdrType | SmsfEDRTypeFilter }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Timestamp' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.timestamp | date:'yyyy-MM-dd HH:mm:ss':DateTimeConstants.OFFSET }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.OrigAddress' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.origAddress }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.OrigAddressNpi' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.origAddressNpi }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.OrigAddressTon' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.origAddressTon }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.DestAddress' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.destAddress }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.DestAddressNpi' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.destAddressNpi }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.DestAddressTon' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.destAddressTon }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Supi' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.supi }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Pei' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.pei }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.AccessType' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.accessType }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Gpsi' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.gpsi }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.AmfID' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.amfId }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Result' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.result | GeneralEDRResultFilter }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.ReasonContext' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.reasonContext | SmsfEDRReasonContextFilter }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Reason' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.reason | SmsfEDRReasonFilter }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.SmsRecordId' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.smsRecordId }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.UeLocation' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.ueLocation }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.UeTimezone' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.ueTimezone }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Guamis' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.guamis}}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.UdmGroupId' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.udmGroupId }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Ticket' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.ticket }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Dcs' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.dcs }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.UserMsgRef' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.userMsgRef }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.ProtocolIdentifier' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.protocolIdentifier }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.MsgLength' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.msgLength }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.MsgContent' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.msgContent }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.NotificationRequested' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.notificationRequested }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.Imsi' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.imsi }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.GsmNetworkNodeNumber' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.gsmNetworkNodeNumber }}&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="kv-key">{{ 'Products.SMSF.Troubleshooting.TableColumns.RoutingIndicator' | translate }}</td>
+                    <td class="kv-value">{{ edrRecord.routingIndicator }}&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

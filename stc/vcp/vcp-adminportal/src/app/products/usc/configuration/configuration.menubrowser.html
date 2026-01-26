@@ -1,0 +1,224 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.USC.Configuration.MenuBrowser.Title' | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.DefaultMenuName' | translate }}</label>
+            <div class="col-md-7">
+                <input id="defaultMenuName" name="defaultMenuName" type="text" class="form-control" placeholder="18051"
+                       ng-model="ussdBrowser.defaultMenuName"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.LanguageMenu' | translate }}</label>
+            <div class="col-md-7">
+                <input id="languageMenu" name="languageMenu" type="text" class="form-control" placeholder="18051"
+                       ng-model="ussdBrowser.languageMenu"
+                       ng-disabled="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.DefaultLanguage' | translate }}</label>
+            <div class="col-md-7">
+                <input id="defaultLanguage" name="defaultLanguage" type="text" class="form-control"
+                       ng-model="ussdBrowser.defaultLanguage"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.defaultLanguage.$dirty && form.defaultLanguage.$invalid }"
+                    ng-show="form.defaultLanguage.$dirty && form.defaultLanguage.$invalid">
+                    <li class="required" ng-show="form.defaultLanguage.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.SupportedLanguages' | translate }}</label>
+            <div class="col-md-7">
+                <input id="supportedLanguages" name="supportedLanguages" type="text" class="form-control"
+                       ng-model="ussdBrowser.supportedLanguages"
+                       ng-maxlength="100" maxlength="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.supportedLanguages.$dirty && form.supportedLanguages.$invalid }"
+                    ng-show="form.supportedLanguages.$dirty && form.supportedLanguages.$invalid">
+                    <li class="required" ng-show="form.supportedLanguages.$error.maxlength">{{ 'CommonMessages.MaxLengthError' | translate:{ max_length: 100 } }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.MaxPageSize' | translate }}</label>
+            <div class="col-md-7">
+                <input name="maxPageSize" id="maxPageSize" type="number" class="form-control"
+                       ng-model="ussdBrowser.maxPageSize"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxPageSize.$dirty && form.maxPageSize.$invalid }"
+                    ng-show="form.maxPageSize.$dirty && form.maxPageSize.$invalid">
+                    <li class="required" ng-show="form.maxPageSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.maxPageSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.maxPageSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.Unicode' | translate }}</label>
+            <div class="col-md-7">
+                <div class="btn-group" >
+                    <button type="button" class="btn {{ussdBrowser.unicode?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="ussdBrowser.unicode" uib-btn-radio="true"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.Yes' | translate }}
+                    </button>
+                    <button type="button" class="btn {{!ussdBrowser.unicode?'btn-primary active':'btn-default'}} btn-sm"
+                            ng-model="ussdBrowser.unicode" uib-btn-radio="false"
+                            ng-disabled="!AuthorizationService.canUpdateConfiguration()">{{ 'CommonLabels.No' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="ussdBrowser.unicode">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.MaxUnicodePageSize' | translate }}</label>
+            <div class="col-md-7">
+                <input id="maxUnicodePageSize" name="maxUnicodePageSize" type="number" class="form-control"
+                       ng-model="ussdBrowser.maxUnicodePageSize"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.maxUnicodePageSize.$dirty && form.maxUnicodePageSize.$invalid }"
+                    ng-show="form.maxUnicodePageSize.$dirty && form.maxUnicodePageSize.$invalid">
+                    <li class="required" ng-show="form.maxUnicodePageSize.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.maxUnicodePageSize.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.maxUnicodePageSize.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.UssdTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input id="ussdTimeout" name="ussdTimeout" type="number" class="form-control"
+                       ng-model="ussdBrowser.ussdTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.ussdTimeout.$dirty && form.ussdTimeout.$invalid }"
+                    ng-show="form.ussdTimeout.$dirty && form.ussdTimeout.$invalid">
+                    <li class="required" ng-show="form.ussdTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.ussdTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.ussdTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.ServiceTimeout' | translate }}</label>
+            <div class="col-md-7">
+                <input id="serviceTimeout" name="serviceTimeout" type="number" class="form-control"
+                       ng-model="ussdBrowser.serviceTimeout"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.serviceTimeout.$dirty && form.serviceTimeout.$invalid }"
+                    ng-show="form.serviceTimeout.$dirty && form.serviceTimeout.$invalid">
+                    <li class="required" ng-show="form.serviceTimeout.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.serviceTimeout.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 999999 } }}</li>
+                    <li class="required" ng-show="form.serviceTimeout.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.ConcurrentSessionCountWarningLimit' | translate }}</label>
+            <div class="col-md-7">
+                <input id="concurrentSessionCountWarningLimit" name="concurrentSessionCountWarningLimit" type="number" class="form-control"
+                       ng-model="ussdBrowser.concurrentSessionCountWarningLimit"
+                       ng-min="0" ng-max="100"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.concurrentSessionCountWarningLimit.$dirty && form.concurrentSessionCountWarningLimit.$invalid }"
+                    ng-show="form.concurrentSessionCountWarningLimit.$dirty && form.concurrentSessionCountWarningLimit.$invalid">
+                    <li class="required" ng-show="form.concurrentSessionCountWarningLimit.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.concurrentSessionCountWarningLimit.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 100 } }}</li>
+                    <li class="required" ng-show="form.concurrentSessionCountWarningLimit.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.AllowSubMenusForApplications' | translate }}</label>
+            <div class="col-md-7">
+               <div class="btn-group">
+                    <button type="button" class="btn {{ussdBrowser.allowSubMenusForApplications?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.allowSubMenusForApplications" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdateConfiguration()"   >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!ussdBrowser.allowSubMenusForApplications?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.allowSubMenusForApplications" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdateConfiguration()"   >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.ResumeMenu' | translate }}</label>
+            <div class="col-md-7">
+               <div class="btn-group">
+                    <button type="button" class="btn {{ussdBrowser.resumeMenu?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.resumeMenu" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdateConfiguration()"   >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!ussdBrowser.resumeMenu?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.resumeMenu" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdateConfiguration()"   >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.CustomErrorMessage' | translate }}</label>
+            <div class="col-md-7">
+               <div class="btn-group">
+                    <button type="button" class="btn {{ussdBrowser.customErrorMessage?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.customErrorMessage" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdateConfiguration()"   >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!ussdBrowser.customErrorMessage?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.customErrorMessage" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdateConfiguration()"   >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.ReverseSession' | translate }}</label>
+            <div class="col-md-7">
+               <div class="btn-group">
+                    <button type="button" class="btn {{ussdBrowser.reverseSession?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.reverseSession" uib-btn-radio="true" ng-disabled="!AuthorizationService.canUpdateConfiguration()" >{{ 'CommonLabels.Yes' | translate }}</button>
+                    <button type="button" class="btn {{!ussdBrowser.reverseSession?'btn-primary active':'btn-default'}} btn-sm" ng-model="ussdBrowser.reverseSession" uib-btn-radio="false" ng-disabled="!AuthorizationService.canUpdateConfiguration()" >{{ 'CommonLabels.No' | translate }}</button>
+                </div>
+             </div>
+        </div>
+
+        <div class="form-group" ng-show="ussdBrowser.reverseSession">
+            <label class="col-md-3">{{ 'Products.USC.Configuration.MenuBrowser.ReversePauseDur' | translate }}</label>
+            <div class="col-md-7">
+                <input id="reversePauseDur" name="reversePauseDur" type="number" class="form-control"
+                       ng-model="ussdBrowser.reversePauseDur"
+                       ng-min="0" ng-max="999999"
+                       ng-disabled="!AuthorizationService.canUpdateConfiguration()"/>
+                <ul ng-class="{ 'parsley-error-list': form.reversePauseDur.$dirty && form.reversePauseDur.$invalid }"
+                    ng-show="form.reversePauseDur.$dirty && form.reversePauseDur.$invalid">
+                    <li class="required" ng-show="form.reversePauseDur.$error.min">{{ 'CommonMessages.MinValueError' | translate:{ min: 0 } }}</li>
+                    <li class="required" ng-show="form.reversePauseDur.$error.max">{{ 'CommonMessages.MaxValueError' | translate:{ max: 100 } }}</li>
+                    <li class="required" ng-show="form.reversePauseDur.$error.number">{{ 'CommonMessages.NumericFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isConfigurationNotChanged()"
+                        ng-click="save();">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

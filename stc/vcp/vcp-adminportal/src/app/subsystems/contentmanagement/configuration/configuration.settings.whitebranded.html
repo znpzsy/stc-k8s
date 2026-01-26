@@ -1,0 +1,27 @@
+
+
+<div class="portlet-header">
+    <h4 class="portlet-title" active-loading-indicator>
+        {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }} / {{ 'Subsystems.ContentManagement.Configuration.WhiteLabelPortalConfig.PageHeader' | translate }}
+    </h4>
+</div>
+
+<ul class="nav nav-tabs">
+    <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.configuration.settings.whitebranded.list') || $state.includes('subsystems.contentmanagement.configuration.settings.whitebranded.new') || $state.includes('subsystems.contentmanagement.configuration.settings.whitebranded.update') }">
+        <a ui-sref="subsystems.contentmanagement.configuration.settings.whitebranded.list" data-toggle="tab">
+            <span class="fa fa-list"></span> {{ 'Subsystems.ContentManagement.Configuration.Settings' | translate }}
+        </a>
+    </li>
+
+    <li ng-class="{ 'active': $state.includes('subsystems.contentmanagement.configuration.settings.whitebranded.config') }">
+        <a ui-sref="subsystems.contentmanagement.configuration.settings.whitebranded.config" data-toggle="tab">
+            <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+        </a>
+    </li>
+</ul>
+
+<div class="col-md-12">
+    <div class="row" ui-view>
+    </div>
+
+</div>

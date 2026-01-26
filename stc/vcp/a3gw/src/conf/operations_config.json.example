@@ -1,0 +1,730 @@
+{
+  "READ_CONFIGURATION": {
+    "operation": "Configuration:All:Read",
+    "services": [
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration",
+          "/smsc-p2p-gr-rest/configuration",
+          "/screening-manager-rest",
+          "/screening-manager-stats-rest",
+          "/conf"
+        ]
+      }
+    ]
+  },
+  "UPDATE_CONFIGURATION": {
+    "operation": "Configuration:All:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration",
+          "/smsc-p2p-gr-rest/configuration",
+          "/screening-manager-rest"
+        ]
+      }
+    ]
+  },
+  "CREATE_OPERATIONS": {
+    "operation": "Operations:All:Create",
+    "services": [
+      {
+        "method": "CREATE",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration",
+          "/smsc-p2p-gr-rest/configuration",
+          "/smsc-a2p-gr-rest/provisioning",
+          "/smsc-p2p-gr-rest/provisioning",
+          "/smsc-a2p-operation-local-rest",
+          "/smsc-p2p-operation-local-rest",
+          "/smsc-a2p-operation-remote-rest",
+          "/smsc-p2p-operation-remote-rest",
+          "/smsc-a2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-a2p-sfe-reporting-remote-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest",
+          "/smsc-a2p-sender-application-local-rest",
+          "/smsc-p2p-sender-application-local-rest",
+          "/smsc-a2p-sender-application-remote-rest",
+          "/smsc-p2p-sender-application-remote-rest"
+        ]
+      }
+    ]
+  },
+  "READ_OPERATIONS": {
+    "operation": "Operations:All:Read",
+    "services": [
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration",
+          "/smsc-p2p-gr-rest/configuration",
+          "/smsc-a2p-gr-rest/provisioning",
+          "/smsc-p2p-gr-rest/provisioning",
+          "/smsc-a2p-operation-local-rest",
+          "/smsc-p2p-operation-local-rest",
+          "/smsc-a2p-operation-remote-rest",
+          "/smsc-p2p-operation-remote-rest",
+          "/smsc-a2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-a2p-sfe-reporting-remote-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest",
+          "/smsc-a2p-sender-application-local-rest",
+          "/smsc-p2p-sender-application-local-rest",
+          "/smsc-a2p-sender-application-remote-rest",
+          "/smsc-p2p-sender-application-remote-rest"
+        ]
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS": {
+    "operation": "Operations:All:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration",
+          "/smsc-p2p-gr-rest/configuration",
+          "/smsc-a2p-gr-rest/provisioning",
+          "/smsc-p2p-gr-rest/provisioning",
+          "/smsc-a2p-operation-local-rest",
+          "/smsc-p2p-operation-local-rest",
+          "/smsc-a2p-operation-remote-rest",
+          "/smsc-p2p-operation-remote-rest",
+          "/smsc-a2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-a2p-sfe-reporting-remote-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest",
+          "/smsc-a2p-sender-application-local-rest",
+          "/smsc-p2p-sender-application-local-rest",
+          "/smsc-a2p-sender-application-remote-rest",
+          "/smsc-p2p-sender-application-remote-rest",
+          "/license-manager-rest"
+        ]
+      }
+    ]
+  },
+  "DELETE_OPERATIONS": {
+    "operation": "Operations:All:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration",
+          "/smsc-p2p-gr-rest/configuration",
+          "/smsc-a2p-gr-rest/provisioning",
+          "/smsc-p2p-gr-rest/provisioning",
+          "/smsc-a2p-operation-local-rest",
+          "/smsc-p2p-operation-local-rest",
+          "/smsc-a2p-operation-remote-rest",
+          "/smsc-p2p-operation-remote-rest",
+          "/smsc-a2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-a2p-sfe-reporting-remote-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest",
+          "/smsc-a2p-sender-application-local-rest",
+          "/smsc-p2p-sender-application-local-rest",
+          "/smsc-a2p-sender-application-remote-rest",
+          "/smsc-p2p-sender-application-remote-rest"
+        ]
+      }
+    ]
+  },
+  "CREATE_OPERATIONS_OFFER": {
+    "operation": "Operations:Provisioning:Offer:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/cmpf-rest/offers"
+      }
+    ]
+  },
+  "READ_OPERATIONS_OFFER": {
+    "operation": "Operations:Provisioning:Offer:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/cmpf-rest/offers"
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS_OFFER": {
+    "operation": "Operations:Provisioning:Offer:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/cmpf-rest/offers"
+      }
+    ]
+  },
+  "DELETE_OPERATIONS_OFFER": {
+    "operation": "Operations:Provisioning:Offer:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "paths": [
+          "/cmpf-rest/offers",
+          "/cmpf-rest/offertemplates"
+        ]
+      }
+    ]
+  },
+  "CREATE_OPERATIONS_OPERATOR": {
+    "operation": "Operations:Provisioning:Operator:Create",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/cmpf-rest/organizations",
+          "/cmpf-rest/networkoperators",
+          "/cmpf-rest/virtualoperators"
+        ]
+      }
+    ]
+  },
+  "READ_OPERATIONS_OPERATOR": {
+    "operation": "Operations:Provisioning:Operator:Read",
+    "services": [
+      {
+        "method": "GET",
+        "paths": [
+          "/cmpf-rest/organizations",
+          "/cmpf-rest/networkoperators",
+          "/cmpf-rest/virtualoperators"
+        ]
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS_OPERATOR": {
+    "operation": "Operations:Provisioning:Operator:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "paths": [
+          "/cmpf-rest/organizations",
+          "/cmpf-rest/networkoperators",
+          "/cmpf-rest/virtualoperators"
+        ]
+      }
+    ]
+  },
+  "DELETE_OPERATIONS_OPERATOR": {
+    "operation": "Operations:Provisioning:Operator:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "paths": [
+          "/cmpf-rest/organizations",
+          "/cmpf-rest/networkoperators",
+          "/cmpf-rest/virtualoperators"
+        ]
+      }
+    ]
+  },
+  "CREATE_OPERATIONS_SERVICE": {
+    "operation": "Operations:Provisioning:Service:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/cmpf-rest/services"
+      }
+    ]
+  },
+  "READ_OPERATIONS_SERVICE": {
+    "operation": "Operations:Provisioning:Service:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/cmpf-rest/services"
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS_SERVICE": {
+    "operation": "Operations:Provisioning:Service:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/cmpf-rest/services"
+      }
+    ]
+  },
+  "DELETE_OPERATIONS_SERVICE": {
+    "operation": "Operations:Provisioning:Service:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "path": "/cmpf-rest/services"
+      }
+    ]
+  },
+  "CREATE_OPERATIONS_SERVICE_PROVIDER": {
+    "operation": "Operations:Provisioning:ServiceProvider:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/cmpf-rest/partners"
+      }
+    ]
+  },
+  "READ_OPERATIONS_SERVICE_PROVIDER": {
+    "operation": "Operations:Provisioning:ServiceProvider:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/cmpf-rest/partners"
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS_SERVICE_PROVIDER": {
+    "operation": "Operations:Provisioning:ServiceProvider:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/cmpf-rest/partners"
+      }
+    ]
+  },
+  "DELETE_OPERATIONS_SERVICE_PROVIDER": {
+    "operation": "Operations:Provisioning:ServiceProvider:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "path": "/cmpf-rest/partners"
+      }
+    ]
+  },
+  "CREATE_OPERATIONS_USERACCOUNT": {
+    "operation": "Operations:Provisioning:UserAccount:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/cmpf-rest/useraccounts"
+      }
+    ]
+  },
+  "READ_OPERATIONS_USERACCOUNT": {
+    "operation": "Operations:Provisioning:UserAccount:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/cmpf-rest/useraccounts"
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS_USERACCOUNT": {
+    "operation": "Operations:Provisioning:UserAccount:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/cmpf-rest/useraccounts"
+      }
+    ]
+  },
+  "DELETE_OPERATIONS_USERACCOUNT": {
+    "operation": "Operations:Provisioning:UserAccount:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "path": "/cmpf-rest/useraccounts"
+      }
+    ]
+  },
+  "CREATE_OPERATIONS_USERGROUP": {
+    "operation": "Operations:Provisioning:UserGroup:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/cmpf-rest/usergroups"
+      }
+    ]
+  },
+  "READ_OPERATIONS_USERGROUP": {
+    "operation": "Operations:Provisioning:UserGroup:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/cmpf-rest/usergroups"
+      }
+    ]
+  },
+  "UPDATE_OPERATIONS_USERGROUP": {
+    "operation": "Operations:Provisioning:UserGroup:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/cmpf-rest/usergroups"
+      }
+    ]
+  },
+  "DELETE_OPERATIONS_USERGROUP": {
+    "operation": "Operations:Provisioning:UserGroup:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "path": "/cmpf-rest/usergroups"
+      }
+    ]
+  },
+  "PRODUCTS_SMSC_A2P": {
+    "operation": "Products:SMSC_A2P",
+    "services": [
+      {
+        "method": "ALL",
+        "paths": [
+          "/smsc-a2p-gr-rest",
+          "/smsc-a2p-sfe-dashboard-local-rest"
+        ]
+      }
+    ]
+  },
+  "PRODUCTS_SMSC_P2P": {
+    "operation": "Products:SMSC_P2P",
+    "services": [
+      {
+        "method": "ALL",
+        "paths": [
+          "/smsc-p2p-gr-rest",
+          "/smsc-p2p-sfe-dashboard-local-rest"
+        ]
+      }
+    ]
+  },
+  "READ_REPORTS_ONDEMAND": {
+    "operation": "Reports:OnDemand:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/pentaho"
+      }
+    ]
+  },
+  "CREATE_REPORTS_SCHEDULED": {
+    "operation": "Reports:Scheduled:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/pentaho"
+      }
+    ]
+  },
+  "READ_REPORTS_SCHEDULED": {
+    "operation": "Reports:Scheduled:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/pentaho"
+      }
+    ]
+  },
+  "UPDATE_REPORTS_SCHEDULED": {
+    "operation": "Reports:Scheduled:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/pentaho"
+      }
+    ]
+  },
+  "DELETE_REPORTS_SCHEDULED": {
+    "operation": "Reports:Scheduled:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "path": "/pentaho"
+      }
+    ]
+  },
+  "CREATE_SCREENING_LISTS": {
+    "operation": "ScreeningLists:All:Create",
+    "services": [
+      {
+        "method": "POST",
+        "path": "/screening-manager-rest"
+      }
+    ]
+  },
+  "READ_SCREENING_LISTS": {
+    "operation": "ScreeningLists:All:Read",
+    "services": [
+      {
+        "method": "GET",
+        "path": "/screening-manager-rest"
+      }
+    ]
+  },
+  "UPDATE_SCREENING_LISTS": {
+    "operation": "ScreeningLists:All:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "path": "/screening-manager-rest"
+      }
+    ]
+  },
+  "DELETE_SCREENING_LISTS": {
+    "operation": "ScreeningLists:All:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "path": "/screening-manager-rest"
+      }
+    ]
+  },
+  "SUBSYSTEMS_DIAGNOSTICS": {
+    "operation": "Subsystems:Diagnostics",
+    "services": [
+      {
+        "method": "ALL",
+        "path": "/diagnostics-rest"
+      }
+    ]
+  },
+  "SUBSYSTEMS_LICENSEMGMT": {
+    "operation": "Subsystems:LicenseMgmt",
+    "services": [
+      {
+        "method": "ALL",
+        "path": "/license-manager-rest"
+      }
+    ]
+  },
+  "SUBSYSTEMS_PROVISIONING": {
+    "operation": "Subsystems:Provisioning",
+    "services": [
+      {
+        "method": "ALL",
+        "paths": [
+          "/cmpf-rest",
+          "/cmpf-cache-rest",
+          "/ssm-rest"
+        ]
+      }
+    ]
+  },
+  "SUBSYSTEMS_REPORTGENERATION": {
+    "operation": "Subsystems:ReportGeneration",
+    "services": [
+      {
+        "method": "ALL",
+        "path": "/pentaho"
+      }
+    ]
+  },
+  "SUBSYSTEMS_SCREENINGMGMT": {
+    "operation": "Subsystems:ScreeningMgmt",
+    "services": [
+      {
+        "method": "ALL",
+        "paths": [
+          "/screening-manager-rest",
+          "/screening-manager-stats-rest"
+        ]
+      }
+    ]
+  },
+  "SUBSYSTEMS_DIAGNOSTICS_ALARM_LOGS": {
+    "operation": "Diagnostics:AlarmLogs",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/es-local-rest"
+        ]
+      }
+    ]
+  },
+  "SUBSYSTEMS_DIAGNOSTICS_AUDIT_LOGS": {
+    "operation": "Diagnostics:AuditLogs",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/es-local-rest"
+        ]
+      }
+    ]
+  },
+  "CREATE_TEMPLATES": {
+    "operation": "Templates:All:Create",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration/applications",
+          "/smsc-p2p-gr-rest/configuration/applications",
+          "/smsc-a2p-gr-rest/configuration/message-template",
+          "/smsc-p2p-gr-rest/configuration/message-template"
+        ]
+      }
+    ]
+  },
+  "READ_TEMPLATES": {
+    "operation": "Templates:All:Read",
+    "services": [
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration/applications",
+          "/smsc-p2p-gr-rest/configuration/applications",
+          "/smsc-a2p-gr-rest/configuration/message-template",
+          "/smsc-p2p-gr-rest/configuration/message-template"
+        ]
+      }
+    ]
+  },
+  "UPDATE_TEMPLATES": {
+    "operation": "Templates:All:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration/applications",
+          "/smsc-p2p-gr-rest/configuration/applications",
+          "/smsc-a2p-gr-rest/configuration/message-template",
+          "/smsc-p2p-gr-rest/configuration/message-template"
+        ]
+      }
+    ]
+  },
+  "DELETE_TEMPLATES": {
+    "operation": "Templates:All:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "paths": [
+          "/smsc-a2p-gr-rest/configuration/applications",
+          "/smsc-p2p-gr-rest/configuration/applications",
+          "/smsc-a2p-gr-rest/configuration/message-template",
+          "/smsc-p2p-gr-rest/configuration/message-template"
+        ]
+      }
+    ]
+  },
+  "READ_ALL_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:All:Read",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/diagnostics-rest",
+          "/es-local-rest",
+          "/es-remote-rest",
+          "/smsc-a2p-es-local-rest",
+          "/smsc-a2p-es-remote-rest",
+          "/smsc-a2p-es-adapter-local-rest",
+          "/smsc-a2p-es-adapter-remote-rest",
+          "/smsc-p2p-es-local-rest",
+          "/smsc-p2p-es-remote-rest",
+          "/smsc-p2p-es-adapter-local-rest",
+          "/smsc-p2p-es-adapter-remote-rest"
+        ]
+      }
+    ]
+  },
+  "UPDATE_ALL_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:All:Update",
+    "services": [
+      {
+        "method": "PUT",
+        "paths": [
+          "/smsc-a2p-operation-local-rest",
+          "/smsc-p2p-operation-local-rest",
+          "/smsc-a2p-operation-remote-rest",
+          "/smsc-p2p-operation-remote-rest"
+        ]
+      }
+    ]
+  },
+  "DELETE_ALL_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:All:Delete",
+    "services": [
+      {
+        "method": "DELETE",
+        "paths": [
+          "/smsc-a2p-operation-local-rest",
+          "/smsc-p2p-operation-local-rest",
+          "/smsc-a2p-operation-remote-rest",
+          "/smsc-p2p-operation-remote-rest"
+        ]
+      }
+    ]
+  },
+  "SMSC_A2P_A2P_PEEK_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:SMSC_A2P:A2P:Peek",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/smsc-a2p-es-local-rest",
+          "/smsc-a2p-es-remote-rest"
+        ]
+      },
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-a2p-sfe-reporting-local-rest",
+          "/smsc-a2p-sfe-reporting-remote-rest"
+        ]
+      }
+    ]
+  },
+  "SMSC_P2P_A2P_PEEK_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:SMSC_P2P:A2P:Peek",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/smsc-p2p-es-local-rest",
+          "/smsc-p2p-es-remote-rest"
+        ]
+      },
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest"
+        ]
+      }
+    ]
+  },
+  "SMSC_P2P_P2A_PEEK_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:SMSC_P2P:P2A:Peek",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/smsc-p2p-es-local-rest",
+          "/smsc-p2p-es-remote-rest"
+        ]
+      },
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest"
+        ]
+      }
+    ]
+  },
+  "SMSC_P2P_P2P_PEEK_TROUBLESHOOTING": {
+    "operation": "Troubleshooting:SMSC_P2P:P2P:Peek",
+    "services": [
+      {
+        "method": "POST",
+        "paths": [
+          "/smsc-p2p-es-local-rest",
+          "/smsc-p2p-es-remote-rest"
+        ]
+      },
+      {
+        "method": "GET",
+        "paths": [
+          "/smsc-p2p-sfe-reporting-local-rest",
+          "/smsc-p2p-sfe-reporting-remote-rest"
+        ]
+      }
+    ]
+  }
+}

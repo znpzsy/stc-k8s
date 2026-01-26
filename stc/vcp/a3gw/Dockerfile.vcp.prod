@@ -1,0 +1,34 @@
+# stc/vcp/a3gw/Dockerfile.vcp.k8slocal
+
+# Build the a3gw application from source
+FROM node:20.15.0-alpine
+
+# Set working directory
+WORKDIR /space/a3gw
+
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Install PM2 globally
+RUN npm install -g pm2
+
+# Copy the entire application source
+COPY ./src ./src
+
+# Copy VCP-specific configuration files
+COPY ./vcp/ecosystem.config.js ./ecosystem.config.js
+COPY ./vcp/conf.prod ./src/conf
+
+# Create static directory and copy static files
+RUN mkdir -p ./static
+COPY ./vcp/static.prod ./static
+
+# Expose the required ports
+EXPOSE 8444
+EXPOSE 8445
+
+# Start the application using PM2
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]

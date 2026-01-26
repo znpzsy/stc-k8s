@@ -1,0 +1,100 @@
+
+<br>
+<br>
+<h5 class="portlet-title">
+    {{ 'Services.RBT.Operations.PressKey.Management.FormFields.ServicePrompt' | translate:{dtmfKey:dtmfKey} }}
+</h5>
+
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="col-md-3">{{ 'CommonLabels.Offer' | translate }}</label>
+        <div class="col-md-7">
+            <select id= "offer" name="offer" class="form-control parsley-validated"
+                    ng-model="offer"
+                    ng-required="true"
+                    ng-disabled="!AuthorizationService.canUpdateConfiguration() || $state.includes('services.rbt.operations.presskey.management.update.service')"
+                    ng-options="opt.name as opt.name for opt in offers">
+                <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+            </select>
+            <ul ng-class="{ 'parsley-error-list': form.offer.$dirty && form.offer.$invalid }" ng-show="form.offer.$dirty && form.offer.$invalid">
+                <li class="required" ng-show="form.offer.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-md-3">
+            {{ 'Services.RBT.Operations.PressKey.Management.FormFields.ServicePromptFile' | translate }}<br/>
+            <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+        </label>
+        <div class="col-md-7">
+
+            <div ng-show="!servicePromptFile.name">
+                <!-- Select button -->
+                <button name="servicePrompt" type="file" class="btn btn-sm btn-block btn-default"
+                        title="{{ (servicePromptFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                        style="width: 262px;"
+                        ngf-select
+                        ng-model="servicePromptFile"
+                        ng-init="servicePromptFile ? servicePromptFile.name = servicePromptFile.$ngfName : null"
+                        ngf-change="form.servicePrompt.$setDirty(); toneFileChanged(servicePromptFile, 'servicePrompt', form);"
+                        ngf-accept="'audio/wav'"
+                        ngf-max-size="'1MB'"
+                        ng-required="true"
+                        ngf-model-invalid="errorToneFile"
+                        ng-disabled="servicePromptLoading || !AuthorizationService.canUpdate()">
+                    <i class="fa fa-spinner fa-spin" ng-if="servicePromptLoading"></i>
+                    {{ ((servicePromptFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                </button>
+            </div>
+            <div ng-show="servicePromptFile.name">
+                <div class="fileinput-preview text-center" style="max-width: 200px;">
+                    <audio id="servicePromptAudio" name="servicePromptAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!servicePromptFile.$error && servicePromptFile"/>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{servicePromptFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ servicePromptFile.name }} <i class="fa fa-spinner fa-spin" ng-if="validationInProgress"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="removeFile(); form.servicePrompt.$setValidity('audioValiditiyCheck', true);"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="servicePromptFile.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ servicePromptFile.name }}"
+                   href="{{ servicePromptFile | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canRead()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+            <ul ng-class="{ 'parsley-error-list': form.servicePrompt.$dirty && form.servicePrompt.$invalid }"
+                ng-show="form.servicePrompt.$dirty && form.servicePrompt.$invalid">
+                <li class="required" ng-show="form.servicePrompt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                <li class="required" ng-show="form.servicePrompt.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam || '1MB'} }}</li>
+                <li class="required" ng-show="form.servicePrompt.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || !AuthorizationService.canUpdateConfiguration() || isNotChanged() || validationInProgress"
+                    ng-click="save();">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>

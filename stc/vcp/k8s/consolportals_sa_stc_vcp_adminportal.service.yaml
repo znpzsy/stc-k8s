@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-service
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-adminportal
+  ports:
+    - port: 8080
+      targetPort: 8080

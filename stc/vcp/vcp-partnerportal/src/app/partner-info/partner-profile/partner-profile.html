@@ -1,0 +1,128 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet portlet-default">
+
+                <div class="portlet-header">
+                    <h4 class="portlet-title">
+                        {{ 'PartnerInfo.PartnerProfile.Title' | translate }}
+                    </h4>
+                </div>
+
+                <div class="portlet-body">
+                    <div class="row">
+
+                        <div class="col-sm-6 col-md-6">
+
+                            <h5 class="portlet-header">
+                                {{ 'PartnerInfo.PartnerProfile.UserAccount.Header' | translate }}
+                            </h5>
+                            <br>
+                            <table class="table keyvalue-table">
+                                <tbody>
+                                <tr>
+                                    <td class="kv-key col-md-4"><i class="fa fa-user kv-icon kv-icon-warning"></i> {{ 'PartnerInfo.PartnerProfile.UserAccount.UserName' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{user.userName}} </td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key col-md-4"><i class="fa fa-info-circle kv-icon kv-icon-success"></i> {{ 'PartnerInfo.PartnerProfile.State' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{user.state ? (user.state | ProvisioningStatusTypeFilter | translate) : ('CommonLabels.N/A' | translate)}} </td>
+                                </tr>
+                                <tr ng-if="user.userProfile.Name || user.userProfile.Surname">
+                                    <td class="kv-key col-md-4"><i class="fa fa-info kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.UserAccount.Name' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{user.userProfile.Name | uppercase}} {{user.userProfile.Surname | uppercase}}</td>
+                                </tr>
+                                <tr ng-if="user.userProfile.MobilePhone">
+                                    <td class="kv-key col-md-4"><i class="fa fa-phone kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.UserAccount.Phone' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{user.userProfile.MobilePhone}}</td>
+                                </tr>
+                                <tr ng-if="user.userProfile.Email">
+                                    <td class="kv-key col-md-4"><i class="fa fa-envelope-open kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.UserAccount.Email' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{user.userProfile.Email}}</td>
+                                </tr>
+                                <tr ng-if="user.userProfile.LastPasswordChange">
+                                    <td class="kv-key col-md-5"><i class="fa fa-calendar kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.UserAccount.LastPasswordChange' | translate }}</td>
+                                    <td class="kv-value col-md-7">{{user.userProfile.LastPasswordChange | date:'fullDate':DateTimeConstants.OFFSET}} </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            <h5 class="portlet-header">
+                                {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.Header' | translate }}
+                            </h5>
+                            <br>
+                            <table class="table keyvalue-table">
+                                <tbody>
+                                <tr>
+                                    <td class="kv-key col-md-4"><i class="fa fa-building kv-icon kv-icon-warning"></i> {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.Name' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{provider.name }} </td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key col-md-4"><i class="fa fa-info-circle kv-icon kv-icon-success"></i> {{ 'PartnerInfo.PartnerProfile.State' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{provider.state ? (provider.state | ProvisioningStatusTypeFilter | translate) : ('CommonLabels.N/A' | translate)}} </td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key col-md-4"><i class="fa fa-info-circle kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.ProviderLegacyProfile.LegacyId' | translate }}</td>
+                                    <td class="kv-value col-md-8">{{(provider.serviceProviderLegacyIDProfile && provider.serviceProviderLegacyIDProfile.LegacyID) ?  provider.serviceProviderLegacyIDProfile.LegacyID : 'N/A'}} </td>
+                                </tr>
+                                <tr ng-if="provider.serviceProviderCommonProfile.StartDate">
+                                    <td class="kv-key col-md-5"><i class="fa fa-calendar kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.ServiceProviderProfile.EffectiveDate' | translate }}</td>
+                                    <td class="kv-value col-md-7">{{provider.serviceProviderCommonProfile.StartDate | date:'fullDate':DateTimeConstants.OFFSET}} </td>
+                                </tr>
+                                <tr ng-if="provider.serviceProviderCommonProfile.EndDate">
+                                    <td class="kv-key col-md-5"><i class="fa fa-calendar kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.ServiceProviderProfile.ExpiryDate' | translate }}</td>
+                                    <td class="kv-value col-md-7">{{provider.serviceProviderCommonProfile.EndDate | date:'fullDate':DateTimeConstants.OFFSET}} </td>
+                                </tr>
+                                <tr>
+                                    <td class="kv-key col-md-4"><i class="fa fa-flag kv-icon kv-icon-danger"></i> {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.ProviderAllowedCategoryProfile.Title' | translate }}  </td>
+                                    <td class="col-md-8">
+                                        <div ng-if="!provider.serviceProviderAllowedCategoryProfiles || provider.serviceProviderAllowedCategoryProfiles.length === 0" class="kv-value pull-right">
+                                            {{ 'CommonLabels.None' | translate | uppercase}} <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div ng-if="provider.serviceProviderAllowedCategoryProfiles.length" class="row">
+                                            <div ng-repeat="categoryProfile in provider.serviceProviderAllowedCategoryProfiles" class="pull-right" style="padding-bottom: 5px">
+                                                <span class="label label-success selected-item-label"
+                                                      ng-click="showAllowedCategories(provider, categoryProfile)"
+                                                      uib-tooltip="{{ getSubcategoryId(categoryProfile) }}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                                                    {{ getCategoryString(categoryProfile) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div ng-if="provider.serviceProviderAllowedCategoryProfiles.length" class="row">
+                                            <button type="button" class="btn btn-sm btn-info  pull-right" ng-click="showCategories()"
+                                                    title="{{ 'CommonLabels.ShowDetails' | translate }}">
+                                                <i class="fa fa-question-circle"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--<tr ng-if="provider.serviceProviderCommonProfile.Logo">
+                                    <td class="kv-key col-md-5"><i class="fa fa-file-picture-o kv-icon kv-icon-default"></i> {{ 'PartnerInfo.PartnerProfile.PartnerOrganization.ServiceProviderProfile.CompanyLogo' | translate }}</td>
+                                    <td class="pull-right col-md-7">
+                                        <div class="fileinput fileinput-new">
+                                            <div class="fileinput-preview thumbnail text-center" style="max-width: 200px;" ng-if="provider.serviceProviderCommonProfile.Logo.name">
+                                                <img ngf-src="!provider.serviceProviderCommonProfile.Logo.$error && provider.serviceProviderCommonProfile.Logo" width="200"
+                                                     ng-style="{ 'height': (provider.serviceProviderCommonProfile.Logo ? '' : '200px') }"/>
+
+                                                <div class="thumbnail-footer" ng-if="provider.serviceProviderCommonProfile.Logo.type">
+                                                    <div class="pull-left">
+                                                        ({{ provider.serviceProviderCommonProfile.Logo.type }})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

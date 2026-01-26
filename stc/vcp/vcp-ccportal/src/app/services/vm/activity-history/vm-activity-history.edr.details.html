@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Services.VM.Troubleshooting.Details.PageHeader' | translate:{ origparty: edrRecord.origparty, destparty: edrRecord.destparty } }}
+    </h4>
+</div>
+
+<div class="modal-body">
+    <div class="details-modal" style="height: 105px;">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <table class="table keyvalue-table">
+                    <tbody>
+                    <tr>
+                        <td class="kv-key">{{ 'Services.VM.Troubleshooting.TableColumns.RedirParty' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.redirparty }}&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="kv-key">{{ 'Services.VM.Troubleshooting.TableColumns.RedirReason' | translate }}</td>
+                        <td class="kv-value">{{ edrRecord.redirreason }}&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">{{'CommonLabels.Close' | translate}}</button>
+</div>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ 'Products.BulkMessaging.Operations.Campaigns.BlackListTitle' | translate:{campaignName: campaign.campaignName} }}
+    </h4>
+</div>
+
+<div class="modal-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-4">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ScreeningListType' | translate }}</label>
+            <div class="col-md-7">
+                <select id="listType" name="listType" class="form-control parsley-validated" ng-model="listType"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="listType.key as (listType.textKey | translate | uppercase) for listType in BMS_DISTRIBUTION_LIST_TYPES">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.listType.$dirty && form.listType.$invalid }" ng-show="form.listType.$dirty && form.listType.$invalid">
+                    <li class="required" ng-show="form.listType.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4">{{ 'Products.BulkMessaging.Operations.Campaigns.Fields.ScreeningListName' | translate }}</label>
+            <div class="col-md-7">
+                <select id="blackList" name="blackList" class="form-control parsley-validated" ng-model="blackList"
+                        ng-required="true" ng-disabled="!AuthorizationService.canBmsOperationsCampaignCreate()"
+                        ng-options="blackList as (blackList.name + ' (' + blackList.listSize + ')') for blackList in (blackListArray | DistributionListByListTypeFilter:listType)">
+                    <option value="">-- {{ 'CommonLabels.SelectOne' | translate }} --</option>
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.blackList.$dirty && form.blackList.$invalid }" ng-show="form.blackList.$dirty && form.blackList.$invalid">
+                    <li class="required" ng-show="form.blackList.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-4">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canBmsOperationsCampaignCreate() || isNotChanged()"
+                        ng-click="save(blackList);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

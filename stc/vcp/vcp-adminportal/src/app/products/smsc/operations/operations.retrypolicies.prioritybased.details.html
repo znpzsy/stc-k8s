@@ -1,0 +1,50 @@
+<div class="portlet-header">
+    <h4 class="portlet-title">
+        {{ 'Products.SMSC.Operations.RetryPolicies.PageHeader' | translate }} / {{ $state.current.data.pageHeaderKey | translate }}
+    </h4>
+</div>
+
+<div class="portlet-body">
+
+    <form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RetryPolicies.FormFields.PriorityLevel.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="priorityLevel" class="form-control parsley-validated" ng-model="retryPolicyPriorityLevel.priorityLevel"
+                        ng-options="opt for opt in RETRY_POLICIES_PRIORITY_LEVELS" ng-if="!retryPolicyPriorityLevel.id"
+                        list-availability-check list="retryPoliciesPriorityLevelList" propertyname="priorityLevel">
+                </select>
+                <ul ng-class="{ 'parsley-error-list': form.priorityLevel.$dirty && form.priorityLevel.$invalid }" ng-show="form.priorityLevel.$dirty && form.priorityLevel.$invalid">
+                    <li class="required" ng-show="form.priorityLevel.$error.availabilityCheck">{{ 'CommonMessages.ListItemAvailable' | translate }}</li>
+                </ul>
+                <select name="priorityLevel" class="form-control parsley-validated" ng-model="retryPolicyPriorityLevel.priorityLevel"
+                        ng-options="opt for opt in RETRY_POLICIES_PRIORITY_LEVELS" ng-if="retryPolicyPriorityLevel.id" ng-disabled="true">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3">{{ 'Products.SMSC.Operations.RetryPolicies.FormFields.PolicyEnabled.Label' | translate }}</label>
+            <div class="col-md-7">
+                <select name="status" class="form-control parsley-validated" ng-model="retryPolicyPriorityLevel.status" ng-options="opt as (opt.label | translate) for opt in STATUS_TYPES">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-push-3">
+                <button type="submit" class="btn btn-danger"
+                        ng-disabled="form.$invalid || !AuthorizationService.canCreate() || (retryPolicyPriorityLevel.id && !AuthorizationService.canUpdate()) || isRetryPolicyNotChanged()"
+                        ng-click="save(retryPolicyPriorityLevel);">
+                    {{ 'CommonLabels.Save' | translate }}
+                </button>
+                <button type="reset" class="btn btn-default" ng-click="cancel();">
+                    {{ 'CommonLabels.Cancel' | translate }}
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

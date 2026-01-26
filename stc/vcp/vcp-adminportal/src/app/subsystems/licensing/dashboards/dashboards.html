@@ -1,0 +1,328 @@
+<div class="col-md-12 col-xs-12">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-default" style="margin-bottom: 0;">
+            <div class="portlet-body buttons-portlet-body">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        {{ 'Subsystems.Licensing.Dashboard.QueryString1' | translate }}
+                        <span class="dropdown" uib-dropdown>
+                            <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle>
+                                {{licenseName}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu>
+                                <li ng-repeat="choice in allLicenses">
+                                    <a ng-click="chooseLicense(choice)" style="cursor: pointer;">{{choice.name}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                        &nbsp;{{ 'Subsystems.Licensing.Dashboard.QueryString2' | translate }}
+                        <span class="dropdown" uib-dropdown>
+                            <a href class="dropdown-toggle" uib-dropdown-toggle>
+                                {{specifiedInterval.label}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu>
+                                <li ng-repeat="type in INTERVALS">
+                                    <a ng-click="chooseInterval(type)" style="cursor: pointer;">{{type.label}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                        &nbsp;
+                        <span>
+                            <button type="submit" class="btn btn-danger" ng-disabled="!specifiedLicense || filterForm.$invalid" ng-click="search();">
+                                {{ 'CommonLabels.Show' | translate }}
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portlet-header" ng-show="showChart">
+                <h4 class="portlet-title">
+                    {{licenseName}}
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showDateSelection()">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-body" >
+                <div class="row">
+                    <div ng-model="filterFormLayer" class="col-sm-12 filter-form">
+
+                        <form id="filterForm" name="filterForm" method="post" enctype="multipart/form-data"
+                              class="form-horizontal parsley-form" novalidate>
+
+                            <div class="form-group">
+                                <label for="startDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.StartDateAndTime.Label' | translate }}</label>
+                                <div class="col-md-3 col-sm-4">
+                                    <div id="startDate" class="input-group date datepicker-field">
+                                        <input id="startDate" name="startDate" type="text" class="form-control input-sm"
+                                               ng-model="dateFilter.startDate" uib-datepicker-popup="{{dateFormat}}"
+                                               ng-change="updateStartDate(dateFilter.startDate)"
+                                               ng-focus="openStartDatePicker($event)"
+                                               is-open="startDatePicker.opened"
+                                               max-date="dateFilter.endDate" datepicker-options="dateOptions"
+                                               ng-required="true"/>
+                                        <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default input-sm"
+                                                            ng-click="openStartDatePicker($event)"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </span>
+                                    </div>
+                                    <ul ng-class="{ 'parsley-error-list': filterForm.startDate.$dirty && filterForm.startDate.$invalid }" ng-show="filterForm.startDate.$dirty && filterForm.startDate.$invalid">
+                                        <li class="required" ng-show="filterForm.startDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.startDate.$error.date">{{ 'GenericFormFields.StartDateAndTime.Messages.Invalid' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.startDate.$error.maxDateExceeded">{{ 'GenericFormFields.StartDateAndTime.Messages.MaxDateExceeded' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.startDate.$error.maxToday">{{ 'Subsystems.Licensing.Messages.MaxDateToday' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.startDate.$error.hourlyLimit">{{ 'Subsystems.Licensing.Messages.HourlyError' | translate:{ hours: 72 } }}</li>
+                                        <li class="required" ng-show="filterForm.startDate.$error.dailyLimit">{{ 'Subsystems.Licensing.Messages.DailyError' | translate:{ days: 31 } }}</li>
+
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-sm-4">
+                                    <div uib-timepicker ng-model="dateFilter.startTime" class="time-picker with-date-picker"
+                                         hour-step="hstep" minute-step="mstep"
+                                         show-meridian="false" readonly-input="false" mousewheel="false"
+                                         ng-change="updateStartDateTime(dateFilter.startTime)"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="endDate" class="col-md-2 col-sm-3 control-label text-right">{{ 'GenericFormFields.EndDateAndTime.Label' | translate }}</label>
+                                <div class="col-md-3 col-sm-4">
+                                    <div id="endDate" class="input-group date datepicker-field">
+                                        <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+                                               ng-model="dateFilter.endDate" uib-datepicker-popup="{{dateFormat}}"
+                                               ng-change="updateEndDate(dateFilter.endDate)"
+                                               ng-focus="openEndDatePicker($event)"
+                                               is-open="endDatePicker.opened"
+                                               min-date="dateFilter.endDate" datepicker-options="dateOptions"
+                                               ng-required="true"/>
+                                        <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default input-sm"
+                                                            ng-click="openEndDatePicker($event)"><i
+                                                            class="fa fa-calendar"></i></button>
+                                                </span>
+                                    </div>
+                                    <ul ng-class="{ 'parsley-error-list': filterForm.endDate.$dirty && filterForm.endDate.$invalid }" ng-show="filterForm.endDate.$dirty && filterForm.endDate.$invalid">
+                                        <li class="required" ng-show="filterForm.endDate.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.endDate.$error.date">{{ 'GenericFormFields.EndDateAndTime.Messages.Invalid' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.endDate.$error.minDateExceeded">{{ 'GenericFormFields.EndDateAndTime.Messages.MinDateExceeded' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.endDate.$error.maxToday">{{ 'Subsystems.Licensing.Messages.MaxDateToday' | translate }}</li>
+                                        <li class="required" ng-show="filterForm.endDate.$error.hourlyLimit">{{ 'Subsystems.Licensing.Messages.HourlyError' | translate:{ hours: 72 } }}</li>
+                                        <li class="required" ng-show="filterForm.endDate.$error.dailyLimit">{{ 'Subsystems.Licensing.Messages.DailyError' | translate:{ days: 31 } }}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-sm-4">
+                                    <div uib-timepicker ng-model="dateFilter.endTime" class="time-picker with-date-picker"
+                                         hour-step="hstep" minute-step="mstep"
+                                         show-meridian="false" readonly-input="false" mousewheel="false"
+                                         ng-change="updateEndDateTime(dateFilter.endTime)"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 control-label text-right">{{ 'Subsystems.Licensing.Dashboard.DetailQueryEnabled' | translate }}</label>
+                                <div class="col-md-3 col-sm-4">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn {{detailQueryEnabled?'btn-primary active':'btn-default'}} btn-sm" ng-model="detailQueryEnabled" uib-btn-radio="true" >{{ 'CommonLabels.Yes' | translate }}</button>
+                                        <button type="button" class="btn {{!detailQueryEnabled?'btn-primary active':'btn-default'}} btn-sm" ng-model="detailQueryEnabled" uib-btn-radio="false">{{ 'CommonLabels.No' | translate }}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showCurrentStats">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.CurrentStats' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="progress-stat">
+                    <div class="progress-stat-label">
+                        % {{ 'Subsystems.Licensing.Dashboard.HardLimit' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ hardLimitConsumption | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div class="progress-bar progress-bar-secondary" role="progressbar"
+                             aria-valuenow="{{ hardLimitConsumption}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{hardLimitConsumption}}%">
+                            <span class="sr-only">{{ hardLimitConsumption | number:2 }}% {{ 'Subsystems.Licensing.Dashboard.HardLimit' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-stat">
+                    <div class="progress-stat-label">
+                        % {{ 'Subsystems.Licensing.Dashboard.SoftLimit' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ softLimitConsumption | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="{{softLimitConsumption}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{softLimitConsumption}}%">
+                            <span class="sr-only">{{ softLimitConsumption | number:2 }}% {{ 'Subsystems.Licensing.Dashboard.SoftLimit' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-stat" ng-show="userLimit">
+                    <div class="progress-stat-label">
+                        % {{ 'Subsystems.Licensing.Dashboard.UserLimit' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ userLimitConsumption | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div class="progress-bar progress-bar-tertiary" role="progressbar"
+                             aria-valuenow="{{userLimitConsumption}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{userLimitConsumption}}%">
+                            <span class="sr-only">{{ userLimitConsumption | number:2 }}% {{ 'Subsystems.Licensing.Dashboard.UserLimit' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showCurrentStats && showViolations">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.SoftLimitExceededDays' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="progress-stat">
+                    <div class="progress-stat-label">
+                        <a href="javascript:;"
+                           title="{{ 'Subsystems.Licensing.Dashboard.Violations.Title' | translate }}"
+                           uib-popover-template="'subsystems/licensing/dashboards/dashboard.license.monitoring.html'"
+                           popover-animation="false"
+                           popover-title="[License Name = {{licenseName}}]"
+                           popover-placement="right" popover-append-to-body="true" popover-trigger="'outsideClick'"
+                           class="monitoring-button">
+                            <i class="fa fa-info-circle text-info"></i>
+                        </a>
+                        % {{ 'Subsystems.Licensing.Dashboard.SoftLimitExceeded' | translate }}
+                    </div>
+                    <div class="progress-stat-value">
+                        {{ violationStat | number:2 }}%
+                    </div>
+                    <div class="progress progress-striped progress-sm active">
+                        <div ng-class="pbClass" role="progressbar"
+                             aria-valuenow="{{ violationStat}}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{violationStat}}%">
+                            <span class="sr-only">{{ violationStat | number:2 }}# {{ 'Subsystems.Licensing.Dashboard.DaysExceeded' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showChart">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.HistoricalStats' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4 col-sm-5 col-xs-5">
+                        <div class="btn-group pull-left">
+                            <button type="button" class="btn {{!viewOption.isYAxisNormalized?'btn-default active':'btn-default'}} btn-sm"
+                                    ng-change="changeViewOption(viewOption.isYAxisNormalized)"
+                                    ng-model="viewOption.isYAxisNormalized" uib-btn-radio="false">{{ labels.Raw }}
+                            </button>
+                            <button type="button" class="btn {{viewOption.isYAxisNormalized?'btn-default active':'btn-default'}} btn-sm"
+                                    ng-change="changeViewOption(viewOption.isYAxisNormalized)"
+                                    ng-model="viewOption.isYAxisNormalized" uib-btn-radio="true">{{ 'Subsystems.Licensing.Dashboard.ViewOption.Normalized' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="pull-right">
+                            <div class="btn-group" ng-show="licenseConsumptionExportList.length > 0">
+                                <button type="button" ng-click="csv.download(licenseName, licenseConsumptionExportList, exportOptions)" class="btn btn-sm btn-default">{{ 'Export.CSV' | translate }}</button>
+                                <button type="button" ng-click="xls.download(licenseName, licenseConsumptionExportList, exportOptions)" class="btn btn-sm btn-default">{{ 'Export.Excel' | translate }}</button>
+                            </div>
+                        </div>
+                        <div export-csv="csv" export-xls="xls" export-options="exportOptions" ng-if="showChart">
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-4 col-xs-4">
+                        <div class="btn-group pull-right" ng-if="allProductLicenseValues.length > 0">
+                            <button type="button" class="btn {{isProductSelected(productLicenseName) ? 'btn-secondary active' : 'btn-default'}} btn-sm"
+                                    ng-model="dummySelectedProductLicenseValues" uib-btn-checkbox ng-repeat="productLicenseName in allProductLicenseValues"
+                                    ng-change="toggleProduct(productLicenseName)">
+                                {{ productLicenseName | uppercase }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas class="chart chart-line" chart-data="chartData"
+                                chart-labels="chartLabels" chart-series="chartSeries"
+                                chart-colors="chartColors" chart-options="chartOptions">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" ng-show="showChart && (specifiedLicense.type === 'shared')">
+    <div class="tab-content stacked-content">
+        <div class="tab-pane fade active in portlet portlet-boxed">
+            <div class="portlet-header">
+                <h5 class="portlet-title">
+                    {{ 'Subsystems.Licensing.Dashboard.HistoricalRejections' | translate }}
+                </h5>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas class="chart chart-bar" chart-data="rejectionsChartData"
+                                chart-labels="rejectionsChartLabels" chart-series="rejectionsSeries"
+                                chart-colors="rejectionsChartColors" chart-options="rejectionsChartOptions">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

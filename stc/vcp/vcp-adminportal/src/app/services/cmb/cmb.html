@@ -1,0 +1,46 @@
+<div class="row">
+
+    <div class="col-md-12">
+
+        <h3 class="page-title">
+            <span translate="{{ $state.current.data.title }}" translate-compile></span>
+            <i class="fa fa-spinner fa-spin pull-right title-spinner" ng-show="showTitleSpinner"></i>
+        </h3>
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{ 'active': $state.includes('services.cmb.dashboards') }">
+                <a ui-sref="services.cmb.dashboards" data-toggle="tab">
+                    <span class="fa fa-dashboard"></span> {{ 'GenericTabs.Dashboards' | translate }}
+                </a>
+            </li>
+
+            <li ng-class="{ 'active': $state.includes('services.cmb.advertisement') }" ng-if="AuthorizationService.canReadAdvertisements()">
+                <a ui-sref="services.cmb.advertisement.settings" tabindex="-1" data-toggle="tab">
+                    <span class="fa fa-newspaper-o"></span> {{ 'GenericTabs.Advertisements' | translate }}
+                </a>
+            </li>
+            <li ng-class="{ 'active': $state.includes('services.cmb.configuration') }" ng-if="AuthorizationService.canReadConfiguration()">
+                <a ui-sref="services.cmb.configuration.settings.callmeback" data-toggle="tab">
+                    <span class="fa fa-wrench"></span> {{ 'GenericTabs.Configuration' | translate }}
+                </a>
+            </li>
+
+            <!--<li ng-class="{ 'active': $state.includes('services.cmb.screening-lists') }" ng-if="AuthorizationService.canReadScreeningLists()">
+                <a ui-sref="services.cmb.screening-lists.incoming.cmb-global" data-toggle="tab">
+                    <span class="fa fa-shield"></span> {{ 'GenericTabs.ScreeningLists' | translate }}
+                </a>
+            </li>-->
+
+            <li ng-class="{ 'active': $state.includes('services.cmb.troubleshooting') }" ng-if="AuthorizationService.canReadTroubleshooting()">
+                <a ui-sref="services.cmb.troubleshooting" data-toggle="tab">
+                    <span class="fa fa-stethoscope"></span> {{ 'GenericTabs.Troubleshooting' | translate }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row" ui-view>
+        </div>
+
+    </div>
+
+</div>

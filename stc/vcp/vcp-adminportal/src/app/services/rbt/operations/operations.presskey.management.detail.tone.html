@@ -1,0 +1,182 @@
+<br>
+<br>
+<h5 class="portlet-title">
+    {{ 'Services.RBT.Operations.PressKey.Management.FormFields.TonePrompt' | translate:{dtmfKey:dtmfKey} }}
+</h5>
+
+<form class="form-horizontal parsley-form" novalidate id="form" name="form" method="post" enctype="multipart/form-data">
+
+
+    <div class="form-group">
+        <label for="showTones" class="col-md-3">{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.ShowTones' | translate }}</label>
+        <div class="col-md-7" id="showTones">
+            <button ng-if="!newTonePromotionData.toneSubscriptionCode" class="btn btn-sm btn-info pull-left"
+                    title="{{ 'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.SelectTone' | translate }}"
+                    ng-click="openToneSelectionModal()"
+                    ng-class="{ 'ng-invalid-required': !newTonePromotionData.toneSubscriptionCode }">
+                <i class="fa fa-plus"></i>
+                {{ 'CommonLabels.Add' | translate }}
+            </button>
+
+            <span ng-if="newTonePromotionData.toneSubscriptionCode">
+                <div class="modal-option-selection">
+                    <span ng-if="newTonePromotionData.alias" class="label label-warning">{{newTonePromotionData.alias}} </span>
+                    <span class="label label-info">{{newTonePromotionData.organizationName}} </span>
+                    <span class="label label-success">{{newTonePromotionData.name}}&nbsp;&nbsp;<a
+                            href="javascript:;" ng-click="removeToneSelection();"><i
+                            class="fa fa-times-circle"></i></a></span>
+                </div>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3">
+            {{ 'Services.RBT.Operations.PressKey.Management.FormFields.TonePromptFile' | translate }}<br/>
+            <small>({{ 'FileOperationLabels.AudioFileULawEncodedExplanation' | translate }})</small>
+        </label>
+        <div class="col-md-7">
+
+            <div ng-show="!newTonePromotionData.tonePromptFile.name">
+                <!-- Select button -->
+                <button name="tonePrompt" type="file" class="btn btn-sm btn-block btn-default"
+                        title="{{ (newTonePromotionData.tonePromptFile ? 'FileOperationLabels.ChangeTitle' : 'FileOperationLabels.SelectTitle') | translate }}"
+                        style="width: 262px;"
+                        ngf-select
+                        ng-model="newTonePromotionData.tonePromptFile"
+                        ng-init="newTonePromotionData.tonePromptFile ? newTonePromotionData.tonePromptFile.name = newTonePromotionData.tonePromptFile.$ngfName : null"
+                        ngf-change="form.tonePrompt.$setDirty(); toneFileChanged(newTonePromotionData.tonePromptFile, 'tonePrompt', form);"
+                        ngf-accept="'audio/wav'"
+                        ngf-max-size="1MB"
+                        ng-required="true"
+                        ngf-model-invalid="errorToneFile"
+                        ng-disabled="($state.includes('services.rbt.operations.presskey.management.update.tone') ? !AuthorizationService.canUpdate() : !AuthorizationService.canCreate())">
+                    {{ ((newTonePromotionData.tonePromptFile.name) ? 'CommonLabels.SelectNewFile' : 'CommonLabels.SelectFile') | translate }}
+                </button>
+            </div>
+            <div ng-show="newTonePromotionData.tonePromptFile.name">
+                <div class="fileinput-preview text-center" style="max-width: 200px;">
+                    <audio id="tonePromptAudio" name="tonePromptAudio" class="audio-player" controls controlsList="nodownload" ngf-src="!newTonePromotionData.tonePromptFile.$error && newTonePromotionData.tonePromptFile"/>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-default" style="cursor: text;text-overflow: ellipsis;width: 252px;overflow: hidden;white-space: nowrap;display: block;"
+                            uib-tooltip="{{newTonePromotionData.tonePromptFile.name}}" tooltip-class="custom-class" tooltip-placement="top-left" tooltip-animation="false" tooltip-trigger="'mouseenter'" tooltip-append-to-body="true">
+                        {{ newTonePromotionData.tonePromptFile.name }} <i class="fa fa-spinner fa-spin" ng-if="validationInProgress"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" type="button"
+                            ng-click="removeFile('newTonePromotionData.tonePromptFile'); form.tonePrompt.$setValidity('audioValiditiyCheck', true);"
+                            title="{{ 'CommonLabels.RemoveFile' | translate }}">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    &nbsp;&nbsp;
+                </div>
+                <a class="btn btn-sm btn-success"
+                   ng-if="newTonePromotionData.tonePromptFile.name"
+                   title="{{ 'CommonLabels.Download' | translate }}"
+                   download="{{ newTonePromotionData.tonePromptFile.name }}"
+                   href="{{ newTonePromotionData.tonePromptFile | ngfDataUrl }}" target="_blank"
+                   ng-if="AuthorizationService.canRead()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div style="clear: both; width:300px">
+                <ul ng-class="{ 'parsley-error-list': form.tonePrompt.$dirty && form.tonePrompt.$invalid }"
+                    ng-show="form.tonePrompt.$dirty && form.tonePrompt.$invalid">
+                    <li class="required" ng-show="form.tonePrompt.$error.required">{{ 'CommonMessages.RequiredFieldError' | translate }}</li>
+                    <li class="required" ng-show="form.tonePrompt.$error.maxSize">{{ 'FileOperationLabels.FileTooLargeError' | translate: {maxFileSize: errorToneFile.$errorParam || '1MB'} }}</li>
+                    <li class="required" ng-show="form.tonePrompt.$error.audioValiditiyCheck">{{ 'FileOperationLabels.AudioFileInvalid' | translate }}</li>
+                </ul>
+                <!--<br>
+                <div class="progress" ng-if="validationInProgress && newTonePromotionData.tonePromptFile.progress >= 0">
+                    <div class="progress-bar progress-bar-secondary" role="progressbar" aria-valuenow="{{newTonePromotionData.tonePromptFile.progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{newTonePromotionData.tonePromptFile.progress}}%;">
+                        {{newTonePromotionData.tonePromptFile.progress}}%
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-7 col-md-push-3">
+            <button type="submit" class="btn btn-danger"
+                    ng-disabled="form.$invalid || !newTonePromotionData.toneSubscriptionCode || !AuthorizationService.canUpdateConfiguration() || isNotChanged()|| validationInProgress"
+                    ng-click="save();">
+                {{ 'CommonLabels.Save' | translate }}
+            </button>
+            <button type="reset" class="btn btn-default" ng-click="cancel();">
+                {{ 'CommonLabels.Cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<div class="portlet-body" ng-if="$state.includes('services.rbt.operations.presskey.management.update.tone')">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive text-nowrap">
+                <!--<table ng-table="promotionList.tableParams" class="table table-striped table-bordered"-->
+                <table ng-table="promotionList.tableParams" class="table table-striped table-bordered"
+                       template-pagination="ngTableCustomPager.html"
+                       export-csv="csv" export-xls="xls"
+                       export-options="exportOptions">
+                    <tr ng-repeat="data in $data track by $index" class="hidden-link-cell-row">
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Alias' | translate" sortable="'contentOfferTone.alias'">{{(data.contentOfferTone.alias ? data.contentOfferTone.alias : 'N/A')}}</td>
+                        <td align="center" data-title="'Subsystems.ContentManagement.Operations.RBT.ContentMetadatas.Tones.Name' | translate" sortable="'contentOfferTone.name'">{{data.contentOfferTone.name}}</td>
+                        <td align="center" data-title="'CommonLabels.Organization' | translate" sortable="'contentOfferTone.organizationName'">{{(data.contentOfferTone.organizationName ? data.contentOfferTone.organizationName : 'N/A')}}</td>
+                        <td align="center" class="action-column" data-title="'Services.RBT.Operations.PressKey.Management.TableColumns.ToneAudio' | translate">
+                            <button ng-if="data.toneFileId"
+                                    ng-click="playAudio($index, data.toneFileId)"
+                                    class="btn btn-xs {{audio.canDisplayButton($index, data.toneFileId, 'stop') ? 'btn-danger' : 'btn-secondary btn-inverse'}}"
+                                    title="{{ audio.getLabel($index,data.toneFileId) | translate }}">
+                                <i class="fa fa-play-circle"
+                                   ng-if="audio.canDisplayButton($index, data.toneFileId, 'play')"></i>
+                                <i class="fa fa-spinner fa-spin"
+                                   ng-if="audio.canDisplayButton($index, data.toneFileId, 'spinner')"></i>
+                                <i class="fa fa-stop-circle"
+                                   ng-if="audio.canDisplayButton($index, data.toneFileId, 'stop')"></i>
+                            </button>
+                        </td>
+                        <td align="center" class="action-column" data-title="'Services.RBT.Operations.PressKey.Management.TableColumns.PromptAudio' | translate">
+                            <button ng-if="data.promptId"
+                                    ng-click="playAudio($index, data.promptId, promptFilePathGenerator(data.subscriptionCode))"
+                                    class="btn btn-xs {{audio.canDisplayButton($index, data.promptId, 'stop') ? 'btn-danger' : 'btn-secondary btn-inverse'}}"
+                                    title="{{ audio.getLabel($index,data.promptId) | translate }}">
+                                <i class="fa fa-play-circle"
+                                   ng-if="audio.canDisplayButton($index, data.promptId, 'play')"></i>
+                                <i class="fa fa-spinner fa-spin"
+                                   ng-if="audio.canDisplayButton($index, data.promptId, 'spinner')"></i>
+                                <i class="fa fa-stop-circle"
+                                   ng-if="audio.canDisplayButton($index, data.promptId, 'stop')"></i>
+                            </button>
+                            <button ng-if="audio.canDisplayButton($index, data.promptId, 'play') &&  audio['error_' + $index + '_' + data.promptId]"
+                                    class="btn btn-xs btn-danger">
+                                <i class="fa fa-exclamation-triangle"></i>
+                            </button>
+                        </td>
+                        <td align="center" class="action-column" data-title="'CommonLabels.Actions' | translate" style="width:5%">
+                            <button ng-click="updateEntry(data)"
+                                    ng-disabled="!AuthorizationService.canUpdate()"
+                                    class="btn btn-xs btn-secondary"
+                                    title="{{ AuthorizationService.canUpdate() ? ('Services.RBT.Operations.PressKey.Management.UpdateTonePrompt' | translate) : ('CommonLabels.View' | translate) }}">
+                                <i class="fa fa-edit" ng-if="AuthorizationService.canUpdate()"></i>
+                                <i class="fa fa-square-o" ng-if="!AuthorizationService.canUpdate()"></i>
+                            </button>
+                            <button ng-click="remove(data)" class="btn btn-xs btn-danger"
+                                    title="{{ 'CommonLabels.Remove' | translate }}"
+                                    ng-disabled="!AuthorizationService.canDelete()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="$data.length === 0">
+                        <td colspan="6" class="text-center">{{ 'CommonMessages.EmptyTable' | translate }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,22 @@
+<!--<div translate="ActivityHistorySummarize.Message" translate-values="{delivered: (summarize.delivered), undelivered: ((summarize.permanent + summarize.transient) - summarize.delivered), submitted: (summarize.permanent + summarize.transient), buffered: (summarize.transient)}">
+</div>-->
+
+<div><span translate="ActivityHistorySummarize.MMSCMessage"
+           translate-values="{delivered: (summarize.delivered), undelivered: (summarize.undelivered), submitted: (summarize.transient), buffered: (summarize.transient)}">
+
+
+</span>
+    <span><i class="fa fa-info-circle"
+             uib-popover="{{ 'ActivityHistorySummarize.MMSCWarningMessage' | translate:{days: 10} }}"
+             popover-placement="top"
+             popover-trigger="'mouseenter'"
+             popover-append-to-body="true"
+             style="cursor: pointer; margin-left: 5px; color: #007bff;"></i></span></div>
+
+
+
+
+
+
+
+
