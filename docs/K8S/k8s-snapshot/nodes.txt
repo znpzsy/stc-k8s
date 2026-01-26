@@ -1,0 +1,9 @@
+NAME    STATUS   ROLES           AGE    VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                              KERNEL-VERSION                 CONTAINER-RUNTIME
+kub-1   Ready    control-plane   164d   v1.33.4   10.35.36.135   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-2   Ready    <none>          164d   v1.33.4   10.35.36.136   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-3   Ready    <none>          164d   v1.33.4   10.35.36.137   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-4   Ready    <none>          164d   v1.33.4   10.35.36.138   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-5   Ready    <none>          164d   v1.33.4   10.35.36.134   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-6   Ready    <none>          164d   v1.33.4   10.35.36.120   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-7   Ready    <none>          164d   v1.33.4   10.35.36.110   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-8   Ready    <none>          164d   v1.33.4   10.35.36.111   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27

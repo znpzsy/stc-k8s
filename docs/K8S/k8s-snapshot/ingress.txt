@@ -1,0 +1,4 @@
+NAMESPACE                  NAME                                  CLASS   HOSTS                                   ADDRESS        PORTS     AGE
+keycloak                   keycloak                              nginx   keycloak.internal.telenity.com          10.35.36.240   80, 443   82d
+spring-config-server-gui   config-server-gui-lab-setup-ingress   nginx   configservergui.internal.telenity.com   10.35.36.240   80, 443   83d
+spring-config-server       config-server-lab-setup-ingress       nginx   configserver.internal.telenity.com      10.35.36.240   80, 443   83d

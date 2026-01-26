@@ -1,0 +1,577 @@
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://kubernetes.docker.internal:6443
+  name: docker-desktop
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://10.35.36.135:6443
+  name: kubernetes
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://10.35.39.91:6443
+  name: kubernetes-lab
+contexts:
+- context:
+    cluster: docker-desktop
+    user: docker-desktop
+  name: docker-desktop
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+- context:
+    cluster: kubernetes-lab
+    user: kubernetes-admin-lab
+  name: kubernetes-admin@kubernetes-lab
+current-context: kubernetes-admin@kubernetes
+kind: Config
+users:
+- name: docker-desktop
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+- name: kubernetes-admin
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+- name: kubernetes-admin-lab
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl config get-contexts
+CURRENT   NAME                              CLUSTER          AUTHINFO               NAMESPACE
+          docker-desktop                    docker-desktop   docker-desktop
+*         kubernetes-admin@kubernetes       kubernetes       kubernetes-admin
+          kubernetes-admin@kubernetes-lab   kubernetes-lab   kubernetes-admin-lab
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl config current-context
+kubectl cluster-info
+kubernetes-admin@kubernetes
+Kubernetes control plane is running at https://10.35.36.135:6443
+CoreDNS is running at https://10.35.36.135:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+zeynepozsoy@TELENITYs-MacBook-Pro K8S %
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get nodes -o wide
+NAME    STATUS   ROLES           AGE    VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                              KERNEL-VERSION                 CONTAINER-RUNTIME
+kub-1   Ready    control-plane   164d   v1.33.4   10.35.36.135   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-2   Ready    <none>          164d   v1.33.4   10.35.36.136   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-3   Ready    <none>          164d   v1.33.4   10.35.36.137   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-4   Ready    <none>          164d   v1.33.4   10.35.36.138   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-5   Ready    <none>          164d   v1.33.4   10.35.36.134   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-6   Ready    <none>          164d   v1.33.4   10.35.36.120   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-7   Ready    <none>          164d   v1.33.4   10.35.36.110   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+kub-8   Ready    <none>          164d   v1.33.4   10.35.36.111   <none>        Red Hat Enterprise Linux 9.5 (Plow)   5.14.0-503.19.1.el9_5.x86_64   containerd://1.7.27
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl version --short
+error: unknown flag: --short
+See 'kubectl version --help' for usage.
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl version
+Client Version: v1.34.1
+Kustomize Version: v5.7.1
+Server Version: v1.33.4
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get ns
+NAME                             STATUS   AGE
+argocd                           Active   164d
+calico-apiserver                 Active   164d
+calico-system                    Active   164d
+canvas-flexiblelicensingserver   Active   18d
+cert-manager                     Active   98d
+default                          Active   164d
+dmi4j-backend                    Active   18d
+ingress-nginx                    Active   94d
+keycloak                         Active   82d
+kube-node-lease                  Active   164d
+kube-public                      Active   164d
+kube-system                      Active   164d
+kubernetes-dashboard             Active   158d
+metallb-system                   Active   82d
+ngssm-repo-main                  Active   3d14h
+observability                    Active   17d
+openebs                          Active   164d
+smsf-argocd                      Active   96d
+spring-config-server             Active   98d
+spring-config-server-gui         Active   87d
+tigera-operator                  Active   164d
+vcp-argocd                       Active   34d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get pods -A -o wide
+NAMESPACE                  NAME                                                   READY   STATUS                 RESTARTS       AGE    IP               NODE    NOMINATED NODE   READINESS GATES
+argocd                     argocd-application-controller-0                        1/1     Running                1 (144d ago)   164d   10.244.63.9      kub-8   <none>           <none>
+argocd                     argocd-applicationset-controller-6ff6f74bc9-2zsbt      1/1     Running                1 (144d ago)   164d   10.244.49.203    kub-4   <none>           <none>
+argocd                     argocd-dex-server-558dc4bd7b-fjp22                     1/1     Running                1 (144d ago)   164d   10.244.206.81    kub-6   <none>           <none>
+argocd                     argocd-notifications-controller-9977b5bd6-bscf4        1/1     Running                1 (144d ago)   164d   10.244.218.8     kub-7   <none>           <none>
+argocd                     argocd-redis-6594484976-spgb9                          1/1     Running                0              108d   10.244.206.111   kub-6   <none>           <none>
+argocd                     argocd-repo-server-845d4f5c49-ft62z                    1/1     Running                0              117d   10.244.0.202     kub-3   <none>           <none>
+argocd                     argocd-server-59d75f4c95-fsvjf                         1/1     Running                1 (144d ago)   164d   10.244.0.228     kub-3   <none>           <none>
+calico-apiserver           calico-apiserver-5d68f5cc7-755fs                       1/1     Running                1 (144d ago)   164d   10.244.253.9     kub-1   <none>           <none>
+calico-apiserver           calico-apiserver-5d68f5cc7-8d7jp                       1/1     Running                1 (144d ago)   164d   10.244.253.11    kub-1   <none>           <none>
+calico-system              calico-kube-controllers-d48657987-bnf2r                1/1     Running                1 (144d ago)   164d   10.244.253.12    kub-1   <none>           <none>
+calico-system              calico-node-dnsq7                                      1/1     Running                1 (144d ago)   164d   10.35.36.120     kub-6   <none>           <none>
+calico-system              calico-node-f22m7                                      1/1     Running                9 (108d ago)   164d   10.35.36.134     kub-5   <none>           <none>
+calico-system              calico-node-ps5hv                                      1/1     Running                1 (144d ago)   164d   10.35.36.110     kub-7   <none>           <none>
+calico-system              calico-node-sdr7c                                      1/1     Running                1 (144d ago)   164d   10.35.36.135     kub-1   <none>           <none>
+calico-system              calico-node-v4vhl                                      1/1     Running                1 (144d ago)   164d   10.35.36.137     kub-3   <none>           <none>
+calico-system              calico-node-vkwgs                                      1/1     Running                1 (144d ago)   164d   10.35.36.138     kub-4   <none>           <none>
+calico-system              calico-node-xlq56                                      1/1     Running                2 (108d ago)   164d   10.35.36.136     kub-2   <none>           <none>
+calico-system              calico-node-znsks                                      1/1     Running                1 (144d ago)   164d   10.35.36.111     kub-8   <none>           <none>
+calico-system              calico-typha-7cb85496d5-5mtg9                          1/1     Running                1 (144d ago)   164d   10.35.36.135     kub-1   <none>           <none>
+calico-system              calico-typha-7cb85496d5-h4wqg                          1/1     Running                1 (144d ago)   164d   10.35.36.137     kub-3   <none>           <none>
+calico-system              calico-typha-7cb85496d5-jxshl                          1/1     Running                2 (108d ago)   164d   10.35.36.136     kub-2   <none>           <none>
+calico-system              csi-node-driver-28ms4                                  2/2     Running                8 (108d ago)   164d   10.244.1.19      kub-5   <none>           <none>
+calico-system              csi-node-driver-9h26n                                  2/2     Running                2 (144d ago)   164d   10.244.63.6      kub-8   <none>           <none>
+calico-system              csi-node-driver-dxtbr                                  2/2     Running                2 (144d ago)   164d   10.244.206.83    kub-6   <none>           <none>
+calico-system              csi-node-driver-ht8fg                                  2/2     Running                2 (144d ago)   164d   10.244.0.223     kub-3   <none>           <none>
+calico-system              csi-node-driver-jfb9s                                  2/2     Running                2 (144d ago)   164d   10.244.253.15    kub-1   <none>           <none>
+calico-system              csi-node-driver-nnz72                                  2/2     Running                2 (144d ago)   164d   10.244.218.14    kub-7   <none>           <none>
+calico-system              csi-node-driver-vmvt4                                  2/2     Running                2 (144d ago)   164d   10.244.49.206    kub-4   <none>           <none>
+calico-system              csi-node-driver-xvjp9                                  2/2     Running                4 (108d ago)   164d   10.244.74.16     kub-2   <none>           <none>
+calico-system              goldmane-86cd9d999d-nr4vn                              1/1     Running                1 (144d ago)   164d   10.244.253.14    kub-1   <none>           <none>
+calico-system              whisker-66bbb5ff6-shfcv                                2/2     Running                2 (144d ago)   164d   10.244.253.16    kub-1   <none>           <none>
+cert-manager               cert-manager-5dd4778b9c-kgr4k                          1/1     Running                0              98d    10.244.74.21     kub-2   <none>           <none>
+cert-manager               cert-manager-cainjector-65fcfd6ccf-qvnjh               1/1     Running                0              98d    10.244.1.20      kub-5   <none>           <none>
+cert-manager               cert-manager-webhook-9b4dd78-rl6r6                     1/1     Running                0              98d    10.244.74.17     kub-2   <none>           <none>
+default                    bash                                                   1/1     Running                0              122d   10.244.218.15    kub-7   <none>           <none>
+default                    nfs-subdir-external-provisioner-54c8f9b866-l5bq5       1/1     Running                11 (14d ago)   164d   10.244.206.84    kub-6   <none>           <none>
+dmi4j-backend              dmi4j-backend-dmi4j-backend-0                          1/1     Running                0              18d    10.244.206.125   kub-6   <none>           <none>
+dmi4j-backend              dmi4j-backend-dmi4j-backend-1                          1/1     Running                0              18d    10.244.49.239    kub-4   <none>           <none>
+dmi4j-backend              dmi4j-backend-dmi4j-backend-2                          1/1     Running                0              18d    10.244.218.5     kub-7   <none>           <none>
+ingress-nginx              ingress-nginx-controller-579db5bd79-rmd87              1/1     Running                0              94d    10.244.63.49     kub-8   <none>           <none>
+keycloak                   curl-test                                              1/1     Running                0              82d    10.244.49.229    kub-4   <none>           <none>
+keycloak                   keycloak-0                                             1/1     Running                1 (82d ago)    82d    10.244.63.1      kub-8   <none>           <none>
+keycloak                   keycloak-postgresql-0                                  1/1     Running                0              82d    10.244.1.18      kub-5   <none>           <none>
+kube-system                coredns-558b5b987c-k5dpd                               1/1     Running                0              82d    10.244.218.55    kub-7   <none>           <none>
+kube-system                coredns-558b5b987c-khss9                               1/1     Running                0              82d    10.244.63.12     kub-8   <none>           <none>
+kube-system                etcd-kub-1                                             1/1     Running                1 (144d ago)   164d   10.35.36.135     kub-1   <none>           <none>
+kube-system                kube-apiserver-kub-1                                   1/1     Running                1 (144d ago)   164d   10.35.36.135     kub-1   <none>           <none>
+kube-system                kube-controller-manager-kub-1                          1/1     Running                8 (14d ago)    164d   10.35.36.135     kub-1   <none>           <none>
+kube-system                kube-proxy-5q6f9                                       1/1     Running                4 (108d ago)   164d   10.35.36.134     kub-5   <none>           <none>
+kube-system                kube-proxy-d62mg                                       1/1     Running                1 (144d ago)   164d   10.35.36.137     kub-3   <none>           <none>
+kube-system                kube-proxy-fm85m                                       1/1     Running                1 (144d ago)   164d   10.35.36.120     kub-6   <none>           <none>
+kube-system                kube-proxy-jgrbh                                       1/1     Running                1 (144d ago)   164d   10.35.36.111     kub-8   <none>           <none>
+kube-system                kube-proxy-mdpmw                                       1/1     Running                1 (144d ago)   164d   10.35.36.110     kub-7   <none>           <none>
+kube-system                kube-proxy-rt5bh                                       1/1     Running                1 (144d ago)   164d   10.35.36.135     kub-1   <none>           <none>
+kube-system                kube-proxy-vgc99                                       1/1     Running                2 (108d ago)   164d   10.35.36.136     kub-2   <none>           <none>
+kube-system                kube-proxy-vvz7j                                       1/1     Running                1 (144d ago)   164d   10.35.36.138     kub-4   <none>           <none>
+kube-system                kube-scheduler-kub-1                                   1/1     Running                9 (14d ago)    164d   10.35.36.135     kub-1   <none>           <none>
+kubernetes-dashboard       kubernetes-dashboard-api-88796d995-r2nl2               1/1     Running                0              108d   10.244.63.33     kub-8   <none>           <none>
+kubernetes-dashboard       kubernetes-dashboard-auth-74fbd8675d-d9vz7             1/1     Running                1 (144d ago)   158d   10.244.0.229     kub-3   <none>           <none>
+kubernetes-dashboard       kubernetes-dashboard-kong-648658d45f-72nzk             1/1     Running                0              117d   10.244.49.208    kub-4   <none>           <none>
+kubernetes-dashboard       kubernetes-dashboard-metrics-scraper-547874fcf-lvw6h   1/1     Running                1 (144d ago)   158d   10.244.49.202    kub-4   <none>           <none>
+kubernetes-dashboard       kubernetes-dashboard-web-7796b9fbbb-p7lcv              1/1     Running                1 (144d ago)   158d   10.244.218.13    kub-7   <none>           <none>
+metallb-system             controller-6d9b64d49f-cnj7z                            1/1     Running                1 (82d ago)    82d    10.244.1.51      kub-5   <none>           <none>
+metallb-system             speaker-2jhjk                                          1/1     Running                0              82d    10.35.36.135     kub-1   <none>           <none>
+metallb-system             speaker-62287                                          1/1     Running                0              82d    10.35.36.111     kub-8   <none>           <none>
+metallb-system             speaker-8lmnk                                          1/1     Running                0              82d    10.35.36.134     kub-5   <none>           <none>
+metallb-system             speaker-f5xfr                                          1/1     Running                0              82d    10.35.36.138     kub-4   <none>           <none>
+metallb-system             speaker-jg6z2                                          1/1     Running                0              82d    10.35.36.120     kub-6   <none>           <none>
+metallb-system             speaker-kqf22                                          1/1     Running                0              82d    10.35.36.136     kub-2   <none>           <none>
+metallb-system             speaker-vgbkx                                          1/1     Running                0              82d    10.35.36.137     kub-3   <none>           <none>
+metallb-system             speaker-zl5rf                                          1/1     Running                0              82d    10.35.36.110     kub-7   <none>           <none>
+observability              otel-collector-b775b6766-nnj84                         1/1     Running                0              17d    10.244.74.32     kub-2   <none>           <none>
+observability              otel-collector-b775b6766-vcnlc                         1/1     Running                0              17d    10.244.1.40      kub-5   <none>           <none>
+openebs                    openebs-localpv-provisioner-65dd55b8dc-mjsl9           1/1     Running                17 (13d ago)   164d   10.244.63.7      kub-8   <none>           <none>
+openebs                    openebs-ndm-6p6hg                                      0/1     CreateContainerError   1 (144d ago)   164d   10.35.36.137     kub-3   <none>           <none>
+openebs                    openebs-ndm-bj7l8                                      0/1     CreateContainerError   1 (144d ago)   164d   10.35.36.138     kub-4   <none>           <none>
+openebs                    openebs-ndm-cluster-exporter-848db89c6-5vnz2           1/1     Running                2 (144d ago)   164d   10.244.49.201    kub-4   <none>           <none>
+openebs                    openebs-ndm-dwgbq                                      1/1     Running                4 (108d ago)   164d   10.35.36.136     kub-2   <none>           <none>
+openebs                    openebs-ndm-h7pph                                      1/1     Running                2 (144d ago)   164d   10.35.36.110     kub-7   <none>           <none>
+openebs                    openebs-ndm-j77cq                                      1/1     Running                8 (108d ago)   164d   10.35.36.134     kub-5   <none>           <none>
+openebs                    openebs-ndm-k5t9z                                      1/1     Running                2 (144d ago)   164d   10.35.36.111     kub-8   <none>           <none>
+openebs                    openebs-ndm-l2r8m                                      1/1     Running                1 (144d ago)   164d   10.35.36.120     kub-6   <none>           <none>
+openebs                    openebs-ndm-node-exporter-kv8lt                        1/1     Running                2 (108d ago)   164d   10.244.74.15     kub-2   <none>           <none>
+openebs                    openebs-ndm-node-exporter-mwzzs                        1/1     Running                2 (144d ago)   164d   10.244.49.204    kub-4   <none>           <none>
+openebs                    openebs-ndm-node-exporter-pf2bk                        1/1     Running                2 (144d ago)   164d   10.244.0.226     kub-3   <none>           <none>
+openebs                    openebs-ndm-node-exporter-q7bnp                        1/1     Running                4 (108d ago)   164d   10.244.1.21      kub-5   <none>           <none>
+openebs                    openebs-ndm-node-exporter-r7zxn                        1/1     Running                1 (144d ago)   164d   10.244.218.12    kub-7   <none>           <none>
+openebs                    openebs-ndm-node-exporter-txf59                        1/1     Running                1 (144d ago)   164d   10.244.63.8      kub-8   <none>           <none>
+openebs                    openebs-ndm-node-exporter-z9rwn                        1/1     Running                1 (144d ago)   164d   10.244.206.82    kub-6   <none>           <none>
+openebs                    openebs-ndm-operator-5849bb84b8-lt2f9                  1/1     Running                1 (144d ago)   164d   10.244.218.10    kub-7   <none>           <none>
+smsf-argocd                smsf-mongodb-statistics-69df5667c-wk49x                0/1     ImagePullBackOff       0              95d    10.244.218.22    kub-7   <none>           <none>
+smsf-argocd                smsf-mysql-0                                           1/1     Running                1 (95d ago)    95d    10.244.1.36      kub-5   <none>           <none>
+smsf-argocd                smsf-mysql-oamdb-0                                     1/1     Running                0              95d    10.244.1.37      kub-5   <none>           <none>
+smsf-argocd                smsf-redis-node-0                                      0/2     ImagePullBackOff       0              95d    10.244.49.225    kub-4   <none>           <none>
+spring-config-server-gui   config-server-gui-lab-setup-cd4c94b87-64nz6            1/1     Running                0              55d    10.244.0.254     kub-3   <none>           <none>
+spring-config-server-gui   config-server-gui-lab-setup-cd4c94b87-gdl6v            1/1     Running                0              55d    10.244.218.61    kub-7   <none>           <none>
+spring-config-server       config-server-lab-setup-5f67d64f9d-flxr4               1/1     Running                0              80d    10.244.206.119   kub-6   <none>           <none>
+spring-config-server       config-server-lab-setup-5f67d64f9d-glg4q               1/1     Running                0              80d    10.244.49.230    kub-4   <none>           <none>
+spring-config-server       config-server-lab-setup-5f67d64f9d-khgfn               1/1     Running                0              80d    10.244.218.59    kub-7   <none>           <none>
+spring-config-server       config-server-mysql-service-0                          1/1     Running                1 (96d ago)    96d    10.244.1.35      kub-5   <none>           <none>
+tigera-operator            tigera-operator-68f7c7984d-9srlt                       1/1     Running                8 (14d ago)    164d   10.35.36.135     kub-1   <none>           <none>
+vcp-argocd                 dmi4j-backend-vcp-dmi4j-backend-0                      1/1     Running                0              34d    10.244.63.18     kub-8   <none>           <none>
+vcp-argocd                 moagent-vcp-smsantispam-cluster-69d6c7f574-4786z       0/1     ImagePullBackOff       2 (16h ago)    33d    10.244.1.5       kub-5   <none>           <none>
+vcp-argocd                 oamportal-deployment-6c8747674c-vbpqn                  1/1     Running                0              32d    10.244.0.216     kub-3   <none>           <none>
+vcp-argocd                 smsantispam-0                                          1/1     Running                0              33d    10.244.1.2       kub-5   <none>           <none>
+vcp-argocd                 vcp-memcached-7b49b6cb67-ldh4l                         1/1     Running                0              34d    10.244.0.209     kub-3   <none>           <none>
+vcp-argocd                 vcp-memcached-smsantispam-5d5fffb646-dp262             1/1     Running                0              33d    10.244.206.124   kub-6   <none>           <none>
+vcp-argocd                 vcp-mongodb-statistics-7fc5cfcd9d-l28kz                1/1     Running                0              34d    10.244.218.2     kub-7   <none>           <none>
+vcp-argocd                 vcp-mysql-oamdb-0                                      1/1     Running                0              34d    10.244.206.121   kub-6   <none>           <none>
+vcp-argocd                 vcp-mysql-smsantispam-0                                1/1     Running                0              34d    10.244.1.8       kub-5   <none>           <none>
+vcp-argocd                 vcp-redis-node-0                                       2/2     Running                0              32d    10.244.49.237    kub-4   <none>           <none>
+vcp-argocd                 vcp-redis-node-1                                       2/2     Running                0              32d    10.244.218.7     kub-7   <none>           <none>
+vcp-argocd                 vcp-redis-node-2                                       2/2     Running                0              32d    10.244.0.215     kub-3   <none>           <none>
+vcp-argocd                 vcp-redis-smsantispam-node-0                           2/2     Running                0              32d    10.244.1.3       kub-5   <none>           <none>
+vcp-argocd                 vcp-redis-smsantispam-node-1                           2/2     Running                0              32d    10.244.49.238    kub-4   <none>           <none>
+vcp-argocd                 vcp-redis-smsantispam-node-2                           2/2     Running                0              32d    10.244.218.3     kub-7   <none>           <none>
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get deploy -A
+NAMESPACE                  NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+argocd                     argocd-applicationset-controller       1/1     1            1           164d
+argocd                     argocd-dex-server                      1/1     1            1           164d
+argocd                     argocd-notifications-controller        1/1     1            1           164d
+argocd                     argocd-redis                           1/1     1            1           164d
+argocd                     argocd-repo-server                     1/1     1            1           164d
+argocd                     argocd-server                          1/1     1            1           164d
+calico-apiserver           calico-apiserver                       2/2     2            2           164d
+calico-system              calico-kube-controllers                1/1     1            1           164d
+calico-system              calico-typha                           3/3     3            3           164d
+calico-system              goldmane                               1/1     1            1           164d
+calico-system              whisker                                1/1     1            1           164d
+cert-manager               cert-manager                           1/1     1            1           98d
+cert-manager               cert-manager-cainjector                1/1     1            1           98d
+cert-manager               cert-manager-webhook                   1/1     1            1           98d
+default                    nfs-subdir-external-provisioner        1/1     1            1           164d
+ingress-nginx              ingress-nginx-controller               1/1     1            1           94d
+kube-system                coredns                                2/2     2            2           164d
+kubernetes-dashboard       kubernetes-dashboard-api               1/1     1            1           158d
+kubernetes-dashboard       kubernetes-dashboard-auth              1/1     1            1           158d
+kubernetes-dashboard       kubernetes-dashboard-kong              1/1     1            1           158d
+kubernetes-dashboard       kubernetes-dashboard-metrics-scraper   1/1     1            1           158d
+kubernetes-dashboard       kubernetes-dashboard-web               1/1     1            1           158d
+metallb-system             controller                             1/1     1            1           82d
+observability              otel-collector                         2/2     2            2           17d
+openebs                    openebs-localpv-provisioner            1/1     1            1           164d
+openebs                    openebs-ndm-cluster-exporter           1/1     1            1           164d
+openebs                    openebs-ndm-operator                   1/1     1            1           164d
+smsf-argocd                smsf-mongodb-statistics                0/1     1            0           95d
+spring-config-server-gui   config-server-gui-lab-setup            2/2     2            2           83d
+spring-config-server       config-server-lab-setup                3/3     3            3           83d
+tigera-operator            tigera-operator                        1/1     1            1           164d
+vcp-argocd                 moagent-vcp-smsantispam-cluster        0/1     1            0           33d
+vcp-argocd                 oamportal-deployment                   1/1     1            1           32d
+vcp-argocd                 vcp-memcached                          1/1     1            1           34d
+vcp-argocd                 vcp-memcached-smsantispam              1/1     1            1           33d
+vcp-argocd                 vcp-mongodb-statistics                 1/1     1            1           34d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get statefulset -A
+NAMESPACE              NAME                              READY   AGE
+argocd                 argocd-application-controller     1/1     164d
+dmi4j-backend          dmi4j-backend-dmi4j-backend       3/3     18d
+keycloak               keycloak                          1/1     82d
+keycloak               keycloak-postgresql               1/1     82d
+smsf-argocd            smsf-mysql                        1/1     95d
+smsf-argocd            smsf-mysql-oamdb                  1/1     95d
+smsf-argocd            smsf-redis-node                   0/3     95d
+spring-config-server   config-server-mysql-service       1/1     96d
+vcp-argocd             dmi4j-backend-vcp-dmi4j-backend   1/1     34d
+vcp-argocd             smsantispam                       1/1     33d
+vcp-argocd             vcp-mysql-oamdb                   1/1     34d
+vcp-argocd             vcp-mysql-smsantispam             1/1     34d
+vcp-argocd             vcp-redis-node                    3/3     32d
+vcp-argocd             vcp-redis-smsantispam-node        3/3     32d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get daemonset -A
+NAMESPACE        NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+calico-system    calico-node                 8         8         8       8            8           kubernetes.io/os=linux   164d
+calico-system    csi-node-driver             8         8         8       8            8           kubernetes.io/os=linux   164d
+kube-system      kube-proxy                  8         8         8       8            8           kubernetes.io/os=linux   164d
+metallb-system   speaker                     6         6         6       6            6           kubernetes.io/os=linux   82d
+openebs          openebs-ndm                 5         5         3       5            3           <none>                   164d
+openebs          openebs-ndm-node-exporter   5         5         5       5            5           <none>                   164d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S %
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get ingress -A
+NAMESPACE                  NAME                                  CLASS   HOSTS                                   ADDRESS        PORTS     AGE
+keycloak                   keycloak                              nginx   keycloak.internal.telenity.com          10.35.36.240   80, 443   82d
+spring-config-server-gui   config-server-gui-lab-setup-ingress   nginx   configservergui.internal.telenity.com   10.35.36.240   80, 443   83d
+spring-config-server       config-server-lab-setup-ingress       nginx   configserver.internal.telenity.com      10.35.36.240   80, 443   83d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl -n <ns> describe ingress <name>
+zsh: parse error near `\n'
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl -n keycloak describe ingress keycloak
+Name:             keycloak
+Labels:           app.kubernetes.io/component=keycloak
+                  app.kubernetes.io/instance=keycloak
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=keycloak
+                  app.kubernetes.io/part-of=keycloak
+                  app.kubernetes.io/version=26.3.3
+                  helm.sh/chart=keycloak-25.2.0
+Namespace:        keycloak
+Address:          10.35.36.240
+Ingress Class:    nginx
+Default backend:  <default>
+TLS:
+  keycloak.internal.telenity.com-tls terminates keycloak.internal.telenity.com
+  keycloak-tls terminates keycloak.internal.telenity.com
+Rules:
+  Host                            Path  Backends
+  ----                            ----  --------
+  keycloak.internal.telenity.com
+                                  /   keycloak:http (10.244.63.1:8080)
+Annotations:                      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+                                  meta.helm.sh/release-name: keycloak
+                                  meta.helm.sh/release-namespace: keycloak
+                                  nginx.ingress.kubernetes.io/force-ssl-redirect: true
+Events:                           <none>
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get svc -A
+NAMESPACE                  NAME                                               TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                                                                                     AGE
+argocd                     argocd-applicationset-controller                   ClusterIP      10.110.195.120   <none>         7000/TCP,8080/TCP                                                                           164d
+argocd                     argocd-dex-server                                  ClusterIP      10.96.186.108    <none>         5556/TCP,5557/TCP,5558/TCP                                                                  164d
+argocd                     argocd-metrics                                     ClusterIP      10.98.176.164    <none>         8082/TCP                                                                                    164d
+argocd                     argocd-notifications-controller-metrics            ClusterIP      10.100.250.196   <none>         9001/TCP                                                                                    164d
+argocd                     argocd-redis                                       ClusterIP      10.108.84.173    <none>         6379/TCP                                                                                    164d
+argocd                     argocd-repo-server                                 ClusterIP      10.97.157.23     <none>         8081/TCP,8084/TCP                                                                           164d
+argocd                     argocd-server                                      NodePort       10.96.179.57     <none>         80:30754/TCP,443:31796/TCP                                                                  164d
+argocd                     argocd-server-metrics                              ClusterIP      10.96.16.218     <none>         8083/TCP                                                                                    164d
+calico-apiserver           calico-api                                         ClusterIP      10.110.41.186    <none>         443/TCP                                                                                     164d
+calico-system              calico-kube-controllers-metrics                    ClusterIP      None             <none>         9094/TCP                                                                                    164d
+calico-system              calico-typha                                       ClusterIP      10.109.169.68    <none>         5473/TCP                                                                                    164d
+calico-system              goldmane                                           ClusterIP      10.106.174.69    <none>         7443/TCP                                                                                    164d
+calico-system              whisker                                            ClusterIP      10.110.14.73     <none>         8081/TCP                                                                                    164d
+cert-manager               cert-manager                                       ClusterIP      10.98.13.249     <none>         9402/TCP                                                                                    98d
+cert-manager               cert-manager-cainjector                            ClusterIP      10.99.20.93      <none>         9402/TCP                                                                                    98d
+cert-manager               cert-manager-webhook                               ClusterIP      10.99.72.240     <none>         443/TCP,9402/TCP                                                                            98d
+default                    kubernetes                                         ClusterIP      10.96.0.1        <none>         443/TCP                                                                                     164d
+dmi4j-backend              dmi4j-backend-dmi4j-backend                        ClusterIP      None             <none>         5701/TCP                                                                                    18d
+dmi4j-backend              dmi4j-backend-restapi-nodeport-dmi4j-backend       NodePort       10.97.213.47     <none>         8080:30080/TCP                                                                              18d
+dmi4j-backend              dmi4j-backend-restapi-service-dmi4j-backend        ClusterIP      10.106.210.5     <none>         8080/TCP                                                                                    18d
+ingress-nginx              ingress-nginx-controller                           LoadBalancer   10.103.148.135   10.35.36.240   80:31314/TCP,443:30759/TCP                                                                  94d
+ingress-nginx              ingress-nginx-controller-admission                 ClusterIP      10.111.118.102   <none>         443/TCP                                                                                     94d
+keycloak                   keycloak                                           ClusterIP      10.98.200.212    <none>         80/TCP                                                                                      82d
+keycloak                   keycloak-headless                                  ClusterIP      None             <none>         8080/TCP                                                                                    82d
+keycloak                   keycloak-postgresql                                ClusterIP      10.97.6.132      <none>         5432/TCP                                                                                    82d
+keycloak                   keycloak-postgresql-hl                             ClusterIP      None             <none>         5432/TCP                                                                                    82d
+kube-system                kube-dns                                           ClusterIP      10.96.0.10       <none>         53/UDP,53/TCP,9153/TCP                                                                      164d
+kubernetes-dashboard       kubernetes-dashboard-api                           ClusterIP      10.108.184.183   <none>         8000/TCP                                                                                    158d
+kubernetes-dashboard       kubernetes-dashboard-auth                          ClusterIP      10.108.105.180   <none>         8000/TCP                                                                                    158d
+kubernetes-dashboard       kubernetes-dashboard-kong-proxy                    NodePort       10.105.92.184    <none>         443:32230/TCP                                                                               158d
+kubernetes-dashboard       kubernetes-dashboard-metrics-scraper               ClusterIP      10.98.233.145    <none>         8000/TCP                                                                                    158d
+kubernetes-dashboard       kubernetes-dashboard-web                           ClusterIP      10.97.46.188     <none>         8000/TCP                                                                                    158d
+metallb-system             webhook-service                                    ClusterIP      10.106.202.94    <none>         443/TCP                                                                                     82d
+observability              otel-collector                                     ClusterIP      10.102.211.39    <none>         4317/TCP,4318/TCP                                                                           17d
+openebs                    openebs-ndm-cluster-exporter-service               ClusterIP      None             <none>         9100/TCP                                                                                    164d
+openebs                    openebs-ndm-node-exporter-service                  ClusterIP      None             <none>         9101/TCP                                                                                    164d
+smsf-argocd                smsf-mongodb-statistics                            ClusterIP      10.100.188.58    <none>         27017/TCP                                                                                   95d
+smsf-argocd                smsf-mysql                                         ClusterIP      10.97.26.122     <none>         3306/TCP                                                                                    95d
+smsf-argocd                smsf-mysql-headless                                ClusterIP      None             <none>         3306/TCP                                                                                    95d
+smsf-argocd                smsf-mysql-oamdb                                   ClusterIP      10.99.140.46     <none>         3306/TCP                                                                                    95d
+smsf-argocd                smsf-mysql-oamdb-headless                          ClusterIP      None             <none>         3306/TCP                                                                                    95d
+smsf-argocd                smsf-redis                                         ClusterIP      10.101.12.109    <none>         6379/TCP,26379/TCP                                                                          95d
+smsf-argocd                smsf-redis-headless                                ClusterIP      None             <none>         6379/TCP,26379/TCP                                                                          95d
+spring-config-server-gui   config-server-gui-svc                              NodePort       10.111.39.87     <none>         8091:30387/TCP                                                                              83d
+spring-config-server       config-server-mysql-service                        ClusterIP      10.102.141.148   <none>         3306/TCP                                                                                    96d
+spring-config-server       config-server-mysql-service-headless               ClusterIP      None             <none>         3306/TCP                                                                                    96d
+spring-config-server       config-server-svc                                  NodePort       10.103.181.126   <none>         8888:31410/TCP                                                                              83d
+vcp-argocd                 dmi4j-backend-restapi-nodeport-vcp-dmi4j-backend   NodePort       10.105.82.179    <none>         8080:31180/TCP                                                                              34d
+vcp-argocd                 dmi4j-backend-restapi-service-vcp-dmi4j-backend    ClusterIP      10.110.211.137   <none>         8080/TCP                                                                                    34d
+vcp-argocd                 dmi4j-backend-vcp-dmi4j-backend                    ClusterIP      None             <none>         5701/TCP                                                                                    34d
+vcp-argocd                 moagent-service-vcp-smsantispam-cluster            ClusterIP      10.107.193.132   <none>         20019/TCP                                                                                   33d
+vcp-argocd                 oamportal-nodeport                                 NodePort       10.97.84.63      <none>         8020:30020/TCP                                                                              32d
+vcp-argocd                 oamportal-service                                  ClusterIP      10.102.61.219    <none>         8020/TCP                                                                                    32d
+vcp-argocd                 smsantispam-nodeport                               NodePort       10.97.206.125    <none>         2003:32003/TCP,8095:30995/TCP,8096:30996/TCP,8985:30985/TCP,8098:30998/TCP,8097:30997/TCP   33d
+vcp-argocd                 smsantispam-service                                ClusterIP      10.98.146.40     <none>         2003/TCP,8095/TCP,8096/TCP,8985/TCP,8098/TCP,8097/TCP                                       33d
+vcp-argocd                 vcp-memcached                                      ClusterIP      10.109.67.145    <none>         11211/TCP                                                                                   34d
+vcp-argocd                 vcp-memcached-smsantispam                          ClusterIP      10.108.28.12     <none>         11211/TCP                                                                                   33d
+vcp-argocd                 vcp-mongodb-statistics                             ClusterIP      10.98.219.111    <none>         27017/TCP                                                                                   34d
+vcp-argocd                 vcp-mysql-oamdb                                    ClusterIP      10.105.68.75     <none>         3306/TCP                                                                                    34d
+vcp-argocd                 vcp-mysql-oamdb-headless                           ClusterIP      None             <none>         3306/TCP                                                                                    34d
+vcp-argocd                 vcp-mysql-smsantispam                              ClusterIP      10.107.219.110   <none>         3306/TCP                                                                                    34d
+vcp-argocd                 vcp-mysql-smsantispam-headless                     ClusterIP      None             <none>         3306/TCP                                                                                    34d
+vcp-argocd                 vcp-redis                                          ClusterIP      10.96.130.81     <none>         6379/TCP,26379/TCP                                                                          32d
+vcp-argocd                 vcp-redis-headless                                 ClusterIP      None             <none>         6379/TCP,26379/TCP                                                                          32d
+vcp-argocd                 vcp-redis-smsantispam                              ClusterIP      10.110.194.141   <none>         6379/TCP,26379/TCP                                                                          32d
+vcp-argocd                 vcp-redis-smsantispam-headless                     ClusterIP      None             <none>         6379/TCP,26379/TCP                                                                          32d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get endpoints -A
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAMESPACE                  NAME                                               ENDPOINTS                                                            AGE
+argocd                     argocd-applicationset-controller                   10.244.49.203:8080,10.244.49.203:7000                                164d
+argocd                     argocd-dex-server                                  10.244.206.81:5558,10.244.206.81:5557,10.244.206.81:5556             164d
+argocd                     argocd-metrics                                     10.244.63.9:8082                                                     164d
+argocd                     argocd-notifications-controller-metrics            10.244.218.8:9001                                                    164d
+argocd                     argocd-redis                                       10.244.206.111:6379                                                  164d
+argocd                     argocd-repo-server                                 10.244.0.202:8084,10.244.0.202:8081                                  164d
+argocd                     argocd-server                                      10.244.0.228:8080,10.244.0.228:8080                                  164d
+argocd                     argocd-server-metrics                              10.244.0.228:8083                                                    164d
+calico-apiserver           calico-api                                         10.244.253.11:5443,10.244.253.9:5443                                 164d
+calico-system              calico-kube-controllers-metrics                    10.244.253.12:9094                                                   164d
+calico-system              calico-typha                                       10.35.36.135:5473,10.35.36.136:5473,10.35.36.137:5473                164d
+calico-system              goldmane                                           10.244.253.14:7443                                                   164d
+calico-system              whisker                                            10.244.253.16:8081                                                   164d
+cert-manager               cert-manager                                       10.244.74.21:9402                                                    98d
+cert-manager               cert-manager-cainjector                            10.244.1.20:9402                                                     98d
+cert-manager               cert-manager-webhook                               10.244.74.17:10250,10.244.74.17:9402                                 98d
+default                    cluster.local-nfs-subdir-external-provisioner      <none>                                                               164d
+default                    kubernetes                                         10.35.36.135:6443                                                    164d
+dmi4j-backend              dmi4j-backend-dmi4j-backend                        10.244.206.125:5701,10.244.218.5:5701,10.244.49.239:5701             18d
+dmi4j-backend              dmi4j-backend-restapi-nodeport-dmi4j-backend       10.244.206.125:8080,10.244.218.5:8080,10.244.49.239:8080             18d
+dmi4j-backend              dmi4j-backend-restapi-service-dmi4j-backend        10.244.206.125:8080,10.244.218.5:8080,10.244.49.239:8080             18d
+ingress-nginx              ingress-nginx-controller                           10.244.63.49:443,10.244.63.49:80                                     94d
+ingress-nginx              ingress-nginx-controller-admission                 10.244.63.49:8443                                                    94d
+keycloak                   keycloak                                           10.244.63.1:8080                                                     82d
+keycloak                   keycloak-headless                                  10.244.63.1:8080                                                     82d
+keycloak                   keycloak-postgresql                                10.244.1.18:5432                                                     82d
+keycloak                   keycloak-postgresql-hl                             10.244.1.18:5432                                                     82d
+kube-system                kube-dns                                           10.244.218.55:53,10.244.63.12:53,10.244.218.55:53 + 3 more...        164d
+kubernetes-dashboard       kubernetes-dashboard-api                           10.244.63.33:8000                                                    158d
+kubernetes-dashboard       kubernetes-dashboard-auth                          10.244.0.229:8000                                                    158d
+kubernetes-dashboard       kubernetes-dashboard-kong-proxy                    10.244.49.208:8443                                                   158d
+kubernetes-dashboard       kubernetes-dashboard-metrics-scraper               10.244.49.202:8000                                                   158d
+kubernetes-dashboard       kubernetes-dashboard-web                           10.244.218.13:8000                                                   158d
+metallb-system             webhook-service                                    10.244.1.51:9443                                                     82d
+observability              otel-collector                                     10.244.1.40:4318,10.244.74.32:4318,10.244.1.40:4317 + 1 more...      17d
+openebs                    openebs-ndm-cluster-exporter-service               10.244.49.201:9100                                                   164d
+openebs                    openebs-ndm-node-exporter-service                  10.244.0.226:9101,10.244.1.21:9101,10.244.206.82:9101 + 4 more...    164d
+openebs                    openebs.io-local                                   <none>                                                               164d
+smsf-argocd                smsf-mongodb-statistics                                                                                                 95d
+smsf-argocd                smsf-mysql                                         10.244.1.36:3306                                                     95d
+smsf-argocd                smsf-mysql-headless                                10.244.1.36:3306                                                     95d
+smsf-argocd                smsf-mysql-oamdb                                   10.244.1.37:3306                                                     95d
+smsf-argocd                smsf-mysql-oamdb-headless                          10.244.1.37:3306                                                     95d
+smsf-argocd                smsf-redis                                                                                                              95d
+smsf-argocd                smsf-redis-headless                                10.244.49.225:6379,10.244.49.225:26379                               95d
+spring-config-server-gui   config-server-gui-svc                              10.244.0.254:8091,10.244.218.61:8091                                 83d
+spring-config-server       config-server-mysql-service                        10.244.1.35:3306                                                     96d
+spring-config-server       config-server-mysql-service-headless               10.244.1.35:3306                                                     96d
+spring-config-server       config-server-svc                                  10.244.206.119:8888,10.244.218.59:8888,10.244.49.230:8888            83d
+vcp-argocd                 dmi4j-backend-restapi-nodeport-vcp-dmi4j-backend   10.244.63.18:8080                                                    34d
+vcp-argocd                 dmi4j-backend-restapi-service-vcp-dmi4j-backend    10.244.63.18:8080                                                    34d
+vcp-argocd                 dmi4j-backend-vcp-dmi4j-backend                    10.244.63.18:5701                                                    34d
+vcp-argocd                 moagent-service-vcp-smsantispam-cluster                                                                                 33d
+vcp-argocd                 oamportal-nodeport                                 10.244.0.216:8020                                                    32d
+vcp-argocd                 oamportal-service                                  10.244.0.216:8020                                                    32d
+vcp-argocd                 smsantispam-nodeport                               10.244.1.2:2003,10.244.1.2:8097,10.244.1.2:8985 + 3 more...          33d
+vcp-argocd                 smsantispam-service                                10.244.1.2:2003,10.244.1.2:8097,10.244.1.2:8985 + 3 more...          33d
+vcp-argocd                 vcp-memcached                                      10.244.0.209:11211                                                   34d
+vcp-argocd                 vcp-memcached-smsantispam                          10.244.206.124:11211                                                 33d
+vcp-argocd                 vcp-mongodb-statistics                             10.244.218.2:27017                                                   34d
+vcp-argocd                 vcp-mysql-oamdb                                    10.244.206.121:3306                                                  34d
+vcp-argocd                 vcp-mysql-oamdb-headless                           10.244.206.121:3306                                                  34d
+vcp-argocd                 vcp-mysql-smsantispam                              10.244.1.8:3306                                                      34d
+vcp-argocd                 vcp-mysql-smsantispam-headless                     10.244.1.8:3306                                                      34d
+vcp-argocd                 vcp-redis                                          10.244.0.215:6379,10.244.218.7:6379,10.244.49.237:6379 + 3 more...   32d
+vcp-argocd                 vcp-redis-headless                                 10.244.0.215:6379,10.244.218.7:6379,10.244.49.237:6379 + 3 more...   32d
+vcp-argocd                 vcp-redis-smsantispam                              10.244.1.3:6379,10.244.218.3:6379,10.244.49.238:6379 + 3 more...     32d
+vcp-argocd                 vcp-redis-smsantispam-headless                     10.244.1.3:6379,10.244.218.3:6379,10.244.49.238:6379 + 3 more...     32d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S %
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get secret -A | grep -i helm
+argocd                           docker-io-helm-oci                                      Opaque               4      110d
+cert-manager                     sh.helm.release.v1.cert-manager.v1                      helm.sh/release.v1   1      98d
+cert-manager                     sh.helm.release.v1.cert-manager.v2                      helm.sh/release.v1   1      98d
+default                          sh.helm.release.v1.nfs-subdir-external-provisioner.v1   helm.sh/release.v1   1      164d
+dmi4j-backend                    sh.helm.release.v1.dmi4j-backend.v1                     helm.sh/release.v1   1      18d
+ingress-nginx                    sh.helm.release.v1.ingress-nginx.v1                     helm.sh/release.v1   1      94d
+keycloak                         sh.helm.release.v1.keycloak.v1                          helm.sh/release.v1   1      82d
+kubernetes-dashboard             sh.helm.release.v1.kubernetes-dashboard.v1              helm.sh/release.v1   1      158d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v21                        helm.sh/release.v1   1      81d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v22                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v23                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v24                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v25                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v26                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v27                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v28                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v29                        helm.sh/release.v1   1      55d
+spring-config-server-gui         sh.helm.release.v1.lab-setup.v30                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.config-server-mysql-service.v1       helm.sh/release.v1   1      97d
+spring-config-server             sh.helm.release.v1.config-server-mysql-service.v2       helm.sh/release.v1   1      96d
+spring-config-server             sh.helm.release.v1.config-server-mysql-service.v3       helm.sh/release.v1   1      96d
+spring-config-server             sh.helm.release.v1.lab-setup.v21                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v22                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v23                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v24                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v25                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v26                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v27                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v28                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v29                        helm.sh/release.v1   1      55d
+spring-config-server             sh.helm.release.v1.lab-setup.v30                        helm.sh/release.v1   1      55d
+
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % helm list -A
+NAME                            NAMESPACE                       REVISION        UPDATED                                 STATUS          CHART                                   APP VERSION
+cert-manager                    cert-manager                    2               2025-10-20 18:18:49.015078 +0300 +03    deployed        cert-manager-v1.19.1                    v1.19.1
+config-server-mysql-service     spring-config-server            3               2025-10-22 17:35:40.862221 +0300 +03    deployed        mysql-14.0.3                            9.4.0
+dmi4j-backend                   dmi4j-backend                   1               2026-01-08 23:37:13.322335 +0300 +03    deployed        dmi4j-backend-1.0.9                     1.0.9
+ingress-nginx                   ingress-nginx                   1               2025-10-24 13:53:18.92954 +0300 +03     deployed        ingress-nginx-4.13.3                    1.13.3
+keycloak                        keycloak                        1               2025-11-05 10:51:21.003453 +0300 +03    deployed        keycloak-25.2.0                         26.3.3
+kubernetes-dashboard            kubernetes-dashboard            1               2025-08-21 11:57:22.228136 +0300 +03    deployed        kubernetes-dashboard-7.13.0
+lab-setup                       spring-config-server-gui        30              2025-12-02 16:30:22.994288 +0300 +03    deployed        config-server-gui-1.0.0                 1.0.0
+lab-setup                       spring-config-server            30              2025-12-02 14:39:21.119059 +0300 +03    deployed        config-server-1.0.6                     1.0.0
+nfs-subdir-external-provisioner default                         1               2025-08-15 22:29:03.099303 +0300 +03    deployed        nfs-subdir-external-provisioner-4.0.18  4.0.2
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get pods -A | egrep -i 'ingress|nginx|traefik|router'
+ingress-nginx              ingress-nginx-controller-579db5bd79-rmd87              1/1     Running                0              94d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get svc  -A | egrep -i 'ingress|nginx|traefik|router'
+ingress-nginx              ingress-nginx-controller                           LoadBalancer   10.103.148.135   10.35.36.240   80:31314/TCP,443:30759/TCP                                                                  94d
+ingress-nginx              ingress-nginx-controller-admission                 ClusterIP      10.111.118.102   <none>         443/TCP                                                                                     94d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get storageclass
+NAME                      PROVISIONER                                     RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-storage (default)   kubernetes.io/no-provisioner                    Delete          WaitForFirstConsumer   false                  164d
+nfs-client                cluster.local/nfs-subdir-external-provisioner   Delete          Immediate              true                   164d
+openebs-device            openebs.io/local                                Delete          WaitForFirstConsumer   false                  164d
+openebs-hostpath          openebs.io/local                                Delete          WaitForFirstConsumer   false                  164d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get pvc -A
+NAMESPACE              NAME                                      STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+keycloak               data-keycloak-postgresql-0                Bound    pvc-09575c49-385a-4917-a00a-629e2f8ede34   8Gi        RWO            nfs-client     <unset>                 82d
+smsf-argocd            data-smsf-mysql-0                         Bound    pvc-95133e89-9e32-47ee-8133-befddf65a25a   1Gi        RWO            nfs-client     <unset>                 95d
+smsf-argocd            data-smsf-mysql-oamdb-0                   Bound    pvc-84e204c8-4f70-4a7a-b123-4c132242d229   1Gi        RWO            nfs-client     <unset>                 95d
+smsf-argocd            redis-data-smsf-redis-node-0              Bound    pvc-6063300a-8016-487f-8f17-a7a6d8c3d244   256M       RWO            nfs-client     <unset>                 95d
+smsf-argocd            smsf-mongodb-statistics                   Bound    pvc-41462272-e63b-4bbc-836e-dfb982d2854c   8Gi        RWO            nfs-client     <unset>                 95d
+spring-config-server   data-config-server-mysql-service-0        Bound    pvc-d0958aaa-5854-478c-a183-1b62034a2ba2   8Gi        RWO            nfs-client     <unset>                 96d
+vcp-argocd             data-vcp-mysql-oamdb-0                    Bound    pvc-13feeb6c-16f5-4881-9a8d-3c731c50151c   1Gi        RWO            nfs-client     <unset>                 34d
+vcp-argocd             data-vcp-mysql-smsantispam-0              Bound    pvc-b2cc9f9f-f11d-4e85-a079-d9401e50a212   1Gi        RWO            nfs-client     <unset>                 34d
+vcp-argocd             redis-data-vcp-redis-node-0               Bound    pvc-643bab29-9aa1-46a7-9251-1d017329e61d   256M       RWO            nfs-client     <unset>                 34d
+vcp-argocd             redis-data-vcp-redis-node-1               Bound    pvc-af2547b2-4862-499f-b03f-ff7465b5d880   256M       RWO            nfs-client     <unset>                 34d
+vcp-argocd             redis-data-vcp-redis-node-2               Bound    pvc-48b6fb80-80ac-4ae0-8ec3-15eab666bb14   256M       RWO            nfs-client     <unset>                 34d
+vcp-argocd             redis-data-vcp-redis-smsantispam-node-0   Bound    pvc-f47c5713-f704-446c-be3f-09f1500286a9   256M       RWO            nfs-client     <unset>                 34d
+vcp-argocd             redis-data-vcp-redis-smsantispam-node-1   Bound    pvc-fe84edb0-1fa9-4d52-b76d-b7324617ba87   256M       RWO            nfs-client     <unset>                 32d
+vcp-argocd             redis-data-vcp-redis-smsantispam-node-2   Bound    pvc-d23c2be8-2fcf-434a-8ef0-fd16c8303d4f   256M       RWO            nfs-client     <unset>                 32d
+vcp-argocd             vcp-mongodb-statistics                    Bound    pvc-a5a8feca-3b09-40ef-a1ec-e173293b5e35   8Gi        RWO            nfs-client     <unset>                 34d
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl auth can-i list pods -A
+yes
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl auth can-i get secrets -n <ns>
+zsh: parse error near `\n'
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl auth can-i get secrets -n keycloak
+yes
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl auth can-i get secrets -n vcp-argocd
+yes
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl auth can-i patch deploy -n vcp-argocd
+yes
+zeynepozsoy@TELENITYs-MacBook-Pro K8S %
+
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % ls -ltra
+total 56
+-rw-r--r--  1 zeynepozsoy  staff  5709 Jan 26 23:35 K8S-Config.md
+-rw-r--r--  1 zeynepozsoy  staff  3261 Jan 26 23:52 K8S-TelenityCluster.md
+-rw-r--r--  1 zeynepozsoy  staff  8048 Jan 27 02:15 K8S-General.md
+-rw-r--r--  1 zeynepozsoy  staff  5971 Jan 27 02:17 K8S-Cheatsheet.md
+drwxr-xr-x  7 zeynepozsoy  staff   224 Jan 27 02:20 .
+drwxr-xr-x  7 zeynepozsoy  staff   224 Jan 27 02:20 ..
+drwxr-xr-x  3 zeynepozsoy  staff    96 Jan 27 02:33 k8s-snapshot
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get ns > k8s-snapshot/namespaces.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get nodes -o wide > k8s-snapshot/nodes.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get ingress -A > k8s-snapshot/ingress.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get svc -A > k8s-snapshot/services.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get deploy -A > k8s-snapshot/deployments.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get statefulset -A > k8s-snapshot/statefulsets.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get cm -A > k8s-snapshot/configmaps.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get events -A --sort-by=.metadata.creationTimestamp > k8s-snapshot/events.txt
+zeynepozsoy@TELENITYs-MacBook-Pro K8S %
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % ls -ltra
+total 56
+-rw-r--r--   1 zeynepozsoy  staff  5709 Jan 26 23:35 K8S-Config.md
+-rw-r--r--   1 zeynepozsoy  staff  3261 Jan 26 23:52 K8S-TelenityCluster.md
+-rw-r--r--   1 zeynepozsoy  staff  8048 Jan 27 02:15 K8S-General.md
+-rw-r--r--   1 zeynepozsoy  staff  5971 Jan 27 02:17 K8S-Cheatsheet.md
+drwxr-xr-x   7 zeynepozsoy  staff   224 Jan 27 02:20 .
+drwxr-xr-x   7 zeynepozsoy  staff   224 Jan 27 02:20 ..
+drwxr-xr-x  11 zeynepozsoy  staff   352 Jan 27 02:34 k8s-snapshot
+zeynepozsoy@TELENITYs-MacBook-Pro K8S % cd k8s-snapshot
+zeynepozsoy@TELENITYs-MacBook-Pro k8s-snapshot % ls -ltra
+total 248
+drwxr-xr-x   7 zeynepozsoy  staff    224 Jan 27 02:20 ..
+-rw-r--r--   1 zeynepozsoy  staff   1070 Jan 27 02:33 namespaces.txt
+-rw-r--r--   1 zeynepozsoy  staff   1510 Jan 27 02:33 nodes.txt
+-rw-r--r--   1 zeynepozsoy  staff    568 Jan 27 02:33 ingress.txt
+-rw-r--r--   1 zeynepozsoy  staff  14829 Jan 27 02:33 services.txt
+-rw-r--r--   1 zeynepozsoy  staff   3833 Jan 27 02:33 deployments.txt
+-rw-r--r--   1 zeynepozsoy  staff   1036 Jan 27 02:34 statefulsets.txt
+-rw-r--r--   1 zeynepozsoy  staff   8411 Jan 27 02:34 configmaps.txt
+-rw-r--r--   1 zeynepozsoy  staff   3946 Jan 27 02:34 events.txt
+-rw-r--r--   1 zeynepozsoy  staff  72153 Jan 27 02:34 exploring-tlntyk8s.txt
+drwxr-xr-x  11 zeynepozsoy  staff    352 Jan 27 02:34 .
+zeynepozsoy@TELENITYs-MacBook-Pro k8s-snapshot %
