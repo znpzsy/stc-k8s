@@ -4,35 +4,35 @@ a3gw:
   enabled: true
   replicaCount: 2
   image:
-    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
     tag: 1.0.0.1
     pullPolicy: IfNotPresent
 adminportal:
   enabled: true
   replicaCount: 2
   image:
-    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
     tag: 1.0.0.1
     pullPolicy: IfNotPresent
 partnerportal:
   enabled: true
   replicaCount: 2
   image:
-    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
     tag: 1.0.0.1
     pullPolicy: IfNotPresent
 ccportal:
   enabled: true
   replicaCount: 2
   image:
-    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
     tag: 1.0.0.1
     pullPolicy: IfNotPresent
 httpd:
   enabled: true
   replicaCount: 2
   image:
-    repository: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
     tag: 1.0.0.1
     pullPolicy: IfNotPresent
 service:
