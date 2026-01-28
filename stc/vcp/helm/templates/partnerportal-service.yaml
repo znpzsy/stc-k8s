@@ -7,7 +7,7 @@ metadata:
 spec:
   type: {{ .Values.service.partnerportal.type }}
   selector:
-{{ toYaml .Values.service.partnerportal.selector | indent 4 }}
+{{- toYaml .Values.service.partnerportal.selector | nindent 4 }}
   ports:
-{{ toYaml .Values.service.partnerportal.ports | indent 4 }}
+{{- toYaml .Values.service.partnerportal.ports | nindent 4 }}
 {{- end }}

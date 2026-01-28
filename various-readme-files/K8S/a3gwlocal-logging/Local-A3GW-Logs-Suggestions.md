@@ -75,6 +75,13 @@ Use `kubectl exec` to tail logs directly:
 # Get pod name and tail logs
 POD=$(kubectl get pods -n stc-vcp-services -l component=vcp-a3gw -o jsonpath='{.items[0].metadata.name}')
 kubectl exec -it $POD -n stc-vcp-services -- tail -f /space/a3gw/logs/adminportal.log
+# Get pod telenity cluster
+POD=$(kubectl get pods -n consolportals-test -l component=vcp-a3gw -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -it $POD -n consolportals-test -- tail -f '/space/a3gw/logs/*.log'
+
+
+kubectl exec -it $POD -n stc-vcp-services -- tail -f '/space/a3gw/logs/*.log'
+kubectl exec -it $POD -n consolportals-test -- tail -f '/space/a3gw/logs/*.log'
 ```
 
 **Bash helper function** (add to `~/.bashrc`):
@@ -165,6 +172,9 @@ kubectl get pods -n stc-vcp-services -w
 # Access logs
 POD=$(kubectl get pods -n stc-vcp-services -l component=vcp-a3gw -o jsonpath='{.items[0].metadata.name}')
 kubectl logs -f $POD -c log-tailer-adminportal -n stc-vcp-services
+# Telenity cluster
+POD=$(kubectl get pods -n consolportals-test -l component=vcp-a3gw -o jsonpath='{.items[0].metadata.name}')
+kubectl logs -f $POD -c log-tailer-adminportal -n consolportals-test
 ```
 
 **Or use kubectl exec (no sidecars needed):**
@@ -220,10 +230,12 @@ The issue is that your **local zsh shell** is trying to expand `*.log` before pa
 ```bash
 # Quote the path to prevent local shell expansion
 kubectl exec -it $POD -n stc-vcp-services -- sh -c 'tail -f /space/a3gw/logs/*.log'
+kubectl exec -it $POD -n consolportals-test -- sh -c 'tail -f /space/a3gw/logs/*.log'
 ```
 
 Or even simpler:
 ```bash
+kubectl exec -it $POD -n stc-vcp-services -- tail -f '/space/a3gw/logs/*.log'
 kubectl exec -it $POD -n stc-vcp-services -- tail -f '/space/a3gw/logs/*.log'
 ```
 

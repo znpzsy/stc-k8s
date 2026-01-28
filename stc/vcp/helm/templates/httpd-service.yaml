@@ -1,13 +1,13 @@
-{{- if $.Values.httpd.enabled }}
+{{- if .Values.httpd.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   name: consolportals-sa-stc-vcp-httpd-service
   namespace: {{ include "consolportals.namespace" . }}
 spec:
-  type: {{ $.Values.service.httpd.type }}
+  type: {{ .Values.service.httpd.type }}
   selector:
-{{ toYaml $.Values.service.httpd.selector | indent 4 }}
+{{- toYaml .Values.service.httpd.selector | nindent 4 }}
   ports:
-{{ toYaml $.Values.service.httpd.ports | indent 4 }}
+{{- toYaml .Values.service.httpd.ports | nindent 4 }}
 {{- end }}

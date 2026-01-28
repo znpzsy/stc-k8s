@@ -1,0 +1,240 @@
+---
+# Source: consolportals-vcp/templates/a3gw-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-service
+  namespace: stc-vcp-services
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-a3gw
+  ports:
+    - name: portals
+      port: 8444
+      targetPort: 8444
+    - name: auth
+      port: 8445
+      targetPort: 8445
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+---
+# Source: consolportals-vcp/templates/adminportal-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-service
+  namespace: stc-vcp-services
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-adminportal
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+# Source: consolportals-vcp/templates/ccportal-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-ccportal-service
+  namespace: stc-vcp-services
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-ccportal
+  ports:
+    - port: 8081
+      targetPort: 8081
+---
+# Source: consolportals-vcp/templates/httpd-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-service
+  namespace: stc-vcp-services
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-httpd
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+---
+# Source: consolportals-vcp/templates/partnerportal-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-service
+  namespace: stc-vcp-services
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-partnerportal
+  ports:
+    - port: 8082
+      targetPort: 8082
+---
+# Source: consolportals-vcp/templates/a3gw-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-deployment
+  namespace: stc-vcp-services
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-a3gw
+  template:
+    metadata:
+      labels:
+        component: vcp-a3gw
+    spec:
+      containers:
+        - name: vcp-a3gw
+          image: "nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8444
+            - containerPort: 8445
+          volumeMounts:
+            - name: a3gw-logs
+              mountPath: /space/a3gw/logs
+        - name: a3gw-log-tail
+          image: busybox:1.36
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-lc"]
+          args:
+            - >
+              echo "[a3gw-log-tail] waiting for log files..." ;
+              mkdir -p /space/a3gw/logs ;
+              ls -lah /space/a3gw/logs || true ;
+              tail -F /space/a3gw/logs/*.log
+          volumeMounts:
+            - name: a3gw-logs
+              mountPath: /space/a3gw/logs
+
+      volumes:
+        - name: a3gw-logs
+          emptyDir: {}
+---
+# Source: consolportals-vcp/templates/adminportal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-deployment
+  namespace: stc-vcp-services
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-adminportal
+  template:
+    metadata:
+      labels:
+        component: vcp-adminportal
+    spec:
+      containers:
+        - name: vcp-adminportal
+          image: "nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+# Source: consolportals-vcp/templates/ccportal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-ccportal-deployment
+  namespace: stc-vcp-services
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-ccportal
+  template:
+    metadata:
+      labels:
+        component: vcp-ccportal
+    spec:
+      containers:
+        - name: vcp-ccportal
+          image: "nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal:1.0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+---
+# Source: consolportals-vcp/templates/httpd-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-deployment
+  namespace: stc-vcp-services
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-httpd
+  template:
+    metadata:
+      labels:
+        component: vcp-httpd
+    spec:
+      containers:
+        - name: vcp-httpd
+          image: "nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd:1.0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+---
+# Source: consolportals-vcp/templates/partnerportal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-deployment
+  namespace: stc-vcp-services
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: vcp-partnerportal
+  template:
+    metadata:
+      labels:
+        component: vcp-partnerportal
+    spec:
+      containers:
+        - name: vcp-partnerportal
+          image: "nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+---
+# Source: consolportals-vcp/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress
+  namespace: stc-vcp-services
+spec:
+  ingressClassName: nginx
+  rules:
+    -
+      host: "localhost"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-httpd-service
+                port:
+                  number: 80

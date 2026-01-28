@@ -7,7 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.a3gw.type }}
   selector:
-{{ toYaml .Values.service.a3gw.selector | indent 4 }}
+{{- toYaml .Values.service.a3gw.selector | nindent 4 }}
   ports:
-{{ toYaml .Values.service.a3gw.ports | indent 4 }}
+{{- toYaml .Values.service.a3gw.ports | nindent 4 }}
+{{- if .Values.a3gw.sessionAffinity.enabled }}
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: {{ .Values.a3gw.sessionAffinity.timeout }}
+{{- end }}
 {{- end }}

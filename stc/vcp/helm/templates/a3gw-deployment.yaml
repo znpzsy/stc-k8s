@@ -21,4 +21,27 @@ spec:
           ports:
             - containerPort: 8444
             - containerPort: 8445
-{{- end }}
+          volumeMounts:
+            - name: a3gw-logs
+              mountPath: /space/a3gw/logs
+
+        {{- if .Values.a3gw.logging.tailSidecar.enabled }}
+        - name: a3gw-log-tail
+          image: {{ .Values.a3gw.logging.tailSidecar.image }}
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-lc"]
+          args:
+            - >
+              echo "[a3gw-log-tail] waiting for log files..." ;
+              mkdir -p /space/a3gw/logs ;
+              ls -lah /space/a3gw/logs || true ;
+              tail -F /space/a3gw/logs/*.log
+          volumeMounts:
+            - name: a3gw-logs
+              mountPath: /space/a3gw/logs
+        {{- end }}
+
+      volumes:
+        - name: a3gw-logs
+          emptyDir: {}
+  {{- end }}
