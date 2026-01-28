@@ -2045,3 +2045,254 @@ Events:
   ----    ------  ----                 ----                      -------
   Normal  Sync    93s (x2 over 2m28s)  nginx-ingress-controller  Scheduled for sync
 zeynepozsoy@TELENITYs-MacBook-Pro helm %
+
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get svc -n consolportals-test
+NAME                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
+consolportals-sa-stc-vcp-a3gw-service            ClusterIP   10.102.216.21   <none>        8444/TCP,8445/TCP   2m11s
+consolportals-sa-stc-vcp-adminportal-service     ClusterIP   10.110.64.145   <none>        8080/TCP            2m11s
+consolportals-sa-stc-vcp-ccportal-service        ClusterIP   10.99.145.44    <none>        8081/TCP            2m11s
+consolportals-sa-stc-vcp-httpd-service           ClusterIP   10.97.121.34    <none>        80/TCP,443/TCP      2m11s
+consolportals-sa-stc-vcp-partnerportal-service   ClusterIP   10.96.128.61    <none>        8082/TCP            2m11s
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingress -n consolportals-test
+NAME                               CLASS   HOSTS   ADDRESS        PORTS   AGE
+consolportals-sa-stc-vcp-ingress   nginx   *       10.35.36.240   80      2m17s
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl describe ingress -n consolportals-test
+Name:             consolportals-sa-stc-vcp-ingress
+Labels:           app.kubernetes.io/managed-by=Helm
+Namespace:        consolportals-test
+Address:          10.35.36.240
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /   consolportals-sa-stc-vcp-httpd-service:80 (10.244.63.23:80,10.244.0.245:80)
+Annotations:  meta.helm.sh/release-name: consolportals-test
+              meta.helm.sh/release-namespace: consolportals-test
+Events:
+  Type    Reason  Age                  From                      Message
+  ----    ------  ----                 ----                      -------
+  Normal  Sync    93s (x2 over 2m28s)  nginx-ingress-controller  Scheduled for sync
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm upgrade consolportals-test . \
+  --namespace consolportals-test \
+  --set global.namespace=consolportals-test \
+  --set ingress.host=consolportals.internal.telenity.com
+Release "consolportals-test" has been upgraded. Happy Helming!
+NAME: consolportals-test
+LAST DEPLOYED: Tue Jan 27 05:51:27 2026
+NAMESPACE: consolportals-test
+STATUS: deployed
+REVISION: 2
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+zeynepozsoy@TELENITYs-MacBook-Pro helm %
+
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get svc -n consolportals-test
+NAME                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
+consolportals-sa-stc-vcp-a3gw-service            ClusterIP   10.102.216.21   <none>        8444/TCP,8445/TCP   2m11s
+consolportals-sa-stc-vcp-adminportal-service     ClusterIP   10.110.64.145   <none>        8080/TCP            2m11s
+consolportals-sa-stc-vcp-ccportal-service        ClusterIP   10.99.145.44    <none>        8081/TCP            2m11s
+consolportals-sa-stc-vcp-httpd-service           ClusterIP   10.97.121.34    <none>        80/TCP,443/TCP      2m11s
+consolportals-sa-stc-vcp-partnerportal-service   ClusterIP   10.96.128.61    <none>        8082/TCP            2m11s
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingress -n consolportals-test
+NAME                               CLASS   HOSTS   ADDRESS        PORTS   AGE
+consolportals-sa-stc-vcp-ingress   nginx   *       10.35.36.240   80      2m17s
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl describe ingress -n consolportals-test
+Name:             consolportals-sa-stc-vcp-ingress
+Labels:           app.kubernetes.io/managed-by=Helm
+Namespace:        consolportals-test
+Address:          10.35.36.240
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /   consolportals-sa-stc-vcp-httpd-service:80 (10.244.63.23:80,10.244.0.245:80)
+Annotations:  meta.helm.sh/release-name: consolportals-test
+              meta.helm.sh/release-namespace: consolportals-test
+Events:
+  Type    Reason  Age                  From                      Message
+  ----    ------  ----                 ----                      -------
+  Normal  Sync    93s (x2 over 2m28s)  nginx-ingress-controller  Scheduled for sync
+zeynepozsoy@TELENITYs-MacBook-Pro helm % helm upgrade consolportals-test . \
+  --namespace consolportals-test \
+  --set global.namespace=consolportals-test \
+  --set ingress.host=consolportals.internal.telenity.com
+Release "consolportals-test" has been upgraded. Happy Helming!
+NAME: consolportals-test
+LAST DEPLOYED: Tue Jan 27 05:51:27 2026
+NAMESPACE: consolportals-test
+STATUS: deployed
+REVISION: 2
+DESCRIPTION: Upgrade complete
+TEST SUITE: None
+zeynepozsoy@TELENITYs-MacBook-Pro helm % sudo vim /etc/hosts
+Password:
+zeynepozsoy@TELENITYs-MacBook-Pro helm % sudo vim /etc/hosts
+zeynepozsoy@TELENITYs-MacBook-Pro helm % sudo vim /etc/hosts
+zeynepozsoy@TELENITYs-MacBook-Pro helm % kubectl get ingress -n consolportals-test -o yaml
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: consolportals-test
+      meta.helm.sh/release-namespace: consolportals-test
+    creationTimestamp: "2026-01-27T02:35:02Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    name: consolportals-sa-stc-vcp-ingress
+    namespace: consolportals-test
+    resourceVersion: "54385620"
+    uid: 3e65f584-04a8-48fb-95af-cc894d89c0ec
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: consolportals.internal.telenity.com
+      http:
+        paths:
+        - backend:
+            service:
+              name: consolportals-sa-stc-vcp-httpd-service
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 10.35.36.240
+kind: List
+metadata:
+  resourceVersion: ""
+zeynepozsoy@TELENITYs-MacBook-Pro helm %
+
+
+
+
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % kubectl get ns
+NAME                             STATUS   AGE
+argocd                           Active   164d
+calico-apiserver                 Active   164d
+calico-system                    Active   164d
+canvas-flexiblelicensingserver   Active   18d
+cert-manager                     Active   98d
+consolportals-test               Active   105m
+default                          Active   164d
+dmi4j-backend                    Active   18d
+ingress-nginx                    Active   94d
+keycloak                         Active   82d
+kube-node-lease                  Active   164d
+kube-public                      Active   164d
+kube-system                      Active   164d
+kubernetes-dashboard             Active   158d
+metallb-system                   Active   82d
+ngssm-repo-main                  Active   3d18h
+observability                    Active   17d
+openebs                          Active   164d
+smsf-argocd                      Active   96d
+spring-config-server             Active   98d
+spring-config-server-gui         Active   87d
+tigera-operator                  Active   164d
+vcp-argocd                       Active   34d
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % kubectl get statefulset -A
+NAMESPACE              NAME                              READY   AGE
+argocd                 argocd-application-controller     1/1     164d
+dmi4j-backend          dmi4j-backend-dmi4j-backend       3/3     18d
+keycloak               keycloak                          1/1     82d
+keycloak               keycloak-postgresql               1/1     82d
+smsf-argocd            smsf-mysql                        1/1     95d
+smsf-argocd            smsf-mysql-oamdb                  1/1     95d
+smsf-argocd            smsf-redis-node                   0/3     95d
+spring-config-server   config-server-mysql-service       1/1     96d
+vcp-argocd             dmi4j-backend-vcp-dmi4j-backend   1/1     34d
+vcp-argocd             smsantispam                       1/1     33d
+vcp-argocd             vcp-mysql-oamdb                   1/1     34d
+vcp-argocd             vcp-mysql-smsantispam             1/1     34d
+vcp-argocd             vcp-redis-node                    3/3     32d
+vcp-argocd             vcp-redis-smsantispam-node        3/3     32d
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % zeynepozsoy@TELENITYs-MacBook-Pro K8S % kubectl get ingress -A
+
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s %
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % kubectl get ingress -A
+NAMESPACE                  NAME                                  CLASS   HOSTS                                   ADDRESS        PORTS     AGE
+consolportals-test         consolportals-sa-stc-vcp-ingress      nginx   consolportals.internal.telenity.com     10.35.36.240   80        34m
+keycloak                   keycloak                              nginx   keycloak.internal.telenity.com          10.35.36.240   80, 443   82d
+spring-config-server-gui   config-server-gui-lab-setup-ingress   nginx   configservergui.internal.telenity.com   10.35.36.240   80, 443   83d
+spring-config-server       config-server-lab-setup-ingress       nginx   configserver.internal.telenity.com      10.35.36.240   80, 443   83d
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % kubectl -n consolportals-test describe consolportals-sa-stc-vcp-ingress
+error: the server doesn't have a resource type "consolportals-sa-stc-vcp-ingress"
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % kubectl -n consolportals-test describe consolportals-test
+error: the server doesn't have a resource type "consolportals-test"
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s % kubectl describe ingress consolportals-sa-stc-vcp-ingress -n consolportals-test
+Name:             consolportals-sa-stc-vcp-ingress
+Labels:           app.kubernetes.io/managed-by=Helm
+Namespace:        consolportals-test
+Address:          10.35.36.240
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host                                 Path  Backends
+  ----                                 ----  --------
+  consolportals.internal.telenity.com
+                                       /   consolportals-sa-stc-vcp-httpd-service:80 (10.244.63.23:80,10.244.0.245:80)
+Annotations:                           meta.helm.sh/release-name: consolportals-test
+                                       meta.helm.sh/release-namespace: consolportals-test
+Events:
+  Type    Reason  Age                From                      Message
+  ----    ------  ----               ----                      -------
+  Normal  Sync    20m (x3 over 37m)  nginx-ingress-controller  Scheduled for sync
+zeynepozsoy@TELENITYs-MacBook-Pro stc-k8s %
+
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get pods -n consolportals-test -o wide
+NAME                                                              READY   STATUS    RESTARTS   AGE   IP              NODE    NOMINATED NODE   READINESS GATES
+consolportals-sa-stc-vcp-a3gw-deployment-68dc4c8464-nq45x         1/1     Running   0          43m   10.244.206.69   kub-6   <none>           <none>
+consolportals-sa-stc-vcp-a3gw-deployment-68dc4c8464-z8xrr         1/1     Running   0          43m   10.244.0.241    kub-3   <none>           <none>
+consolportals-sa-stc-vcp-adminportal-deployment-5f9c8f8d6bfhwzh   1/1     Running   0          43m   10.244.63.22    kub-8   <none>           <none>
+consolportals-sa-stc-vcp-adminportal-deployment-5f9c8f8d6bv6xqs   1/1     Running   0          43m   10.244.0.238    kub-3   <none>           <none>
+consolportals-sa-stc-vcp-ccportal-deployment-7f85449cf6-w7lwh     1/1     Running   0          43m   10.244.0.244    kub-3   <none>           <none>
+consolportals-sa-stc-vcp-ccportal-deployment-7f85449cf6-z9xpj     1/1     Running   0          43m   10.244.63.24    kub-8   <none>           <none>
+consolportals-sa-stc-vcp-httpd-deployment-5f988d5764-4njcs        1/1     Running   0          43m   10.244.63.23    kub-8   <none>           <none>
+consolportals-sa-stc-vcp-httpd-deployment-5f988d5764-ch6lj        1/1     Running   0          43m   10.244.0.245    kub-3   <none>           <none>
+consolportals-sa-stc-vcp-partnerportal-deployment-595f448d2sfrx   1/1     Running   0          43m   10.244.0.240    kub-3   <none>           <none>
+consolportals-sa-stc-vcp-partnerportal-deployment-595f448d6prvn   1/1     Running   0          43m   10.244.63.25    kub-8   <none>           <none>
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get deployments -n consolportals-test
+NAME                                                READY   UP-TO-DATE   AVAILABLE   AGE
+consolportals-sa-stc-vcp-a3gw-deployment            2/2     2            2           43m
+consolportals-sa-stc-vcp-adminportal-deployment     2/2     2            2           43m
+consolportals-sa-stc-vcp-ccportal-deployment        2/2     2            2           43m
+consolportals-sa-stc-vcp-httpd-deployment           2/2     2            2           43m
+consolportals-sa-stc-vcp-partnerportal-deployment   2/2     2            2           43m
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get services -n consolportals-test
+NAME                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
+consolportals-sa-stc-vcp-a3gw-service            ClusterIP   10.102.216.21   <none>        8444/TCP,8445/TCP   44m
+consolportals-sa-stc-vcp-adminportal-service     ClusterIP   10.110.64.145   <none>        8080/TCP            44m
+consolportals-sa-stc-vcp-ccportal-service        ClusterIP   10.99.145.44    <none>        8081/TCP            44m
+consolportals-sa-stc-vcp-httpd-service           ClusterIP   10.97.121.34    <none>        80/TCP,443/TCP      44m
+consolportals-sa-stc-vcp-partnerportal-service   ClusterIP   10.96.128.61    <none>        8082/TCP            44m
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get ingress -n consolportals-test
+NAME                               CLASS   HOSTS                                 ADDRESS        PORTS   AGE
+consolportals-sa-stc-vcp-ingress   nginx   consolportals.internal.telenity.com   10.35.36.240   80      44m
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get configmaps -n consolportals-test
+NAME               DATA   AGE
+kube-root-ca.crt   1      116m
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get replicasets -n consolportals-test
+NAME                                                           DESIRED   CURRENT   READY   AGE
+consolportals-sa-stc-vcp-a3gw-deployment-68dc4c8464            2         2         2       44m
+consolportals-sa-stc-vcp-adminportal-deployment-5f9c8f8d6b     2         2         2       44m
+consolportals-sa-stc-vcp-ccportal-deployment-7f85449cf6        2         2         2       44m
+consolportals-sa-stc-vcp-httpd-deployment-5f988d5764           2         2         2       44m
+consolportals-sa-stc-vcp-partnerportal-deployment-595f448d55   2         2         2       44m
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop %
+
+zeynepozsoy@TELENITYs-MacBook-Pro Desktop % kubectl get configmaps -n consolportals-test
+kubectl get secrets -n consolportals-test
+NAME               DATA   AGE
+kube-root-ca.crt   1      118m
+NAME                                       TYPE                 DATA   AGE
+sh.helm.release.v1.consolportals-test.v1   helm.sh/release.v1   1      46m
+sh.helm.release.v1.consolportals-test.v2   helm.sh/release.v1   1      29m
