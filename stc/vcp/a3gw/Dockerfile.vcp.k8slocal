@@ -1,7 +1,7 @@
 # stc/vcp/a3gw/Dockerfile.vcp.k8slocal
 
 # ----------------------------------------------------------------------
-# FROM mersin.telenity.com/com/telenity/a3gw:1.0.9-main
+# FROM nexus.telenity.com/com/telenity/a3gw:1.0.9-main
 
 # COPY ./vcp/ecosystem.config.js ./ecosystem.config.js
 # COPY ./vcp/conf.k8s ./src/conf

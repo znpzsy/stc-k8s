@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#This script is a local Kubernetes deployment orchestrator that does all of this, in order:
+#
+# 1. Blows away any previous deployment
+# 2. Builds Docker images locally
+# 3. Creates a namespace
+# 4. Applies raw Kubernetes manifests
+# 5. Waits for pods
+# 6. Shows status
+#
+# 7. Optionally port-forwards
+# "helm upgrade --install" does practically the same thing.
+
+
+
 set -e  # Exit on error
 
 # Configuration

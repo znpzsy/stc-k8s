@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: vcp-ccportal
-      image: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal:1.0.0.1
+      image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal:1.0.0.1
       ports:
         - containerPort: 8081

@@ -1,0 +1,16 @@
+{{- if and .Values.a3gw.enabled .Values.a3gw.logging.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: a3gw-logs-pvc
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- if .Values.a3gw.logging.persistence.storageClass }}
+  storageClassName: {{ .Values.a3gw.logging.persistence.storageClass }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.a3gw.logging.persistence.size }}
+{{- end }}

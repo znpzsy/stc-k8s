@@ -1,0 +1,50 @@
+# values-local.yaml
+# Override values for local Mac development
+# Usage: helm install mychart . -f values.yaml -f values-local.yaml
+
+# For Mac development, use images without architecture suffix
+a3gw:
+  image:
+    tag: 1.0.0.1  # No -amd64 suffix for Mac builds
+  # Enable logging sidecars for easy log access via kubectl logs
+  logging:
+    sidecar:
+      enabled: true
+
+adminportal:
+  image:
+    tag: 1.0.0.1
+
+partnerportal:
+  image:
+    tag: 1.0.0.1
+
+ccportal:
+  image:
+    tag: 1.0.0.1
+
+httpd:
+  image:
+    tag: 1.0.0.1
+  # Enable resource limits for local testing
+  resources:
+    enabled: true
+
+# Use localhost for ingress
+ingress:
+  host: localhost
+  # You can disable ingress and use port-forward instead
+  enabled: true
+
+# Optional: Reduce replicas for local development
+# Uncomment these to save resources on your Mac
+# a3gw:
+#   replicaCount: 1
+# adminportal:
+#   replicaCount: 1
+# partnerportal:
+#   replicaCount: 1
+# ccportal:
+#   replicaCount: 1
+# httpd:
+#   replicaCount: 1

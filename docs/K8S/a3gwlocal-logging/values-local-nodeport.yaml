@@ -1,0 +1,101 @@
+# values-local-nodeport.yaml
+# Override values for local Mac development using NodePort (no ingress/port-forward needed)
+# Usage: helm install consolportals . -f values.yaml -f values-local-nodeport.yaml
+
+# For Mac development, use images without architecture suffix
+a3gw:
+  image:
+    tag: 1.0.0.1  # No -amd64 suffix for Mac builds
+  # Enable logging sidecars for easy log access via kubectl logs
+  logging:
+    sidecar:
+      enabled: true
+
+adminportal:
+  image:
+    tag: 1.0.0.1
+
+partnerportal:
+  image:
+    tag: 1.0.0.1
+
+ccportal:
+  image:
+    tag: 1.0.0.1
+
+httpd:
+  image:
+    tag: 1.0.0.1
+  # Enable resource limits for local testing
+  resources:
+    enabled: true
+
+# Override service types to NodePort for external access
+service:
+  # httpd - Primary entry point
+  # Access at: http://localhost:30080 or https://localhost:30443
+  httpd:
+    type: NodePort
+    ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30080  # http://localhost:30080/adminportal
+    - name: https
+      port: 443
+      targetPort: 443
+      nodePort: 30443  # https://localhost:30443/adminportal
+  
+  # a3gw - For debugging (bypass httpd)
+  # Access at: http://localhost:30444 or http://localhost:30445
+  a3gw:
+    type: NodePort
+    ports:
+    - name: portals
+      port: 8444
+      targetPort: 8444
+      nodePort: 30444  # http://localhost:30444/adminportal (direct to a3gw)
+    - name: auth
+      port: 8445
+      targetPort: 8445
+      nodePort: 30445  # http://localhost:30445/auth
+  
+  # Portal services stay as ClusterIP (accessed through httpd→a3gw)
+  # If you want direct access to portals, uncomment and set to NodePort
+  # adminportal:
+  #   type: NodePort
+  #   ports:
+  #   - port: 8080
+  #     targetPort: 8080
+  #     nodePort: 31080
+  #
+  # partnerportal:
+  #   type: NodePort
+  #   ports:
+  #   - port: 8082
+  #     targetPort: 8082
+  #     nodePort: 31082
+  #
+  # ccportal:
+  #   type: NodePort
+  #   ports:
+  #   - port: 8081
+  #     targetPort: 8081
+  #     nodePort: 31081
+
+# Disable ingress (not needed with NodePort)
+ingress:
+  enabled: false
+
+# Optional: Reduce replicas for local development to save resources
+# Uncomment to enable
+# a3gw:
+#   replicaCount: 1
+# adminportal:
+#   replicaCount: 1
+# partnerportal:
+#   replicaCount: 1
+# ccportal:
+#   replicaCount: 1
+# httpd:
+#   replicaCount: 1

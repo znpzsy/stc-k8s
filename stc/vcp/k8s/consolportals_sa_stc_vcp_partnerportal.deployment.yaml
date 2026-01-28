@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: vcp-partnerportal
-          image: mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1
+          image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1
           ports:
             - containerPort: 8082
