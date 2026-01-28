@@ -26,10 +26,10 @@ services:
       dockerfile: Dockerfile.vcp.prod
       context: ./a3gw
     # Comment out the registry image line for local builds
-    # image: mersin.telenity.com/com/telenity/a3gw:1.0.9-main
+    # image: nexus.telenity.com/com/telenity/a3gw:1.0.9-main
     environment:
       - NODE_ENV=production
-      - DOCKER_OPTS=--insecure-registry=mersin.telenity.com
+      - DOCKER_OPTS=--insecure-registry=nexus.telenity.com
     ports:
       - '8444:8444'
       - '8445:8445'

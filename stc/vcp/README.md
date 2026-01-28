@@ -151,10 +151,10 @@ chmod +x deploy-to-k8s.sh
 ### Manual Steps (Alternative)
 ```bash
 # Build images manually
-docker build -t mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.1 -f ./a3gw/Dockerfile.vcp.k8slocal ./a3gw
-docker build -t mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.1 -f ./vcp-adminportal/Dockerfile.prod ./vcp-adminportal
-docker build -t mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal:1.0.0.1 -f ./vcp-ccportal/Dockerfile.prod ./vcp-ccportal
-docker build -t mersin.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1 -f ./vcp-partnerportal/Dockerfile.prod ./vcp-partnerportal
+docker build -t nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.1 -f ./a3gw/Dockerfile.vcp.k8slocal ./a3gw
+docker build -t nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.1 -f ./vcp-adminportal/Dockerfile.prod ./vcp-adminportal
+docker build -t nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal:1.0.0.1 -f ./vcp-ccportal/Dockerfile.prod ./vcp-ccportal
+docker build -t nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1 -f ./vcp-partnerportal/Dockerfile.prod ./vcp-partnerportal
 
 # Create namespace
 kubectl create namespace vcp-services

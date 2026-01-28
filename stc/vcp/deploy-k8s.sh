@@ -4,7 +4,7 @@ set -e  # Exit on error
 
 # Configuration
 VERSION="1.0.0.1"
-REGISTRY="mersin.telenity.com/com/telenity" # nexus.telenity.com
+REGISTRY="nexus.telenity.com/com/telenity"
 REPOSITORY="consolportals-sa-stc"
 K8MANIFEST="consolportals_sa_stc_vcp"
 SITE="vcp"
@@ -293,7 +293,7 @@ cleanup_namespace() {
         done
 
         log_step "Cleaning up Docker images..."
-        docker images | grep "mersin.telenity.com/com/telenity" | awk '{print $1":"$2}' | xargs docker rmi 2>/dev/null | while IFS= read -r line; do
+        docker images | grep "nexus.telenity.com/com/telenity" | awk '{print $1":"$2}' | xargs docker rmi 2>/dev/null | while IFS= read -r line; do
             echo -e "${DIMGRAY}    $line${RESET}"
         done
 

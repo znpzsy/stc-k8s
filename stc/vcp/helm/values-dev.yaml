@@ -1,0 +1,29 @@
+# values-dev.yaml
+# Override values for development environment
+# Usage: helm install mychart . -f values.yaml -f values-dev.yaml
+
+# Development might use different registry or tags
+# a3gw:
+#   image:
+#     tag: 1.0.0.1-dev
+
+# Different ingress host for dev
+ingress:
+  host: 'consolportals-dev.internal.telenity.com'
+
+# Enable resource limits in dev
+httpd:
+  resources:
+    enabled: true
+
+# You might want to reduce replicas in dev
+a3gw:
+  replicaCount: 1
+adminportal:
+  replicaCount: 1
+partnerportal:
+  replicaCount: 1
+ccportal:
+  replicaCount: 1
+httpd:
+  replicaCount: 1

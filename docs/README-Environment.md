@@ -81,7 +81,7 @@ The goals of this sandbox are:
 * Images are tagged like they live in a registry:
 
   ```
-  mersin.telenity.com/com/telenity/<image>:<version>
+  nexus.telenity.com/com/telenity/<image>:<version>
   ```
 * These images are **not actually pushed** unless done manually
 
