@@ -157,46 +157,46 @@ docker build -t nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccporta
 docker build -t nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1 -f ./vcp-partnerportal/Dockerfile.prod ./vcp-partnerportal
 
 # Create namespace
-kubectl create namespace vcp-services
+kubectl create namespace stc-vcp-services
 
 # Deploy services
-kubectl apply -f consportals_sa_mobily_vcp_a3gw.deployment.yaml -n vcp-services
-kubectl apply -f consportals_sa_mobily_vcp_a3gw.service.yaml -n vcp-services
-kubectl apply -f consportals_sa_mobily_vcp_adminportal.deployment.yaml -n vcp-services
-kubectl apply -f consportals_sa_mobily_vcp_adminportal.service.yaml -n vcp-services
+kubectl apply -f consportals_sa_mobily_vcp_a3gw.deployment.yaml -n stc-vcp-services
+kubectl apply -f consportals_sa_mobily_vcp_a3gw.service.yaml -n stc-vcp-services
+kubectl apply -f consportals_sa_mobily_vcp_adminportal.deployment.yaml -n stc-vcp-services
+kubectl apply -f consportals_sa_mobily_vcp_adminportal.service.yaml -n stc-vcp-services
 
 ```
 
 ### Access Services
 ```bash
 # Port forward A3GW (done automatically by script)
-kubectl port-forward svc/consolportals-sa-stc-vcp-a3gw-service 8444:8444 8445:8445 -n vcp-services
+kubectl port-forward svc/consolportals-sa-stc-vcp-a3gw-service 8444:8444 8445:8445 -n stc-vcp-services
 
 # Port forward other services (in separate terminals, if needed)
-kubectl port-forward svc/consolportals-sa-stc-vcp-adminportal-service 8080:8080 -n vcp-services
-kubectl port-forward svc/consolportals-sa-stc-vcp-ccportal-service 8081:8081 -n vcp-services
-kubectl port-forward svc/consolportals-sa-stc-vcp-partnerportal-service 8082:8082 -n vcp-services
+kubectl port-forward svc/consolportals-sa-stc-vcp-adminportal-service 8080:8080 -n stc-vcp-services
+kubectl port-forward svc/consolportals-sa-stc-vcp-ccportal-service 8081:8081 -n stc-vcp-services
+kubectl port-forward svc/consolportals-sa-stc-vcp-partnerportal-service 8082:8082 -n stc-vcp-services
 ```
 
 ### Kubernetes Troubleshooting
 ```bash
 # View pod status
-kubectl get pods -n vcp-services
+kubectl get pods -n stc-vcp-services
 
 # View service status
-kubectl get services -n vcp-services
+kubectl get services -n stc-vcp-services
 
 # View pod logs
-kubectl logs -f deployment/consolportals-sa-stc-vcp-a3gw-deployment -n vcp-services
+kubectl logs -f deployment/consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
 
 # Describe pod for detailed info
-kubectl describe pod <pod-name> -n vcp-services
+kubectl describe pod <pod-name> -n stc-vcp-services
 
 # View events in namespace
-kubectl get events -n vcp-services
+kubectl get events -n stc-vcp-services
 
 # Access pod shell for debugging
-kubectl exec -it <pod-name> -n vcp-services -- sh
+kubectl exec -it <pod-name> -n stc-vcp-services -- sh
 ```
 
 ## Cleanup & Troubleshooting
@@ -211,7 +211,7 @@ docker-compose -f docker-compose.dev.yml down
 docker stop $(docker ps -q) 2>/dev/null || echo "No containers to stop"
 
 # Kubernetes
-kubectl delete namespace vcp-services
+kubectl delete namespace stc-vcp-services
 
 # Kill port-forward processes
 pkill -f "kubectl port-forward" 2>/dev/null || echo "No port-forward processes found"
@@ -224,10 +224,10 @@ If you delete containers through Docker Desktop, they'll automatically restart. 
 
 ```bash
 # Correct way to stop a specific service
-kubectl delete deployment consolportals-sa-stc-vcp-a3gw-deployment -n vcp-services
+kubectl delete deployment consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
 
 # Correct way to stop everything
-kubectl delete namespace vcp-services
+kubectl delete namespace stc-vcp-services
 ```
 
 ## Restart Options
