@@ -72,7 +72,7 @@ Production-like environment with optimized builds and no volume mounts.
 ### Quick Start
 ```bash
 # Navigate to project directory
-cd stc
+cd stc/vcp/
 
 # Start all services in development mode
 # docker-compose -f docker-compose.prod.yml up --build -d  ## For detached mode
@@ -251,6 +251,8 @@ cd stc
 ```
 
 ## Configuration Differences
+
+### A3GW docker files - configuration directories vary when container is being built.
 
 | Method       | Config Directory           | Use Case         | Features                         |
 |--------------|----------------------------|------------------|----------------------------------|

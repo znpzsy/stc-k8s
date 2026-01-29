@@ -278,10 +278,12 @@ kubectl get pods -n stc-vcp-services -l component=vcp-a3gw
 # 2. Watch logs from both pods in separate terminals 
 # Terminal 1 - Watch Pod 1's sidecar logs
 POD1=$(kubectl get pods -n stc-vcp-services -l component=vcp-a3gw -o jsonpath='{.items[0].metadata.name}')
-kubectl logs -f $POD1 -c a3gw-log-tail -n stc-vcp-services
+kubectl logs -f $POD1 -n stc-vcp-services # pod itself
+kubectl logs -f $POD1 -c a3gw-log-tail -n stc-vcp-services # sidecar
 
 # Terminal 2 - Watch Pod 2's sidecar logs
 POD2=$(kubectl get pods -n stc-vcp-services -l component=vcp-a3gw -o jsonpath='{.items[1].metadata.name}')
+kubectl logs -f $POD2 -n stc-vcp-services # pod itself
 kubectl logs -f $POD2 -c a3gw-log-tail -n stc-vcp-services
 
 # Terminal 3 - Make requests

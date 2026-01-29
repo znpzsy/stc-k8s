@@ -3,6 +3,14 @@ kind: Ingress
 metadata:
   name: consolportals-sa-stc-vcp-httpd-ingress
   annotations:
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"  # 3 hours
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+
     # If you need to handle large file uploads
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     # Timeout settings for longer requests
@@ -30,6 +38,14 @@ kind: Ingress
 metadata:
   name: consolportals-sa-stc-vcp-httpd-ingress-local
   annotations:
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # Large file uploads & longer requests
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
