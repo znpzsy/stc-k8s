@@ -66,6 +66,9 @@ function Logger(options) {
                 ]
             });
 
+            // TODO: Make this configurable in the real repo [IMPORTANT]
+            logger.add(new transports.Console());
+
             _self.auditLoggers[applicationName] = logger
         }
     })
