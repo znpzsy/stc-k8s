@@ -1,0 +1,128 @@
+{{- if and .Values.ingress.enabled .Values.ingress.services.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: services-ingress
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+          {{- range .Values.ingress.services.portals }}
+          - pathType: {{ .pathType }}
+            path: {{ .path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+                port:
+                  number: {{ $.Values.a3gw.service.ports.portals }}
+          {{- end }}
+          {{- range .Values.ingress.services.other }}
+          - pathType: {{ .pathType }}
+            path: {{ .path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+                port:
+                  number: {{ $.Values.a3gw.service.ports.portals }}
+          {{- end }}
+---
+{{- if .Values.ingress.services.refreshToken.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress-refresh-token
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: refresh-token-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: {{ .Values.ingress.services.refreshToken.rewriteTarget }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+          - pathType: {{ .Values.ingress.services.refreshToken.pathType }}
+            path: {{ .Values.ingress.services.refreshToken.path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+                port:
+                  number: {{ .Values.a3gw.service.ports.auth }}
+{{- end }}
+---
+{{- if .Values.ingress.services.cmpfRest.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress-cmpf-rest
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cmpf-rest-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: {{ .Values.ingress.services.cmpfRest.rewriteTarget }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+          - pathType: {{ .Values.ingress.services.cmpfRest.pathType }}
+            path: {{ .Values.ingress.services.cmpfRest.path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+                port:
+                  number: {{ .Values.a3gw.service.ports.auth }}
+{{- end }}
+---
+{{- if .Values.ingress.services.captcha.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress-captcha
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: captcha-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: {{ .Values.ingress.services.captcha.rewriteTarget }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+          - pathType: {{ .Values.ingress.services.captcha.pathType }}
+            path: {{ .Values.ingress.services.captcha.path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+                port:
+                  number: {{ .Values.a3gw.service.ports.auth }}
+{{- end }}
+---
+{{- if .Values.ingress.services.vcpServices.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress-vcp-services
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: vcp-services-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: {{ .Values.ingress.services.vcpServices.rewriteTarget }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+          - pathType: {{ .Values.ingress.services.vcpServices.pathType }}
+            path: {{ .Values.ingress.services.vcpServices.path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+                port:
+                  number: {{ .Values.a3gw.service.ports.portals }}
+{{- end }}
+{{- end }}

@@ -6,7 +6,7 @@ a3gw:
   replicaCount: 2
   image:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
-    tag: 1.0.0.1-amd64
+    tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
   # Session affinity for stateful sessions (3 hours)
   sessionAffinity:
@@ -22,7 +22,7 @@ adminportal:
   replicaCount: 2
   image:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
-    tag: 1.0.0.1-amd64
+    tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
 
 partnerportal:
@@ -30,7 +30,7 @@ partnerportal:
   replicaCount: 2
   image:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
-    tag: 1.0.0.1-amd64
+    tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
 
 ccportal:
@@ -38,7 +38,7 @@ ccportal:
   replicaCount: 2
   image:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
-    tag: 1.0.0.1-amd64
+    tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
 
 httpd:
@@ -46,7 +46,7 @@ httpd:
   replicaCount: 2
   image:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
-    tag: 1.0.0.1-amd64
+    tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
   # Optional resource limits
   resources:
@@ -114,6 +114,14 @@ ingress:
   host: 'consolportals.internal.telenity.com'
   # Simple routing: everything goes to httpd, which handles proxy logic
   annotations:
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"  # 3 hours
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # request body size and timeout settings for large requests
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"

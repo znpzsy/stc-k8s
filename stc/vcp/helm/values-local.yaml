@@ -5,23 +5,23 @@
 # For Mac development, use images without architecture suffix
 a3gw:
   image:
-    tag: 1.0.0.1  # No -amd64 suffix for Mac builds
+    tag: 1.0.0.2  # No -amd64 suffix for Mac builds
 
 adminportal:
   image:
-    tag: 1.0.0.1
+    tag: 1.0.0.2
 
 partnerportal:
   image:
-    tag: 1.0.0.1
+    tag: 1.0.0.2
 
 ccportal:
   image:
-    tag: 1.0.0.1
+    tag: 1.0.0.2
 
 httpd:
   image:
-    tag: 1.0.0.1
+    tag: 1.0.0.2
   # Enable resource limits for local testing
   resources:
     enabled: true

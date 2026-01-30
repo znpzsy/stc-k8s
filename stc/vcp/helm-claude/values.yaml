@@ -1,0 +1,231 @@
+# Default values for consolportals-sa-stc-vcp
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global settings
+global:
+  registry: nexus.telenity.com/com/telenity
+  imagePrefix: consolportals-sa-stc-vcp
+  imageTag: "1.0.0.1"
+  imagePullPolicy: IfNotPresent
+
+# Namespace configuration
+namespace: stc-vcp-services
+
+# HTTPD service configuration
+httpd:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
+    tag: "1.0.0.1"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    ports:
+      http: 80
+      https: 443
+  
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+  
+  containerPorts:
+    - containerPort: 80
+      name: http
+    - containerPort: 443
+      name: https
+
+# A3GW (API Gateway) service configuration
+a3gw:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
+    tag: "1.0.0.1"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    sessionAffinity: ClientIP
+    sessionAffinityTimeout: 10800  # 3 hours in seconds
+    ports:
+      portals: 8444
+      auth: 8445
+  
+  resources: {}
+  
+  containerPorts:
+    - containerPort: 8444
+      name: portals
+    - containerPort: 8445
+      name: auth
+
+# Admin Portal configuration
+adminportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
+    tag: "1.0.0.1"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 8080
+  
+  resources: {}
+  
+  containerPort: 8080
+
+# CC Portal configuration
+ccportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
+    tag: "1.0.0.1"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 8081
+  
+  resources: {}
+  
+  containerPort: 8081
+
+# Partner Portal configuration
+partnerportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
+    tag: "1.0.0.1"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 8082
+  
+  resources: {}
+  
+  containerPort: 8082
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  
+  # HTTPD ingress configuration
+  httpd:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/affinity: "cookie"
+      nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+      nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+      nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+      nginx.ingress.kubernetes.io/session-cookie-path: "/"
+      nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+      nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    
+    # Main ingress
+    hosts: []
+    # - host: console.example.com
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
+    
+    # Local development ingress
+    local:
+      enabled: true
+      host: localhost
+  
+  # Service-specific ingress (a3gw routing)
+  services:
+    enabled: true
+    
+    # Portal paths routed to a3gw
+    portals:
+      - path: /adminportal
+        pathType: Prefix
+      - path: /ccportal
+        pathType: Prefix
+      - path: /partnerportal
+        pathType: Prefix
+    
+    # Other paths routed to a3gw
+    other:
+      - path: /conf
+        pathType: Prefix
+      - path: /site.json
+        pathType: Prefix
+    
+    # Refresh token with rewrite
+    refreshToken:
+      enabled: true
+      path: /cmpf-auth-rest/refresh-token
+      pathType: Prefix
+      rewriteTarget: /refresh-token
+    
+    # CMPF REST authentication with rewrite
+    cmpfRest:
+      enabled: true
+      path: /cmpf-auth-rest
+      pathType: Prefix
+      rewriteTarget: /cmpf-rest/authenticate
+    
+    # Captcha with rewrite
+    captcha:
+      enabled: true
+      path: /img/captcha.png
+      pathType: Prefix
+      rewriteTarget: /captcha.png
+    
+    # VCP services with regex rewrite
+    vcpServices:
+      enabled: true
+      path: /vcp/services(/|$)(.*)
+      pathType: Prefix
+      rewriteTarget: /$2
+
+# Pod Security Context
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# Container Security Context
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Node labels for pod assignment
+nodeSelector: {}
+
+# Tolerations for pod assignment
+tolerations: []
+
+# Affinity for pod assignment
+affinity: {}
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Pod Annotations
+podAnnotations: {}
+
+# Pod Labels
+podLabels: {}

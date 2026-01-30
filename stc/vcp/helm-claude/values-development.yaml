@@ -1,0 +1,218 @@
+# Development Values for ConsolPortals STC VCP
+# Use this file for local development and testing
+
+# Global settings - development versions
+global:
+  registry: nexus.telenity.com/com/telenity
+  imagePrefix: consolportals-sa-stc-vcp
+  imageTag: "latest"  # Use latest for development
+  imagePullPolicy: IfNotPresent  # Don't always pull in dev
+
+namespace: stc-vcp-services-dev
+
+# HTTPD - minimal resources for development
+httpd:
+  enabled: true
+  replicaCount: 1  # Single replica for dev
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    ports:
+      http: 80
+      https: 443
+  
+  resources:
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+  
+  containerPorts:
+    - containerPort: 80
+      name: http
+    - containerPort: 443
+      name: https
+
+# A3GW - development configuration
+a3gw:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    sessionAffinity: ClientIP
+    sessionAffinityTimeout: 10800
+    ports:
+      portals: 8444
+      auth: 8445
+  
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+
+# Admin Portal - minimal for dev
+adminportal:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 8080
+  
+  resources:
+    limits:
+      memory: "384Mi"
+      cpu: "250m"
+    requests:
+      memory: "192Mi"
+      cpu: "100m"
+
+# CC Portal - minimal for dev
+ccportal:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 8081
+  
+  resources:
+    limits:
+      memory: "384Mi"
+      cpu: "250m"
+    requests:
+      memory: "192Mi"
+      cpu: "100m"
+
+# Partner Portal - minimal for dev
+partnerportal:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 8082
+  
+  resources:
+    limits:
+      memory: "384Mi"
+      cpu: "250m"
+    requests:
+      memory: "192Mi"
+      cpu: "100m"
+
+# Ingress - localhost for development
+ingress:
+  enabled: true
+  className: nginx
+  
+  httpd:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/affinity: "cookie"
+      nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+      nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+      nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+      nginx.ingress.kubernetes.io/session-cookie-path: "/"
+      nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+      nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    
+    # No production hosts for dev
+    hosts: []
+    
+    # Enable local development ingress
+    local:
+      enabled: true
+      host: localhost
+  
+  services:
+    enabled: true
+    portals:
+      - path: /adminportal
+        pathType: Prefix
+      - path: /ccportal
+        pathType: Prefix
+      - path: /partnerportal
+        pathType: Prefix
+    other:
+      - path: /conf
+        pathType: Prefix
+      - path: /site.json
+        pathType: Prefix
+    refreshToken:
+      enabled: true
+      path: /cmpf-auth-rest/refresh-token
+      pathType: Prefix
+      rewriteTarget: /refresh-token
+    cmpfRest:
+      enabled: true
+      path: /cmpf-auth-rest
+      pathType: Prefix
+      rewriteTarget: /cmpf-rest/authenticate
+    captcha:
+      enabled: true
+      path: /img/captcha.png
+      pathType: Prefix
+      rewriteTarget: /captcha.png
+    vcpServices:
+      enabled: true
+      path: /vcp/services(/|$)(.*)
+      pathType: Prefix
+      rewriteTarget: /$2
+
+# Relaxed security for development
+podSecurityContext: {}
+
+securityContext: {}
+
+# No node selector for dev
+nodeSelector: {}
+
+# No tolerations for dev
+tolerations: []
+
+# No affinity for dev
+affinity: {}
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Pod Annotations for debugging
+podAnnotations:
+  debug: "enabled"
+
+# Pod Labels
+podLabels:
+  environment: development
+  team: platform

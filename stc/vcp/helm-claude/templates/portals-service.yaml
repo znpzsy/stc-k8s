@@ -1,0 +1,20 @@
+{{- range $portal := list "adminportal" "ccportal" "partnerportal" }}
+{{- $portalConfig := index $.Values $portal }}
+{{- if $portalConfig.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "consolportals.serviceName" (dict "component" $portal) }}
+  labels:
+    {{- include "consolportals.componentLabels" (dict "component" (printf "vcp-%s" $portal) "context" $) | nindent 4 }}
+spec:
+  type: {{ $portalConfig.service.type }}
+  selector:
+    {{- include "consolportals.componentSelectorLabels" (dict "component" (printf "vcp-%s" $portal) "context" $) | nindent 4 }}
+  ports:
+    - port: {{ $portalConfig.service.port }}
+      targetPort: {{ $portalConfig.service.port }}
+      protocol: TCP
+{{- end }}
+{{- end }}

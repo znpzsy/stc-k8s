@@ -1,0 +1,72 @@
+{{- if and .Values.ingress.enabled .Values.ingress.httpd.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-ingress
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: httpd-ingress
+  {{- with .Values.ingress.httpd.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.httpd.hosts }}
+  rules:
+    {{- range .Values.ingress.httpd.hosts }}
+    - {{- if .host }}
+      host: {{ .host }}
+      {{- end }}
+      http:
+        paths:
+          {{- range .paths }}
+          - pathType: {{ .pathType }}
+            path: {{ .path }}
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "httpd") }}
+                port:
+                  number: {{ $.Values.httpd.service.ports.http }}
+          {{- end }}
+    {{- end }}
+  {{- else }}
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "httpd") }}
+                port:
+                  number: {{ .Values.httpd.service.ports.http }}
+  {{- end }}
+---
+{{- if .Values.ingress.httpd.local.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-ingress-local
+  labels:
+    {{- include "consolportals.labels" . | nindent 4 }}
+    app.kubernetes.io/component: httpd-ingress-local
+  {{- with .Values.ingress.httpd.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.httpd.local.host }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: {{ include "consolportals.serviceName" (dict "component" "httpd") }}
+                port:
+                  number: {{ .Values.httpd.service.ports.http }}
+{{- end }}
+{{- end }}

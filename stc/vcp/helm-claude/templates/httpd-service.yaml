@@ -1,0 +1,21 @@
+{{- if .Values.httpd.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "consolportals.serviceName" (dict "component" "httpd") }}
+  labels:
+    {{- include "consolportals.componentLabels" (dict "component" "vcp-httpd" "context" .) | nindent 4 }}
+spec:
+  type: {{ .Values.httpd.service.type }}
+  selector:
+    {{- include "consolportals.componentSelectorLabels" (dict "component" "vcp-httpd" "context" .) | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.httpd.service.ports.http }}
+      targetPort: {{ .Values.httpd.service.ports.http }}
+      protocol: TCP
+    - name: https
+      port: {{ .Values.httpd.service.ports.https }}
+      targetPort: {{ .Values.httpd.service.ports.https }}
+      protocol: TCP
+{{- end }}

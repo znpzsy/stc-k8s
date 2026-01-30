@@ -1,0 +1,20 @@
+apiVersion: v2
+name: consolportals-sa-stc-vcp
+description: A Helm chart for STC VCP ConsolPortals deployment
+type: application
+version: 1.0.0
+appVersion: "1.0.0.2"
+
+maintainers:
+  - name: STC Team
+    email: team@example.com
+
+keywords:
+  - consolportals
+  - vcp
+  - stc
+  - portals
+
+home: https://github.com/your-org/consolportals
+sources:
+  - https://github.com/your-org/consolportals

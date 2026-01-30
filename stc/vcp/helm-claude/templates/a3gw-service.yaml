@@ -1,0 +1,25 @@
+{{- if .Values.a3gw.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "consolportals.serviceName" (dict "component" "a3gw") }}
+  labels:
+    {{- include "consolportals.componentLabels" (dict "component" "vcp-a3gw" "context" .) | nindent 4 }}
+spec:
+  type: {{ .Values.a3gw.service.type }}
+  selector:
+    {{- include "consolportals.componentSelectorLabels" (dict "component" "vcp-a3gw" "context" .) | nindent 4 }}
+  sessionAffinity: {{ .Values.a3gw.service.sessionAffinity }}
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: {{ .Values.a3gw.service.sessionAffinityTimeout }}
+  ports:
+    - name: portals
+      port: {{ .Values.a3gw.service.ports.portals }}
+      targetPort: {{ .Values.a3gw.service.ports.portals }}
+      protocol: TCP
+    - name: auth
+      port: {{ .Values.a3gw.service.ports.auth }}
+      targetPort: {{ .Values.a3gw.service.ports.auth }}
+      protocol: TCP
+{{- end }}
