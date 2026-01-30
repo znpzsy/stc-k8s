@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Common labels applied to all resources
+commonLabels:
+  app: consolportals-sa-stc-vcp
+  environment: production
+  managed-by: kustomize
+
+# Namespace for all resources
+namespace: consolportals
+
+# Resources to deploy
+resources:
+  # Ingress
+  - consolportals-sa-stc-vcp-httpd-ingress.yaml
+  
+  # Deployments
+  - consolportals_sa_stc_vcp_httpd.deployment.yaml
+  - consolportals_sa_stc_vcp_a3gw.deployment.yaml
+  - consolportals_sa_stc_vcp_adminportal.deployment.yaml
+  - consolportals_sa_stc_vcp_ccportal.deployment.yaml
+  - consolportals_sa_stc_vcp_partnerportal.deployment.yaml
+  
+  # Services
+  - consolportals_sa_stc_vcp_httpd.service.yaml
+  - consolportals_sa_stc_vcp_a3gw.service.yaml
+  - consolportals_sa_stc_vcp_portals.services.yaml
+  
+  # PodDisruptionBudgets
+  - consolportals_sa_stc_vcp_pdbs.yaml
+
+# Image configuration (if you want to override tags)
+# images:
+#   - name: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
+#     newTag: 1.0.0.2

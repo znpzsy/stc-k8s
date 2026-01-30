@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-deployment
+  labels:
+    app: consolportals-sa-stc-vcp
+    component: vcp-partnerportal
+    version: 1.0.0.1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: consolportals-sa-stc-vcp
+      component: vcp-partnerportal
+  template:
+    metadata:
+      labels:
+        app: consolportals-sa-stc-vcp
+        component: vcp-partnerportal
+        version: 1.0.0.1
+    spec:
+      # Wait for dependencies
+      initContainers:
+        - name: wait-for-httpd
+          image: busybox:1.36
+          command: ['sh', '-c', 'until nc -z consolportals-sa-stc-vcp-httpd-service 80; do echo waiting for httpd; sleep 2; done']
+        - name: wait-for-a3gw
+          image: busybox:1.36
+          command: ['sh', '-c', 'until nc -z consolportals-sa-stc-vcp-a3gw-service 8444; do echo waiting for a3gw; sleep 2; done']
+      containers:
+        - name: vcp-partnerportal
+          image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal:1.0.0.1
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: "production"
+          resources:
+            limits:
+              memory: "768Mi"
+              cpu: "750m"
+            requests:
+              memory: "384Mi"
+              cpu: "250m"
+          livenessProbe:
+            httpGet:
+              path: /partnerportal
+              port: 8082
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /partnerportal
+              port: 8082
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]

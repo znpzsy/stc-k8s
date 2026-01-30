@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: vcp-adminportal
-      image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.1
+      image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal:1.0.0.2
       ports:
         - containerPort: 8080

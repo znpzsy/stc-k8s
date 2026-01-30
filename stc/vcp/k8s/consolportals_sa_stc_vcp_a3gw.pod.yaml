@@ -8,7 +8,7 @@ spec:
   containers:
     - name: vcp-a3gw
       # Fixed image name to match deployment
-      image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.1
+      image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.2
       ports:
         - containerPort: 8444
         - containerPort: 8445

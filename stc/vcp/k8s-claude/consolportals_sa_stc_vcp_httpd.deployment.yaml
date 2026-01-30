@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-deployment
+  labels:
+    app: consolportals-sa-stc-vcp
+    component: vcp-httpd
+    version: 1.0.0.1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: consolportals-sa-stc-vcp
+      component: vcp-httpd
+  template:
+    metadata:
+      labels:
+        app: consolportals-sa-stc-vcp
+        component: vcp-httpd
+        version: 1.0.0.1
+    spec:
+      containers:
+        - name: vcp-httpd
+          image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd:1.0.0.1
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          livenessProbe:
+            httpGet:
+              path: /site.json
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 40
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /site.json
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]

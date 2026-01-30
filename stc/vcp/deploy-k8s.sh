@@ -17,7 +17,7 @@
 set -e  # Exit on error
 
 # Configuration
-VERSION="1.0.0.1"
+VERSION="1.0.0.2"
 REGISTRY="nexus.telenity.com/com/telenity"
 REPOSITORY="consolportals-sa-stc"
 K8MANIFEST="consolportals_sa_stc_vcp"
