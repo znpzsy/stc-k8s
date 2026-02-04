@@ -1,0 +1,268 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress
+  annotations:
+    # Session affinity - replacing httpd's session handling
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    
+    # Security headers - replacing extra-headers.conf
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "X-Download-Options: noopen";
+      more_set_headers "X-Permitted-Cross-Domain-Policies: none";
+      more_set_headers "Feature-Policy: vibrate 'none'; geolocation 'none'";
+      more_set_headers "Expect-CT: max-age=86400, enforce";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self' 'unsafe-eval' 'unsafe-inline' blob:; base-uri 'self'; form-action 'self'; frame-ancestors 'none';";
+      
+      # Add HTTPOnly to all cookies
+      more_set_headers -s '200 201 204 206 301 302 303 304 307 308' "Set-Cookie: $sent_http_set_cookie; HTTPOnly";
+      
+      # Remove server version info
+      more_clear_headers 'Server';
+      more_clear_headers 'X-Powered-By';
+    
+    # Enable CORS for specific resources - replacing html5-boilerplate.conf CORS settings
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization"
+    
+    # File upload & timeout - matching your current settings
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    
+    # Enable compression - replacing httpd's deflate module
+    nginx.ingress.kubernetes.io/enable-compression: "true"
+    
+    # Suppress www redirect (matching your html5-boilerplate.conf)
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    
+    # Custom error pages
+    nginx.ingress.kubernetes.io/custom-http-errors: "404,503"
+    
+    # Rate limiting (optional - add if needed)
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # Auth endpoints - direct to a3gw port 8445
+          - pathType: Prefix
+            path: "/cmpf-auth-rest/refresh-token"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
+          
+          - pathType: Prefix
+            path: "/cmpf-auth-rest"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
+          
+          - pathType: Prefix
+            path: "/img/captcha.png"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
+          
+          # Portal endpoints - to a3gw port 8444
+          - pathType: Prefix
+            path: "/adminportal"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/ccportal"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/partnerportal"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          # Other services
+          - pathType: Prefix
+            path: "/vcp/services"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/conf"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/site.json"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          # Default - everything else goes to a3gw port 8444
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+
+---
+
+# For local development with localhost
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-ingress-local
+  annotations:
+    # Same annotations as above
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "X-Download-Options: noopen";
+      more_set_headers "X-Permitted-Cross-Domain-Policies: none";
+      more_set_headers "Feature-Policy: vibrate 'none'; geolocation 'none'";
+      more_set_headers "Expect-CT: max-age=86400, enforce";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self' 'unsafe-eval' 'unsafe-inline' blob:; base-uri 'self'; form-action 'self'; frame-ancestors 'none';";
+      more_set_headers -s '200 201 204 206 301 302 303 304 307 308' "Set-Cookie: $sent_http_set_cookie; HTTPOnly";
+      more_clear_headers 'Server';
+      more_clear_headers 'X-Powered-By';
+    
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/enable-compression: "true"
+    
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/cmpf-auth-rest/refresh-token"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
+          
+          - pathType: Prefix
+            path: "/cmpf-auth-rest"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
+          
+          - pathType: Prefix
+            path: "/img/captcha.png"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
+          
+          - pathType: Prefix
+            path: "/adminportal"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/ccportal"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/partnerportal"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/vcp/services"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/conf"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/site.json"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444

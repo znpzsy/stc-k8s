@@ -24,14 +24,14 @@
           │   ├── Dockerfile.vcp.dev          # Dockerfile for local development
           │   └── Dockerfile.vcp.prod         # Dockerfile for production
           │   
-          ├── k8s/
+          ├── helm/
           │   ├── values.yaml                  # Helm values YAMLS for prod, dev, local & local-nodeport
           │   ├── values.dev.yaml                  
           │   ├── values.local.yaml            # Ingress - host:localhost, ClusterIP (dev)         
           │   ├── values.local-nodeport.yaml   # Httpd & A3gw as service, NodePorts configured (dev)        
           │   └── (...)                        #  Readmes & Chart templates  
           │  
-          ├── helm/
+          ├── k8s/
           │   ├── consolportals_sa_stc_ingress.yaml                    # Ingress YAMLs for sandbox routing
           │   ├── consolportals_sa_stc_vcp_{{nd}}.deployment.yaml      # K8s manifests for deployments
           │   ├── consolportals_sa_stc_vcp_{{nd}}.pod.yaml             # K8s manifests for pods
