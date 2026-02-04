@@ -112,6 +112,7 @@ ingress:
   enabled: true
   className: nginx
   host: 'consolportals.internal.telenity.com'
+  extraHosts: []
   # Simple routing: everything goes to httpd, which handles proxy logic
   annotations:
     # Cookie-based sticky sessions

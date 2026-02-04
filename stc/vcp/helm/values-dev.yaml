@@ -9,7 +9,11 @@
 
 # Different ingress host for dev
 ingress:
-  host: 'consolportals-dev.internal.telenity.com'
+  host: localhost
+  extraHosts:
+    - consolportals-dev.internal.telenity.com
+  # You can disable ingress and use port-forward instead
+  enabled: true
 
 # Enable resource limits in dev
 httpd:

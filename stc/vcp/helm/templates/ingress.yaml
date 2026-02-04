@@ -4,19 +4,30 @@ kind: Ingress
 metadata:
   name: consolportals-sa-stc-vcp-ingress
   namespace: {{ include "consolportals.namespace" . }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - {{- if .Values.ingress.host }}
-      host: {{ .Values.ingress.host | quote }}
-      {{- end }}
+    {{- $hosts := list }}
+    {{- if .Values.ingress.host }}
+    {{- $hosts = append $hosts .Values.ingress.host }}
+    {{- end }}
+    {{- range .Values.ingress.extraHosts }}
+    {{- $hosts = append $hosts . }}
+    {{- end }}
+    {{- range $h := $hosts }}
+    - host: {{ $h | quote }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.service.httpd.name }}
+                name: {{ $.Values.service.httpd.name }}
                 port:
-                  number: {{ (index .Values.service.httpd.ports 0).port }}
+                  number: {{ (index $.Values.service.httpd.ports 0).port }}
   {{- end }}
+{{- end }}

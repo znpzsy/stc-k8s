@@ -29,8 +29,11 @@ httpd:
 # Use localhost for ingress
 ingress:
   host: localhost
+  extraHosts:
+    - consolportals-dev.internal.telenity.com
   # You can disable ingress and use port-forward instead
   enabled: true
+
 
 # Optional: Reduce replicas for local development
 # Uncomment these to save resources on your Mac
