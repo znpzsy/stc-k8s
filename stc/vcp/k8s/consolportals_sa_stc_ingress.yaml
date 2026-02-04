@@ -1,128 +1,252 @@
+# 1) refresh-token special-case:
+# /cmpf-auth-rest/refresh-token  -->  :8445/refresh-token
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: consolportals-sa-stc-vcp-ingress
-spec:
-  ingressClassName: nginx
-  rules:
-    - http:
-        paths:
-          # Portals
-          - pathType: Prefix
-            path: "/adminportal"
-            backend:
-              service:
-                name: consolportals-sa-stc-vcp-a3gw-service
-                port:
-                  number: 8444
-          - pathType: Prefix
-            path: "/ccportal"
-            backend:
-              service:
-                name: consolportals-sa-stc-vcp-a3gw-service
-                port:
-                  number: 8444
-          - pathType: Prefix
-            path: "/partnerportal"
-            backend:
-              service:
-                name: consolportals-sa-stc-vcp-a3gw-service
-                port:
-                  number: 8444
-          # Others
-          - pathType: Prefix
-            path: "/conf"
-            backend:
-              service:
-                name: consolportals-sa-stc-vcp-a3gw-service
-                port:
-                  number: 8444
-          - pathType: Prefix
-            path: "/site.json"
-            backend:
-              service:
-                name: consolportals-sa-stc-vcp-a3gw-service
-                port:
-                  number: 8444
-
----
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: consolportals-sa-stc-vcp-ingress-refresh-token
+  name: vcp-auth-refresh-ing
+  namespace: stc-vcp-services
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /refresh-token
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # Large file uploads & longer requests
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: consolportals-dev.internal.telenity.com
+      http:
         paths:
-          - pathType: Prefix
-            path: "/cmpf-auth-rest/refresh-token"
+          - path: /cmpf-auth-rest/refresh-token
+            pathType: Prefix
             backend:
               service:
                 name: consolportals-sa-stc-vcp-a3gw-service
                 port:
                   number: 8445
-
+    - host: localhost
+      http:
+        paths:
+          - path: /cmpf-auth-rest/refresh-token
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
 ---
-
+# 2) generic auth mapping:
+# /cmpf-auth-rest/<anything>  -->  :8445/cmpf-rest/<anything>
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: consolportals-sa-stc-vcp-ingress-cmpf-rest
+  name: vcp-auth-ing
+  namespace: stc-vcp-services
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /cmpf-rest/authenticate
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /cmpf-rest/$2
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # Large file uploads & longer requests
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: consolportals-dev.internal.telenity.com
+      http:
         paths:
-          - pathType: Prefix
-            path: "/cmpf-auth-rest"
+          - path: /cmpf-auth-rest(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: consolportals-sa-stc-vcp-a3gw-service
                 port:
                   number: 8445
-
+    - host: localhost
+      http:
+        paths:
+          - path: /cmpf-auth-rest(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
 ---
-
+# 3) captcha mapping:
+# /img/captcha.png  -->  :8445/captcha.png
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: consolportals-sa-stc-vcp-ingress-captcha
+  name: vcp-captcha-ing
+  namespace: stc-vcp-services
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /captcha.png
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # Large file uploads & longer requests
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: consolportals-dev.internal.telenity.com
+      http:
         paths:
-          - pathType: Prefix
-            path: "/img/captcha.png"
+          - path: /img/captcha.png
+            pathType: Exact
             backend:
               service:
                 name: consolportals-sa-stc-vcp-a3gw-service
                 port:
                   number: 8445
-
+    - host: localhost
+      http:
+        paths:
+          - path: /img/captcha.png
+            pathType: Exact
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8445
 ---
-
+# 4) services mapping:
+# /vcp/services/<anything>  -->  :8444/<anything>   (strip /vcp/services prefix)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: consolportals-sa-stc-vcp-ingress-vcp-services
+  name: vcp-services-ing
+  namespace: stc-vcp-services
   annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # Large file uploads & longer requests
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: consolportals-dev.internal.telenity.com
+      http:
         paths:
-          - pathType: Prefix
-            path: "/vcp/services(/|$)(.*)"
+          - path: /vcp/services(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+    - host: localhost
+      http:
+        paths:
+          - path: /vcp/services(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+---
+# 5) "everything else" (portals, conf, site.json, etc) without rewrite:
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vcp-main-ing
+  namespace: stc-vcp-services
+  annotations:
+    # Cookie-based sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vcp-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "10800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+    # Large file uploads & longer requests
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: consolportals-dev.internal.telenity.com
+      http:
+        paths:
+          - path: /adminportal
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          - path: /ccportal
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          - path: /partnerportal
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          - path: /conf
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          - path: /site.json
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: consolportals-sa-stc-vcp-a3gw-service
+                port:
+                  number: 8444
+    - host: localhost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: consolportals-sa-stc-vcp-a3gw-service
