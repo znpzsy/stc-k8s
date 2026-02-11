@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-conf
+data:
+  server_config.json: |
+    {
+      "servicesBase": "/vcp/services",
+      "logLevel": "error",
+      "proxy": {
+        "servicesHttpHost": "0.0.0.0",
+        "servicesHttpPort": "8444"
+      },
+      "auth": {
+        "authorizationHeaderKey": "Bearer",
+        "tokenName": "token",
+        "refreshTokenName": "refreshToken"
+      },
+      "rateLimit": {
+        "enabled": true,
+        "expiration": 900,
+        "max": 1000
+      },
+      "applications": [
+        {
+          "resourceName": "VCP Admin Portal",
+          "path": "/adminportal",
+          "targetHost": "http://consolportals-sa-stc-vcp-adminportal-service:8080",
+          "pathRewrite": {
+            "^/adminportal": "/adminportal"
+          }
+        },
+        {
+          "resourceName": "VCP Customer Care Portal",
+          "path": "/ccportal",
+          "targetHost": "http://consolportals-sa-stc-vcp-ccportal-service:8081",
+          "pathRewrite": {
+            "^/ccportal": "/ccportal"
+          }
+        },
+        {
+          "resourceName": "VCP Partner Portal",
+          "path": "/partnerportal",
+          "targetHost": "http://consolportals-sa-stc-vcp-partnerportal-service:8082",
+          "pathRewrite": {
+            "^/partnerportal": "/partnerportal"
+          },
+          "captchaEnabled": true
+        },
+        {
+          "path": "/conf",
+          "targetHost": "http://localhost:8085",
+          "pathRewrite": {
+            "^/conf": "/"
+          }
+        },
+        {
+          "path": "/site.json",
+          "targetHost": "http://localhost:8086",
+          "pathRewrite": {
+            "^/site.json": "/site.json"
+          }
+        }
+      ],
+      "filter": {
+        "allowedOrigins": [
+          "localhost"
+        ],
+        "allowedExts": [
+          "css",
+          "js",
+          "map",
+          "ttf",
+          "woff",
+          "woff2",
+          "svg",
+          "eot",
+          [
+            "jpg",
+            "jpeg",
+            "bmp",
+            "gif",
+            "png",
+            "ico"
+          ]
+        ],
+        "allowedFiles": [
+          "app.html",
+          "index.html",
+          "site.json"
+        ],
+        "allowedDirectories": [
+          "/public",
+          "/login",
+          "/partials",
+          "/i18n"
+        ],
+        "allowedPathes": [
+          "/pentaho/getImage"
+        ],
+        "allowedRestServices": [
+          "/workflows-otp-rest"
+        ]
+      }
+    }
+
+  logger_config.json: |
+    {
+      "timezone": "Asia/Riyadh",
+      "maxSize": 10000000,
+      "maxFiles": 15
+    }
+
+  idle_config.json: |
+    {
+      "idleTimeout": 172800,
+      "keepaliveInterval": 15
+    }
+
+  auth_config.json: |
+    {
+      "httpHost": "0.0.0.0",
+      "httpPort": "8445",
+      "accountsPath": "/cmpf-rest/useraccounts",
+      "accountsUrl": "http://10.35.39.101:9610/axis2/cmpf/useraccounts",
+      "authenticationServer": {
+        "path": "/cmpf-rest/authenticate",
+        "target": "http://10.35.39.101:9610",
+        "pathRewrite": {
+          "^/cmpf-rest/authenticate": "/axis2/cmpf/authenticate"
+        }
+      },
+      "allowOnlyOneSession": false,
+      "memcachedServers": [
+      ]
+    }
+
+
+# optional operations_config - only used in ttg
+#  operations_config.json: |
+#    { }

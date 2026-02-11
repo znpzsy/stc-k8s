@@ -12,9 +12,21 @@ spec:
       labels:
         component: vcp-a3gw
     spec:
+      volumes:
+        - name: a3gw-conf
+          projected:
+            sources:
+              - configMap:
+                  name: consolportals-sa-stc-vcp-a3gw-conf
+              - secret:
+                  name: consolportals-sa-stc-vcp-a3gw-conf-secret
       containers:
         - name: vcp-a3gw
           image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.2
           ports:
             - containerPort: 8444
             - containerPort: 8445
+          volumeMounts:
+            - name: a3gw-conf
+              mountPath: /space/a3gw/src/conf
+              readOnly: true

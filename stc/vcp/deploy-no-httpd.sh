@@ -25,6 +25,10 @@ SITE="vcp"
 NAMESPACE="stc-vcp-services"
 PORTALS=("adminportal" "ccportal" "partnerportal")
 ALL_SERVICES=("httpd" "a3gw")
+CONF_DIR="a3gw/vcp/conf.k8s"
+A3GW_CONFIGMAP="consolportals-sa-stc-vcp-a3gw-conf"
+A3GW_SECRET="consolportals-sa-stc-vcp-a3gw-conf-secret"
+
 
 for portal in "${PORTALS[@]}"; do
     ALL_SERVICES+=("${SITE}-${portal}")
@@ -431,6 +435,28 @@ deploy_services() {
 #    fi
 
     # Deploy A3GW
+    # Create/refresh A3GW config objects (ConfigMap + Secret)
+    log_step "Creating A3GW ConfigMap/Secret from ${BOLD}${CONF_DIR}${RESET}..."
+
+    kubectl delete configmap "$A3GW_CONFIGMAP" -n "$NAMESPACE" --ignore-not-found &>/dev/null || true
+    kubectl delete secret "$A3GW_SECRET" -n "$NAMESPACE" --ignore-not-found &>/dev/null || true
+
+    kubectl create configmap "$A3GW_CONFIGMAP" \
+      --from-file="${CONF_DIR}/server_config.json" \
+      --from-file="${CONF_DIR}/logger_config.json" \
+      --from-file="${CONF_DIR}/idle_config.json" \
+      --from-file="${CONF_DIR}/auth_config.json" \
+      --from-file="${CONF_DIR}/operations_config.json" \
+      -n "$NAMESPACE" &>/dev/null
+
+    kubectl create secret generic "$A3GW_SECRET" \
+      --from-file="${CONF_DIR}/jwt_config.json" \
+      --from-file="${CONF_DIR}/service_proxies_config.json" \
+      -n "$NAMESPACE" &>/dev/null
+
+    log_success "A3GW ConfigMap/Secret created"
+
+
     ((current++))
     show_progress $current $total_services "Deploying A3GW service..."
     if kubectl apply -f "k8s/${K8MANIFEST}_a3gw.deployment.yaml" -n "$NAMESPACE" &>/dev/null && \
@@ -440,6 +466,9 @@ deploy_services() {
         log_error "Failed to deploy A3GW service"
         exit 1
     fi
+    # If deployment exists (it will after apply), restart so pods re-read JSON
+    kubectl rollout restart deployment consolportals-sa-stc-vcp-a3gw-deployment -n "$NAMESPACE" &>/dev/null || true
+    kubectl rollout status  deployment consolportals-sa-stc-vcp-a3gw-deployment -n "$NAMESPACE" --timeout=120s &>/dev/null || true
 
     # Deploy portals
     for portal in "${PORTALS[@]}"; do
