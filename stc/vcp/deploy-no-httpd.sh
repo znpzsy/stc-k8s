@@ -441,18 +441,21 @@ deploy_services() {
     kubectl delete configmap "$A3GW_CONFIGMAP" -n "$NAMESPACE" --ignore-not-found &>/dev/null || true
     kubectl delete secret "$A3GW_SECRET" -n "$NAMESPACE" --ignore-not-found &>/dev/null || true
 
-    kubectl create configmap "$A3GW_CONFIGMAP" \
-      --from-file="${CONF_DIR}/server_config.json" \
-      --from-file="${CONF_DIR}/logger_config.json" \
-      --from-file="${CONF_DIR}/idle_config.json" \
-      --from-file="${CONF_DIR}/auth_config.json" \
-      --from-file="${CONF_DIR}/operations_config.json" \
-      -n "$NAMESPACE" &>/dev/null
+#    kubectl create configmap "$A3GW_CONFIGMAP" \
+#      --from-file="${CONF_DIR}/server_config.json" \
+#      --from-file="${CONF_DIR}/logger_config.json" \
+#      --from-file="${CONF_DIR}/idle_config.json" \
+#      --from-file="${CONF_DIR}/auth_config.json" \
+#      --from-file="${CONF_DIR}/operations_config.json" \
+#      -n "$NAMESPACE" &>/dev/null
+#
+#    kubectl create secret generic "$A3GW_SECRET" \
+#      --from-file="${CONF_DIR}/jwt_config.json" \
+#      --from-file="${CONF_DIR}/service_proxies_config.json" \
+#      -n "$NAMESPACE" &>/dev/null
 
-    kubectl create secret generic "$A3GW_SECRET" \
-      --from-file="${CONF_DIR}/jwt_config.json" \
-      --from-file="${CONF_DIR}/service_proxies_config.json" \
-      -n "$NAMESPACE" &>/dev/null
+    kubectl apply -f "k8s/${K8MANIFEST}_a3gw.configmap.yaml" -n "$NAMESPACE" &>/dev/null
+    kubectl apply -f "k8s/${K8MANIFEST}_a3gw.secret.yaml"    -n "$NAMESPACE" &>/dev/null
 
     log_success "A3GW ConfigMap/Secret created"
 
