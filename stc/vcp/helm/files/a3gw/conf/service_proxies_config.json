@@ -1,0 +1,698 @@
+[
+  {
+    "name": "cmpf",
+    "target": "http://10.35.39.101:9610",
+    "contextList": [
+      {
+        "path": "/cmpf-rest",
+        "rewrite": "/axis2/cmpf"
+      }
+    ],
+    "proxyType": "cmpf"
+  },
+  {
+    "name": "cmpf-cache",
+    "target": "http://10.35.39.101:8090",
+    "contextList": [
+      {
+        "path": "/cmpf-cache-rest",
+        "rewrite": "/cache"
+      }
+    ]
+  },
+  {
+    "name": "smpp-proxy",
+    "target": "http://10.35.39.104:8030",
+    "contextList": [
+      {
+        "path": "/smspp-proxy-rest",
+        "rewrite": "/smppproxy/rest"
+      }
+    ]
+  },
+  {
+    "name": "smsc-gr",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/smsc-gr-rest",
+        "rewrite": "/xsgw/gr-proxy/smsc"
+      },
+      {
+        "path": "/smsc-rest",
+        "rewrite": "/xsgw/gr-proxy/smsc"
+      }
+    ]
+  },
+  {
+    "name": "smsc-operation-local",
+    "target": "http://10.35.39.104:9998",
+    "contextList": [
+      {
+        "path": "/smsc-operation-local-rest",
+        "rewrite": "/messaging/operation"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sender-application-local",
+    "target": "http://10.35.39.104:11000",
+    "contextList": [
+      {
+        "path": "/smsc-sender-application-local-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sfe-dashboard-local",
+    "target": "http://10.35.39.104:9998",
+    "contextList": [
+      {
+        "path": "/smsc-sfe-dashboard-local-rest",
+        "rewrite": "/messaging/dashboard/sfe"
+      },
+      {
+        "path": "/smsc-sfe-dashboard-rest",
+        "rewrite": "/messaging/dashboard/sfe"
+      }
+    ]
+  },
+  {
+    "name": "smsc-sfe-reporting-local",
+    "target": "http://10.35.39.104:9998",
+    "contextList": [
+      {
+        "path": "/smsc-sfe-reporting-local-rest",
+        "rewrite": "/messaging/reporting/sfe"
+      },
+      {
+        "path": "/smsc-sfe-reporting-rest",
+        "rewrite": "/messaging/reporting/sfe"
+      }
+    ]
+  },
+  {
+    "name": "smsc-elasticsearch-adapter-local",
+    "target": "http://10.35.39.104:9998",
+    "contextList": [
+      {
+        "path": "/smsc-es-adapter-local-rest",
+        "rewrite": "/messaging"
+      },
+      {
+        "path": "/smsc-es-adapter-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "mmsc-gr",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/mmsc-config-gr-rest",
+        "rewrite": "/xsgw/gr-proxy/mmsc/config",
+        "headers": {
+          "Authorization": "Basic YWRtaW46YWRtaW4="
+        }
+      },
+      {
+        "path": "/mmsc-operation-gr-rest",
+        "rewrite": "/xsgw/gr-proxy/mmsc/operation",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "mmsc-local",
+    "target": "http://10.35.39.105:8089",
+    "contextList": [
+      {
+        "path": "/mmsc-dashboard-local-rest",
+        "rewrite": "/mmsc/dashboard",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      },
+      {
+        "path": "/mmsc-troubleshooting-local-rest",
+        "rewrite": "/mmsc/operatorcare",
+        "headers": {
+          "Authorization": "Basic YWRtaW46dG5ldTM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ussd-gateway-gr",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/ussd-gw-gr-rest",
+        "rewrite": "/xsgw/gr-proxy/ussdgw"
+      }
+    ]
+  },
+  {
+    "name": "ussd-gateway-local",
+    "target": "http://10.35.39.103:9997",
+    "contextList": [
+      {
+        "path": "/ussd-gw-local-rest",
+        "rewrite": "/messaging"
+      }
+    ]
+  },
+  {
+    "name": "ussd-browser-gr",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/1-ussd-browser-gr-rest-1",
+        "rewrite": "/xsgw/gr-proxy/ussdbr",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ussd-browser-stats-local",
+    "target": "http://10.35.39.103:7722",
+    "contextList": [
+      {
+        "path": "/ussd-browser-stats-local-rest",
+        "rewrite": "/ussd/dashboard",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      },
+      {
+        "path": "/ussd-browser-gr-rest",
+        "rewrite": "/ussd/configuration",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-core-gr",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/smsantispam-core-gr-rest",
+        "rewrite": "/xsgw/gr-proxy/antispam"
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-config-gr",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/smsantispam-config-gr-rest",
+        "rewrite": "/xsgw/gr-proxy/smsantispam/configuration"
+      }
+    ]
+  },
+  {
+    "name": "smsantispam-elasticsearch-adapter-local",
+    "target": "http://10.35.39.102:8082",
+    "contextList": [
+      {
+        "path": "/smsantispam-es-adapter-local-rest",
+        "rewrite": "/smsantispam/configuration"
+      }
+    ]
+  },
+  {
+    "name": "missed-call-notification-and-notify-me-dashboard",
+    "target": "http://10.35.39.102:9090",
+    "contextList": [
+      {
+        "path": "/mcn-dashboard-local-rest",
+        "rewrite": "/sa/dashboard",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "missed-call-notification-gr",
+    "target": "http://10.35.39.102:9090",
+    "contextList": [
+      {
+        "path": "/mcn-provisioning-gr-rest",
+        "rewrite": "/sa/provisioning",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      },
+      {
+        "path": "/mcn-configuration-gr-rest",
+        "rewrite": "/sa/configuration",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "pay-for-me",
+    "target": "http://10.35.39.102:9090",
+    "contextList": [
+      {
+        "path": "/p4m-rest",
+        "rewrite": "/payforme/configuration",
+        "headers": {
+          "Authorization": "Basic YTph"
+        }
+      }
+    ]
+  },
+  {
+    "name": "voice-mail",
+    "target": "http://10.35.39.102:9090",
+    "contextList": [
+      {
+        "path": "/voicemail-rest",
+        "rewrite": "/voicemail"
+      }
+    ]
+  },
+  {
+    "name": "voice-sms",
+    "target": "http://10.35.39.102:9090",
+    "contextList": [
+      {
+        "path": "/voicesms-rest",
+        "rewrite": "/voicemail"
+      }
+    ]
+  },
+  {
+    "name": "ring-back-tone",
+    "target": "http://10.35.39.101:8084",
+    "contextList": [
+      {
+        "path": "/rbt-rest",
+        "rewrite": "/xsgw/gr-proxy/rbt"
+      },
+      {
+        "path": "/crbt-rest",
+        "rewrite": "/xsgw/gr-proxy/crbt"
+      },
+      {
+        "path": "/rbt-audio-rest",
+        "rewrite": "/xsgw/gr-proxy/audio"
+      }
+    ]
+  },
+  {
+    "name": "rbt-hot-codes",
+    "target": "http://10.35.39.101:8002",
+    "contextList": [
+      {
+        "path": "/rbt-hotcode-rest",
+        "rewrite": "/smsportal/rest/rbt/",
+        "headers": {
+          "Authorization": "Basic YWRtaW46YWRtaW4="
+        }
+      }
+    ]
+  },
+  {
+    "name": "ring-back-tone-backend",
+    "target": "http://10.35.39.102:8080",
+    "contextList": [
+      {
+        "path": "/rbt-backend-rest",
+        "rewrite": "/rbtbackend/rbt"
+      }
+    ]
+  },
+  {
+      "name": "screening-manager",
+      "target": "http://10.35.39.101:8084",
+      "contextList": [
+        {
+          "path": "/screening-manager-rest",
+          "rewrite": "/xsgw/gr-proxy/scrmngr",
+          "headers": {
+            "Authorization": "Basic YWRtaW46YWRtaW4="
+          }
+        }
+      ]
+   },
+  {
+      "name": "screening-manager-stats",
+      "target": "http://10.35.39.101:8099",
+      "contextList": [
+        {
+          "path": "/screening-manager-stats-rest",
+          "rewrite": "/stats",
+          "headers": {
+            "Authorization": "Basic YWRtaW46YWRtaW4="
+          }
+        }
+      ]
+
+  },
+  {
+    "name": "license-manager",
+    "target": "http://10.35.39.103:8080",
+    "contextList": [
+      {
+        "path": "/license-manager-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "pentaho",
+    "target": "http://10.35.39.100:9080",
+    "contextList": [
+      {
+        "path": "/pentaho",
+        "rewrite": "/pentaho",
+        "headers": {
+          "Authorization": "Basic dmNwOnZjcA=="
+        }
+      }
+    ],
+    "proxyType": "pentaho"
+  },
+  {
+    "name": "elasticsearch-vcp-clusters",
+    "target": "http://10.35.39.100:9200",
+    "contextList": [
+      {
+        "path": "/vcp-es-rest",
+        "rewrite": ""
+      },
+      {
+        "path": "/diagnostics-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "elasticsearch-messaging-clusters",
+    "target": "http://10.35.39.100:9200",
+    "contextList": [
+      {
+        "path": "/smsc-es-rest",
+        "rewrite": ""
+      },
+      {
+        "path": "/smsantispam-es-rest",
+        "rewrite": ""
+      },
+      {
+        "path": "/smsf-es-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "elasticsearch-rbt-clusters",
+    "target": "http://10.35.39.100:9200",
+    "contextList": [
+      {
+        "path": "/rbt-es-rest",
+        "rewrite": ""
+      },
+      {
+        "path": "/workflows-es-rest",
+        "rewrite": ""
+      },
+      {
+        "path": "/ssm-es-rest",
+        "rewrite": ""
+      },
+      {
+        "path": "/smartads-es-rest",
+        "rewrite": ""
+      }
+    ]
+  },
+  {
+    "name": "content-management",
+    "target": "http://10.35.39.105:8082",
+    "contextList": [
+      {
+        "path": "/content-management-rest",
+        "rewrite": "",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      }
+    ]
+  },
+  {
+    "name": "partner-content-management",
+    "target": "http://10.35.39.105:8082",
+    "contextList": [
+      {
+        "path": "/partner-content-management-rest",
+        "rewrite": "",
+        "headers": {
+          "apiKey": "XBrKGsdPBiF4FT3F4OSAywEROsasW6fT"
+        }
+      }
+    ]
+  },
+  {
+    "name": "workflows",
+    "target": "http://10.35.39.105:8086",
+    "contextList": [
+      {
+        "path": "/workflows-rest",
+        "rewrite": "",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      },
+      {
+        "path": "/workflows-otp-rest",
+        "rewrite": "/otp",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      },
+      {
+        "path": "/workflows-partner-registration-rest",
+        "rewrite": "/partner",
+        "headers": {
+          "apiKey": "HEiOD0cez69LDSol9nWOIoNjdmODTgvK"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ssm-subscriptions-services",
+    "target": "http://10.35.39.105:9092",
+    "contextList": [
+      {
+        "path": "/ssm-subscriptions-rest",
+        "rewrite": "/apis/v1",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      },
+      {
+        "path": "/ssm-subscribe-rest",
+        "rewrite": "/ssm/subscribers",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ssm-subscribers-services",
+    "target": "http://10.35.39.105:9001",
+    "contextList": [
+      {
+        "path": "/ssm-subscribers-rest",
+        "rewrite": "/ssm/subscribers",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      },
+      {
+        "path": "/ssm-query-subscribers-rest",
+        "rewrite": "/ssm/query",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      },
+      {
+        "path": "/ssm-query-subscribers-rest",
+        "rewrite": "/ssm/query",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      },
+      {
+        "path": "/cssm-subscriptions-rest",
+        "rewrite": "/content-subscription",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      },
+      {
+        "path": "/cssm-query-rest",
+        "rewrite": "/ssm/query",
+        "headers": {
+          "Authorization": "Basic cmVwb2FkbWluOlRsbnR5XzM0"
+        }
+      }
+    ]
+  },
+  {
+    "name": "smsportal",
+    "target": "http://10.35.39.101:8002",
+    "contextList": [
+      {
+        "path": "/smsportal-rest",
+        "rewrite": "/smsportal/portal"
+      }
+    ]
+  },
+  {
+      "name":"smsf-services",
+      "target":"http://10.35.39.104:8888",
+      "contextList":[
+         {
+            "path":"/smsf-core-config",
+            "rewrite":"/portal/config/momt/local",
+            "headers": {
+                "Authorization": "Basic YWRtaW46dG5ldTM0"
+             }
+         },
+         {
+            "path":"/smsf-dashboard",
+            "rewrite":"/portal/dashboard",
+            "headers": {
+                "Authorization": "Basic YWRtaW46dG5ldTM0"
+             }
+         }
+      ]
+  },
+  {
+    "name": "chggw",
+    "target": "http://10.35.39.101:8015",
+    "contextList": [
+      {
+        "path": "/chggw-rest",
+        "rewrite": "/proxy"
+      }
+    ]
+  },
+  {
+    "name": "otp",
+    "target": "http://10.35.39.106:8989",
+    "contextList": [
+      {
+        "path": "/otp-rest",
+        "rewrite": "/otp"
+      }
+    ]
+  },
+  {
+    "name": "interactive-campaign-manager",
+    "target": "http://10.35.39.106:9080",
+    "contextList": [
+      {
+        "path": "/icm-rest",
+        "rewrite": "/api"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-dashboard",
+    "target": "http://10.35.39.106:8080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-dashboard-rest",
+        "rewrite": "/bms/dashboard"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-campaigns-dashboard",
+    "target": "http://10.35.39.106:8080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-campaigns-dashboard-rest/status",
+        "rewrite": "/bms/operations/v1/campaigns/dashboard"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-operations-campaigns",
+    "target": "http://10.35.39.106:8080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-operations-campaigns-rest",
+        "rewrite": "/bms/operations"
+      }
+    ]
+  },
+  {
+    "name": "bulk-messaging-gr",
+    "target": "http://10.35.39.106:9080",
+    "contextList": [
+      {
+        "path": "/bms-bulkmsg-config-gr-rest",
+        "rewrite": "/bms/configuration"
+      },
+      {
+        "path": "/bms-bulkmsg-operations-gr-rest",
+        "rewrite": "/bms/operations"
+      }
+    ]
+  },
+  {
+    "name": "outbound-ivr",
+    "target": "http://10.35.39.106:9091",
+    "contextList": [
+      {
+        "path": "/oivr-config-rest",
+        "rewrite": "/oivr/configuration"
+      },
+      {
+        "path": "/oivr-dashboard-rest",
+        "rewrite": "/oivr/dashboard"
+      }
+    ]
+  },
+  {
+    "name": "ussi-gateway-config",
+    "target": "http://10.35.39.103:8880",
+    "contextList": [
+      {
+        "path": "/ussi-gw-core-config",
+        "rewrite": "/portal/config/core/stc3/master",
+        "headers": {
+          "Authorization": "Basic YWRtaW46VGxudHlfMzQ="
+        }
+      },
+      {
+        "path": "/ussi-gw-dashboard",
+        "rewrite": "/portal/dashboard",
+        "headers": {
+          "Authorization": "Basic YWRtaW46VGxudHlfMzQ="
+        }
+      }
+    ]
+  }
+]
+
+

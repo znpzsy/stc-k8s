@@ -11,6 +11,9 @@ spec:
       component: vcp-a3gw
   template:
     metadata:
+      annotations:
+        checksum/a3gw-config: {{ include (print $.Template.BasePath "/a3gw-configmap.yaml") . | sha256sum }}
+        checksum/a3gw-secret: {{ include (print $.Template.BasePath "/a3gw-secret.yaml") . | sha256sum }}
       labels:
         component: vcp-a3gw
     spec:
@@ -22,6 +25,9 @@ spec:
             - containerPort: 8444
             - containerPort: 8445
           volumeMounts:
+            - name: a3gw-conf
+              mountPath: /space/a3gw/src/conf
+              readOnly: true
             - name: a3gw-logs
               mountPath: /space/a3gw/logs
 
@@ -44,4 +50,11 @@ spec:
       volumes:
         - name: a3gw-logs
           emptyDir: {}
+        - name: a3gw-conf
+          projected:
+            sources:
+              - configMap:
+                  name: {{ include "vcp.a3gw.configmapName" . }}
+              - secret:
+                  name: {{ include "vcp.a3gw.secretName" . }}
   {{- end }}
