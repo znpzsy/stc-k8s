@@ -1,0 +1,183 @@
+{{- if .Values.ingress.enabled }}
+
+{{- $hosts := list }}
+{{- if .Values.ingress.host }}
+  {{- $hosts = append $hosts .Values.ingress.host }}
+{{- end }}
+{{- range .Values.ingress.extraHosts }}
+  {{- $hosts = append $hosts . }}
+{{- end }}
+
+{{- $a3gwService := "consolportals-sa-stc-vcp-a3gw-service" }}
+
+# 1) refresh-token: /cmpf-auth-rest/refresh-token → :8445/refresh-token
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-auth-refresh-ingress
+  namespace: {{ include "consolportals.namespace" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /refresh-token
+    {{- with .Values.ingress.commonAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    {{- range $h := $hosts }}
+    - host: {{ $h | quote }}
+      http:
+        paths:
+          - path: /cmpf-auth-rest/refresh-token
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8445
+    {{- end }}
+---
+# 2) auth: /cmpf-auth-rest/<anything> → :8445/cmpf-rest/<anything>
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-auth-ingress
+  namespace: {{ include "consolportals.namespace" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /cmpf-rest/$2
+    {{- with .Values.ingress.commonAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    {{- range $h := $hosts }}
+    - host: {{ $h | quote }}
+      http:
+        paths:
+          - path: /cmpf-auth-rest(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8445
+    {{- end }}
+---
+# 3) captcha: /img/captcha.png → :8445/captcha.png
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-captcha-ingress
+  namespace: {{ include "consolportals.namespace" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /captcha.png
+    {{- with .Values.ingress.commonAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    {{- range $h := $hosts }}
+    - host: {{ $h | quote }}
+      http:
+        paths:
+          - path: /img/captcha.png
+            pathType: Exact
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8445
+    {{- end }}
+---
+# 4) services: /vcp/services/<anything> → :8444/<anything>
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-services-ingress
+  namespace: {{ include "consolportals.namespace" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    {{- with .Values.ingress.commonAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    {{- range $h := $hosts }}
+    - host: {{ $h | quote }}
+      http:
+        paths:
+          - path: /vcp/services(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+    {{- end }}
+---
+# 5) main: portals, conf, site.json, catch-all → :8444
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consolportals-sa-stc-vcp-main-ingress
+  namespace: {{ include "consolportals.namespace" . }}
+  annotations:
+    {{- with .Values.ingress.commonAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    {{- range $h := $hosts }}
+    - host: {{ $h | quote }}
+      http:
+        paths:
+          - path: /adminportal
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+          - path: /ccportal
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+          - path: /partnerportal
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+          - path: /conf
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+          - path: /site.json
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $a3gwService }}
+                port:
+                  number: 8444
+    {{- end }}
+{{- end }}

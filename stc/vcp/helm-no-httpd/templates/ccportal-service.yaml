@@ -1,0 +1,13 @@
+{{- if .Values.ccportal.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-ccportal-service
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  type: {{ .Values.service.ccportal.type }}
+  selector:
+{{- toYaml .Values.service.ccportal.selector | nindent 4 }}
+  ports:
+{{- toYaml .Values.service.ccportal.ports | nindent 4 }}
+{{- end }}

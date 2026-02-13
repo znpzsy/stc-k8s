@@ -1,0 +1,13 @@
+{{- if .Values.adminportal.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-service
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  type: {{ .Values.service.adminportal.type }}
+  selector:
+{{- toYaml .Values.service.adminportal.selector | nindent 4 }}
+  ports:
+{{- toYaml .Values.service.adminportal.ports | nindent 4 }}
+{{- end }}

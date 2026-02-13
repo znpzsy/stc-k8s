@@ -1,0 +1,52 @@
+
+  {{- if .Values.a3gw.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-pdb
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  minAvailable: {{ .Values.a3gw.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      component: vcp-a3gw
+  {{- end }}
+---
+  {{- if .Values.adminportal.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-pdb
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  minAvailable: {{ .Values.adminportal.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      component: vcp-adminportal
+  {{- end }}
+---
+  {{- if .Values.ccportal.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-ccportal-pdb
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  minAvailable: {{ .Values.ccportal.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      component: vcp-ccportal
+  {{- end }}
+---
+  {{- if .Values.partnerportal.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-pdb
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  minAvailable: {{ .Values.partnerportal.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      component: vcp-partnerportal
+  {{- end }}

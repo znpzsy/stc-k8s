@@ -1,0 +1,96 @@
+{{- if .Values.a3gw.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-a3gw
+    app.kubernetes.io/part-of: consolportals
+spec:
+  replicas: {{ .Values.a3gw.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-a3gw
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.a3gw.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.a3gw.rollingUpdate.maxUnavailable }}
+  template:
+    metadata:
+      annotations:
+        checksum/a3gw-config: {{ include (print $.Template.BasePath "/a3gw-configmap.yaml") . | sha256sum }}
+        checksum/a3gw-secret: {{ include (print $.Template.BasePath "/a3gw-secret.yaml") . | sha256sum }}
+      labels:
+        component: vcp-a3gw
+        app.kubernetes.io/name: vcp-a3gw
+    spec:
+      {{- if .Values.a3gw.antiAffinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-a3gw
+                topologyKey: kubernetes.io/hostname
+      {{- end }}
+      containers:
+        - name: vcp-a3gw
+          image: "{{ .Values.a3gw.image.repository }}:{{ .Values.a3gw.image.tag }}"
+          imagePullPolicy: {{ .Values.a3gw.image.pullPolicy }}
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.a3gw.env.NODE_ENV | quote }}
+          ports:
+            - containerPort: 8444
+            - containerPort: 8445
+          volumeMounts:
+            - name: a3gw-conf
+              mountPath: /space/a3gw/src/conf
+              readOnly: true
+            - name: a3gw-logs
+              mountPath: /space/a3gw/logs
+          {{- if .Values.a3gw.resources.enabled }}
+          resources:
+            requests:
+              memory: {{ .Values.a3gw.resources.requests.memory }}
+              cpu: {{ .Values.a3gw.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.a3gw.resources.limits.memory }}
+              cpu: {{ .Values.a3gw.resources.limits.cpu }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.a3gw.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.a3gw.probes.readiness | nindent 12 }}
+
+        {{- if .Values.a3gw.logging.tailSidecar.enabled }}
+        - name: a3gw-log-tail
+          image: {{ .Values.a3gw.logging.tailSidecar.image }}
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-lc"]
+          args:
+            - >
+              echo "[a3gw-log-tail] waiting for log files..." ;
+              mkdir -p /space/a3gw/logs ;
+              ls -lah /space/a3gw/logs || true ;
+              tail -F /space/a3gw/logs/*.log
+          volumeMounts:
+            - name: a3gw-logs
+              mountPath: /space/a3gw/logs
+        {{- end }}
+
+      volumes:
+        - name: a3gw-logs
+          emptyDir: {}
+        - name: a3gw-conf
+          projected:
+            sources:
+              - configMap:
+                  name: {{ include "vcp.a3gw.configmapName" . }}
+              - secret:
+                  name: {{ include "vcp.a3gw.secretName" . }}
+  {{- end }}

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vcp.a3gw.configmapName" . }}
+  labels:
+    component: vcp-a3gw
+data:
+  server_config.json: |
+{{ .Files.Get "files/a3gw/conf/server_config.json" | indent 4 }}
+
+  logger_config.json: |
+{{ .Files.Get "files/a3gw/conf/logger_config.json" | indent 4 }}
+
+  idle_config.json: |
+{{ .Files.Get "files/a3gw/conf/idle_config.json" | indent 4 }}
+
+  auth_config.json: |
+{{ .Files.Get "files/a3gw/conf/auth_config.json" | indent 4 }}
+
+  operations_config.json: |
+{{ .Files.Get "files/a3gw/conf/operations_config.json" | indent 4 }}

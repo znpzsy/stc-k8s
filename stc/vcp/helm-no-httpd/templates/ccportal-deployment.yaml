@@ -1,0 +1,59 @@
+{{- if .Values.ccportal.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-ccportal-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-ccportal
+    app.kubernetes.io/part-of: consolportals
+spec:
+  replicas: {{ .Values.ccportal.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-ccportal
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.ccportal.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.ccportal.rollingUpdate.maxUnavailable }}
+  template:
+    metadata:
+      labels:
+        component: vcp-ccportal
+        app.kubernetes.io/name: vcp-ccportal
+    spec:
+      {{- if .Values.ccportal.antiAffinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-ccportal
+                topologyKey: kubernetes.io/hostname
+      {{- end }}
+      containers:
+        - name: vcp-ccportal
+          image: "{{ .Values.ccportal.image.repository }}:{{ .Values.ccportal.image.tag }}"
+          imagePullPolicy: {{ .Values.ccportal.image.pullPolicy }}
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.ccportal.env.NODE_ENV | quote }}
+          ports:
+            - containerPort: 8081
+          {{- if .Values.ccportal.resources.enabled }}
+          resources:
+            requests:
+              memory: {{ .Values.ccportal.resources.requests.memory }}
+              cpu: {{ .Values.ccportal.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.ccportal.resources.limits.memory }}
+              cpu: {{ .Values.ccportal.resources.limits.cpu }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.ccportal.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.ccportal.probes.readiness | nindent 12 }}
+  {{- end }}

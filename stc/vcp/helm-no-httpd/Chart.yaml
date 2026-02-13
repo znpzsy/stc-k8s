@@ -1,0 +1,7 @@
+apiVersion: v2
+name: consolportals-vcp
+description: Minimal Helm chart wrapping existing consolportals SA STC VCP Kubernetes
+  manifests (a3gw, httpd, adminportal, ingresses).
+type: application
+version: 0.1.0
+appVersion: 1.0.0

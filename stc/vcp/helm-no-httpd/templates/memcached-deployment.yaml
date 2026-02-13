@@ -1,0 +1,44 @@
+{{- if .Values.memcached.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-memcached-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-memcached
+    app.kubernetes.io/part-of: consolportals
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: vcp-memcached
+  template:
+    metadata:
+      labels:
+        component: vcp-memcached
+        app.kubernetes.io/name: vcp-memcached
+    spec:
+      containers:
+        - name: memcached
+          image: "{{ .Values.memcached.image.repository }}:{{ .Values.memcached.image.tag }}"
+          imagePullPolicy: {{ .Values.memcached.image.pullPolicy }}
+          ports:
+            - containerPort: 11211
+          resources:
+            requests:
+              memory: {{ .Values.memcached.resources.requests.memory }}
+              cpu: {{ .Values.memcached.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.memcached.resources.limits.memory }}
+              cpu: {{ .Values.memcached.resources.limits.cpu }}
+          livenessProbe:
+            tcpSocket:
+              port: 11211
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 11211
+            initialDelaySeconds: 5
+            periodSeconds: 10
+{{- end }}

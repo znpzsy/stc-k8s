@@ -1,0 +1,18 @@
+{{- if .Values.memcached.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-memcached-service
+  namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-memcached
+    app.kubernetes.io/part-of: consolportals
+spec:
+  type: ClusterIP
+  selector:
+    component: vcp-memcached
+  ports:
+    - name: memcached
+      port: 11211
+      targetPort: 11211
+{{- end }}

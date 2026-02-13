@@ -1,0 +1,13 @@
+{{- if .Values.partnerportal.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-service
+  namespace: {{ include "consolportals.namespace" . }}
+spec:
+  type: {{ .Values.service.partnerportal.type }}
+  selector:
+{{- toYaml .Values.service.partnerportal.selector | nindent 4 }}
+  ports:
+{{- toYaml .Values.service.partnerportal.ports | nindent 4 }}
+{{- end }}

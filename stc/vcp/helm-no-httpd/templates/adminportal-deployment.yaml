@@ -1,0 +1,59 @@
+{{- if .Values.adminportal.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-deployment
+  namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-adminportal
+    app.kubernetes.io/part-of: consolportals
+spec:
+  replicas: {{ .Values.adminportal.replicaCount }}
+  selector:
+    matchLabels:
+      component: vcp-adminportal
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.adminportal.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.adminportal.rollingUpdate.maxUnavailable }}
+  template:
+    metadata:
+      labels:
+        component: vcp-adminportal
+        app.kubernetes.io/name: vcp-adminportal
+    spec:
+      {{- if .Values.adminportal.antiAffinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-adminportal
+                topologyKey: kubernetes.io/hostname
+      {{- end }}
+      containers:
+        - name: vcp-adminportal
+          image: "{{ .Values.adminportal.image.repository }}:{{ .Values.adminportal.image.tag }}"
+          imagePullPolicy: {{ .Values.adminportal.image.pullPolicy }}
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.adminportal.env.NODE_ENV | quote }}
+          ports:
+            - containerPort: 8080
+          {{- if .Values.adminportal.resources.enabled }}
+          resources:
+            requests:
+              memory: {{ .Values.adminportal.resources.requests.memory }}
+              cpu: {{ .Values.adminportal.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.adminportal.resources.limits.memory }}
+              cpu: {{ .Values.adminportal.resources.limits.cpu }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.adminportal.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.adminportal.probes.readiness | nindent 12 }}
+  {{- end }}
