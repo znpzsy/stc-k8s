@@ -434,6 +434,20 @@ deploy_services() {
         exit 1
     fi
 
+    # Deploy portals
+    for portal in "${PORTALS[@]}"; do
+        ((current++))
+        show_progress $current $total_services "Deploying $portal service..."
+        if kubectl apply -f "k8s/${K8MANIFEST}_${portal}.deployment.yaml" -n "$NAMESPACE" &>/dev/null && \
+           kubectl apply -f "k8s/${K8MANIFEST}_${portal}.service.yaml" -n "$NAMESPACE" &>/dev/null; then
+            log_success "$portal service deployed"
+        else
+            log_error "Failed to deploy $portal service"
+            exit 1
+        fi
+    done
+
+
     # Deploy A3GW
     # Create/refresh A3GW config objects (ConfigMap + Secret)
     log_step "Creating A3GW ConfigMap/Secret from ${BOLD}${CONF_DIR}${RESET}..."
@@ -472,19 +486,8 @@ deploy_services() {
     # If deployment exists (it will after apply), restart so pods re-read JSON
     kubectl rollout restart deployment consolportals-sa-stc-vcp-a3gw-deployment -n "$NAMESPACE" &>/dev/null || true
     kubectl rollout status  deployment consolportals-sa-stc-vcp-a3gw-deployment -n "$NAMESPACE" --timeout=120s &>/dev/null || true
-
-    # Deploy portals
-    for portal in "${PORTALS[@]}"; do
-        ((current++))
-        show_progress $current $total_services "Deploying $portal service..."
-        if kubectl apply -f "k8s/${K8MANIFEST}_${portal}.deployment.yaml" -n "$NAMESPACE" &>/dev/null && \
-           kubectl apply -f "k8s/${K8MANIFEST}_${portal}.service.yaml" -n "$NAMESPACE" &>/dev/null; then
-            log_success "$portal service deployed"
-        else
-            log_error "Failed to deploy $portal service"
-            exit 1
-        fi
-    done
+    kubectl apply -f "k8s/${K8MANIFEST}_pdbs.yaml" -n "$NAMESPACE" &>/dev/null && \
+    log_success "PodDisruptionBudgets applied"
 
     echo ""
     log_success "${BOLD}All services deployed successfully!${RESET}"
@@ -506,6 +509,11 @@ wait_for_pods() {
     done
     echo ""
     log_success "Wait period completed"
+
+    log_step "Checking for probe failures..."
+    kubectl get events -n "$NAMESPACE" --field-selector reason=Unhealthy 2>/dev/null | grep -v "^$" && \
+        log_error "Some probes reported unhealthy during startup" || \
+        log_success "No probe failures detected"
 }
 
 #===============================================================================
@@ -632,6 +640,40 @@ start_port_forward() {
     wait
 }
 
+# apply_ingress() - Applies the appropriate ingress configuration
+# Parameters:
+#   $1 - "httpd" for ingress+httpd mode, "direct" for ingress-only mode
+apply_ingress() {
+    local mode=$1
+    echo ""
+
+    if [[ "$mode" == "httpd" ]]; then
+        logframe "${BCYAN}${BOLD}Applying Ingress:${RESET} ${BCYAN}nginx → httpd → a3gw${RESET}"
+        if kubectl apply -f "k8s/consolportals-sa-stc-vcp-httpd-ingress.yaml" -n "$NAMESPACE" &>/dev/null; then
+            log_success "Ingress (httpd) applied"
+        else
+            log_error "Failed to apply httpd ingress"
+            return 1
+        fi
+
+    elif [[ "$mode" == "direct" ]]; then
+        logframe "${BCYAN}${BOLD}Applying Ingress:${RESET} ${BCYAN}nginx → a3gw directly${RESET}"
+        if kubectl apply -f "k8s/consolportals_sa_stc_ingress.yaml" -n "$NAMESPACE" &>/dev/null; then
+            log_success "Ingress (direct) applied"
+        else
+            log_error "Failed to apply direct ingress"
+            return 1
+        fi
+    fi
+
+    echo ""
+    log_info "Ingress rules applied. Checking status..."
+    echo ""
+    kubectl get ingress -n "$NAMESPACE"
+    echo ""
+    log_info "Access via: ${BOLD}http://localhost${RESET}"
+}
+
 #===============================================================================
 # MAIN EXECUTION AND CLEANUP FUNCTIONS
 # Control the overall flow of the deployment process and handle graceful shutdown
@@ -673,16 +715,44 @@ main() {
     show_usage_info
     echo ""
 
-    # Ask user if they want to start port forwarding
-    echo -e "${BOLD}Start port forwarding now? ${RESET}${DIMGRAY}[y/N]${RESET}"
+#    # Ask user if they want to start port forwarding
+#    echo -e "${BOLD}Start port forwarding now? ${RESET}${DIMGRAY}[y/N]${RESET}"
+#    read -r response
+#    if [[ "$response" =~ ^[Yy]$ ]]; then
+#        start_port_forward
+#    else
+#        echo ""
+#        log_info "Deployment complete. Use the commands above to manage your services."
+#        echo ""
+#    fi
+
+    # Ask user how they want to access the deployment
+    echo ""
+    echo -e "${BOLD}How would you like to access the deployment?${RESET}"
+    echo -e "  ${CYAN}1${RESET} ${WHITE}Port forwarding${RESET}        ${DIMGRAY}(no ingress)${RESET}"
+    echo -e "  ${CYAN}2${RESET} ${WHITE}Ingress + httpd${RESET}        ${DIMGRAY}(nginx ingress → httpd → a3gw)${RESET}"
+    echo -e "  ${CYAN}3${RESET} ${WHITE}Ingress only${RESET}           ${DIMGRAY}(nginx ingress → a3gw directly)${RESET}"
+    echo -e "  ${CYAN}N${RESET} ${WHITE}Skip${RESET}"
+    echo ""
+    echo -ne "${DIMGRAY}Enter choice [1/2/3/N]: ${RESET}"
     read -r response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        start_port_forward
-    else
-        echo ""
-        log_info "Deployment complete. Use the commands above to manage your services."
-        echo ""
-    fi
+
+    case "$response" in
+        1)
+            start_port_forward
+            ;;
+        2)
+            apply_ingress "httpd"
+            ;;
+        3)
+            apply_ingress "direct"
+            ;;
+        *)
+            echo ""
+            log_info "Deployment complete. Use the commands above to manage your services."
+            echo ""
+            ;;
+    esac
 }
 
 # cleanup_on_exit() - Handles graceful cleanup when script is interrupted

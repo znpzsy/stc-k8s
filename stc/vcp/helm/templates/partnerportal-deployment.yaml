@@ -4,20 +4,56 @@ kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-partnerportal-deployment
   namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-partnerportal
+    app.kubernetes.io/part-of: consolportals
 spec:
   replicas: {{ .Values.partnerportal.replicaCount }}
   selector:
     matchLabels:
       component: vcp-partnerportal
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.partnerportal.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.partnerportal.rollingUpdate.maxUnavailable }}
   template:
     metadata:
       labels:
         component: vcp-partnerportal
+        app.kubernetes.io/name: vcp-partnerportal
     spec:
+      {{- if .Values.partnerportal.antiAffinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-partnerportal
+                topologyKey: kubernetes.io/hostname
+      {{- end }}
       containers:
         - name: vcp-partnerportal
           image: "{{ .Values.partnerportal.image.repository }}:{{ .Values.partnerportal.image.tag }}"
           imagePullPolicy: {{ .Values.partnerportal.image.pullPolicy }}
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.partnerportal.env.NODE_ENV | quote }}
           ports:
             - containerPort: 8082
+          {{- if .Values.partnerportal.resources.enabled }}
+          resources:
+            requests:
+              memory: {{ .Values.partnerportal.resources.requests.memory }}
+              cpu: {{ .Values.partnerportal.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.partnerportal.resources.limits.memory }}
+              cpu: {{ .Values.partnerportal.resources.limits.cpu }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.partnerportal.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.partnerportal.probes.readiness | nindent 12 }}
   {{- end }}

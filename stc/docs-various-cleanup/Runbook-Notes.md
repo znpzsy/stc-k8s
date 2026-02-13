@@ -119,6 +119,11 @@ helm install test . -n consolportals --create-namespace --dry-run=client
 
 # 4. Install for real
 helm install test . -n consolportals --create-namespace
+# or
+helm install test . \
+  -f values.yaml \
+  -f values-local.yaml \
+  -n consolportals --create-namespace
 
 # Or if updating existing release:
 helm upgrade test . -n consolportals

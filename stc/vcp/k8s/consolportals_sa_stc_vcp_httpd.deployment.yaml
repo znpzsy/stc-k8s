@@ -2,19 +2,62 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-httpd-deployment
+  labels:
+    app.kubernetes.io/name: vcp-httpd
+    app.kubernetes.io/part-of: consolportals
+    app.kubernetes.io/version: "1.0.0.2"
 spec:
   replicas: 2
   selector:
     matchLabels:
       component: vcp-httpd
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
         component: vcp-httpd
+        app.kubernetes.io/name: vcp-httpd
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-httpd
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: vcp-httpd
           image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd:1.0.0.2
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
             - containerPort: 443
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+          # liveness probe: restart this container if it stops responding
+          # readiness probe: don't send traffic to this pod until it's ready
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3

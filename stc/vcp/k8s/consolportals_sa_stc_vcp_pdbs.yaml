@@ -1,0 +1,49 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-httpd-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      component: vcp-httpd
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-a3gw-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      component: vcp-a3gw
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-adminportal-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      component: vcp-adminportal
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-ccortal-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      component: vcp-ccportal
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: consolportals-sa-stc-vcp-partnerportal-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      component: vcp-partnerportal

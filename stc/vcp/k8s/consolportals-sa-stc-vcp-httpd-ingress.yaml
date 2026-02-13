@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: consolportals-sa-stc-vcp-httpd-ingress
+  namespace: stc-vcp-services
   annotations:
     # Cookie-based sticky sessions
     nginx.ingress.kubernetes.io/affinity: "cookie"
@@ -37,6 +38,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: consolportals-sa-stc-vcp-httpd-ingress-local
+  namespace: stc-vcp-services
   annotations:
     # Cookie-based sticky sessions
     nginx.ingress.kubernetes.io/affinity: "cookie"

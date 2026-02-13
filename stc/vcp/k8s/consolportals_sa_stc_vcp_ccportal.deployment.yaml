@@ -2,18 +2,64 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-ccportal-deployment
+  labels:
+    app.kubernetes.io/name: vcp-ccportal
+    app.kubernetes.io/part-of: consolportals
+    app.kubernetes.io/version: "1.0.0.2"
 spec:
   replicas: 2
   selector:
     matchLabels:
       component: vcp-ccportal
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
         component: vcp-ccportal
+        app.kubernetes.io/name: vcp-ccportal
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-ccportal
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: vcp-ccportal
           image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal:1.0.0.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NODE_ENV
+              value: "production"
           ports:
             - containerPort: 8081
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "400m"
+          livenessProbe:
+            httpGet:
+              path: /ccportal
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ccportal
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3

@@ -253,3 +253,22 @@ service:
       targetPort: 8080
       nodePort: 31080  # Direct access at localhost:31080
 ```
+
+```bash
+
+
+# 1. Upgrade and apply the new config
+helm upgrade consolportals . -f values.yaml -f values-local.yaml -n stc-vcp-services
+
+# 2. Check the checksum changed
+kubectl get deployment consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services \
+-o jsonpath='{.spec.template.metadata.annotations}'
+
+# 3. Watch the rollout
+kubectl rollout status deployment consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
+
+# 4. Confirm the pod is reading the new file
+kubectl exec -it deployment/consolportals-sa-stc-vcp-a3gw-deployment \
+-n stc-vcp-services -- cat /space/a3gw/src/conf/server_config.json
+
+```

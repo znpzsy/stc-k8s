@@ -4,16 +4,36 @@ kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-httpd-deployment
   namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    app.kubernetes.io/name: vcp-httpd
+    app.kubernetes.io/part-of: consolportals
 spec:
   replicas: {{ .Values.httpd.replicaCount }}
   selector:
     matchLabels:
       component: vcp-httpd
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.httpd.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.httpd.rollingUpdate.maxUnavailable }}
   template:
     metadata:
       labels:
         component: vcp-httpd
+        app.kubernetes.io/name: vcp-httpd
     spec:
+      {{- if .Values.httpd.antiAffinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-httpd
+                topologyKey: kubernetes.io/hostname
+      {{- end }}
       containers:
         - name: vcp-httpd
           image: "{{ .Values.httpd.image.repository }}:{{ .Values.httpd.image.tag }}"
@@ -21,4 +41,17 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
-{{- end }}
+          {{- if .Values.httpd.resources.enabled }}
+          resources:
+            requests:
+              memory: {{ .Values.httpd.resources.requests.memory }}
+              cpu: {{ .Values.httpd.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.httpd.resources.limits.memory }}
+              cpu: {{ .Values.httpd.resources.limits.cpu }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.httpd.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.httpd.probes.readiness | nindent 12 }}
+  {{- end }}

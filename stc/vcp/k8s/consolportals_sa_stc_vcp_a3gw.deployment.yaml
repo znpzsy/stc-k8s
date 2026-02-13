@@ -2,16 +2,35 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-a3gw-deployment
+  labels:
+    app.kubernetes.io/name: vcp-a3gw
+    app.kubernetes.io/part-of: consolportals
+    app.kubernetes.io/version: "1.0.0.2"
 spec:
   replicas: 2
   selector:
     matchLabels:
       component: vcp-a3gw
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
         component: vcp-a3gw
+        app.kubernetes.io/name: vcp-a3gw
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    component: vcp-a3gw
+                topologyKey: kubernetes.io/hostname
       volumes:
         - name: a3gw-conf
           projected:
@@ -23,6 +42,10 @@ spec:
       containers:
         - name: vcp-a3gw
           image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NODE_ENV
+              value: "production"
           ports:
             - containerPort: 8444
             - containerPort: 8445
@@ -30,3 +53,26 @@ spec:
             - name: a3gw-conf
               mountPath: /space/a3gw/src/conf
               readOnly: true
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "150m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /site.json
+              port: 8444
+            initialDelaySeconds: 40
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /site.json
+              port: 8444
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3

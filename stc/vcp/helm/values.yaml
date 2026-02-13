@@ -8,10 +8,42 @@ a3gw:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw
     tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
-  # Session affinity for stateful sessions (3 hours)
+  env:
+    NODE_ENV: production
   sessionAffinity:
     enabled: true
     timeout: 10800
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  antiAffinity:
+    enabled: true
+  resources:
+    enabled: true
+    requests:
+      memory: "256Mi"
+      cpu: "150m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  probes:
+    liveness:
+      tcpSocket:
+        port: 8444
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+    readiness:
+      tcpSocket:
+        port: 8444
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  pdb:
+    enabled: true
+    minAvailable: 1
   logging:
     tailSidecar:
       enabled: true
@@ -24,14 +56,41 @@ adminportal:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-adminportal
     tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
-
-partnerportal:
-  enabled: true
-  replicaCount: 2
-  image:
-    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
-    tag: 1.0.0.2-amd64
-    pullPolicy: IfNotPresent
+  env:
+    NODE_ENV: production
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  antiAffinity:
+    enabled: true
+  resources:
+    enabled: true
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "400m"
+  probes:
+    liveness:
+      httpGet:
+        path: /adminportal
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+    readiness:
+      httpGet:
+        path: /adminportal
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  pdb:
+    enabled: true
+    minAvailable: 1
 
 ccportal:
   enabled: true
@@ -40,6 +99,84 @@ ccportal:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-ccportal
     tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
+  env:
+    NODE_ENV: production
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  antiAffinity:
+    enabled: true
+  resources:
+    enabled: true
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "400m"
+  probes:
+    liveness:
+      httpGet:
+        path: /ccportal
+        port: 8081
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+    readiness:
+      httpGet:
+        path: /ccportal
+        port: 8081
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  pdb:
+    enabled: true
+    minAvailable: 1
+
+partnerportal:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-partnerportal
+    tag: 1.0.0.2-amd64
+    pullPolicy: IfNotPresent
+  env:
+    NODE_ENV: production
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  antiAffinity:
+    enabled: true
+  resources:
+    enabled: true
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "400m"
+  probes:
+    liveness:
+      httpGet:
+        path: /partnerportal
+        port: 8082
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+    readiness:
+      httpGet:
+        path: /partnerportal
+        port: 8082
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  pdb:
+    enabled: true
+    minAvailable: 1
 
 httpd:
   enabled: true
@@ -48,15 +185,37 @@ httpd:
     repository: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd
     tag: 1.0.0.2-amd64
     pullPolicy: IfNotPresent
-  # Optional resource limits
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  antiAffinity:
+    enabled: true
   resources:
-    enabled: false  # Set to true to enable
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
+    enabled: true
     requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
       memory: "256Mi"
-      cpu: "250m"
+      cpu: "300m"
+  probes:
+    liveness:
+      tcpSocket:
+        port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 3
+    readiness:
+      tcpSocket:
+        port: 80
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  pdb:
+    enabled: true
+    minAvailable: 1
 
 service:
   a3gw:

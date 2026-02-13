@@ -7,6 +7,35 @@
 #   image:
 #     tag: 1.0.0.1-dev
 
+# You might want to reduce replicas in dev
+a3gw:
+  replicaCount: 1
+  pdb:
+    enabled: false
+
+adminportal:
+  replicaCount: 1
+  pdb:
+    enabled: false
+
+partnerportal:
+  replicaCount: 1
+  pdb:
+    enabled: false
+
+ccportal:
+  replicaCount: 1
+  pdb:
+    enabled: false
+
+httpd:
+  replicaCount: 1
+  # Enable resource limits for local testing
+  resources:
+    enabled: true
+  pdb:
+    enabled: false
+
 # Different ingress host for dev
 ingress:
   host: localhost
@@ -14,20 +43,3 @@ ingress:
     - consolportals-dev.internal.telenity.com
   # You can disable ingress and use port-forward instead
   enabled: true
-
-# Enable resource limits in dev
-httpd:
-  resources:
-    enabled: true
-
-# You might want to reduce replicas in dev
-a3gw:
-  replicaCount: 1
-adminportal:
-  replicaCount: 1
-partnerportal:
-  replicaCount: 1
-ccportal:
-  replicaCount: 1
-httpd:
-  replicaCount: 1
