@@ -7,9 +7,10 @@ You can quickly set up the sandbox environment using Docker Compose (Makefile) o
 
 ### I want to run it locally as fast as possible
 → **Go to [Path 1: Docker Compose](stc/docs/README-Docker.md)**
-[README-Docker.md](stc/docs/README-Docker.md)
+
 ### I want to test Kubernetes deployment locally
 → **Go to [Path 2: Local Kubernetes](stc/docs/README-K8S.md)**
+
 ### I want to deploy to our corporate cluster
 → **Go to [Path 3: Corporate Kubernetes Cluster](stc/docs/README-K8S_Corporate.md)**
 
@@ -17,11 +18,6 @@ You can quickly set up the sandbox environment using Docker Compose (Makefile) o
 → **Go to [Project Overview](stc/docs/PROJECT-OVERVIEW.md)**
 
 ---
-
-
-
-
-
 
 
 ## Standard Deployment Workflow
