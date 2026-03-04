@@ -1,7 +1,7 @@
-# Use Node 10 (More Stable for Legacy Projects) instead of Node 11
+# Legacy build: Node 10 (more stable) required for AngularJS 1.x / Bower / Gulp toolchain.
+# Note: Node 10 is EOL; consider migrating to a maintained stack when possible.
 FROM node:10-alpine as builder
 WORKDIR "/space/app"
-
 
 COPY ./package.json ./
 COPY ./bower.json ./
@@ -27,7 +27,11 @@ COPY --from=builder /space/app/vcp-partnerportal-*.tar.gz /usr/share/nginx/html/
 RUN mkdir -p /usr/share/nginx/html/partnerportal
 RUN tar -xvzf /usr/share/nginx/html/vcp-partnerportal-*.tar.gz -C /usr/share/nginx/html/partnerportal
 RUN rm -rf /usr/share/nginx/html/vcp-partnerportal-*.tar.gz
-EXPOSE 8080
+
+EXPOSE 8082
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1:8082/partnerportal || exit 1
 
 # docker build -t stc-vcp/vcp-partnerportal -f Dockerfile.prod .
-# docker run -p 8080:8080 -it stc-vcp/vcp-partnerportal
+# docker run -p 8082:8082 -it stc-vcp/vcp-partnerportal

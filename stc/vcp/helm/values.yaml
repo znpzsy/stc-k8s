@@ -1,5 +1,6 @@
 global:
   namespace: null
+  # imagePullSecrets: []  # e.g. [{"name": "nexus-registry"}] for private registry
 
 a3gw:
   enabled: true
@@ -272,6 +273,8 @@ ingress:
   className: nginx
   host: 'consolportals.internal.telenity.com'
   extraHosts: []
+  # TLS: set to e.g. [{"hosts": ["consolportals.internal.telenity.com"], "secretName": "vcp-tls"}] to enable HTTPS
+  tls: []
   # Simple routing: everything goes to httpd, which handles proxy logic
   annotations:
     # Cookie-based sticky sessions

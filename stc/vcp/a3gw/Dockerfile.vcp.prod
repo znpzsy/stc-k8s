@@ -1,4 +1,5 @@
-# stc/vcp/a3gw/Dockerfile.vcp.k8slocal
+# stc/vcp/a3gw/Dockerfile.vcp.prod
+# Production build. Config comes from conf.prod (override at runtime via K8s ConfigMap/Secret if needed).
 
 # Build the a3gw application from source
 FROM node:20.15.0-alpine
@@ -10,7 +11,12 @@ WORKDIR /space/a3gw
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+# Try to install exactly what's in package-lock.json, no version drift
+#  - Delete node_modules first and do a clean install
+#  - Skip dependency resolution (--omit=dev skip dev dependencies, linters etc)
+#  - Fail if package-lock.json is out of sync with package.json,
+# Fallback to npm install if npm ci fails.
+RUN npm ci --omit=dev || npm install
 
 # Install PM2 globally
 RUN npm install -g pm2
@@ -29,6 +35,10 @@ COPY ./vcp/static.prod ./static
 # Expose the required ports
 EXPOSE 8444
 EXPOSE 8445
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1:8444/site.json || exit 1
+
 
 # Start the application using PM2
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]

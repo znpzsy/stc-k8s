@@ -1,0 +1,10 @@
+node_modules
+bower_components
+npm-debug.log*
+.npm
+.git
+.gitignore
+*.md
+.env*
+.DS_Store
+*.tar.gz

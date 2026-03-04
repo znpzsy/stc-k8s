@@ -2,6 +2,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: consolportals-sa-stc-vcp-httpd-pdb
+  namespace: stc-vcp-services
 spec:
   minAvailable: 1
   selector:
@@ -12,6 +13,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: consolportals-sa-stc-vcp-a3gw-pdb
+  namespace: stc-vcp-services
 spec:
   minAvailable: 1
   selector:
@@ -22,6 +24,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: consolportals-sa-stc-vcp-adminportal-pdb
+  namespace: stc-vcp-services
 spec:
   minAvailable: 1
   selector:
@@ -31,7 +34,8 @@ spec:
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: consolportals-sa-stc-vcp-ccortal-pdb
+  name: consolportals-sa-stc-vcp-ccportal-pdb
+  namespace: stc-vcp-services
 spec:
   minAvailable: 1
   selector:
@@ -42,6 +46,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: consolportals-sa-stc-vcp-partnerportal-pdb
+  namespace: stc-vcp-services
 spec:
   minAvailable: 1
   selector:

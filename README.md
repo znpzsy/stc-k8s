@@ -13,6 +13,9 @@ You can quickly set up the sandbox environment using Docker Compose (Makefile) o
 ### I want to deploy to our corporate cluster
 → **Go to [Path 3: Corporate Kubernetes Cluster](stc/docs/README-K8S_Corporate.md)**
 
+### I want a full picture of the project (architecture, Docker, K8s, Helm)
+→ **Go to [Project Overview](stc/docs/PROJECT-OVERVIEW.md)**
+
 ---
 
 

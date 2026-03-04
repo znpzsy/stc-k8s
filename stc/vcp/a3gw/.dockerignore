@@ -1,0 +1,9 @@
+# Dependencies and build artifacts
+node_modules
+npm-debug.log*
+.npm
+.git
+.gitignore
+*.md
+.env*
+.DS_Store

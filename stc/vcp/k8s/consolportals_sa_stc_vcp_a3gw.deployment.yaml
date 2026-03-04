@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-a3gw-deployment
+  namespace: stc-vcp-services
   labels:
     app.kubernetes.io/name: vcp-a3gw
     app.kubernetes.io/part-of: consolportals
@@ -43,6 +44,8 @@ spec:
         - name: vcp-a3gw
           image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-a3gw:1.0.0.2
           imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
           env:
             - name: NODE_ENV
               value: "production"

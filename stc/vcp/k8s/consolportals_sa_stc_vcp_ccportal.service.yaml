@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: consolportals-sa-stc-vcp-ccportal-service
+  namespace: stc-vcp-services
   labels:
     app.kubernetes.io/name: vcp-ccportal
     app.kubernetes.io/part-of: consolportals
@@ -10,6 +11,6 @@ spec:
   selector:
     component: vcp-ccportal
   ports:
-    - name: http   # <-- this was missing
+    - name: http
       port: 8081
       targetPort: 8081

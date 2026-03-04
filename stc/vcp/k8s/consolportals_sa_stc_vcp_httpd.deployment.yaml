@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consolportals-sa-stc-vcp-httpd-deployment
+  namespace: stc-vcp-services
   labels:
     app.kubernetes.io/name: vcp-httpd
     app.kubernetes.io/part-of: consolportals
@@ -35,6 +36,8 @@ spec:
         - name: vcp-httpd
           image: nexus.telenity.com/com/telenity/consolportals-sa-stc-vcp-httpd:1.0.0.2
           imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 80
             - containerPort: 443

@@ -1,4 +1,5 @@
 # stc/vcp/httpd/Dockerfile.vcp.prod
+# For production. (TODO: Mount TLS certs via Kubernetes Secrets instead of baking them in.)
 
 FROM httpd:alpine
 
@@ -10,5 +11,11 @@ COPY ./vcp/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
 COPY ./vcp/openssl.prod/server.crt /usr/local/apache2/conf/server.crt
 COPY ./vcp/openssl.prod/server.key /usr/local/apache2/conf/server.key
 
-# docker build -t stc-vcp/httpd -f Dockerfile.vcp.prod
+EXPOSE 80
+EXPOSE 443
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1:80/ || exit 1
+
+# docker build -t stc-vcp/httpd -f Dockerfile.vcp.prod .
 # docker run -p 9080:80 -p 9443:443 stc-vcp/httpd
