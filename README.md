@@ -17,6 +17,9 @@ You can quickly set up the sandbox environment using Docker Compose (Makefile) o
 ### I want a full picture of the project (architecture, Docker, K8s, Helm)
 → **Go to [Project Overview](stc/docs/PROJECT-OVERVIEW.md)**
 
+### I want step-by-step testing instructions for a specific run method
+→ **See [How to test (Docker Compose)](stc/docs/HOW-TO-TEST-Docker-Compose.md), [K8s raw manifests](stc/docs/HOW-TO-TEST-K8s-Raw-Manifests.md), [Helm with httpd](stc/docs/HOW-TO-TEST-Helm-With-Httpd.md), or [Helm no-httpd](stc/docs/HOW-TO-TEST-Helm-No-Httpd.md)**
+
 ---
 
 

@@ -5,9 +5,11 @@ services:
       dockerfile: Dockerfile.vcp.dev
       context: ./httpd
     image:  stc-vcp/httpd
+    # Use 9080/9443 so httpd is reachable even when host 80/443 are in use (e.g. macOS Apache).
+    # Access portals at http://localhost:9080/adminportal and https://localhost:9443/adminportal
     ports:
-      - '80:80'
-      - '443:443'
+      - '9080:80'
+      - '9443:443'
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/site.json" ]
       interval: 30s

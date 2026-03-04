@@ -198,6 +198,17 @@ helm upgrade --install vcp ./helm-no-httpd -n stc-vcp-services -f helm-no-httpd/
 | Scripted deploy (with httpd) | `stc/vcp/deploy-k8s.sh` |
 | Scripted deploy (no httpd) | `stc/vcp/deploy-no-httpd.sh` |
 
+### 7.1 How to test (detailed guides)
+
+Each run method has a dedicated **how to test** document with step-by-step instructions, verification checklists, and troubleshooting:
+
+| Method | Document |
+|--------|----------|
+| Docker Compose (dev & prod) | [HOW-TO-TEST-Docker-Compose.md](HOW-TO-TEST-Docker-Compose.md) |
+| Kubernetes raw manifests (deploy-k8s.sh / deploy-no-httpd.sh) | [HOW-TO-TEST-K8s-Raw-Manifests.md](HOW-TO-TEST-K8s-Raw-Manifests.md) |
+| Helm chart with httpd | [HOW-TO-TEST-Helm-With-Httpd.md](HOW-TO-TEST-Helm-With-Httpd.md) |
+| Helm chart without httpd | [HOW-TO-TEST-Helm-No-Httpd.md](HOW-TO-TEST-Helm-No-Httpd.md) |
+
 ---
 
 ## 8. Production Checklist
