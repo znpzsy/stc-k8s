@@ -17,8 +17,7 @@ services:
     networks:
       - vcp-network
 
-  # If you change a config file (i.e. service_proxies_config.json etc.
-  # You'll need to run
+  # If you change a config file (i.e. service_proxies_config.json etc.) you'll need to run
   # docker exec -it a3gw-1 pm2 restart all
   a3gw:
     build:
