@@ -1,0 +1,14 @@
+# Static JSON overridden at release build (mount at /space/a3gw/static)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vcp.a3gw.configmapStaticName" . }}
+  namespace: {{ include "consolportals.namespace" . }}
+  labels:
+    component: vcp-a3gw
+data:
+  site.json: |
+{{ .Files.Get "files/a3gw/static/public/site.json" | indent 4 }}
+
+  server.json: |
+{{ .Files.Get "files/a3gw/static/private/server.json" | indent 4 }}

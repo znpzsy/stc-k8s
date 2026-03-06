@@ -160,7 +160,55 @@ Use this to confirm the Compose setup is working:
 
 ---
 
-## 4. Troubleshooting
+## 4. Making configuration changes and applying them
+
+You can change configuration (a3gw conf, static JSON, httpd config, env) and apply it as follows.
+
+### What you can change
+
+| What | Where (dev) | Where (prod) |
+|------|-------------|--------------|
+| **a3gw conf** (server_config, auth, proxies, etc.) | `a3gw/vcp/conf.dev/` | Baked into image from `a3gw/vcp/conf.prod/` or `conf.k8s`; change and rebuild. |
+| **a3gw static JSON** (site.json, server.json) | `a3gw/vcp/static.dev/public/`, `static.dev/private/` | `a3gw/vcp/static.prod/public/`, `static.prod/private/`; change and rebuild. |
+| **httpd config** (proxy, vhosts, SSL) | `httpd/vcp/conf.d.dev/`, `httpd/vcp/conf/` | `httpd/vcp/conf.d.prod/`, `httpd/vcp/conf/`; change and rebuild. |
+| **Portal app code** | Mounted from host in dev | Rebuild portal image. |
+| **Environment variables** | In `docker-compose.dev.yml` or `.env` | In `docker-compose.prod.yml`. |
+
+### Applying changes
+
+**Development (dev):**
+
+- **a3gw conf / static:** Edit files under `a3gw/vcp/conf.dev/` or `a3gw/vcp/static.dev/`. Restart a3gw so it picks them up:
+  ```bash
+  docker compose -f docker-compose.dev.yml restart a3gw
+  ```
+- **httpd config:** Edit under `httpd/vcp/conf.d.dev/` or `httpd/vcp/conf/`, then:
+  ```bash
+  docker compose -f docker-compose.dev.yml restart httpd
+  ```
+- **Portal source:** Saved changes are reflected by the dev server; refresh the browser. If the dev server doesn’t pick them up, restart the portal container:
+  ```bash
+  docker compose -f docker-compose.dev.yml restart vcpadminportal
+  ```
+
+**Production-like (prod):**
+
+- Any change to files that are **copied into the image** (a3gw conf/static, httpd config, portal build) requires a **rebuild** and **restart**:
+  ```bash
+  cd stc/vcp
+  docker compose -f docker-compose.prod.yml build a3gw    # or httpd, vcpadminportal, etc.
+  docker compose -f docker-compose.prod.yml up -d         # recreates changed services
+  ```
+- To rebuild everything and recreate all containers:
+  ```bash
+  make restart prod
+  # or
+  docker compose -f docker-compose.prod.yml up -d --build --force-recreate
+  ```
+
+---
+
+## 5. Troubleshooting
 
 ### 4.1 Dev mode: cannot access portals in the browser
 
@@ -200,7 +248,7 @@ Use this to confirm the Compose setup is working:
 
 ---
 
-## 5. Reference: Compose Files and Make Targets
+## 6. Reference: Compose Files and Make Targets
 
 | File | Purpose |
 |------|---------|

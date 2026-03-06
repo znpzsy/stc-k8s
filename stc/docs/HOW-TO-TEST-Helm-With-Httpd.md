@@ -160,7 +160,44 @@ Then open:
 
 ---
 
-## 6. Upgrade / reinstall
+## 6. Making configuration changes and applying them
+
+Configuration is driven by **values** and by **chart files** (e.g. under `helm/files/a3gw/`). Change values or files, then run **helm upgrade** so the cluster gets the new ConfigMaps/Secrets and, if needed, new pod specs.
+
+### What you can change
+
+| What | Where | How to override |
+|------|--------|------------------|
+| **a3gw conf** (server_config, logger, auth, operations) | Chart `files/a3gw/conf/*.json` | Replace those files in the chart, or use a custom values file that references different content (would require chart template support for inline conf). Default: edit `helm/files/a3gw/conf/*.json` and upgrade. |
+| **a3gw secrets** (JWT, service_proxies) | Chart `files/a3gw/conf/jwt_config.json`, `service_proxies_config.json` (templated into Secret) | Replace the files or supply values that the chart uses for the secret (if the chart supports it). |
+| **a3gw static JSON** (site.json, server.json) | Chart `files/a3gw/static/public/site.json`, `files/a3gw/static/private/server.json` | Replace those files, or set in values: `a3gw.static.public.siteJson` and `a3gw.static.private.serverJson` (multiline strings). |
+| **Image tags, replicas, resources** | `values.yaml` or `-f my-values.yaml` | Set `a3gw.image.tag`, `a3gw.replicaCount`, `a3gw.resources`, etc. |
+| **Ingress** (host, TLS, annotations) | `values.yaml` or `-f my-values.yaml` | Set `ingress.host`, `ingress.tls`, `ingress.annotations`. |
+| **Global** (namespace, imagePullSecrets) | Same | Set `global.namespace`, `global.imagePullSecrets`. |
+
+### Applying changes
+
+1. **Edit values or chart files** (e.g. `helm/values.yaml`, `helm/values-local.yaml`, or a custom `my-values.yaml`; or edit `helm/files/a3gw/conf/*.json` and `helm/files/a3gw/static/...`).
+2. Run **helm upgrade** so the release is updated with the new ConfigMaps, Secrets, and deployment specs:
+   ```bash
+   cd stc/vcp
+   helm upgrade consolportals ./helm \
+     -f helm/values.yaml \
+     -f helm/values-local.yaml \
+     -n stc-vcp-services
+   ```
+   Add `-f my-values.yaml` if you use a custom values file.
+3. **Pods**: Changing ConfigMap/Secret content updates the pod template (checksum annotations), so Kubernetes rolls the a3gw (and other) pods and they pick up the new config. Watch the rollout:
+   ```bash
+   kubectl rollout status deployment/consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
+   ```
+4. **Only values (no file edits):** If you only changed values (e.g. image tag, replicas, ingress host), the same `helm upgrade` command applies; no need to edit files in the chart.
+
+To confirm, re-run the verification checklist (portals and `curl .../site.json`).
+
+---
+
+## 7. Upgrade / reinstall
 
 Change values and upgrade:
 
@@ -183,7 +220,7 @@ helm upgrade consolportals ./helm \
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 **Pods in ImagePullBackOff**
 
@@ -204,7 +241,7 @@ helm upgrade consolportals ./helm \
 
 ---
 
-## 8. Cleanup
+## 9. Cleanup
 
 ```bash
 helm uninstall consolportals -n stc-vcp-services
@@ -214,7 +251,7 @@ kubectl delete namespace stc-vcp-services
 
 ---
 
-## 9. More options
+## 10. More options
 
 - **README-LocalDevGuide.md** in `stc/vcp/helm/` has more detail on NodePort vs port-forward vs Ingress and switching between them.
 - **values-dev.yaml** and **values-local.yaml** reduce replicas or adjust resources for local use; combine as needed with `-f`.

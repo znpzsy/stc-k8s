@@ -1,7 +1,9 @@
+# A3GW configuration JSON files overridden at release build (mount at /space/a3gw/src/conf)
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "vcp.a3gw.configmapName" . }}
+  name: {{ include "vcp.a3gw.configmapConfName" . }}
+  namespace: {{ include "consolportals.namespace" . }}
   labels:
     component: vcp-a3gw
 data:

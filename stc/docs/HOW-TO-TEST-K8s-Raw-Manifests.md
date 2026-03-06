@@ -225,7 +225,61 @@ Image names in the YAMLs point to `nexus.telenity.com/...`; for local testing yo
 
 ---
 
-## 5. Troubleshooting
+## 5. Making configuration changes and applying them
+
+You change configuration by editing the manifest or config files, then reapplying so the cluster picks up the change.
+
+### What you can change
+
+| What | Where | How it’s applied |
+|------|--------|-------------------|
+| **a3gw conf** (server_config, logger, auth, operations) | `k8s/consolportals_sa_stc_vcp_a3gw.configmap.yaml` | ConfigMap; pods get it via projected volume. |
+| **a3gw secrets** (JWT, service_proxies) | `k8s/consolportals_sa_stc_vcp_a3gw.secret.yaml` | Secret; same as above. |
+| **a3gw static JSON** (site.json, server.json) | Not in raw manifests by default; a3gw uses image content. | To make configurable: add a ConfigMap (e.g. from `a3gw/vcp/static.prod/`) and mount it at `/space/a3gw/static` in the a3gw deployment. |
+| **Image tag or registry** | Each `*deployment.yaml` (image: ...) | Edit and re-apply the deployment. |
+| **Replicas, resources, probes** | Same deployment YAMLs | Edit and re-apply. |
+| **Ingress** (host, paths, annotations) | `consolportals_sa_stc_ingress.yaml` or `consolportals-sa-stc-vcp-httpd-ingress.yaml` | Edit and re-apply the Ingress. |
+
+### Applying changes
+
+**ConfigMap or Secret (a3gw conf / secrets):**
+
+1. Edit `k8s/consolportals_sa_stc_vcp_a3gw.configmap.yaml` and/or `k8s/consolportals_sa_stc_vcp_a3gw.secret.yaml`.
+2. Apply and restart a3gw so pods load the new config:
+   ```bash
+   kubectl apply -f stc/vcp/k8s/consolportals_sa_stc_vcp_a3gw.configmap.yaml -n stc-vcp-services
+   kubectl apply -f stc/vcp/k8s/consolportals_sa_stc_vcp_a3gw.secret.yaml -n stc-vcp-services
+   kubectl rollout restart deployment/consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
+   ```
+   (If you use the deploy script’s naming, the deployment name is as above; adjust if your manifests use a different name.)
+
+**Deployments (image, replicas, resources):**
+
+1. Edit the relevant `k8s/consolportals_sa_stc_vcp_*.deployment.yaml`.
+2. Apply; Kubernetes will roll out the change:
+   ```bash
+   kubectl apply -f stc/vcp/k8s/consolportals_sa_stc_vcp_a3gw.deployment.yaml -n stc-vcp-services
+   ```
+   For image-only changes you can force a rollout without editing the file:
+   ```bash
+   kubectl set image deployment/consolportals-sa-stc-vcp-a3gw-deployment vcp-a3gw=nexus.telenity.com/...:NEW_TAG -n stc-vcp-services
+   kubectl rollout status deployment/consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
+   ```
+
+**Ingress:**
+
+1. Edit `k8s/consolportals_sa_stc_ingress.yaml` or `k8s/consolportals-sa-stc-vcp-httpd-ingress.yaml`.
+2. Apply:
+   ```bash
+   kubectl apply -f stc/vcp/k8s/consolportals_sa_stc_ingress.yaml -n stc-vcp-services
+   ```
+   The Ingress controller picks up changes without restarting pods.
+
+After any change, verify with `kubectl get pods -n stc-vcp-services` and by hitting the portals and `/site.json` as in the verification checklist.
+
+---
+
+## 6. Troubleshooting
 
 **Pods in ImagePullBackOff**
 
@@ -249,7 +303,7 @@ Image names in the YAMLs point to `nexus.telenity.com/...`; for local testing yo
 
 ---
 
-## 6. Cleanup
+## 7. Cleanup
 
 Remove everything in the namespace:
 

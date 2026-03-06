@@ -1,6 +1,5 @@
 {{/*
-Minimal helpers. We keep the original resource names from your manifests to avoid surprises.
-If you ever need release-prefixed names later, we can switch to fullname templates.
+Minimal helpers. Original resource names from manifests kept same to avoid surprises.
 */}}
 {{- define "consolportals.namespace" -}}
 {{- if .Values.global.namespace -}}
@@ -10,13 +9,21 @@ If you ever need release-prefixed names later, we can switch to fullname templat
 {{- end -}}
 {{- end -}}
 
-{{/*
-A3GW resource names (kept identical to existing manifests)
-*/}}
 {{- define "vcp.a3gw.configmapName" -}}
 consolportals-sa-stc-vcp-a3gw-conf
 {{- end -}}
 
+{{/*
+A3GW resource names (kept identical to existing manifests)
+*/}}
+{{- define "vcp.a3gw.configmapConfName" -}}
+{{ include "vcp.a3gw.configmapName" . }}-conf
+{{- end -}}
+
+{{- define "vcp.a3gw.configmapStaticName" -}}
+{{ include "vcp.a3gw.configmapName" . }}-static
+{{- end -}}
+
 {{- define "vcp.a3gw.secretName" -}}
-consolportals-sa-stc-vcp-a3gw-conf-secret
+{{ include "vcp.a3gw.configmapName" . }}-secret
 {{- end -}}

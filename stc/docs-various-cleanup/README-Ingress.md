@@ -55,7 +55,7 @@ kubectl get ingressclass
 Uninstall:
 
 ```bash
-helm uninstall ingress-nginx -n ingress-nginx
+ ingress-nginx -n ingress-nginx
 kubectl delete namespace ingress-nginx
 ```
 

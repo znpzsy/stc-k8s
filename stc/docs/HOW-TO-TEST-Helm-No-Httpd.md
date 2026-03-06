@@ -160,7 +160,44 @@ memcached:
 
 ---
 
-## 7. Upgrade / reinstall
+## 7. Making configuration changes and applying them
+
+Configuration is driven by **values** and **chart files** under `helm-no-httpd/files/a3gw/`. Change values or files, then run **helm upgrade** so ConfigMaps/Secrets and deployments are updated.
+
+### What you can change
+
+| What | Where | How to override |
+|------|--------|------------------|
+| **a3gw conf** (server_config, logger, auth, etc.) | Chart `files/a3gw/conf/*.json` | Replace those files in the chart; then upgrade. |
+| **a3gw secrets** (JWT, service_proxies) | Chart `files/a3gw/conf/jwt_config.json`, `service_proxies_config.json` | Replace the files or use chart values if supported. |
+| **a3gw static JSON** (site.json, server.json) | Chart `files/a3gw/static/public/site.json`, `files/a3gw/static/private/server.json` | Replace those files, or set in values: `a3gw.static.public.siteJson` and `a3gw.static.private.serverJson` (multiline YAML strings). |
+| **Image tags, replicas, resources** | `values.yaml` or `-f my-values.yaml` | Set `a3gw.image.tag`, `a3gw.replicaCount`, `a3gw.resources`, etc. |
+| **Ingress** (host, TLS, annotations) | Same | Set `ingress.host`, `ingress.tls`, `ingress.annotations`. |
+| **Memcached** | Same | Set `memcached.enabled`, image, resources. |
+
+### Applying changes
+
+1. **Edit values or chart files** (e.g. `helm-no-httpd/values.yaml`, `helm-no-httpd/values-local.yaml`, or a custom values file; or edit `helm-no-httpd/files/a3gw/conf/*.json` and `helm-no-httpd/files/a3gw/static/...`).
+2. Run **helm upgrade**:
+   ```bash
+   cd stc/vcp
+   helm upgrade consolportals ./helm-no-httpd \
+     -f helm-no-httpd/values.yaml \
+     -f helm-no-httpd/values-local.yaml \
+     -n stc-vcp-services
+   ```
+   Add `-f my-values.yaml` if you use a custom values file.
+3. **Pods**: ConfigMap/Secret changes update the pod template (checksum annotations), so the a3gw deployment rolls and pods get the new config. Watch:
+   ```bash
+   kubectl rollout status deployment/consolportals-sa-stc-vcp-a3gw-deployment -n stc-vcp-services
+   ```
+4. **Values-only changes** (image tag, replicas, ingress, static JSON from values): the same `helm upgrade` applies them; no need to edit files in the chart.
+
+Re-run the verification checklist to confirm (portals and `curl .../site.json`).
+
+---
+
+## 8. Upgrade / reinstall
 
 Change values and upgrade:
 
@@ -174,7 +211,7 @@ helm upgrade consolportals ./helm-no-httpd \
 
 ---
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 **Pods in ImagePullBackOff**
 
@@ -194,7 +231,7 @@ helm upgrade consolportals ./helm-no-httpd \
 
 ---
 
-## 9. Cleanup
+## 10. Cleanup
 
 ```bash
 helm uninstall consolportals -n stc-vcp-services
@@ -204,7 +241,7 @@ kubectl delete namespace stc-vcp-services
 
 ---
 
-## 10. Difference from “Helm with httpd”
+## 11. Difference from “Helm with httpd”
 
 | Aspect | Helm (with httpd) | Helm (no httpd) |
 |--------|--------------------|------------------|

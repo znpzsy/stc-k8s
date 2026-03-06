@@ -20,7 +20,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/a3gw-config: {{ include (print $.Template.BasePath "/a3gw-configmap.yaml") . | sha256sum }}
+        checksum/a3gw-config-conf: {{ include (print $.Template.BasePath "/a3gw-configmap-conf.yaml") . | sha256sum }}
+        checksum/a3gw-config-static: {{ include (print $.Template.BasePath "/a3gw-configmap-static.yaml") . | sha256sum }}
         checksum/a3gw-secret: {{ include (print $.Template.BasePath "/a3gw-secret.yaml") . | sha256sum }}
       labels:
         component: vcp-a3gw
@@ -53,6 +54,9 @@ spec:
               readOnly: true
             - name: a3gw-logs
               mountPath: /space/a3gw/logs
+            - name: a3gw-static
+              mountPath: /space/a3gw/static
+              readOnly: true
           {{- if .Values.a3gw.resources.enabled }}
           resources:
             requests:
@@ -67,21 +71,25 @@ spec:
           readinessProbe:
             {{- toYaml .Values.a3gw.probes.readiness | nindent 12 }}
 
-        {{- if .Values.a3gw.logging.tailSidecar.enabled }}
-        - name: a3gw-log-tail
-          image: {{ .Values.a3gw.logging.tailSidecar.image }}
-          imagePullPolicy: IfNotPresent
-          command: ["sh", "-lc"]
-          args:
-            - >
-              echo "[a3gw-log-tail] waiting for log files..." ;
-              mkdir -p /space/a3gw/logs ;
-              ls -lah /space/a3gw/logs || true ;
-              tail -F /space/a3gw/logs/*.log
-          volumeMounts:
-            - name: a3gw-logs
-              mountPath: /space/a3gw/logs
-        {{- end }}
+#        /* ---------------------------------------------------------------------------
+#             DISABLED: a3gw log tail sidecar (was enabled via a3gw.logging.tailSidecar.enabled).
+#             Kept for reference. To re-enable: restore the block below and set in values:
+#             a3gw.logging.tailSidecar.enabled: true
+#             ---------------------------------------------------------------------------
+#        - name: a3gw-log-tail
+#          image: busybox:1.36
+#          imagePullPolicy: IfNotPresent
+#          command: ["sh", "-lc"]
+#          args:
+#            - >
+#              echo "[a3gw-log-tail] waiting for log files..." ;
+#              mkdir -p /space/a3gw/logs ;
+#              ls -lah /space/a3gw/logs || true ;
+#              tail -F /space/a3gw/logs/*.log
+#          volumeMounts:
+#            - name: a3gw-logs
+#              mountPath: /space/a3gw/logs
+#             --------------------------------------------------------------------------- */
 
       volumes:
         - name: a3gw-logs
@@ -90,7 +98,15 @@ spec:
           projected:
             sources:
               - configMap:
-                  name: {{ include "vcp.a3gw.configmapName" . }}
+                  name: {{ include "vcp.a3gw.configmapConfName" . }}
               - secret:
                   name: {{ include "vcp.a3gw.secretName" . }}
+        - name: a3gw-static
+          configMap:
+            name: {{ include "vcp.a3gw.configmapStaticName" . }}
+            items:
+              - key: site.json
+                path: public/site.json
+              - key: server.json
+                path: private/server.json
   {{- end }}
